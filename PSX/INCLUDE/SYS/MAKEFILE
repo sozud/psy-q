@@ -1,0 +1,22 @@
+#
+# $RCSfile: makefile,v $
+# $Id: makefile,v 1.2 1995/05/11 07:11:52 kaol Exp $
+#
+#	Copyright (C) 1994 by Sony Computer Entertainment Inc.
+#					  All Rights Reserved.
+#
+#	Sony Computer Entertainment Inc. Development Department
+#
+
+                  RM = rm -f
+#               MAKE = make 
+              RM_CMD = $(RM) *.CKP *.ln *.BAK *.bak *.o core errs ,* *~ *.a .emacs_* tags TAGS make.log MakeOut
+
+         CURRENT_DIR = ./include/sys
+
+all::
+
+
+clean::
+	$(RM_CMD) "#"*
+

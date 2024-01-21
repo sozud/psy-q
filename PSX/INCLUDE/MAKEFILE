@@ -1,0 +1,43 @@
+#
+# $RCSfile: makefile,v $
+# $Id: makefile,v 1.3 1995/05/11 07:11:39 kaol Exp $
+#
+#	Copyright (C) 1994 by Sony Computer Entertainment Inc.
+#					  All Rights Reserved.
+#
+#	Sony Computer Entertainment Inc. Development Department
+#
+
+                  RM = rm -f
+#               MAKE = make
+              RM_CMD = $(RM) *.CKP *.ln *.BAK *.bak *.o core errs ,* *~ *.a .emacs_* tags TAGS make.log MakeOut
+
+             SUBDIRS = sys
+
+         CURRENT_DIR = ./include
+
+all::
+
+
+all::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i ; echo "making" all "in $(CURRENT_DIR)/$$i..."; \
+			$(MAKE) $(MFLAGS)  all); \
+	done
+
+includes::
+
+clean::
+	$(RM_CMD) "#"*
+
+clean::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i ; echo "making" clean "in $(CURRENT_DIR)/$$i..."; \
+			$(MAKE) $(MFLAGS)  clean); \
+	done
+
+depend::
