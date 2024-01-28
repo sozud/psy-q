@@ -1,0 +1,37 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+LIBSTR STRUCTURE
+
+
+StHEADER
+	構造
+		typedef struct {
+			u_short	id;
+			u_short	type;
+			u_short	secCount;
+			u_short	nSectors;
+			u_long	frameCount;
+			u_long	frameSize;
+			u_short	width;
+			u_short	height;
+		};
+
+
+	メンバ
+		id		システム予約
+		type		データタイプ（常に 0x0160)
+		setCount	１フレーム中でのセクタオフセット
+		nSectors	１フレームを構成するセクタ数
+		frameCount	動画の絶対フレーム番号
+		frameSize	動画データのサイズ（long word単位）
+		width		動画の横サイズ
+		height		動画の縦サイズ
+
+	解説
+		動画セクタの header部分を記述したストラクチャ
+		StGetNext()でとってきたヘッダ部をこのストラクチャに
+		キャストすると 構造体のメンバを通じて それぞれの
+		情報にアクセスできる。
+
+		それぞれの情報の詳細は 前述の セクタヘッダ 及び 
+		MDEC動画セクタヘッダ を参照のこと。

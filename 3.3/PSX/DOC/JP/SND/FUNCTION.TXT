@@ -1,0 +1,2839 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+【VAB データアクセス関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SsVabOpen               VABデータをオープンする
+────────────────────────────────────
+    形式
+
+	short 
+	SsVabOpen (unsigned char *addr, VabHdr *vab_header)
+
+    引数
+
+	addr		VAB データの主記憶内の先頭アドレス
+	vab_head	VAB id に対応する VAB ヘッダの構造体へのアドレス
+
+    解説
+
+	メインメモリにある VAB データのヘッダーを解析し、ヘッダの値を
+	vab_head に返し、関数の返り値として与えられた VAB を識別する
+	VAB id を返す。同時に、VAB に含まれるVAG(波形)データ群を SPU
+	ローカルメモりに転送する。
+
+    返り値
+
+	VAB id を返す。
+        転送失敗の場合は -1 を返す。
+
+    関連項目
+
+        SsVabClose
+
+
+
+SsVabClose              VABデータをクローズする
+────────────────────────────────────
+    形式
+
+	void 
+	SsVabClose (short vab_id)
+
+    引数
+
+	vab_id	 	VAB データ id
+
+    解説
+
+	vab_id を持つ VAB データをクローズする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsVabOpen
+
+
+
+SsVabOpenHead           音源ヘッダリストを認識する
+────────────────────────────────────
+    形式
+
+        short 
+	SsVabOpenHead (unsigned char *addr, short vabid)
+ 
+    引数
+
+        addr    	VAB データの先頭アドレス
+        vabid   	VAB ID
+
+    解説
+
+        メインメモリ上の音源ヘッダリストを認識する。
+        メインメモリ上のテーブルをサウンドライブラリで利用可能な状態に
+        する。VAB ID を指定してオープンする。VAB ID が -1 の場合、空い
+        ている VAB ID(0 ～ 15) を探し、割り付ける。			
+
+    返り値
+  
+        VAB 識別番号。
+	失敗したら -1 を返す。 
+
+    関連項目
+
+	SsVabTransBody, SsVabTransBodyPartly
+
+  
+
+SsVabTransBody          音源データを転送する
+────────────────────────────────────
+    形式
+
+        short 
+	SsVabTransBody (unsigned char *addr, short vabid)
+
+    引数
+
+        addr		VAB データの先頭アドレス
+        vabid   	VAB ID
+
+    解説
+
+        SsVabOpenHead で、ヘッダリストを認識させてメインメモリ上の音源
+        データ（VAB ボディ）を SPU ローカルメモリへ転送を開始する。
+
+    返り値
+ 
+        VAB 識別番号。
+        失敗したら -1 を返す。 
+
+    関連項目
+
+	SsVabOpenHead, SsVabTransBodyPartly
+
+
+
+SsVabTransCompleted     VABデータの転送状態
+────────────────────────────────────
+    形式
+
+        short 
+	SsVabTransCompleted (short immediateFlag)
+
+    引数
+
+        immediateFlag: = SS_IMMEDIATE      ... すぐに転送状態を返す
+                       = SS_WAIT_COMPLETED ... 転送が終了するまでルー
+					       プする
+
+    解説
+
+        SsVabOpen() で転送したデータが, 転送終了したか否かを返す。 
+
+    返り値
+
+        転送が終了していたら 1 を返す。
+        転送中であれば 0 を返す。
+
+
+    関連項目
+
+	SsVabOpen
+
+
+
+SsVabTransBodyPartly    音源データを分割転送する
+────────────────────────────────────
+    形式
+
+        short 
+	SsVabTransBodyPartly (unsigned char *addr, unsigned long bufsize, 
+                              short vabid)
+
+    引数
+
+        addr            分割転送のためのバッファの先頭アドレス
+        bufsize         バッファの大きさ
+        vabid           VAB ID
+
+    解説
+
+        SsVabOpenHead でヘッダリストを認識させたメインメモリ上の音源デー
+        タ (VAB ボディ) を SPU サウンドバッファへ転送を開始する。
+
+        addr で示される大きさ bufsize の領域に音源データ (VAB ボディ) 
+        の 1 部分を逐次コピーしつつ連続的に SsVabTransBodyPartly を呼
+        ぶことにより、メインメモリ上の限られた領域の使用のみで、サウン
+        ドバッファ内において連続した領域に転送が行える。
+
+        転送の連続性を確保するため、各転送において
+        SsVabTransBodyPartly() の呼びだし後、SsVabTransCompleted() に
+        より転送が終了しているかを確認する必要がある。
+
+    返り値
+
+        SsVabOpenHead より受け継がれた音源データ (VAB ボディ) の大きさ
+        が全て転送できていない場合は -2 が、失敗した場合は -1 が、成功
+        すると与えられた vabid を返す。
+
+    関連項目
+	
+	SsVabOpenHead, SsVabTransBody
+
+
+
+SsVabOpenHeadSticky     音源ヘッダリストを認識する(.VB転送番地指定)
+────────────────────────────────────
+    形式
+
+        short
+        SsVabOpenHeadSticky (unsigned char *addr, short vabid,
+                             unsigned long sbaddr)
+
+    引数
+
+        addr            VAB データのメインメモリ内の先頭アドレス
+        vabid           希望する VAB ID あるいは -1
+        sbaddr          VabBody (.VB) をサウンドバッファに転送する
+                        際のサウンドバッファ内の先頭アドレス
+
+    解説
+
+        メインメモリ上の音源ヘッダリストを認識する。
+        メインメモリ上のテーブルをサウンドライブラリで利用可能な状態に
+        する。VAB ID を指定してオープンする。VAB ID が -1 の場合、空い
+        ている VAB ID (0 ～ 16) を探し、割り付ける。
+
+        sbaddr には VabBody (.VB) をサウンドバッファに転送する際のサウ
+        ンドバッファ内の先頭アドレスを 0x1000 ～ 0x7ffff の範囲で指定
+        する。その際、.VB のサイズを考慮し、リバーブワークエリアのとる
+        領域には転送されないようアドレスを指定しなければならない。
+
+        後に呼ばれる SsVabTransBody/SsVabTransBodyPartly では、sbaddr
+        から VabBody を転送する。
+
+        本関数を使う場合は、サウンドバッファのメモリ管理の整合性が取れ
+        なくなるため、他の VAB (.VH) をオープンする際に SsVabOpenHead
+        は使用できない。全て本関数で .VH のオープンを行う。
+
+    返り値
+
+        VAB 識別番号。
+        失敗したら -1 を返す。
+
+    関連項目
+
+        SsVabOpenHead, SsVabTransBody, SsVabTransBodyPartly
+
+
+
+SsVabFakeHead           音源ヘッダリストを認識する(再度認識)
+────────────────────────────────────
+    形式
+
+        short
+        SsVabFakeHead (unsigned char *addr, short vabid, 
+                       unsigned long sbaddr)
+
+    引数
+
+        addr:   VH の先頭アドレス
+        vabid:  希望する VAB ID. -1 の場合ライブラリが割り当てる
+        sbaddr: VB が転送されているサウンドバッファ内のアドレス
+
+    解説
+
+        メインメモリ上の音源ヘッダリストを認識し、以前読み込んだ VH デー
+        タをライブラリで再度利用可能な状態にする。
+
+        VAB ID を指定してオープンする。VAB ID が -1 の場合、空いている 
+        VAB ID (0 ～ 16) を探し、割り付ける。
+
+        転送されているサウンドバッファ内の領域は、先頭アドレスをユーザ
+        側で sbaddr に指定する。
+ 
+    返り値
+
+        VAB 識別番号。
+        失敗したら -1 を返す。 
+
+    関連項目
+
+        SsVabFakeBody, SsUtGetVBaddrInSB, SsVabOpenHead,
+        SsVabOpenHeadSticky
+
+
+
+SsVabFakeBody           サウンドバッファ上の音源データを、与えられた
+			VABIDのデータとしてライブラリを設定する。
+────────────────────────────────────
+    形式
+
+        short
+        SsVabFakeBody (short vabid)
+
+    引数
+
+        vabid:  VAB id
+
+    解説
+
+        SsVabFakeHead で、ヘッダリストを認識させ、サウンドバッファ上の
+        音源データを、与えられた VAB ID のデータとしてライブラリを設定
+        する。
+
+        VAB ID の認証は行うが、実際には転送せず、ライブラリ内部状態を
+        「SPU へ転送した」という状態にする。
+
+        本関数を呼んだ後に SsVabTransCompleted を行う必要はない。
+
+
+    返り値
+
+        VAB 識別番号。
+        失敗したら -1 を返す。
+
+    関連項目
+
+        SsVabFakeHead, SsVabOpenHeadSticky, SsVabTransBody,
+        SsVabTransBodyPartly
+
+
+【初期設定，終了用関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 
+SsInit                  サウンドシステムを初期化する
+────────────────────────────────────
+    形式
+
+	void 
+	SsInit (void)
+
+    解説
+
+	サウンドローカルメモリのクリアなど、サウンドシステムの初期化を
+        行う。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsInitHot, SsEnd, SpuInit					
+
+
+									
+SsInitHot               サウンドシステムを初期化する(ホットリセット)
+────────────────────────────────────
+    形式								
+									
+	void								
+	SsInitHot (void)						
+									
+    解説								
+									
+	サウンドバッファにそれまでに転送してあるデータを破壊せずにサウ	
+	ンドシステムの初期化を行う。Exec 関連関数を使用し、子プロセス	
+	の中でサウンドバッファの状態を保存したままサウンドシステムを初	
+	期化したい場合、子プロセス側の通常 SsInit を呼ぶところで	
+	SsInitHot を呼ぶ。						
+									
+    返り値								
+									
+	なし								
+									
+    関連項目								
+									
+	SsInit, SsEnd, Exec 関連関数, SpuInitHot			
+
+
+
+SsSetTableSize          SEQ/SEPデータ属性テーブル領域の指定
+────────────────────────────────────
+    形式
+
+	void
+        SsSetTableSize (char *table, short s_max, short t_max)
+
+    引数
+
+        table   SEQ/SEP データ属性テーブル領域変数
+        s_max   オープンする SEQ/SEP データの最大数
+        t_max   SEP に含まれる SEQ 数
+
+    解説
+
+        SEQ/SEP データの属性テーブルの領域をライブラリ側に指定する。
+        ライブラリはこの領域を利用して SEQ/SEP データを解析し、それ
+        ぞれの状態を保持し、演奏を行う。
+
+        s_max は SEQ/SEP データの最大オープン回数であり、上限は 32 で
+        ある。t_max は SEP データ内に含まれる SEQ の数である。
+        SEQ データのみを扱い、SEP データを使用しない場合は t_max に 1 
+        を指定する。t_max の上限は 16 である。
+
+        与える table は大域変数か malloc などの利用により、領域が常に
+        確保されている必要がある (関数内の auto 変数は不可)。ライブラ
+        リから要求されるサイズは
+
+                (SS_SEQ_TABSIZ × s_max × t_max)
+
+        であり、定数 SS_SEQ_TABSIZ は libsnd.h で宣言されている。
+        バージョンによりこの値が変更される可能性があるため、必ず
+        この定数を利用して table の領域を確保する。
+
+        SsSetTableSize は SsInit の直後に呼び、SsInit と共にプログラム
+        中 1  回のみ呼ばれるように設定する。 複数回呼ばれた際の動作は不
+	定である。
+
+    返り値
+
+        なし
+
+
+
+SsSetTickMode           Tickの設定を行う
+────────────────────────────────────
+    形式
+
+	void 
+	SsSetTickMode (long tick_mode)
+
+    引数
+
+       	tick_mode：Tick モード
+
+    解説
+
+        Tick の分解能を設定する。最初の SsSeqOpen () または SsSepOpen
+	()が呼ばれる前に 1 回だけ呼ぶこと。複数回呼ばれた際の動作は保
+	証しない。
+
+        Tick Mode は SEQ/SEP データで指定されている速度、及び分解能に
+	は依存せず、単にサウンドシステム内部の分解能を規定する。
+
+	Tick Mode の中で、SS_TICK50, SS_TICK60, SS_TICKVSYNC は		
+	SetVideoMode() の指定によりその動作が異なる (以下個別の Tick	
+	Mode の項を参照)。						
+
+        tick_mode = SS_TICK50						
+                    .. Tick = 1/50 秒 (SsSeqCalledTbyT 自動呼び出し)	
+                  = SS_TICK60
+                    .. Tick = 1/60 秒 (SsSeqCalledTbyT 自動呼び出し)
+                  = SS_TICKVSYNC                                        
+                    .. Tick = 垂直帰線の分解能                          
+                              (SsSeqCalledTbyT 自動呼び出し)            
+                  = SS_TICK120
+                    .. Tick = 1/120 秒 (SsSeqCalledTbyT 自動呼び出し)
+                  = SS_TICK240
+                    .. Tick = 1/240 秒 (SsSeqCalledTbyT 自動呼び出し)
+                  = SS_NOTICK
+                    .. Tick = 1/60 秒 (SsSeqCallTbyT は自動では呼ばれ
+                                       ない)
+                  = 任意の分解能
+                    .. Tick = (1/tick_mode) 秒 (SsSeqCalledTbyT 自動呼
+                                                び出し)
+                  = (任意の分解能 | SS_NOTICK)                                 
+                    .. Tick = (1/tick_mode) 秒 (SsSeqCallTbyT は自動で
+                                                は呼ばれない)                      
+	
+        1. tick_mode = SS_TICK50					
+                1/50 秒が 1 Tick となり、この分解能で SEQ ファイルが解	
+                釈され演奏される。					
+									
+                SetVideoMode() で指定したモードが MODE_PAL の場合は	
+                OS のルートカウンタ管理サービス RCntCNT3 をこの分解能	
+                で利用し、よって、PAL の垂直帰線のタイミング (1/50 秒)	
+                が 1 Tick となり、この分解能で SEQ ファイルが解釈され	
+                演奏される。MODE_NTSC の場合は OS のルートカウンタ管理	
+                サービス RCntCNT2 でこの分解能を生成して SEQ ファイル	
+                が解釈され演奏される。よって、プログラム中で RCntCNT2	
+                はこの分解能以外では使用できない。			
+
+        2. tick_mode = SS_TICK60
+                1/60 秒が 1 Tick となり、この分解能で SEQ ファイルが解	
+                釈され演奏される。					
+									
+                SetVideoMode() で指定したモードが MODE_NTSC の場合は	
+                OS のルートカウンタ管理サービス RCntCNT3 をこの分解能	
+                で利用し、よって、NTSC の垂直帰線のタイミング (1/60 秒)	
+                が 1 Tick となり、この分解能で SEQ ファイルが解釈され	
+                演奏される。MODE_PAL の場合は OS のルートカウンタ管理
+                サービス RCntCNT2 でこの分解能を生成して SEQ ファイル	
+                が解釈され演奏される。よって、プログラム中で RCntCNT2	
+                はこの分解能以外では使用できない。			
+
+        3. tick_mode = SS_TICKVSYNC					
+                垂直帰線のタイミングが 1 Tick となり、この分解能で SEQ
+                ファイルが解釈され演奏される。				
+									
+                SetVideoMode() で指定したモードが MODE_NTSC の場合は	
+                NTSC の垂直帰線のタイミング (1/60 秒) が分解能となり、	
+                指定したモードが MODE_PAL の場合は PAL の垂直帰線のタ	
+                イミング (1/50 秒) が分解能となり、SEQ ファイルが解釈	
+                され演奏される。					
+									
+                どちらも OS のルートカウンタ管理サービス RCntCNT3 をこ	
+                の分解能のために利用する。				
+
+        4. tick_mode = SS_TICK120
+                1/120 秒が 1 Tick となり、この分解能で SEQ ファイルが
+                解釈され演奏される。ただし、この場合 OS のルートカウン
+                タ管理サービス RCntCNT2 をこの分解能で利用するため、プ
+                ログラム中で RCntCNT2 はこの分解能以外では使用できない。
+
+        5. tick_mode = SS_TICK240
+                1/240 秒が 1 Tick となり、この分解能で SEQ ファイルが
+                解釈され演奏される。ただし、この場合 OS のルートカウン
+                タ管理サービス RCntCNT2 をこの分解能で利用するため、プ
+                ログラム中で RCntCNT2 はこの分解能以外では使用できない。
+
+        6. tick_mode = SS_NOTICK
+                垂直帰線のタイミング (1/60 秒)が 1 Tick となり、この分
+                解能で SEQ ファイルが解釈され演奏される。
+                ただし SsSeqCalledTbyT () は自動では呼ばれないため、ユー
+                ザ・プログラムの中で垂直帰線のタイミングで
+                SsSeqCalledTbyT () を呼ぶ必要がある。
+
+        7. tick_mode = 任意の分解能
+                60 ～ 240 の間で任意の値を引数に設定することにより、1
+                Tick を (1/tick_mode) 秒に設定し、この分解能で SEQ ファ
+                イルが解釈され演奏される。ただし、この場合 OS のルート	
+                カウンタ管理サービス RCntCNT2 をこの分解能で利用するた	
+                め、プログラム中では RCntCNT2 をこの分解能以外では使用	
+                できない。						
+
+        8. tick_mode = (任意の分解能 | SS_NOTICK)
+                60 ～ 240 の間で任意の値を引数に設定することにより、1
+                Tick を (1/tick_mode) 秒に設定し、この分解能で SEQ ファ
+                イルが解釈され演奏される。
+                ただし、引数に SS_NOTICK との「ビット or」を指定してい
+                ることにより SsSeqCalledTbyT () は自動では呼ばれないた
+                め、ユーザはプログラムの中で指定したタイミングで
+                SsSeqCalledTbyT() を呼ぶ必要がある。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsStart, SsSeqCalledTbyT, SetVideoMode				
+
+
+
+SsStart                 サウンドシステムを開始する
+────────────────────────────────────
+    形式
+
+        void 
+	SsStart (void)
+
+    解説
+
+        サウンドシステムの開始処理を行う。
+
+        SsSetTickMode () にて SsSeqCalledTbyT () が自動で呼ばれるモードを
+        設定した場合は、この関数の呼出し後、各 Tick 毎に SsSeqCalledTbyT()
+        が呼ばれる。
+
+    返り値
+
+	なし
+
+    関連項目
+
+        SsEnd, SsSetTickMode, SsSeqCalledTbyT
+
+
+									
+SsStart2                サウンドシステムを開始する(VSyncCallback版)
+────────────────────────────────────
+    形式								
+									
+        void								
+	SsStart2 (void)							
+									
+    解説								
+									
+        サウンドシステムの開始処理を行う。				
+									
+        SsSetTickMode () にて SsSeqCalledTbyT () が自動で呼ばれる	
+	モードを設定した場合は、この関数の呼出し後、各 Tick 毎に	
+        SsSeqCalledTbyT()が呼ばれる。					
+									
+	SsSetTickMode() において SS_TICK60 が指定した場合にのみ		
+	SsSeqCalledTbyT() を VSyncCallback() にて設定する。他の Tick	
+	モードにおける SsSeqCalledTbyT() の設定は SsStart() と同様。	
+									
+    返り値								
+									
+	なし								
+									
+    関連項目								
+									
+	SsStart, SsEnd, SsSetTickMode, SsSeqCalledTbyT			
+
+
+
+SsEnd                   サウンドシステムを停止する
+────────────────────────────────────
+    形式
+
+        void
+        SsEnd (void)
+
+    解説
+
+        SsSetTickMode () にて SsSeqCalledTbyT () が自動で呼ばれるモー
+	ドを設定した場合は、この関数の呼出し後、各 Tick 毎に
+	SsSeqCalledTbyT() が呼ばれるのを停止する。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsStart, SsSetTickMode, SsSeqCalledTbyT, SsQuit
+
+
+SsQuit                  サウンドシステムを終了する
+────────────────────────────────────
+    形式
+
+        void
+        SsQuit (void)
+
+    解説
+
+        サウンドシステムを終了する。この関数の呼出し後、サウンドバッファ
+        への転送が行えなくなる。再びサウンドバッファへの転送を行えるよ
+        うにするためには SsInit() を呼ぶ必要がある。
+
+        SsQuit() を呼び出す前には、SsEnd() が呼ばれる必要がある。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsEnd, SsStart, SsSetTickMode, SsSeqCalledTbyT
+
+
+【 SEQ データアクセス関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SsSeqOpen               SEQデータをオープンする
+────────────────────────────────────
+    形式
+
+	short 
+	SsSeqOpen (unsigned long* addr, short vab_id)
+
+    引数
+
+	addr		SEQ データの主記憶内の先頭アドレス
+	vab_id		VAB id
+
+    解説
+
+	メインメモリにある SEQ データを解析し、SEQ アクセスナンバーを
+	返す。同時にオープン出来る SEQ データは、SEP データと合わせて 
+	最大 32 個で、それ以上オープンしようとした場合は、-1 が返り値
+	となる。
+
+    返り値
+
+	SEQアクセスナンバー：これは SEQ データアクセス関数中で使用する
+                             ための番号で、内部で持つ SEQ データ管理テー
+			     ブルの番号。以下のライブラリで使用。
+
+    関連項目
+
+	SsSeqClose
+
+
+
+SsSeqCalledTbyT         1Tick毎に呼ばれ、SEQ/SEPデータを解釈し演奏を行う
+────────────────────────────────────
+    形式
+
+        void 
+	SsSeqCalledTbyT (void)
+
+    解説
+
+        1 Tick 毎にこの関数が呼ばれ、SEQ/SEP データを解釈し演奏を行う。
+
+        Tick は SsSetTickMode によって設定されるが、この Tick は 
+	SEQ/SEP データで指定されている速度、及び分解能には依存せず、単
+	にサウンドシステム内部の分解能を規定する。
+
+        SsSetTickMode での指定で、tick_mode が SS_TICK60, SS_TICK120,	
+        SS_TICK240, 及び任意の分解能の指定を行った場合は、指定された分	
+        解能でサウンドシステム側がこの関数を呼び出すが、SS_NOTICK を指	
+        定した場合はユーザ・プログラム側で 1/60 秒間隔 (通常は垂直帰線	
+        - VSync () - のタイミング)でこの関数を呼び出す必要がある。	
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetTickMode
+
+
+
+SsSeqPlay               SEQデータ読みとり（演奏）
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqPlay (short seq_access_num, char play_mode, short l_count)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+        play_mode		演奏モード
+	l_count                 曲の繰り返し回数
+
+    解説
+
+        play_mode の値によって、即座に SEQ データを読みとり始める
+	（演奏する）か、または SEQ データの先頭（曲の先頭）での pause
+	状態にするかの選択を行うことが出来る。この時、l_count にこの曲
+	の繰り返し回数を指定する。無限回演奏の場合は SSPLAY_INFINITY
+	を指定する。
+
+                  play_mode:
+                       = SSPLAY_PAUSE  ... pause 状態にする
+                       = SSPLAY_PLAY   ... 即座に演奏する
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqPause, SsPlayBack, SsSeqStop
+
+
+
+SsSeqPause              SEQデータ読みとり一時停止（ポーズ）
+────────────────────────────────────
+    形式
+
+	void 
+        SsSeqPause(short seq_access_num)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+
+    解説
+
+        seq_access_num を持つ SEQ データの読みとり（演奏）を一時停止する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqReplay
+
+
+
+SsSeqReplay             SEQデータ読みとりを再開する（リプレイ）
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqReplay (short seq_access_num)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+
+    解説
+
+        SsSeqPause で一旦中断した seq_access_num を持つ SEQ データ読みと
+	りを再開する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqPause
+
+
+
+SsSeqStop               SEQデータ読みとり停止（ストップ）
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqStop (short seq_access_num)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+
+    解説
+
+	seq_access_num を持つ SEQ データ読みとり（演奏）を終了する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqPlay
+
+
+
+SsSeqSetVol             SEQボリューム設定
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqSetVol (short seq_access_num, short voll, short volr)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+        voll			L チャンネルメインボリューム値
+        volr			R チャンネルメインボリューム値
+
+    解説
+
+        seq_access_num を持つ曲のメインボリュームを、L,R チャンネルそ
+        れぞれ指定した大きさに設定する。0 ～ 127 まで設定可能。
+
+    返り値
+
+	なし
+
+
+
+SsSeqSetNext            次SEQデータの指定
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqSetNext (short seq_access_num1, short seq_access_num2)
+
+    引数
+
+	seq_access_num1		SEQ アクセスナンバー
+        seq_access_num2		SEQ アクセスナンバー
+
+    解説
+
+        seq_access_num1 を持つ SEQ データの（演奏の）次に演奏したい、
+	SEQ データの SEQ アクセスナンバー（seq_access_num2） を指定す
+	る。
+
+    返り値
+
+	なし
+
+
+
+SsSeqSetCrescendo       クレッシェンド
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqSetCrescendo (short seq_access_num, short vol, long v_time)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+        vol			ボリューム値
+        v_time			時間（tick 単位）
+
+    解説
+
+        seq_access_num を持つ SEQ データのメインボリュームを、v_time
+	内に vol 値だけ上げる。vol にマイナスの値を設定すると、
+	SsSeqSetDecrescendo と同じ動作をする。なお、各ボイスの音量が最大
+	値の場合は効果なし。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqSetDecrescendo
+
+
+
+SsSeqSetDecrescendo     デクレッシェンド
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqSetDecrescendo (short seq_access_num, short vol, long v_time)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+        vol			ボリューム値
+        v_time			時間（tick 単位）
+
+    解説
+
+        seq_access_num を持つ SEQ データのメインボリュームを、v_time
+	内に vol 値だけ下げる。vol にマイナスの値を設定すると、
+	SsSeqSetCrescendo と同じ動作になる。なお、各ボイスの音量が最小
+	値の場合は効果なし。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqSetCrescendo
+
+
+
+SsSeqSetRitardando      テンポを遅くする
+────────────────────────────────────
+    形式
+
+	void 
+	SsSeqSetRitardando (short seq_access_num, long tempo, long v_time)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+        tempo			曲のテンポ
+        v_time			時間（tick 単位）
+
+    解説
+
+        seq_access_num を持つ SEQ データを v_time 内に tempo の分解能
+	まで遅くしていく。ただし、指定した分解能が現在の分解能よりも大
+	きい（速い）場合、SsSeqSetAccelerando と同じ動作をする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqSetAccelerando
+
+
+
+SsSeqSetAccelerando     テンポを速くする
+────────────────────────────────────
+    形式    
+
+	void 
+	SsSeqSetAccelerando (short seq_access_num, long tempo, long v_time)
+
+    引数
+
+	seq_access_num		SEQ アクセスナンバー
+        tempo			曲のテンポ
+        v_time			時間（tick 単位）
+
+    解説
+
+        seq_access_num を持つ SEQ データを v_time 内に tempo の分解能
+	まで速くしていく。ただし、指定した分解能が現在の分解能よりも小
+	さい（遅い）場合、SsSeqSetRitardando と同じ動作をする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqSetRitardando
+	
+
+
+SsSeqClose              SEQデータをクローズする
+───────────────────────────────────
+    形式
+
+	void 
+	SsSeqClose (short seq_access_num)
+
+    引数
+
+	seq_access_num：SEQ アクセスナンバー
+
+    解説
+
+        必要がなくなった seq_acces_num を持つ SEQ データをクローズする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSeqOpen
+
+
+【単独発音設定関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SsVoKeyOn               キー・オン
+───────────────────────────────────
+    形式
+
+	void 
+	SsVoKeyOn (long vab_pro, long pitch, unsigned short voll, 
+                   unsigned short volr)
+
+    引数
+
+	vab_pro		VAB データ id，プログラム番号
+	pitch		ピッチ
+	voll		L チャンネルボリューム値
+	volr		R チャンネルボリューム値
+
+    解説
+
+        vab_pro の下位 16 bit 中、上位 8 bit は vab_id、下位 8 bitは
+        プログラム番号を指定する。pitch の下位 16 bit 中、上位 8 bitは、
+        MIDI 規格の鍵番号を指定し、さらに細かいピッチを指定したい場合
+	は pitch の下位 8 bit に 1/128 半音単位で指定する。この 
+	vab_pro と pitch で指定された音を voll, volr で指定された音量で
+	キーオンする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsVoKeyOff
+
+
+
+SsVoKeyOff              キー・オフ
+───────────────────────────────────
+    形式
+
+	void 
+	SsVoKeyOff (long vab_pro, long pitch)
+
+    引数
+
+	vab_pro		VAB データ id，プログラム番号
+        pitch		ピッチ
+
+    解説
+
+        vab_pro の下位 16 bit 中、上位 8 bit は vab_id、下位 8 bitは
+        プログラム番号を指定する。pitch の下位 16 bit 中、上位 8 bitは、
+        MIDI 規格の鍵番号を指定し、さらに細かいピッチを指定したい場合
+	は pitch の下位 8 bit に 1/128 半音単位で指定する。この 
+	vab_pro と pitch で指定された音をキーオフする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsVoKeyOn
+
+
+【共通属性設定関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SsSetMVol               メインボリューム値設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetMVol (short voll, short volr)
+
+    引数
+
+	voll	L チャンネルボリューム値
+	volr	R チャンネルボリューム値
+
+    解説
+
+	メインボリューム値を voll, volr にそれぞれ設定する。それぞれ 0
+	～ 127 まで設定可能。
+
+        シーケンス(SEQ, SEP)データを再生する前に、必ず設定すること。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsGetMVol
+
+
+
+SsGetMVol               メインボリューム値を得る
+───────────────────────────────────
+    形式
+
+	void 
+	SsGetMVol (SndVolume *m_vol)
+
+    引数
+
+	m_vol	メインボリューム値
+
+    解説
+
+	メインボリューム値を m_vol に返す。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetMVol
+
+
+
+SsSetRVol               リバーブボリューム値設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetRVol (short voll, short volr)
+
+    引数
+
+	voll	L チャンネルボリューム値
+	volr	R チャンネルボリューム値
+
+    解説
+
+	リバーブボリューム値を voll,volr にそれぞれ設定する。それぞれ
+	0 ～ 127 まで設定可能。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsGetRVol
+
+
+
+SsGetRVol               リバーブボリューム値を得る
+───────────────────────────────────
+    形式
+
+	void 
+	SsGetRVol (SndVolume *r_vol)
+
+    引数
+
+	r_vol	リバーブボリューム値
+
+    解説
+
+	リバーブボリューム値を r_vol に返す。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetRVol
+
+
+
+SsSetMute               ミュート設定
+───────────────────────────────────
+    形式
+
+	void 	
+	SsSetMute (char mode)
+
+    引数
+
+	mode：設定モード
+
+    解説
+
+	ミュートの設定を行う。
+
+		mode = SS_MUTE_ON …ミュート on
+		mode = SS_MUTE_OFF…ミュート off
+
+    返り値
+
+	なし
+
+
+
+SsSetSerialAttr         Serial属性設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetSerialAttr (char s_num, char attr, char mode )
+
+    引数
+
+	s_num		Serial 番号
+	attr		属性値
+	mode		設定モード
+
+    解説
+
+	Serial に関する属性の設定を行う。
+
+		s_num = SS_SERIAL_A…Serial A（CD 入力）
+		s_num = SS_SERIAL_B…Serial B（外部デジタル入力）
+
+		attr = SS_MIX …ミキシング
+		attr = SS_REV …リバーブ
+
+		mode = SS_SON …attr on
+		mode = SS_SOFF…attr off
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsGetSerialAttr
+
+
+
+SsGetSerialAttr         Serialの属性値を得る
+───────────────────────────────────
+    形式
+
+	char 
+	SsGetSerialAttr (char s_num, char attr)
+
+    引数
+
+	s_num	Serial 番号
+	attr	属性
+
+    解説
+
+	指定した Serial の属性値を返す。
+
+                 s_num = SS_SERIAL_A…Serial A（CD 入力）
+                 s_num = SS_SERIAL_B…Serial B（外部デジタル入力）
+
+                 attr = SS_MIX …ミキシング
+                 attr = SS_REV …リバーブ
+
+    返り値
+
+	属性値：on なら 1 を返す。 
+		off なら 0 を返す。
+
+    関連項目
+
+	SsSetSerialAttr
+
+
+
+SsSetSerialVol          Serialボリューム値設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetSerialVol (short s_num, short voll, short volr)
+
+    引数
+
+	s_num	Serial 番号
+	voll	L チャンネルボリューム値
+	volr	R チャンネルボリューム値
+
+    解説
+
+	Serial のボリューム値を voll, volr に設定する。
+        ボリューム値は、0 ～ 127 まで設定可能。
+
+		s_num = SS_SERIAL_A…Serial A（CD 入力）
+		s_num = SS_SERIAL_B…Serial B（外部デジタル入力）
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsGetSerialVol
+
+
+
+SsGetSerialVol          Serialのボリューム値を得る
+───────────────────────────────────
+    形式
+
+       	void 
+	SsGetSerialVol (char s_num, SndVolume *s_vol)
+
+    引数
+
+        s_num	Serial 番号
+	s_vol	Serial ボリューム値
+
+    解説
+
+	指定した Serial 番号のボリューム値を s_vol に返す。
+
+                 s_num = SS_SERIAL_A…Serial A（CD 入力）
+                 s_num = SS_SERIAL_B…Serial B（外部デジタル入力）
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetSerialVol
+
+
+
+SsSetNck                ノイズクロック値設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetNck (short n_clock)
+
+    引数
+
+	n_clock		ノイズクロック値
+
+    解説
+
+	ノイズクロックの値を設定を行う。0 ～ 0x3c までの値が設定可能。
+	値が小さいほど聴感上低く聴こえ、値が大きいほど聴感上高くノイズ
+        が聴こえる。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsGetNck
+
+
+
+SsGetNck                ノイズクロック値を得る
+───────────────────────────────────
+    形式
+
+	short 
+	SsGetNck (void)
+
+
+    解説
+
+	ノイズクロック値を返す。
+
+    返り値
+
+	ノイズクロック値
+
+    関連項目
+
+	SsSetNck
+
+
+
+SsSetNoiseOn            ノイズオン
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetNoiseOn (short voll, short volr)
+
+    引数
+
+	voll	L チャンネルボリューム値
+	volr	R チャンネルボリューム値
+
+    解説
+
+	与えられたボリューム値でノイズオンする。
+        ボリューム値は、0 ～ 127 まで設定可能。
+	ノイズオンする前に、SsSetNck でノイズクロック値を設定する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetNoiseOff
+
+
+
+SsSetNoiseOff           ノイズオフ
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetNoiseOff (void)
+
+    解説
+
+	ノイズオフする。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetNoiseOn
+
+
+
+SsSetMono               モノラルモード設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetMono (void)
+
+    解説
+
+	出力をモノラルモードに設定する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetStereo
+
+
+
+SsSetStereo             ステレオモード設定
+───────────────────────────────────
+    形式
+
+	void 
+	SsSetStereo (void)
+
+    解説
+
+	出力をステレオモードに設定する。
+	(サウンドシステムのデフォルト出力はステレオである)
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SsSetMono
+
+
+
+【SEP アクセス関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SsSepOpen               SEPデータをオープンする
+───────────────────────────────────
+    形式
+
+        short 
+	SsSepOpen (unsigned long *addr, short vab_id, short seq_num)
+
+    引数
+
+        addr            SEP データの主記憶内の先頭アドレス
+        vab_id          VAB id
+        seq_num         SEP に含まれる SEQ の数
+
+    解説
+
+        メインメモリにある SEP データを解析し、SEP アクセスナンバーを
+        返す。なお、SEQ データのオープン数と合わせて最大 32 個までは同
+        時にオープン可能である。
+
+    返り値
+
+        SEP アクセスナンバー    SEQ アクセスナンバーと同様の性格を持つ
+                                ナンバーで、内部で持つ SEP データ管理
+                                テーブルの番号。
+
+    関連項目
+
+        SsSepClose
+
+
+
+SsSepPlay               SEPデータ読みとり（演奏）
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepPlay (short sep_access_num, short seq_num, char play_mode, 
+	           short l_count)
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+        play_mode               演奏モード
+        l_count                 曲の繰り返し回数
+
+    解説
+
+        play_mode の値によって、sep_access_num で指定された SEP の、
+        seq_num で指定された SEQ データを即座に読みとり始める（演奏す
+        る）か、または曲の先頭での pause 状態にするかの選択を行うこと
+        が出来る。この時、l_count にこの曲の繰り返し回数を指定する。無
+        限回演奏の場合は SSPLAY_INFINITY を指定する。
+
+                  play_mode:
+                       = SSPLAY_PAUSE  ... pause 状態にする
+                       = SSPLAY_PLAY   ... 即座に演奏する
+
+    サンプル
+
+        ・SEQ データを 4 つ持つ SEP データをオープン：
+
+                sep1 = SsSepOpen (addr, vab_id, 4); 
+
+        ・オープンした SEP データの 3 番目のデータを即座に 2 回鳴らす
+
+                SsSepPlay (sep1, 2, SSPLAY_PLAY, 2);
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepStop
+
+
+
+SsSepPause              SEPデータ読みとり一時停止（ポーズ）
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepPause (short sep_access_num, short seq_num)
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        読みとり（演奏）を一時停止する。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepReplay
+
+
+
+SsSepReplay             SEPデータ読みとりを再開する（リプレイ）
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepReplay (short sep_access_num, short seq_num)
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+
+    解説
+
+        SsSepPause で一旦中断した sep_access_num を持つ SEP データの 
+        seq_num 番目の SEQ データの読みとりを再開する。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepPause
+
+
+
+SsSepStop               SEPデータ読みとり停止（ストップ）
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepStop (short sep_access_num, short seq_num)
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        読みとり（演奏）を終了する。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepPlay
+
+
+
+SsSepSetVol             SEPボリューム設定
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepSetVol (short sep_access_num, short seq_num, short voll, 
+                     short volr)
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+        voll                    L チャンネルメインボリューム値
+        volr                    R チャンネルメインボリューム値
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        メインボリュームを、L,R チャンネルそれぞれ指定した大きさに設定
+        する。0 ～ 127 まで設定可能。
+
+    返り値
+
+        なし
+
+
+
+SsSepSetCrescendo       クレッシェンド
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepSetCrescendo (short sep_access_num, short seq_num, short vol, 
+                           long v_time);
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+        vol                     ボリューム値
+        v_time                  時間（tick 単位）
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        メインボリュームを、v_time 内に vol 値だけ上げる。vol にマイナ
+        スの値を設定すると、SsSepSetDecrescendo と同じ動作をする。なお、
+        各ボイスの音量が最大値の場合は効果なし。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepSetDecrescendo
+
+
+
+SsSepSetDecrescendo     デクレッシェンド
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepSetDecrescendo (short sep_access_num, short seq_num, short vol, 
+	                     long v_time)
+
+    引数
+
+        sep_access_num          SEQ アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+        vol                     ボリューム値
+        v_time                  時間（tick 単位）
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        メインボリュームを、v_time 内に vol 値だけ下げる。vol にマイナ
+        スの値を設定すると、SsSepSetCrescendo と同じ動作になる。なお、
+        各ボイスの音量が最小値の場合は効果なし。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepSetCrescendo
+
+
+
+SsSepSetRitardando      テンポを遅くする
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepSetRitardando (short sep_access_num, short seq_num, long tempo, 
+			    long v_time)
+
+    引数
+
+        sep_access_num           SEQ アクセスナンバー
+        seq_num                  SEP データ内の SEQ ナンバー
+        tempo                    曲のテンポ
+        v_time                   時間（tick 単位）
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        テンポを v_time 内に tempo まで遅くしていく。ただし、指定した
+        テンポが現在のテンポよりも大きい（速い）場合、
+        SsSepSetAccelerando と同じ動作をする。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepSetAccelerando
+
+
+
+SsSepSetAccelerando     テンポを速くする
+───────────────────────────────────
+    形式   
+
+	void 
+	SsSepSetAccelerando (short sep_access_num, short seq_num, long tempo,
+                             long v_time)
+
+    引数
+
+        sep_access_num          SEQ アクセスナンバー
+        seq_num                 SEP データ内の SEQ ナンバー
+        tempo                   曲のテンポ
+        v_time                   時間（tick 単位）
+
+    解説
+
+        sep_access_num を持つ SEP データの seq_num 番目の SEQ データの
+        テンポを v_time 内に tempo のテンポまで速くしていく。ただし、
+        指定したテンポが現在のテンポよりも小さい（遅い）場合、
+        SsSepSetRitardando と同じ動作をする。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSepSetRitardando
+
+
+
+SsSepClose              SEPデータをクローズする
+───────────────────────────────────
+    形式
+
+        void 
+	SsSepClose (short sep_access_num)
+
+    引数
+
+        sep_access_num          SEP アクセスナンバー
+
+    解説
+
+        必要がなくなった sep_access_num を持つ SEP データをクローズする。
+        これは SEP 単位でクローズされるので、クローズされた SEP に格納
+        されているすべての SEQ データは、アクセス不可になる。
+
+    関連項目
+
+        SsSepOpen
+
+
+【SEQ/SEP データアクセス関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SsPlayBack              SEQ/SEPデータ読みとり
+───────────────────────────────────
+    形式    
+
+	void 
+	SsPlayBack (short access_num, short seq_num, short l_count)
+
+    引数
+
+        access_num      SEQ/SEP アクセスナンバー
+        seq_num         SEP データ内の SEQ ナンバー
+        l_count         曲の繰り返し回数
+
+    解説
+
+        現行の play モードは、実行中に再び関数を呼んでもイベントは何も
+        起こらないが、この関数は実行中に再び呼ぶと、現在演奏中の曲が止
+        まり、その曲の先頭に戻って演奏を始める。
+
+        SEQ データにこの関数を使用する時は、 seq_num は 0 を設定し、
+        SEP データに使用する時は、鳴らしたい SEQ の入っている番号を設
+        定する。l_count にこの曲の繰り返し回数を指定する。無限回演奏の
+        場合は SSPLAY_INFINITYを指定する。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsSeqPlay, SsSepPlay
+
+
+
+SsSetTempo              テンポを設定する
+───────────────────────────────────
+    形式
+
+	void
+        SsSetTempo (short access_num, short seq_num, short tempo)
+
+    引数
+
+        access_num      SEQ/SEP アクセスナンバー
+        seq_num         SEP データ内の SEQ ナンバー
+        tempo           曲のテンポ
+
+    解説
+
+        テンポを設定する。
+
+        これは、SsSeqPlay 中設定したテンポを変更したい場合に有効である。
+        この関数が呼ばれた後、今までのテンポが新たに設定したテンポに変
+        更され演奏を行う。
+        SEQ データにこの関数を使用する時は、seq_num は 0 を設定し、
+        SEP データに使用する時は、設定したい SEQ の入っている番号を設
+        定する。
+
+    返り値
+
+        なし
+
+
+
+SsSetLoop               曲の繰り返し回数を設定する
+───────────────────────────────────
+    形式
+
+	void
+        SsSetLoop (short access_num, short seq_num, short l_count)
+
+    引数
+
+        access_num      SEQ/SEP アクセスナンバー
+        seq_num         SEP データ内の SEQ ナンバー
+        l_count         繰り返し回数
+
+    解説
+
+        曲の繰り返し回数を設定する。
+
+        これは、SsSeqPlay 中設定した繰り返し回数を変更したい場合に有効
+        である。この関数が呼ばれた後、今までの繰り返し回数がリセットさ
+        れ、新たに設定した繰り返し回数分演奏を行う。
+        SEQ データにこの関数を使用する時は、seq_num は 0 を設定し、
+        SEP データに使用する時は、設定したい SEQ の入っている番号を設
+        定する。
+
+    返り値
+
+        なし
+
+
+
+SsIsEos                 演奏中か否かを判別する
+───────────────────────────────────
+    形式
+
+        short
+        SsIsEos (short access_num, short seq_num)
+
+    引数
+
+        access_num      SEQ/SEP アクセスナンバー
+        seq_num         SEP データ内の SEQ ナンバー
+
+    解説
+
+        指定した曲が演奏中か否かを判別する。
+
+        SEQ データにこの関数を使用する時は、seq_num は 0 を設定し、
+        SEP データに使用する時は、判別したい SEQ の入っている番号を設
+        定する。
+
+    返り値
+
+        演奏中ならば 1 を返す。
+	演奏していなければ 0 を返す。
+
+
+
+SsSetMarkCallback       マークが検出されたら呼ばれる関数を登録する
+───────────────────────────────────
+    形式
+
+        typedef void (*SsSeqMarkCallbackProc)(short, short, short);
+
+        void
+        SsSetMarkCallback (short access_num, short seq_num, 
+			   SsMarkCallbackProc proc)
+
+    引数
+
+        access_num      SEQ/SEP アクセスナンバー
+        seq_num         SEP データ内の SEQ ナンバー
+        proc            Mark が検出された時に呼ばれる Callback 関数
+
+    解説
+
+        access_num を持つ曲中のマークが検出されると、Callback 関数
+        proc が呼ばれる。その際、第 1 引数に SEQ/SEP アクセスナンバー、
+        第 2 引数に SEP データ内の SEQ ナンバー，第 3 引数に Mark に設
+        定されている data2 の値が渡される。SEQ を使用する場合は、第 2 
+        引数は 0 に設定する。
+
+        proc に NULL が与えられると Callback 関数をクリアする。
+
+        同時には Callback 関数として 1 つしか登録できない。
+
+    サンプル
+
+        /* Callback 関数定義 */
+        SsMarkCallbackProc proc (short ac_no, short tr_no,short data)
+        {
+                :
+        }
+
+        /* SEQ をオープン */
+        short seq_a_num = SsSeqOpen (addr, vab_id);
+
+        /* Callback 関数をセット */
+        SsSetMarkCallback (seq_a_num, 0, (SsMarkCallbackProc) proc);
+
+    返り値
+
+        なし
+
+									
+SsSetNext               次SEQデータの指定			        +
+────────────────────────────────────+
+    形式								+
+									+
+        void								+
+        SsSetNext (short ac_no1, short tr_no1,				+
+			short ac_no2 short tr_no2)			+
+									+
+    引数								+
+									+
+        ac_no1         SEP/SEQ アクセスナンバー				+
+	tr_no1         SEP 内の SEQ 番号（譜面データが SEQ の時は 0)	+
+        ac_no2         SEP/SEQ アクセスナンバー				+
+	tr_no2         SEP 内の SEQ 番号（譜面データが SEQ の時は 0)	+
+									+
+    解説								+
+									+
+	ac_no1 の tr_no1 を持つ SEQ データの次に演奏したい譜面データの	+
+	SEP/SEQ アクセスナンバー（ac_no2, tr_no2）を指定する。		+
+									+
+    返り値								+
+									+
+        なし								+
+
+
+  
+SsSetReservedVoice      libsndライブラリが割り当てるボイス数を宣言する
+───────────────────────────────────
+    形式
+
+	char 
+  	SsSetReservedVoice (char voices)
+              
+    引数
+
+	voices		ボイス数
+ 
+    解説
+
+	libsnd ライブラリがアロケーションに利用するボイス数を宣言する。
+        それ以外のボイスは、libspu でユーザが利用可能。
+	（必ず、all key off の状態でコールすること）
+ 
+    返り値
+
+	成功したら 設定したボイス数。 
+	失敗したら -1 を返す。 
+
+
+【サウンドユーティリティ関数】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+サウンドユーティリティ関数は、VAB データ中の属性テーブルをランタイ
+ムに変更したり, アロケートされたボイスに対して KeyOn 後にエフェクト
+(ボリューム, パンニング, ピッチ, ADSRなどの変化)をかけるための関数
+群です。特に指定の無い限り、関数で成功した場合は 0を、失敗した場合
+は -1 を返します。
+
+以下の関数群で使用する、各引数の意味及び有効値は下記の通り。
+
+引数:	    解説:                                     有効範囲:
+vc          ボイス番号				      0 ～ 23
+vabId	    SsVabOpen()関数の返り値であるVAB番号      0 ～ 31
+prog	    プログラム番号			      0 ～ 127
+tone	    トーン番号				      0 ～ 15
+note	    半音単位のピッチ指定(ノート番号)	      0 ～ 127※
+fine	    詳細ピッチ指定(100/127 セント)	      0 ～ 127
+pbend       ピッチベンド値                            0 ～ 127
+voll	    ボリューム(左)			      0 ～ 127
+volr	    ボリューム(右)			      0 ～ 127
+detvoll	    詳細ボリューム(左)			      0 ～ 16383
+detvolr	    詳細ボリューム(右)			      0 ～ 16383
+adsr1       ADSR1
+adsr2       ADSR2
+start_vol   ボリュームの変化開始値		      0 ～ 127
+end_vol     ボリュームの変化終了値		      0 ～ 127
+start_pan   パンニングの変化開始値		      0 ～ 127
+end_pan     パンニングの変化開始値		      0 ～ 127
+delta_time  変化時間(1/60sec単位, 最大180秒)	      0 ～ 10800
+
+※ただしピッチ指定は、サンプルした原音の 2 オクターブ上 (44.1kHz サン
+  プル時) までしか再生できません。
+
+
+
+SsUtKeyOn               ボイスをキーオンする
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtKeyOn (short vabId, short prog, short tone, short note, 
+                   short fine, short voll, short volr)
+
+    解説
+
+	SE 用の VAB 番号、プログラム番号 (0～127)、トーン番号 (0～15)
+	を指定して KeyOn し、アロケートしたボイス番号を返す。
+
+    返り値
+
+	KeyOn で使用したボイス番号(0～23)を返す。
+        失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtKeyOff
+
+
+
+SsUtKeyOff              ボイスをキーオフする
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtKeyOff (short voice, short vabId, short prog, short tone, 
+                    short note)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスをキーオフする。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtKeyOn
+
+
+
+SsUtKeyOnV              ボイス番号を指定してキーオンする
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtKeyOnV (short voice, short vabId, short prog, short tone, 
+                   short note, short fine, short voll, short volr)
+
+    解説
+
+	ボイス番号 (0～23), SE 用の VAB 番号、プログラム番号 (0～127)、
+	トーン番号 (0～15) を指定して KeyOn し、アロケートしたボイス番
+	号を返す。
+
+    返り値
+
+	KeyOn で使用したボイス番号 (0～23)を返す。
+        失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtKeyOffV
+
+
+
+SsUtKeyOffV             ボイス番号を指定してキーオフする
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtKeyOffV (short voice)
+
+    解説
+
+	ボイス番号 (0～23) を指定してボイスをキーオフする。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtKeyOnV
+
+
+
+SsUtPitchBend           ピッチベンドをかける
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtPitchBend (short voice, short vabId, short prog, short note, 
+                       short pbend)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスにピッチベンド(0～127,
+ 	64:center)をかける。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtChangePitch
+
+
+
+SsUtChangePitch         ピッチを変える
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtChangePitch (short voice, short vabId, short prog, 
+	                 short old_note, short old_fine, short new_note, 
+                         short new_fine)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスのピッチを変える。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+  	SsUtPitchBend
+
+
+
+SsUtChangeADSR          ADSRを変える
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtChangeADSR (short vc, short vabId, short prog, short old_note, 
+                        unsigned short adsr1, unsigned short adsr2)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスの ADSR を変える。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+
+
+SsUtGetVabHdr           VAB属性ヘッダを返す
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtGetVabHdr (short vabId, VabHdr *vabhdrptr)
+
+    解説
+
+	VAB 番号(SsVabOpen()の返り値)を指定し、VAB 属性ヘッダを
+	vabhdrptr に返す。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtSetVabHdr
+	
+
+
+SsUtSetVabHdr           VAB属性ヘッダを設定する
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtSetVabHdr (short vabId, VabHdr *vabhdrptr)
+
+    解説
+
+	VAB 番号(SsVabOpen()の返り値)を指定し、VAB 属性ヘッダ
+	vabhdrptr を変更する。
+
+                設定可能: mvol, pan, attr1, attr2 のみ
+ 		設定不可: form, ver, id, fsize, reserved0,
+                         ps, ts, vs, reserved1
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtGetVabHdr
+
+
+
+SsUtGetProgAtr          Program属性テーブルを返す
+────────────────────────────────────
+    形式
+
+	short 	
+	SsUtGetProgAtr (short vabId, short progNum, ProgAtr *progatrptr)
+
+    解説
+
+	VAB 番号，プログラム番号を指定し、プログラム属性テーブルを
+	progatrptr に返す。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtSetProgAtr
+
+
+
+SsUtSetProgAtr          プログラム属性テーブルを設定する
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtSetProgAtr (short vabId, short progNum, ProgAtr *progatrptr)
+
+    解説
+
+	VAB 番号, プログラム番号を指定し、プログラム属性テーブル
+        progatrptr を変更する。
+
+                変更可能: mvol, mpan, prior, mode, attr1, attr2
+		変更不可: tones, reserved0, reserved1, reserved2
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtGetProgAtr
+
+
+
+SsUtGetVagAtr           トーン属性テーブル(VagAtr)を返す
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtGetVagAtr (short vabId, short progNum, short toneNum, 
+	               VagAtr *vagatrptr)
+
+    解説
+
+	VAB 番号, プログラム番号, トーン番号を指定し、トーン属性テーブ
+	ルを vagatrptr に返す。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtSetVagAtr
+
+
+
+SsUtSetVagAtr           トーン属性テーブル(VagAtr)を設定する
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtSetVagAtr (short vabId, short progNum, short toneNum, 
+                       VagAtr *vagatrptr)
+
+    解説
+
+	VAB 番号, プログラム番号, トーン番号を指定し、トーン属性テーブ
+        ル vagatrptr を変更する。
+
+                変更可能: VagAtrの内, 下記項目以外
+  		変更不可: prog, vag, reserved1, reserved2,
+                          reserved[0～3]
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtGetVagAtr
+
+
+
+SsUtGetVVol             ボイスボリュームを得る
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtGetVVol (short vc, short voll, short volr)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスボリュームの詳細値を返す。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtSetVVol
+
+
+
+SsUtSetVVol             ボイスボリュームを設定する
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtSetVVol (short vc, short voll, short volr)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスボリュームを詳細設定する。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtGetVVol
+
+
+
+SsUtGetDetVVol          ボイスボリューム詳細値を得る
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtGetDetVVol (short vc, short detvoll, short detvolr)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスボリュームの詳細値を返す。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+
+	SsUtSetDetVVol
+
+
+
+SsUtSetDetVVol          ボイスボリュームを詳細設定する
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtSetDetVVol (short vc, short detvoll, short detvolr)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスボリュームを詳細設定する。
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+    関連項目
+	
+	SsUtGetDetVVol
+
+
+
+SsUtAutoVol             ボイスボリュームを自動的に変化させる
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtAutoVol (short vc, short start_vol, short end_vol, 
+                     short delta_time)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスのボリュームを, start_vol から
+	end_vol まで, delta_time (1/60sec単位) でリニアに変化させる. 
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+
+
+SsUtAutoPan             パンニングを自動的に変化させる
+────────────────────────────────────
+    形式
+
+	short 
+	SsUtAutoPan (short vc, short start_pan, short end_pan, 
+		     short delta_time)
+
+    解説
+
+	SsUtKeyOn() でキーオンしたボイスのパンニングを, start_pan から
+	end_pan まで, delta_time (1/60sec単位) でリニアに変化させる. 
+
+    返り値
+
+	成功したら 0 を返す。
+	失敗したら -1 を返す。
+
+
+
+SsUtReverbOn            リバーブオン
+────────────────────────────────────
+    形式
+
+        void 
+	SsUtReverbOn (void)
+
+    解説
+
+        リバーブを、設定された Type と Depth でオンする。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsUtReverbOff
+
+
+
+SsUtReverbOff           リバーブオフ
+────────────────────────────────────
+    形式
+
+        void 
+	SsUtReverbOff (void)
+
+    解説
+
+        リバーブをオフする。
+
+    返り値
+
+        なし
+
+    関連項目
+
+        SsUtReverbOff
+
+
+
+SsUtSetReverbType       リバーブタイプを設定する
+────────────────────────────────────
+    形式
+
+        short 
+	SsUtSetReverbType (short type)
+
+    引数
+
+        type            リバーブタイプ
+
+	(**) Reverb Type (Sound Delicatessen の DSP 参照）
+        ───────────────────────────────
+               type              モード      Delay time     Feedback
+        ───────────────────────────────
+	SS_REV_TYPE_OFF       off                ×	       × 
+	SS_REV_TYPE_ROOM      ルーム             ×	       × 
+	SS_REV_TYPE_STUDIO_A  スタジオ(小)       ×	       × 
+	SS_REV_TYPE_STUDIO_B  スタジオ(中)       ×	       × 
+	SS_REV_TYPE_STUDIO_C  スタジオ(大)       ×	       × 
+	SS_REV_TYPE_HALL      ホール             ×	       × 
+	SS_REV_TYPE_SPACE     スペースエコー     ×	       × 
+	SS_REV_TYPE_ECHO      エコー             ○	       ○ 
+	SS_REV_TYPE_DELAY     ディレイ           ○	       ○ 
+	SS_REV_TYPE_PIPE      パイプエコー       ×	       × 
+        ───────────────────────────────
+
+    解説
+
+        リバーブタイプを設定する。
+        リバーブタイプを設定すると、リバーブデプスは自動的に 0 に設定
+        される。リバーブワークエリアにデータが残っていると、デプスを
+        設定した途端にノイズが出るので、下記手順で利用のこと。 
+
+                SsUtSetReverbType (SS_REV...);
+                SsUtReverbOn ();
+                
+                        数秒待つ
+                
+                SsUtSetReverbDepth (64, 64);
+
+        番号とタイプの対応は上記の通り。
+
+    返り値
+
+        設定が正しく行なわれた場合は、その設定した Type 番号を返す。
+	設定が正しく行なわれなかった場合は -1 を返す。
+
+    関連項目
+
+        SsUtGetReverbType
+
+
+
+SsUtGetReverbType       リバーブタイプを得る
+────────────────────────────────────
+    形式
+
+        short 
+	SsUtGetReverbType (void)
+
+    解説
+
+        現在のリバーブタイプ値を得る。
+
+    返り値
+
+        現在のリバーブタイプ値
+
+    関連項目
+
+        SsUtSetReverbType
+
+
+
+SsUtSetReverbDepth      リバーブの深さを設定する。
+────────────────────────────────────
+    形式
+
+        void 
+	SsUtSetReverbDepth (short ldepth, short rdepth)
+
+    引数
+
+        ldepth          0 ～ 127
+        rdepth          0 ～ 127
+
+    解説
+
+        リバーブの深さを設定する。
+
+    返り値  
+
+        なし
+
+
+
+SsUtSetReverbFeedback   フィードバック量を設定する
+────────────────────────────────────
+    形式
+
+        void 
+	SsUtSetReverbFeedback (short feedback)
+
+    引数
+
+        feedback        0 ～ 127
+
+    解説
+
+        Echo タイプのリバーブを利用する場合のフィードバック量を設定する。
+
+    返り値
+
+        なし
+
+
+
+SsUtSetReverbDelay      Delay量を設定する
+────────────────────────────────────
+    形式
+
+        void 
+	SsUtSetReverbDelay (short delay)
+
+    引数
+
+        delay   0 ～ 127
+
+    解説
+
+        Echo および Delay タイプのリバーブを利用する場合の Delay 量を
+        設定する。
+
+    返り値
+
+        なし
+
+
+
+SsUtAllKeyOff           全ボイスをキーオフする
+────────────────────────────────────
+    形式
+
+        void 
+	SsUtAllKeyOff (short mode)
+
+    引数
+
+        mode 常に 0
+
+    解説
+
+        libsnd で利用しているすべてのボイスを、強制的にキーオフする。
+
+    返り値
+
+        なし
+
+
+
+SsSetAutoKeyOffMode     自動キーオフモードを設定する
+────────────────────────────────────
+    形式
+
+        void 
+	SsSetAutoKeyOffMode (short mode)
+
+    引数
+
+        mode 0: 自動的にキーオフする
+	mode 1: KeyOff リクエストが来るまでキーオフは行なわない
+
+    解説
+
+        自動キーオフモードの設定をする。デフォルトは自動キーオフモード。
+        
+        自動キーオフモードでは、過去 16 割り込み分のエンベロープ値が全て
+	0 であったら、自動的に波形の再生を終了しているとして、ボイスを他
+	の波形再生に利用する。
+        
+    返り値
+
+        なし
+
+
+
+SsUtFlush               キューイングしているキーオン／キーオフのリクエ
+			ストを実行する(フラッシング)
+────────────────────────────────────
+    形式
+
+        void 
+        SsUtFlush (void)
+
+    引数
+
+        なし
+
+    解説
+
+        キューイングしているキーオン／キーオフのリクエストを実行する。
+
+        通常は、サウンドライブラリの自動割り込み (SsSetTickMode により
+        SS_NOTICK 以外に設定した場合)、または明示的な SsSeqCalledTbyT 
+        の呼び出し (SsSetTickMode により SS_NOTICK に設定した場合) に
+        よりフラッシングは行われるが、上記のどちらも使わない場合にフラッ
+        シングを行う場合、本関数を利用する。
+
+        本関数は、必ず 1/44100 sec 以上の間隔を空けて呼び出しを行うこ
+        と。
+        
+    返り値
+
+        なし
+
+
+
+SsUtGetVBaddrInSB       指定されたVABidのVBデータが転送されたサウンド
+			バッファ内のアドレスを返す
+────────────────────────────────────
+    形式
+
+        unsigned long
+        SsUtGetVBaddrInSB (short vabid)
+
+    引数
+
+        vabid:  VAB id
+
+
+    解説
+
+        指定された VAB id の VB データが転送されたサウンドバッファ内の
+        アドレスを返す
+
+    返り値
+
+        サウンドバッファ内のアドレス。失敗したら -1 を返す。
+
+
+SsUtGetVagAddr		VAGが格納されているSPUバッファのアドレスを返す
+───────────────────────────────────	
+    形式								
+									
+        long								
+        SsUtGetVagAddr( short vabId, short vagId )			
+									
+    引数								
+									
+        vabId           VAB データ id					
+        vagId           VAG データ id					
+									
+    解説								
+									
+        VAB id(0～15) および VAG id(1～254) を与えると、VAG が格納され	
+	ているアドレスを 32bit (バイト表現)で返す。			
+									
+    返り値								
+									
+        VAG が格納されている SPU バッファのアドレスを返す。		
+									
+    関連項目								
+									
+        SsVabOpen							
+
+
+  SsUtGetVagAddrFromTone	VAG が格納されている SPU バッファのアド	+
+                                レスを返す				+
+────────────────────────────────────+
+    形式								+
+									+
+        unsigned long							+
+        SsUtGetVagAddrFromTone(short vabid, short progid, short toneid)	+
+									+
+    引数								+
+									+
+        vabid:  VAB id							+
+        progid: Program 番号						+
+        toneid: Tone 番号						+
+									+
+									+
+									+
+    解説								+
+									+
+        指定された VAB id、Program 番号、Tone 番号 の VAG の波形データが+
+        転送されたサウンドバッファ内のアドレスを返す			+
+									+
+    返り値								+
+									+
+        サウンドバッファ内のアドレス。失敗したら -1 を返す。		+
+

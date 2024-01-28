@@ -1,0 +1,472 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+CdInit		CD-ROM サブシステムの初期化
+
+	形式	int CdInit(void)
+	
+	引数	なし
+	
+	解説	CD-ROM サブシステムを初期化する。
+	
+	返り値	1	初期化成功
+		0	初期化失敗
+	
+	備考	初期化に失敗した場合は４回までリトライを行なう。
+
+CdReset		
+
+	形式	int CdReset(int mode)
+	
+	引数	mode	リセットモード
+			0: CD サブシステムのみ初期化を行なう
+			1: CD サブシステムとCDオーディオ (CD-DA,
+			   ADPCM)の音量の初期化を行なう。
+
+	
+	解説	CD-ROM サブシステムを初期化する。CdInit() の下位関数。
+		CdInit() と異なり CD-ROM に関するイベント環境を初期化
+		しない。
+		mode に 0 が指定された場合は、CD オーディオの音量の初期
+		化を行なわないため、それ以前にサウンドライブラリで指定
+		された音量の設定が保存される。
+
+	返り値	1	初期化成功
+		0	初期化失敗
+	
+	備考	リトライは行なわない。
+	
+CdFlush		
+
+	形式	void CdFlush(void)
+	
+	引数	なし
+	
+	解説	発行中のCD-ROM サブシステムのコマンドをキャンセルする。
+		現在発行中のコマンドは無効になり、サブシステムは、直ち
+		にコマンド受け付け状態 (CdlComplete) になる。
+
+	返り値	なし
+	
+	備考	データ受信状態も一旦 CdlDataReady にリセットされるた
+		め、CD-ROM から読みだし中に使用する際には注意。
+	
+CdSetDebug	デバッグレベルを設定
+
+	形式	int CdSetDebug(int level)
+
+	引数	level	デバッグレベル
+			0: 全てのチェックを行なわない。
+			1: プリミティブコマンドのチェックを行なう
+			2: プリミティブコマンドの実行状況をプリントする
+	
+	解説	CD-ROM サブシステムのデバッグレベル level に設定する。
+	
+	返り値	直前に設定されたデバッグモード
+	
+CdMix		アッテネータの設定
+
+	形式	int CdMix(CdlATV *vol)
+	引数	vol	アッテネータボリューム（別項参照）
+	
+	解説	CDオーディオ (CD-DA, ADPCM) の音量値を設定する
+	
+	返り値	常に 1 を返す。
+
+CdStatus	直近の CD-ROM のステータスを獲得
+
+	形式	int CdStatus(void) 
+
+	引数	なし
+	
+	解説	最後に報告された CD-ROM のステータスを獲得する。
+
+	返り値	CD-ROM ステータス
+
+	備考	メインメモリ内のステータスバッファを参照するだけなので
+		高速。ステータスバッファは CD-ROM へコマンドを発行した
+		時に更新される。
+		明示的に最新の状態を知るには CdlNop コマンドを発行する
+		必要がある。
+
+CdControl	CD-ROM サブシステムにプリミティブコマンドを発行
+
+	形式	int CdControl(u_char com, u_char *param, u_char *result)
+	
+	引数	com	コマンドコード（別項参照）
+		param	コマンドに対する引数
+		result	返り値
+	
+	解説	CD-ROM サブシステムにプリミティブコマンドを発行する
+	
+	返り値	1	発行成功
+		0	発行失敗
+	
+	備考	param を指定しないコマンドには、0 を指定する。
+		result に 0 を指定すると返り値をもどさない。
+	
+		ノンブロック関数であるため、実際の転送の終了は CdSync() で
+		検出する必要がある。
+
+CdControlB	CD-ROM サブシステムにプリミティブコマンドを発行（ブロック型）
+
+	形式	int CdControlB(u_char com,
+			 u_char *param, u_char *result)
+	
+	引数	com	コマンドコード（別項参照）
+		param	コマンドに対する引数
+		result	返り値
+	
+	解説	CD-ROM サブシステムにプリミティブコマンドを発行する
+		処理が終了するのを待ってリターンする
+
+	返り値	1	発行成功
+		0	発行失敗
+	
+	備考	param を指定しないコマンドには、0 を指定する。
+		result に 0 を指定すると返り値をもどさない。
+		
+
+CdControlF	CD-ROM サブシステムにプリミティブコマンドを発行（高速型）
+
+	形式	int CdControlF(u_char com, u_char *param)
+	
+	引数	com	コマンドコード（別項参照）
+		param	コマンドに対する引数
+	
+	解説	CD-ROM サブシステムにプリミティブコマンドを発行する
+		サブシステムに対する一切のハンドシェークを行なわない。
+
+	返り値	1	発行成功
+		0	発行失敗
+	
+	備考	param を指定しないコマンドには、0 を指定する。
+		サブシステムに対してコマンドの受け付け (ACK) さえも待
+		たないため高速。
+		現在は、必ず 1 を返すため返り値は意味を持たない。
+
+CdLastCom	最後に発行したコマンドコードを獲得
+
+	形式	int CdLastCom(void) 
+
+	引数	なし
+	
+	解説	最後に発行されたプリミティブコマンドコードを返す
+
+	返り値	コマンドコード（別項参照）
+
+CdGetSector	セクタバッファのデータをメインメモリへ転送する		
+
+	形式	int CdGetSector(void *madr, int size)
+									
+	引数	madr	転送先メインメモリアドレス			
+		size	転送サイズ（ロングワード）			
+									
+	解説	セクタバッファ上のセクタデータをメインメモリ上に転送す	
+		る。転送はバックグラウンドで行なわれる。		
+									
+	返り値	1	発行成功					
+		0	発行失敗					
+									
+	備考	セクタサイズはモードによって異なる。			
+		転送は複数回にわけて異なるメモリ領域へ転送することもで	
+		きるが、その合計サイズはセクタバッファサイズに等しくな	
+		ければならない。					
+		セクタデータがバッファに準備されてから、次のセクタデー	
+		タが上書きされる前に読み出さないと、以前のセクタデータ	
+		は失われる。						
+
+CdSync		プリミティブコマンドの終了を待つ
+
+	形式	int CdSync(int mode, u_char *result)
+
+	引数	mode	0: コマンドの終了を待つ。
+			1: 現在の状態を調べて即座にリターンする
+	
+		result	最も最近に終了したコマンドのステータス
+	
+	解説	コマンドの終了を待つ。
+	
+	返り値	CdlComplete	コマンド終了
+		CdlDiskError	エラー検出
+		CdlNoIntr	コマンド実行中
+	
+CdReady		CD-ROM からのデータが準備できるのをを待つ
+
+	形式	int CdReady(int mode, u_char *result)
+
+	引数	mode	0: データが準備できるまで待つ。
+			1: 現在の状態を調べて即座にリターンする
+	
+		result	最も最近に終了したコマンドのステータス
+	
+	解説	データがセクタバッファに準備されるのを待つ
+	
+	返り値	CdlDataReady	準備完了データあり
+		CdlDiskError	エラー検出
+		CdlNoIntr	準備完了データなし
+	
+CdDataSync	CdGetSector の終了を待つ				
+
+	形式	int CdDataSync(int mode)
+									
+	引数	mode	0: 転送の終了を待つ。				
+			1: 現在の状態を調べて即座にリターンする		
+									
+	解説	CdGetSector() による転送が終了するのを待つ		
+									
+	返り値	1	転送中						
+		0	転送終了					
+									
+CdReadSync	CdRead の終了を待つ
+
+	形式	int CdReadSync(int mode, u_char *result)
+
+	引数	mode	0: リードの終了を待つ。
+			1: 現在の状態を調べて即座にリターンする
+	
+		result	最も最近に終了したコマンドのステータス
+	
+	解説	CdRead() による読み込みが終了するのを待つ
+	
+	返り値	正整数		残りのセクタ数
+		0		終了
+		-1		リードエラー
+	
+CdSyncCallback	CdSync コールバック関数を定義
+
+	形式	u_long CdSyncCallback(void (*func)())
+	
+	引数	func	コールバック関数
+
+	解説	コマンド終了時に呼ばれるコールバックを定義する。
+		コマンドが終了した時に func が呼び出される。func に 0
+		を指定した場合は、コールバックは発生しない。
+	
+	返り値	以前に設定されたコールバックのアドレス
+
+	備考	func 内では以降の描画終了割り込みはマスクされる。従って
+		funcは必要な処理を終了したらすみやかにリターンする必要が
+		ある。
+
+CdReadyCallback	CdReady コールバック関数を定義
+
+	形式	u_long CdReadyCallback(void (*func)())
+
+	引数	func	コールバック関数
+
+	解説	データレディ時に呼ばれるコールバックを定義する。
+		セクタバッファのデータが確定した時点で func が呼び出され
+		る。func に 0 を指定した場合は、コールバックは発生しない。
+	
+	返り値	以前に設定されたコールバックのアドレス
+
+	備考	func 内では以降の描画終了割り込みはマスクされる。従って
+		funcは必要な処理を終了したらすみやかにリターンする必要が
+		ある。
+	
+CdReadCallback	CdRead コールバック関数を定義
+
+	形式	u_long CdReadCallback(void (*func)())
+
+	引数	func	コールバック関数
+
+	解説	CdRead() 終了時に呼ばれるコールバックを定義する。
+		リードが終了した時に func が呼び出される。func に 0
+		を指定した場合は、コールバックは発生しない。
+	
+	返り値	以前に設定されたコールバックのアドレス
+
+	備考	func 内では以降の描画終了割り込みはマスクされる。従って
+		funcは必要な処理を終了したらすみやかにリターンする必要が
+		ある。
+
+CdDataCallback	CdGetSector 終了のコールバック関数を定義		
+
+	形式	int CdDataCallback(void (*func)()) 
+									
+	引数	func	コールバック関数				
+									
+	解説	CdGetSector() 終了時に呼ばれるコールバックを定義する。	
+		リードが終了した時に func が呼び出される。func に 0	
+		を指定した場合は、コールバックは発生しない。		
+									
+	返り値	以前に設定されたコールバックのアドレス			
+									
+	備考	func 内では以降の描画終了割り込みはマスクされる。従って	
+		funcは必要な処理を終了したらすみやかにリターンする必要が
+		ある。							
+									
+CdRead		複数セクタリード
+
+	形式	int CdRead(int sectors, u_long *buf, int mode)
+	
+	引数	sectors	読み込むセクタ数
+		buf	読み込みバッファ
+		mode	CD-ROM モード（CdlSetmode で与えるモード）	+
+	
+	解説	CD-ROM から sectors のデータを読み込み、メインメモリの
+		buf 以下に展開する。読み込み開始位置は最後にCdlSeekL/
+		CdlSetlocを発行した際のターゲットポジションか、最後に 
+		CdRead() で読みだしたセクタの次のセクタになる。
+	
+	返り値	0	コマンド発行失敗
+		1	コマンド発行成功
+	
+	備考	ノンブロック関数であるため、実際の転送の終了は CdReadSync()
+		で検出する必要がある。
+		なお、CdSync() は、CdRead() が内部で発行する CdlReadN コマ
+		ンドが終了した時点でCdlComplete を返す。CdReady() は、セク
+		タデータがセクタバッファ上に用意された時点で CdlDataReady
+		を返す。
+		サブシステムモードに CdlModeDA を指定することはできな	+
+		い。							+
+	
+CdRead2		リード開始
+
+	形式	int CdRead2(long mode)
+	
+ 	引数	mode	CD-ROM モード（CdlSetmode で与えるモード）	+
+ 
+ 	解説	CD-ROMのヘッドを CdlSetlocされたポジションに シークしリード
+ 		を開始する。
+ 		モードにCdlModeStreamを付加した場合は ストリーミングを開始
+ 		する。
+ 		モードにCdlModeRTを付加した場合は ADPCMの再生を開始する。
+ 
+ 		データのリードする場合は DataReadyのタイミングに同期させて
+ 		CdGetSector()を呼ぶ という部分を ユーザプログラムで
+ 		コーディングする必要がある。
+ 
+ 	返り値	0	コマンド発行失敗
+ 		1	コマンド発行成功
+ 	
+ 
+CdGetToc	TOC リード
+
+	形式	int CdGetToc(CdlLOC *loc) 
+
+	引数	loc	ロケーションテーブル
+	
+	解説	CD-ROM 上の各トラックの先頭ポジションを得る。
+		
+	返り値	正整数	トラックの個数
+		以外	エラー
+	
+	備考	トラックの最大個数は１００
+	
+CdSearchFile	CD-ROM 上のファイル名から位置とサイズを獲得
+
+	形式	CdlFILE *CdSearchFile(CdlFILE *fp, char *name)
+	
+	引数	fp	CD-ROM ファイル構造体のポインタ
+		char	ファイル名
+	
+	解説	CD-ROM 上のファイル名から絶対位置（分・秒・セクタ）と
+		サイズを知る。結果は *fp に格納される。
+	
+	返り値	0		ファイルが見つからない
+		-1		サーチに失敗
+		それ以外	獲得された CD-ROM ファイル構造体のポイ
+				ンタ
+	
+	備考	ファイル名は全て絶対パスでかかれなくてはいけない。
+	
+		fp で指定されたファイルと同じディレクトリにあるファイルの
+		位置情報はメモリにキャッシュされる。そのため同一ディレ
+		クトリ内のファイルに続けて CdSearchFile() を行なう場合
+		は２回目以降のアクセスは高速になる。
+
+		返り値が -1 の場合は何らかの理由でディレクトリのリードに
+		失敗したことを示す。
+
+CdIntToPos	絶対セクタ番号から分・秒・セクタを得る。
+
+	形式	CdlLOC *CdIntToPos(int i, CdlLOC *p) 
+
+	引数	i	絶対セクタ番号
+		p	分・秒・セクタ
+	
+	解説	絶対セクタ番号から分・秒・セクタの値を計算する。
+	
+	返り値	p 
+	
+CdPosToInt	分・秒・セクタから絶対セクタ番号を得る。
+
+	形式	int CdPosToInt(CdlLOC *p)
+	
+	引数	p	分・秒・セクタ
+	
+	解説	分・秒・セクタから、絶対セクタ番号の値を計算する。
+	
+	返り値	絶対セクタ番号 
+	
+CdIntstr	コマンドの処理状態に対応する文字列を得る（デバッグ用）
+
+	形式	char *CdIntstr(u_char intr)
+	
+	引数	intr	実行状態コード
+	
+	解説	デバッグ用。
+		処理状態コードから対応する文字列を得る。
+	
+		======================================
+		処理状態	文字列
+		--------------------------------------
+		CdlNoIntr	"CdlNoIntr"	
+		CdlComplete	"CdlComplete"	
+		CdlDiskError	"CdlDiskError"	
+		--------------------------------------
+	
+	返り値	文字列の先頭ポインタ
+	
+CdComstr	コマンドのコードに対応する文字列を得る（デバッグ用）
+
+	形式	char *CdComstr(u_char com)
+	
+	引数	code	コマンド終了コード
+	
+	解説	デバッグ用。
+		処理状態コードから対応する文字列を得る。
+		例えばコードに応じて以下のような文字列を得る。
+	
+		======================================
+		コマンドコード	文字列
+		--------------------------------------
+		CdlNop		"CdlNop"		
+		CdlSetloc	"CdlSetloc"	
+		CdlPlay		"CdlPlay"		
+		CdlForward	"CdlForward"	
+		CdlBackword	"CdlBackword"	
+			・・・・・
+		--------------------------------------
+	
+	返り値	文字列の先頭ポインタ
+
+*関数・マクロ一覧
+
+CdInit		CD-ROM サブシステムの初期化
+CdReset		
+CdFlush		
+CdSetDebug	デバッグレベルを設定
+CdMix		アッテネータの設定
+CdStatus	直近の CD-ROM のステータスを獲得
+CdControl	CD-ROM サブシステムにプリミティブコマンドを発行
+CdControlB	CD-ROM サブシステムにプリミティブコマンドを発行（ブロック型）
+CdControlF	CD-ROM サブシステムにプリミティブコマンドを発行（高速型）
+CdLastCom	最後に発行したコマンドコードを獲得
+CdGetSector	セクタバッファのデータをメインメモリへ転送する		
+CdSync		プリミティブコマンドの終了を待つ
+CdReady		CD-ROM からのデータが準備できるのをを待つ
+CdDataSync	CdGetSector の終了を待つ				
+CdReadSync	CdRead の終了を待つ
+CdSyncCallback	CdSync コールバック関数を定義
+CdReadyCallback	CdReady コールバック関数を定義
+CdReadCallback	CdRead コールバック関数を定義
+CdDataCallback	CdGetSector 終了のコールバック関数を定義		
+CdRead		複数セクタリード
+CdRead2		リード開始
+CdGetToc	TOC リード
+CdSearchFile	CD-ROM 上のファイル名から位置とサイズを獲得
+CdIntToPos	絶対セクタ番号から分・秒・セクタを得る。
+CdPosToInt	分・秒・セクタから絶対セクタ番号を得る。
+CdIntstr	コマンドの処理状態に対応する文字列を得る（デバッグ用）
+CdComstr	コマンドのコードに対応する文字列を得る（デバッグ用）

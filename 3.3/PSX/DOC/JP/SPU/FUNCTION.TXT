@@ -1,0 +1,2479 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+			  PlayStation(R) 基本サウンドライブラリ関数詳説
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	     Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
+						    All Rights Reserved.
+
+		$Id: function.txt,v 1.32 1995/10/17 06:35:37 kaol Exp $
+
+注意: 以下の記述において、マクロ名の統一により SPU_ON, SPU_OFF などの
+      定数マクロを使用していますが、後方互換性を確保し、従来通りの
+      SpuOn, SpuOff などの定数マクロもプログラム中で同じ値として使用可
+      能となっております。
+
+      行末に -, + がついている行は以下の意味を持ちます。
+
+	-	前バージョンに記述された内容で、今回のバージョンで削除
+		される行。次のバージョンで完全に削除される。
+
+	+	今回のバージョンで追加される行。
+
+      `-' がつく行と `+' がつく行が連続している場合は、`-' がつく行の
+      中に変更があり、その行が `+' がつく行で置き換わる、という意味で
+      す。このパラグラフは前バージョンにありませんでしたので、よってこ
+      のパラグラフにも行末に `+' がついています。
+
+
+* 1 初期化
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuInit			SPUの初期化
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuInit (void)
+
+    引数
+
+	なし
+
+    解説
+
+	SPU の初期化を行う。実行するプログラム内で 1 回のみ呼ばれる。
+	初期化後、以下のような状態になる。
+
+		- 主音量は L/R とも 0
+		- リバーブはオフ
+		- リバーブワークエリアは予約していない
+		- リバーブ Depth は L/R とも 0
+		- リバーブ音量は L/R とも 0
+		- サウンドバッファへの転送モードは DMA 転送
+		- 全ボイスにおいて
+			* Key off
+			* Pitch LFO 機能未設定
+			* Noise 機能未設定
+			* Reverb 機能未設定
+		- CD 入力音量は L/R とも 0
+		- 外部デジタル入力音量は L/R とも 0
+		- DMA 転送の初期化設定
+
+	サウンドバッファの状態は初期化後不定となる。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuInitHot, SpuStart, SpuQuit
+
+
+SpuInitHot		SPUの初期化(ホットリセット)
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuInitHot (void)
+
+    引数
+
+	なし
+
+    解説
+
+	SPU の初期化を行う。Exec 関連関数を使用し、子プロセスの中でサ
+	ウンドバッファの状態を保存したままサウンドシステムを初期化した
+	い場合、SpuInitHot() を呼ぶ。初期化後、以下のような状態になる。
+
+		- 主音量は L/R とも 0
+		- リバーブはオフ
+		- リバーブワークエリアは予約していない
+		- リバーブ Depth は L/R とも 0
+		- リバーブ音量は L/R とも 0
+		- サウンドバッファへの転送モードは DMA 転送
+		- 全ボイスにおいて
+			* Key off
+			* Reverb 機能未設定
+		- DMA 転送の初期化設定
+
+	サウンドバッファの状態は初期化後保存される。ただし、ハード
+	ウェアリセットの場合はこの限りではない。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuInit, SpuStart, SpuQuit
+
+
+SpuStart		SPU処理の開始
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuStart (void)
+
+    引数
+
+	なし
+
+    解説
+
+	SPU 処理の開始を行う。SpuInit() でも呼ばれているため、初期化時
+	に呼ぶ必要はないが、SpuQuit() の呼出し後、SpuQuit() でオフされ
+	た機能を使用する場合に呼ばれる。
+
+	現在の仕様では、呼び出し後、以下のような処理が行われる。
+
+		- DMA 転送の初期化設定
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuQuit, SpuInit, SpuInitHot
+
+
+SpuQuit			SPU処理の終了
+────────────────────────────────────
+    形式
+
+	void
+	SpuQuit (void)
+
+    引数
+
+	なし
+
+    解説
+
+	SPU 処理の終了を行う。通常、ゲームの際にはハードウェアリセット
+	に SPU を含む全てのデバイスがリセットされるので SpuQuit を呼ぶ
+	必要はないが、デバッグ環境の元では SpuQuit を呼ぶことにより、
+	現在の仕様では、以下の内容がリセットされる。
+
+		- DMA 転送の設定オフ (以降サウンドバッファに対する DMA
+		  転送は使えなくなる)
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuInit, SpuInitHot
+
+
+* 2 ミュート
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetMute		サウンドのミュートオン/オフ
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetMute (long on_off)
+
+    引数
+
+	on_off:	= SPU_ON  ... ミュートオン設定
+		= SPU_OFF ... ミュートオフ設定
+
+    解説
+
+	サウンドのミュートのオン/オフを設定する。
+
+	但し、CD 入力、及び外部デジタル入力はこのミュートオン/オフによっ
+	てミュートされない。
+
+    返り値
+
+	設定された値
+
+		SPU_ON  ... ミュートオン
+		SPU_OFF ... ミュートオフ
+
+    関連項目
+
+	SpuGetMute
+
+
+SpuGetMute		サウンドのミュートの状態を診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuGetMute (void)
+
+    引数
+
+	なし
+
+    解説
+
+	サウンドの現在のミュートのオン/オフの状態を診断する。
+
+    返り値
+
+ 	現在設定されている値
+
+		SPU_ON  ... ミュートオン
+		SPU_OFF ... ミュートオフ
+
+    関連項目
+
+	SpuSetMute
+
+
+* 3 割り込みリクエスト
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetIRQ		割り込みリクエストのオン/オフ
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetIRQ (long on_off)
+
+    引数
+
+	on_off:	= SPU_ON    ... 割り込みリクエスト設定
+		= SPU_OFF   ... 割り込みリクエスト解除
+		= SPU_RESET ... 割り込みリクエストリセット
+			       (= 解除後設定)
+
+    解説
+
+	割り込みリクエストのオン/オフを設定する。
+
+    返り値
+
+	設定された値
+
+		SPU_ON    ... 割り込みリクエスト設定
+		SPU_OFF   ... 割り込みリクエスト解除
+		SPU_RESET ... 割り込みリクエストリセット
+
+    関連項目
+
+	SpuGetIRQ
+
+
+SpuGetIRQ		割り込みリクエストのオン/オフの状態を診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuGetIRQ (void)
+
+    引数
+
+	なし
+
+    解説
+
+	割り込みリクエストのオン/オフの状態を診断する。
+
+    返り値
+
+	現在設定されている値
+
+		SPU_ON  ... 割り込みリクエスト設定
+		SPU_OFF ... 割り込みリクエスト解除
+
+    関連項目
+
+	SpuSetIRQ
+
+
+SpuSetIRQAddr		割り込みリクエストのアドレスの設定
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuSetIRQAddr (unsigned long addr)
+
+    引数
+
+	addr:	割り込みリクエストがかかるアドレス
+
+    解説
+
+	割り込みリクエストがかかるアドレスの値を設定する。ただしアドレ
+	スの値は
+
+		- バイト単位
+		- 8 で割り切れる数
+		- 512 KB 以内
+
+	でなければならない。
+
+    返り値
+
+	設定されたアドレスの値
+
+	設定したアドレス addr の値が 8 で割り切れなかった場合には、設
+	定された値を 8 で割り切れる値に繰り上げた値が設定され、返され
+	る。
+	512 KB を超えている場合は 0 を返す。
+
+    関連項目
+
+	SpuGetIRQAddr, SpuSetIRQ, SpuGetIRQ
+
+
+SpuGetIRQAddr		割り込みリクエストのアドレスの診断
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuGetIRQAddr (void)
+
+    引数
+
+	なし
+
+    解説
+
+	割り込みリクエストがかかるアドレスの値を返す。
+
+    返り値
+
+	現在設定されているアドレスの値
+
+    関連項目
+
+	SpuSetIRQAddr, SpuSetIRQ
+
+
+SpuSetIRQCallback	割り込みリクエスト時のCallback関数の設定
+────────────────────────────────────
+
+    形式
+
+	SpuIRQCallbackProc
+	SpuSetIRQCallback (SpuIRQCallbackProc func)
+
+    引数
+
+	func:	 割り込みリクエスト時に起動される Callback 関数
+
+    解説
+
+	割り込みリクエストが起こった時に起動されるCallback 関数を設定
+	する。
+
+	Callback 関数の値としてNULL を設定した場合には、Callback 関数
+	はクリアされる。
+
+    型
+
+	typedef void (*SpuIRQCallbackProc)(void);
+
+    返り値
+
+	以前設定されていた Callback 関数へのポインタのアドレス。
+	設定されていなければ NULL が返る。
+
+    関連項目
+
+	SpuSetIRQ, SpuSetIRQAddr
+
+
+* 4 各ボイス
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetVoiceAttr		各ボイスの属性を設定
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuSetVoiceAttr (SpuVoiceAttr *attr)
+
+    引数
+
+	attr:	各ボイス属性
+
+    解説
+
+	各ボイスの属性を設定する
+
+	attr.voice にはSPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で
+	設定するボイスを明示的に設定する。
+
+	attr.mask に、設定したい属性の
+
+		SPU_VOICE_VOLL		音量(左)
+		SPU_VOICE_VOLR		音量(右)
+		SPU_VOICE_VOLMODEL	音量モード(左)
+		SPU_VOICE_VOLMODER	音量モード(右)
+		SPU_VOICE_PITCH		音程(ピッチ指定)
+		SPU_VOICE_NOTE		音程(ノート指定)
+		SPU_VOICE_SAMPLE_NOTE	波形データサンプルノート
+		SPU_VOICE_WDSA		波形データ先頭アドレス
+		SPU_VOICE_ADSR_AMODE	ADSR Attack rate モード
+		SPU_VOICE_ADSR_SMODE	ADSR Sustain rate モード
+		SPU_VOICE_ADSR_RMODE	ADSR Release rate モード
+		SPU_VOICE_ADSR_AR	ADSR Attack rate
+		SPU_VOICE_ADSR_DR	ADSR Decay rate
+		SPU_VOICE_ADSR_SR	ADSR Sustain rate
+		SPU_VOICE_ADSR_RR	ADSR Release rate
+		SPU_VOICE_ADSR_SL	ADSR Sustain level
+		SPU_VOICE_ADSR_ADSR1	ADSR adsr1 for `VagAtr'
+		SPU_VOICE_ADSR_ADSR2	ADSR adsr2 for `VagAtr'
+		SPU_VOICE_LSAX		ループ開始アドレス
+
+	のビット和を与えることで各属性のみの設定が可能。
+
+	attr.mask が 0 の場合は全属性を設定する。
+
+
+	以下に個々の設定条件を説明する。
+
+     -  音量と音量モード (表 1)
+
+	以下に各音量モードと、各音量モードにおいて設定できる音量の範囲
+	を掲げる。
+
+	表 1:  音量モードと音量の設定範囲
+	────────────────────────────────
+	モード			SPU_VOICE_VOLMODEx	SPU_VOICE_VOLx
+	────────────────────────────────
+	ダイレクトモード	SPU_VOICE_DIRECT       -0x4000 ～ 0x3fff
+	リニア増加モード(正相)	SPU_VOICE_LINEARIncN	  0x00 ～ 0x7f
+	リニア増加モード(逆相)	SPU_VOICE_LINEARIncR	  0x00 ～ 0x7f
+	リニア減少モード(正相)	SPU_VOICE_LINEARDecN	  0x00 ～ 0x7f
+	リニア減少モード(逆相)	SPU_VOICE_LINEARDecR	  0x00 ～ 0x7f
+	指数増加モード(正相)	SPU_VOICE_EXPIncN	  0x00 ～ 0x7f
+	指数増加モード(逆相)	SPU_VOICE_EXPIncR	  0x00 ～ 0x7f
+	指数減少モード		SPU_VOICE_EXPDec	  0x00 ～ 0x7f
+	────────────────────────────────
+
+	[ダイレクトモード]
+
+		音量一定のモード。通常の使用にはこのモードで発音される。
+
+		設定された音量が負の場合は位相が反転する。この位相が反
+		転した状態で、以下の `逆相' モードが有効となる。
+
+	[リニア増加モード(正相)]
+
+		現在の音量が正の値で発音された状態でこのモードを指定す
+		ると、現在の音量から音量最大値まで、音量が直線的に増加
+		する。
+
+	[リニア増加モード(逆相)]
+
+		現在の音量が負の値 (= 位相が反転した状態)で発音された
+		状態でこのモードを指定すると、現在の音量から音量最大値
+		まで、位相が反転した状態で、音量が直線的に増加する。
+
+	[リニア減少モード(正相)]
+
+		現在の音量が正の値で発音された状態でこのモードを指定す
+		ると、現在の音量から音量最小値 (= ボリューム 0)まで、
+		音量が直線的に減少する。
+
+	[リニア減少モード(逆相)]
+
+		現在の音量が負の値(= 位相が反転した状態)で発音された状
+		態でこのモードを指定すると、現在の音量から音量最小値
+		(= ボリューム 0) まで、位相が反転した状態で、音量がリニ
+		アに減少する。
+
+	[指数増加モード(正相)]
+
+		現在の音量が正の値で発音された状態でこのモードを指定す
+		ると、現在の音量から音量最大値まで、音量が指数関数的に
+		増加する。
+
+	[指数増加モード(逆相)]
+
+		現在の音量が負の値 (= 位相が反転した状態)で発音された
+		状態でこのモードを指定すると、現在の音量から音量最大値
+		まで、位相が反転した状態で、音量が指数関数的に増加する。
+
+	[指数減少モード]
+
+		このモードを指定すると、現在の音量の値が正/負に関わら
+		ず、現在の音量から音量最小値 (= ボリューム 0) まで、音
+		量が指数関数的に減少する。
+
+      - 音程 (ピッチ指定、ノート指定)
+
+	音程を以下の2 つの表現で指定出来る。
+
+	[ピッチ指定]
+
+	音程を 0x0000 ～ 0x3fff の範囲で attr.pitch に設定する。その値
+	の意味は表 2 を参照。表中にはオクターブ単位の値しか掲げていな
+	いが、0x0000 ～ 0x3fff の範囲で任意に設定することが出来る。
+
+	表 2:  ピッチ指定の値と音程
+	───┬────┬────┬────┬───┬────┬────
+	設定値│ 0x0200 │ 0x0400 │ 0x0800 │0x1000│ 0x2000 │ 0x3fff
+	───┼────┼────┼────┼───┼────┼────
+	音程  │- 3 oct.│- 2 oct.│- 1 oct.│ 原音 │+ 1 oct.│+ 2 oct.
+	───┴────┴────┴────┴───┴────┴────
+
+	[ノート指定]
+
+	音程をノートとセント (ここでは半音を 128 分割した値) で 16 bit
+	の値により attr.note に以下のように設定する。
+	ただし、この指定は後述の `波形データサンプルノート' が指定され
+	ていないと使用できない。
+
+	表 3:  ノート指定の値
+	───────┬────────────────────────
+	ビット	      │設定する値
+	───────┼────────────────────────
+	上位 8 ビット:│MIDI ノート番号
+	下位 8 ビット:│セント (半音を 128 に分割した値で表現)
+	───────┴────────────────────────
+
+      - 波形データサンプルノート
+
+	サンプリングされた時の音程をノートとセント (ここでは半音を 128
+	分割した値) で 16 bit の値により attr.sample_note に以下のよう
+	に設定する。
+	この値を設定することにより前述の `音程/ノート指定' の指定が可
+	能になる。
+
+	表 4:  波形データサンプルノート指定の値
+	───────┬────────────────────────
+	ビット	      │設定する値
+	───────┼────────────────────────
+	上位 8 ビット:│MIDI ノート番号
+	下位 8 ビット:│セント (半音を 128 に分割した値で表現)
+	───────┴────────────────────────
+
+      - 波形データ先頭アドレス
+
+	ボイスに発音させたい波形データのサウンドバッファ内の先頭アドレ
+	スを attr.addr に設定する。
+
+      - ループ開始アドレス
+
+	ループを指定して作成された波形データに対して、ボイスに発音させ
+	るためにその波形データが保存されているサウンドバッファ内のアド
+	レスを上記 `波形データ先頭アドレス' で設定すると、通常はループ
+	開始アドレスは自動的に判別し設定されるので、明示的に設定する必
+	要はない。
+	しかし、実行時にループ開始アドレスを動的に設定したい場合にはサ
+	ウンドバッファ内のループを設定するアドレスを attr.loop_addr に
+	設定する。
+
+	波形データの作成時にループ設定を行っていなかった場合は、
+	SPU_VOICE_LSAX を指定して attr.loop_addr に設定しても、その設
+	定は無効になる。
+
+      - ADSR
+
+	ADSR の概念図を以下に掲げる(図2)。
+
+
+		       (ADSR.BMP を御覧下さい)
+
+			 図 2: ADSR の概念図
+
+	ADSR のそれぞれの属性は以下の構造体メンバで設定する (表 5)。
+
+	表 5: パラメータと設定する構造体メンバ
+	────┬───────┬───────────────────
+		│属性		│構造体メンバ
+	────┼───────┼───────────────────
+	Rate:	│Attack rate	│attr.ar, attr.a_mode
+		│Decay rate	│attr.dr
+		│Sustain rate	│attr.sr, attr.s_mode
+		│Release rate	│attr.rr, attr.r_mode
+	────┼───────┼───────────────────
+	Level:	│Sustain level	│attr.sl
+	────┴───────┴───────────────────
+
+	各属性はそれぞれ表 6 の範囲で設定を行う。
+
+	表 6:  rate, level の設定範囲
+	────────┬───────┬───────────────
+	属性		│構造体メンバ	│設定範囲
+	────────┼───────┼───────────────
+	Attack rate	│attr.ar	│0x00 ～ 0x7f
+	Decay rate	│attr.dr	│ 0x0 ～ 0xf
+	Sustain rate	│attr.sr	│0x00 ～ 0x7f
+	Release rate	│attr.rr	│0x00 ～ 0x1f
+	Sustain level	│attr.sl	│ 0x0 ～ 0xf
+	────────┴───────┴───────────────
+
+	Attack, Sustain, Release それぞれにrate のカーブの設定ができる
+	(表 7)。Decay については指数関数減少のみとなっているため、設定
+	できない。
+
+	表 7: ADSR rate モード
+	────────┬───────────────────────
+	属性		│attr.?_mode に設定できるモード
+	────────┼───────────────────────
+	Attack rate	│SPU_VOICE_LINEARIncN (リニア増加)
+			│SPU_VOICE_EXPIncN    (指数関数増加)
+	Decay rate	│N/A
+	Sustain rate	│SPU_VOICE_LINEARIncN (リニア増加)
+			│SPU_VOICE_LINEARDecN (リニア減少)
+			│SPU_VOICE_EXPIncN    (指数関数増加)
+			│SPU_VOICE_EXPDecN    (指数関数減少)
+	Release rate	│SPU_VOICE_LINEARDecN (リニア減少)
+			│SPU_VOICE_EXPDecN    (指数関数減少)
+	────────┴───────────────────────
+
+	また、構造体 VagAtr のメンバ adsr1, adsr2 からのデータを
+	attr.adsr1, attr.adsr2 に直接指定することもできる。この場合
+	attr.mask には ADSR の指定に関して SPU_VOICE_ADSR_ADSR1,
+	SPU_VOICE_ADSR_ADSR2 のみ指定する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuRSetVoiceAttr, SpuGetVoiceAttr, SpuSetKey,
+	SpuSetKeyOnWithAttr
+
+
+SpuGetVoiceAttr		ボイスの属性を診断
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuGetVoiceAttr (SpuVoiceAttr *attr)
+
+    引数
+
+	attr: ボイス属性
+
+    解説
+
+	ボイスの属性を診断する
+
+	attr.voice には SPU_0CH, SPU_1CH, ..., SPU_23CH にて診断する
+	ボイスを明示的に 1 つだけ設定する。attr の構造体メンバについて
+	は、mask 以外全ての属性が返る。それぞれの属性の詳細については、
+	SpuSetVoiceAttr を参照。
+
+    返り値
+
+	なし (引数 attr が返り値となる)
+
+    関連項目
+
+	SpuSetVoiceAttr, SpuRSetVoiceAttr, SpuSetKey,
+	SpuSetKeyOnWithAttr
+
+
+SpuRSetVoiceAttr	指定した範囲の各ボイスの属性を設定
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuSetVoiceAttr (long min, long max, SpuVoiceAttr *attr)
+
+    引数
+
+	min:	診断するボイス番号の下限
+	max:	診断するボイス番号の上限
+	attr:	各ボイス属性
+
+    解説
+
+	min, max で指定した範囲のボイスに対して各ボイスの属性を設定す
+	る。
+
+	attr.voice には min, max で指定した範囲のボイスのなかで、
+	SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で設定するボイスを明
+	示的に設定する。min, max で指定した範囲を外れている場合は無視
+	される。
+
+	attr.mask に、設定したい属性の
+
+		SPU_VOICE_VOLL		音量(左)
+		SPU_VOICE_VOLR		音量(右)
+		SPU_VOICE_VOLMODEL	音量モード(左)
+		SPU_VOICE_VOLMODER	音量モード(右)
+		SPU_VOICE_PITCH		音程(ピッチ指定)
+		SPU_VOICE_NOTE		音程(ノート指定)
+		SPU_VOICE_SAMPLE_NOTE	波形データサンプルノート
+		SPU_VOICE_WDSA		波形データ先頭アドレス
+		SPU_VOICE_ADSR_AMODE	ADSR Attack rate モード
+		SPU_VOICE_ADSR_SMODE	ADSR Sustain rate モード
+		SPU_VOICE_ADSR_RMODE	ADSR Release rate モード
+		SPU_VOICE_ADSR_AR	ADSR Attack rate
+		SPU_VOICE_ADSR_DR	ADSR Decay rate
+		SPU_VOICE_ADSR_SR	ADSR Sustain rate
+		SPU_VOICE_ADSR_RR	ADSR Release rate
+		SPU_VOICE_ADSR_SL	ADSR Sustain level
+		SPU_VOICE_ADSR_ADSR1	ADSR adsr1 for `VagAtr'
+		SPU_VOICE_ADSR_ADSR2	ADSR adsr2 for `VagAtr'
+		SPU_VOICE_LSAX		ループ開始アドレス
+
+	のビット和を与えることで各属性のみの設定が可能。
+
+	attr.mask が 0 の場合は全属性を設定する。
+
+	それぞれの属性の詳細については、SpuSetVoiceAttr を参照
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuSetVoiceAttr, SpuGetVoiceAttr, SpuSetKey, SpuSetKey,
+	SpuSetKeyOnWithAttr
+
+
+SpuSetKey		各ボイスに対してキーオン/キーオフを設定
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuSetKey (long on_off, unsigned long voice_bit)
+
+    引数
+
+	on_off:		= SPU_ON  ... キーオン設定
+			= SPU_OFF ... キーオフ設定
+	voice_bit:	設定するボイス
+
+    解説
+
+	各ボイスに対してキーオン/キーオフを設定する。
+
+	voice_bit には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で設
+	定する。
+
+    返り値
+
+	なし
+
+    サンプル
+
+	ボイス 0 とボイス 2 にキーオンを設定する際には以下のようにして
+	SpuSetKey を呼ぶ。
+
+	SpuSetKey (SPU_ON,		/* キーオン設定*/
+		   SPU_0CH | SPU_2CH);	/* 0ch と 2ch */
+
+    関連項目
+
+	SpuSetKeyOnWithAttr, SpuSetVoiceAttr
+
+
+SpuSetKeyOnWithAttr	ボイスに対してキーオンを属性付きで設定
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuSetKeyOnWithAttr (SpuVoiceAttr *attr)
+
+    引数
+
+	attr: 各ボイス属性
+
+    解説
+
+	各ボイスに対して属性を指定して、キーオンを設定する。
+
+	attr.voice には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で設
+	定し、発音するボイスを明示的に設定する。
+
+	attr.mask に、設定したい属性の
+
+		SPU_VOICE_VOLL		音量(左)
+		SPU_VOICE_VOLR		音量(右)
+		SPU_VOICE_VOLMODEL	音量モード(左)
+		SPU_VOICE_VOLMODER	音量モード(右)
+		SPU_VOICE_PITCH		音程(ピッチ指定)
+		SPU_VOICE_NOTE		音程(ノート指定)
+		SPU_VOICE_SAMPLE_NOTE	波形データサンプルノート
+		SPU_VOICE_WDSA		波形データ先頭アドレス
+		SPU_VOICE_ADSR_AMODE	ADSR Attack rate モード
+		SPU_VOICE_ADSR_SMODE	ADSR Sustain rate モード
+		SPU_VOICE_ADSR_RMODE	ADSR Release rate モード
+		SPU_VOICE_ADSR_AR	ADSR Attack rate
+		SPU_VOICE_ADSR_DR	ADSR Decay rate
+		SPU_VOICE_ADSR_SR	ADSR Sustain rate
+		SPU_VOICE_ADSR_RR	ADSR Release rate
+		SPU_VOICE_ADSR_SL	ADSR Sustain level
+		SPU_VOICE_LSAX		ループ開始アドレス
+		SPU_VOICE_ADSR_ADSR1	ADSR adsr1 for `VagAtr'
+		SPU_VOICE_ADSR_ADSR2	ADSR adsr2 for `VagAtr'
+
+	のビット和を与えることで各属性のみの設定が可能。attr.mask が 0 
+	の場合は全属性を設定する。
+
+	それぞれの属性の詳細については、SpuSetVoiceAttr を参照
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuSetKey, SpuSetVoiceAttr, SpuGetVoiceAttr
+
+
+SpuGetKeyStatus		指定したボイスに対してキーオン/キーオフを診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuGetKeyStatus (unsigned long voice_bit)
+
+    引数
+
+	voice_bit:	診断するボイス
+
+    解説
+
+	指定したボイスに対してキーオン/キーオフ、及びエンベロープの
+	状態を診断して現実的なキーオン/キーオフを診断する。
+
+	voice_bit には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で診
+	断するボイスを明示的に設定する。ただし 1 回の関数呼び出しで得
+	られるボイスの属性は 1 ボイスのみであるため、指定したボイス番
+	号の一番小さいものが選ばれる。
+
+	エンベロープの状態は、複雑なエンベロープを設定し、エンベロープ
+	の状態遷移の過程で音量が 0 になる状態が起こり得る場合は、誤認
+	識を起こす恐れがある。
+
+    返り値
+
+	指定したボイスの現在のキーオン/キーオフ、及びエンベロープの
+	状態
+
+		SPU_ON         ... キーオン状態
+				・SpuSetKey でオフされていない
+				・エンベロープも 0 になっていない
+		SPU_ON_ENV_OFF ... キーオン状態
+				・SpuSetKey でオフされていない
+				・エンベロープは 0 になっている
+		SPU_OFF_ENV_ON ... キーオフ状態
+				・SpuSetKey でオフされている
+				・エンベロープは 0 になっていない
+		SPU_OFF        ... キーオフ状態
+				・SpuSetKey でオフされている
+				・エンベロープは 0 になっている
+
+	指定したボイスが正しくなかった場合は -1 を返す。
+
+    関連項目
+
+	SpuSetKey, SpuGetAllKeysStatus
+
+
+SpuGetAllKeysStatus	全てのボイスに対してキーオン/キーオフを診断
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuGetAllKeysStatus (char *status)
+
+    引数
+
+	status [24]:	診断したボイスの結果
+
+    解説
+
+	全ボイスに対してキーオン/キーオフ、及びエンベロープの状態を診
+	断して現実的なキーオン/キーオフを診断する。
+
+	エンベロープの状態は、複雑なエンベロープを設定し、エンベロープ
+	の状態遷移の過程で音量が 0 になる状態が起こり得る場合は、誤認
+	識を起こす恐れがある。
+
+    返り値
+
+	status [24] に各ボイスの現在のキーオン/キーオフ、及びエンベロー
+	プの状態が返される。
+
+		SPU_ON         ... キーオン状態
+				・SpuSetKey でオフされていない
+				・エンベロープも 0 になっていない
+		SPU_ON_ENV_OFF ... キーオン状態
+				・SpuSetKey でオフされていない
+				・エンベロープは 0 になっている
+		SPU_OFF_ENV_ON ... キーオフ状態
+				・SpuSetKey でオフされている
+				・エンベロープは 0 になっていない
+		SPU_OFF        ... キーオフ状態
+				・SpuSetKey でオフされている
+				・エンベロープは 0 になっている
+
+    関連項目
+
+	SpuSetKey, SpuGetKeyStatus, SpuRGetAllKeysStatus
+
+
+SpuRGetAllKeysStatus	指定した範囲のボイスに対してキーオン/キーオフを診断
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuRGetAllKeysStatus (long min, long max, char *status)
+
+    引数
+
+	min:		診断するボイス番号の下限
+	max:		診断するボイス番号の上限
+	status [24]:	診断したボイスの結果
+
+    解説
+
+	min, max で指定した範囲のボイスに対してキーオン/キーオフ、及び
+	エンベロープの状態を診断して現実的なキーオン/キーオフを診断
+	する。
+
+	エンベロープの状態は、複雑なエンベロープを設定し、エンベロープ
+	の状態遷移の過程で音量が 0 になる状態が起こり得る場合は、誤認
+	識を起こす恐れがある。
+
+    返り値
+
+	status [24] に指定した各ボイスの現在のキーオン/キーオフ、及び
+	エンベロープの状態が返される。指定しなかった範囲のボイスについ
+	ては不定である。
+
+		SPU_ON         ... キーオン状態
+				・SpuSetKey でオフされていない
+				・エンベロープも 0 になっていない
+		SPU_ON_ENV_OFF ... キーオン状態
+				・SpuSetKey でオフされていない
+				・エンベロープは 0 になっている
+		SPU_OFF_ENV_ON ... キーオフ状態
+				・SpuSetKey でオフされている
+				・エンベロープは 0 になっていない
+		SPU_OFF        ... キーオフ状態
+				・SpuSetKey でオフされている
+				・エンベロープは 0 になっている
+
+    関連項目
+
+	SpuSetKey, SpuGetKeyStatus
+
+
+* 5 波形転送
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuWrite		メインメモリからサウンドバッファへの転送
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuWrite (unsigned char *addr, unsigned long size)
+
+    引数
+
+	addr:	転送するデータのメインメモリ内の先頭アドレス
+	size:	転送するデータのサイズ (バイト単位)
+
+    解説
+
+	メインメモリからサウンドバッファへデータを転送する。
+
+	ただし転送するデータが保持されているメインメモリのアドレスは、
+
+		- 大域変数として取られた変数へのアドレス
+		- malloc などでヒープ領域に取られた変数へのアドレス
+
+	でなければならない。すなわち、
+
+		- スタック領域へのアドレスであってはならない
+		  = 関数内で宣言された変数 (= auto 変数) へのアドレス
+		    であってはならない
+
+	SpuWrite において、サウンドバッファのメモリ管理は行わないので、
+	ユーザは以下の領域を避けた領域へ転送を行わなければ実質的な波形
+	データとして利用できない。
+
+		- 0x0000 ～ 0xfff までのSPU デコードデータ転送領域
+		- 0x1000 ～ 0x100f のシステム予約領域
+		- リバーブのワークエリアオフセット(先頭) アドレス以降
+
+    返り値
+
+	転送されたデータサイズ
+
+	設定したデータサイズが512 KB より大きければ、実際に転送された
+	サイズが返る。
+
+    関連項目
+
+	SpuRead, SpuSetTransferStartAddr, SpuGetTransferStartAddr
+
+
+SpuWrite0		サウンドバッファのクリア
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuWrite0 (unsigned long size)
+
+    引数
+
+	size:	クリアする領域のサイズ(バイト単位)
+
+    解説
+
+	サウンドバッファの領域に 0 を書き込む。
+
+	この書き込みは DMA 転送で行われるが、同期的に起動される。
+
+	書き込まれる領域は先頭アドレスが SpuSetTransferStartAddr で、
+	サイズが size で指定される。
+
+    返り値
+
+	0 が書き込まれた領域のサイズ
+
+	設定したデータサイズが 512 KB より大きければ、実際に書き込まれ
+	たサイズが返る。
+
+    関連項目
+
+	SpuWrite, SpuSetTransferStartAddr
+
+
+SpuWritePartly		メインメモリからサウンドバッファへの転送(部分的に分割した転送を想定)
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuWritePartly (unsigned char *addr, unsigned long size)
+
+    引数
+
+	addr:	転送するデータのメインメモリ内の先頭アドレス
+	size:	転送するデータのサイズ(バイト単位)
+
+    解説
+
+	メインメモリからサウンドバッファへデータを転送する。
+
+	ただし、転送するデータが保持されているメインメモリのアドレスは、
+
+		- 大域変数として取られた変数へのアドレス
+		-  malloc などでヒープ領域に取られた変数へのアドレス
+
+	でなければならない。すなわち、
+
+		-  スタック領域へのアドレスであってはならない
+		   = 関数内で宣言された変数 (= auto 変数) へのアドレス
+		     であってはならない
+
+	SpuSetTransferStartAddr で指定されたアドレスからデータが転送さ
+	れ、size で指定された値が転送終了後先頭アドレスに加算され設定
+	され、かつ内部的に保持される。
+
+	通常、継続的な転送の場合は、それらの転送の各回において size は
+	8 で割り切れる数でなければならない。ただし、継続的な転送の最終
+	ブロックの転送時には size は 8 で割り切れる必要はない。
+
+	継続的な転送の処理の中で SpuSetTransferStartAddr が呼ばれた場
+	合には、正しい継続的な転送は保証されない。
+
+	SpuWritePartly において、サウンドバッファのメモリ管理は行わな
+	いので、ユーザは以下の領域を避けた領域へ転送を行わなければ実質
+	的な波形データとして利用できない。
+
+		- 0x0000 ～ 0x0fff までのSPU デコードデータ転送領域
+		- 0x1000 ～ 0x100f のシステム予約領域
+		- リバーブのワークエリアオフセット(先頭) アドレス以降
+
+    返り値
+
+	転送されたデータサイズ
+
+	設定したデータサイズが 512 KB より大きければ、実際に転送された
+	サイズが返る。
+
+    関連項目
+
+	SpuWrite, SpuRead, SpuSetTransferStartAddr,
+	SpuGetTransferStartAddr
+
+
+SpuRead			サウンドバッファからメインメモリへの転送
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuRead (unsigned char *addr, unsigned long size)
+
+    引数
+
+	addr:	転送されるメインメモリ内の先頭アドレス
+	size:	転送するデータのサイズ(バイト単位)
+
+    解説
+
+	サウンドバッファからメインメモリへデータを転送する。
+
+	ただし転送されるメインメモリのアドレスは、
+
+		- 大域変数として取られた変数へのアドレス
+		- malloc などでヒープ領域に取られた変数へのアドレス
+
+	でなければならない。すなわち、
+
+		- スタック領域へのアドレスであってはならない
+		  = 関数内で宣言された変数 (= auto 変数) へのアドレス
+		    であってはならない
+
+    返り値
+
+	転送されたデータサイズ
+
+	設定したデータサイズが 512 KB より大きければ、実際に転送された
+	サイズが返る。
+
+    関連項目
+
+	SpuWrite, SpuSetTransferStartAddr, SpuGetTransferStartAddr
+
+
+SpuSetTransferStartAddr	サウンドバッファの転送先/転送元先頭アドレスの設定
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuSetTransferStartAddr (unsigned long addr)
+
+    引数
+
+	addr:	サウンドバッファ内の転送先/転送元の先頭アドレス
+
+    解説
+
+	メインメモリからサウンドバッファへ転送する際、及び、サウンドバッ
+	ファからメインメモリへ転送する際の先頭アドレスの値を設定する。
+	ただしその先頭アドレスの値は
+
+		- バイト単位
+		- 8 で割り切れる数
+		- 0x1010 以上、512 KB 以内
+
+	でなければならない。
+
+	0x0 ～ 0xfff の領域からの転送は SpuReadDecodeData を参照。	-
+	0x0 ～ 0xfff の領域からの転送は SpuReadDecodedData を参照。	+
+	0x1000 ～ 0x100f はシステム予約
+
+    返り値
+
+	設定された先頭アドレスの値
+
+	設定した先頭アドレス addr の値が 8 で割り切れなかった場合には、
+	設定された値を 8 で割り切れる値に繰り上げた値が返される。
+	0x1010 より小さい値、あるいは 512 KB を超えている場合は 0 を返
+	す。
+
+    関連項目
+
+	SpuGetTransferStartAddr, SpuWrite, SpuRead
+
+
+SpuGetTransferStartAddr	サウンドバッファの転送先/転送元先頭アドレスの診断
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuGetTransferStartAddr (void)
+
+    引数
+
+	なし
+
+    解説
+
+	現在設定されている、メインメモリからサウンドバッファへ転送する
+	際、及び、サウンドバッファからメインメモリへ転送する際の先頭ア
+	ドレスの値を返す。
+
+    返り値
+
+	現在設定されている先頭アドレスの値
+
+    関連項目
+
+	SpuSetTransferStartAddr, SpuWrite, SpuRead
+
+
+SpuSetTransferMode	サウンドバッファへの転送モードの設定
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetTransferMode (long mode)
+
+    引数
+
+	mode:	= SPU_TRANSFER_BY_DMA ... DMA 転送の指定
+		= SPU_TRANSFER_BY_IO  ... I/O 転送の指定
+
+    解説
+
+	メインメモリからサウンドバッファへ転送する際のモードを設定する。
+
+	-  DMA 転送の場合
+	   転送中も他の処理を行うことが可能
+
+	-  I/O 転送の場合
+	   CPU を使って転送を行うため、転送中には他の処理を行うことが
+	   出来ない
+
+	このモードはメインメモリからサウンドバッファへ転送する際にのみ
+	有効であり、サウンドバッファからメインメモリへ転送する際には必
+	ず DMA 転送で行われる。
+
+	本関数を呼ばなかった場合の転送は、既定値としてDMA 転送が設定さ
+	れている。
+
+    返り値
+
+	設定された転送モード
+
+		SPU_TRANSFER_BY_DMA ... DMA 転送の指定
+		SPU_TRANSFER_BY_IO  ... I/O 転送の指定
+
+    関連項目
+
+	SpuGetTransferMode, SpuWrite
+
+
+SpuGetTransferMode	サウンドバッファの転送モードの診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuGetTransferMode (void)
+
+    引数
+
+	なし
+
+    解説
+
+	現在設定されている、メインメモリからサウンドバッファへ転送する
+	際のモードを返す。
+
+    返り値
+
+	現在設定されている転送モード
+
+		SPU_TRANSFER_BY_DMA ... DMA 転送の指定
+		SPU_TRANSFER_BY_IO  ... I/O 転送の指定
+
+    関連項目
+
+	SpuSetTransferMode, SpuWrite
+
+
+SpuIsTransferCompleted	サウンドバッファへの転送終了の診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuIsTransferCompleted (long flag)
+
+    引数
+
+	flag: = SPU_TRANSFER_WAIT	転送終了まで待つ
+	      = SPU_TRANSFER_PEEK	転送終了かどうかをチェックし、
+					結果を返り値として返す。
+	      = SPU_TRANSFER_GLANCE	SPU_TRANSFER_PEEK と同じ
+
+    解説
+
+	転送が終了を診断する。
+
+	SpuSetTransferCallback を使って DMA 転送終了時に起動される
+	Callback 関数が設定された場合は	SpuIsTransferCompleted は
+	機能しない。
+
+    返り値
+
+	転送が終了しているかの状態を返す
+
+		1 ... 転送が終了している
+		0 ... 転送は終了していない
+
+	flag = SPU_TRANSFER_WAIT の場合は転送終了まで待ち、必ず
+	1 を返す。
+
+	転送モードが `I/O 転送' の場合はすぐ 1 を返す。
+
+	SpuSetTransferCallback を使って DMA 転送終了時に起動される
+	Callback 関数が設定された場合はすぐ 1 を返す。
+
+    関連項目
+
+	SpuWrite, SpuRead, SpuSetTransferCallback
+
+
+SpuSetTransferCallback	DMA転送終了時のCallback関数の設定
+────────────────────────────────────
+
+    形式
+
+	SpuTransferCallbackProc
+	SpuSetTransferCallback (SpuTransferCallbackProc func)
+
+    引数
+
+	func:	 DMA 転送終了時に起動される Callback 関数
+
+    解説
+
+	DMA 転送終了時に起動される Callback 関数を設定する。
+
+	Callback 関数の値として NULL を設定した場合には、Callback 関数
+	はクリアされる。
+
+	SpuSetTransferCallback を使って DMA 転送終了時に起動される
+	Callback 関数が設定された場合は	SpuIsTransferCompleted は
+	機能しない。
+
+    型
+
+	typedef void (*SpuTransferCallbackProc)(void);
+
+    返り値
+
+	以前設定されていた Callback 関数へのポインタのアドレス。
+	設定されていなければ NULL が返る。
+
+    関連項目
+
+	SpuWrite, SpuWrite0, SpuWritePartly, SpuRead,
+	SpuIsTransferCompleted
+
+
+* 6 SPU デコードデータ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuReadDecodeData	SPUがデコードしたサウンドデータのサウンドバッファからメインメモリへの転送-
+SpuReadDecodedData	SPUがデコードしたサウンドデータのサウンドバッファからメインメモリへの転送+
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuReadDecodeData (SpuDecodeData *d_data, unsigned long flag)	-
+	SpuReadDecodedData (SpuDecodedData *d_data, unsigned long flag)	+
+
+    引数
+
+	d_data: 転送されるメインメモリ内のSpuDecodeData 構造体への先頭	-
+	d_data: 転送されるメインメモリ内のSpuDecodedData 構造体への先頭	+
+		アドレス
+	flag:	= SPU_CDONLY ... CD 入力のみ転送指定
+		= SPU_ALL    ... 全てのデータを転送指定
+
+    解説
+
+	サウンドバッファからメインメモリへSPU でデコードされた波形デー
+	タを転送する。
+
+	SPU は CD 入力のボリューム処理後のサウンドデータ、及び Voice
+	1, Voice 3 のエンベロープ処理後のサウンドデータをサウンドバッ
+	ファの先頭 0x1000 バイト (0x800 short int) の部分にクロック
+	(44.1 kHz) 毎にそれぞれ16 bit (= 1 short int) ずつ書き込む。個々
+	のサウンドデータはそれぞれ 0x400 バイト (0x200 short int) のバッ
+	ファとなっている。
+
+	データは符合付き 16 bit であるため、アクセスにも16 bit (= 1
+	short int) 単位となり、その配置は以下の通りである。
+
+	────────────┬───────────────────
+	マップ(short int)	│データ内容
+	────────────┼───────────────────
+	0x000 ～ 0x1ff		│CD-Lch
+	0x200 ～ 0x3ff		│CD-Rch
+	0x400 ～ 0x5ff		│Voice 1
+	0x600 ～ 0x7ff		│Voice 3
+	────────────┴───────────────────
+
+
+	これらは前半部分 (0x100 short int) と後半部分 (0x100 short
+	int) に分かれ、現在どちらのバッファ領域に書き込まれているかが
+	返り値によって判断できる。
+
+
+		SPU_DECODE_FIRSTHALF  ... 前半部分			-
+		SPU_DECODED_FIRSTHALF  ... 前半部分			+
+		SPU_DECODE_SECONDHALF ... 後半部分			-
+		SPU_DECODED_SECONDHALF ... 後半部分			+
+
+	これによってレポートされるのはあくまで現在書き込まれている領域
+	なので、実際に利用できるデータはレポートされる領域とは反対の領
+	域である。
+
+	また、転送されるメインメモリのアドレスは、
+
+		- 大域変数として取られた変数へのアドレス
+		- malloc などでヒープ領域に取られた変数へのアドレス
+
+	でなければならない。 すなわち、
+
+		- スタック領域へのアドレスであってはならない
+		  = 関数内で宣言された変数 (= auto 変数) へのアドレス
+		    であってはならない
+
+	引数 flag により、CD 入力のデータのみが転送されることを指定で
+	きる。
+
+    返り値
+
+	現在書き込まれているバッファ領域
+
+		SPU_DECODE_FIRSTHALF  ... 前半部分			-
+		SPU_DECODED_FIRSTHALF  ... 前半部分			+
+		SPU_DECODE_SECONDHALF ... 後半部分			-
+		SPU_DECODED_SECONDHALF ... 後半部分			+
+
+	これによってレポートされるのはあくまで現在書き込まれている領域
+	なので、実際に利用できるデータはレポートされる領域とは反対の領
+	域である。
+
+    関連項目
+
+	SpuWrite, SpuSetTransferStartAddr, SpuGetTransferStartAddr
+
+
+* 7 音程における LFO 制御
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetPitchLFOVoice	各ボイスに対してピッチLFOのオン/オフを設定
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuSetPitchLFOVoice (long on_off, unsigned long voice_bit)
+
+    引数
+
+	on_off:		= SPU_ON  ... ピッチLFO オン設定
+			= SPU_OFF ... ピッチLFO オフ設定
+	voice_bit:	設定するボイス
+
+    解説
+
+	各ボイスに対してピッチ LFO のオン/オフを設定する。
+
+	ピッチ LFO のオンを設定したボイス n はボイス (n - 1) の音量の
+	時間的変化によりピッチに LFO がかかるように設定される。このピッ
+	チ LFO を有効にするためには、ボイス n 及びボイス (n - 1) が発
+	音されている必要があり、ボイス (n - 1) の音量は 0 にしておく必
+	要がある。ボイス (n - 1) はボイス n 発音後、任意のタイミングで
+	発音することができ、ボイス (n - 1) が発音された時点でピッチ
+	LFO がかかる。
+
+	voice_bit には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で設
+	定する。
+
+    返り値
+
+	現在設定されている各ボイスに対するピッチ LFO のオン/オフの値
+
+	すなわちSPU_0CH, SPU_1CH, ..., SPU_23CH のビット和
+
+		返り値 と SPU_xxCH (xx = 0～23) とのビット積の結果
+			= 0      ... ピッチ LFO オフ設定
+			  0 以外 ... ピッチ LFO オン設定
+
+    関連項目
+
+	SpuGetPitchLFOVoice, SpuSetKey, SpuSetKeyOnWithAttr
+
+
+SpuGetPitchLFOVoice	各ボイスに対するピッチLFOのオン/オフを診断
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuGetPitchLFOVoice (void)
+
+    引数
+
+	なし
+
+    解説
+
+	各ボイスに対するピッチ LFO のオン/オフの現在の状態を診断する。
+
+    返り値
+
+	現在設定されている各ボイスに対するピッチLFO のオン/オフの値
+
+	すなわち SPU_0CH, SPU_1CH, ... , SPU_23CH のビット和
+
+		返り値 と SPU_xxCH (xx = 0～23) とのビット積の結果
+			= 0      ... ピッチ LFO オフ設定
+			  0 以外 ... ピッチ LFO オン設定
+
+    関連項目
+
+	SpuSetPitchLFOVoice
+
+
+* 8 ノイズ音源
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetNoiseVoice	各ボイスに対してノイズ音源のオン/オフを設定
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuSetNoiseVoice (long on_off, unsigned long voice_bit)
+
+    引数
+
+	on_off:		= SPU_ON  ... ノイズ音源設定
+			= SPU_OFF ... ノイズ音源解除
+	voice_bit:	設定するボイス
+
+    解説
+
+	各ボイスに対してノイズ音源のオン/オフ(= ノイズ音源を使う/使わ
+	ない) を設定する。
+
+	voice_bit には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で設
+	定する。
+
+    返り値
+
+	現在設定されている各ボイスに対するノイズ音源のオン/オフの値
+
+	すなわち SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和
+
+		返り値 と SPU_xxCH (xx = 0～23) とのビット積の結果
+			= 0      ... ノイズ音源オフ設定
+			  0 以外 ... ノイズ音源オン設定
+
+    サンプル
+
+	ボイス 0 とボイス 2 にノイズ音源オンを設定する際には以下のよう
+	にして SpuSetNoiseVoice を呼ぶ。
+
+		SpuSetNoiseVoice (SPU_ON,       /* ノイズ音源オン設定*/
+				  SPU_0CH | SPU_2CH);	/* 0ch と2ch */
+
+    関連項目
+
+	SpuSetNoiseClock, SpuGetNoiseClock, SpuGetNoiseVoice
+
+
+SpuGetNoiseVoice	各ボイスに対するノイズ音源のオン/オフを診断
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuGetNoiseVoice (void)
+
+    引数
+
+	なし
+
+    解説
+
+	各ボイスに対するノイズ音源のオン/オフの現在の状態を診断する。
+
+    返り値
+
+	現在設定されている各ボイスに対するノイズ音源のオン/オフの値
+
+	すなわち SPU_0CH, SPU_1CH, ...  , SPU_23CH のビット和
+
+		返り値 と SPU_xxCH (xx = 0～23) とのビット積の結果
+			= 0      ... ノイズ音源オフ設定
+			  0 以外 ... ノイズ音源オン設定
+
+    関連項目
+
+	SpuSetNoiseClock, SpuSetNoiseVoice
+
+
+SpuSetNoiseClock	ノイズ音源のクロックの設定
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetNoiseClock (long n_clock)
+
+    引数
+
+	n_clock:	ノイズ音源のクロック
+
+    解説
+
+	ノイズ音源のクロックの値を設定する。ただしそのクロックの値は
+
+	-  0x00 ～ 0x3f
+
+	でなければならない。
+
+    返り値
+
+	設定されたノイズ音源のクロックの値
+
+    関連項目
+
+	SpuGetNoiseClock
+
+
+SpuGetNoiseClock	ノイズ音源のクロックの診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuGetNoiseClock (void)
+
+    引数
+
+	なし
+
+    解説
+
+	ノイズ音源のクロックの値を返す。
+
+    返り値
+
+	現在設定されているノイズ音源のクロックの値
+
+    関連項目
+
+	SpuSetNoiseClock
+
+
+* 9 リバーブ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetReverb		リバーブのオン/オフ
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetReverb (long on_off)
+
+    引数
+
+	on_off:	= SPU_ON  ... リバーブオン設定
+		= SPU_OFF ... リバーブオフ設定
+
+    解説
+
+	リバーブのオン/オフを設定する。
+
+	SpuReserveReverbWorkArea によってリバーブワークエリアが予約さ
+	れていなかった場合、on_off = SPU_ON が指定されると、SpuMalloc/
+	SpuMallocWithStartAddr によってワークエリアとして使う領域が他
+	の領域として使われているかどうかを診断し、使われている場合はリ
+	バーブオンは設定されず、オフとなり、SPU_OFF を返す。使われてい
+	なければリバーブオンが設定され、SPU_ON が返る。リバーブワークエ
+	リアが予約されていれば、on_off = SPU_ON はリバーブオンが設定さ
+	れ、SPU_ON を返す。
+
+    返り値
+
+	設定された値
+
+		SPU_ON  ...  リバーブオン
+		SPU_OFF ...  リバーブオフ
+
+    関連項目
+
+	SpuGetReverb, SpuSetReverbModeParam, SpuReserveReverbWorkArea
+
+
+SpuGetReverb		リバーブの状態を診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuGetReverb (void)
+
+    引数
+
+	なし
+
+    解説
+
+	現在のリバーブのオン/オフの状態を診断する。
+
+    返り値
+
+	現在設定されている値
+
+		SPU_ON  ...  リバーブオン
+		SPU_OFF ...  リバーブオフ
+
+    関連項目
+
+	SpuSetReverb
+
+
+SpuSetReverbModeParam	リバーブのモード、及びパラメータを設定
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetReverbModeParam (SpuReverbAttr *attr)
+
+    引数
+
+	attr:	リバーブ属性
+
+    解説
+
+	リバーブのモード、及びパラメータの属性を設定する。
+
+	attr.mask に、設定したい属性の
+
+		SPU_REV_MODE	  モード設定
+		SPU_REV_DEPTHL	  リバーブの深さ(左)
+		SPU_REV_DEPTHR	  リバーブの深さ(右)
+		SPU_REV_DELAYTIME ディレイタイム(ECHO, DELAY のみ)
+		SPU_REV_FEEDBACK  フィードバック(ECHO のみ)
+
+	のビット和を与えることで各属性のみの設定が可能。
+
+	attr.mask が 0 の場合は全属性を設定する。
+
+	以下に個々の設定条件を説明する。
+
+      - リバーブモード (表 8)
+
+	リバーブのモードを設定する。リバーブのモードにより `Depth (リ
+	バーブの深さ)' 以外の属性の設定の有無が異なる。
+
+	表 8: リバーブモードと他の属性
+	───────────────────────────────
+        attr.mode		モード		Delay time  Feedback
+	───────────────────────────────
+	SPU_REV_MODE_OFF	off
+	SPU_REV_MODE_ROOM	ルーム
+	SPU_REV_MODE_STUDIO_A	スタジオ(小)
+	SPU_REV_MODE_STUDIO_B	スタジオ(中)
+	SPU_REV_MODE_STUDIO_C	スタジオ(大)
+	SPU_REV_MODE_HALL	ホール
+	SPU_REV_MODE_SPACE	スペースエコー
+	SPU_REV_MODE_ECHO	エコー		設定可能    設定可能
+	SPU_REV_MODE_DELAY	ディレイ	設定可能    設定可能
+        SPU_REV_MODE_PIPE	パイプエコー
+	───────────────────────────────
+
+	リバーブモードが変更された場合 (初期値は SPU_REV_MODE_OFF の
+	ため、最初に設定する場合においても) には、事前に
+	SpuSetReverbModeParam にて Depth が設定されていても内部的にリ
+	バーブ Depth の値を 0 にする。これはモード変更時にワークエリア
+	のサイズが変更になるため、ワークエリア上の不定なデータがノイズ
+	として発生するからである。このため、リバーブモードを変更した場
+	合は、その後に再度 SpuSetReverbModeParam か SpuSetReverbDepth
+	にて Depth を設定する必要がある。
+
+	モードを設定し、Depth を 0 以外に設定するタイミングについては、
+	実際に必要になる直前にモードを設定するのではなく、リバーブの性
+	格上、ワークエリアの 1 回のスキャンが終る時間を見積もってモー
+	ド/Depth を設定するか、あるいは、モード設定後、強制的にワーク
+	エリアのデータを消去してから Depth を設定する (後述)。
+
+	リバーブのモードによって、ワークエリアがサウンドバッファを占有
+	する容量を表 9 に示す。ただし、この領域は SpuMalloc などのメモ
+	リ管理機構によって管理される。詳細は SpuMalloc を参照。
+
+	表 9: リバーブモードとサウンドバッファ内で占有される容量
+	───────────────────────────────
+        attr.mode		モード		16 進	    10 進
+	───────────────────────────────
+	SPU_REV_MODE_OFF	off		   0/80 (*) 0/128 (*)
+	SPU_REV_MODE_ROOM	ルーム		   26c0	     9920
+	SPU_REV_MODE_STUDIO_A	スタジオ(小)	   1f40	     8000
+	SPU_REV_MODE_STUDIO_B	スタジオ(中)	   4840	    18496
+	SPU_REV_MODE_STUDIO_C	スタジオ(大)	   6fe0	    28640
+	SPU_REV_MODE_HALL	ホール		   ade0	    44512
+	SPU_REV_MODE_SPACE	スペースエコー	   f6c0	    63168
+	SPU_REV_MODE_ECHO	エコー		  18040	    98368
+	SPU_REV_MODE_DELAY	ディレイ	  18040	    98368
+        SPU_REV_MODE_PIPE	パイプエコー	   3c00	    15360
+	───────────────────────────────
+	(*) アドレスの設定上、モードが off となっていても、
+	    SpuReserveReverbWorkArea (SPU_ON) となっていた場合、128
+	    bytes 消費する。SpuReserveReverbWorkArea (SPU_OFF) の場合は
+	    消費量は 0 となる。
+
+	モードが変更された時に、新しいモードのワークエリアとして使う領
+	域が SpuMalloc/SpuMallocWithStartAddr によって他の領域として使
+	われているかどうかを診断し、使われている場合は指定されたリバー
+	ブ属性の全ては設定されず、SPU_ERROR を返す。使われていなければ
+	指定されたリバーブ属性が設定され、0 が返る。
+
+	attr.mode に SPU_REV_MODE_CLEAR_WA をビット和で指定すると、リ
+	バーブモード設定時に指定されたリバーブモードで必要とする領域を
+	クリアする。これはモード変更時のノイズ対策である。しかし、DMA
+	転送でサウンドバッファをクリアしているが、同期的に処理している
+	ため、この処理を行っている間は他の処理 (描画、発音を含め) は行
+	えず、リバーブの種類によっては若干の待ち時間を要する。
+
+	任意のタイミングでリバーブモード設定時に指定されたリバーブモー
+	ドで必要とする領域を強制的にクリアするためには、
+	SpuClearReverbWorkArea を使用する。
+
+      - リバーブの深さ
+
+	リバーブの深さを -0x8000 ～ 0x7fff の範囲で attr.depth に、左
+	右独立に設定する。
+
+	設定された値が負の場合はリバーブ音 (wet) の位相が反転する。
+
+      - ディレイタイム
+
+	モードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の時のみ有効
+
+	ディレイタイムの値を 0 ～ 127 の範囲で attr.delay に設定する。
+
+      - フィードバック
+
+	モードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の時のみ有効
+
+	フィードバックの値を 0 ～ 127 の範囲で attr.feedback に設定す
+	る。
+
+    返り値
+
+	モード変更の場合、リバーブのワークエリアが SpuMalloc/
+	SpuMallocWithStartAddr によって他の領域として使われている場合
+	は SPU_ERROR を返し指定されたリバーブ属性は全て設定されない。
+	他の領域として使われていなければ、指定されたリバーブ属性が設定
+	され、0 を返す。
+
+    関連項目
+
+	SpuGetReverbModeParam, SpuMalloc, SpuMallocWithStartAddr,
+	SpuReserveReverbWorkArea, SpuClearReverbWorkArea
+
+
+SpuGetReverbModeParam	リバーブのモード、及びパラメータの診断
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuGetReverbModeParam (SpuReverbAttr *attr)
+
+    引数
+
+	attr:	リバーブ属性
+
+    解説
+
+	現在設定されているリバーブのモード、及びパラメータを得る。
+
+	詳細はSpuSetReverbModeParam を参照
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuSetReverbModeParam
+
+
+SpuSetReverbDepth	リバーブの深さパラメータを設定
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuSetReverbDepth (SpuReverbAttr *attr)
+
+    引数
+
+	attr:	リバーブ属性
+
+    解説
+
+	リバーブの深さのパラメータの属性を設定する。
+
+	attr.mask に、設定したい属性の
+
+		SPU_REV_DEPTHL	  リバーブの深さ(左)
+		SPU_REV_DEPTHR	  リバーブの深さ(右)
+
+	のビット和を与えることで各属性のみの設定が可能。
+
+	attr.mask が 0 の場合は左右の属性を同時に設定する。
+
+      - リバーブの深さ
+
+	リバーブの深さを -0x8000 ～ 0x7fff の範囲で attr.depth に、左
+	右独立に設定する。
+
+	設定された値が負の場合はリバーブ音 (wet) の位相が反転する。
+
+    返り値
+
+	常に 0 を返す
+
+    関連項目
+
+	SpuSetReverbModeParam, SpuGetReverbModeParam
+
+
+SpuSetReverbVoice	各ボイスに対してリバーブのオン/オフを設定
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuSetReverbVoice (long on_off, unsigned long voice_bit)
+
+    引数
+
+	on_off:		= SPU_ON  ... リバーブオン設定
+			= SPU_OFF ... リバーブオフ設定
+	voice_bit:	設定するボイス
+
+    解説
+
+	各ボイスに対してリバーブのオン/オフを設定する。
+	voice_bit には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で
+	設定する。
+
+    返り値
+
+	現在設定されている各ボイスに対するリバーブのオン/オフの値
+
+	すなわち SPU_0CH, SPU_1CH, ... , SPU_23CH のビット和
+
+		返り値 と SPU_xxCH (xx = 0～23) とのビット積の結果
+			= 0      ... リバーブオフ設定
+			  0 以外 ... リバーブオン設定
+
+    サンプル
+
+	ボイス 0 とボイス 2 にリバーブオンを設定する際には以下のように
+	して SpuSetReverbVoice を呼ぶ。
+
+		SpuSetReverbVoice (SPU_ON,	  /* リバーブオン設定*/
+				   SPU_0CH | SPU_2CH);	/* 0ch と2ch */
+
+    関連項目
+
+	SpuGetReverbVoice
+
+
+SpuGetReverbVoice	各ボイスに対するリバーブのオン/オフを診断
+────────────────────────────────────
+
+    形式
+
+	unsigned long
+	SpuGetReverbVoice (void)
+
+    引数
+
+	なし
+
+    解説
+
+	各ボイスに対するリバーブのオン/オフの現在の状態を診断する。
+
+    返り値
+
+	現在設定されている各ボイスに対するリバーブのオン/オフの値
+
+	すなわち SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和
+
+		返り値 と SPU_xxCH (xx = 0～23) とのビット積の結果
+			= 0      ... リバーブオフ設定
+			  0 以外 ... リバーブオン設定
+
+    関連項目
+
+	SpuSetReverbVoice
+
+
+SpuReserveReverbWorkArea	リバーブワークエリアの予約/解放
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuReserveReverbWorkArea (long on_off)
+
+    引数
+
+	on_off:		= SPU_ON    ... リバーブワークエリア予約
+			= SPU_OFF   ... リバーブワークエリア解放
+
+    解説
+
+	現在のリバーブモードに応じたリバーブワークエリアとして占める領
+	域が SpuMalloc/SpuMallocWithStartAddr によって確保されないよう
+	に予約する。あるいは確保されるように解放する。
+
+	- on_off = SPU_ON
+
+	  リバーブワークエリアを SpuMalloc/SpuMallocWithStartAddr に
+	  よって領域確保されないように予約する。リバーブのオン/オフに
+	  関わらず予約される。
+
+	  リバーブワークエリアが既に SpuMalloc/SpuMallocWithStartAddr
+	  によって他の領域として確保されている場合は予約されず、SPU_OFF
+	  を返す。
+
+	- on_off = SPU_OFF
+
+	  リバーブワークエリアを SpuMalloc/SpuMallocWithStartAddr に
+	  よって領域確保されてもいいように解放する。リバーブのオン/オ
+	  フに関わらず解放するため、リバーブを事前にオフしておく必要が
+	  ある。
+
+    返り値
+
+	on_off = SPU_ON の場合、リバーブワークエリアが既に SpuMalloc/
+	SpuMallocWithStartAddr によって他の領域として確保され、予約で
+	きない場合は SPU_OFF を返す。予約できれば SPU_ON を返す。
+
+	on_off = SPU_OFF の場合、常に SPU_OFF を返す。
+
+    関連項目
+
+	SpuIsReverbWorkAreaReserved, SpuSetReverbModeParam,
+	SpuSetReverb, SpuMalloc, SpuMallocWithStartAddr
+
+
+SpuIsReverbWorkAreaReserved	リバーブワークエリアが予約されているかチェック/リバーブワークエリアが予約できるか診断
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuIsReverbWorkAreaReserved (long on_off)
+
+    引数
+
+	on_off:		= SPU_DIAG
+				... リバーブワークエリアが予約
+				    できるか診断
+			= SPU_CHECK
+				... リバーブワークエリアの予約
+				    状況をチェック
+
+    解説
+
+	現在のリバーブモードに応じたリバーブワークエリアとして占める領
+	域が予約されているかチェックする。あるいは、予約できるかどうか
+	診断する。
+
+	- on_off = SPU_DIAG
+
+	  リバーブワークエリアが SpuMalloc/SpuMallocWithStartAddr に
+	  よって領域確保されているかを実際にサウンドバッファメモリ管理
+	  機構の情報を元に診断し、予約できれば SPU_ON を、予約できなけ
+	  れば SPU_OFF を返す。
+
+	- on_off = SPU_CHECK
+
+	  現在リバーブワークエリアが予約されているかどうかを返す。
+
+    返り値
+
+	on_off = SPU_DIAG の場合、リバーブワークエリアが予約できれば
+	SPU_ON を返し、予約できなければ SPU_OFF を返す。
+
+	on_off = SPU_CHECK の場合、予約されていれば SPU_ON を、予約さ
+	れていなければ SPU_OFF を返す。
+
+    関連項目
+
+	SpuReserveReverbWorkArea, SpuSetReverbModeParam,
+	SpuSetReverb, SpuMalloc, SpuMallocWithStartAddr
+
+
+SpuClearReverbWorkArea	リバーブワークエリアのクリア
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuClearReverbWorkArea (long rev_mode)
+
+    引数
+
+	rev_mode:	リバーブモード
+
+    解説
+
+	指定されたリバーブモードに応じたリバーブワークエリアとして占め
+	る領域をクリアする。予約の有無に関わらず、領域が使われているか
+	どうかチェックする。
+
+	動作は DMA 転送により同期的に行われるため、リバーブモードによっ
+	ては若干の時間を要する。
+
+    返り値
+
+	指定されたリバーブモードに応じたリバーブワークエリアが使われて
+	いたり、指定されたリバーブモードの値が間違っている場合は
+	SPU_ERROR を返す。成功すると 0 を返す。
+
+    関連項目
+
+	SpuSetReverbModeParam, SpuReserveReverbWorkArea,
+	SpuSetReverb, SpuMalloc, SpuMallocWithStartAddr
+
+
+* 10 共通属性
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuSetCommonAttr	(変更要求が頻繁に起きない)全ボイス共通属性を設定
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuSetCommonAttr (SpuCommonAttr *attr)
+
+    引数
+
+	attr:	全ボイス共通属性
+
+    解説
+
+	全ボイス共通属性を設定する。
+
+	attr.mask に、設定したい属性の
+
+		SPU_COMMON_MVOLL	マスタ音量(左)
+		SPU_COMMON_MVOLR	マスタ音量(右)
+		SPU_COMMON_MVOLMODEL	マスタ音量モード(左)
+		SPU_COMMON_MVOLMODER	マスタ音量モード(右)
+		SPU_COMMON_CDVOLL	CD 入力音量(左)
+		SPU_COMMON_CDVOLR	CD 入力音量(右)
+		SPU_COMMON_CDREV	CD 入力リバーブオン/オフ
+		SPU_COMMON_CDMIX	CD 入力オン/オフ
+		SPU_COMMON_EXTVOLL	外部デジタル入力音量(左)
+		SPU_COMMON_EXTVOLR	外部デジタル入力音量(右)
+		SPU_COMMON_EXTREV	外部デジタル入力リバーブon/off
+		SPU_COMMON_EXTMIX	外部デジタル入力オン/オフ
+
+	のビット和を与えることで各属性のみの設定が可能。
+
+	attr.mask が 0 の場合は全属性を設定する。
+
+
+	以下に個々の設定条件を説明する。
+
+      - マスタ音量とマスタ音量モード
+
+	マスタ音量を attr.mvol に、マスタ音量モードを attr.mvolmode に、
+	左右独立に指定する。音量のとり得る範囲と各種モードについては、
+	ボイスにおける設定と同様なので SpuSetVoiceAttr の説明、及び表
+	1 を参照。
+
+      - CD 入力音量
+
+	CD 入力の音量を -0x8000 ～ 0x7fff の範囲で attr.cd.volume に、
+	左右独立に設定する。 設定された音量が負の場合は位相が反転する。
+
+      - CD 入力リバーブオン/オフ
+
+	CD 入力にリバーブをかける/かけないを attr.cd.reverb に設定する。
+
+		attr.cd.reverb:	= SPU_ON  ... リバーブオン設定
+				= SPU_OFF ... リバーブオフ設定
+
+      - CD 入力オン/オフ
+
+	CD 入力のミキシングのオン/オフを attr.cd.mix に設定する。
+
+		attr.cd.mix:	= SPU_ON  ... ミキシングオン設定
+				= SPU_OFF ... ミキシングオフ設定
+
+	この値をオンにしない限り、CD 入力は出力されない。
+
+      - 外部デジタル入力音量
+
+	外部デジタル入力の音量を -0x8000 ～ 0x7fff の範囲で
+	attr.ext.volume に、左右独立に設定する。設定された音量が負の場
+	合は位相が反転する。
+
+      - 外部デジタル入力リバーブオン/オフ
+
+	外部デジタル入力にリバーブをかける/かけないを attr.ext.reverb
+	に設定する。
+
+		attr.ext.reverb: = SPU_ON  ... リバーブオン設定
+				 = SPU_OFF ... リバーブオフ設定
+
+      - 外部デジタル入力オン/オフ
+
+	外部デジタル入力のミキシングのオン/オフを attr.cd.mix に設定す
+	る。
+
+		attr.ext.mix:	= SPU_ON  ... ミキシングオン設定
+				= SPU_OFF ... ミキシングオフ設定
+
+	この値をオンにしない限り、外部デジタル入力は出力されない。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuGetCommonAttr
+
+
+SpuGetCommonAttr	(変更要求が頻繁に起きない)全ボイス共通属性を診断
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuGetCommonAttr (SpuCommonAttr *attr)
+
+    引数
+
+	attr:	全ボイス共通属性
+
+    解説
+
+	全ボイス共通属性を返す。
+
+	詳細は SpuSetCommonAttr を参照。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuSetCommonAttr
+
+
+* 11 サウンドバッファのメモリ管理
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+SpuInitMalloc		サウンドバッファメモリ管理機構の初期化
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuInitMalloc (long num, char *top)
+
+    引数
+
+	num:	最大メモリ確保回数
+	top:	管理テーブルを保持する領域の先頭アドレス
+
+    解説
+
+	サウンドバッファを num 個の領域に分割管理するための初期化を行
+	う。確保要求のたびに 1 ずつ消費されるメモリ管理ブロックを num
+	個 top で与えられた領域に確保する。この領域サイズは
+
+		(SPU_MALLOC_RECSIZ * (num + 1)) バイト
+
+	が必要である。
+
+    返り値
+
+	確保したメモリ管理ブロック数を返す。
+
+    サンプル
+
+	10 回の SpuMalloc が使えるようなメモリ管理ブロックを作成する際
+	には以下のようにして SpuInitMalloc を呼ぶ。
+
+
+	char rec [SPU_MALLOC_RECSIZ * (10 + 1)];
+
+	SpuInitMalloc (10,	/* 10 回 SpuMalloc が使える*/
+		       rec);	/* メモリ管理ブロック*/
+
+    関連項目
+
+	malloc, SpuMalloc, SpuMallocWithStartAddr, SpuFree
+
+
+SpuMalloc		サウンドバッファ内に領域を確保
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuMalloc (long size)
+
+    引数
+
+	size:	確保する領域のサイズ (バイト単位)
+
+    解説
+
+	サウンドバッファ内にsize バイトの領域を確保する。
+
+	返り値は確保した領域の先頭を示すアドレス値を返すので、この値を
+	SpuSetTransferStartAddrの引数に設定して、転送する先頭アドレス
+	を設定し、SpuWrite で波形データの転送を行う。
+
+	確保に失敗する状況としては、以下の状況が挙げられる。
+
+		・要求サイズが連続的に確保できない場合
+		・要求サイズを満たす領域はあるが、その領域が
+		  SpuReserveReverbWorkArea によりリバーブワークエリア
+		  の一部 (あるいは全部) として予約されているため、実質
+		  的に確保できない場合
+
+    返り値
+
+	確保に成功すると、確保した領域の先頭を示すアドレス値を返す。
+
+	失敗すると -1 を返す。
+
+    関連項目
+
+	SpuInitMalloc, SpuMallocWithStartAddr, SpuFree,
+	SpuSetTransferStartAddr, SpuWrite, SpuReserveReverbWorkArea,
+	SpuSetReverb, SpuSetReverbModeParam
+
+
+SpuMallocWithStartAddr	サウンドバッファ内の指定したアドレスから領域を確保
+────────────────────────────────────
+
+    形式
+
+	long
+	SpuMallocWithStartAddr (unsigned long addr, long size)
+
+    引数
+
+	addr:	確保する先頭アドレス(バイト単位)
+	size:	確保する領域のサイズ(バイト単位)
+
+    解説
+
+	先頭アドレス addr から始まる size バイトの領域をサウンドバッファ
+	内に確保する。
+
+	ただしその先頭アドレスの値は SpuSetTransferStartAddr 同様、
+
+		- バイト単位
+		- 8 で割り切れる数
+		- 0x1010 以上、512 KB 以内
+
+	でなければならない。
+
+	そのアドレスが既に確保された領域中であれば、addr 以降の領域で
+	一番近い空いている領域から size バイトの領域を確保する。
+
+	確保に失敗する状況としては、以下の状況が挙げられる。
+
+		・要求サイズが連続的に指定したアドレス以降に確保できな
+		  い場合
+		・要求サイズを満たす領域はあるが、その領域が
+		  SpuReserveReverbWorkArea によりリバーブワークエリア
+		  の一部 (あるいは全部) として予約されているため、実質
+		  的に確保できない場合
+
+    返り値
+
+	確保に成功すると、確保した領域の先頭を示すアドレス値を返す。
+
+	失敗すると -1 を返す。
+
+    関連項目
+
+	SpuInitMalloc, SpuMalloc, SpuFree, SpuSetTransferStartAddr,
+	SpuWrite, SpuReserveReverbWorkArea, SpuSetReverb,
+	SpuSetReverbModeParam
+
+
+SpuFree			サウンドバッファ内に確保されている領域を解放
+────────────────────────────────────
+
+    形式
+
+	void
+	SpuFree (unsigned long addr)
+
+    引数
+
+	addr:	確保されている先頭アドレス(バイト単位)
+
+    解説
+
+	先頭アドレス addr によって示されるサウンドバッファ内に確保され
+	ている領域を解放し、管理用テーブルからその領域情報を削除する。
+
+    返り値
+
+	なし
+
+    関連項目
+
+	SpuInitMalloc, SpuMalloc, SpuMallocWithStartAddr
+

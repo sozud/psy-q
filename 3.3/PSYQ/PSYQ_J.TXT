@@ -1,0 +1,121 @@
+
+95/10/01
+
+	PSY-Qツール　変更／補足事項
+
+
+
+＊＊＊　前回リリースからの変更点　＊＊＊
+
+1.PSYLINK.EXE
+  /v オプションが追加された。DBUGPSXでのオーバレイサポート機能を
+　使用する場合はこのオプションが必要。
+
+2.DBUGPSX.EXE
+  バグフィクス＆機能追加あり。詳細は DEBUG_J.TXT 参照。
+
+3.ASPSX.EXE
+  「８進拡張表記(octal escape sequence)が使用できない」という
+　バグを直した。
+
+
+
+＊＊＊　補足事項  ＊＊＊
+
+1. ASMPSX オプション
+
+  アセンブラオプション「AE」及び「T」オプションはサポートされていません。
+  （DTL-D2130 Psy-Q プログラマーズガイド Ver2.0：174ページ）
+　マニュアルの記載ミスです。申し訳ございません。
+
+
+2. CCPSX オプション
+
+  　CCPSXにて、以下のオプションが使用できます。
+  　これによってオーバレイ処理（ダイナミックにCDからプログラムを読み込んで
+  　実行させる）が可能になります。
+　　オーバレイについての詳細は、サンプル SAMPLE\MODULE\OVERMENU を
+    ご覧下さい。
+
+  　-G[num]	グローバルポインタ(GP)を用いて参照されるデータ項目の
+  		最大サイズをバイト単位で指定します。デフォルトは num = 8 です。
+		num = 0 と指定すると、GPを用いたデータ参照は行われません。
+  　-Wa,s[name]	このモジュールをgroup nameとして定義します。
+		主にオーバレイモジュールのコンパイル時に使用します。
+
+
+3. グローバル変数のセクション配置
+
+    グローバル変数宣言時に、attribute（属性）を指定できます。
+    リンクファイルの記述と併用する事によって、任意のセクションへの配置が
+    可能です。
+　　具体的な方法については、サンプル SAMPLE\CMPLR\SCRACH をご覧下さい。
+　　（例）
+　　int test_x __attribute__ ((section("cachedata"))) = 100;
+
+
+4. PCcreat() について
+
+     「DTL-D2130 Psy-Q プログラマーズガイド Ver2.0」p.258 にて、
+     関数名が間違っています。訂正致します。
+  	誤：PCcreate()
+	正：PCcreat()
+
+　　
+5. PCopen() のフラグについての補足
+
+	int PCopen(name,flags,perms)
+	char *name;
+	int flags:
+	int perms;
+    flags はオープンモード指定で、
+	0 : リードオンリ
+	1 : ライトオンリ
+	2 : リード／ライト
+    となっています。LIBAPIの open() で使われるflagの値とは関係ありませんので
+    注意して下さい。また、perms は 0 を指定して下さい。
+
+
+6. DELAY.COM
+  
+	Usage:	DELAY <count>
+		count/18 秒間のウェイトをかけます。デフォルトは0.5秒です。
+
+    RESETPS.EXE、RUN.EXEは、処理の終了を待たずにDOSにリターンします。
+    このため、バッチファイル、メイクファイル等で
+	run patchx
+	run game
+    と記述し、短い間隔で連続してRUNさせた場合に、cannot connect to target の
+    エラーメッセージが出力されたり、また、エラーが起きなくても起動が
+    できなかったりと、正常に動作しない事があります。
+
+    DELAY.COM はウェイトをかけるツールです。前述のような症状が頻繁に出る
+    場合は、バッチファイル等に追加して下さい。
+	（バッチファイル記述の例）
+	resetps 1
+	delay 10
+	run patchx 
+	delay 10
+	run newdex
+	delay 10
+	run game
+    
+
+7. PSYQ.INI
+
+    コンパイラの参照するパスは環境変数によって定義する他に、PSYQ.INI中の
+　　記述でも定義できます。DOSの環境領域を節約したい場合等に使用して下さい。
+    環境変数とPSYQ.INI記述の両方で定義されている場合には、PSYQ.INIの内容が
+    優先されます。
+ 
+（PSYQ.INIの例）
+[ccpsx]
+stdlib=libapi.lib libc.lib libcard.lib libpress.lib libgpu.lib libgs.lib libgte.lib libcd.lib libetc.lib libsn.lib libsnd.lib libspu.lib libmath.lib
+compiler_path=c:\compiler
+library_path=c:\psx\lib
+c_include_path=c:\psx\include
+
+
+
+								以上
+

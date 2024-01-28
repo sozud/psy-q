@@ -1,0 +1,1036 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+グラフィック拡張ライブラリ構造体 及び 外部変数一覧
+--------------------------------------------------
+
+構造体一覧
+----------
+
+GsOT
+オーダリングテーブルヘッダ
+構　造
+	struct GsOT {
+		unsigned short length;
+		GsOT_TAG *org;
+		unsigned short offset;
+		unsigned short point;
+		GsOT_TAG *tag;
+	};
+
+メンバ
+	length	OT のビットレングス
+	org	GsOT_TAG テーブルの先頭アドレス
+	offset	OT のスクリーン座標系におけるＺ軸上のオフセット
+	point	OT のスクリーン座標系におけるＺ軸上の代表値
+	tag	現在の先頭の GsOT_TAG へのポインタ
+
+解　説
+　	GsOT は libgs でサポートされるオーダリングテーブルのヘッダを表わす。
+　	このヘッダは、実体となるオーダリングテーブルへのポインタ org、tag
+	を持ち、GsClearOt() 関数で org 、tag 共に初期化される。
+	tagは、オーダリングテーブルの先頭をポイントしている。
+　	GsDrawOt() 関数は、tagでポイントされたオーダリングテーブルを描画する。
+	tag の値は、GsSortClear() や GsSortOt() 関数で先頭が変わるため
+	変化する。そのためオーダリングテーブルの先頭を常に保持するために
+	orgがある。
+　	length にはオーダリングテーブルの大きさを設定する。設定できる値は１
+	から 14 までで、１で０～1、14 で０～16384 の GsOT_TAG の配列を org
+	でポイントしたことになる。
+
+　	GsClearOt() 関数は org から lengthで設定大きさまでメモリ領域を
+	初期化する。従って、org でポイントする GsOT_TAG の配列の大きさが、
+	length で示される大きさより小さいと、メモリを壊す可能性があるので
+	注意が必要。
+
+	point は GsSortOt() 関数でオーダリングテーブル同士をソートする際
+	にそのオーダリングテーブルの代表値として参照される。
+
+	offset にはオーダリングテーブルのＺ軸上のオフセットを設定する。
+	例えば offset = 256 とした場合、オーダリングテーブルの先頭は Z = 256
+	となる。（※１）
+
+備　考
+	length と org の値は初期化の段階でセットする必要がある。
+	その他のメンバは GsClearOt() 関数でセットされる。
+	※１：現在、未サポート。
+
+関連
+	GsClearOt(),GsDrawOt(),GsSortOt(),GsCutOt()
+
+
+GsOT_TAG
+オーダリングテーブルの単位
+構　造
+	struct GsOT_TAG {
+		unsigned　p : 24;
+		unsigned char num : 8;
+	};
+
+メンバ
+	p	OT リングポインタ
+	num	パケットのワード数
+
+解　説
+　	オーダリングテーブルの配列はこの GsOT_TAG の配列となる。
+　	オーダリングテーブルは、次々にアドレスをポイントする「リスト構造」
+	となっている。アドレスは 32bit 中下位 24bit がpで表わせる。 
+　	オーダリングテーブルをメモリ上に取る時は、GsOT のメンバである
+	length設定された大きさのGsOT_TAG の配列を確保する。
+
+
+
+GsDOBJ2
+３次元オブジェクトハンドラ GsCOORDINATE2 用
+構　造
+	struct GsDOBJ2 {
+			unsigned long attribute;
+			GsCOORDINATE2 *coord2;
+			unsigned long *tmd;
+			unsigned long id;
+	};
+
+メンバ	
+	attribute	オブジェクトの属性（ 32bit ）
+	coord2		ローカル座標系へのポインタ
+	tmd		モデリングデータへのポインタ
+	id		レイアウトツールで予約
+
+解　説
+	GsDOBJ2 は３次元モデルのオブジェクトごとに存在し、この GsDOBJ2
+	構造体を通じて３次元モデルを操作することができる。GsDOBJ2 を TMD
+	ファイルのモデリングデータとリンクさせるにはGsLinkObject4()を使用する。
+
+	リンクを張られた TMD データは、GsDOBJ2 を通じて	アクセス可能。
+	GsDOBJ2 をオーダリングテーブルに登録するにはGsSortObject4()を用いる。
+
+	coord2 はそのオブジェクト固有の座標系へのポインタである。オブジェクト
+	の位置、傾き、大きさは coord2 でポイントされる座標系にマトリックスを
+	設定することで反映される。
+
+	tmd には、メモリ上に格納された TMD フォーマットのモデリングデータの
+	先頭アドレスが保持される。tmdは GsLinkObject4()によって計算され設定
+	される。
+
+	attribute は 32 ビットでここで、表示のためのさまざまな属性を設定する。
+	以下、各ビットについて解説する。
+
+	(ｃ)光源計算 ON/OFF スイッチ (bit 6)
+	　光源計算を外す場合、このビットを立てる。光源計算が外されると、
+	  テクスチャマッピングされたポリゴンはテクスチャの元の色で表示される。
+	  マッピングされないポリゴンはモデリングデータの色でそのまま表示
+	  される。
+
+	(d) 自動分割機能スイッチ (bit 9-11)
+	  0:	自動分割しない
+	  1:	2x2  分割
+	  2:	4x4  分割
+	  3:	8x8  分割
+	  4:   16x16 分割
+	  5:   32x32 分割
+	自動分割の分割数を指定する。自動分割とは１つのポリゴンを実行時に
+	自動的に分割する機能のことである。テクスチャの歪みを少なくしたり
+	近くのポリゴンが欠けるのを防ぐために使われる。ただし 分割は
+	ポリゴン数を指数関数的に増大させるため 最小限にとどめるべきである。
+
+	(ｆ)半透明レート (bit28-29)
+	　bit30 で半透明を ON にした場合に、ピクセルをブレンディング
+	  する方式を設定する。
+	　０のときは通常の半透明処理、１のときはピクセル加算、２のときは
+	  50%加算、３のときはピクセルの減算になる。
+
+	(ｇ)半透明 ON/OFF (bit30)
+	　半透明を ON/OFF する。
+	　なお、半透明にするには、このビットを立てると共に、テクスチャの
+	  色のフィールド（ダイレクトの時はテクスチャパターン、indexed
+	  の時は CLUT の色のフィールド）の最上位ビット（STP ビット）を立てる
+	  必要がある。また、この STP ビットを利用しピクセル単位の半透明
+	  ／不透明の制御が可能。
+
+	(ｈ)表示 ON/OFF (bit31)
+	  表示を ON/OFF する。
+
+
+	  ※1　現在未サポート
+
+
+GsDOBJ3
+３次元オブジェクトハンドラ PMD FORMAT
+
+構　造	
+	struct GsDOBJ3 {
+        unsigned long attribute;	/* pers,trans,rotate,disp */
+	GsCOORDINATE2  *coord2;	/* local dmatrix */
+	unsigned long  *pmd;	/* pmd top address */
+	unsigned long  *base;	/* object base address */
+	unsigned long  *sv;	/* shared vertex base */
+	unsigned long  id;
+	};
+
+メンバ	
+	attribute	オブジェクトの属性（ 32bit ）
+	coord2		ローカル座標系へのポインタ
+	pmd		モデリングデータへのポインタ[PMD FORMAT]
+	base		オブジェクトベースアドレス
+	sv		共有頂点群ベースアドレス
+	id		レイアウトツールで予約
+
+解　説
+	　GsDOBJ3 は３次元モデルのオブジェクトごとに存在し、この GsDOBJ3
+	構造体を通じて３次元モデルを操作することができる。
+
+	GsDOBJ3 を PMDフォーマットファイルのモデリングデータとリンクさせる
+	には GsLinkObject3() 関数を使用する。
+	
+	GsLinkObject3() 関数でリンクを張られた PMD データは、GsDOBJ3 を通じて
+	アクセス可能。GsDOBJ3 をオーダリングテーブルに登録するには
+	GsSortObject3() 関数を用いる。
+	
+	coord2 はそのオブジェクト固有の座標系へのポインタである。
+	オブジェクトの位置 傾き 大きさは coord2 でポイントされる座標系に
+	マトリックスを設定することで反映される。
+	
+	pmd には、メモリ上に格納された PMD フォーマットのモデリングデータの
+	先頭アドレスが保持される。
+	
+	pmd は GsLinkObject3() 関数によって計算され 設定される。
+	
+	attribute は 32 ビットでここで、表示のためのさまざまな属性を設定する。
+	現在実装されているattributeは、以下のビットのみ
+
+(ｈ)	表示 ON/OFF (bit31)
+表示を ON/OFF する。
+
+備考	IDはレイアウト機能を使わない限り使用されません。
+
+
+GsDOBJ5
+３次元オブジェクトハンドラ GsSortObject5 用
+構　造
+	struct GsDOBJ5 {
+			unsigned long attribute;
+			GsCOORDINATE2 *coord2;
+			unsigned long *tmd;
+			unsigned long *packet;
+			unsigned long id;
+	};
+
+メンバ	
+	attribute	オブジェクトの属性（ 32bit ）
+	coord2		ローカル座標系へのポインタ
+	tmd		モデリングデータへのポインタ
+	packet		プリセットパケットエリアへのポインタ
+	id		レイアウトツールで予約
+
+解　説
+	GsDOBJ5 は３次元モデルのオブジェクトごとに存在し、この GsDOBJ5
+	構造体を通じて３次元モデルを操作することができる。GsDOBJ5 を TMD
+	ファイルのモデリングデータとリンクさせるにはGsLinkObject5()を使用する。
+
+	リンクを張られた TMD データは、GsDOBJ5 を通じて	アクセス可能。
+	GsDOBJ5 をオーダリングテーブルに登録するにはGsSortObject5()を用いる。
+
+	coord2 はそのオブジェクト固有の座標系へのポインタである。オブジェクト
+	の位置、傾き、大きさは coord2 でポイントされる座標系にマトリックスを
+	設定することで反映される。
+
+	tmd には、メモリ上に格納された TMD フォーマットのモデリングデータの
+	先頭アドレスが保持される。tmdは GsLinkObject5()によって計算され設定
+	される。
+
+	packetには、メモリ上に展開された プリセットパケットの先頭アドレスが
+	保持される。プリセットパケットはGsPresetObject()により展開されGsDOBJ5
+	のpacketに設定される。
+
+	attribute は 32 ビットでここで、表示のためのさまざまな属性を設定する。
+	以下、各ビットについて解説する。
+	
+	(ｃ)光源計算 ON/OFF スイッチ (bit 6)
+	　光源計算を外す場合、このビットを立てる。光源計算が外されると、
+	  テクスチャマッピングされたポリゴンはテクスチャの元の色で表示される。
+	  マッピングされないポリゴンはモデリングデータの色でそのまま表示
+	  される。
+	
+	(d) 自動分割機能スイッチ (bit 9-11)
+	  0:	自動分割しない
+	  1:	2x2  分割
+	  2:	4x4  分割
+	  3:	8x8  分割
+	  4:   16x16 分割
+	  5:   32x32 分割
+	自動分割の分割数を指定する。自動分割とは１つのポリゴンを実行時に
+	自動的に分割する機能のことである。テクスチャの歪みを少なくしたり
+	近くのポリゴンが欠けるのを防ぐために使われる。ただし 分割は
+	ポリゴン数を指数関数的に増大させるため 最小限にとどめるべきである。
+	
+	(ｈ)表示 ON/OFF (bit31)
+	  表示を ON/OFF する。
+
+
+	  ※1　現在未サポート
+
+
+備考	IDはレイアウト機能を使わない限り使用されません。
+
+
+GsOBJTABLE2
+オブジェクトテーブル情報
+構　造	
+	struct GsDOBJTABLE2 {
+			GsDOBJ2 *top;
+			int nobj;
+			int maxnobj;
+	};
+
+メンバ	
+	top	オブジェクト配列へのポインタ
+	maxobj	オブジェクト配列の大きさ
+	nobj	配列中の有効オブジェクト個数
+
+解　説
+	３次元アニメーション関数群を使用する場合は、オブジェクトの ID 番号
+	による指定を実現するために３次元オブジェクトは配列になっていなければ
+	ならない。この配列をオブジェクトテーブルと呼ぶ。
+
+	GsOBJTABLE2 はオブジェクトテーブルに関する情報を持つ。
+	top は GsDOBJ2 の配列へのポインタで、ID 管理される３次元オブジェクト
+	はこの配列内に生成される。このため、オブジェクトテーブルを初期化する
+	時点であらかじめ GsDOBJ2 の配列を確保しておかなければならない。	　　
+	
+	maxobj は top の示す配列の大きさで、扱うオブジェクトの最大数以上の
+	値でなければならない。
+	nobj は配列内の有効オブジェクトの個数である。
+	GsOBJTABLE2 の内容の初期化は GsInitObjTable2() で行なう。
+
+
+
+GsCOORDINATE2
+マトリックス型座標系
+構　造
+	struct GsCOORDINATE2 {
+			unsigned long flg;
+			MATRIX coord;
+			MATRIX workm;
+			GsCOORD2PARM *param;
+			GsCOORDINATE2 *super;
+	};
+
+メンバ	
+	flg	coord が書き換えられたかどうかのフラグ
+	coord	マトリックス
+	workm	この座標系から WORLD 座標系までの掛けた結果
+	param	scale, rotation, transfer のパラメータを使用するための
+		ポインタ
+	super	親座標へのポインタ
+
+解　説
+	GsCOORDINATE2 は親座標を持ち、MATRIX 型の coord により定義される。
+
+	workm には、GsGetLw() 関数や GsGetLs() 関数で WORLD 座標から
+	GsCOORDINATE2 の各ノードでマトリックスをかけ算していく時に、
+	その結果が保持される。
+
+	ただし WORLD座標系に 直接繋がっている座標系のworkmには 結果を
+	格納しない。
+
+	flg は、GsGetLw(), GsGetLs()計算時に、既に計算しているノードに
+	ついての計算を省くために参照される。１でセット、０でクリアされる。
+	プログラマは coord の内容を変更した場合は責任を持ってこのフラグを
+	クリアしなければならない。さもないと GsGetLw()、GsGetLs() 関数が
+	誤動作することになる。
+	
+	param はレイアウトツールで coord の値をセットするために用いられる。
+
+備　考
+	TODアニメーションの機能を使わない時には paramは自由に使ってかまわない
+
+
+
+
+GsVIEW2
+視点位置（MATRIX型）
+構　造	
+	struct GsVIEW2 {
+			MATRIX view;
+			GsCOORDINATE2*super	
+	};
+
+メンバ	
+	view 	親座標から視点座標への変換へのマトリックス
+	super 	視点を設定する座標系へのポインタ
+
+解　説
+	視点座標系を設定する。view には親座標系から視点座標系への変換
+	マトリックス直接指定する。設定関数は GsSetView2()。
+
+
+
+GsRVIEW2
+視点位置（リファレンス型）
+構　造	
+	struct GsRVIEW2 {
+			long vpx, vpy, vpz;
+			long vpx, vpy, vpz
+			long rz
+			GsCOORDINATE2 *super
+	};
+
+メンバ	
+	vpx, vpy, vpz	視点座標
+	vrx, vry, vrz	参照点座標
+	rz		視点の捻り
+	super		視点を設定する座標系へのポインタ
+			（GsCOORDINATE2型）
+
+解　説
+	GsVIEW2 は、視点情報を保持し、GsSetRefView2() 関数によって libgs
+	に設定される。
+	(vpx, vpy, vpz) には、Superで示される座標系における視点の座標が設定
+	される。
+	(vrx, vry, vrz) には、Superで示される座標系における参照点の座標が
+	設定される。
+
+	rz は視点から参照点へのベクトルを z 軸とした時にスクリーンの z軸に
+	対する傾きを 4096 を１度とする固定小数点フォーマットで指定する
+
+	super には、視点と参照点の座標系が設定される。この機能により、
+	例えば、飛行機の座標系に super を設定し簡単にコックピットビューを
+	実現することができる。
+
+GsF_LIGHT
+平行光源
+構　造	
+	struct GsF_LIGHT {
+		long vx, vy, vz;
+		unsigned char r, g, b;	
+	};
+
+メンバ	
+	vx, vy, vz	光源の方向ベクトル
+	r, g, b		light の色
+
+解　説
+	GsF_LIGHT は平行光源の情報を保持し、GsSetFlatLight() 関数に
+	よってシステムに設定される。
+	平行光源は同時に３つまで設定することが可能。
+
+	(vx, vy, vz) には 光源の方向ベクトルを設定する。正規化はlibgsが
+	行なうので、プログラマが正規化をする必要はない。
+	
+	このベクトルと逆の方向を持つ方線ベクトルのポリゴンに最も強く光が
+	当たる。
+	(r, g, b) には、光源の色を8bitで設定する。
+
+
+GsFOGPARAM
+フォグ（デプスキュー）情報
+構　造	
+	struct GsFOGPARAM {
+			short dqa;
+			long  dqb;
+			unsigned char rfc, gfc, bfc;
+	};
+
+メンバ	
+	dqa	奥行きによる融け込みの度合のパラメータ
+	dqb	奥行きによる融け込みの度合のパラメータ
+	意味については、第１部の基本ジオメトリライブラリ章
+	中の FOG の項参照のこと
+	rfc, gfc, bfc	バックグラウンドカラー
+
+解　説
+	　dqa と dqb は、バックグラウンドカラーへの減衰係数である。
+	　dqa と dqb は、以下の計算式によって導くことが可能。
+	
+		DQA = - df * 4096/64/h
+		DQB = 1.25 * 4096 * 4096
+	
+	df は、減衰係数が１となるところ、つまり遠方でバックグラウンド
+	カラーへ完全に解け込んでしまう地点の視点からの距離である。
+	ｈは視点からスクリーンまでの距離、つまりプロジェクションを表わす。
+
+
+GsIMAGE
+イメージデータ構成情報
+構　造	
+	struct GsIMAGE {
+			short pmode;
+			short px, py;
+			unsigned short pw, ph;
+			unsigned long *pixcel;
+			short cx, cy;
+			unsigned short cw, ch;
+			unsigned long *clut;
+	}
+
+メンバ	
+	pmode	ピクセルモード
+			0: 4bit CLUT
+			1: 8bit CLUT
+			2: 16bit DIRECT
+			3: 24bit DIRECT
+			4: 多モード混在
+
+	px, py	ピクセルデータの格納位置
+	pw, ph	ピクセルデータの横幅／高さ	
+	pivel	ピクセルデータへのポインタ
+	cx, cy	CLUT データの格納位置
+	cw, ch	CLUT データの横幅／高さ
+	clut	CLUT データへのポインタ
+
+解　説
+	GsGetTimInfo() 関数によって TIM フォーマットデータの情報が格納
+	される構造体。
+
+
+GsSPRITE
+スプライトハンドラ
+構　造	
+	struct GsSPRITE {
+			unsigned long attribute;
+			short x, y;
+			unsigned short w, h;
+			unsigned short tpage;
+			unsigned char u, v;
+			short cx, cy;
+			unsigned char r, g, b;
+			short mx, my;
+			short scalex, scaley;
+			long rotate;
+	};
+
+メンバ	
+	attribute	32 ビット長の属性、詳細は下記参照。
+	x, y	左上点の表示位置
+	w, h	スプライトの縦及び横幅
+		（w, h どちらかが０の時は表示せず）
+	tpage	スプライトパターンのテクスチャページ番号
+	u, v	スプライトパターンのページ内オフセット
+	cx, cy	スプライトの CLUT アドレス
+	r, g, b	表示される時の輝度を r, g, b 毎に設定
+		（128 のとき本来の輝度）
+	mx, my		回転／拡大時の中心点座標
+	scalex, scaley	ｘ方向／ｙ方向のスケール値
+	rotate		回転角（単位は 4096 = 1°(degree）)
+
+
+attribute のビット
+	6:　輝度調整
+		0:　OFF	1:　ON
+	24-25:　スプライトパターンビットモード
+		0:	4bitCLUT
+		1:	8bitCLUT
+		2:	15bitDirect
+	26:　透視変換
+		0:　OFF	1:　ON	
+	27:　回転拡大縮小機能
+		0:　ON	1:　OFF
+	28-29:　半透明レート
+		0 	0.5 x Back + 0.5 x Foward
+		1 	1.0 x Back + 1.0 x Foward
+		2 	1.0 x Back + 0.5 x Foward
+		3 	1.0 x Back - 1.0 x Foward
+	30:　半透明 ON /OFF
+		0: 半透明 OFF	1: 半透明 ON
+	30:　表示／非表示 
+（注） bit26 は現在サポートされていません。
+
+解　説
+	GsSPRITE はスプライトを表示するための情報を持つ構造体で、表示する
+	スプライトに１つずつ用意し、そのパラメータを通じてスプライトを操作する
+	ことが可能。
+	
+	GsSPRITE をオーダリングテーブルに登録するには、GsSortSprite() または
+	GsSortFastSprite() 関数を用いる。
+
+	(x, y) には、画面上の表示位置を指定する。 GsSortSprite() 関数では、
+	スプライトパターン中の (mx, my) で指定された点が指定した位置に、
+	また GsSortFastSprite() 関数ではスプライトの左上点が指定した位置に
+	なる。
+
+	(w, h) には、スプライトの縦と横の長さをピクセル単位で指定する。
+	(tpage) には、スプライトパターンの存在するテクスチャページ番号を指定
+	(0～31)。
+
+	(u, v) には、スプライトパターンの左上の点をページ内オフセットで指定
+	する。指定可能範囲は (0,0)～(255,255)。
+
+	(cx, cy) には、CLUT（カラーパレット）の先頭位置を VRAM のアドレスで
+	指定する（4bit/8bit 時のみ有効）。
+	
+	(r, g, b) には、r, g, b ごとに輝度を指定。0～255 までの値が指定可能で
+	128 のときに元のパターンの明るさに、255 では２倍の明るさになる。
+
+	(mx, my) には 回転拡大の中心座標を スプライトの左上の点を原点とする
+	相対座標で与える。例えばスプライトの中央で回転させる場合は、幅、高さ
+	の1/2を指定する。
+
+	(scalex, scaley) には、ｘ方向、ｙ方向ごとに拡大縮小値を与える。
+	単位は 4096 で 1.0（元の大きさ）となっている。最大で８倍まで設定する
+	ことが可能。
+
+	(rotate) は、ｚ軸回りの回転を、4096 を１度とする固定小数点フォーマット
+	で設定する。
+
+	(attribute) は 32 ビットで、ここで表示のためのさまざまな属性を設定する
+	以下、各ビットについて解説する。
+
+
+	(a)	輝度調整 ON/OFF スイッチ (bit 6)
+	スプライトパターンのピクセル色を、(r, g, b) 値によって輝度調整して
+	描画するかどうかの設定。
+	１の場合 輝度調整は行なわれず、(r, g, b) 値は無視される。
+	(b)	ビットモード (bit 24-25)
+	スプライトパターンには色テーブルを使った4bit モード／8bit モードと、
+	ダイレクトに色を表す 15bit モードがある。ここではこれを指定する。
+	(c)	透視変換 (bit 26)
+	透視変換を行なうかどうかを設定する。
+	(d)	回転拡大縮小機能 (bit 27)
+	スプライトの拡張機能を ON/OFF する。スプライトを回転拡大しない場合は
+	OFF にすると処理が高速化される。
+	また GsSortFastSprite() 関数ではこのビットは無視し 常に拡張機能を
+	OFF にする。
+	(e)	半透明レート (bit28-29)
+	bit30 で半透明を ON にした場合に ピクセルをブレンディングする方式を
+	設定する。
+　	０のときは通常の半透明処理、１のときはピクセル加算、２のときは 50%加算
+	、３のときはピクセル減算となる。
+	(f)	半透明 ON/OFF(bit30)
+	半透明を ON/OFF する。
+	但し 半透明にするには、このビットを立てると共に、テクスチャの色の
+	フィールド（ダイレクトの時はテクスチャパターン、indexed の時は CLUTの
+	色のフィールド）の最上位ビット（STP ビット）を立てる必要がある。
+	またこの STP ビットを利用し、ピクセル単位の半透明／不透明の制御が可能。
+	(g)	表示 ON/OFF(bit31)
+	表示を ON/OFF する。
+
+
+GsBG
+BG（バックグラウンド面）ハンドラ
+構　造	
+	struct GsBG {
+			unsigned long attribute;
+			short x, y;
+			short w, h;
+			short scrollx, scrolly;
+			unsigned char r, g, b;
+			GsMAP *map;
+			short mx, my;
+			short scalex, scaley;
+			long rotate;
+	};
+
+メンバ	
+	attribute	属性
+	x, y	左上点の表示位置
+	w, h	BG の表示サイズ（ピクセル単位）
+	scrollx, scrolly	x,y のスクロール値
+	r, g, b	表示される時の輝度をｒ,g,ｂ毎に設定します
+		（128 のとき本来の輝度）
+	map	マップデータへのポインタ
+	mx, my	回転／拡大時の中心点座標
+	scalex, scaley	ｘ方向／ｙ方向のスケール値
+	rotate	回転角（単位は 4096 = 1°(degree））
+
+解　説
+	BG（バックグラウンド）は、GsCELL データによって定義される小さな矩形を
+	組み合わせた GsMAP データによって構成した、１枚の大きな矩形を描画する
+	機能である。
+
+	GsBG は BG ごとに存在し この GsBG を通じて BG を操作することができる。
+
+	GsBG をオーダリングテーブルに登録するには、GsSortBg() 関数を使用する。
+	(x, y) には、画面上の表示位置を指定する。
+	(w, h) には、BG の表示サイズを指定する。単位はピクセルで セルサイズや
+	マップの大きさに依存しない。
+
+	また、マップの大きさよりも表示エリアの方が大きい場合は マップの内容が
+	繰り返して表示される（タイリング機能）。
+
+	(scrollx, scrolly) は マップ中の表示位置のオフセットで ドット単位で指定
+	する。
+
+	(r, g, b) には、r, g, b ごとに輝度を指定する。128 で元の色となり、
+	255 では２倍の明るさとなる。
+
+	(map) は、GsMAP フォーマットのマップデータへのポインタで これにはマップ
+	データの先頭アドレスを指定する。
+
+	(mx, my) には 回転拡大の中心座標を BG の左上の点を原点とする相対座標
+	で与える。例えば BG の中央で回転させる場合は BG の幅 高さの１/２を
+	設定する。
+
+	(scalex, scaley) には ｘ方向 ｙ方向ごとに拡大縮小値を指定する。
+	単位は 4096 が 1.0（元の大きさ）となっている。最大８倍まで 設定する
+	ことが可能。
+	
+	(rotate) には、ｚ軸回りの回転角を指定する（4096 = １度）。
+	(attribute) については GsSPRITE の項を参照のこと。
+
+
+GsMAP
+BG を構成する MAP
+構　造	
+	struct GsMAP {
+			unsigned char  cellw, cellh;
+			unsigned short ncellw, ncellh;
+			GsCELL  *base;
+			unsigned short *index;
+	};
+
+メンバ	
+	cellw, cellh	セルのサイズ （０の場合は 256 として扱う）
+	ncellw, ncellh	BG の大きさ（単位はセル）
+		（w, h どちらかが０の時は表示せず）
+	base	GsCELL 構造体配列へのポインタ
+	index	セルの並び情報へのポインタ
+
+解　説
+	GsMAP は、BG を GsCELL で構成するためのマップデータ（セルの並
+	び情報）である。マップデータは、セルのインデックスの配列によっ
+	て情報を管理する。
+
+	cellw, cellh には、１個のセルの大きさをピクセル単位で指定。
+	なお １つの BG は同一サイズのセルから成ることに注意。
+
+	ncellw, ncellh には、BG の持つマップの大きさをセル単位で指定する。
+
+	base には、GsCELL の配列の先頭アドレスを設定する。
+
+	index には、セルの並び情報のテーブルの先頭アドレスを設定する。
+	セル並び情報とは、上記の base で示される配列へのインデックス値が
+	ncellw * ncellh 個並んだもののことを表わす。
+	なお インデックス値が 0xffff の場合は NULL セル（透明なセル）を指す
+	ものとみなされる。
+
+
+GsCELL
+BG を構成するセル
+構　造	
+	struct GsCELL {
+			unsigned char u, v;
+			unsigned short cba;
+			unsigned short flag;
+			unsigned short tpage;
+	};
+
+メンバ	
+	u	ページ内でのオフセット（Ｘ方向）
+	v	ページ内でのオフセット（Ｙ方向）
+	cba	CLUT ID
+	flag	反転情報
+	tpage	テクスチャページ番号
+
+解　説
+	GsCELL は BG を構成するセルの情報を持つ構造体で メモリ上に配列と
+	して確保する。CELフォーマットデータをコンパチブルになっている。
+
+	(u, v) には そのセルに対応するスプライトパターンの位置をtpage で指定
+	したページ中のオフセットで指定する。
+
+	cba は、そのセルに対応した CLUT のフレームバッファ内での位置を
+	表すデータで、次のようになっている。
+
+		ビット		値
+		bit0～5		CLUT のＸ位置／16
+		bit6～15	CLUT のＹ位置
+
+	flagはそのセルが元のテクスチャパターンを反転して表示するかどう
+	かの情報を持つ。
+
+		ビット		値
+		bit0		0のとき非反転、1のとき反転
+		bit1		0のとき
+		bit2～15	reserved
+
+	tpage は、スプライトパターンのフレームバッファ内の位置を表すページ
+	番号である。
+
+
+GsLINE
+直線ハンドラ
+構　造	
+	struct GsLINE {
+			unsigned long attribute;
+			short x0, y0;
+			short x1, y1;
+			unsigned char r, g, b;
+	};
+
+メンバ	
+	attribute	属性
+		28-29:　半透明レート
+		0	0.5 x Back + 0.5 x Foward
+		1	1.0 x Back + 1.0 x Foward
+		2 	1.0 x Back + 0.5 x Foward
+		3 	1.0 x Back - 1.0 x Foward
+		30:　半透明 ON OFF
+ 		0: 半透明 OFF	1: 半透明 ON
+		31: 　0: 表示　1: 非表示
+		x0, y0		描画開始点の位置
+		x1, y1		描画終了点の位置
+		r, g, b		描画色
+
+解　説
+	GsLINE は、直線を描画するために必要な情報を持つ構造体である。
+	GsLINE をオーダリングテーブルに登録するには、GsSortLine() 関数を
+	使用する。
+	attribute は 32 ビットで、ここで表示のためのさまざまな属性を設定する。
+	(ａ)	半透明レート (bit28-29)
+	bit30 で半透明を ON にした場合に、ピクセルをブレンディングする方式を
+	設定する。
+	０のときは通常の半透明処理 １のときはピクセル加算、２のときは 50%加算
+	３のときはピクセル減算となる。
+	(ｂ) 	半透明 ON/OFF(bit30)
+	半透明を ON/OFF する。
+(ｃ)	表示 ON/OFF(bit31)
+
+
+GsGLINE
+グラデーション付き直線ハンドラ
+構　造	
+	struct GsGLINE {
+			unsigned long attribute;
+			short x0, y0;
+			short x1, y1;
+			unsigned char r0, g0, b0;
+			unsigned char r1, g1, b1;
+	};
+
+メンバ	
+	attribute	属性
+		28-29:　半透明レート
+		0	0.5 x Back + 0.5 x Foward
+		1	1.0 x Back + 1.0 x Foward
+		2	1.0 x Back + 0.5 x Foward
+		3	1.0 x Back - 1.0 x Foward
+		30:　半透明 ON OFF
+		0: 半透明 OFF	1: 半透明 ON
+		31:　0: 表示　1: 非表示
+		x0, y0	描画開始点の位置
+		x1, y1	描画終了点の位置
+		r0, g0, b0	開始点の描画色
+		r1, g1, b1	終了点の描画色
+
+解　説
+	GsGLINE は、グラデーション付き直線の描画に必要な情報を持つ構造体で
+	ある。描画色の指定が、開始点と終了点で別に設定できる他は、
+	GsLINE と同様。
+
+
+GsBOXF
+矩形ハンドラ
+構　造
+	struct GsBOXF {
+			unsigned long attribute;
+			short x, y;
+			unsigned short w, h;
+			unsigned char r, g, b;
+	};
+
+メンバ
+	attribute	属性
+		28-29:　半透明レート
+		0	0.5 x Back + 0.5 x Foward
+		1	1.0 x Back + 1.0 x Foward
+		2	1.0 x Back + 0.5 x Foward
+		3	1.0 x Back -1.0 x Foward
+		30:　半透明 ON OFF
+		 0: 半透明 OFF　1: 半透明 ON
+		31:　0: 表示　1: 非表示
+	x, y	表示位置（左上点）
+	w, h	矩形のサイズ（横幅、高さ）
+	r, g, b	描画色
+
+解　説
+	GsBOXF は、単一色で塗りつぶされた矩形の描画に必要な情報を持つ構造体
+	である。GsBOXF をオーダリングテーブルに登録するには、GsSortBoxFill()
+	関数を使用する。
+
+
+_GsFCALL
+GsSortObject5J(),GsSortObject4J()で参照する関数テーブルの型
+構造
+
+	struct _GsFCALL {
+	PACKET *(*f3[2][3])(),*(*nf3[2])(),*(*g3[2][3])(),*(*ng3[2])();
+	PACKET *(*tf3[2][3])(),*(*ntf3[2])(),*(*tg3[2][3])(),*(*ntg3[2])();
+  	PACKET *(*f4[2][3])(),*(*nf4[2])(),*(*g4[2][3])(),*(*ng4[2])();
+	PACKET *(*tf4[2][3])(),*(*ntf4[2])(),*(*tg4[2][3])(),*(*ntg4[2])();
+	};
+
+メンバ
+	それぞれの要素は 下位関数へのポインタ
+
+	f3,g3,tf3,tg3,f4,g4,tf4,tg4	ポリゴンタイプ
+	第一配列 GsDivMODE_DIV/GsDivMode_NDIV	分割／非分割
+	第二配列 GsLMODE_NORMAL/GsLMODE_FOG/GsLMODE_LOFF  光源計算モード
+
+	nf3,ng3,ntf3,ntg3,nf4,ng4,ntf4,ntg4	ポリゴンタイプ
+	第一配列 GsDivMODE_DIV/GsDivMode_NDIV	分割／非分割
+
+解  説
+	GsSortObject5(),GsSortObject4()は アトリビュートやプリセットデータ
+	などディスパッチして 下位関数を呼び出している。
+	この下位関数は６４もあり 一つのアプリケーションでは 全ての下位関数
+	を使わない場合がほとんどである。
+
+	不要な下位関数をリンクしないことでコードを小さくするために
+	GsSortObject5J() GsSortObject4J()という それぞれGsSortObject5(),
+	GsSortObject4()コンパチで下位関数をテーブルテーブル化した
+	ものが用意されている。
+
+	_GsFCALLは この関数テーブルを定義した 構造体である。
+	関数テーブルは ポリゴンの種類、分割の有無、光源計算のモードで
+	分類される。
+
+	それぞれの 要素に 適切な下位関数のポインタを入れることでその
+	関数はリンクされる。逆にポインタを入れず extern宣言もしないことで
+	リンクを切ることができる。ただしポインタのない関数が呼ばれた場合は
+	BUS ERRORが発生するので注意が必要。
+
+	GsSortObject5()で全ての要素に適切な関数を入れるサンプルを以下
+	に示す。これでGsSortObject5J() は GsSortObject5()と全く同じ動きをする。
+	これは libgs.h にもコメントとしていれてある。
+
+				/* extern and fook only useing functions */
+extern _GsFCALL GsFCALL5;	/* GsSortObject5J Func Table */
+
+jt_init()			/* Gs SortObject5J Fook Func */
+{
+  PACKET *GsPrstF3NL(),*GsPrstF3LFG(),*GsPrstF3L(),*GsPrstNF3();
+  PACKET *GsTMDdivF3NL(),*GsTMDdivF3LFG(),*GsTMDdivF3L(),*GsTMDdivNF3();
+  PACKET *GsPrstG3NL(),*GsPrstG3LFG(),*GsPrstG3L(),*GsPrstNG3();
+  PACKET *GsTMDdivG3NL(),*GsTMDdivG3LFG(),*GsTMDdivG3L(),*GsTMDdivNG3();
+  PACKET *GsPrstTF3NL(),*GsPrstTF3LFG(),*GsPrstTF3L(),*GsPrstTNF3();
+  PACKET *GsTMDdivTF3NL(),*GsTMDdivTF3LFG(),*GsTMDdivTF3L(),*GsTMDdivTNF3();
+  PACKET *GsPrstTG3NL(),*GsPrstTG3LFG(),*GsPrstTG3L(),*GsPrstTNG3();
+  PACKET *GsTMDdivTG3NL(),*GsTMDdivTG3LFG(),*GsTMDdivTG3L(),*GsTMDdivTNG3();
+  PACKET *GsPrstF4NL(),*GsPrstF4LFG(),*GsPrstF4L(),*GsPrstNF4();
+  PACKET *GsTMDdivF4NL(),*GsTMDdivF4LFG(),*GsTMDdivF4L(),*GsTMDdivNF4();
+  PACKET *GsPrstG4NL(),*GsPrstG4LFG(),*GsPrstG4L(),*GsPrstNG4();
+  PACKET *GsTMDdivG4NL(),*GsTMDdivG4LFG(),*GsTMDdivG4L(),*GsTMDdivNG4();
+  PACKET *GsPrstTF4NL(),*GsPrstTF4LFG(),*GsPrstTF4L(),*GsPrstTNF4();
+  PACKET *GsTMDdivTF4NL(),*GsTMDdivTF4LFG(),*GsTMDdivTF4L(),*GsTMDdivTNF4();
+  PACKET *GsPrstTG4NL(),*GsPrstTG4LFG(),*GsPrstTG4L(),*GsPrstTNG4();
+  PACKET *GsTMDdivTG4NL(),*GsTMDdivTG4LFG(),*GsTMDdivTG4L(),*GsTMDdivTNG4();
+
+  /* flat triangle */
+  GsFCALL5.f3[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstF3L;
+  GsFCALL5.f3[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstF3LFG;
+  GsFCALL5.f3[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstF3NL;
+  GsFCALL5.f3[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivF3L;
+  GsFCALL5.f3[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivF3LFG;
+  GsFCALL5.f3[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivF3NL;
+  GsFCALL5.nf3[GsDivMODE_NDIV]                = GsPrstNF3;
+  GsFCALL5.nf3[GsDivMODE_DIV]                 = GsTMDdivNF3;
+  /* gour triangle */
+  GsFCALL5.g3[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstG3L;
+  GsFCALL5.g3[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstG3LFG;
+  GsFCALL5.g3[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstG3NL;
+  GsFCALL5.g3[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivG3L;
+  GsFCALL5.g3[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivG3LFG;
+  GsFCALL5.g3[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivG3NL;
+  GsFCALL5.ng3[GsDivMODE_NDIV]                = GsPrstNG3;
+  GsFCALL5.ng3[GsDivMODE_DIV]                 = GsTMDdivNG3;
+  /* texture flat triangle */
+  GsFCALL5.tf3[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstTF3L;
+  GsFCALL5.tf3[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstTF3LFG;
+  GsFCALL5.tf3[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstTF3NL;
+  GsFCALL5.tf3[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivTF3L;
+  GsFCALL5.tf3[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivTF3LFG;
+  GsFCALL5.tf3[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivTF3NL;
+  GsFCALL5.ntf3[GsDivMODE_NDIV]                = GsPrstTNF3;
+  GsFCALL5.ntf3[GsDivMODE_DIV]                 = GsTMDdivTNF3;
+  /* texture gour triangle */
+  GsFCALL5.tg3[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstTG3L;
+  GsFCALL5.tg3[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstTG3LFG;
+  GsFCALL5.tg3[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstTG3NL;
+  GsFCALL5.tg3[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivTG3L;
+  GsFCALL5.tg3[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivTG3LFG;
+  GsFCALL5.tg3[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivTG3NL;
+  GsFCALL5.ntg3[GsDivMODE_NDIV]                = GsPrstTNG3;
+  GsFCALL5.ntg3[GsDivMODE_DIV]                 = GsTMDdivTNG3;
+  /* flat quad */
+  GsFCALL5.f4[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstF4L;
+  GsFCALL5.f4[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstF4LFG;
+  GsFCALL5.f4[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstF4NL;
+  GsFCALL5.f4[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivF4L;
+  GsFCALL5.f4[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivF4LFG;
+  GsFCALL5.f4[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivF4NL;
+  GsFCALL5.nf4[GsDivMODE_NDIV]                = GsPrstNF4;
+  GsFCALL5.nf4[GsDivMODE_DIV]                 = GsTMDdivNF4;
+  /* gour quad */
+  GsFCALL5.g4[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstG4L;
+  GsFCALL5.g4[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstG4LFG;
+  GsFCALL5.g4[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstG4NL;
+  GsFCALL5.g4[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivG4L;
+  GsFCALL5.g4[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivG4LFG;
+  GsFCALL5.g4[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivG4NL;
+  GsFCALL5.ng4[GsDivMODE_NDIV]                = GsPrstNG4;
+  GsFCALL5.ng4[GsDivMODE_DIV]                 = GsTMDdivNG4;
+  /* texture flat quad */
+  GsFCALL5.tf4[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstTF4L;
+  GsFCALL5.tf4[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstTF4LFG;
+  GsFCALL5.tf4[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstTF4NL;
+  GsFCALL5.tf4[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivTF4L;
+  GsFCALL5.tf4[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivTF4LFG;
+  GsFCALL5.tf4[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivTF4NL;
+  GsFCALL5.ntf4[GsDivMODE_NDIV]                = GsPrstTNF4;
+  GsFCALL5.ntf4[GsDivMODE_DIV]                 = GsTMDdivTNF4;
+  /* texture gour quad */
+  GsFCALL5.tg4[GsDivMODE_NDIV][GsLMODE_NORMAL] = GsPrstTG4L;
+  GsFCALL5.tg4[GsDivMODE_NDIV][GsLMODE_FOG]    = GsPrstTG4LFG;
+  GsFCALL5.tg4[GsDivMODE_NDIV][GsLMODE_LOFF]   = GsPrstTG4NL;
+  GsFCALL5.tg4[GsDivMODE_DIV][GsLMODE_NORMAL]  = GsTMDdivTG4L;
+  GsFCALL5.tg4[GsDivMODE_DIV][GsLMODE_FOG]     = GsTMDdivTG4LFG;
+  GsFCALL5.tg4[GsDivMODE_DIV][GsLMODE_LOFF]    = GsTMDdivTG4NL;
+  GsFCALL5.ntg4[GsDivMODE_NDIV]                = GsPrstTNG4;
+  GsFCALL5.ntg4[GsDivMODE_DIV]                 = GsTMDdivTNG4;
+}
+
+
+
+
+外部変数一覧
+------------
+
+global		type		説明
+
+CLIP2		RECT		２次元クリッピングエリア
+				GsClip2Dによっても設定される。
+PSDMBASEX[2]	u_short		ダブルバッファの基点（X座標）
+				GsDefDispbuff()でセットされる
+PSDMBASEY[2]	u_short		ダブルバッファの基点（Y座標）
+				GsDefDispbuff()でセットされる
+PSDIDX		u_short		ダブルバッファのインデックス
+PSDCNT		u_long		フレームのスイッチでインクリメントされる番号
+POSITION	_GsPOSITION	２次元オフセット
+GsDRAWENV	DRAWENV		Gsの描画環境
+GsDISPENV	DISPENV		Gsの表示環境
+GsLSMATRIX	MATRIX		Gsのローカルスクリーンマトリックス
+				GsSetLs()によってセットされる
+GsWSMATRIX	MATRIX		Gsのワールドスクリーンマトリックス
+				GsSetRefView()などによってセットされる
+GsLIGHT_MODE	int		デフォルトのライトモード
+HWD0		u_long		横解像度
+VWD0		u_long		縦解像度
+GsLIGHTWSMATRIX	MATRIX		Gsのライトマトリックス
+				GsSetFlatLight()によって設定される
+GsIDMATRIX	MATRIX		単位行列
+GsIDMATRIX2	MATRIX		単位行列（アスペクト変換も含む）
+GsLIGHT_FUNC	関数のポインタ	GsDOBJ1,GsDOBJ2で使われるデフォルトの
+				光源計算ルーチンの関数のポインタ
+GsOUT_PACKET_P	u_long		パケットエリアの先頭を保持するポインタ
+				GsSetWorkBase()で設定される
+GsMATE_C	u_long		attributeをデコードした結果（減衰系数）
+GsLMODE		u_long		attributeをデコードした結果（ライトモード）
+GsLIGNR		u_long		attributeをデコードした結果（ライト無視）
+GsLIOFF		u_long		attributeをデコードした結果（シェーディングなし）
+GsZOVER		u_long		attributeをデコードした結果（nearZ）
+GsBACKC		u_long		attributeをデコードした結果（両面ポリゴン）
+GsNDIV		u_long		attributeをデコードした結果（分割数）
+GsTRATE		u_long		attributeをデコードした結果（半透明レート）
+GsTON		u_long		attributeをデコードした結果（半透明）
+GsDISPON	u_long		attributeをデコードした結果（表示／非表示）
+
+GsFCALL5        構造体		GsSortObject5J()の関数テーブル
+GsFCALL4        構造体		GsSortObject4J()の関数テーブル

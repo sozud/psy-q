@@ -1,0 +1,659 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+*Appendix 
+** FAQ
+
+	以下の内容は 1995/01/19-20 に London/U.K で行なわれた 
+	'95 PlayStation WorkShop での FAQ の概要です。
+
+------------------------------------------------------------------------------
+
+Q: What is the maximum number of directories on PS-X ?
+	
+	directory:	30
+	files:		45 (including subdirectories)
+	total files:	30*45
+
+Q: Is a directory listed as file in the parent directory?
+	Yes.
+
+Q: Does a subdirectory considered a file in the parent directory?
+	Yes
+	
+Q: Is there any error detection/correction of XA-ADPCM or CD-DA data?
+	Yes
+
+Q: Does CD-DA use the CD_ROM subsystem local memory?
+	Yes
+
+Q: Will the function CdReady() be in the final library?
+	Yes:
+	
+	CdReady		Wait until CD-ROM sector data is setup in local buffer
+	
+	Synopsis:
+		int CdReady(mode, result)		
+		int mode;	
+		u_char result[8];
+
+	Argment:
+		mode	0: block until one sector data is setup.
+			1: return current status 
+	
+		result	the latest status. Its contents  depends on
+			the latest primitive command.
+	
+	Return:
+		CdlDataReady	Sector data ready
+		CdlDiskError	Error detected
+		CdlNoIntr	Data not ready
+
+Q: Will the function CdGetStatus() be in the final library?
+
+	No. But CdGetStatus can be re-written using CdControl() as follows:
+
+	int CdGetStatus(u_char *status)
+	{
+		u_char	result[8];
+		int	ret;
+	
+		ret = CdControlB(CdlNop, 0, result);
+		*status = result[0];
+		return(ret);
+	}
+
+
+Q: What is the possible status of CdGetStatus()?
+
+	#define CdlStatPlay	0x80	/* playing CD-DA */
+	#define CdlStatSeek	0x40	/* seeking */
+	#define CdlStatRead	0x20	/* reading data sectors */
+	#define CdlStatStandby	0x01	/* spindle motor rotating */
+
+
+Q: Why does CdGetToc2() exist?
+
+	There is no means. It is only for compatibility to very old
+	version.
+
+Q: Should you enter a critical section when you execute
+CdSyncCallback() etc ?
+
+	All callbacks are executed in a critical section.
+
+Q: Does calling CdSearchFile() cause the disk to start spinning then
+stop again ?
+
+	After calling CdSearchFile(), the disk is in pause status, not
+	stop status.
+
+Q: What does the function CdSync() wait for?
+
+	It wait for end of CdControl(). Since CdControl() is non-block
+	function, CdSync is used to detect end of CdControl.
+
+Q: What does the function CdReady() wait for?
+
+	It wait for the sector data ready. CdReady returns
+	CdlDataReady when sector data is setup. It is used both for data
+	reading and report in CD-DA report mode.
+
+Q: What does the function CdReadReady() wait for?
+
+	CdReadReady() waits for end of CdRead(). It is higher level
+	function, and it uses CdReady() and CdSync() internal.
+
+Q: What does the setting mode CdlModeSize1/CdlSize0/CdlSubHeaderFilter
+
+	Here is the mode of CD-ROM.
+	
+	CdlSubHeaderFilter equals to CdlModeSF.
+	AutoReport equals to CdlModeRept.
+
+	CD-ROM has 3 sector modes (2048/2340/2328byte).
+	But considering error detection, we strongly recomend that you
+	use MODE1.
+
+	You can use AutoReport only in CD-DA. Report data can be catched
+	CdReady(), or callback in CdReadyCallback().
+
+#define CdlModeSpeed	0x80	/* 0: normal speed	1: double speed	*/
+#define CdlModeRT	0x40	/* 0: ADPCM off		1: ADPCM on	*/
+#define CdlModeSize1	0x20	/* 0: 2048 byte		1: 2340byte	*/
+#define CdlModeSize0	0x10	/* 0: -			1: 2328byte	*/
+#define CdlModeSF	0x08	/* 0: Channel off	1: Channel on	*/
+#define CdlModeRept  	0x04	/* 0: Report off	1: Report on	*/
+#define CdlModeAP	0x02	/* 0: AutoPause off	1: AutoPause on */
+#define CdlModeDA	0x01	/* 0: CD-DA off		1: CD-DA on	*/
+
+
+Q: Should the callback function set take two parameters and what are these?
+
+	result:		latest status. The contents depends on the
+			latest primitive command.
+
+	intr:		Interrupt cause.
+	
+			CdSyncCallback/CdReadCallback
+				CdlComplete	Command complete
+				CdlDiskError	Command error
+	
+			CdReadyCallback:
+				CdlDataReady	Data is setup.
+				CdlDiskError	Error detected
+				CdlDataEnd	End of Disk
+
+
+Q: Will the final callback functions work this way and what will they be?
+
+	Yes. Callback interface is lower level one than Event handler.
+
+Q: What are the meanings og the two parameters in CdSetFileter?
+
+	CdSetFilter can be expressed using CdControl() as follows:
+	
+	int CdSetFilter(u_char file, u_char chan)
+	{
+		u_char	param[4];
+	
+		param[0] = file;
+		param[1] = chan;
+		return(CdControlB(CdlSetfilter, param, 0));
+	}
+
+Q: Can you filter selectivel on several channels ?
+	No. you have to select one of several channels at the same time.
+
+Q: How is channel filtering turned off? Is it by changing the mode?
+	Yes. You can turn off clearing CdlModeSF to 0.
+
+Q: Is CdDePause() being removed from the library?
+	Yes. CdDePause() is same as follows:
+
+	CdDePause(void)
+	{
+		CdControl(CdlPlay, 0, 0);
+	}
+
+Q: The follwing issures cause me to question this being the API. Could
+you try and answer the points raised;
+
+Q: Can programers use CdControl()/CdControlB()/CdControlF()	
+	
+	Yes. All these functions are released in Japan, and Japanese
+	document have been released. 
+	
+	The high level commands such as CdPlay()/CdSeekL()/etc can be
+	re-written easily by using following CdControl().
+	
+	CdControl	Put CD-ROM primitive command (Non-blocking)
+	
+	Synopsis:
+		int CdControl(com, arg, result)
+		u_char	com;
+		u_char	arg[4];
+		u_char	result[8];
+
+	Argument:
+		com	command code*
+		arg	argument for the command 'com'
+		result	return value
+	
+	Return:	1	acknowlged
+		0	error
+	
+	Note:	*If no argment is required, set NULL instead of 'arg'.
+		*If you don't need return value, set NULL instead of 'result'
+		*Since this function is non-blocking type. CdSync() is
+		 required for detect the end of the precedure.
+
+	
+	CdControlB	Put CD-ROM primitive command (Blocing)
+	
+	Synopsis:
+		int CdControl(com, arg, result)
+		u_char	com;
+		u_char	arg[4];
+		u_char	result[8];
+
+	Argument:
+		com	command code*
+		arg	argument for the command 'com'
+		result	return value
+	
+	Return	1	acknowlged
+		0	error
+	
+	Note	*If no argment is required, set NULL instead of 'arg'.
+		*If you don't need return value, set NULL instead of 'result'
+
+	
+	CdControlF	Put CD-ROM primitive command (Fast)
+	
+	Synopsis:
+		int CdControl(com, arg)
+		u_char	com;
+		u_char	arg[4];
+
+	Argument:
+		com	command code*
+		arg	argument for the command 'com'
+	
+	Return	1	always
+	
+	Note	*If no argment is required, set NULL instead of 'arg'.
+		*CdControlF does not wait for acknowledge. This
+		  function returns faster, but it is not sure if the
+		  CD-ROM subsystem acceptes the command.
+		  You have to check the status to use CdSync().
+
+
+command list:
+
+/*
+ *  (C) Copyright 1993/1994 Sony Computer Entertainment ,Tokyo,Japan.
+ *                      All Rights Reserved
+ *
+ *              libcd.h: CD-ROM sub system hendler
+ *
+ *$Id: appendix.txt,v 1.5 1995/09/08 09:08:41 suzu Exp $
+ *
+ * CD-ROM Primitive Command list:
+ *
+ *	Symbol		type	Contents			
+ *	------------------------------------------------------
+ *	CdlNop		B	NOP		
+ *	CdlSetloc	B	Set position	
+ *	CdlPlay		B	CD-DA Play
+ *	CdlForward	B	Forward
+ *	CdlBackword	B	Backword
+ *	CdlReadN	B	Read with retry
+ *	CdlStanby	N	Standby
+ *	CdlStop		N	Stop
+ *	CdlPause	N	Pause
+ *	CdlMute		B	Mute on
+ *	CdlDemute	B	Mute off
+ *	CdlBetfilter	B	Set SubHeader filter
+ *	CdlSetmode	B	Set mode
+ *	CdlGetlocL	B	Get logical position
+ *	CdlGetlocP	B	Get phisycal position
+ *	CdlSeekL	N	Logical Seek
+ *	CdlSeekP	N	Phisical Seek
+ *	CdlReadS	B	Read without retry
+ *	CdlReset	B	Reset
+ *	------------------------------------------------------
+ *			B: Blocking, N: Non-Blocking operation
+ *		
+ *	
+ *	Symbol		arg		result
+ *	--------------------------------------------------------------
+ *	CdlNop		-		status
+ *	CdlSetloc	min,sec,sector	status
+ *	CdlPlay       	-		status
+ *	CdlForward	-		status
+ *	CdlBackword	-		status
+ *	CdlReadN	-		status
+ *	CdlStanby	-		status
+ *	CdlStop		-		status
+ *	CdlPause	-		status
+ *	CdlMute		-		status
+ *	CdlDemute	-		status
+ *	CdlSetfilter	file,chan	status
+ *	CdlSetmode	mode		status
+ *	CdlGetlocL	-		min,sec,sector,mode,file, chan
+ *	CdlGetlocP	-		track,index,min,sec,frame,
+ *							amin,asec,aframe
+ *	CdlSeekL	-		status
+ *	CdlSeekP	-		status
+ *	CdlReadS	-		status
+ *	CdlReset	-		status
+ *	--------------------------------------------------------------
+ */
+
+Q: I think the following functions make up the CD API am I correct?
+
+	high-level functions		primitive commands
+	------------------------------------------------------------
+	CdStandby			Cdcontrol(CdlStandby, 0, 0)
+	CdStop				CdControl(CdlStop, 0, 0)
+	CdPlay				CdControl(CdlPlay, 0, 0)
+	CdPause				CdControl(CdlPause, 0, 0)
+	CdDePause			CdControl(CdlPlay, 0, 0)	
+	CdForward			CdControl(CdlForward, 0, 0)	
+	CdBackward			CdControl(CdlBackward, 0, 0)
+	CdMute				CdControl(CdlMute, 0, 0)
+	CdDeMute			CdControl(CdlDemute, 0, 0)
+	CdGetStatus			CdControl(CdlNop, 0, result)
+	------------------------------------------------------------
+
+
+NOTE:Folowings are newly added functions:
+
+	CdInit	Initialize CD-ROM subsystem
+	
+	Synopsis:
+		void CdInit(mode)
+		int	mode;	
+
+	Argument:
+		mode	void
+	
+	Return:
+		void
+	Note:
+		The argument 'mode' is not refered now.
+
+	
+	CdSearchFile	Get ISO-9660 format file position
+
+	Synopsis:
+		CdlFILE *CdSearchFile(fp, name)
+		CdlFILE	*fp;
+		char	*name;
+
+	Argument:
+		fp	file pointer
+		name	file pointer
+	
+	Description:
+		Search the file named 'file' from ISO-9660 directory.
+		The file position is stored in 'CdlFILE *fp' structure.
+	
+	Return:
+		0	failure
+		1	success
+	
+	Note:	*All file name have to be described with full path name.
+		*Notice that "\\" is required for directory delimiator
+		 because a single '\' is regared as escape code in strings.
+	
+		ex)
+			CdSearchFile(&fp, "\\PSX\\DOC\\CD\\FUNCTION.TXT"
+
+	CdSyncCallback	Register CdSync() callback function 
+	
+	Synopsis:
+		void *CdSyncCallback(func)
+		void (*func)();
+
+	Argument:
+		func	callback function pointer
+
+	Description:
+		This function registers the callback function which is
+		called at the end of CD-ROM command.
+		When CD-ROM subsystem ends the primitive command and
+		it becomes ready status, callback function 'func' is called.
+
+		When the argmment is NULL instead of the function pointer,
+		No callback is called.
+
+	Returns:
+		Previous callback function pointer.
+		(0 if no callbacks are registered before)
+	
+	Note:	callback function is executed in CriticalSection, and
+		all the other interrupts are disable there. 
+
+
+	CdReadyCallback	Register CdReady() callback function 
+	
+	CdReadCallback	Register CdRead() callback function 
+
+
+	CdRead	Read multiple sectors
+	
+	Synopsis:
+		int CdRead(sectors, buf, mode)
+		int	sectors;
+		u_long	*buf;
+		u_char	mode;
+
+	Argument:
+		sectors	sectors to read
+		buf	destination buffer address
+		mode	mode
+	
+	Description:
+		CdRead reads 'sectors' sectors from current position,
+		and store the result in 'buf' area on main memory.
+		The current position is the last postion which
+		CdlSeekL/CdlSetloc is refered or the last position of
+		previous CdRead() ends.
+	
+	Returns:
+		0	Ok
+		1	Not Ok
+	
+	Note:	*CdRead() is non-blocking type function, so the end of
+		 the data translation should be detected by CdReadSync().
+
+		*CdSync() returns CdlComplete when CdlRead2() (which is
+		 called by CdRead() internally) finishes.
+
+		*CdReady() returns CdlReady each time when the 1 sector
+		 data is ready on local memory.
+
+
+Q Can you read data sectors using CdRead2() then CdGetSector()?
+	Yes
+	
+Q What commands do the CdlModeSize1 and CdlModeSize2 conmmands effect?
+	CdlModeSize1/2 should be fixed 0 (mode0) because of error corrections.
+	We strongly recommend that all data should be stored by MODE0
+	(2048byte/sector)
+	
+Q What is the file no in CdSetFilter)
+	File # is used to select the playing channel of multi-channel
+	XA-ADPCM disk.
+
+Q Why does the debugging stations require the presence of licence data?
+	To avoid confusion and to keep compatibilty to real PlayStation.
+
+Q Will the developers get a copy of this file so they can burn gold
+  disks for the debugging station?
+	Yes.
+
+Q How fundamental to debuggins station performance is it that the
+  disks are 71 not 74 or 63 minutes?
+	74 minutes disk is not so reliable for master CD., we know the
+	others are all ok.
+
+Q Is there any reason not to set modes such as CdlModeRT or CdlModeDA
+  when not doing ADPCM playback, DA play etc?
+	Since default mode is CDlModeDA, DA-mode is taken if no mode
+	is set.
+
+Q Does mode CdlModeRT allow or inhibit retries ?
+	No. CdReadN retries even when CdlModeRT mode.
+	You can use CdlReadS to inhibit retry.
+
+Q What happends to ADPCM play balck if CdlModeRT and CdlModeReadN are
+  set together?	
+	CdReadN retries even when CdlModeRT mode. 
+
+Q What are all the possible statuses returned by CD functions?
+	
+/*
+ * Status
+ */
+#define CdlStatPlay	0x80	/* playing CD-DA */
+#define CdlStatSeek	0x40	/* seeking */
+#define CdlStatRead	0x20	/* reading data sectors */
+#define CdlStatStandby	0x02	/* spindle motor rotating */
+
+Q What status can you expect from which function?
+
+	It depends on the current status, but most status can be predictable.
+	(i.e. after CdlPlay, the status have to be CdlStatStandby |
+	 CdlStatPlay etc)
+	
+Q What are the differences between Setloc and SeekP
+
+	CdlSetloc only set the 'target position'.
+	CdlSeekP set the 'target position' and start seeking toward
+	this position.
+
+Q Is XA-ADPCM decompressed in the CD-subsystem local memory?
+
+	Yes, and  XA-ADPCM stored as XA-ADPCM in local memory.
+
+Q Should I pause a CD before seeking?
+
+	No. It does not matter.
+
+** ディスクアクセス位置について
+
+	  基本的にはCD-ROM XAに準拠していれば再生できますが、仕様上デー
+	タトラックはDAのトラックの前に配置しなくてはいけません。
+	（DAトラックはなくても構いません。）
+	間違った例としては、１曲目がデータで、２、３曲目がCD-DA、３曲
+	目がデータという配置です。このような時は、１、２曲目をまとめて
+	前の方に配置して１曲目ということにして２曲目以降をCD-DAという
+	ふうに配置して下さい。
+
+	  曲間がないまたは極端に短いDISCの場合でauto pause機能を使用す
+	ると、auto pauseできないでそのままDISCの最後まで再生してしまう
+	ことがあります。これを防ぐためには、曲の変わり目を２秒以上空け
+	なければならない。
+	  例として、ゲームのBGMにCD-DAを１曲リピートで使う場合は、auto
+	pause onで曲の変わり目を２秒以上設けるか、常に現在位置をポーリ
+	ングし、終了点が来たらTOPに戻すということをしなければならない。
+
+	現在のバージョンでは外周から３分以内のところにある幅でトラックジャ
+	ンプをすると外側へ飛び出すという不具合があります。これを防ぐ方
+	法は、外周３分以内をアクセスしないようにするか、この幅にならな
+	いように飛ぶようにします。この時、ホストに対してエラーを出しま
+	す。
+
+	現在のバージョンではデータトラック上を再生してそのままCD-DAトラックを
+	再生した場合mute off機構が働きません。よって、このような使い方
+	をする場合は、CD-DAトラックになった時にmute offしてください。
+	デコーダのモードは切り替わっていて、muteされているだけです。
+
+	  report modeの使用上の注意としては、データREAD中にreport mode
+	をonにしておくと、ピックアップの位置情報の割り込みとデータの転
+	送開始の割り込みが区別できません。report mode onにするのは、
+	CD-DAを再生している時のみです。
+
+	  report modeを使用する上での注意事項があります。CDにはDISCの
+	始めからの絶対時間と、各トラック内での時間を示す相対時間があり
+	ます。よって、report mode onの時両方のデータを一度に送れれば良
+	いのですが、都合上交互に送るようになっています。しかし、送られ
+	てきたデータがどちらかわからないので、データ中に印がついていま
+	す。送る仕様は、以下のようになっています。
+	ff,fr中は読めるデータが限られているのでチェックを通ったものは
+	全て送る。その時、絶対時間の十の桁のframeが偶数の時は、絶対時
+	間を送る。また、絶対時間の十の桁のframeが奇数の時は、相対時間
+	を送るがこの時frameのバイトの最上位ビットを立てておく。frameは
+	０から７４までしかないので、ビットを立てることによる問題はない。
+	つぎに、普通通常再生中は位置データを読めるが、念のため十の桁が
+	書き変わった時に送るようになっていて、絶対時間と相対時間の関係
+	は上と同じになっている。
+	また、レベルも送られていて2byte中の15bitのデータとなっており、
+	残り1bitは L/Rの識別になっています。
+
+	  CD-DAで曲単位でアクセスをする場合と、TOCのデータを吸い上げて
+	そこに絶対時間のアクセスをした場合と音の出方が違う場合がありま
+	す。これは、TOCに書かれているデータと実際の場所にずれが許容さ
+	れているために起きる現象です。
+	ちなみに、曲単位でアクセスをする場合のアクセス先は目標のトラッ
+	クのindexが１の先頭を自動計算して、アクセスします。よって、曲
+	間は再生されません。
+
+	  リセットコマンドはホストからモードを設定するところを以下のよ
+	うなことをし、一曲目の頭でポーズするだけです。
+	よって、何回使っても問題はありませんが、リセット後は標準速設定
+	なので、前の状態が倍速でデータを読んでいた場合は、標準速倍速を
+	繰り返すため回転が安定するまでの時間がかかります。これを回避す
+	るためには、自分が設定したい状態にモードを設定すれば（モードを
+	上書きまたは、今のモードを見て設定し直す）データの読み込み迄の
+	待ち時間は回転の安定時間を待たなくなる分、速くなります。
+
+		リセット後のモード
+			ドライブは標準速設定
+			リアルタイムAD-PCM:off
+			データ転送バイト数:2340 byte
+			サブヘッダフィルター:off
+			レポートモード:off
+			オートポーズ:off
+			CD-ROMモードの時のCD-DA再生:disable
+		setlocコマンドで設定された場所をクリアする。
+		過去に起こったエラーのステータスをクリアする。
+
+	  DISCの状態が悪くアクセスができない場合、所定時間経過ののちエ
+	ラーを返します。普通はこのようなことは起きないので、この時の処
+	理を忘れがちとなりやすいの、この時の処理を入れておくことを推奨
+	します。
+	これにともない以下のようなことも起こり得ます。ユーザが、複数の
+	セクターリードを期待していて、たまたまデータが読みづらくちょっ
+	と読めてはエラーでちょっと読めてはエラーということがおきている
+	時は、エラーが出ません。このような時、期待している読込みに要す
+	る時間に比べ大変時間が掛かり一見ハングアップしたように見えるこ
+	とがあります。
+
+	  データを読み込む際に普通FF,FRはできません。ムービーのような
+	環境下で、このような機能を使用する場合は、ユーザの管理下におい
+	て工夫して行なって下さい。
+
+	  データを読み込む際、setloc,seekL,readの手順でも可能ですが、
+	setloc,readでも可能です。また、setlocはそれ以後に以下のコマン
+	ドが来ると、使用され設定された情報はキャンセルされます。
+	play(playN),readN,readS,seekL,seekP,ff,fr,stop,reset,allreset
+	また、ふたを開けた時にもキャンセルされます。
+	このことから、以下のような使い方はできません。
+	場所の指定をして（setlocをして）ここを読込む（readN or readS)
+	その後にまた（readN or readS）をおくるような方法をとる２度読み。
+	この時は、位置指定して（setlocをして）そこを読込む(readN or
+	readS)を２回繰返さなくてはいけない。
+
+	  CD-ROM Decorderに32kbyteのローカルメモリーがついていますが、
+	全てのエリアをユーザは使用できません。また、デコーダのコントロー
+	ルソフトがローカルメモリーの先読みをサポートしていないため、
+	data readyの割込み後倍速時で、6.6msec以内標準速で13.3msec以内
+	にデータを読みだしを開始して下さい。さもないと、HOSTに送るデー
+	タは次に更新されて１つ飛ばされてしまいます。
+	イメージとしては2340byteを1blockとするFIFOが2blockあり片方が溜
+	れば、FIFOを切替えるという感じです。
+	また、読み出し開始後終了を待たずに今回のデータを破棄したい場合
+	は、割込みレジスターをクリアーすると次のデータ割込みを待つこと
+	が出来ます。
+
+	  アクセス時間は、同じ区間を計測していても多少バラツキがありま
+	す。また、個々の機器によっても若干変わります。
+	ソフトを作成する際には、この点を考慮してユーザの管理下において
+	先読みをさせることによりバラツキ分を吸収できます。
+
+	  BGMを使用する環境下において、アクセスを多用し切替え時間を要
+	求するような場合は、CD-ROM XAのMulti channel AD-PCMを使用する
+	こと良い場合があります。CD-DAの場合、アクセスが必要なため俊敏
+	な切替えはできません。また、設定の仕方によっては音を出しながら
+	データを読込むといったこともできます。
+
+** ６２分問題
+
+	現在の CD-ROM サブシステムでは、CD-ROM の外周３分以内へシーク
+	する場合、シーク開始地点によっては、正しくシークが行なわれない
+	場合があります。
+
+	これは一般に６２分問題と呼ばれています。６２分問題は、ディスク
+	に６２分以上データを記録して使用するアプリケーションで発生する
+	可能性があります。
+
+	このため、この現象を回避するには、お手数ですが以下の方法をおと
+	り下さるようお願い申し上げます。
+	
+	(1) 最外周３分（データの最後の３分）にダミーデータを入れておく
+	   （ダミーデータは使用しない）
+
+	(2) BGM などにCD-DAを使用する場合、最終曲を３分以上にする。
+	    この場合は、曲の途中から再生したり、曲の途中でリピートをか
+	    けない限り、最外周３分へのシークは発生しません。従って
+	    CD-ROM サブシステムは正常に動作します。
+
+	(3)どうしても最外周３分をデータエリアとして使いたい場合は、外
+	   周３分以上は連続した１つのファイルとしてアクセスする
+	  （オープニング、エンディングのムービに使用するなど）
+
+	６２分以上のデータを記録した CD-ROM ディスクを作成の際はご注
+	意下さい。
+

@@ -1,0 +1,227 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+1995.9.8  SCE 開発部
+
+
+		DMPSX  ver.2.03
+
+
+
+
+コマンドライン：DMPSX  objfile [-b][-t table-file][-o output-file]
+
+オプション：	-b : BAK ファイルを生成しない
+		-t : テーブルファイル名を指定する
+		-o : 出力ファイル名を指定する
+
+使用例：	DOS> dmpsx main.obj
+
+
+概要：
+
+	このプログラムは、以下に述べる GTE のインライン関数を実現します。
+	ソースプログラム中に指定のヘッダファイルをインクルードし、コンパ
+	イル時にこのプログラムをオブジェクトファイルに使用することで、GTE
+	のコードがオブジェクトファイルに展開されます。
+
+	これにより、通常の関数と同等のインターフェイスをもつインライン
+	関数を使用することが可能になります。
+
+	（注）ここでいうインライン関数とは、C 言語の 'inline' 関数とは
+	      効果は同じですが、異なります。
+
+０．インライン関数
+
+	libgteの低レベル関数（RotTransPersなど）を使ってプログラムを
+	書くと、インストラクションキャッシュミスを起こすことがあります。
+	このような場合、インライン関数を使えばこれを避けることができ
+	高速になります。
+
+	******************************************************************
+	*   もとのプログラムがキャッシュミスを起こしていない場合には     *
+	*   逆に遅くなる場合もありますのでご注意ください。               *
+	******************************************************************
+
+	GTEインライン関数は次のような形式の名前を持っています。
+
+		gte_******
+
+	GTEインライン関数は大きく分けて２種類のタイプがあります。
+	一つはGTEを使うための基本関数で
+	もう一つはlibgteの低レベル関数をそのまま置き換え可能な関数です。
+	"gte_"に続く最初の文字が小文字の関数は基本関数で
+	大文字の場合置き換え可能な関数です。
+
+		gte_rtps		...基本関数
+
+		gte_RotTransPers	...置き換え可能な関数
+
+	すべての基本関数といくつかの置き換え可能な関数はコンパイル時に
+	直接オブジェクトコードになります。また、そのほかのほとんどの
+	置き換え可能な関数は"GTEMAC.H"のなかで基本関数のマクロとして
+	定義されています。
+
+
+
+１．置き換え可能な関数への変更
+
+	通常の関数コールで書かれたプログラムをインライン化するためには
+	以下の作業を行なってください。
+
+	0. 次の２つのヘッダーをインクルードする。
+
+		"INLINE.H"
+		"GTEMAC.H"
+
+	1. インライン化したい関数が置き換え可能な関数のなかにあるか
+	　 探す。（関数名はINFUNC.DOC、GTEMAC.DOCのなかを探してください。）
+	   もしあれば
+
+		2. 関数名に"gte_"を付けてインライン関数名にする
+
+		   (例）RotTransPers() -> gte_RotTransPers()
+
+		3. その関数が返り値を持っている場合は返り値のポインタを
+		   引き数の最後に付け加える
+
+		   (例) otz=RotTransPers(...) -> gte_RotTransPers(...,&otz)
+
+		4. 置き換えたインライン関数がGTEの内部定数、たとえば
+		   Rotation Matrix, Transfer vector...をこわす場合、
+		   それらの定数をセーブ、ロードする。
+
+		   (例)	OuterProduct12() -> gte_ReadRotMatrix(&m)
+					    gte_OuterProduct12()
+					    gte_SetRotMatrix(&m)
+
+			CompMatrix() ->	gte_ReadRotMatrix(&m)
+					gte_CompMatrix()
+					gte_SetTransMatrix(&m)
+
+		   破壊する定数がlibgte版と異なるのはこの２つだけです。
+
+	     無い場合
+
+		2. インライン関数を使って直接プログラム中に書く
+
+		   (例)	RotTransPers4() -> gte_RotTransPers3()
+					   gte_RotTransPers()
+
+
+
+２．基本関数によるインラインプログラミング
+
+	置き換え可能な関数が見つからない場合や、より最適化したい
+	場合には基本関数を使って直接プログラミングしてください。
+	
+	GTEは通常つぎの３つのステップで動作します。
+
+	1.入力データのロード	... CPU メモリ/レジスタ -> GTE レジスタ
+	2.実行   		... GTE function の実行
+	3.出力データのストア	... GTE レジスタ -> CPU メモリ/レジスタ
+
+	関数リスト"INFUNC.DOC"のなかで
+	"レジスタロード関数"はタイプ１、
+	"GTEコマンド"はタイプ２、
+	"レジスタストア関数"はタイプ３です。
+
+	例えば gte_RotTransPers は "GTEMAC.H" の中で次のように
+	書かれています。
+
+		gte_ldv0(r1);		/*type1:load 3D coordinate*/
+		gte_rtps();		/*type2:Rotate,Transfer,Perspect*/
+		gte_stsxy(r2);		/*type3:store 2D coordinate*/
+		gte_stdp(r3);		/*type3:store depth que p*/
+		gte_stflg(r4);		/*type3:store flag*/
+		gte_stszotz(r5);	/*type3:store sz/4 as otz*/
+
+	もし"デプスキューイン用p"と"フラグ"が不要であれば次のように
+	短縮することができます。
+
+		gte_ldv0(r1);		/*type1:load 3D coordinate*/
+		gte_rtps();		/*type2:Rotate,Transfer,Perspect*/
+		gte_stsxy(r2);		/*type3:store 2D coordinate*/
+		gte_stszotz(r5);	/*type3:store sz/4 as otz*/
+
+	さらに、GTEコマンドとストア関数の間でCPUプロセスを
+	実行すれば、これらのGTEプロセスとCPUプロセスはどちらかが
+	終了するまで同時に実行されることになります。
+
+		gte_ldv0(r1);		/*type1:load 3D coordinate*/
+		gte_rtps();		/*type2:Rotate,Transfer,Perspect*/
+		CPUprocess;		/*CPU process*/
+		gte_stsxy(r2);		/*type3:store 2D coordinate*/
+		gte_stszotz(r5);	/*type3:store sz/4 as otz*/
+
+	ただし、GTEコマンドの実行時間はそれほど長くありませんので
+	あまり多くのCPUプロセスを挟みこむことはプログラムを読み
+	にくくするだけで無意味です。
+
+＊注意
+	基本関数は以下の３タイプで構成されています。
+
+		タイプ１： "レジスタロード関数"
+		タイプ２： "GTEコマンド"
+		タイプ３： "レジスタストア関数"
+
+	以下のようにタイプ２とタイプ３の間にタイプ１の関数を使用すると
+	動作を保証できませんので使用しないでください。
+
+	間違った使用例：
+		gte_rtps();	/*type2:Rotate,Transfer,Perspect*/
+		gte_ldv0(r1);	/*type1:load 3D coordinate*/
+		gte_stsxy(r2);	/*type3:store 2D coordinate*/
+
+
+
+３．環境設定
+
+	必要なファイル：
+		DMPSX.EXE
+		INLINE.H
+		INLINE.TBL
+		GTEMAC.H
+
+
+	インストール方法：
+
+	１）DMPSX.EXE と INLINE.TBL をパスが張ってあるディレクトリに
+	    コピーする。
+
+	２）INLINE.H と GTEMAC.H はコンパイラのインクルードファイルが
+	    あるディレクトリにコピーする。ソースがあるディレクトリでも良い。
+
+
+
+４．コンパイル方法
+
+  	ソースファイルに INLINE.H を必ずインクルードする。
+	必要ならGTEMAC.Hもインクルードする。
+
+  	コンパイル時には、使用しているファイルのコンパイルを一旦オブジェクト
+	まででストップし DMPSX を実行させる。その後、他のファイルといっしょ
+	にコンパイルする。
+
+	ccpsx -Xo$80000000 -O use1.c use2.c a1.c a2.c -omain.cpe,main.sym
+
+	というようにコンパイルしてあるプログラムの場合は、
+	（ use1.c use2.c が使用しているとして）
+
+	ccpsx -c -O use1.c -ouse1.obj
+	dmpsx use1.obj
+	ccpsx -c -O use2.c -ouse2.obj
+	dmpsx use2.obj
+	ccpsx -Xo$80000000 -O use1.obj use2.obj a1.c a2.c -omain.cpe,main.sym
+
+	などと makefile.mak の内容を書き換える。
+
+
+
+（注意）
+	本プログラムをご使用になる場合、コンパイラは必ず以下のバージョン
+	以降のものをご使用下さい。それ以外のコンパイラと本プログラムを
+	組み合わせた場合、正しいコードが生成されない場合があります。
+
+	CCPSX  version 1.15 以降
+
+	もし、お手元のコンパイラが古いものでしたら、新しいコンパイラに
+	アップデートしていただけるようお願いします。

@@ -1,0 +1,927 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+					 PlayStation(R) Programmer Tool
+					    Runtime Library version 3.3
+
+
+  			           PSY-Q プログラマーツールに関する変更
+                                              patchx のバージョンアップ
+                                                       none3.obj の追加
+
+			       前バージョンからの変更および新規追加機能
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	             Copyright (C) 1995 Sony Computer Entertainment Inc.
+						    All Rights Reserved.
+────────────────────────────────────
+
+PSY-Q プログラマーツールに関する変更
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+■ 御注意
+
+  1) GNU関連ファイルについて
+
+　PlayStation用プログラムの開発にあたっては、Psy-Qツールの他に GNUコン
+  パイラ関連のファイルが必要ですが、
+
+	GNUプリプロセッサ		CPPPSX.EXE
+	GNU Cコンパイラ			CC1PSX.EXE
+	GNU C++コンパイラ		CC1PLPSX.EXE
+
+  は、本ディスクには含まれておりません。
+　これらのファイルについては、DTL-S2110（Psy-Qドングル）付属のディスク
+  に含まれるもの、又は弊社 SCE-NET からダウンロードしたものを御使用下
+  さい。
+
+  2) ドキュメントについて
+　
+  ドキュメント（日本語）は以下の場所にありますので是非ご覧下さい。
+
+	\PSYQ\PSYQ_J.TXT	（Psy-Q 一般）
+	\PSYQ\DEBUG_J.TXT	（Psy-Q デバッガ）
+
+== 前回リリースからの変更点 ==
+
+  1) PSYLINK.EXE
+
+  /v オプションが追加された。DBUGPSXでのオーバレイサポート機能を
+　使用する場合はこのオプションが必要。
+
+  2) ASPSX.EXE
+
+  「8 進拡張表記(octal escape sequence)が使用できない」というバグを直
+  した。
+
+  3) DBUGPSX.EXE
+
+  1.フル画面表示のバグフィクス
+
+    「ctrl-Z でカレントウィンドウをフルサイズに ZOOM UP した後、その画
+    面中でマウスをクリックするとハングアップする」というバグを直した。
+
+  2.ソースファイルのオートロード
+
+    デバッグ情報付きのSYMファイルであった場合、起動時にソースファイル
+    を自動的に呼び出すようになった。
+
+  3.オーバレイサポート
+
+　  オーバレイしているファイル(.BIN)に応じて、自動的にソースファイルを
+　  切り替える機能が追加された。
+　  ただし、psylink オプション /v でリンクされている必要がある。
+
+  4.ファイルのパス指定機能追加
+
+    File ウィンドウで alt-P を入力する事により、呼び出すファイルのパス
+    が指定できるようになった。
+
+  5.BPトリガカウント機能追加
+
+    shift-F6 で、全ての BP トリガカウントをクリアできるようになった。
+
+  6.VAR,WATCH ウィンドウで alt-L,ctrl-L が入力された場合、警告を出して
+    受け付けないようにした。（これまでは、変数の表示がクリアされてしまっ
+    ていた。)
+
+
+patchx のバージョンアップについて
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  海外版 PlayStation では、内蔵フォントデータとして、既存の漢字フォン
+  トに加えて以下の外字フォント 245 文字が追加されます。
+
+	・ダイアクリティカルマーク付きラテンアルファベット
+	・ダイアクリティカルマーク付きギリシアアルファベット
+	・キリル系アルファベット
+	・ラテン系アルファベット
+
+  これに伴い、従来の patchx.cpe に外字フォントデータを追加した
+  patchw.cpe をリリースします。また、patchx.cpe は patchj.cpe に名前を
+  変更します。
+
+        patchj.cpe : 国内向けタイトル開発用
+        patchw.cpe : 海外向けタイトル開発用
+
+  patchw.cpe の利用方法は、patchj.cpe (旧 patchx.cpe) と同じです。ただ
+  し、patchw.cpe 実行後、外字フォントデータにアクセスする場合は、
+  Krom2RawAdd() の代わりに Krom2RawAdd2() を使用してください。
+  Krom2RawAdd2() は、Library ver3.2β 以降の libgpu.lib に含まれていま
+  す。
+
+  外字コードの詳細は、7/12 に BBS でご案内しました、「漢字フォントユー
+  ティリティ改訂版」をご覧下さい。
+
+■ 御注意
+
+  「漢字フォントユーティリティ改訂版」で配布しました
+   sjiscode\patchy.cpe は、patchw.cpe に変わりました。
+
+== ver.3.2β から ver.3.2 の変更 ==
+
+  patchj.cpe, patchw.cpe ともに更新された
+
+
+none3.obj の追加
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  これまで、Exec() で起動される子プログラムの作成にあたっては、
+  none2.obj をリンクする事が必要でした。今回新たに none3.obj をリリー
+  ス致します。
+
+  詳しい動作については、\PSX\DOC\JP\NONE\NONE.TXT をご覧下さい。
+
+== none2.objとの相違点 ==
+
+  起動時に、（子プログラム側の）sbss,bss 領域をクリアする
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+
+ライブラリ全体についての変更点
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.0 から ver.3.3 の変更 ==
+
+■ 外部変数の初期化
+
+  基本ライブラリ全体にわたり、未初期化だった外部変数を初期化しました。
+  これにより、データ領域のサイズは増加しますが、テキスト領域のサイズは
+  変化しません。詳細は、マップファイルで確認下さい。
+
+■ C++ 対応
+
+  ライブラリのすべてのヘッダファイルに対して、プロトタイプ宣言の C++
+  用のエントリを追加しました。
+
+■ 新規追加
+
+  dmpsx (GTE のインライン関数を実現させるためのコマンドラインユーティ
+  リティ) が新たに追加されました。詳細は \PSX\DOC\JP\DMPSX\ABSTRACT.TXT
+  および \PSX\DOC\JP\DMPSX\FUNCTION.TXT をお読み下さい。
+
+
+前バージョンからの変更および新規追加機能
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+────────────────────────────────────
+
+
+CD-ROM ライブラリ/ストリーミングライブラリ (libcd)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.0 から ver.3.1 への変更 ==
+
+■ 関数のバグフィックス
+
+  o StUnSetRing()
+
+    ストリーミングを終了する時に 後処理として必須になった。以前のバー
+    ジョンでは、正常に動かず 次の CdSearchFile() などが失敗していた。
+
+
+== ver.3.1 から ver.3.2β への変更 ==
+
+■ 関数の仕様変更
+
+  ・CdlDataEnd 割り込みは、一回コールバックが呼ばれるか、CdReady() で
+    捕獲されるまでは、次の割り込みのフラグでオーバーライトされなくなり
+    ました。
+    今までは、CdReady() でポーリングを行なう場合ポーリング間隔が長いと
+    次の CdlDiskError 割り込みなどで CDLDATAEND が消えてしまう場合があ
+    りました。
+
+  ・CdInit() 時にミュートを off するようになりました。今までは、
+    CdInit() をコールしても CdlMute/CdlDemute の状態は保存されていまし
+    た。
+
+  ・CdInit() が失敗した場合に 4 回までリトライを行なうようになりました。
+    今までは、成功するまで無限にリトライを続けていました。これに伴って
+    CdInit() は返り値を返すようになりました。
+
+  ・StSetChannel() は チャンネルの変更をフレームの切れ目でかけていまし
+    たがそれに加えて トラックジャンプなど ストリーミングが途切れている
+    時にも チャンネルの変更を受け付けるようにしました。
+
+  ・リード／シークの際に CdlDiskError が発生すると CdlDiskError フラグ
+    が、SeekL, SeekP, ReadS の発行後もクリアできないバグをフィックスし
+    ました。
+
+  ・致命的エラーが発生した際の CdlDiskError メッセージをプリント中に他
+    のエラーメッセージを発行することを禁止しました。これはデバッグの便
+    利さを向上するためのものです。
+
+  ・CdReadCallback() が常に CdlDiskError を返していたバグをフィックス
+    しました。
+
+  ・24 ビット動画再生時 もしくは 再生後に サウンドシステムが不安定にな
+    るバグをフィックスしました。
+
+
+== ver.3.2β から ver.3.2 への変更 ==
+
+■ 関数の仕様変更
+
+  ・CdRead2() を別ファイルにして余分なオブジェクトがリンクされないよう
+    になった。
+
+■ 関数の追加
+
+  o CdLastCom()
+  o CdStatus()
+
+■ マクロの追加
+
+  #define CdlStatPlay           0x80    /* playing CD-DA */
+  #define CdlStatSeek           0x40    /* seeking */
+  #define CdlStatRead           0x20    /* reading data sectors */
+  #define CdlStatShellOpen      0x10    /* once shell open */
+  #define CdlStatSeekError      0x04    /* seek error detected */
+  #define CdlStatStandby        0x02    /* spindle motor rotating */
+  #define CdlStatError          0x01    /* command error detected */
+        
+
+== ver.3.2β から ver.3.3 への変更 ==
+
+■ 関数のバグフィックス
+
+  o CdlDataReady	まれに誤動作するバグをフィックスした
+
+■ ライブラリの仕様変更
+
+  !! ストリーミングのモードが変更されました。これまでは 0x100でしたが
+  サブヘッダも読み込む機能拡張のため 0x120になりました。
+
+  マクロ CdlModeStream を使っている場合は 再コンパイルをしてください。
+  0x100 と直接 モード指定している場合は CdRead2 のモードを 
+  CdlModeStream に変えて 再コンパイルして下さい。
+  ただし以前のバージョンでも サブヘッダの読み込みの機能無しで動作しま
+  す。
+  この時は waringとして "waring:old type streaming mode in CdRead2"
+  が プリントされますので このメッセージが出た場合は 上記作業を行なっ
+  てください。
+
+  サブヘッダ読み込みにともない StHEADER の reserve 領域に CdlLOC 型の
+  サブヘッダ情報が入ります。そのセクタの論理セクタアドレスを意味します。
+
+■ 削除された構造体
+
+  o StSECTOR	StHEADER と重複しているため削除
+
+
+
+ETC ライブラリ (libetc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.0 から ver.3.1 への変更 ==
+
+■ マクロの追加
+
+  o getScratchAddr	スクラッチパッドの先頭アドレスを返す
+
+
+== ver.3.1 から ver.3.2β への変更 ==
+
+■ ライブラリの仕様変更
+
+  割り込みのタイムアウトサイクルが長く(2048回）なりました。処理されな
+  い割り込みが何度も続けて発生すると、システムでは安全のためにその割り
+  込みを強制的にクリアします。しかし以前はそのタイムアウトサイクルが
+  256 回であったため、割り込み処理が重かったりクリティカルセクションの
+  処理が長引くとまれに誤動作することがありました。
+
+
+== ver 3.2β から ver 3.2 への変更 ==
+
+■ 関数の追加
+
+   o RestartCallback()
+
+
+
+基本グラフィックスライブラリ (libgpu)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver 3.0 から ver 3.1 への変更 ==
+
+■ ライブラリの仕様変更
+
+ ・PutDrawEnv() 関数で DRAWENV 構造体をコピーした後コマンドキューへ登
+   録するようになった。
+
+ ・クリティカルセクション内でもタイムアウトが発生するようになった。
+
+
+== ver.3.1 から ver.3.2β への変更 ==
+
+■ ライブラリの仕様変更
+
+ ・DrawSync(1) で残りキューの段数を返すようになった
+
+ ・デバッグ用の関数が不必要にリンクされないようになった
+
+ ・ライブラリ関数を実行時にコールバックが発生したり、他のスレッドに切
+   り替わった際に、切り替わった先のコールバック関数などから同じ関数を
+   呼ぶことができるように（再入可能 (re-entrant)）になった
+
+■ ライブラリのバグフィックス
+
+ ・コマンドキューが一杯になった際に、キューが空くまで割り込みを禁止し
+   ていたバグをフィックスした
+
+
+== ver.3.2β から ver.3.2 への変更 ==
+
+■ 関数の追加
+
+  o DR_MOVE プリミティブが追加。これに伴い、初期化関数 SetDrawMove()
+    が追加された。
+
+   （例）
+        /* MoveImage() を ＯＴに接続する */
+        addMoveImage(u_long *ot, DR_MODE *mp, RECT *rect, int x, int y)
+        {
+                SetDrawMove(mp) ;
+                mp->sx = rect->x, mp->sy = rect->y
+                mp->x0 = x,       mp->y0 = y;
+                mp->w  = rect->w, mp->h  = rect->h;
+                AddPrim(ot, mp);
+        }
+
+■ 関数の機能拡張
+
+  o FntOpen()
+
+    ウィンドウサイズ (w,h) を (0,0) に指定すると最適なウィンドウサイズ
+    が選択されるようになった。isbg = 2 を指定すると半透明でバックグラ
+    ウンドが描画される。
+
+  o  FntPrint()
+
+    ~cxxx で輝度値を調節できるようになった(X = 0～8)。
+
+   （例）
+	FntPrint("~c800This is red\n");		赤で表示
+	FntPrint("~c080This is green\n");	緑で表示
+	FntPrint("~c444This is green\n");	輝度 1/2 で表示
+
+
+
+拡張グラフィックスライブラリ (libgs)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.0 から ver.3.1 への変更 ==
+
+■ 関数のバグフィックス
+
+  o GsGetLs(),GsGetLws(),GsGetLw()
+	        ver.3.0で低下していた速度を、ver.3.0 以前の速度まで回
+	        復させた。
+
+
+== ver.3.1 から ver.3.2 beta への変更 ==
+
+■ ヘッダファイルの変更
+
+  o libgs.h	libgs で使っている外部変数を extern宣言した
+
+    	extern RECT CLIP2;		/* clipping area */
+	extern u_short PSDBASEX[2],PSDBASEY[2];	/* double buffer base */
+	extern u_short PSDIDX;		/* double buffer index */
+	extern u_long  PSDCNT;
+			/* frame counter for using matrix cache */
+	extern _GsPOSITION POSITION;	/* 2d offset */
+	extern DRAWENV GsDRAWENV;	/* DRAWENV of Gs */
+	extern DISPENV GsDISPENV;	/* DISPENV of Gs */
+	extern MATRIX  GsLSMATRIX;	/* Local-Screen Matrix of Gs */
+	extern MATRIX  GsWSMATRIX;	/* World-Screen Matrix of Gs */
+	extern long    HWD0,VWD0;
+			/* rezolution of Holyzontal and Vertical */
+	extern MATRIX  GsLIGHTWSMATRIX;
+			/* World-Screen Light Matrix of Gs */
+	extern MATRIX  GsIDMATRIX;	/* Unit Matrix */
+	extern MATRIX  GsIDMATRIX2;
+			/* Unit Matrix including Aspect retio */
+	extern PACKET  *GsOUT_PACKET_P;	/* Work Base pointer */
+
+■ makefile の変更
+
+  o makefile	-G0 オプションの追加
+
+■ 追加された構造体
+
+  o GsFCALL	        GsSortObject5J(),GsSortObject4J()の関数テーブル
+
+■ 関数の追加
+
+  o GsScaleScreen	Screen座標系のスケールをワールド座標系に対して
+	                変える
+
+  o GsSetOrign		Offsetを画面の切替を超えて有効にする
+
+  o GsSortObject5J	GsSortObject5()の関数テーブル版
+
+  o GsSortObject4J	GsSortObject4()の関数テーブル版
+
+  o dmyGs...		GsSortObject5J(),GsSortObject4J()に組み込む関
+                        数を特定するために使う(DEBUG用)
+
+■ マクロの追加
+
+  o GsIncFrame		フレームバッファの切替をGsSwapDispBuff()で
+			行なってない場合 フレームの切替でコールする必要有り
+
+■ 関数の仕様変更
+
+  o GsSetOffset()	GPUオフセットの時PutDrawEnvするように変更
+  o GsDrawBuffOffset()	GPUオフセットの時PutDrawEnvするように変更
+  o GsInitGraph()	PALの時に 24line下にずらす
+
+■ 関数のバグフィックス
+
+  o GsSwapDispBuff()	GPUオフセットの時にGsDRAWENVのoffsetが実際には
+			GPUへ反映されていなかったバグを修正
+
+  o GsGetLw(),GsGetLs,GsGetLws()
+			マトリックスキャッシュが Ver3.0,Ver3.1で効かなく
+			なっていた 不具合を修正。高速化された
+
+  o GsSortObject4(),GsSortObject5()
+			より コード効率をアップし 小さくした
+
+
+== ver.3.2 から ver.3.2 beta への変更 ==
+
+
+■ 外部変数の追加
+
+  o GsLIGHT_MODE	グローバルのライティングのモード
+			GsSetLightMode()でセットされる
+
+	attributeをデコードした情報を保持するグローバル変数
+	GsSortObject...()を自作する時に attributeをデコードして セット
+	してやる必要がある。サンプルは /tmdview/lowlevelにある
+
+  o GsLMODE		ライティングのモード
+  o GsLIGNR		光源計算 attribute無視
+  o GsLIOFF		光源計算OFF
+  o GsNDIV		ポリゴン分割数
+  o GsTRATE		半透明レート
+  o GsTON		半透明アトリビュート
+  o GsDISPON		表示アトリビュート
+
+■ 関数の仕様変更
+
+  o GsSetFlatLight()	返り値 ０で 設定成功 -１で設定失敗に変更
+			printfをとった
+
+  o GsSortClear()	24 bit modeの時は 幅を3/2倍してクリアするよう
+                        に変更
+
+  o GsSortOT()		ClearOTagR()の変更にともない ヌルパケットの１
+                        つ前から つぎのOTに繋げるようにした
+
+
+== ver.3.2 beta から ver.3.3 への変更 ==
+
+■ 関数の追加
+
+  o GsSetAzwh()	active sub divideの条件の設定関数
+
+    GsA4divF3L(),GsA4divF3LFG(),GsA4divF3NL(),GsA4divNF3()
+    GsA4divF4L(),GsA4divF4LFG(),GsA4divF4NL(),GsA4divNF4()
+    GsA4divG3L(),GsA4divG3LFG(),GsA4divG3NL(),GsA4divNG3()
+    GsA4divG4L(),GsA4divG4LFG(),GsA4divG4NL(),GsA4divNG4()
+    GsA4divFT3L(),GsA4divFT3LFG(),GsA4divFT3NL(),GsA4divNTF3()
+    GsA4divFT4L(),GsA4divFT4LFG(),GsA4divFT4NL(),GsA4divNTF4()
+    GsA4divTG3L(),GsA4divTG3LGG(),GsA4divTG3NL(),GsA4divNTG3()
+    GsA4divTG4L(),GsA4divTG4LFG(),GsA4divTG4NL(),GsA4divTNG4()
+
+		active sub divideを実現するための 下位関数群
+
+■ 関数のバグフィックス
+
+  o GsSortOT	ソートされるOTの最初のエントリにOTをソートすると
+		ハングアップしてしまうバグを修正
+
+
+
+基本ジオメトリライブラリ (libgte)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.2  から ver.3.3 の変更 ==
+
+■ 関数のバグフィックス
+
+  o SetFogNearFar
+	near値far値を両方とも大きくしたときおかしくなっていた。
+
+■ 関数の仕様変更
+
+   RotSMD_,RotRMD_の仕様変更						  !
+									  !
+	[例]								  !
+	void RotSMD_F3(long *pa,u_long *ot,int otlen,int id);		  !
+		|							  !
+		V							  !
+	void RotSMD_F3(long *pa,u_long *ot,int otlen,int id,		  !
+                        int sclip, int hclip, int vclip, int nclipmode);  !
+									  !
+	いままでと同じにするには					  !
+	void RotSMD_F3(long *pa,u_long *ot,int otlen,int id, 0, 0, 0, 1); !
+	とする。スピードはいままでより遅くなることはない。		  !
+
+
+== ver.3.2β から ver.3.2 の変更 ==
+
+■ ドキュメントのバグの修正
+
+    RotTransPersNのドキュメントのバグを修正した				  !
+    RotTransPersNのプロトタイプ宣言のバグを修正した			  !
+									  !
+    void RotTransPersN(SVECTOR *v0,DVECTOR *v1,u_short *sz,		  !
+                        u_short *flag,long n);				  !
+	|								  !
+	V								  !
+									  !
+    void RotTransPersN(SVECTOR *v0,DVECTOR *v1,u_short *sz,u_short *p,	  !
+						       ^^^^^^^^^^	  !
+                        u_short *flag,long n);				  !
+
+■ 関数の新規追加
+   ApplyTransposeMatrixLV
+   TransRotPers
+   TransRotPers3
+   TransRot_32
+
+
+== ver.3.0 から ver.3.2 の変更 ==
+
+■ マクロファイルの追加
+
+   gtenom.h		ASMPSX版nom関数用マクロ
+
+■ 関数の新規追加
+
+   pers_map 		歪みのないテクスチャマッピングを行う
+
+   RotMeshPrimS_F3	strip型mesh関数
+   RotMeshPrimS_G3
+   RotMeshPrimS_FC3
+   RotMeshPrimS_GC3
+   RotMeshPrimS_FT3
+   RotMeshPrimS_GT3
+   RotMeshPrimS_FCT3
+   RotMeshPrimS_GCT3
+   RotMeshPrimS_T3
+
+   RotMeshPrimR_F3	round型mesh関数
+   RotMeshPrimR_G3
+   RotMeshPrimR_FC3
+   RotMeshPrimR_GC3
+   RotMeshPrimR_FT3
+   RotMeshPrimR_GT3
+   RotMeshPrimR_FCT3
+   RotMeshPrimR_GCT3
+   RotMeshPrimR_T3
+
+   RotMeshPrimQ_T	２次元mesh関数
+
+   PhongLine		１ラインのフォンシェーディングを行なう
+
+   SetFogNearFar	遠近両方のフォグパラメータを設定する
+
+   RotMatrix_C		小テーブル低速版RotMatrix
+   RotMatrixYXZ_C
+   RotMatrixZYX_C
+   RotMatrixX_C
+   RotMatrixY_C
+   RotMatrixZ_C
+
+   ApplyRotMatrixLV()	ApplyRotMatrix()のロングベクトル版
+
+■ 関数のバグフィックス
+
+   RotAverageNclip3_nom
+   RotAverageNclipColorDpq3_nom
+   RotAverageNclipColorCol3_nom
+	法線クリップ値OPZが正しく設定されていなかった
+
+■ サンプルの追加
+
+   sample\graphics\shadow
+	三角形から三角形へのドロップシャドーを計算する
+
+■ 関数のバグフィックス
+
+   GsTMDdivG3LFG
+   GsTMDdivG4LFG
+   GsTMDdivTG3LFG
+   GsTMDdivTG4LFG
+	各頂点のZを反映した輝度計算が行なわていなかった。
+
+■ 関数の高速化
+
+   long VectorNormal(VECTOR *v0, VECTOR *v1);
+   long VectorNormalS(VECTOR *v0, SVECTOR *v1);
+   long VectorNormalSS(SVECTOR *v0, SVECTOR *v1);
+	GTE を使って２倍以上高速化した。
+
+■ 関数の新規追加
+
+   void MatrixNormal(MATRIX *m, MATRIX *n);
+   void MatrixNormal_1(MATRIX *m, MATRIX *n);
+   void MatrixNormal_2(MATRIX *m, MATRIX *n);
+	マトリックスの正規直交化を行なう
+
+   void RotTransSV( SVECTOR *v0,SVECTOR *v1,long *flag);
+	RotTransの出力SVECTOR版
+
+
+
+基本サウンドライブラリ (libspu)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.0 から ver.3.1 の変更 ==
+
+■ サウンドバッファの使用領域に関する変更
+
+   サウンドバッファ内におきまして、0x01000 ～ 0x0100f の領域はシステム
+   予約の領域になりました。
+
+   よってユーザの使用できる領域は 0x01010 ～ 0x7ffff (リバーブ未使用の
+   場合) に変更になりました。
+
+■ ファイル内容に関する変更
+
+  ・ドキュメント
+        DOC\JP\SPU\ABSTRACT.TXT
+		サウンドバッファ領域の使用範囲の図の変更
+		関数仕様一覧の追加/変更
+        DOC\JP\SPU\FUNCTION.TXT
+                関数仕様の追加/変更
+
+  ・ライブラリ
+        LIB\LIBSPU.LIB          バージョンアップ
+        INCLUDE\LIBSPU.H        バージョンアップ
+
+  ・サンプル
+	SAMPLE\SOUND\CDVOL
+		基本サウンドライブラリを利用して CD ボリュームを得るサ
+		ンプルを追加
+	SAMPLE\SOUND\TUTO
+		SAMPLE\SOUND\LOWLEVEL から名前を変えました。
+
+■ 関数の追加
+
+   o SpuRSetVoiceAttr
+	指定した範囲の各ボイスの属性を設定
+   o SpuRGetAllKeysStatus
+	指定した範囲のボイスに対してキーオン/キーオフを診断
+
+■ 関数の仕様変更
+
+   o SpuSetIRQCallback
+	返り値を void から以前設定されている関数へのポインタに変更
+
+   o SpuSetTransferStartAddr
+   o SpuMalloc
+   o SpuMallocWithStartAddr
+	確保できる範囲を 0x01000 ～ 0x7ffff から 0x01010 ～ 0x7ffff に
+	変更
+
+■ 特記事項
+
+   特になし
+
+
+== ver.3.1 から ver.3.2 の変更 (ver.3.2 beta の変更含む) ==
+
+■ ライブラリ内容に関する追加
+
+   SPU ストリーミングライブラリを追加しました。詳しくは
+   DOC\JP\STREAM.TXT を御参照下さい。
+
+■ ファイル内容に関する追加
+
+  ・ドキュメント
+        DOC\JP\SPU\STREAM.TXT
+		SPU ストリーミングライブラリに関する仕様、
+		および関数仕様一覧
+
+  ・サンプル
+	SAMPLE\SOUND\STREAM
+		SPU ストリーミングライブラリを利用して 14 のストリーム
+		を扱うサンプルを追加
+
+■ ファイル内容に関する変更
+
+  ・ライブラリ
+        LIB\LIBSPU.LIB          バージョンアップ
+        INCLUDE\LIBSPU.H        バージョンアップ
+
+■ 関数の追加
+
+   SpuStInit
+	SPU ストリーミングの初期化
+   SpuStQuit
+	SPU ストリーミングの終了
+   SpuStGetStatus
+	SPU ストリーミングの状態の診断
+   SpuStGetVoiceStatus
+	SPU ストリーミングで使用されているボイスの診断
+   SpuStSetPreparationFinishedCallback
+	SPU ストリーミングにおけるストリームの前準備で行われるデータ転
+	送終了時の callback 関数の設定
+   SpuStSetTransferFinishedCallback
+	SPU ストリーミングにおける全てのストリームに対するストリームバッ
+	ファへの 1 回の転送の終了時の callback 関数の設定
+   SpuStSetStreamFinishedCallback
+	SPU ストリーミングにおける各ストリームの処理終了時の callback
+	関数の設定
+   SpuStTransfer
+	SPU ストリーミングにおけるストリームの前準備、および開始の指示
+
+■ 特記事項
+
+   SPU ストリーミングライブラリの概要および関数仕様は現状では
+   ABSTRACT.TXT および FUNCTION.TXT には含まれていません。STREAM.TXT
+   を御参照下さい。
+
+
+== ver.3.2 から ver.3.3 の変更 ==
+
+■ ライブラリに関するバグフィックス					!
+									!
+   ・頻繁に SPU に転送要求を行う (SpuWrite, SpuRead, SPU ストリーミン	!
+     グなど) と、SPU を含む全ての転送のうちのどれか、あるいは複数の、	!
+     転送要求、及び転送終了の状態がクリアされる場合があるバグをフィッ	!
+     クスしました。							!
+
+■ 関数名の変更
+
+   o SpuReadDecodeData → SpuReadDecodedData				!
+                                       ^				!
+	後方互換性 (backward compatibility) を確保していますので、	!
+	SpuReadDecodeData でも使用できます。				!
+
+■ 特記事項
+
+   特になし
+
+
+
+拡張サウンドライブラリ (libsnd)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver.3.0 から ver.3.1 の変更 ==
+
+   特になし
+
+
+== ver.3.1 から ver.3.2 の変更 (ver.3.2 beta の変更を含む) ==
+
+■ 関数の追加
+
+  o SsSetNext
+
+    機能
+        次 SEQ/SEP データの指定
+
+    形式
+        void
+        SsSetNext(short ac_no1, short tr_no1, short ac_no2, short tr_no2)
+
+    引数
+        ac_no1         SEP/SEQ アクセスナンバー
+        tr_no1         SEP 内の SEQ 番号（譜面データが SEQ の時は 0)
+        ac_no2         SEP/SEQ アクセスナンバー
+        tr_no2         SEP 内の SEQ 番号（譜面データが SEQ の時は 0)
+
+    解説
+        ac_no1,tr_no1 を持つ SEQ/SEP データの次に演奏したい譜面デー
+        タの SEP/SEQ アクセスナンバー（ac_no2, tr_no2）を指定する。
+        この指定によって、次の譜面データは前の譜面データ演奏終了後、
+        自動的に演奏される。
+
+    返り値
+        なし
+
+■ 関数の正規サポート
+
+  o SsUtAutoVol
+        ボイスボリュームを自動的に変化させる
+
+  o SsUtAutoPan
+        ボイスパンニングを自動的に変化させる
+
+
+== ver.3.2 から ver.3.3 の変更 ==
+
+■ 関数の仕様変更
+
+   以下の関数において、値の設定できる/得られる範囲 (0 ～ 127) に対する	!
+   効果が本来指定できる/得られる範囲の 1/2 になっていた BUG を修正。	!
+									!
+        SSSETRVOL							!
+        SSGETRVOL							!
+        SSGETSERIALVOL							!
+									!
+   この変更により							!
+									!
+        O SET 関数							!
+                旧バージョン    新バージョン				!
+                          0     →         0				!
+                          |                |				!
+                        127     →        63				!
+                   設定不可               64				!
+                                           |				!
+                                         127				!
+									!
+   という関係になる (旧バージョンで 127 で設定した効果が、新バージョン	!
+   では 63 で得られる)。よって新バージョンではより広い効果が設定できる	!
+   が、今までの設定そのままで新しいライブラリを使用すると『倍の効果』	!
+   がかかる。								!
+									!
+        O GET 関数							!
+                旧バージョン    新バージョン				!
+                          0     →         0				!
+                          |                |				!
+                        127     →        64				!
+                     範囲外               64				!
+                                           |				!
+                                         127				!
+									!
+   という関係になる (旧バージョンで 127 と返された設定が、新バージョン	!
+   では 63 という値で返される)。よって新バージョンでは SET 関数と連動	!
+   した値が得られる。							!
+
+■ 関数の追加
+
+  o SsUtGetVagAddrFromTone
+
+    機能
+
+        VAG が格納されている SPU バッファのアドレスを返す
+
+    形式
+
+        unsigned long
+        SsUtGetVagAddrFromTone(short vabid, short progid, short toneid)
+
+    引数
+
+        vabid:  VAB id
+        progid: Program 番号
+        toneid: Tone 番号
+
+    解説
+
+        指定された VAB id、Program 番号、Tone 番号 の VAG の波形データ
+        が転送されたサウンドバッファ内のアドレスを返す
+
+    返り値
+
+        サウンドバッファ内のアドレス。失敗したら -1 を返す。
+
+■ 関数の正規サポート
+
+  o SsSepSetVol
+	SEP ボリュームの設定(SEP 内の個々の SEQ に独立に有効)
+
+  o SsSepSetCrescendo
+	クレッシェンド(SEP 内の個々の SEQ に独立に有効)
+
+  o SsSepSetDecrescendo
+	デクレッシェンド(SEP 内の個々の SEQ に独立に有効)
+
+
+
+データ処理ライブラリ (libpress)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+== ver3.2β より ver3.2 への変更 ==
+
+■ 関数の追加
+
+  o DecDCTvlcSize()	一回の VLC の解凍の最大サイズを設定
+
+（例）
+	/* vlc の最初の VLC_SIZE ワードをデコードする */
+	DecDCTvlcSize(VLC_SIZE);
+	isvlcLeft = DecDCTvlc(next, dec.vlcbuf[dec.vlcid]);
+	/* データが出来上がるのを待つ */
+	do {
+		/* vlc の残りの VLC_SIZE ワードをデコードする */
+		if (isvlcLeft) {
+			isvlcLeft = DecDCTvlc(0, 0);
+			FntPrint("%d,", VSync(1));
+		}
+
+		/* ここにアプリケーションのコードが入る */
+
+	} while (isvlcLeft || isEndOfFlame == 0);
+	isEndOfFlame = 0;
+
+────────────────────────────────────

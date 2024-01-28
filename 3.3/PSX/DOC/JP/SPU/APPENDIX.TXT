@@ -1,0 +1,551 @@
+# -*- Indented-text -*-
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+			PlayStation(R) 基本サウンドライブラリ Appendix
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	     Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
+						    All Rights Reserved.
+
+		$Id: appendix.txt,v 1.8 1995/09/07 13:56:33 kaol Exp $
+────────────────────────────────────
+
+注意: 行末に -, + がついている行は以下の意味を持ちます。		+
+									+
+	-	前バージョンに記述された内容で、今回のバージョンで削除	+
+		される行。次のバージョンで完全に削除される。		+
+									+
+	+	今回のバージョンで追加される行。			+
+									+
+      `-' がつく行と `+' がつく行が連続している場合は、`-' がつく行の	+
+      中に変更があり、その行が `+' がつく行で置き換わる、という意味で	+
+      す。このパラグラフは前バージョンにありませんでしたので、よってこ	+
+      のパラグラフにも行末に `+' がついています。			+
+
+────────────────────────────────────
+
+Appendix A:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PlayStation(R) 基本サウンドライブラリ Frequency Asked Quiestions
+- 基本サウンドライブラリに関する繰り返し質問される内容とその回答 -
+
+				      Sony Computer Entertainment Inc.
+
+1995 年 09 月 07 日版
+
+────────────────────────────────────
+この文書に関する情報
+
+  この FAQ は BBS において、PlayStation(R) 基本サウンドライブラリに関
+  して繰り返し質問される内容とその回答およびヒントをまとめたものです。
+
+  この中で書かれている内容は今回配布されるライブラリで新しく実装されて
+  いる内容も含まれますので、必ずライブラリの差し替えを行って下さい。
+
+────────────────────────────────────
+リバーブ設定
+
+A-1: libspu/libsnd で、8 種類のリバーブモードを設定することができます
+     が、この各モードにおいて SPU のサウンドバッファ内にとられるリバー
+     ブワークエリアのサイズを知る関数は存在しないのでしょうか ?
+
+  リバーブワークエリアのサイズを知る関数は提供しておりません。モードの
+  決定により、サウンドバッファ内にとられるリバーブワークエリアのサイズ
+  は一意に決まり、その領域は動的に変化することなく確保されるからです。
+
+  以下にワークエリアが消費するサイズを掲げます。これは基本サウンドライ
+  ブラリに関するドキュメント function.txt 中の `SpuSetReverbModeParam'
+  にも記述があります。
+
+  表: リバーブモードとサウンドバッファ内で占有される容量
+  ─────────────────────────────────
+  			モード		16 進		10 進
+  ─────────────────────────────────
+  SPU_REV_MODE_OFF	off		     80 (*)       128 (*)
+  SPU_REV_MODE_ROOM	ルーム		   26c0		 9920
+  SPU_REV_MODE_STUDIO_A	スタジオ(小)	   1f40		 8000
+  SPU_REV_MODE_STUDIO_B	スタジオ(中)	   4840		18496
+  SPU_REV_MODE_STUDIO_C	スタジオ(大)	   6fe0		28640
+  SPU_REV_MODE_HALL	ホール		   ade0		44512
+  SPU_REV_MODE_SPACE	スペースエコー	   f6c0		63168
+  SPU_REV_MODE_ECHO	エコー		  18040		98368
+  SPU_REV_MODE_DELAY	ディレイ	  18040		98368
+  SPU_REV_MODE_PIPE	パイプエコー	   3c00		15360
+  ─────────────────────────────────
+
+  (*) アドレスの設定上、モードが off となっていても、
+      SpuReserveReverbWorkArea (SPU_ON) となっていた場合、128 bytes 消
+      費する。SpuReserveReverbWorkArea (SPU_OFF) の場合は他のモードと
+      同様に消費量は 0 となります。
+
+  関連関数: SpuReserveReverbWorkArea, SpuSetReverbModeParam,
+	    SpuSetReverb
+
+
+A-2: リバーブモードの設定によって変化するワークエリアとサウンドバッファ
+     メモリ管理機構 (SpuMalloc など) の関連は ?
+
+  以下のようなアルゴリズムで管理されています。
+
+  1. SpuReserveReverbWorkArea(SPU_ON) により、リバーブワークエリアが予
+     約されている場合
+
+     o SpuMalloc/SpuMallocWithStartAddr
+       モードにより、アドレス 0x01000 から (0x7ffff - ワークエリアサイ
+       ズ) の領域において領域が確保できます。
+
+  2. SpuReserveReverbWorkArea(SPU_OFF) により、リバーブワークエリアが
+     予約されていない場合
+
+     o SpuMalloc/SpuMallocWithStartAddr
+       アドレス 0x01000 ～ 0x7ffff のサウンドバッファ全域において領域
+       が確保できます。
+
+     o SpuSetReverb
+       リバーブワークエリアとして利用されるモードに対応したサイズの領
+       域が SpuMalloc/SpuMallocWithStartAddr により他の領域として確保
+       されている場合は SpuSetReverb(SPU_ON) は無効となります。
+
+  3. リバーブワークエリアの予約に関係なく、SpuSetReverbModeParam はリ
+     バーブモード変更時にワークエリアとして必要な領域が確保できるかを
+     サウンドバッファメモリ管理機構の情報を元に診断し、その時点で確保
+     できれば指定された諸属性を設定します。確保できなければ設定せずに
+     戻ります。
+
+  4. SpuReserveReverbWorkArea によってリバーブワークエリアが予約されて
+     いなかった状態で SpuMalloc/SpuMallocWithStartAddr を行い、その後、
+     改めて SpuReserveReverbWorkArea によりリバーブワークエリアの領域
+     を予約する場合は、現在のリバーブモードが必要とするサイズのリバー
+     ブワークエリアの領域が確保できるかをサウンドバッファメモリ管理機
+     構の情報を元に診断し、その時点で確保できれば領域を予約します。
+     確保できなければ領域は予約されずに戻ります。
+
+  5. リバーブワークエリアはそのリバーブモードによって変化します。リバー
+     ブワークエリアのサイズが変更されるのは SpuSetReverbModeParamでモー
+     ド設定を行った時のみであり、モード設定が変更になった時点から 
+     SpuMalloc/SpuMallocWithStartAddr, SpuReserveReverbWorkArea,
+     SpuSetReverb がどう振舞うかが変化します。
+
+  関連関数: SpuReserveReverbWorkArea, SpuIsReverbWorkAreaReserved,
+	    SpuSetReverbModeParam, SpuSetReverb, SpuMalloc,
+	    SpuMallocWithStartAddr, SpuSetTransferStartAddr
+
+
+A-3: リバーブをオンにしてリバーブのパラメータを設定してもリバーブが有
+     効にならないのですが。
+
+  リバーブの設定において、モードの変更があった場合、リバーブ・ワークエ
+  リアに不定な値が残っているため、一瞬のノイズが発生してしまう場合があ
+  ります。
+
+  これをなるべく回避するため、モードが変更された場合は内部的にリバーブ
+  Depth の値を 0 にします。リバーブモードの初期値としては
+  SPU_REV_MODE_OFF が設定されているため、初めての設定時においても、事
+  前に SpuSetReverbModeParam にて Depth が 0 以外に設定されていたとし
+  ても新規 SpuSetReverbModeParam の呼び出しによりリバーブ Depth が 0
+  に設定されてしまいます。よって、SpuSetReverbModeParam における Depth
+  設定は、必ず SpuSetReverbModeParam のリバーブモード設定後に再度
+  SpuSetReverbModeParam を呼び出す (モード指定のマスクは設定しない) か
+  SpuSetReverbDepth にて Depth 属性の設定を行って下さい。
+
+  また、SpuSetReverbModeParam でのモード設定が行われた直後に
+  SpuSetReverbModeParam 及び SpuSetReverbDepth にて Depth 設定を行って
+  も、リバーブの性質上どうしてもノイズが発生してしまいます。
+
+  これを回避するために、モード設定時の引数 attr.mode に
+  SPU_REV_MODE_CLEAR_WA をビット OR で指定することにより、設定したモー
+  ドに対応する範囲のリバーブ・ワークエリアを強制クリアさせることができ
+  ます。この処理は DMA 転送を用いていますが、同期的に処理しているため、
+  処理を行っている間は他の処理 (描画、発音を含め) は行えず、リバーブの
+  種類によっては若干の待ち時間を要します。
+
+  また、任意のタイミングでリバーブモード設定時に指定されたリバーブモー
+  ドで必要とする領域を強制的にクリアするためには、
+  SpuClearReverbWorkArea が使用できます。
+
+  作法としては、本当にリバーブが必要とするまで、
+
+	・SpuSetReverbModeParam あるいは SpuSetReverbDepth において、
+	  Depth を設定しない
+
+  か、あるいは、
+
+	・SpuSetReverbModeParam, あるいは SpuClearReverbWorkArea で
+	  強制的にリバーブ・ワークエリアをクリアする
+
+  ことが必要です。
+
+  以上をまとめまして、注意点としましては、以下のようなことが掲げられま
+  す。
+
+	1. リバーブを使う場合は、モード設定を、直前ではなくあらかじめ
+	   設定しておく。この時、リバーブ Depth は 0 の状態になる。
+
+	2. リバーブ設定は
+	     a.	SpuSetReverbModeParam (モード/Feedback/Delay 指定)
+		SpuSetReverbModeParam (Depth 指定)
+	   あるいは
+	     b.	SpuSetReverbModeParam (モード/Feedback/Delay 指定)
+		SpuSetReverbDepth (Depth 指定)
+	   の順で行う
+
+	   a. の場合は SpuSetReverbModeParam の引数として渡す構造体の
+	   メンバの値を変更する必要があるのに比べ、b. の場合は
+	   SpuSetReverbModeParam で使用した構造体がそのまま使えるので
+	   便利です。
+
+	3. ゲーム途中でリバーブのモードを変更する必要がある時は、
+	   ノイズ回避のため、直前に
+
+		モードを設定→リバーブ Depth セット
+
+	   を行うことは避ける。
+
+	4. どうしても直前に設定したい場合は、SpuSetReverbModeParam, あ
+	   るいは SpuClearReverbWorkArea で強制的にリバーブ・ワークエ
+	   リアをクリアする
+
+  また、サウンドバッファ全域を波形データなどで確保してしまうと、リバー
+  ブワークエリアが確保できないため、A-2: 3. に記述があるように
+  SpuSetReverbModeParam はリバーブモードを設定できずに終了するため、結
+  果的にリバーブが利用できなくなります。これを防ぐためには、リバーブの
+  ワークエリアサイズと波形データサイズを見積り、必要なワークエリアと
+  波形データサイズが 512 KB に収まるようにリバーブモードを設定するか
+  波形データを作成して下さい。
+
+  関連関数: SpuSetReverbModeParam, SpuSetReverb,
+	    SpuClearReverbWorkArea, SpuReserveReverbWorkArea,
+	    SpuIsReverbWorkAreaReserved, SpuSetTransferStartAddr,
+	    SpuMalloc, SpuMallocWithStartAddr
+
+
+A-4: A-3 のようにしてリバーブのパラメータを設定してリバーブをオンにし
+     てもリバーブが有効にならないのですが。
+
+  Mac 上のアーティストツール SoundDelicatessen (DTL-S710) において、
+  各 Tone にリバーブ属性が付いていないためです。
+
+  Program メニュー >> Tone メニュー >> ADSR ... にて、ADSR 設定ウィン
+  ドウを表示し、その中の `play mode' の中の `reverb' チェックボックス
+  を [×] に設定することにより、選択した Tone のモードにリバーブ属性が
+  設定 (mode の 3 ビット目が 1, すなわち mode = 4) され、リバーブがか
+  かることになります。
+
+  ただし、チェックボックスを [×] に設定した Tone には一律にリバーブが
+  かかってしまうため、リバーブの深さ、全体の雰囲気などを考慮して設定す
+  る必要があります。
+
+
+A-5: リバ-ブを設定したプログラムで、再びプログラムを起動するとノイズが
+     でることがあるのですが。
+
+  リバーブを使ったプログラムの終了時には、必ず
+
+  ・基本サウンドライブラリの場合
+
+	#include <libspu.h>
+
+	SpuReverbAttr r_attr;
+	r_attr.mask        = SPU_REV_MODE;
+	r_attr.mode        = SPU_REV_MODE_OFF;
+
+	SpuSetReverbModeParam (&r_attr);
+	SpuSetReverb (SPU_OFF);
+
+  ・拡張サウンドライブラリの場合
+
+	#include <libsnd.h>
+
+	SsUtReverbOff();
+	SsUtSetReverbType (0);
+	SsUtSetReverbDepth (0, 0);
+	
+  を行って下さい。これを行なかった場合、次回の起動時に一部ノイズが出る
+  場合があります。
+
+  関連関数: SpuSetReverbModeParam, SpuSetReverb, SsUtReverbOff,
+	    SsUtSetReverbType, SsUtSetReverbDepth
+
+
+A-6: libspu では SpuReserveReverbWorkArea によってリバーブワークエリア	+
+     を予約することができますが、libsnd ではどのようになっているのでしょ+
+     うか ?								+
+									+
+  libsnd ではデフォルトでリバーブワークエリアを予約していません		+
+  (libspu でのデフォルトと同様)。libsnd においてもサウンドバッファメモ	+
+  リ管理は libspu の機能を使っていますので、SpuReserveReverbWorkArea	+
+  を libspu の場合と同様に使用することができます。			+
+									+
+  関連関数: SpuReserveReverbWorkArea, SpuIsReverbWorkAreaReserved	+
+
+
+────────────────────────────────────
+CD のボリューム
+
+B-1: libcd に CdMix というサウンドボリュームの設定関数があるのですが、
+     CD/DA や CD-ROM/XA のサウンドボリュームはこれで設定するのでしょう
+     か ?
+
+  CD の出力は、CD から読まれているものが CD/DA や CD-ROM/XA (ADPCM)
+  などの音楽データとして CD デコーダが解釈しますと、そのデータは left,
+  right を分離して SPU へ送られ、SPU の Serial A という部分に入力され、
+  SPU が出力するサウンドデータと Mix されてオーディオアウトから出力さ
+  れます。
+
+  この CD からの音楽データの音量を操作するために、基本サウンドライブラ
+  リおよび拡張サウンドライブラリ (libsnd) にて関数を用意しています。
+
+  具体的な関数と使用法としまして、以下に掲げます。
+
+  ・基本サウンドライブラリ
+
+	#include <libspu.h>
+
+	SpuCommonAttr attr;
+
+	attr.mask = (SPU_COMMON_MVOLL  | /* マスタ音量(左)   */
+		     SPU_COMMON_MVOLR  | /* マスタ音量(右)   */
+		     SPU_COMMON_CDVOLL | /* CD 入力音量(左)  */
+		     SPU_COMMON_CDVOLR | /* CD 入力音量(右)  */
+		     SPU_COMMON_CDMIX);  /* CD 入力オン/オフ */
+
+	/* マスタ音量を中間に設定 */
+	attr.mvol.left  = 0x1fff;
+	attr.mvol.right = 0x1fff;
+
+	/* CD 入力の音量を中間に設定 */
+	attr.cd.volume.left  = 0x1fff;
+	attr.cd.volume.right = 0x1fff;
+
+	/* CD 入力をオン */
+	attr.cd.mix = SPU_ON;
+
+	/* 属性設定 */
+	SpuSetCommonAttr (&attr);
+
+  ・拡張サウンドライブラリ (libsnd)
+
+	#include <libsnd.h>
+
+	/* CD 入力 ON */
+	SsSetSerialAttr (SS_SERIAL_A, SS_MIX, SS_SON);
+
+	/* 音量を中間に設定 */
+	SsSetSerialVol (SS_SERIAL_A, 0x40, 0x40);
+
+  上記どちらかの設定を行うことにより、CD からの音楽データの音量を操作
+  できます。
+
+  関連関数: SpuSetCommonAttr, SsSetSerialAttr, SsSetSerialVol
+
+
+B-2: CdInit の後、SpuInit (または SsInit) を行うと、今まで CdInit だけ
+     行っていた時は出ていた CD の音が出なくなるのですが。
+
+  SpuInit および SsInit は CD のボリュームを 0 にします。これは文字通り
+  SPU およびサウンドシステムを初期化するためです。
+
+  よって CD からの音楽データを使うためには、B-1 で説明のある
+  SpuSetCommonAttr (拡張サウンドライブラリでは SsSetSerialAttr,
+  SsSetSerialVol) を必ず使う必要があります。
+
+  関連関数: SpuSetCommonAttr, SsSetSerialAttr, SsSetSerialVol
+
+
+────────────────────────────────────
+各ボイスの発音状態の診断
+
+C-1: libspu で 24 のボイスを扱っている場合、ある特定のボイスが
+     現在発音中なのかを調べることはできるのでしょうか ?
+
+  SpuGetKeyStatus および SpuGetAllKeysStatus で、特定のボイスおよび
+  全ボイスの発音状況が確認できます。
+
+  関連関数: SpuGetKeyStatus, SpuGetAllKeysStatus
+
+
+────────────────────────────────────
+ボイスデータの属性
+
+D-1: SpuSetKeyにて発音したボイスの波形をループさせたいのですが、
+     SpuVoiceAttr 構造体の mask に SPU_VOICE_LSAX を設定し、loop_addr 
+     にサウンドバッファ内のアドレスを指定して SpuSetVoiceAttr を呼んで
+     もなぜかループしてくれません。
+
+  SPU_VOICE_LSAX にてループの変更が出来る波形データは、その波形データ
+  の作成時にループが設定されているものだけです。作成時にループ設定を行っ
+  ていなかった場合は、SPU_VOICE_LSAX の設定をして SpuSetVoiceAttr を呼
+  んでも効果としては無効になります。ループを行いたい場合は、その波形デー
+  タ作成時にループを設定して下さい。
+
+  関連関数: SpuSetVoiceAttr, SpuSetKey
+
+
+────────────────────────────────────
+波形転送
+
+E-1: I/O 転送により サウンドバッファにデータを転送する場合に終了を確認
+     するために SpuIsTransferCompleted を呼ぶ必要があるでしょうか ?
+
+  I/O 転送の場合は処理が終了した時点で SpuWrite から処理が戻ってくるた
+  め、SpuIsTransferCompleted により転送が終了したか診断する必要はあり
+  ません。転送モードが I/O 転送時に SpuIsTransferCompleted を呼んだ場
+  合には、SpuIsTransferCompleted はその引数に依らず 1 を返します。
+
+  関連関数: SpuIsTransferCompleted, SpuWrite, SpuRead,
+	    SpuSetTransferMode
+
+
+E-2: DMA 転送を行い、終了を確認するために SpuIsTransferCompleted を呼
+     んでも処理が戻ってこないのですが。
+
+  現在のライブラリの総合的な動作状況としては、全ての処理の先頭に
+  _96_remove() か、あるいは CdInit() を行う必要があります。これを行わな
+  い場合、特に SpuIsTransferCompleted(SPU_TRANSFER_WAIT) はその処理か
+  ら戻ってきません。
+
+  関連関数: SpuIsTransferCompleted, SpuWrite, SpuRead,
+	    SpuSetTransferMode, _96_remove
+
+
+E-3: libspu では転送モードを I/O 転送と DMA 転送と切替えられますが、	+
+     libsnd ではどのようになっているのでしょうか ?			+
+									+
+  libsnd ではデフォルトで DMA 転送のモードになっています。libsnd でも	+
+  SpuSetTransferMode を使用して転送モードを変更することができます。	+
+  SpuSetTransferMode は SsVabTransBody/SsVabTransBodyPartly の前に呼ん	+
+  で下さい。								+
+									+
+  関連関数: SpuSetTransferMode, SsVabTransBody, SsVabTransBodyPartly	+
+
+
+E-4: libspu では転送終了 callback 関数が使えますが、libsnd でも libspu	+
+     の転送終了 callback 関数が使えるのでしょうか ?			+
+									+
+  libsnd では現在 libspu で提供されている転送終了 callback 関数の機能	+
+  を使うことができません。libspu で転送終了 callback 関数を使い、かつ	+
+  libsnd での波形転送の関数 (SsVabTransBody/SsVabTransBodyPartly) を呼	+
+  ぶ前には必ず転送終了 callback 関数に NULL を設定して下さい。		+
+									+
+     (void) SpuSetTransferCallback ((SpuTransferCallbackProc) NULL);	+
+	    :								+
+     SsVabTransBody (...);						+
+									+
+  関連関数: SpuSetTransferCallback, SsVabTransBody,			+
+	    SsVabTransBodyPartly					+
+
+
+────────────────────────────────────
+
+Appendix B:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PlayStation(R) 基本サウンドライブラリと拡張サウンドライブラリの共用に
+あたって
+
+				      Sony Computer Entertainment Inc.
+
+────────────────────────────────────
+
+1. はじめに
+
+  現在の 基本サウンドライブラリ (LIBSPU.LIB, 以下 libspu) において、先
+  にリリースされています拡張サウンドライブラリ (LIBSND.LIB, 以下
+  libsnd) との共用における注意事項を以下に掲げます。
+
+2. 注意事項
+
+2.1 初期化
+
+  libsnd において、SsInit() は内部的に SpuInit() を呼んでいますので、
+  SsInit() を利用している場合は SpuInit() を呼ぶ必要はありません。
+
+2.2. シーケンスデータ
+
+  libspu では SEQ などのシーケンスデータを扱う関数が用意されていません。
+  よって SEQ/SEP シーケンスデータを扱う場合は必ずlibsnd を使用する必
+  要があります。
+
+  libspu を使用し、独自のシーケンスデータを解析/発音するドライバを作成
+  する場合は、時間管理においてカーネルライブラリ(LIBAPI.LIB) が提供す
+  るルートカウンタとイベント処理の機能を利用して使用することが必要とな
+  ります。
+
+2.3. 発音/libsnd のボイスマネージャ機能
+
+  libsnd は動的にボイスの割当を管理し、通常 24 ボイス全てにおいて 
+  on/off を管理します。libspu でこれらの管理されているボイスを利用する
+  ことはできないため、libspu にボイスを割り当てる形で 
+  SsSetReservedVoice() を設定する (設定する値を 24 未満にする) ことに
+  より libsnd で管理されるボイスと libspu で利用できるボイスを切り分け
+  ることができます。
+
+2.4. 波形データのサウンドバッファへの転送
+
+  libspu は VAB にこだわらないサウンドバッファへのデータ転送をサポート
+  していますが、VAB をサウンドバッファへ送った場合において、その属性デー
+  タをボイスに反映させる関数を用意していません。
+
+  よって、転送は SsVabOpen(), SsVabOpenHead(), SsVabTransBody(), また
+  は SsVabTransBodyPartly() を利用して波形を転送し、ヘッダ情報を獲得し、
+  SsUtGetVabHdr(), SsUtGetProgAtr(), SsUtGetVagAtr() などでそれらの情
+  報を選別し、SsUtGetVagAddr() で波形データがサウンドバッファのどの位
+  置に転送されているかを得て、SpuSetVoiceAttr() により libspu で使用す
+  るボイスの属性を設定します。
+
+  この際、メモリ管理につきましては、libsnd 側も SpuMalloc() を使用して
+  いますので、ユーザ側で呼び出す SpuMalloc() と共存することができます 
+  (後述)。
+
+  なお、libsnd ではデフォルトで DMA 転送のモードになっています。libsnd	+
+  でも SpuSetTransferMode を使用して転送モードを変更することができます。+
+  SpuSetTransferMode は SsVabTransBody/SsVabTransBodyPartly の前に呼ん	+
+  で下さい。								+
+
+  転送終了の判断については、libspu では転送終了 callback 関数が使えま	+
+  すが、libsnd では現在この転送終了 callback 関数の機能を使うことがで	+
+  きません。libspu で転送終了 callback 関数を使い、かつlibsnd での波形	+
+  転送の関数 (SsVabTransBody/SsVabTransBodyPartly) を呼ぶ前には必ず転	+
+  送終了 callback 関数に NULL を設定して下さい (参考: Appendix A	+
+  [E-3])。								+
+
+2.5. サウンドバッファのメモリ管理					-
+2.5. サウンドバッファのメモリ管理とリバーブ				+
+
+  libsnd において SsInit() が内部的に SpuInitMalloc() を呼んでいますの
+  で、SsInit() を利用している場合は SpuInitMalloc() を呼ぶ必要はありま
+  せん。
+
+  ただし、その管理ブロックは libsnd 内部にとられ、サイズは (32 + 1) と
+  なっています。すなわち領域を確保する SpuMalloc() や 
+  SpuMallocWithStartAddr() が同時に確保できる領域数は 32 になります。
+  これは SpuFree() をすることにより、確保されている領域数が最大 32 で
+  あれば何回でも上記の確保する関数を呼ぶことができます。
+
+  なお、VAB を Open する度にライブラリ内部で SpuMalloc() が 1 回呼ばれ、
+  Close する度にライブラリ内部で SpuFree() が 1 回呼ばれますので、上記
+  の環境では、ある時点でユーザが確保できる最大領域数は (32 - (その時点
+  で VAB を Open している回数)) になります。
+
+  SpuMalloc()/SpuMallocWithStartAddr() をこの回数より多く行いたい場合
+  は、SsInit() の呼出し直後に SpuInitMalloc() を呼ぶことにより、管理テー
+  ブルを SpuInitMalloc() に与えた領域内においてメモリ管理が機能します。
+  ライブラリ側で設定された領域は使われなくなります。
+
+  この管理テーブルの置換えの際には、SpuInitMalloc() に
+
+  SPU_MALLOC_RECSIZ × ((VAB を Open する回数 +
+		         ユーザ側で SpuMalloc する回数) + 1)
+
+  のサイズの領域を与える必要があります。
+
+  libsnd のリバーブについては、ほぼ libspu の機能を使用した形で提供さ	+
+  れています。よって SpuReserveReverbWorkArea なども libspu の場合と同	+
+  様に使用することができます。						+
+
+3. おわりに
+
+  各関数の機能につきましては、libspu 及び libsnd の FUNCTION.TXT をお
+  読み下さい。
+
+────────────────────────────────────

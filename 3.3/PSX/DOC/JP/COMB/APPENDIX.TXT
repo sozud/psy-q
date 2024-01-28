@@ -1,0 +1,92 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+IO 制御
+────────────────────────────────────
+
+	ioctl (descriptor, マクロ, 引数(long型));
+
+       =============================================================
+	マクロ		内容		引数
+       -------------------------------------------------------------
+	TIOCPARITY	パリティ	0:no parity  1:odd  3:odd
+	TIOCBAUD	通信速度	bps値（1～2073600）
+       -------------------------------------------------------------
+
+
+サンプルプログラム（sample.cソース）
+────────────────────────────────────
+
+/* マクロMASTERを定義したものとしないものをコンパイルしてください。 */
+
+#include <r3000.h>
+#include <asm.h>
+#include <kernel.h>
+#include <sys/file.h>
+#include <sys/ioctl.h>
+
+#define BR 192000
+char msg[] = "Hello!\n";
+
+main()
+{
+	long i;
+	long fr,fw;		/* file descriptor */
+	unsigned long ev1, ev2;	/* read/write event descriptor */
+	char buf[8];		/* receive buffer */
+
+	/* open and enable an event to detect the end of read operation */
+	ev1 = OpenEvent(HwSIO,EvSpIOER,EvMdNOINTR,NULL);
+	EnableEvent(ev1);
+	/* open and enable an event to detect the end of write operation */
+	ev2 = OpenEvent(HwSIO,EvSpIOEW,EvMdNOINTR,NULL);
+	EnableEvent(ev2);
+
+	/* attacth the SIO driver to the kernel */
+	AddCOMB();
+
+	/* prerapre data buffers */ 
+	for(i=0;i<128;i++) {
+		buf[i] = 0x00;
+	}
+
+	/* open a read path and set baud-rate */
+	fr = open("sio:",O_RDONLY|O_NBLOCK);
+        ioctl(fr,TIOCBAUD,BR);
+
+	/* open a write path and set baud-rate */
+	fw = open("sio:",O_WRONLY|O_NBLOCK);
+        ioctl(fw,TIOCBAUD,BR);
+
+#ifdef MASTER
+	/* read operation */
+	/* register a read request to kernel */
+	if(read(fr,&buf[0],8)!=0) {	/* test the return value */	
+		printf("error in read()\n");	/* if !0 then error */
+	}
+	else {
+		WaitEvent(ev1);		/* wait the end of the operation */
+	}
+	printf("rec:%s",msg);
+#else
+	/* padding */
+	strcpy(buf,msg);
+	for(i=8-strlen(msg)%8;i>0;i--)
+		strcat(buf," ");
+
+	/* write operation */
+	/* regist a write request to kernel */
+	/* without the test of the return value */
+	write(fw,buf,strlen(buf));
+	/* wait the end of the operation */
+	WaitEvent(ev2);
+#endif
+	
+	/* end of the program */
+	close(fr);
+	close(fw);
+	CloseEvent(ev1);
+	CloseEvent(ev2);
+
+	/* detacth the SIO driver to the kernel */
+	DelCOMB();
+}

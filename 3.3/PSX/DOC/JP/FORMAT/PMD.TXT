@@ -1,0 +1,303 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+ライブラリ用モデリングデータ（PMD フォーマット）
+
+
+
+概要
+----
+
+ PMDフォーマットデータは拡張グラフィックスライブラリ libgs で扱う
+モデリングデータの一種で高速処理用のフォーマットです。TMDフォーマット
+に比べ、いくつかの機能が簡略化されていますが高速に処理することが可能で
+す。
+
+PMDデータで扱うオブジェクトは次の通りです。
+
+	・3角/4角ポリゴンに限定
+	・パケット生成領域がデータ内に含まれている。
+	・同一属性のポリゴンをひとまとめにして扱う。
+
+
+座標値について
+--------------
+
+ PMDファイル内での座標値はPSXシステムの3Dライブラリで扱う空
+間に従い、x軸の正方向が右、y軸が下、z軸が画面奥を表します。
+各オブジェクトが持つ空間の座標値は16bitの符号つき整数値で、
+それぞれの軸の座標値の取り得る値は -32768～+32767 になります。
+
+
+フォーマット
+------------
+
+ PMDファイルは3Dオブジェクトのテーブルと、これを構成するPRIMITIVE、
+VERTEX(頂点)を持ちます。
+
+　　　　┌───────────┐
+　　　　│　　　　 ID　 　　　　│
+　　　　├───────────┤
+　　　　│　　　PRIM POINT  　　│
+　　　　├───────────┤
+　　　　│　　　VERT POINT　　　│
+　　　　├───────────┤
+	│      OBJ TABLE     　│
+	│　　　　 ： 　　　　　│
+	│　　　　　　　　　　　│
+	├───────────┤
+	│ 　　PRIMITIVE Gp.  　│
+	│　　　　 ： 　　　　　│
+	│　　　　　　　  　　　│
+	├───────────┤
+	│ 　　  VERTEX Gp.   　│
+	│　　　　 ： 　　　　　│
+	│　　　　　　　  　　　│
+	└───────────┘
+	  Fig.1  ファイル全体構造
+
+
+	ID:	32bit長（1ワード）のデータでPMDファイルのバージョンを表します。
+		現在のバージョンでは 0x00000042 です。
+
+	PRIM POINT:	PRIMITIVE Gp.部のファイル先頭からのオフセット
+			を表す32bit整数値です。（単位はByte）
+
+	VERT POINT:	VERTEX Gp.部のファイル先頭からのオフセットを表
+			す32bit整数値です。（単位はByte）
+			独立頂点の場合は 0 が入ります。
+
+	OBJ TABLE:	オブジェクトの配列です。
+
+	PRIMITIVE Gp.:	同一属性を持つポリゴンの集合体（Primitive Gp.)
+			が並んだものです。
+
+	VERTEX Gp.:	頂点座標列です。共有頂点の場合のみ存在します。
+
+
+OBJ TABLE
+---------
+
+ OBJ TABLE部は各オブジェクトの実体である Primitive Gp.に対する
+ポインタ情報が並んだテーブルです。
+
+単一のオブジェクトは複数のPrimitive Gp.の組合せ
+
+　　　　　　　　┌───────────┐
+	　　　　│　　　　NOBJ　　　　　│
+		├───────────┤
+　　　　　　　　│       NPTR(#0)       │─┐
+　　　　　　　　├───────────┤　│
+　　　　　　　　│      POINTER 0 　　　│　│
+　　　　　　　　├───────────┤　│
+　　　　　　　　│      POINTER 1 　　　│
+　　　　　　　　├───────────┤  OBJECT #0
+　　　　　　　　│      POINTER 2 　　　│
+　　　　　　　　├───────────┤　│
+　　　　　　　　│　　　　　：　　　　　│　│
+　　　　　　　　│　　  　　：　  　　　│　│
+　　　　　　　　├───────────┤　│
+　　　　　　　　│    POINTER (nptr-1)  │─┘
+　　　　　　　　├───────────┤
+　　　　　　　　│       NPTR(#1)　 　　│─┐
+　　　　　　　　├───────────┤　│
+　　　　　　　　│      POINTER 0 　　　│　│
+　　　　　　　　├───────────┤　│
+　　　　　　　　│      POINTER 1 　　　│
+　　　　　　　　├───────────┤  OBJECT #1
+　　　　　　　　│      POINTER 2 　　　│
+　　　　　　　　├───────────┤　│
+　　　　　　　　│　　　　　：　　　　　│　│
+　　　　　　　　│　　  　　：　  　　　│　│
+　　　　　　　　├───────────┤　│
+　　　　　　　　│    POINTER (nptr-1)  │─┘
+　　　　　　　　├───────────┤
+　　　　　　　　│　　　　　：　　　　　│
+　　　　　　　　│　　  　　：　  　　　│
+　　　　　　　　│　　　　　　　　　　　│
+　　　　　　　　└───────────┘
+
+			NOBJ:		OBJ TABLE内のオブジェクト個数
+			NPTR:		単一オブジェクトのポインタ個数
+			POINTER:	Primitive Gp.へのポインタ
+
+		Fig.4  OBJECT構造体
+
+
+
+
+PRIMITIVE Group
+---------------
+
+ PMDデータでは、同一の属性を持つポリゴンを人まとめにして
+ PRIMITIVE Gp部はオブジェクトの構成要素（プリミティブ）の描画パ
+ケットが並んだもので、１つのパケットで１個のプリミティブを表
+します。
+PMDで定義されているプリミティブは libgpu で扱う描画プリミティブとは
+異なります。libgsの関数によって透視変換の処理を行なうと共に
+描画プリミティブへ変換されます。
+
+
+		１つのPrimitive Groupは次のような構造になっています。
+
+　　　　　　　　31(MSB)　　　　　　　　　　0(LSB)
+　　　　　　　　┌───────┬───────┐
+　　　　　　　　│     TYPE     │   NPACKET    │
+　　　　　　　　├───────┴───────┤
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　│　　   Packet Data #0     　　│
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　├───────────────┤
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　│　　   Packet Data #1     　　│
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　├───────────────┤
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　│　　   Packet Data #2     　　│
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　├───────────────┤
+　　　　　　　　│　　　　　　　：　　　　　　　│
+　　　　　　　　│　　　　　　　　　　　　　　　│
+　　　　　　　　└───────────────┘
+                     Fig.5  PACKET Gp 部の構造
+
+				NPACKET :	パケット数
+				TYPE :		パケットタイプ
+
+		TYPEのbit構成
+
+		bit No.		0のとき		1のとき
+		----------------------------------------------
+		16		3角形		4角形
+		17		Flat		Gouraud
+		18		Texture-On	Texture-Off
+		19		独立Vertex	共有Vertex
+		20		光源計算OFF	光源計算ON
+		21		Back clipあり	Back clipなし
+		22～31		       ( Reserved )
+
+
+		Packet Dataの構成はTYPEの値によって変化します。
+		TYPE別 Packet Data構成は次の通り
+
+		（注１）構造体中のプリミティブ部(POLY_***)はダブルバッ
+			ファ対応のために２セット用意されます。
+			双方の内容はあらかじめ初期化されている必要があ
+			ります。
+		（注２）bit20,21 はPacket Dataの構成には影響しません。
+
+		TYPE=00 (3角形/Flat/Texture-On/独立頂点)
+			struct _poly_ft3 {
+				POLY_FT3 pkt[2];
+				SVECTOR v1, v2, v3;
+			}
+
+		TYPE=01 (4角形/Flat/Texture-On/独立頂点)
+			struct _poly_ft4 {
+				POLY_FT4 pkt[2];
+				SVECTOR v1, v2, v3, v4;
+			}
+
+		TYPE=02 (3角形/Gouraud/Texture-On/独立頂点)
+			struct _poly_gt3 {
+				POLY_GT3 pkt[2];
+				SVECTOR v1, v2, v3;
+			}
+
+		TYPE=03 (4角形/Gouraud/Texture-On/独立頂点)
+			struct _poly_gt4 {
+				POLY_GT4 pkt[2];
+				SVECTOR v1, v2, v3, v4;
+			}
+
+		TYPE=04 (3角形/Flat/Texture-Off/独立頂点)
+			struct _poly_f3 {
+				POLY_F3 pkt[2];
+				SVECTOR v1, v2, v3;
+			}
+
+		TYPE=05 (4角形/Flat/Texture-Off/独立頂点)
+			struct _poly_f4 {
+				POLY_F4 pkt[2];
+				SVECTOR v1, v2, v3, v4;
+			}
+
+		TYPE=06 (3角形/Gouraud/Texture-Off/独立頂点)
+			struct _poly_g3 {
+				POLY_G3 pkt[2];
+				SVECTOR v1, v2, v3;
+			}
+
+		TYPE=07 (4角形/Gouraud/Texture-Off/独立頂点)
+			struct _poly_g4 {
+				POLY_G4 pkt[2];
+				SVECTOR v1, v2, v3, v4;
+			}
+
+		TYPE=08 (3角形/Flat/Texture-On/共有頂点)
+			struct _poly_ft3c {
+				POLY_FT3 pkt[2];
+				long vp1, vp2, vp3;
+			}
+
+		TYPE=09 (4角形/Flat/Texture-On/共有頂点)
+			struct _poly_ft4c {
+				POLY_FT4 pkt[2];
+				long vp1, vp2, vp3, vp4;
+			}
+
+		TYPE=0a (3角形/Gouraud/Texture-On/共有頂点)
+			struct _poly_gt3c {
+				POLY_GT3 pkt[2];
+				long vp1, vp2, vp3;
+			}
+
+		TYPE=0b (4角形/Gouraud/Texture-On/共有頂点)
+			struct _poly_gt4c {
+				POLY_GT4 pkt[2];
+				long vp1, vp2, vp3, vp4;
+			}
+
+		TYPE=0c (3角形/Flat/Texture-Off/共有頂点)
+			struct _poly_f3c {
+				POLY_F3 pkt[2];
+				long vp1, vp2, vp3;
+			}
+
+		TYPE=0d (4角形/Flat/Texture-Off/共有頂点)
+			struct _poly_f4c {
+				POLY_F4 pkt[2];
+				long vp1, vp2, vp3, vp4;
+			}
+
+		TYPE=0e (3角形/Gouraud/Texture-Off/共有頂点)
+			struct _poly_g3c {
+				POLY_G3 pkt[2];
+				long vp1, vp2, vp3;
+			}
+
+		TYPE=0f (4角形/Gouraud/Texture-Off/共有頂点)
+			struct _poly_g4c {
+				POLY_G4 pkt[2];
+				long vp1, vp2, vp3, vp4;
+			}
+
+			pkt[]は対応する描画プリミティブパケット
+			v1～v4の値は頂点座標値
+			vp1～vp4の値は共有頂点列の先頭からのオフセットです。
+
+
+VERTEX
+------
+
+VERTEX部は共有頂点を表すSVECTOR構造体の配列です。１つの構造体のフォーマッ
+トは次に示す通りです。
+
+
+　　　　 MSB   　　　　　　　　　　　LSB
+	┌───────┬───────┐
+	│　　　VY　　　│　　　VX　　　│
+	├───────┼───────┤
+	│　　　--　　　│　　　VZ　　　│
+	└───────┴───────┘
+	        Fig.6  VERTEX構造体
+                                 VX, VY, XZ : 	頂点座標のx,y,z値（16bit整数）

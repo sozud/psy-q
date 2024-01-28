@@ -1,0 +1,37 @@
+
+# LIBDIR   = ../../../../lib
+# INCDIR   = ../../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+TADDR	 = 80040000	
+
+RM	= rm -f
+CC       = cc -O2
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+
+OBJS     = 
+
+all::	rcube rcube2
+
+rcube.o:
+	$(CC) $(CFLAGS) -c -o rcube.o main.c
+
+rcube2.o:
+	$(CC) $(CFLAGS) -DDEAD_PARENT -c -o rcube2.o main.c
+
+rcube: rcube.o
+	ld $(LDFLAGS) -o rcube $(LIBDIR)/none2.o rcube.o $(LIBS)
+	out2x rcube
+
+rcube2: rcube2.o
+	ld $(LDFLAGS) -o rcube $(LIBDIR)/none2.o rcube2.o $(LIBS)
+	out2x rcube
+
+clean:
+	$(RM) rcube rcube2  *.o *.exe
+

@@ -1,0 +1,17 @@
+mkobj cube -col 200 200 200 -o cube.rsd
+mkobj cone -s -col 200 200 200 -div1 40 -o cone.rsd
+mkobj ball -s -col 200 200 200 -div1 12 -div2 12 -o ball.rsd
+
+mkobj cube -col 200 200 200 -tex test.tim -o cubet.rsd
+mkobj cone -s -col 200 200 200 -tex test.tim -div1 20 -o conet.rsd
+mkobj ball -s -col 200 200 200 -tex test.tim -div1 12 -div2 12 -o ballt.rsd
+
+rsdcat ball.rsd cone.rsd cube.rsd ballt.rsd conet.rsd cubet.rsd > all5.rsd
+
+#rsdcat ball.rsd cone.rsd cube.rsd  > all5.rsd
+
+
+
+
+
+

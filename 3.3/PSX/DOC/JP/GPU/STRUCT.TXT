@@ -1,0 +1,919 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+	
+
+*ライブラリで使用される構造体	
+	
+VECTOR		32bit３次元ベクトル
+
+	構造	typedef struct {		
+			long	vx, vy;
+			long	vz, pad;
+		} VECTOR;
+	
+	メンバ	vx, vy, vz		ベクトル成分
+		pad			パディング
+	
+	解説	32bit ３次元ベクトル構造体		
+	
+SVECTOR		16 bit ３次元ベクトル
+
+	構造	typedef struct {			
+			short	vx, vy;
+			short	vz, pad;
+		} SVECTOR;
+	
+	メンバ	vx, vy, vz		ベクトル成分
+		pad			パディング
+	
+	解説	16bit ３次元ベクトル構造体		
+	
+CVECTOR		8bit３次元ベクトル（カラーベクトル）
+
+	構造	typedef struct {			
+			u_char	r, g, b, cd;
+		} CVECTOR;
+	
+	メンバ	r, g, b		ベクトル成分
+		cd		パディング
+	
+	解説	8 bitカラーベクトル構造体
+
+	       
+MATRIX		３x３マトリクス
+
+	構造	typedef struct  {
+			short	m[3][3];	
+		        long    t[3];		
+		} MATRIX;
+	
+	メンバ	m	3x3 マトリクス係数値
+		t	並行移動量
+	
+	解説	MATRIX の m[i][j] でマトリクスの各成分を指定する。
+		MATRIX の t[i] で変換後の移動量を指定する。
+		m と t では語長が異なることに注意。
+
+		GTE は、MATRIX 構造体から基本的に以下の積和演算を行なう。
+	
+	    (a) RotTrans 系関数（透視変換を行なわない関数群）
+	
+		単純な行列演算およびベクトルの加算のみを行なう。
+
+		MATRIX	m
+			
+		SVECTOR	xi
+			
+		SVECTOR	xo
+			
+
+		┌     ┐ ┌                             ┐┌     ┐ ┌      ┐
+		│xo.vx│ │m.m[0][0] m.m[0][1] m.m[0][2]││xi.vx│ │m.t[0]│
+		│xo.vy│=│m.m[1][0] m.m[1][1] m.m[1][2]││xi.vy│+│m.t[1]│
+		│xo.vz│ │m.m[2][0] m.m[2][1] m.m[2][2]││xi.vz│ │m.t[2]│
+		└     ┘ └                             ┘└     ┘ └      ┘
+	
+	    (b) RotTransPers 系関数（透視変換を行なう関数群）
+
+		(a) の計算に加えて透視変換（z による割算）を同時に行なう。
+
+		MATRIX	m
+			
+		SVECTOR	xi
+			
+		SVECTOR	xo
+			
+		SVECTOR x2
+			
+		long	h
+			
+	
+		┌     ┐ ┌                             ┐┌     ┐ ┌      ┐
+		│xo.vx│ │m.m[0][0] m.m[0][1] m.m[0][2]││xi.vx│ │m.t[0]│
+		│xo.vy│=│m.m[1][0] m.m[1][1] m.m[1][2]││xi.vy│+│m.t[1]│
+		│xo.vz│ │m.m[2][0] m.m[2][1] m.m[2][2]││xi.vz│ │m.t[2]│
+		└     ┘ └                             ┘└     ┘ └      ┘
+	
+		x2.vx = (h*xo.vx) / xo.vz
+		x2.vy = (h*yo.vy) / xo.vz
+
+RECT		フレームバッファ矩形領域
+
+	構造	typedef struct {
+			short x, y;		
+			short w, h;		
+		} RECT;
+	
+	メンバ	x, y		矩形領域の左上点 
+		w, h		矩形領域の幅・高さ
+	
+	解説	アクセスするフレームバッファの領域を指定する。負の値および
+		フレームバッファの大きさ (1024x512) を越える値は指定できない。
+		
+DRAWENV		描画環境
+
+	構造	typedef struct {
+			RECT	clip;		
+			short	ofs[2];		
+			RECT	tw;		
+			u_short tpage;			
+			u_char	dtd;		
+			u_char	dfe;		
+			u_char	isbg;		
+			u_char	r0, g0, b0;	
+			DR_ENV	dr_env;		
+		} DRAWENV;
+
+	メンバ	clip	描画領域。描画は、clip で指定される矩形領域内に制限
+			される。クリッピング領域外には描画は行なわれない。
+	
+		ofs	オフセット。全ての描画命令は(ofs[0],ofs[1]) の値
+			が加算された値をアドレスとして、フレームバッファ
+			に描画される。
+	
+		tw	テクスチャウィンドウ。テクスチャページ内の tw で
+			制限される矩形領域内のテクスチャパターンが繰り返
+			して使用される。
+
+		tpage	テクスチャページ初期値
+
+		dtd	ディザ処理フラグ
+				0 OFF
+				1 ON
+	
+		dfe	表示エリアへの描画フラグ
+				0 表示中の領域への描画はブロックされる。
+				1 表示中の領域への描画を許可する。
+
+		isbg	描画領域クリアフラグ。0:OFF 1: ON
+				0 描画環境設定時に描画領域をクリアしない
+				1 描画環境設定時にクリップエリア全体を
+				  輝度値 (r0,g0,b0)で塗りつぶす。
+		r0,g0,b0
+			背景色。isbg が 1 のときのみ有効
+	
+		dr_env	システム予約
+	
+	解説	描画オフセット・描画クリップエリアなど、描画に関するの
+		基本的なパラメータを設定。
+
+	備考	描画空間のうち、実際に描画が可能なのは、(0, 0)-(1023, 511)
+		の領域。
+	
+		オフセット値および、オフセットが加算された後のアドレスは
+		(-1024, -1024)-(1023, 1023) でラップラウンドする。
+	
+		テクスチャウィンドウとして指定できる値は以下の組合せに限
+		られる。
+	
+		tw.w, tw.x
+		 --------------------------------------------------------
+		 tw.w	|0(=256) 16	   32        64        128     
+		 -------+------------------------------------------------
+		 tw.x	|0	 16の倍数  32の倍数  64の倍数  128の倍数
+		 --------------------------------------------------------
+
+		tw.h, tw.y
+		---------------------------------------------------------
+		tw.h	| 0(=256) 16 	    32        64        128     
+		--------+------------------------------------------------
+		tw.y	| 0	  16の倍数  32の倍数  64の倍数  128の倍数
+		 --------------------------------------------------------
+
+DISPENV		表示環境
+
+	構造	typedef struct {
+			RECT	disp;		
+			RECT	screen;		
+			u_char	isinter;	
+			u_char	isrgb24;	
+			u_char	pad0, pad1;	
+		} DISPENV;
+	
+	メンバ	disp	フレームバッファ内の表示エリア
+			エリアの幅は、256,320,360,512,640のいずれかを指定。
+			エリアの高さは、240,480 のいずれかを指定。
+	
+		screen	出力画面上の表示エリア
+			画面エリアは、disp の値に関わらず標準的なモニタ画面
+			の左上端点を(0,0)、 右下端点を (256,240) として計算
+			される。
+
+		isinter	インターレースモードフラグ
+				0 ノンインターレース
+				1 インターレース
+			
+		isrgb24	24bit モードフラグ
+				0 16bit モード
+				1  24 bit モード
+
+		
+	解説	画面表示モード・フレームバッファ表示位置などの表示に関
+		するパラメータを指定する。
+
+POLY_F3		フラット３角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			short	x1,	y1;
+			short	x2,	y2;
+		} POLY_F3;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1..x2,y2	プリミティブの各頂点座標
+		
+
+	解説	POLY_F3 は (x0,y0)-(x1,y1)-(x2,y2) で囲まれた領域を
+		(r0,g0,b0) の輝度値で塗りつぶす。
+	
+		実際に描画されるアドレスはこの値に、描画環境で指定された
+		オフセット値が加算される。描画は描画環境で指定されたクリ
+		ップ領域（矩形領域）でクリップされる。
+		これはすべての描画プリミティブに関してあてはまる。
+	
+		さらに、幅が 1024 高さが 512 を越えるプリミティブはその全
+		てがクリップされる。
+		これはすべての描画プリミティブに関してあてはまる。
+
+POLY_F4		フラット４角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			short	x1,	y1;
+			short	x2,	y2;
+			short	x3,	y3;
+		} POLY_F4;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+
+	解説	POLY_F4 は (x0,y0)-(x1,y1)-(x3,y3)-(x2,y2) で囲まれた
+		領域を (r0,g0,b0) の輝度値で塗りつぶす。
+
+		４角形プリミティブの場合頂点の指定順序は以下の通り。
+		これは、テクスチャマップ４角形における、(u,v) および、
+		グーローシェーディング４角形における、(r,g,b) の指定に
+		ついても同様。
+			     (x0,y0)	(x1,y1)
+			      ┌─────┐
+	    		      │	  │
+			      │	  │
+			      └─────┘
+			    (x2,y2)	(x3,y3)
+	
+POLY_G3		グーローシェーディング３角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	r1, g1, b1, pad1;
+			short	x1,	y1;
+			u_char	r2, g2, b2, pad2;
+			short	x2,	y2;
+		} POLY_G3;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,....r2,g2,b2	プリミティブの各頂点に対応する輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+	
+	解説	POLY_G3 は (x0,y0)-(x1,y1)-(x2,y2) で囲まれた領域を各
+		頂点が、(r0,g0,b0)-(r1,g1,b1)-(r2,g2,b2) の輝度値にな
+		る様にグーローシェーディングを行ないながら描画する。
+	
+		三角形内部のピクセルは与えられた三頂点の輝度値から線形
+		補間して求められる。
+	
+POLY_G4		グーローシェーディング４角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	r1, g1, b1, pad1;
+			short	x1,	y1;
+			u_char	r2, g2, b2, pad2;
+			short	x2,	y2;
+			u_char	r3, g3, b3, pad3;
+			short	x3,	y3;
+		} POLY_G4;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,....r3,g3,b3	プリミティブの各頂点に対応する輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+		
+	
+	解説	POLY_G4 は (x0,y0)-(x1,y1)-(x3,y3)-(x2,y2) で囲まれた
+		領域を各頂点が、(r0,g0,b0)-(r1,g1,b1)-(r3,g3,b3)-
+		(r2,g2,b2) の輝度値になる様にグーローシェーディングを
+		行ないながら描画する。
+
+		４角形内部のピクセルは与えられた４頂点の輝度値から線形
+		補間して求められる。
+
+POLY_FT3	フラットテクスチャマップ３角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+			short	x1,	y1;
+			u_char	u1, v1;	u_short	tpage;
+			short	x2,	y2;
+			u_char	u2, v2;	u_short	pad1;
+		} POLY_FT3;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1..x2,y2	プリミティブの各頂点座標
+		u0,v0,y1,v1..u2,v2	各頂点に対応するテクスチャ座標
+		tpage			テクスチャページ ID
+		clut			CLUT ID (4bit/8bit モード時のみ）
+
+	解説	POLY_FT3 は (x0,y0)-(x1,y1)-(x2,y2) で囲まれた領域に
+		テクスチャページ tpage 上のテクスチャパターンの、
+		(u0,v0)-(u1,v1)-(u2,v2) で囲まれる領域をマッピングしな
+		がら描画を行なう。
+
+		描画される輝度値は、対応するテクスチャパターンのピクセ
+		ル値Ｔと対応する輝度値Ｌから、以下のように計算される。
+	
+			R = (T*r0)/128
+			G = (T*g0)/128
+			B = (T*b0)/128
+
+		テクスチャ座標は、描画する３角形の各頂点に対応するテク
+		スチャページ内の座標になる(0-255)。テクスチャモードが
+		4bit/8bitの場合、テクスチャ座標と実際のフレームバッファ
+		アドレスは１対１に対応しない。
+	
+		tpage には、テクスチャページ ID を与える。テクスチャペ
+		ージ ID は、テクスチャページが置かれたフレームバッファ
+		のアドレス (x,y) から GetTPage()関数を使用して取得する。
+
+		また、CLUT を使用するテクスチャでは、clut に使用する
+		CLUT ID を与える。CLUT ID は CLUT の置かれたフレーム
+		バッファのアドレス (x,y) から GetClut() 関数を使用し
+		て取得する。
+
+		一つの描画コマンドで使用できるテクスチャページは256x256
+		のサイズで、１プリミティブで使用できるテクスチャページ
+		は１面に限られる。
+
+POLY_FT4	フラットテクスチャマップ４角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+			short	x1,	y1;
+			u_char	u1, v1;	u_short	tpage;
+			short	x2,	y2;
+			u_char	u2, v2;	u_short	pad1;
+			short	x3,	y3;
+			u_char	u3, v3;	u_short	pad2;
+		} POLY_FT4;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+		u0,v0,y1,v1..u3,v3	各頂点に対応するテクスチャ座標
+		tpage			テクスチャページ ID
+		clut			CLUT ID (4bit/8bit モード時のみ）
+
+	解説	POLY_FT4 は (x0,y0)-(x1,y1)-(x3,y3)-(x2,y2) で囲まれた
+		領域にテクスチャページ tpage 上のテクスチャパターンの、
+		(u0,v0)-(u1,v1)-(u3,v3)-(u2,v2) で囲まれる領域をマッピ
+		ングしながら描画を行なう。
+
+POLY_GT3	グーローテクスチャマップ３角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+			u_char	r1, g1, b1, p1;
+			short	x1,	y1;
+			u_char	u1, v1;	u_short	tpage;
+			u_char	r2, g2, b2, p2;
+			short	x2,	y2;
+			u_char	u2, v2;	u_short	pad2;
+		} POLY_GT3;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,....r2,g2,b2	プリミティブの各頂点に対応する輝度値
+		x0,y0,x1,y1..x2,y2	プリミティブの各頂点座標
+		u0,v0,y1,v1..u2,v2	各頂点に対応するテクスチャ座標
+		tpage			テクスチャページ ID
+		clut			CLUT ID (4bit/8bit モード時のみ）
+	
+	解説	POLY_GT3 は テクスチャマッピングとグーローシェーディング
+		同時に行ないながら３角形を描画する。
+	
+		実際の輝度値は、テクスチャパターンより得られる輝度値に、
+		グーローシェーディングによって計算された輝度値が乗算され
+		たものが、輝度値として描画される。
+	
+		描画される輝度値は、対応するテクスチャパターンのピクセ
+		ル値Ｔと対応する輝度値Ｌから、以下のように計算される。
+	
+			R = (T*r0)/128
+			G = (T*g0)/128
+			B = (T*b0)/128
+
+POLY_GT4	グーローテクスチャマップ４角形プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+			u_char	r1, g1, b1, p1;
+			short	x1,	y1;
+			u_char	u1, v1;	u_short	tpage;
+			u_char	r2, g2, b2, p2;
+			short	x2,	y2;
+			u_char	u2, v2;	u_short	pad2;
+			u_char	r3, g3, b3, p3;
+			short	x3,	y3;
+			u_char	u3, v3;	u_short	pad3;
+		} POLY_GT4;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,....r3,g3,b3	プリミティブの各頂点に対応する輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+		u0,v0,y1,v1..u3,v3	各頂点に対応するテクスチャ座標
+		tpage			テクスチャページ ID
+		clut			CLUT ID (4bit/8bit モード時のみ）
+	
+	解説	POLY_GT4 は テクスチャマッピングとグーローシェーディング
+		同時に行ないながら４角形を描画する。
+
+		実際の輝度値は、テクスチャパターンより得られる輝度値に、
+		グーローシェーディングによって計算された輝度値が乗算され
+		たものが、輝度値として描画される。
+
+LINE_F2		フラット非連結直線
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			short	x1,	y1;
+		} LINE_F2;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1		プリミティブの右端点頂点座標
+
+	解説	LINE_F2は、輝度値が (r0,g0,b0) で、(x0,y0)-(x1,y1) を
+		結ぶ非連結直線を描画する。
+	
+LINE_F3		フラット１連結直線
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			short	x1,	y1;
+			short	x2,	y2;
+			u_long	pad;
+		} LINE_F3;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1..x2,y2	プリミティブの各頂点座標
+
+	解説	LINE_F3は、輝度値が (r0,g0,b0) で、(x0,y0)-(x1,y1)-(x2,y2)
+		を結ぶ１連結直線を描画する。
+	
+LINE_F4		フラット２連結直線
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			short	x1,	y1;
+			short	x2,	y2;
+			short	x3,	y3;
+			u_long	pad;
+		} LINE_F4;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+
+	解説	LINE_F4は、輝度値が (r0,g0,b0) で、(x0,y0)-(x1,y1)-(x2,y2)
+		-(x3,y3)を結ぶ２連結直線を描画する。
+	
+LINE_G2		グーロー非連結直線
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	r1, g1, b1, p1;
+			short	x1,	y1;
+		} LINE_G2;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,r1,g1,b1	プリミティブの輝度値
+		x0,y0,x1,y1		プリミティブの右端点頂点座標
+		
+	
+	解説	LINE_G2は、(x0,y0)-(x1,y1) を結ぶ非連結直線を頂点が
+		(r0,g0,b0)-(r1,g1,b1)の輝度値になる様に、グーローシェ
+		ーディングを行ないながら描画する。
+	
+LINE_G3		グーロー１連結直線
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	r1, g1, b1, p1;
+			short	x1,	y1;
+			u_char	r2, g2, b2, p2;
+			short	x2,	y2;
+			u_long	pad;
+		} LINE_G3;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,....r2,g2,b2	プリミティブの各頂点に対応する輝度値
+		x0,y0,x1,y1..x2,y2	プリミティブの各頂点座標
+		
+	
+	解説	LINE_G3は、(x0,y0)-(x1,y1)-(x2,y2) を結ぶ非連結直線を
+		頂点が(r0,g0,b0)-(r1,g1,b1)-(r2,g2,b2)の輝度値になる様
+		に、グーローシェーディングを行ないながら描画する。
+	
+LINE_G4		グーロー２連結直線
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	r1, g1, b1, p1;
+			short	x1,	y1;
+			u_char	r2, g2, b2, p2;
+			short	x2,	y2;
+			u_char	r3, g3, b3, p3;
+			short	x3,	y3;
+			u_long	pad;
+		} LINE_G4;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0,....r3,g3,b3	プリミティブの各頂点に対応する輝度値
+		x0,y0,x1,y1..x3,y3	プリミティブの各頂点座標
+		
+	
+	解説	LINE_G4は、(x0,y0)-(x1,y1)-(x2,y2)-(x3,y3) を結ぶ非連結
+		直線を頂点が(r0,g0,b0)-(r1,g1,b1)-(r2,g2,b2)-(r3,g3,b3)の
+		輝度値になる様に、グーローシェーディングを行ないながら描画
+		する。
+	
+SPRT		任意サイズスプライト		
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+			short	w,	h;
+		} SPRT;					
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+		x0,y0			プリミティブの右端点テクスチャ座標
+		clut			CLUT ID (4bit/8bit モード時のみ）
+		w, h			プリミティ幅・高さ
+	
+	解説	SPRT は、矩形領域を等倍でのテクスチャマッピングつきで、
+		描画する。
+
+	備考	u0,w は偶数の指定のみ。
+	
+		描画速度は、POLY_FT4 プリミティブよりも高速。
+	
+		スプライトプリミティブ tpage メンバを持たないため、テクスチ
+		ャページは直前に指定されたもの（カレントテクスチャページ）が
+		そのまま使用される。
+		
+SPRT_8		8x8 固定サイズスプライト		
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+		} SPRT_8;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+		x0,y0			プリミティブの右端点テクスチャ座標
+		clut			CLUT ID (4bit/8bit モード時のみ）
+	
+	解説	8x8 の固定サイズのスプライトを描画する。これは、SPRT 構造体
+		で w, h メンバに、それぞれ 8 を指定した場合と同じ。
+	
+SPRT_16		16x16 固定サイズスプライト		
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			u_char	u0, v0;	u_short	clut;
+		} SPRT_16;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+		x0,y0			プリミティブの右端点テクスチャ座標
+		clut			CLUT ID (4bit/8bit モード時のみ）
+	
+	解説	16x16 の固定サイズのスプライトを描画する。これは、SPRT 構造体
+		で w, h メンバに、それぞれ 16 を指定した場合と同じ。
+	
+TILE		任意サイズタイルスプライト
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+			short	w,	h;
+		} TILE;					
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+		w, h			プリミティ幅・高さ
+	
+	解説	矩形領域を同じ輝度値(r0,g0,b0) で描画する。
+
+	備考	POLY_F4 プリミティブより高速
+
+TILE_1		1x1 固定サイズタイルスプライト
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+		} TILE_16;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+	
+	解説	1x1 の領域を (r0,g0,b0)の輝度値で塗りつぶす。これは、
+		TILE 構造体で w, h メンバに、それぞれ 1 を指定した場
+		合と同じ。
+	
+TILE_8		8x8 固定サイズタイルスプライト
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+		} TILE_8;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+	
+	解説	8x8 の領域を (r0,g0,b0)の輝度値で塗りつぶす。これは、
+		TILE 構造体で w, h メンバに、それぞれ 8 を指定した場
+		合と同じ。
+	
+TILE_16		16x16 固定サイズタイルスプライト
+
+	構造	typedef struct {
+			u_long	tag;
+			u_char	r0, g0, b0, code;
+			short	x0, 	y0;
+		} TILE_16;				
+
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+		r0,g0,b0		プリミティブの輝度値
+		x0,y0			プリミティブの右端点頂点座標
+	
+	解説	16x16 の領域を (r0,g0,b0)の輝度値で塗りつぶす。これは、
+		TILE 構造体で w, h メンバに、それぞれ 16 を指定した場
+		合と同じ。
+	
+DR_ENV		描画環境変更プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_long	code[15];
+		} DR_ENV;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+	
+	解説	DR_ENV プリミティブはその時の描画環境を描画環境構造体
+		DRAWENV から変換された描画環境に強制的に変更する。
+		内容の設定は SetDrawEnv() 関数で行なう。
+
+	備考	DRAWENV と DR_ENV は表現形式が異なる。
+
+	
+DR_MODE		描画モード変更プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_long	code[2];
+		} DR_MODE;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+	
+	解説	DR_MODE プリミティブは現在の描画環境の一部（カレントテ
+		クスチャページ・テクスチャウィンドウなど）を描画の途中
+		で変更する。
+		内容の設定は SetDrawMode() 関数で行なう。
+		
+	
+DR_TWIN		テクスチャウィンドウ変更プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_long	code[2];
+		} DR_TWIN;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+	
+	解説	DR_TWIN プリミティブは現在の描画環境のうちテクスチャウィ
+		ンドウだけを描画の途中で変更する。
+		内容の設定は SetDrawTexWindow() 関数で行なう。
+		
+	
+DR_AREA		描画領域変更プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_long	code[2];
+		} DR_AREA;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+	
+	解説	DR_AREA プリミティブは現在の描画環境のうち描画領域だけを
+		描画の途中で変更する。
+		内容の設定は SetDrawArea() 関数で行なう。
+
+	
+DR_OFFSET	描画オフセット変更プリミティブ
+
+	構造	typedef struct {
+			u_long	tag;
+			u_long	code[2];
+		} DR_OFFSET;				
+	
+	メンバ	tag			次のプリミティブへのフック（予約）
+		code			プリミティブ ID
+	
+	解説	DR_OFFSEt プリミティブは現在の描画環境のうち描画オフセッ
+		トだけを描画の途中で変更する。
+		内容の設定は SetDrawOffset() 関数で行なう。
+		
+	
+TIM_IMAGE	ＴＩＭ形式画像データヘッダ
+
+	構造	typedef struct {
+			u_long  mode;		
+			RECT	*crect;		
+			u_long	*caddr;		
+			RECT	*prect;		
+			u_long	*paddr;		
+		} TIM_IMAGE;
+	
+	メンバ	
+		mode	 ピクセルモード 
+		crect	 CLUT のフレームバッファ上の期待される位置 
+		caddr	 CLUT のメインメモリアドレス 
+		prect	 テクスチャのフレームバッファ上の期待される位置
+		paddr	 テクスチャのメインメモリアドレス
+	
+	解説	TIM データヘッダ情報。ReadTIM() 関数によって獲得される。
+
+	備考	CULT を持たない TIM に関しては crect, caddr には 0 が入
+		る
+
+TMD_PRIM	ＴＭＤ形式モデルデータヘッダ
+
+	構造	typedef struct {
+			u_long	id;	
+			u_char	r0, g0, b0, p0;		
+			u_char	r1, g1, b1, p1;		
+			u_char	r2, g2, b2, p2;		
+			u_char	r3, g3, b3, p3;		
+			u_short	tpage, clut;		
+			u_char	u0, v0, u1, v1;		
+			u_char	u2, v2, u3, v3;
+			
+			SVECTOR	x0, x1, x2, x3;		
+			SVECTOR	n0, n1, n2, n3;		
+			
+			SVECTOR	*v_ofs;			
+			SVECTOR	*n_ofs;			
+			
+			u_short	vert0, vert1; 		
+			u_short	vert2, vert3;		
+			u_short	norm0, norm1; 		
+			u_short	norm2, norm3;
+		
+			
+		} TMD_PRIM;
+	
+	メンバ	
+		id			TMD プリミティブ ID
+		r0,g0,b0,...r3,g3,b3	プリミティブの各頂点輝度値
+		clut			プリミティブの使用する CLUT ID
+		tpage			プリミティブの使用するテクスチャページ
+		u0,v0,u1,v1,,u3,v3	プリミティブの各頂点テクスチャ座標
+		x0,x1,x2,x3		プリミティブの３次元座標
+		n0,n1,n2,n3		プリミティブの法線座標
+		v_ofs			頂点配列の先頭座標
+		n_ofs			法線配列の先頭座標
+		vert0,vert1..vert3	頂点配列へのオフセット
+		norm0,norm1..norm3	頂点配列へのオフセット
+
+	解説	TMD オブジェクトを構成するプリミティブの情報。
+		ReadTMD() 関数を使用して獲得される。
+		独立頂点モデルを使用する際には、x0,x1,,,x3, n0,n1,,n3 
+		を使用する。共有頂点モデルを使用する場合には、v_ofs, n_ofs
+		および、vert0,..vert3, norm0...norm3 を使用する。
+
+	備考	TMD プリミティブの種類によっては意味を持たないメンバも
+		存在する。
+
+*構造体一覧	
+
+VECTOR		32bit３次元ベクトル
+SVECTOR		16 bit ３次元ベクトル
+CVECTOR		8bit３次元ベクトル（カラーベクトル）
+MATRIX		３x３マトリクス
+RECT		フレームバッファ矩形領域
+DRAWENV		描画環境
+DISPENV		表示環境
+POLY_F3		フラット３角形プリミティブ
+POLY_F4		フラット４角形プリミティブ
+POLY_G3		グーローシェーディング３角形プリミティブ
+POLY_G4		グーローシェーディング４角形プリミティブ
+POLY_FT3	フラットテクスチャマップ３角形プリミティブ
+POLY_FT4	フラットテクスチャマップ４角形プリミティブ
+POLY_GT3	グーローテクスチャマップ３角形プリミティブ
+POLY_GT4	グーローテクスチャマップ４角形プリミティブ
+LINE_F2		フラット非連結直線
+LINE_F3		フラット１連結直線
+LINE_F4		フラット２連結直線
+LINE_G2		グーロー非連結直線
+LINE_G3		グーロー１連結直線
+LINE_G4		グーロー２連結直線
+SPRT		任意サイズスプライト		
+SPRT_8		8x8 固定サイズスプライト		
+SPRT_16		16x16 固定サイズスプライト		
+TILE		任意サイズタイルスプライト
+TILE_1		1x1 固定サイズタイルスプライト
+TILE_8		8x8 固定サイズタイルスプライト
+TILE_16		16x16 固定サイズタイルスプライト
+DR_ENV		描画環境変更プリミティブ
+DR_MODE		描画モード変更プリミティブ
+DR_TWIN		テクスチャウィンドウ変更プリミティブ
+DR_AREA		描画領域変更プリミティブ
+DR_OFFSET	描画オフセット変更プリミティブ
+TIM_IMAGE	ＴＩＭ形式画像データヘッダ
+TMD_PRIM	ＴＭＤ形式モデルデータヘッダ

@@ -1,0 +1,119 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+*０．構造体
+
+**0.1.	ベクトル
+	typedef struct {	
+        	long vx,vy,vz;			/*long vectorのXYZ成分*/
+	} VECTOR;
+	
+**0.2.	ショートベクトル
+	typedef struct {
+        	short vx,vy;			/*short vectorのXY成分*/
+        	short vz,pad;			/*short vectorのZ成分*/
+	} SVECTOR;
+
+**0.3.	キャラクターベクトル
+	typedef struct {
+        	u_char r, g, b, cd;		/*color vectorのrgb成分*/
+	} CVECTOR;
+
+**0.4.	マトリックス
+        typedef struct {
+        	short    m[3][3];		/*3x3 matrix部*/
+        	long     t[3];			/*3 vector部*/
+        } MATRIX;
+
+**0.5.	頂点情報
+	typedef struct {
+       		short   xy[3];			/*分割後の頂点座標*/
+        	short   uv[2];			/*テクスチャ座標*/
+        	short   rgb[3];			/*色情報*/
+	} SPOL;
+
+**0.6.	四角形ポリゴン
+	typedef struct {
+        	short   sxy[4][2];		/*スクリーン座標のxy成分*/
+        	short   sz[4][2];               /*スクリーン座標のz成分*/
+        	short   uv[4][2];		/*テクスチャ座標*/
+        	short   rgb[4][3];		/*頂点の色情報*/
+        	short   code;                   /*ポリゴンコード*/
+	} POL4;
+
+**0.7.	三角形ポリゴン
+	typedef struct {
+        	short   sxy[3][2];		/*スクリーン座標のxy成分*/
+        	short   sz[3][2];               /*スクリーン座標のz成分*/
+        	short   uv[3][2];		/*テクスチャ座標*/
+        	short   rgb[3][3];		/*頂点の色情報*/
+        	short   code;                  	/*ポリゴンコード*/
+	} POL3;
+
+**0.8.	三角形メッシュ
+	typedef struct {
+       		SVECTOR         *v;             /*共有頂点座標列へのポインタ*/
+        	SVECTOR         *n;             /*共有法線列へのポインタ*/
+        	SVECTOR         *u;        /*共有テクスチャ座標列へのポインタ*/
+        	CVECTOR         *c;             /*共有色情報列へのポインタ*/
+        	u_long          len;            /*頂点の長さ*/
+	} TMESH;
+
+**0.9. ２次元ベクトル
+        typedef struct {
+                short vx, vy;
+        } DVECTOR;
+
+**0.10. クリップベクトル情報
+        typedef struct {
+                SVECTOR v;              /* Object(Local) 3D Vertex      */
+                VECTOR sxyz;            /* Screen 3D Vertex             */
+                DVECTOR sxy;            /* Screen 2D Vertex             */
+                CVECTOR rgb;            /* Vertex Color Data            */
+                short txuv,pad;         /* Texture Mapping Data         */
+                long chx,chy;           /* Clip Window Data             */
+        } EVECTOR;
+
+**0.11. 分割ポリゴン
+**0.11.1 分割頂点ベクトル情報
+typedef struct {
+	SVECTOR v;			/*  Object(Local) 3D Vertex     */
+	u_char uv[2]; u_short pad;	/*　Texture Mapping Data　	*/  
+	CVECTOR c;			/*　Vertex Color Data　		*/
+	DVECTOR sxy;			/*　Screen 2D Vertex　		*/
+	u_long  sz;			/*　clip z-data　		*/		
+} RVECTOR;			
+
+**0.11.2 ３角形用再帰ベクトル情報
+typedef struct {
+	RVECTOR r01,r12,r20;	/*  分割頂点ベクトル情報     */
+	RVECTOR	*r0,*r1,*r2;	/*  分割頂点ベクトル情報     */
+	u_long *rtn;		/*  return address for assembler     */
+} CRVECTOR3;			
+
+**0.11.3 ４角形用再帰ベクトル情報
+typedef struct {
+	RVECTOR r01,r02,r31,r32,rc;　　	/*  分割頂点ベクトル情報     */
+	RVECTOR	*r0,*r1,*r2,*r3;	/*  分割頂点ベクトル情報     */
+	u_long *rtn;			/*  return address for assembler */
+} CRVECTOR4;		
+
+**0.11.4 ３角形用分割バッファ　
+typedef struct {
+	u_long 	ndiv;		/*　分割数　		*/
+	u_long 	pih,piv;	/*　クリップエリア指定（表示画面の解像度）*/
+	u_short clut,tpage;	/*　CLUT &TPAGE　	*/
+	CVECTOR	rgbc;		/*　code + RGB_color	*/
+	u_long	*ot;		/*　OTへのポインタ　	*/
+	RVECTOR r0,r1,r2;	/*　分割頂点ベクトル情報　*/
+	CRVECTOR3 cr[5];	/*　３角形用再帰ベクトル情報　	*/	
+} DIVPOLYGON3;			
+
+**0.11.5 ４角形用分割バッファ　
+typedef struct {
+	u_long 	ndiv;		/*　分割数　*/
+	u_long 	pih,piv;	/*　クリップエリア指定（表示画面の解像度）*/
+	u_short clut,tpage;	/*　CLUT &TPAGE　	*/
+	CVECTOR	rgbc;		/*　code + RGB_color	*/
+	u_long	*ot;		/*　OTへのポインタ　	*/
+	RVECTOR r0,r1,r2,r3;	/*　分割頂点ベクトル情報　*/
+	CRVECTOR4 cr[5];	/*　４角形用再帰ベクトル情報　	*/	
+} DIVPOLYGON4;			

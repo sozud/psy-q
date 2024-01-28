@@ -1,0 +1,62 @@
+# LIBDIR   = ../../../lib
+# INCDIR   = ../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+TADDR	 = 80010000
+CC       = cc  -O2
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+OBJS     = clip.o pad.o mesh.o div.o debug.o bgtex.o db.o
+
+all:	tuto0 tuto1 tuto2 tuto3 tuto4 tuto5
+
+tuto1.o : tuto1.c
+	$(CC) $(CFLAGS) -DNO_DIV -DVIEW_CLIP -c tuto1.c -o tuto1.o
+
+tuto2.o : tuto1.c
+	$(CC) $(CFLAGS) -DNO_DIV -c tuto1.c -o tuto2.o
+
+tuto3.o : tuto1.c
+	$(CC) $(CFLAGS) -DNO_DIV -DRAP_ROUND -c tuto1.c -o tuto3.o
+
+tuto4.o : tuto1.c
+	$(CC) $(CFLAGS) -DRAP_ROUND -c tuto1.c -o tuto4.o
+
+
+tuto0: tuto0.o $(OBJS)
+	ld $(LDFLAGS) -o tuto0 tuto0.o $(LIBDIR)/8bmyte.o $(OBJS) $(LIBS)
+
+tuto1: tuto1.o $(OBJS)
+	ld $(LDFLAGS) -o tuto1 tuto1.o $(LIBDIR)/8bmyte.o $(OBJS) $(LIBS)
+
+tuto2: tuto2.o $(OBJS)
+	ld $(LDFLAGS) -o tuto2 tuto2.o $(LIBDIR)/8bmyte.o $(OBJS) $(LIBS)
+
+tuto3: tuto3.o $(OBJS)
+	ld $(LDFLAGS) -o tuto3 tuto3.o $(LIBDIR)/8bmyte.o $(OBJS) $(LIBS)
+
+tuto4: tuto4.o $(OBJS)
+	ld $(LDFLAGS) -o tuto4 tuto4.o $(LIBDIR)/8bmyte.o $(OBJS) $(LIBS)
+
+tuto5: tuto5.o bg.o bgtex8.o bgtex.o 
+	ld $(LDFLAGS) -o tuto5 $(LIBDIR)/8bmyte.o tuto5.o bg.o bgtex8.o bgtex.o  $(LIBS)
+
+for_menu:
+	ld $(LDFLAGS) -o tuto0 $(LIBDIR)/8bmyte.o tuto0.o $(OBJS) $(LIBS)
+	out2x tuto0
+	ld $(LDFLAGS) -o tuto1 $(LIBDIR)/8bmyte.o tuto1.o $(OBJS) $(LIBS)
+	out2x tuto1
+	ld $(LDFLAGS) -o tuto2 $(LIBDIR)/8bmyte.o tuto2.o $(OBJS) $(LIBS)
+	out2x tuto2
+	ld $(LDFLAGS) -o tuto3 $(LIBDIR)/8bmyte.o tuto3.o $(OBJS) $(LIBS)
+	out2x tuto3
+	ld $(LDFLAGS) -o tuto4 $(LIBDIR)/8bmyte.o tuto4.o $(OBJS) $(LIBS)
+	out2x tuto4
+	ld $(LDFLAGS) -o tuto5 $(LIBDIR)/8bmyte.o tuto5.o bg.o bgtex8.o bgtex.o  $(LIBS)
+	out2x tuto5
+
+clean:;		@rm -f *.o *~ tuto[0-9] *.exe
+

@@ -1,0 +1,254 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+ÅyFunctionsÅz
+
+	Name	StSetRing
+
+	Func	Set RingBuffer
+
+	Synopsis
+		void StSetRing(ring_addr,ring_size)
+		unsigned long  *ring_addr;
+		unsigned long  ring_size;
+
+		ring_addr: the top address of RingBuffer
+		ring_size: the size of RingBbuffer
+
+	Description
+		Setting ring buffer.
+		ring_addr is top address of ring buffer and ring_szie
+		is the size of ring buffer.
+
+		You must call this funciton once before you use streaming
+		libraly.
+
+	Return Value
+		void
+
+
+
+	Name	StClearRing
+
+	Func	Clear RingBuffer
+
+	Synopsis
+		void StClearRing(void)
+
+	Description
+		flushing ring buffer.
+		on track jump,this function prevent from playing dummy
+		animation.
+
+	Return Value
+		void
+
+
+	Name	StUnSetRing
+
+	Func	Reset Callback functions for Streaming Libraly
+
+	Synopsis
+		void StUnSetRing(void)
+
+	Description
+		disable three callbacks for streaming libraly.
+		1   DecDCToutCallback
+		2   CdDataCallback
+		3   CdReadyCallback
+
+		finishing streaming.
+		On transit to the module which doesn't use streaming libray,
+		must call this function.
+
+	ReturnValue
+		void
+
+
+
+	Name	StGetNext
+
+	Func	Get 1 Frame data from RingBuffer
+
+	Synopsis
+		unsigned long StGetNext(addr,header)
+		unsigned long *addr;
+		unsigned long *header;
+
+		addr   : the top address of streaming Data area of 
+		         1 Frame
+		header : the top address of streaming Header area of 
+		         1 Frame
+
+
+	Description
+		Extract next 1 frame from the ring buffer.
+
+		It returns the 0 for return value and returns
+		top address of both user data area and sector header area
+		if the one frame data are prepared on the ring buffer.
+		It returns 1 if the one frame data are not prepared yet.
+
+		The one frame area on the ring buffer is locked untill
+		StFreeRing() is called.
+
+		the one frame area on the ring buffer doesn't have the
+		unsuceeding adressing point.The succession of address
+		is garanteed by streaming libraly.
+
+
+	ReturnValue
+		if 1 frame data can be get return 0
+		else return 1
+
+
+
+	Name	StFreeRing()
+
+	Func	Free RingBuffer of the Frame
+
+	Synopsis
+		unsigned long StFreeRing(base)
+		unsigned long *base;
+
+		base:	the top address of RingBuffer of the Frame
+
+	Description
+		StFreeRing unlock the area of the one frame which is
+		prepared by StGetNext().
+
+		The argument base means the top address of user data area
+		on the one frame.
+
+		The sector header area is also unlocked automatically.
+
+		If you didn't call StFreeRing() , the ring buffer is 
+		immediately full,so you must call StFreeRing after using
+		this area.
+
+	Return Value
+		Free Successfully returns 0
+		else return 1
+
+
+
+
+	Name	StSetStream()
+
+	Func	Set parameter of streaming
+
+	Synopsis
+		void StStartStream(mode,start_frame,end_frame,f1,f2)
+		unsigned long mode,start_frame,end_frame;
+		int           (*func1)(),(*func2)();
+
+		mode         : Streaming mode
+			       Color Resolution 16bit mode: 0
+					        24bit mode: 1
+		start_frame :  Start Index of Frame of Streaming data
+		end_frame   :  End Index of Frame of Streaming data
+			       0 is special number.0 means Full of RingBuffer
+			       then stop.
+		func1	    :  Callback function for DataReady of 1 Frame.
+		func2	    :  Callback function for the end of Streaming.
+
+
+	Description
+		StSetStream set the parameter of streaming libraly.
+		The first frame number is 1 on the STR format data,so
+		if you playback from first,you set first frame set to 1.
+		if you set first frame to 0,the limitation of frame is carried
+		away,every frame accessed is playbacked.
+
+		if end_frame is set to 0 , storing ring buffer is automatically
+		finished till full memory.It is convenient for play back from
+		memory many times.
+
+	ReturnValue
+		void
+
+
+
+	Name	StSetEmulate()
+
+	Func	Set parameter of Streaming Emulation
+
+	Sypnosis
+		void StStartEmulate(addr,loc,start_frame,end_frame,f1,f2)
+		unsigned long *addr,loc,start_frame,end_frame;
+		int           (*func1)(),(*func2)();
+	
+		addr	:  The top address of emulation data
+	
+		other args are same as StSetStream()
+
+	Description
+		StSetEmulate set the parameter of streaming libraly.
+		Emulation means memory to ring buffer emulation.
+		If you use emulation , you must load the STR format data
+		to the memory if emulation area which is the first argument
+		of StSetEmulate  beforehand.
+
+	ReturnValue
+		void
+
+
+
+	Name	StSetMask
+
+	Func	Mask Streaming
+
+	Sypnosis
+		void StSetMask(mask,start,end)
+		unsigned long mask,start,end;
+
+		mask  : 1 Streaming Mask,0 Streaming Enable
+		start : Mask off Trigger of the Flame
+		end   : Mask on  Trigger of the Flame
+
+	Description
+		StSetMask breaks the streaming imediately without stopping
+		CDROM.It also set the first frame and endframe the trigger
+		of playing back.
+
+	ReturnValue
+		void
+
+
+
+	Name	StCdInterrupt
+
+	Func	Interrupt Handler of DataReady Intterrupt of CDROM
+
+	Sypnosis
+		void StCdInterrupt(void)
+
+	Description
+		This function in normally called by streaming libraly
+		automatically.But if you choose 24bit mode , you must
+		handle this funciton.
+		IF the external symblol StCdInterFlag is set, you must
+		call this funcion by user program.Please see ths sample
+		code of 24bit mode.
+
+	ReturnValue
+		void
+
+
+
+	Name	StSetChannel
+
+	Func	Set the channel of Streaming
+
+	Synopsys
+		int StSetChannel(ch)
+		u_long ch
+
+	Description
+		Streaming libraly have the function for selecting of the
+		Streaming data. the selection is done by CHANEL which is
+		encoded on the STR format.
+
+		The ch is 0 to 31.
+
+	ReturnValue
+		If the channel setting is successful,returns 0.
+		If failes ,returns 1.

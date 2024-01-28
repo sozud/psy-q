@@ -1,0 +1,736 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+* 標準ライブラリ
+	
+	
+abs	絶対値を計算する。
+
+    形式	#include <stdlib.h>
+		long abs( long i )
+
+    解説	整数iの絶対値を計算する。本来この関数はint型整数の絶
+		対値を求める関数であるが、
+		R3000ではint型とlong型は同じ意味を持つので、本システム上で
+		は、後述のlabsと等価な関数となる。
+
+    返り値	引数の絶対値を返す。
+
+    関連項目	labs
+	
+	
+atoi	文字列を整数に変換する。
+
+    形式	#include <stdlib.h>
+		long atoi(const char *s)
+
+    解説	(long)strtol(s,(char**)NULL)と同じ。本システム上では
+		、後に続くatolと等価な関数となる。
+
+    返り値	入力値sを整数に変換した結果を返す。
+
+    関連項目	atol,strtol
+	
+	
+atol	文字列を整数に変換する。
+
+    形式	#include <stdlib.h>
+		long atol(const char *s)
+
+    解説	(long)strtol(s,(char**)NULL)と同じ。
+
+    返り値	入力値sを整数に変換した結果を返す。
+
+    関連項目	atoi,strtol
+	
+bcopy	メモリブロックを複写する。
+
+    形式	#include <kernel.h>
+		void bcopy( char *src, char *dest, long n )
+
+    引数	src	複写元
+		dest	複写先
+		n	複写バイト数
+
+    解説	*destに、*srcの最初のnバイトを複写する。
+
+    返り値	なし。
+
+    関連項目	memcopy
+	
+	
+bcmp	メモリブロックを比較する。
+
+    形式	#include <kernel.h>
+		long bcmp( char *b1, char *b2, long n )
+
+    引数	b1	比較元１
+		b2	比較元２
+		n	比較バイト数
+
+    解説	*b1と*b2の最初のnバイトを比較する。
+
+    返り値	結果	戻り値
+		b1<b2	<0
+		b1=b2	=0
+		b1>b2	>0
+
+    関連項目	memcmp		
+	
+	
+bsearch	バイナリサーチ（二分探索）を行なう。
+
+    形式	#include <stdlib.h>
+		void *bsearch(const void *key,const void *base,size_t n, s
+		ize_t w, 
+		long(*fcmp)(const void *, const void *))
+
+    引数	key	検索の対照となる値の格納先
+		base	検索する配列の格納先
+		n	要素の個数
+		w	要素１個のサイズ
+		fcmp	比較関数
+
+    解説	fcmpを比較関数としてbaseから始まる項目数n（項目サイ
+		ズはw）のテーブルを対象として、keyと一致する項目を
+		二分探索する。
+
+    返り値	検索キーと一致した最初の項目のアドレスを返す。一致
+		する項目がなかった場合は0を返す。
+	
+	
+bzero	メモリブロックに零を書き込む。
+
+    形式	#include <kernel.h>
+		void bzero( char *p, long n )
+
+    解説	*pから、nバイト分の零を書き込む。
+
+    返り値	なし。
+	
+	
+calloc	主記憶を割り当てる。
+
+    形式	#include <stdlib.h>
+		void *calloc( size_t n, size_t s )
+
+    引数	n	個数
+		s	区画の大きさ
+
+    解説	ヒープメモリからn*sバイトのブロックを確保する。
+
+    返り値	確保されたメモリブロックへのポインタを返す。
+		失敗するとNULLを返す。
+
+    関連項目	malloc,realloc,free
+	
+	
+exit	プログラムを正常終了させる。
+
+    形式	#include <stdlib.h>
+		void exit()
+
+    解説	実行中のプログラムを終了し、デバッグモニタに戻る。
+
+    返り値	なし。		
+	
+	
+free	割り当て済みのメモリブロックを開放する。
+
+    形式	#include <stdlib.h>
+		void free(void *block)
+
+    解説	calloc,malloc,reallocで確保したメモリブロックを開放
+		する。
+
+    返り値	なし。
+
+    関連項目	calloc,malloc,realloc
+	
+	
+isXXX	文字のテストを行なう。
+
+    形式	#include <ctype.h>
+		long isXXXX(long c)
+
+    解説	文字cのテストを行う。すべてマクロである。テスト条件
+		は以下のとおり。
+		関数名			条件
+		isalnum		isalpha(c) || isdigit(c)
+		isalpha		isupper(c) || islower(c)
+		isascii		ASCII文字
+		iscntrl		制御文字
+		isdigit		10進数
+		isgraph		空白以外の印刷可能文字
+		islower		小文字
+		isprint		空白を含む印刷可能文字
+		ispunct		空白、英字、数字以外の印刷可能文字
+		isspace		空白、改頁、改行、復帰、タブ
+		isupper		大文字
+		isxdigit		16進数
+
+    返り値	入力値cが条件wを満たす場合は0でない値、
+		条件を満たさない場合は0を返す。
+	
+	
+labs	絶対値を計算する。
+
+    形式	#include <stdlib.h>
+		long labs( long i )
+
+    解説	整数iの絶対値を計算する。
+
+    返り値	引数の絶対値を返す。
+
+    関連項目	abs
+	
+malloc	主記憶を割り当てる。
+
+    形式	#include <stdlib.h>
+		void *malloc(size_t s)
+
+    解説	ヒープメモリからsバイトのブロックを確保する。
+
+    返り値	確保されたメモリブロックへのポインタを返す。
+		確保に失敗するとNULLを返す。
+		※ヒープメモリは次のように定義されます。
+	
+	　	下位アドレス		モジュールの最上位アドレス + 4
+		上位アドレス		実装メモリ - 64KB
+
+    関連項目	calloc,realloc,free
+	
+	
+memchr	メモリブロック中で文字を探す。
+
+    形式	#include <memory.h>
+		void *memchr(const void *s, long c, size_t n)
+
+    解説	*sから始まるnバイトのメモリブロック中の、文字cの最初
+		の出現に位置付けする。
+
+    返り値	位置付けられた文字へのポインタを返す。
+		cが発見できなかった時はNULLを返す。
+	
+	
+memcmp	メモリブロックの比較を行なう。
+
+    形式	#include <memory.h>
+		void *memcmp(const void *s1, const void *s2, size_t n)
+
+    引数	s1	比較元１
+		s2	比較元２
+		n	比較バイト数
+
+    解説	*s1と*s2の最初のnバイトを比較する。
+
+    返り値	s1とs2の比較結果により次の値を返す。
+		結果	戻り値
+		s1<s2	<0
+		s1=s2	=0
+		s1>s2	>0
+
+    関連項目	bcmp
+	           
+	
+memcpy	メモリブロックの複写を行なう。
+
+    形式	#include <memory.h>
+		void *memcpy(void *dest, const void *src, size_t n)
+
+    引数	src	複写元
+		dest	複写先
+		n	複写バイト数
+
+    解説	*destに、*srcの最初のnバイトを複写する。
+
+    返り値	destを返す。
+
+    関連項目	bcopy
+	
+	
+memmove	メモリブロックの複写を行なう。
+
+    形式	#include <memory.h>
+		void  *memmove(void *dest, const void *src, size_t n)
+
+    引数	src	複写元
+		dest	複写先
+		n	複写バイト数
+
+    解説	*destに、*srcの最初のnバイトを複写する。
+		重複したオブジェクト間でも正確に複写される。
+
+    返り値	destを返す。
+	
+	
+memset	メモリブロックに指定された文字を書き込む。
+
+    形式	#include <memory.h>
+		void *memset(const void *s, long c, size_t n)
+
+    引数	s	記憶対象
+		c	文字
+		n	文字数
+
+    解説	sから始まるnバイトのメモリブロックにcを書き込む。
+
+    返り値	sを返す。
+	
+	
+qsort	クイックソートを行なう。
+
+    形式	#include <stdlib.h>
+		void qsort(void *base, size_t n, size_t w, long (*fcmp)(co
+		nst void *, const void *))
+
+    引数	base	ソートする配列の格納先
+		n	要素の個数
+		w	要素１個のサイズ
+		fcmp	比較関数
+
+    解説	fcmpを比較関数としてbaseから始まる項目数n（項目サイ
+		ズはw）のテーブルをソートする。
+
+    返り値	なし。
+	
+	
+rand	乱数を発生する。
+
+    形式	#include <stdlib.h>
+		long rand(void)
+
+    引数	なし。
+
+    解説	0からRAND_MAX(0x7FFF=32767)の間の疑似乱数を発生する
+		。
+
+    返り値	生成された疑似乱数を返す。
+
+    関連項目	srand
+	
+	
+realloc	ヒープメモリの割り当てを変更する。
+
+    形式	#include <stdlib.h>
+		void *realloc(void *block, size_t s)
+
+    解説	以前に確保したブロックblockをsバイトに縮小または拡大
+		する。blockがNULLの場合	はmallocと同じ動作をする。
+
+    返り値	再割り当てされたブロックのアドレスを返す。このアド
+		レスは元のアドレスと異なっている
+		可能性がある。割り当てに失敗するとNULLを返す。この時、元の
+		ブロックは開放されない。
+
+    関連項目	calloc,malloc,free
+	
+	
+srand	乱数ジェネレータを初期化する。
+
+    形式	#include <stdlib.h>
+		void srand(unsigned int seed)
+
+    引数	seed	乱数種
+
+    解説	乱数発生の新しい開始点を設定する。デフォルトは1。
+
+    返り値	なし。
+
+    関連項目	rand
+	
+	
+strcat	文字列を他の文字列に追加する。
+
+    形式	#include <strings.h>
+		char *strcat(char *dest, const char *src)
+
+    引数	dest	連結先文字列
+		src	連結元文字列
+
+    解説	文字列*destの最後に*srcを追加する。
+
+    返り値	destを返す。
+
+    関連項目	strncat
+	
+	
+strchr	指定した文字が文字列に最初に現れる位置を探す。
+
+    形式	#include <strings.h>
+		char *strchr(const char *s, long c)
+
+    引数	s	検索対象文字列
+		c	検索文字
+
+    解説	文字列sに文字cが最初に出現する位置を探す。
+
+    返り値	cの出現位置のアドレスを返す。cが現れない場合はNUL
+		Lを返す。
+	
+	
+strcmp	文字列同士を比較する。
+
+    形式	#include <strings.h>
+		long  strcmp(const char *s1, const char *s2)
+
+    引数	s1	比較元１
+		s2	比較元２
+
+    解説	s1とs2の各文字をunsigned charとして比較する。
+
+    返り値	比較結果により次の値を返す。
+		結果	戻り値
+		s1<s2	<0
+		s1=s2	=0
+		s1>s2	>0
+	
+	
+strcpy	文字列を他の文字列に複写する。
+
+    形式	#include <strings.h>
+		char *strcpy(char *dest, const char *src)
+
+    引数	dest	複写先文字列
+		src	複写元文字列
+
+    解説	文字列destへsrcを複写する。
+
+    返り値	destを返す。
+
+    関連項目	strncpy
+	
+	
+strcspn	指定した文字集合を含まない文字のみからなる最初の部分を探す。
+
+    形式	#include <strings.h>
+		size_t strcspn(const char *s1, const char *s2)
+
+    引数	s1	文字列
+		s2	文字群
+
+    解説	文字列s1のうち文字列s2に含まれていない文字からのみな
+		る最初の部分の長さを返す。
+
+    返り値	見つかった部分文字列の長さを返す。
+	
+	
+strlen	文字列の文字数を求める。
+
+    形式	#include <strings.h>
+		long strlen(const char *s)
+
+    解説	文字列sの文字数を数える。
+
+    返り値	文字数を返す。
+	
+	
+strncat	文字列を他の文字列に追加する。
+
+    形式	#include <strings.h>
+		char  *strncat(char *dest, const char *src, size_t n)
+
+    引数	dest	連結先配列
+		src	連結元文字列
+		n	連結文字数
+
+    解説	文字列destの最後にsrcから最大n文字を追加する。
+
+    返り値	destを返す。
+	
+	
+strncmp	文字列同士を比較する。
+
+    形式	#include <strings.h>
+		long stncmp(const char *s1, const char *s2, size_t n)
+
+    解説	s1とs2の先頭n文字までを対象に、各文字をunsigned cha
+		rとして比較する。
+
+    返り値	比較結果により次の値を返す。（strcmpと同じ。）
+		結果	戻り値
+		s1<s2	<0
+		s1=s2	=0
+		s1>s2	>0
+	
+	
+strncpy	文字列を他の文字列に複写する。
+
+    形式	#include <strings.h>
+		char  *strncpy(char *dest, const char *src, size_t n)
+
+    引数	dest	複写先配列
+		src	複写元文字列
+		n	バイト数
+
+    解説	文字列destへsrcをnバイト分複写する。複写文字数がnに
+		なると複写を打ち切る。
+
+    返り値	destを返す。
+	
+	
+strpbrk	指定した文字集合中の文字が最初に現れる位置を探す。
+
+    形式	#include <strings.h>
+		char *strpbrk(const char *s1, const char *s2)
+
+    引数	s1	検索対象文字列
+		s2	文字群
+
+    解説	文字列s1を調べ、文字列s2に含まれるどれか1文字が最初
+		に現れる位置を探す。
+
+    返り値	見つかった文字のアドレスを返す。見つからない場合は
+		NULL を返す。
+	
+	
+strrchr	指定した文字が文字列に最後に現れる位置を探す。
+
+    形式	#include <strings.h>
+		char *strrchr(const char *s, long c)
+
+    引数	s	検索対象文字列
+		c	検索文字
+
+    解説	文字列sに文字cが最後に出現する位置を探す。
+
+    返り値	cの出現位置のアドレスを返す。cが現れない場合はNUL
+		Lを返す。
+	
+	
+strspn	指定した文字集合中の文字のみからなる最初の部分を探す。
+		
+
+    形式	#include <strings.h>
+		size_t strspn(const char *s1, const char *s2)
+
+    引数	s1	文字列
+		s2	文字群
+
+    解説	文字列s1のうち文字列s2に含まれる文字のみからなる最初
+		の部分の長さを返す。
+
+    返り値	見つかった部分文字列の長さを返す。
+	
+	
+strstr	指定の部分文字列が現れる位置を探す。
+
+    形式	#include <strings.h>
+		char *strstr(const char *s1, const char *s2)
+
+    引数	s1	検索対象文字列
+		s2	検索文字列
+
+    解説	文字列s1を調べ、文字列s2が最初に現れる位置を探す。
+
+    返り値	見つかった位置のアドレスを返す。見つからない場合は
+		NULLを返す。
+	
+	
+strtok	指定された文字集合中の文字で区切られた文字列を探す。
+
+    形式	#include <strings.h>
+		char *strtok(char *s1, const char *s2)
+
+    引数	s1	検索対象文字列
+		s2	区切り文字群
+
+    解説	文字列s1を分離文字列s2中の１文字以上で区切られたトー
+		クンの集合とみなす。最初にstrtokを呼び出すとs1の最初の
+		トークンの先頭アドレスが返され、そのトークンの直後にヌ
+		ル文字が書き込まれる。s1のアドレスは関数内に保存され、
+		その後、第1引数にNULLを入れてstrtokを呼び出すと、文字列s
+		1にトークンがな	くなるまで探索が行なわれる。
+
+    返り値	s1中に見つかったトークンの先頭アドレスを返す。見つ
+		からない場合はNULLを返	す。
+	
+	
+strtol	文字列を整数に変換する。
+
+    形式	#include <stdlib.h>
+		long strtol(const char *s, char **endp)
+
+    引数	s	文字列
+		endp	変換不能文字列へのポインタ格納先
+
+    解説	文字列sをlong型（R3000ではint型と同じ）に変換する。
+		sは次の形式でなくてはならない。
+		[ws][sn][ddd]
+		[ws]	ホワイトスペース（省略可）
+		[sn]	符合（省略可）
+		[ddd]	数字列（省略可）
+		変換不能な文字に出合うと変換を中止し、endpがNULLでなければ
+		変換を中止した文字へのポインタをendpにセットする。
+
+    返り値	入力値sを整数に変換した結果を返す。エラー発生時は
+		0を返す。
+
+    関連項目	strtoul
+	
+strtoul	文字列を無符号整数に変換する。
+
+    形式	#include <stdlib.h>
+		unsigned long strtoul(const char *s, char **endp)
+
+    引数	s	文字列
+		endp	変換不能文字列へのポインタ格納先
+
+    解説	文字列sをunsigned long型（R3000ではunsigned int型と
+		同じ）に変換する。sは次の形式でなくてはならない。
+		[ws][sn][ddd]
+		[ws]	ホワイトスペース（省略可）
+		[sn]	符合（省略可）
+		[ddd]	数字列（省略可）
+		変換不能な文字に出合うと変換を中止し、endpがNULLでなければ
+		変換を中止した文字へのポインタをendpにセットする。
+
+    返り値	入力値sを整数に変換した結果を返す。
+
+    関連項目	strtol
+	
+	
+toascii	入力値の第7ビットをマスクする。
+
+    形式	#include <ctype.h>
+		long toasii(long c)
+
+    解説	第7ビットをマスクするマクロ。
+
+    返り値	入力値cの第7ビットをマスクした値を返す。
+	
+	
+tolower	文字を小文字に変換する。
+
+    形式	#include <ctype.h>
+		long tolower(long c)
+
+    解説	入力値cを小文字に変換するマクロ。大文字以外の値を与
+		えた場合はは未定義。
+
+    返り値	入力値cに対応した小文字。
+	
+	
+toupper	文字を大文字に変換する。
+
+    形式	#include <ctype.h>
+		long toupper(long c)
+
+    解説	入力値cを大文字に変換するマクロ。小文字以外の値を与
+		えた結果は未定義。
+
+    返り値	入力値cに対応した大文字。
+	
+	
+	
+	システムコール（標準入出力）
+	
+getc	ストリームから１文字取得する。
+
+    形式	#include <romio.h>
+		long getc(FILE *stream)
+
+    解説	入力ストリームstreamから１文字取得する。
+
+    返り値	成功すると読み込んだ文字を符合拡張なしでlongに変換
+		して返す。
+		ファイルが終わりである場合や、エラーが発生するとEOFを返す。
+		
+
+    関連項目	getchar,gets
+	
+	
+getchar	標準入力ストリームから１文字取得する。
+
+    形式	#include <romio.h>
+		long getchar()
+
+    引数	なし。
+
+    解説	標準入力ストリームから１文字取得する。getc (stdin)と
+		同じ。
+
+    返り値	getcと同じ。
+
+    関連項目	getc,gets
+	
+	
+gets	標準入力ストリームから文字列を読み込む。
+
+    形式	#include <romio.h>
+		char *gets(char *s)
+
+    引数	s	入力文字列の格納先
+
+    解説	標準入力ストリーム（stdin）から改行文字で終了する文
+		字列を読み込んでsに格納する。
+
+    返り値	成功すると文字列引数sを返す。ファイルエンドまたは
+		エラーの場合はNULLを返す。
+
+    関連項目	getc,getchar
+	
+	
+printf	書式化された出力を標準出力stdoutへ行なう。
+
+    形式	#include <romio.h>
+		long printf(const char *fmt[,argu-ment ...])
+
+    引数	fmt	入力書式文字列
+
+    解説	＜省略＞
+
+    返り値	出力した文字列の長さを返す。エラーが発生するとNUL
+		Lを返す。
+	
+	
+putc	ストリームに１文字出力する。
+
+    形式	#include <romio.h>
+		long putc(long c, FILE *stream)
+
+    引数	c	出力文字
+		stream	出力ストリーム
+
+    解説	出力ストリームstreamに文字cを出力する。
+
+    返り値	成功すると出力された文字cを返し、エラーが発生する
+		とEOFを返す。
+
+    関連項目	putchar,puts
+	
+	
+putchar	標準出力ストリームへ１文字出力する。
+
+    形式	#include <romio.h>
+		long putchar()
+
+    引数	なし。
+
+    解説	標準出力ストリームへ１文字出力する。putc(stdout)と同
+		じ。
+
+    返り値	putcと同じ。
+
+    関連項目	putc,puts
+	
+	
+puts	標準出力ストリームに文字列を出力する。
+
+    形式	#include <romio.h>
+		long puts(const char *s)
+
+    引数	s	出力文字列
+
+    解説	NULLで終る文字列sを標準出力ストリーム（stdout）に出
+		力し、最後に改行文字を
+		出力する。
+
+    返り値	成功すると負でない値を返し、エラーの場合は値EOFを
+		返す。
+		※ROMモニタ起動直後、RS232Cのチャネル0はストリーム#0（入力
+		）、#1（出力）として
+		オープンされています。上記の関数群はこれをコンソール及び標
+		準入出力と見なします。
+
+    関連項目	putc,putchar
+	
+	

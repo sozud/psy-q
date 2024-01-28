@@ -1,0 +1,30 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+ver3.0 よりのバグフィックス
+
+	DrawSync(1) の返り値
+	PutDrawEnv() をコマンドキューに入れられる。
+	DrawSyncCallback() がこないバグフィックス
+	タイムアウト機能を強化してクリティカルセクションでもハングしない。
+	
+ver3.0 よりの変更点
+
+	コマンドキューの高速化
+
+ver3.1 よりのバグフィックス
+	・2MB GPU-B に対応
+		libgpu.h の変更
+		フレームバッファサイズをきりかえ
+	・ResetGraph() のリファイン。無駄なコードを削る
+	・GPU_exeque() のコールバック発生部分のリファイン。無駄なコードを削る
+	・GEnv 構造体に内部状態をすべて格納し、その先頭アドレスを ResetGraph()
+	  時に表示する
+	・DrawSync(1) で残りキューの段数を返すようにした。
+	・デバッグモード時に、DrawOTag() は DrawOTagIO() を呼ぶのをやめた。
+	  むだなファイルがリンクされない。
+	・SetGraphReverse() のバグフィックス
+	・GPU_sync() のリファイン
+	
+ver3.2β よりのバグフィックス
+	ClearOTag/ClearOTagR() の最後に NOP をいれた (08/15)
+	DR_MOVE を追加・SetDrawMove() を追加
+	FntPrint() の機能拡張。ウィンドウサイズ自動設定。 ~cxxx で色指定

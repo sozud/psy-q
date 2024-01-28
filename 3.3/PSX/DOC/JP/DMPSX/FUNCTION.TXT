@@ -1,0 +1,1383 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+==========================================================================
+
+	GTE inline function reference manual
+
+==========================================================================
+
+
+1. register load functions
+
+1.1.
+gte_ldv0	Load vertex or normal to vertex register 0. 
+
+	形式	gte_ldv0(v)
+		SVECTOR *v;
+
+	解説	Load vertex or normal to vertex register 0. 
+		頂点ベクトルまたは法線ベクトルを頂点レジスタの０にロードする
+
+1.2.
+gte_ldv1	Load vertex or normal to vertex register 1. 
+
+	形式	gte_ldv1(v)
+		SVECTOR *v;
+
+	解説	Load vertex or normal to vertex register 1. 
+		頂点ベクトルまたは法線ベクトルを頂点レジスタの１にロードする
+
+1.3.
+gte_ldv2	Load vertex or normal to vertex register 2. 
+
+	形式	gte_ldv2(v)
+		SVECTOR *v;
+
+	解説	Load vertex or normal to vertex register 2. 
+		頂点ベクトルまたは法線ベクトルを頂点レジスタの２にロードする
+
+1.4.
+gte_ldv3	Load vertex or normal to vertex register 0,1,2. 
+
+	形式	gte_ldv3(v0,v1,v2)
+		SVECTOR *v0,*v1,*v2;
+
+	解説	Load vertex or normal to vertex register 0,1,2. 
+		３つの頂点ベクトルまたは法線ベクトルを頂点レジスタの
+		０、１、２にロードする
+
+1.5.
+gte_ldv3c	Load continuous vertex or normal to vertex register 0,1,2. 
+
+	形式	gte_ldv3c(v)
+		SVECTOR	v[3];
+
+	解説	Load continuous vertex or normal to vertex register 0,1,2. 
+		連続した３つの頂点ベクトルまたは法線ベクトルを
+		頂点レジスタの０、１、２にロードする
+
+1.5.1
+gte_ldv01	Load vertex or normal to vertex register 0,1. 
+
+	形式	gte_ldv01(v0,v1)
+		SVECTOR *v0,*v1;
+
+	解説	Load vertex or normal to vertex register 0,1. 
+		２つの頂点ベクトルまたは法線ベクトルを頂点レジスタの
+		０、１にロードする
+
+1.5.2
+gte_ldv01c	Load continuous vertex or normal to vertex register 0,1. 
+
+	形式	gte_ldv01c(v)
+		SVECTOR	v[2];
+
+	解説	Load continuous vertex or normal to vertex register 0,1. 
+		連続した２つの頂点ベクトルまたは法線ベクトルを
+		頂点レジスタの０、１にロードする
+
+1.6.
+gte_ldrgb	Load color&code to color register. 
+
+	形式	gte_ldrgb(v)
+		CVECTOR	*v;
+
+	解説	Load color&code to color register. 
+		ＲＧＢカラーとコードをカラーレジスタにロードする
+
+1.7.
+gte_ldrgb3	Load color&code color fifo 0,1,2. 
+
+	形式	gte_ldrgb3(v0,v1,v2)
+		CVECTOR	*v0,*v1,*v2;
+
+	解説	Load color&code color fifo 0,1,2. 
+		３つのＲＧＢカラーとコードをカラーfifo０、１、２にロードする
+
+1.8.
+gte_ldlv0	Load LS16bit of VECTOR to vertex register 0. 
+
+	形式	gte_ldlv0(v)
+		VECTOR	*v;
+
+	解説	Load LS16bit of VECTOR to vertex register 0. 
+		３２bitベクトルの下位１６bitを頂点レジスタの０にロードする
+
+1.9.
+gte_ldlvl	Load LS16bit of VECTOR to 16bit universal vector. 
+
+	形式	gte_ldlvl(v)
+		VECTOR	*v;
+
+	解説	Load LS16bit of VECTOR to 16bit universal vector. 
+		３２bitベクトルの下位１６bitを１６bit汎用ベクトルに
+		ロードする 
+
+1.10.
+gte_ldsv	Load SVECTOR to 16bit universal vector. 
+
+	形式	gte_ldsv(v)
+		SVECTOR	*v;
+
+	解説	Load SVECTOR to 16bit universal vector. 
+		１６bitベクトルを１６bit汎用ベクトルにロードする
+
+1.11.
+gte_ldbv	Load byte vector to 16bit universal vector. 
+
+	形式	gte_ldbv(v)
+		char	v[2];
+
+	解説	Load byte vector to 16bit universal vector. 
+		Byteベクトルを１６bit汎用ベクトルにロードする
+
+1.12.
+gte_ldcv	Load CVECTOR to 16bit universal vector. 
+
+	形式	gte_ldcv(v)
+		CVECTOR	*v;
+
+	解説	Load CVECTOR to 16bit universal vector. 
+		カラーベクトルを１６bit汎用ベクトルにロードする
+
+1.13.
+gte_ldclmv	Load column vector of MATRIX to universal register. 
+
+	形式	gte_ldclmv(m)
+		MATRIX	*m;
+
+	解説	Load column vector of MATRIX to universal register. 
+		マトリクスの行ベクトルを１６bit汎用レジスタにロードする
+
+1.14.
+gte_lddp	Load depth quing value. 
+
+	形式	gte_lddp(p)
+		long	p;
+
+	解説	Load depth quing value. 
+		デプスキューイング用ｐ値をロードする
+
+1.15.
+gte_ldsxy3	Load screen XY-coordinates. 
+
+	形式	gte_ldsxy3(sxy0,sxy1,sxy2)
+		long	sxy0,sxy1,sxy2;
+
+	解説	Load screen XY-coordinates. 
+		スクリーンＸＹ座標をロードする
+
+1.16.
+gte_ldsz3	Load screen Z-coordinates. 
+
+	形式	gte_ldsz3(sz0,sz1,sz2)
+		long	sz0,sz1,sz2;ベクトル
+
+	解説	Load screen Z-coordinates. 
+		スクリーンＺ座標をロードする
+
+1.17.
+gte_ldsz4	Load screen Z-coordinates. 
+
+	形式	gte_ldsz4(sz0,sz1,sz2,sz3)
+		long	sz0,sz1,sz2,sz3;
+
+	解説	Load screen Z-coordinates. 
+		スクリーンＺ座標をロードする
+
+1.18.
+gte_ldopv1	Load outer product 1st vector. 
+
+	形式	gte_ldopv1(v)
+		VECTOR	*v;
+
+	解説	Load outer product 1st vector. 
+		外積の第１ベクトルをロードする
+		!!Destroy Rotation Matrix in GTE.
+		!!GTEの定数回転マトリクスを破壊する
+
+1.19.
+gte_ldopv2	Load outer product 2nd vector. 
+
+	形式	gte_ldopv2(v)
+		VECTOR	*v;
+
+	解説	Load outer product 2nd vector. 
+		外積の第２ベクトルをロードする
+
+1.20.
+gte_ldlzc	Load 32bit LZC data. 
+
+	形式	gte_ldlzc(data)
+		long	data;
+
+	解説	Load 32bit LZC data. 
+		LZCレジスタに３２bitデータをロードする
+
+1.21.
+gte_SetRGBcd	Load color&code to color register. 
+
+	形式	gte_SetRGBcd(v)
+		CVECTOR *v;
+
+	解説	Load color&code to color register. 
+		ＲＧＢカラーとコードをカラーレジスタにロードする
+
+1.22.
+gte_SetBackColor	Load back color. 
+
+	形式	gte_SetBackColor(r,g,b)
+		long	r,g,b;
+
+	解説	Load back color. 
+		バックカラーをロードする
+
+1.23.
+gte_SetFarColor	Load far color. 
+
+	形式	gte_SetFarColor(r,g,b)
+		long	r,g,b;
+
+	解説	Load far color. 
+		ファーカラーをロードする
+
+1.24.
+gte_SetGeomOffset	Load GTE-offset. 
+
+	形式	gte_SetGeomOffset(ofx,ofy)
+		long	ofx,ofy;
+
+	解説	Load GTE-offset. 
+		GTEオフセットをロードする
+
+1.25.
+gte_SetGeomScreen	Load distance from eye to screen. 
+
+	形式	gte_SetGeomScreen(h)
+		long	h;
+
+	解説	Load distance from eye to screen. 
+		視点からスクリーンまでの距離をロードする
+
+1.26.
+gte_SetRotMatrix	Load Rotation Matrix. 
+
+	形式	gte_SetRotMatrix(m)
+		MATRIX	*m;
+
+	解説	Load Rotation Matrix. 
+		定数回転マトリクスをロードする
+
+1.27.
+gte_SetLightMatrix	Load Light Matrix. 
+
+	形式	gte_SetLightMatrix(m)
+		MATRIX	*m;
+
+	解説	Load Light Matrix. 
+		定数ライトマトリクスをロードする
+
+1.28.
+gte_SetColorMatrix	Load Color Matrix. 
+
+	形式	gte_SetColorMatrix(m)
+		MATRIX	*m;
+
+	解説	Load Color Matrix. 
+		定数カラーマトリクスをロードする
+
+1.29.
+gte_SetTransMatrix	Load Transfer vector. 
+
+	形式	gte_SetTransMatrix(m)
+		MATRIX	*m;
+
+	解説	Load Transfer vector. 
+		定数平行移動ベクトルをロードする
+
+1.29.1
+gte_SetTransVector	Load Transfer vector. 
+
+	形式	gte_SetTransVector(v)
+		VECTOR	*v;
+
+	解説	Load Transfer vector. 
+		定数平行移動ベクトルをロードする
+
+1.30.
+gte_ld_intpol_uv0	Load byte vector to far color register for interpolation. 
+
+	形式	gte_ld_intpol_uv0(v)
+		char	v[2];
+
+	解説	Load byte vector to far color register for interpolation. 
+		内挿処理のためにByteベクトルをファーカラーレジスタにロードする
+
+1.30.1
+gte_ld_intpol_bv0	Load byte vector to far color register for interpolation. 
+
+	形式	gte_ld_intpol_bv0(v)
+		char	v[2];
+
+	解説	Load byte vector to far color register for interpolation. 
+		内挿処理のためにByteベクトルをファーカラーレジスタにロードする
+
+1.31.
+gte_ld_intpol_uv1	Load byte vector to universal register for interpolation. 
+
+	形式	gte_ld_intpol_uv1(v)
+		char	v[2];
+
+	解説	Load byte vector to universal register for interpolation. 
+		内挿処理のためにByteベクトルを１６bit汎用レジスタにロードする
+
+1.31.1
+gte_ld_intpol_bv1	Load byte vector to universal register for interpolation. 
+
+	形式	gte_ld_intpol_bv1(v)
+		char	v[2];
+
+	解説	Load byte vector to universal register for interpolation. 
+		内挿処理のためにByteベクトルを１６bit汎用レジスタにロードする
+
+1.32.
+gte_ld_intpol_sv0	Load vertex to far color register for interpolation. 
+
+	形式	gte_ld_intpol_sv0(v)
+		SVECTOR	v;
+
+	解説	Load vertex to far color register for interpolation. 
+		内挿処理のために頂点ベクトルをファーカラーレジスタにロードする
+
+1.33.
+gte_ld_intpol_sv1	Load vertex to universal register for interpolation. 
+
+	形式	gte_ld_intpol_sv1(v)
+		SVECTOR	v;
+
+	解説	Load vertex to universal register for interpolation. 
+		内挿処理のために頂点ベクトルを１６bit汎用レジスタにロードする
+
+1.34.
+gte_ldfc	Load far color. 
+
+	形式	gte_ldfc(vc)
+		long vc[3];
+
+	解説	Load far color. 
+		ファーカラーをロードする
+
+2. GTE command
+
+2.1.
+gte_rtps	kernel of RotTransPers 
+
+	形式	gte_rtps()
+
+	解説	kernel of RotTransPers 
+
+2.2.
+gte_rtpt	kernel of RotTransPers3 
+
+	形式	gte_rtpt()
+
+	解説	kernel of RotTransPers3 
+
+2.3.
+gte_rt	kernel of RotTrans 
+
+	形式	gte_rt()
+
+	解説	kernel of RotTrans 
+		(Transfer vector)+(Rotation Matrix)*(vertex register 0)
+
+2.4.
+gte_rtv0	variation of gte_rt 
+
+	形式	gte_rtv0()
+
+	解説	variation of gte_rt 
+		(Rotation Matrix)*(vertex register 0)
+
+2.5.
+gte_rtv1	variation of gte_rt 
+
+	形式	gte_rtv1()
+
+	解説	variation of gte_rt 
+		(Rotation Matrix)*(vertex register 1)
+
+2.6.
+gte_rtv2	variation of gte_rt 
+
+	形式	gte_rtv2()
+
+	解説	variation of gte_rt 
+		(Rotation Matrix)*(vertex register 2)
+
+2.7.
+gte_rtir	variation of gte_rt 
+
+	形式	gte_rtir()
+
+	解説	variation of gte_rt 
+		(Rotation Matrix)*(16bit universal vector)
+
+2.7.1.
+gte_rtir_sf0	variation of gte_rt 
+
+	形式	gte_rtir_sf0()
+
+	解説	variation of gte_rt 
+                (Rotation Matrix)*(16bit universal vector) shift 0
+
+2.8.
+gte_l	kernel of LocalLight 
+
+	形式	gte_ll
+
+	解説	kernel of LocalLight 
+
+2.9.
+gte_l	kernel of LightColor 
+
+	形式	gte_lc
+
+	解説	kernel of LightColor 
+
+2.10.
+gte_dpcl	kernel of DpqColorLight 
+
+	形式	gte_dpcl()
+
+	解説	kernel of DpqColorLight 
+
+2.11.
+gte_dpcs	kernel of DpqColor 
+
+	形式	gte_dpcs()
+
+	解説	kernel of DpqColor 
+
+2.12.
+gte_dpct	kernel of DpqColor3 
+
+	形式	gte_dpct()
+
+	解説	kernel of DpqColor3 
+
+2.13.
+gte_intpl	kernel of Intpl 
+
+	形式	gte_intpl()
+
+	解説	kernel of Intpl 
+
+2.14.
+gte_sqr12	kernel of Square12 
+
+	形式	gte_sqr12()
+
+	解説	kernel of Square12 
+
+2.15.
+gte_sqr0	kernel of Square0 
+
+	形式	gte_sqr0()
+
+	解説	kernel of Square0 
+
+2.16.
+gte_ncs	kernel of NormalColor 
+
+	形式	gte_ncs()
+
+	解説	kernel of NormalColor 
+
+2.17.
+gte_nct	kernel of NormalColor3 
+
+	形式	gte_nct()
+
+	解説	kernel of NormalColor3 
+
+2.18.
+gte_ncds	kernel of NormalColorDpq 
+
+	形式	gte_ncds()
+
+	解説	kernel of NormalColorDpq 
+
+2.19.
+gte_ncdt	kernel of NormalColorDpq3 
+
+	形式	gte_ncdt()
+
+	解説	kernel of NormalColorDpq3 
+
+2.20.
+gte_nccs	kernel of NormalColorCol 
+
+	形式	gte_nccs()
+
+	解説	kernel of NormalColorCol 
+
+2.21.
+gte_ncct	kernel of NormalColorCol3 
+
+	形式	gte_ncct()
+
+	解説	kernel of NormalColorCol3 
+
+2.22.
+gte_cdp	kernel of ColorDpq 
+
+	形式	gte_cdp()
+
+	解説	kernel of ColorDpq 
+
+2.23.
+gte_cc	kernel of ColorCol 
+
+	形式	gte_cc()
+
+	解説	kernel of ColorCol 
+
+2.24.
+gte_nclip	kernel of NormalClip 
+
+	形式	gte_nclip()
+
+	解説	kernel of NormalClip 
+
+2.25.
+gte_avsz3	kernel of AverageZ3 
+
+	形式	gte_avsz3()
+
+	解説	kernel of AverageZ3 
+
+2.26.
+gte_avsz4	kernel of AverageZ4 
+
+	形式	gte_avsz4()
+
+	解説	kernel of AverageZ4 
+
+2.27.
+gte_op12	kernel of OuterProduct12 
+
+	形式	gte_op12()
+
+	解説	kernel of OuterProduct12 
+
+2.28.
+gte_op0	kernel of OuterProduct0 
+
+	形式	gte_op0()
+
+	解説	kernel of OuterProduct0 
+
+2.29.
+gte_gpf12	first half of LoadAverage12 
+
+	形式	gte_gpf12()
+
+	解説	first half of LoadAverage12 
+
+2.30.
+gte_gpf0	first half of LoadAverage0 
+
+	形式	gte_gpf0()
+
+	解説	first half of LoadAverage0 
+
+2.31.
+gte_gpl12	last half of LoadAverage12 
+
+	形式	gte_gpl12()
+
+	解説	last half of LoadAverage12 
+
+2.32.
+gte_gpl0	last half of LoadAverage0 
+
+	形式	gte_gpl0()
+
+	解説	last half of LoadAverage0 
+
+
+3. register store functions
+
+3.1.
+gte_stsxy	Store screen xy. 
+
+	形式	gte_stsxy(sxy)
+		long	*sxy;
+
+	解説	Store screen xy. 
+		スクリーンＸＹ座標をストアする
+
+3.1.1
+gte_stsxy2	Store screen xy 2. = gte_stsxy(sxy) 
+
+	形式	gte_stsxy2(sxy)
+		long	*sxy;
+
+	解説	Store screen xy 2. = gte_stsxy(sxy) 
+		スクリーンＸＹ座標２をストアする = gte_stsxy(sxy)
+
+3.1.2
+gte_stsxy1	Store screen xy 1. 
+
+	形式	gte_stsxy1(sxy)
+		long	*sxy;
+
+	解説	Store screen xy 1. 
+		スクリーンＸＹ座標１をストアする
+
+3.1.3
+gte_stsxy0	Store screen xy 0. 
+
+	形式	gte_stsxy0(sxy)
+		long	*sxy;
+
+	解説	Store screen xy 0. 
+		スクリーンＸＹ座標０をストアする
+
+3.2.
+gte_stsxy3	Store screen xy 0,1,2. 
+
+	形式	gte_stsxy3(sxy0,sxy1,sxy2)
+		long	*sxy0,*sxy1,*sxy2
+
+	解説	Store screen xy 0,1,2. 
+		スクリーンＸＹ座標０、１、２をストアする
+
+3.2.1.
+gte_stsxy3_f3	Store screen xy 0,1,2. for POLY_F3 
+
+	形式	gte_stsxy3_f3(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_F3 
+		スクリーンＸＹ座標０、１、２をPOLY_F3パケットにストアする
+
+3.2.2.
+gte_stsxy3_g3	Store screen xy 0,1,2. for POLY_G3 
+
+	形式	gte_stsxy3_g3(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_G3 
+		スクリーンＸＹ座標０、１、２をPOLY_G3パケットにストアする
+
+3.2.3.
+gte_stsxy3_ft3	Store screen xy 0,1,2. for POLY_FT3 
+
+	形式	gte_stsxy3_ft3(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_FT3 
+		スクリーンＸＹ座標０、１、２をPOLY_FT3パケットにストアする
+
+3.2.4.
+gte_stsxy3_gt3	Store screen xy 0,1,2. for POLY_GT3 
+
+	形式	gte_stsxy3_gt3(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_GT3 
+		スクリーンＸＹ座標０、１、２をPOLY_GT3パケットにストアする
+
+3.2.5.
+gte_stsxy3_f4	Store screen xy 0,1,2. for POLY_F4 
+
+	形式	gte_stsxy3_f4(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_F4 
+		スクリーンＸＹ座標０、１、２をPOLY_F4パケットにストアする
+
+3.2.6.
+gte_stsxy3_g4	Store screen xy 0,1,2. for POLY_G4 
+
+	形式	gte_stsxy3_g4(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_G4 
+		スクリーンＸＹ座標０、１、２をPOLY_G4パケットにストアする
+
+3.2.7.
+gte_stsxy3_ft4	Store screen xy 0,1,2. for POLY_FT4 
+
+	形式	gte_stsxy3_ft4(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_FT4 
+		スクリーンＸＹ座標０、１、２をPOLY_FT4パケットにストアする
+
+3.2.8.
+gte_stsxy3_gt4	Store screen xy 0,1,2. for POLY_GT4 
+
+	形式	gte_stsxy3_gt4(packet)
+                u_long  *packet
+
+	解説	Store screen xy 0,1,2. for POLY_GT4 
+		スクリーンＸＹ座標０、１、２をPOLY_GT4パケットにストアする
+
+3.2.9.
+gte_stsxy3c	Store screen xy 0,1,2 to continuous 2D vertex. 
+
+	形式	gte_stsxy3c(sxy)
+		long	sxy[3];
+
+	解説	Store screen xy 0,1,2 to continuous 2D vertex. 
+		スクリーンＸＹ座標０、１、２を連続した３つのＸＹ座標に
+		ストアする
+
+3.2.10.
+gte_stsxy01	Store screen xy 0,1. 
+
+	形式	gte_stsxy01(sxy0,sxy1)
+		long	*sxy0,*sxy1
+
+	解説	Store screen xy 0,1. 
+		スクリーンＸＹ座標０、１をストアする
+
+3.2.11.
+gte_stsxy01c	Store screen xy 0,1 to continuous 2D vertex. 
+
+	形式	gte_stsxy01c(sxy)
+		long	sxy[2];
+
+	解説	Store screen xy 0,1 to continuous 2D vertex. 
+		スクリーンＸＹ座標０、１を連続した２つのＸＹ座標に
+		ストアする
+
+3.3.
+gte_stdp	Store depth quing p. 
+
+	形式	gte_stdp(p)
+		long	*p;
+
+	解説	Store depth quing p. 
+		デプスキューイング用ｐ値をストアする
+
+3.4.
+gte_stflg	Store flag. 
+
+	形式	gte_stflg(flag)
+		long	*flag;
+
+	解説	Store flag. 
+		フラグをストアする
+
+3.5.
+gte_stsz	Store screen z. 
+
+	形式	gte_stsz(sz)
+		long	*sz;
+
+	解説	Store screen z. 
+		スクリーンＺ座標をストアする
+
+3.6.
+gte_stsz3	Store screen z 0,1,2. 
+
+	形式	gte_stsz3(sz0,sz1,sz2)
+		long	*sz0,*sz1,*sz2;
+
+	解説	Store screen z 0,1,2. 
+		スクリーンＺ座標０、１、２をストアする	
+
+3.7.
+gte_stsz4	Store screen z 0,1,2,3. 
+
+	形式	gte_stsz4(sz0,sz1,sz2,sz3)
+		long	*sz0,*sz1,*sz2,*sz3;
+
+	解説	Store screen z 0,1,2,3. 
+		スクリーンＺ座標０、１、２、３をストアする
+
+3.8.
+gte_stszotz	Store screen z/4 as otz 
+
+	形式	gte_stszotz(otz)
+		long	*otz;
+
+	解説	Store screen z/4 as otz 
+		スクリーンＺ座標/４をＯＴＺの代わりにストアする
+
+3.9.
+gte_stotz	Store OTZ. 
+
+	形式	gte_stotz(otz)
+		long	*otz;
+
+	解説	Store OTZ. 
+		ＯＴＺをストアする
+
+3.10.
+gte_stopz	Store outer product. 
+
+	形式	gte_stopz(opz)
+		long	*opz;
+
+	解説	Store outer product. 
+		外積値ＯＰＺをストアする
+
+3.11.
+gte_stlvl	Store VECTOR from 16bit universal register. 
+
+	形式	gte_stlvl(v)
+		VECTOR	*v;
+
+	解説	Store VECTOR from 16bit universal register. 
+		１６bit汎用レジスタから３２bitベクトルをストアする
+
+3.12.
+gte_stlvnl	Store VECTOR from 32bit universal register. 
+
+	形式	gte_stlvnl(v)
+		VECTOR	*v;
+
+	解説	Store VECTOR from 32bit universal register. 
+		３２bit汎用レジスタから３２bitベクトルをストアする
+
+3.13.
+gte_stsv	Store SVECTOR from 16bit universal register. 
+
+	形式	gte_stsv(v)
+		SVECTOR	*v;
+
+	解説	Store SVECTOR from 16bit universal register. 
+		１６bit汎用レジスタから１６bitベクトルをストアする
+
+3.14.
+gte_stclmv	Store MATRIX column from 16bit universal register. 
+
+	形式	gte_stclmv(m)
+		MATRIX	*m;
+
+	解説	Store MATRIX column from 16bit universal register. 
+		１６bit汎用レジスタから１６bitベクトルをマトリクスの
+		行ベクトルにストアする
+
+3.15.
+gte_stbv	Store Byte vector from LS8bit of 16bit universal register. 
+
+	形式	gte_stbv(v)
+		char	v[2];
+
+	解説	Store Byte vector from LS8bit of 16bit universal register. 
+		１６bit汎用レジスタの下位８bitをバイトベクトルにストアする
+
+3.16.
+gte_stcv	Store CVECTOR from LS8bit of 16bit universal register. 
+
+	形式	gte_stcv(v)
+		CVECTOR	*v;
+
+	解説	Store CVECTOR from LS8bit of 16bit universal register. 
+		１６bit汎用レジスタの下位８bitを８bitベクトルにストアする
+
+3.17.
+gte_strgb	Store CVECTOR from color register. 
+
+	形式	gte_strgb(v)
+		CVECTOR *v;
+
+	解説	Store CVECTOR from color register. 
+		カラーレジスタから８bitベクトルをストアする
+
+3.18.
+gte_strgb3	Store CVECTOR 0,1,2 from color fifo. 
+
+	形式	gte_strgb3(v0,v1,v2)
+		CVECTOR	*v0,*v1,*v2;
+
+	解説	Store CVECTOR 0,1,2 from color fifo. 
+		カラーfifoから８bitベクトル０、１、２をストアする
+
+3.18.1.
+gte_strgb3_g3	Store CVECTOR 0,1,2 from color fifo to POLY_G3 packet. 
+
+	形式	gte_strgb3_g3(packet)
+                u_long  *packet
+
+	解説	Store CVECTOR 0,1,2 from color fifo to POLY_G3 packet. 
+		カラーfifoから８bitベクトル０、１、２をPOLY_G3パケットに
+		ストアする
+
+3.18.2.
+gte_strgb3_gt3	Store CVECTOR 0,1,2 from color fifo to POLY_GT3 packet. 
+
+	形式	gte_strgb3_gt3(packet)
+                u_long  *packet
+
+	解説	Store CVECTOR 0,1,2 from color fifo to POLY_GT3 packet. 
+		カラーfifoから８bitベクトル０、１、２をPOLY_GT3パケットに
+		ストアする
+
+3.18.3.
+gte_strgb3_g4	Store CVECTOR 0,1,2 from color fifo to POLY_G4 packet. 
+
+	形式	gte_strgb3_g4(packet)
+                u_long  *packet
+
+	解説	Store CVECTOR 0,1,2 from color fifo to POLY_G4 packet. 
+		カラーfifoから８bitベクトル０、１、２をPOLY_G4パケットに
+		ストアする
+
+3.18.4.
+gte_strgb3_gt4	Store CVECTOR 0,1,2 from color fifo to POLY_GT4 packet. 
+
+	形式	gte_strgb3_gt4(packet)
+                u_long  *packet
+
+	解説	Store CVECTOR 0,1,2 from color fifo to POLY_GT4 packet. 
+		カラーfifoから８bitベクトル０、１、２をPOLY_GT4パケットに
+		ストアする
+
+
+3.19.
+gte_ReadGeomOffset	Store GTE-offset. 
+
+	形式	gte_ReadGeomOffset(ofx,ofy)
+		long	*ofx,*ofy;
+
+	解説	Store GTE-offset. 
+		GTEオフセット値をストアする
+
+3.20.
+gte_ReadGeomScreen	Store distance from eye to screen. 
+
+	形式	gte_ReadGeomScreen(h)
+		long	*h;
+
+	解説	Store distance from eye to screen. 
+		視点からスクリーンまでの距離をストアする
+
+3.21.
+gte_ReadRotMatrix	Store Rotation Matrix. 
+
+	形式	gte_ReadRotMatrix(m)
+		MATRIX	*m;
+
+	解説	Store Rotation Matrix. 
+		定数回転マトリクスをストアする
+
+3.22.
+gte_ReadLightMatrix	Store Light Matrix. 
+
+	形式	gte_ReadLightMatrix(m)
+		MATRIX	*m;
+
+	解説	Store Light Matrix. 
+		定数ライトマトリクスをストアする
+
+3.23.
+gte_ReadColorMatrix	Store Color Matrix. 
+
+	形式	gte_ReadColorMatrix(m)
+		MATRIX	*m;
+
+	解説	Store Color Matrix. 
+		定数カラーマトリクスをストアする
+
+3.24.
+gte_stlzc	Store LZC. 
+
+	形式	gte_stlzc(lzc)
+		long	*lzc;
+
+	解説	Store LZC. 
+		LZC出力値をストアする
+
+3.25.
+gte_stfc	Store far color. 
+
+	形式	gte_stfc(vc)
+		long vc[3];
+
+	解説	Store far color. 
+		ファーカラーをストアする
+
+4. nop
+
+4.1.
+gte_nop	No operation. 
+
+	形式	gte_nop()
+
+	解説	No operation. 
+		なにもしない
+
+4.2.
+gte_subdvl	v3= v1-v2 
+
+	形式	gte_subdvl(v1,v2,v3)
+                DVECTOR *v1,*v2
+                VECTOR  *v3
+
+	解説	v3= v1-v2 
+
+4.3.
+gte_subdvd	v3= v1-v2 
+
+	形式	gte_subdvd(v1,v2,v3)
+                DVECTOR *v1,*v2
+                DVECTOR *v3
+
+	解説	v3= v1-v2 
+
+4.4.
+gte_adddvl	v3= v1+v2 
+
+	形式	gte_adddvl(v1,v2,v3)
+                DVECTOR *v1,*v2
+                VECTOR  *v3
+
+	解説	v3= v1+v2 
+
+4.5.
+gte_adddvd	v3= v1+v2 
+
+	形式	gte_adddvd(v1,v2,v3)
+                DVECTOR *v1,*v2
+                DVECTOR *v3
+
+	解説	v3= v1+v2 
+
+4.6.
+gte_FlipRotMatrixX	flip X-row of rotate matrix. (R11,R12,R13) -> (-R11,-R12,-R13) 
+
+	形式	gte_FlipRotMatrixX()
+
+	解説	flip X-row of rotate matrix. (R11,R12,R13) -> (-R11,-R12,-R13) 
+		回転マトリクスの X 行を反転  (R11,R12,R13) -> (-R11,-R12,-R13)
+
+4.6.1
+gte_FlipTRX	flip X of transfer vector. TRX -> -TRX 
+
+	形式	gte_FlipTRX()
+
+	解説	flip X of transfer vector. TRX -> -TRX 
+		平行移動ベクトルの X を反転  TRX -> -TRX  
+
+
+==========================================================================
+
+	GTE inline macro reference manual
+
+==========================================================================
+1. Simple functions
+
+1.1.
+gte_RotTransPers	*r5 is return value of RotTransPers() 
+
+	形式	gte_RotTransPers(r1,r2,r3,r4,r5)
+
+	解説	*r5 is return value of RotTransPers() 
+		*r5はRotTransPers()の返り値
+
+1.2.
+gte_RotTransPers3	*r9 is return value of RotTransPers3() 
+
+	形式	gte_RotTransPers3(r1,r2,r3,r4,r5,r6,r7,r8,r9)
+
+	解説	*r9 is return value of RotTransPers3() 
+		*r9はRotTransPers3()の返り値
+
+1.3.
+gte_RotTrans	
+
+	形式	gte_RotTrans(r1,r2,r3)
+
+	解説	
+1.4.
+gte_LocalLight	
+
+	形式	gte_LocalLight(r1,r2)
+
+	解説	
+1.5.
+gte_LightColor	
+
+	形式	gte_LightColor(r1,r2)
+
+	解説	
+1.6.
+gte_DpqColorLight	
+
+	形式	gte_DpqColorLight(r1,r2,r3,r4)
+
+	解説	
+1.7.
+gte_DpqColor	
+
+	形式	gte_DpqColor(r1,r2,r3)
+
+	解説	
+1.8.
+gte_DpqColor3	
+
+	形式	gte_DpqColor3(r1,r2,r3,r4,r5,r6,r7)
+
+	解説	
+1.9.
+gte_Intpl	
+
+	形式	gte_Intpl(r1,r2,r3)
+
+	解説	
+1.10.
+gte_Square12	No return value 
+
+	形式	gte_Square12(r1,r2)
+
+	解説	No return value 
+		返り値はない
+
+1.11.
+gte_Square0	No return value 
+
+	形式	gte_Square0(r1,r2)
+
+	解説	No return value 
+		返り値はない
+
+1.12.
+gte_NormalColor	
+
+	形式	gte_NormalColor(r1,r2)
+
+	解説	
+1.13.
+gte_NormalColor3	
+
+	形式	gte_NormalColor3(r1,r2,r3,r4,r5,r6)
+
+	解説	
+1.14.
+gte_NormalColorDpq	
+
+	形式	gte_NormalColorDpq(r1,r2,r3,r4)
+
+	解説	
+1.15.
+gte_NormalColorDpq3	
+
+	形式	gte_NormalColorDpq3(r1,r2,r3,r4,r5,r6,r7,r8)
+
+	解説	
+1.16.
+gte_NormalColorCol	
+
+	形式	gte_NormalColorCol(r1,r2,r3)
+
+	解説	
+1.17.
+gte_NormalColorCol3	
+
+	形式	gte_NormalColorCol3(r1,r2,r3,r4,r5,r6,r7)
+
+	解説	
+1.18.
+gte_ColorDpq	
+
+	形式	gte_ColorDpq(r1,r2,r3,r4)
+
+	解説	
+1.19.
+gte_ColorCol	
+
+	形式	gte_ColorCol(r1,r2,r3)
+
+	解説	
+1.20.
+gte_NormalClip	*r4 is return value of NormalClip() 
+
+	形式	gte_NormalClip(r1,r2,r3,r4)
+
+	解説	*r4 is return value of NormalClip() 
+		*r4はNormalClip() の返り値
+
+1.21.
+gte_AverageZ3	*r4 is return value of AverageZ3() 
+
+	形式	gte_AverageZ3(r1,r2,r3,r4)
+
+	解説	*r4 is return value of AverageZ3() 
+		*r4はAverageZ3() の返り値
+
+1.22.
+gte_AverageZ4	*r5 is return value of AverageZ4() 
+
+	形式	gte_AverageZ4(r1,r2,r3,r4,r5)
+
+	解説	*r5 is return value of AverageZ4() 
+		*r5はAverageZ4() の返り値
+
+1.23.
+gte_OuterProduct12	!!destroy Rotation Matrix in GTE(different from OuterProduct12) 
+
+	形式	gte_OuterProduct12(r1,r2,r3)
+
+	解説	!!destroy Rotation Matrix in GTE(different from OuterProduct12) 
+		!!GTEの定数回転マトリクスをこわす（OuterProduct12と異なる）
+
+1.24.
+gte_OuterProduct0	!!destroy Rotation Matrix in GTE(different from OuterProduct0) 
+
+	形式	gte_OuterProduct0(r1,r2,r3)
+
+	解説	!!destroy Rotation Matrix in GTE(different from OuterProduct0) 
+		!!GTEの定数回転マトリクスをこわす（OuterProduct0と異なる）
+
+1.25.
+gte_Lzc	*r2 is return value of Lzc() 
+
+	形式	gte_Lzc(r1,r2)
+
+	解説	*r2 is return value of Lzc() 
+		*r2 はLzc() の返り値
+
+
+
+2. Combined functions
+gte_Lzc	4 vertices functions(RotTransPers4,..) can't be replaced 
+
+	形式	gte_Lzc(r1,r2)
+
+	解説	4 vertices functions(RotTransPers4,..) can't be replaced 
+	by equivalent macros because they use OR of flags after rtpt & rtps
+	Please write directly in your program.
+  
+2.1.
+gte_RotAverage3	*r9 is return value of RotAverage3() 
+
+	形式	gte_RotAverage3(r1,r2,r3,r4,r5,r6,r7,r8,r9)
+
+	解説	*r9 is return value of RotAverage3() 
+		*r9 は RotAverage3() の返り値
+
+2.2.
+gte_RotNclip3	*r10 is return value of RotNclip3() 
+
+	形式	gte_RotNclip3(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10)
+
+	解説	*r10 is return value of RotNclip3() 
+		*r10 は RotNclip3() の返り値
+
+2.3.
+gte_RotAverageNclip3	*r10 is return value of RotAverageNclip3() 
+
+	形式	gte_RotAverageNclip3(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10)
+
+	解説	*r10 is return value of RotAverageNclip3() 
+		*r10 は RotAverageNclip3() の返り値
+
+2.4.
+gte_RotColorDpq	*r7 is return value of RotColorDpq() 
+
+	形式	gte_RotColorDpq(r1,r2,r3,r4,r5,r6,r7)
+
+	解説	*r7 is return value of RotColorDpq() 
+		*r7 は RotColorDpq() の返り値
+
+2.5.
+gte_RotColorDpq3	*r15 is return value of RotColorDpq3() 
+
+	形式	gte_RotColorDpq3(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15)
+
+	解説	*r15 is return value of RotColorDpq3() 
+		*r15 は RotColorDpq3() の返り値
+
+2.6.
+gte_RotAverageNclipColorDpq3	*r16 is return value of RotAverageNclipColorDpq3() 
+
+	形式	gte_RotAverageNclipColorDpq3(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16)
+
+	解説	*r16 is return value of RotAverageNclipColorDpq3() 
+		*r16 は RotAverageNclipColorDpq3() の返り値
+
+2.7.
+gte_RotAverageNclipColorCol3	*r16 is return value of RotAverageNclipColorCol3() 
+
+	形式	gte_RotAverageNclipColorCol3(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16)
+
+	解説	*r16 is return value of RotAverageNclipColorCol3() 
+		*r16 は RotAverageNclipColorCol3() の返り値
+
+2.8.
+gte_LoadAverage12	
+
+	形式	gte_LoadAverage12(r1,r2,r3,r4,r5)
+
+	解説	
+2.9.
+gte_LoadAverage0	
+
+	形式	gte_LoadAverage0(r1,r2,r3,r4,r5)
+
+	解説	
+2.10.
+gte_LoadAverageShort12	
+
+	形式	gte_LoadAverageShort12(r1,r2,r3,r4,r5)
+
+	解説	
+2.11.
+gte_LoadAverageShort0	
+
+	形式	gte_LoadAverageShort0(r1,r2,r3,r4,r5)
+
+	解説	
+2.12.
+gte_LoadAverageByte	
+
+	形式	gte_LoadAverageByte(r1,r2,r3,r4,r5)
+
+	解説	
+2.13.
+gte_LoadAverageCol	
+
+	形式	gte_LoadAverageCol(r1,r2,r3,r4,r5)
+
+	解説	
+
+3. Matrix functions
+
+3.1.
+gte_MulMatrix0	!!destroy Rotation Matrix(same as MulMatrix0) 
+
+	形式	gte_MulMatrix0(r1,r2,r3)
+
+	解説	!!destroy Rotation Matrix(same as MulMatrix0) 
+		!!定数回転マトリクスをこわす(MulMatrix0と同じ）
+
+3.2.
+gte_ApplyMatrix	!!destroy Rotation Matrix(same as ApplyMatrix) 
+
+	形式	gte_ApplyMatrix(r1,r2,r3)
+
+	解説	!!destroy Rotation Matrix(same as ApplyMatrix) 
+		!!定数回転マトリクスをこわす(ApplyMatrixと同じ）
+
+3.3.
+gte_CompMatrix	!!destroy Rotation Matrix(same as CompMatrix) 
+
+	形式	gte_CompMatrix(r1,r2,r3)
+
+	解説	!!destroy Rotation Matrix(same as CompMatrix) 
+		!!destroy Transfer vector in GTE(different from CompMatrix)
+		!!定数回転マトリクスをこわす(CompMatrixと同じ）
+		!!定数平行移動ベクトルをこわす(CompMatrixと同じ）
+
+3.4.
+gte_ApplyRotMatrix	
+
+	形式	gte_ApplyRotMatrix(r1,r2)
+
+	解説	

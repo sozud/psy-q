@@ -1,0 +1,53 @@
+#
+# This Makefile for DTL-H5000K of NEWS-OS 6.X.
+#
+
+# LIBDIR   = ../../../lib
+# INCDIR   = ../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+MAKE     = make
+TADDR    = 80040000
+CC       = cc
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+RM       = rm -f
+DEPEND   = makedepend
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+all:	tuto0 tuto1 tuto2
+
+tuto0: tuto0.o
+	ld $(LDFLAGS) -o tuto0 tuto0.o $(LIBDIR)/8mbyte.o $(LIBS)
+
+tuto1: tuto1.o
+	ld $(LDFLAGS) -o tuto1 tuto1.o $(LIBDIR)/8mbyte.o $(LIBS)
+
+tuto2: tuto2.o
+	ld $(LDFLAGS) -o tuto2 tuto2.o $(LIBDIR)/8mbyte.o $(LIBS)
+
+for_menu: tuto0.o tuto1.o tuto2.o
+	ld $(LDFLAGS) -o tuto0_m tuto0.o $(LIBDIR)/none2.o $(LIBS)
+	out2x tuto0_m
+	ld $(LDFLAGS) -o tuto1_m tuto1.o $(LIBDIR)/none2.o $(LIBS)
+	out2x tuto1_m
+	ld $(LDFLAGS) -o tuto2_m tuto2.o $(LIBDIR)/none2.o $(LIBS)
+	out2x tuto2_m
+
+start0: 
+	psxbload ../data/tim/earth8.tim 80100000
+	psxexec tuto0 807ffff0
+
+start1: 
+	psxbload ../data/tim/earth8.tim 80100000
+	psxexec tuto1 807ffff0
+
+start2: 
+	psxbload ../data/tim/earth8.tim 80100000
+	psxexec tuto2 807ffff0
+
+clean::
+	$(RM) tuto0 tuto1 tuto2 *_m  *.exe *.o
+
+

@@ -1,0 +1,618 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+拡張サウンドライブラリ：libsnd						
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【libsnd 関数】								
+
+  拡張サウンドライブラリ (libsnd) は、以下の関数群から構成されています。
+
+  (a) VAB データアクセス関数
+	音源データ（VABデータ）にアクセスするための関数
+
+  (b) 初期設定・終了用関数
+	サウンドシステムを起動、終了する際に必要な関数
+
+  (c) SEQ アクセス関数
+	譜面データ（SEQ データ）を扱うための関数
+
+  (d) 単独発音設定関数
+	音楽的な効果音でなく、単発音の効果音などを発音するための関数
+
+  (e) 共通属性設定関数
+	サウンドライブラリを使用するために必須の設定と、SPU の各ボイス
+	に共通の属性設定などを行なうための関数
+
+  (f) SEP アクセス関数
+	譜面データ（SEP データ）を扱うための関数
+
+  (g) サウンドユーティリティ関数					
+	VAB データ中の属性テーブルをランタイムに変更したり、アロケート	
+	されたボイスに対して KeyOn 後にエフェクトをかけるための関数	
+
+
+【概要】
+
+サウンドライブラリ libsnd は、BGM や音楽的効果音、つまり曲データを自動
+演奏させるためのライブラリです。
+
+
+○ライブラリファイル
+
+  サウンドライブラリ libsnd のファイル名は「libsnd.lib」です。
+
+○インクルードヘッダ
+
+  サウンドライブラリ libsnd のインクルードヘッダは「libsnd.h」です。
+  各種のデータ構造、マクロはすべてこのファイルで定義されています。
+  各サービスを呼び出すプログラムは、必ずこれをインクルードする必要があ
+  ります。
+
+
+【譜面データ】
+
+サウンドライブラリ libsnd では、譜面データとして「SEQ データフォーマッ
+ト」および「SEP データフォーマット」を定義しています。
+
+
+○ SEQ データフォーマット
+
+SEQ は SMF（Standard Midi File）の format 1 を PlayStation 用にコンバー
+トしたものです。SEQ は MIDI データ構造の各トラック・チャンクデータを時
+間順にマージした形式になっています。 1 つの音の表現は、SMF の規格と同
+じで、｛ステータス(1byte)，データ(ステータスによってバイト数決定)，デ
+ルタタイム(可変長表現，最大 4byte)｝となります。
+
+
+        ┌──────────────┐
+        │    サウンド ID (4Byte)     │
+        ├──────────────┤
+        │    バージョン番号(4Byte)   │
+        ├──────────────┤
+        │   四分音符の分解能(2Byte)  │
+        ├──────────────┤
+        │        テンポ(3Byte)       │
+        ├──────────────┤
+        │         拍子(2Byte)        │
+        ├──────────────┤
+        │                            │
+        │           データ           │
+        │                            │
+        ├──────────────┤
+        │   ファイルの終わり(3Byte)  │
+	└──────────────┘
+
+
+SEQ では、ランニング・ステータスを使用し、ノート・オフ・ステータスをノー
+ト・オン・ステータス，ベロシティ 0 に変換します。また、SEQ では MIDI
+規格中の以下のステータスデータについてサポートします。
+
+	 note on
+	 note off
+	 program change
+	 pitch bend
+	 control change のうち以下のもの：
+		 data entry(6)
+		 main volume(7)
+		 panpot(10)
+		 expression(11)
+		 damper pedal(64)
+		 external effect depth(91)
+		 nrpn data(98,99)
+		 rpn data(100,101)
+		 reset all controllers(121)
+
+   （注）：() 内はコントロールナンバ
+
+
+○ SEP(SEquence Package) データフォーマット
+
+SEP は 複数 SEQ データをパッケージ化したデータフォーマットです。
+これにより、複数の SEQ データを 1 つのファイルで管理することができます。
+アクセス方法は、SEP をオープンした時に返る ID と、アクセスしたい SEQ
+番号を指定することで可能になります。アクセス関数は関数リファレンスを参
+照して下さい。
+
+SEP のデータフォーマットは以下のようになっています。
+
+
+        ┌──────────────┐
+        │    サウンド ID (4Byte)     │
+        ├──────────────┤
+        │    バージョン番号(2Byte)   │
+        ├──────────────┤─┐
+        │        SEQ 番号(2Byte)     │  ｜
+        ├──────────────┤  ｜
+        │   四分音符の分解能(2Byte)  │  ｜
+        ├──────────────┤  ｜
+        │        テンポ(3Byte)       │  ｜
+        ├──────────────┤  ｜
+        │         拍子(2Byte)        │  │
+        ├──────────────┤  │
+        ｜     データサイズ（4Byte)   ｜  ｜
+        ├──────────────┤  ｜
+        │                            │  ├─ SEQ 0
+        │          データ            │  │
+        │                            │  │
+        ├──────────────┤  │
+        │     SEQ の終わり(3Byte)    │  │
+        ├──────────────┤─┤
+        │        SEQ 番号(2Byte)     │  │
+        ├──────────────┤  │
+        │   四分音符の分解能(2Byte)  │  ｜
+        ├──────────────┤  ｜
+        │        テンポ(3Byte)       │  ｜
+        ├──────────────┤  ｜
+        │         拍子(2Byte)        │  │
+        ├──────────────┤  │
+        ｜   データサイズ(4Byte)      ｜  ｜
+        ├──────────────┤  ｜
+        │                            │  ├─ SEQ 1
+        │          データ            │  │
+        │                            │  │
+        ├──────────────┤  │
+        │     SEQ の終わり(3Byte)    │  │
+			:
+			:
+
+
+【サウンドライブラリに於ける MIDI サポート】
+
+
+○Control Change による VAB 属性データ設定
+
+MIDI 規格 Control Change の NRPN で VAB 属性データを設定できるように
+NRPN データを定義しました。
+
+〔使用方法〕
+
+  シーケンサで SMF ファイルを作成する際、
+
+	bnH	99	data1    (NRPN MSB)
+	bnH	98	data2    (NRPN LSB)
+	bnH	06	data3    (Data Entry)
+
+  を順次送ることにより、VAB の属性データが設定できます。
+
+  Data1, data2, data3 は、以下の通りです。
+  Tone Number は 0 ～ 15 まで、すべての Tone について属性を変更したい
+  場合は 16 を設定して下さい。
+
+  ただし、ハードウェアの仕様上、リバーブのデプスなどの係数は SPU で一
+  組しか設定出来ないので、トーンや MIDI のチャンネル毎にリバーブのタイ
+  プやデプス、フィードバック量などを設定することは出来ません。
+
+  唯一、ボイス毎(つまり波形単位)でリバーブのオン/オフのみ設定が可能です。
+  これは SoundDelicatessen の ADSR 設定画面上のリバーブのスイッチをチェッ
+  クすることで設定可能です。また、NRPN の `Mode'で MIDI シーケンスから
+  リアルタイムに設定の変更も可能です。
+
+＊表右に×のついている attribute に関しましては、現在未サポートです。	+
+
+┌────────┬───────┬───────┬───────┐
+│   ATTRIBUTE    │ data1(CC 99) │ data2(CC 98) │ data3(CC 06) │
+├────────┼───────┼───────┼───────┤
+│Priority	  │ Tone Number  │      0       │   0 ～ 15    │
+├────────┼───────┼───────┼───────┤
+│Mode   	  │      〃   	  │      1       │   0 ～ 4(*)  │
+├────────┼───────┼───────┼───────┤
+│Limit low       │      〃      │      2	  │   0 ～ 127	  │
+├────────┼───────┼───────┼───────┤
+│Limit high      │      〃 	  │      3	  │      〃 	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (AR-L)     │      〃 	  │      4	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (AR-E)     │      〃      │      5	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (DR)       │      〃      │      6	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (SL)       │      〃      │      7	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (SR-L)     │      〃      │      8 	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (SR-E)     │      〃      │      9	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (RR-L)     │      〃      │     10	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (RR-E)     │      〃      │     11	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│ADSR (SR-±)    │      〃      │     12	  │ 0～64   : ＋ │
+｜                ｜              ｜              ｜ 65～127 : － ｜
+├────────┼───────┼───────┼───────┤
+│Vibrate time    │      〃      │  	 13	  │   0 ～ 255	  │×	!
+├────────┼───────┼───────┼───────┤
+│Portamento depth│      〃      │     14	  │   0 ～ 127	  │×	!
+├────────┼───────┼───────┼───────┤
+│Reverb type     │      16      │  	 15	  │   0 ～ 9(**) │
+├────────┼───────┼───────┼───────┤
+│Reverb depth    │      16      │  	 16	  │   0 ～ 127	  │
+├────────┼───────┼───────┼───────┤
+│Echo feed back  │      16      │  	 17	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│Echo delay time │      16      │  	 18	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│Delay delay time│      16      │  	 19	  │      〃	  │
+├────────┼───────┼───────┼───────┤
+│Vibrate depth   │ Tone Number  │  	 21	  │   0 ～ 127	  │×	!
+├────────┼───────┼───────┼───────┤
+│Portamento time │      〃      │     22	  │   0 ～ 255	  │×	!
+└────────┴───────┴───────┴───────┘
+
+
+(*) Mode Type
+  ┌───┬──────┐
+  │Number│    Mode    │
+  ├───┼──────┤
+  │  0   │    Off     │
+  ├───┼──────┤
+  │  1   │  Vibrate   │×						!
+  ├───┼──────┤	
+  │  2   │ Portamento │×						!
+  ├───┼──────┤
+  │  3   │   1 & 2    │(Portamento & Vibrate on)×
+  ├───┼──────┤
+  │  4   │   Reverb   │
+  └───┴──────┘
+
+
+(**) Reverb Type(Sound Delicatessen の DSP 参照）
+  ┌───┬──────┐
+  │Number│Reverb type │
+  ├───┼──────┤
+  │  0   │    off     │
+  ├───┼──────┤
+  │  1   │    Room   	│
+  ├───┼──────┤
+  │  2   │  Studio A 	│
+  ├───┼──────┤
+  │  3   │  Studio B	│
+  ├───┼──────┤
+  │  4   │  Studio C 	│
+  ├───┼──────┤
+  │  5   │    Hall   	│
+  ├───┼──────┤
+  │  6   │    Space   │
+  ├───┼──────┤
+  │  7   │    Echo   	│
+  ├───┼──────┤
+  │  8   │    Delay  	│
+  ├───┼──────┤
+  │  9   │    Pipe    │
+  └───┴──────┘
+
+
+○Control Change による曲中繰り返し設定
+
+  曲の一部分の繰り返し機能を NRPN データによって実現しました。繰り返し
+  記号「∥:」が Loop1 に相当し「:∥」が Loop2 に相当します。1 曲の中で
+  何度も使用できませすが、この繰り返し設定を入れ子状（Loop1…(Loop1'…
+  Loop2')…Loop2)にして使用することはできません。
+
+     ┌────────┬───────┬───────┐
+     │    ATTRIBUTE   │ data1(CC 99) │ data(CC 06)  │
+     ├────────┼───────┼───────┤
+     │  Loop1(start)  │      20      │ 0 ～ 127(***)│
+     ├────────┼───────┼───────┘
+     │  Loop2(end)    │      30      │
+     └────────┴───────┘
+
+(***) 無限回数繰り返しの場合は、127(0x7f) を設定して下さい。
+
+
+（注1）シーケンサによっては、順序良く入力しても同じ Delta Time で設定し
+      た場合は SMF に変換した時に順序が入れ替わっている可能性があり、
+      データが無効となることがありますので、同じ Delta Time 時に設定し
+      ないようにして下さい。また、VAB 属性データ設定については、Data
+      Entry を読み込んだ直後の Key On から値が有効となります。
+
+（注2）Loop1 の設定は、今までは CC 99, CC 98 でしたが、今回より CC 99,
+       CC 06 になりました。しかし、以前の CC 99, CC 98 で作成している
+       SMF にも対応していますので、データを変更する必要はありません。
+
+
+○Control Change によるマーキング機能
+
+  曲のある箇所にマークを設定できる機能を NRPN データによって実現しまし
+  た。ライブラリ関数では、このマークが検出されると呼ばれる関数を登録す
+  る関数を提供します。マーキングの形式は
+
+  ┌────────┬───────┬─────────────┐
+  │    ATTRIBUTE   │ data1(CC 99) │       data2(CC 98)       │
+  ├────────┼───────┼─────────────┤
+  │      Mark      │      40      │   0 ～ 127 の任意の値    │
+  │                │              │(callback 関数に渡される) │
+  └────────┴───────┴─────────────┘
+
+  でサポートします。
+
+
+ (注意)									+
+  reberb および繰り返し設定につきましては、1 曲の譜面データ中 1箇所の	+
+  み設定して下さい（各 channel ごとに設定する必要はありません）。	+
+ 
+
+【音源データ】
+
+音源データに関しては、「VAG フォーマット」および「VAB フォーマット」と
+呼ばれる 2 つのデータフォーマットを定義しています。
+
+
+○VAG フォーマット
+
+  波形データフォーマットで、実際には「ピアノの音」「爆発音」などといっ
+  た音をサンプルし、ADPCM エンコードしたデータです。
+
+
+○VAB フォーマット
+
+  複数の VAG ファイルをひとまとめにした音源管理データフォーマットであ
+  り、ランタイムでファイルとして扱われる単位です。
+
+  VAB ファイルには、実際にはあるシーンで使われるすべての音源，効果音な
+  どが含まれています。さらに階層管理によりマルチティンバー（マルチサン
+  プリング）もサポートしています。
+
+  VAB 1 つあたり、最大 128 のプログラムを持つことが出来ます。各プログ
+  ラムは、最大 16 の音色リストを持つことが出来ます。また、1 つの VAB
+  の中には最大 254 個の VAG を持つことが出来ます。
+
+  複数の音色リストで同じ波形を参照することも可能なので、1 つの波形を違っ
+  た鳴らし方をすることも可能です。
+
+(ヘッダ)
+
+ VAB データフォーマットのヘッダ部分は、以下のような構造になっています。
+
+       ┌───────────────┐
+       │       VAB File Header        │
+       │  ┌─────────────┤
+       │  │ Program Attribute Table  │128 Programs
+       │  ├─────────────┤
+       │  │   Tone Attribute Table   │～128 x 16 VAG Header List
+       ├─┴─────────────┤
+       │       VAG Data Body          │～254 VAG Data
+       │       		       │
+       │       		       │
+       │       		       │
+       └───────────────┘
+
+
+(構造体)
+
+ VAB ヘッダの構造体は次のようになっています。
+ 実行時にはこの構造体を利用することにより、各属性をダイナミックに変更
+ することも可能です。
+
+ また、VAB（バンク）エディタは、VAB データフォーマットのヘッダに含まれ
+ る各値を編集でき、実行時にそのバンク音源を使うことで、ローカルメモリ
+ をどの位消費するかを確認できます。
+
+
+(a) 音色属性
+
+    struct vabhdr {
+        long           form;      /* 常に 'VABp' */
+        long           ver;       /* フォーマットバージョン番号 */
+        long           id;        /* バンクid */
+        unsigned long  fsize;     /* ファイルサイズ */
+
+        short          reserved0; /* システム予約 */
+        unsigned short ps;        /* 本バンクに含まれるプログラム総数 */
+        unsigned short ts;        /* 有効音色総数 */
+        unsigned short vs;        /* 波形(VAG)数 */
+
+        unsigned char  mvol;      /* マスタボリューム */
+        unsigned char  mpan;      /* マスタパン */
+        unsigned char  reserved1; /* システム予約 */
+        unsigned char  reserved2; /* システム予約 */
+
+        long           reserved3; /* システム予約 */
+    }
+
+
+(b)プログラム属性
+
+    struct programslot {
+        unsigned char tones;     /* プログラムを構成する有効音色数 */
+        unsigned char mvol;      /* プログラムボリューム */
+        unsigned char prior;     /* プログラム優先度 */
+        unsigned char mode;      /* プログラムモード */
+        unsigned char mpan;      /* プログラムパン */
+        char          reserved0; /* システム予約 */
+        short         attr;      /* プログラム属性 */
+        long          reserved1; /* システム予約 */
+        long          reserved2; /* システム予約 */
+    }
+
+
+(c)音色属性
+
+    struct vagatr {
+
+        unsigned char prior;      /* 音色優先度 */
+        unsigned char mode;       /* 音色モード */
+        unsigned char vol;        /* 音色ボリューム */
+        unsigned char pan;        /* 音色パン */
+
+        unsigned char center;     /* センターノート(0～127) */
+        unsigned char shift;      /* ピッチ補整 (0～99, cent単位) */
+        unsigned char min;        /* 最小ノートリミット (0～127) */
+        unsigned char max;        /* 最大ノートリミット (0～127) */
+                                  /* ただし, min < max */
+
+        unsigned char vibw;       /* ビブラート幅(1/128割合, 0～127) */
+        unsigned char vibt;       /* ビブラートの1周期の時間(tick単位) */
+        unsigned char porw;       /* ポルタメント幅(1/128割合, 0～127) */
+        unsigned char port;       /* ポルタメントの持続時間(tick単位) */
+
+        unsigned char pbmin;       /* ピッチベンド(-,0～127,127 = 1oct.) */
+        unsigned char pbmax;       /* ピッチベンド(+,0～127,127 = 1oct.) */
+        unsigned char reserved1;   /* システム予約 */
+        unsigned char reserved2;   /* システム予約 */
+
+        short         adsr1;       /* adsr1 */
+        short         adsr2;       /* adsr2 */
+        short         prog;        /* 親プログラム */
+        short         vag;         /* 利用波形(VAG) */
+        short         reserved[4]; /* システム予約 */
+    }
+
+
+【関数の実行順序】
+
+  サウンドライブラリ libsnd 関数を使用する際、以下の関数を実行して下さい。
+
+  (1) 初期化
+
+      ・SsInit() 関数で初期化します。
+      ・SsSetTableSize () 関数で SEQ 属性データの領域確保を行なって下さい。
+
+  (2) tick モード設定
+
+      ・SsSetTickMode() 関数で tick モードを設定します。
+
+  (3) データのオープン
+
+      ・VAB データを用いる場合は SsVabOpen() かあるいは  SsVabOpenHead(),
+        SsVabTransBody(), SsVabTransCompleted() 関数を、SEQ データを用
+	いる場合は SsSeqOpen()， SEP データを用いる場合は SsSepOpen()
+	関数を実行します。
+
+  (4) サウンドシステム開始
+
+      ・SsStart() 関数を実行し、サウンドシステムを開始します。
+
+  (5) 必要な処理
+
+      ・メインボリュームの設定を行なって下さい。
+      ・必要な処理を実行します。
+
+  (6) データのクローズ
+
+      ・VAB データを使用した場合は SsVabClose() 関数を、SEQ データを使
+	用した場合は SsSeqClose() 関数、SEP データを使用した場合は
+        SsSepClose() 関数を実行します。
+
+  (7) サウンドシステムの停止
+   
+      ・サウンドシステムを停止する場合は、SsEnd() 関数を実行します。
+
+  (8) サウンドシステムの終了
+
+      ・SsQuit() 関数を実行し、サウンドシステムを終了します。
+
+
+【関数概要】
+=========================================================================
+関数名                ｜内容
+----------------------＋-------------------------------------------------
+SsVabOpen             ｜VAB データをオープンする
+SsVabClose            ｜VAB データをクローズする
+SsVabOpenHead         ｜音源ヘッダリストを認識する
+SsVabTransBody        ｜音源データを転送する
+SsVabTransCompleted   ｜VAB の転送状態を調べる
+SsVabTransBodyPartly  ｜音源データを分割転送する
+SsVabOpenHeadSticky   ｜音源ヘッダリストを認識する (VabBody 転送番地指定)
+SsVabFakeHead         ｜音源ヘッダリストを認識する (再度認識)
+SsVabFakeBody         ｜サウンドバッファ上の音源データを与えられた VAB ID 
+                      ｜のデータとしてライブラリを設定する。
+----------------------＋-------------------------------------------------
+SsInit                ｜サウンドシステムの初期化
+SsInitHot             ｜サウンドシステムを初期化する (ホットリセット)	
+SsSetTableSize        ｜SEQ/SEP 属性テーブル領域の指定
+SsSetTickMode         ｜Tick の設定
+SsStart               ｜サウンドシステムの開始
+SsStart2              ｜サウンドシステムの開始				
+SsEnd                 ｜サウンドシステムの停止
+SsQuit                ｜サウンドシステムの終了
+----------------------＋-------------------------------------------------
+SsPlayBack            ｜SEQ/SEP データ読みとり（その２）
+SsSetTempo            ｜SEQ/SEP データのテンポを設定する
+SsSetLoop             ｜SEQ/SEP データのの再生繰り返し回数を設定する
+SsIsEos               ｜SEQ/SEP データの演奏中か否かを判別する
+SsSetMarkCallback     ｜マークが検出されたら呼ばれる関数を登録する
+SsSetReservedVoice    ｜libsnd ライブラリが割り当てるボイス数を宣言する
+SsSetNext             ｜次 譜面データの指定				+
+----------------------＋-------------------------------------------------
+SsSeqOpen             ｜SEQ データオープン
+SsSeqCalledTbyT       ｜1 Tick 毎に呼ばれ、SEQ データを解釈し演奏を行う
+SsSeqPlay             ｜SEQ データ読みとり
+SsSeqPause            ｜SEQ データ読みとり中断
+SsSeqReplay           ｜SEQ データ読みとり再開
+SsSeqStop             ｜SEQ データ読みとり停止
+SsSeqSetVol           ｜SEQ ボリューム値設定
+SsSeqSetNext          ｜次 SEQ データの指定
+SsSeqSetCrescendo     ｜クレッシェンド
+SsSeqSetDecrescendo   ｜デクレッシェンド
+SsSeqSetRitardando    ｜テンポを遅くする
+SsSeqSetAccelerando   ｜テンポを速くする
+SsSeqClose            ｜SEQ データをクローズする
+----------------------＋-------------------------------------------------
+SsVoKeyOn             ｜キーオン（単独発音用）
+SsVoKeyOff            ｜キーオフ（単独発音用）
+SsSetMVol             ｜メインボリューム値設定
+SsGetMVol             ｜メインボリューム値を得る
+SsSetRVol             ｜リバーブボリューム値設定
+SsGetRVol             ｜リバーブボリューム値を得る
+SsSetMute             ｜ミュート ON/OFF 設定
+SsSetSerialAttr       ｜Serial 属性設定
+SsGetSerialAttr       ｜Serial 属性を得る
+SsSetSerialVol        ｜Serial ボリューム値設定
+SsGetSerialVol        ｜Serial ボリューム値を得る
+SsSetNck              ｜ノイズクロック値設定
+SsGetNck              ｜ノイズクロック値を得る
+SsSetNoiseOn          ｜ノイズオン
+SsSetNoiseOff         ｜ノイズオフ
+SsSetMono             ｜モノモード設定
+SsSetStereo           ｜ステレオモード設定
+SsSetAutoKeyOffMode   ｜自動キーオフモードを設定する
+----------------------＋-------------------------------------------------
+SsSepOpen             ｜SEP データをオープン
+SsSepPlay             ｜SEP データ読みとり
+SsSepPause            ｜SEP データ読みとり一時停止
+SsSepReplay           ｜SEP データ読みとり再開
+SsSepSetCrescendo     ｜クレッシェンド
+SsSepSetDecrescendo   ｜デクレッシェンド
+SsSepSetRitardando    ｜テンポを遅くする
+SsSepSetAccelerando   ｜テンポを速くする
+SsSepSetVol           ｜SEP ボリューム値設定
+SsSepStop             ｜SEP データ読みとり中止
+SsSepClose            ｜SEP データをクローズ
+----------------------＋-------------------------------------------------
+SsUtKeyOn             ｜ボイスをキーオンする
+SsUtKeyOff            ｜ボイスをキーオフする
+SsUtKeyOnV            ｜ボイス番号を指定してキーオンする
+SsUtKeyOffV           ｜ボイス番号を指定してキーオフする
+SsUtPitchBend         ｜ピッチベンドをかける
+SsUtChangePitch       ｜ピッチを変える
+SsUtChangeADSR        ｜ADSRを変える
+SsUtGetVabHdr         ｜VAB 属性ヘッダを返す
+SsUtSetVabHdr         ｜VAB 属性ヘッダを設定する
+SsUtGetProgAtr        ｜Program 属性テーブルを返す
+SsUtSetProgAtr        ｜プログラム属性テーブルを設定する
+SsUtGetVagAtr         ｜トーン属性テーブル(VagAtr)を返す
+SsUtSetVagAtr         ｜トーン属性テーブル(VagAtr)を設定する
+SsUtGetVVol           ｜ボイスボリュームを得る
+SsUtSetVVol           ｜ボイスボリュームを設定する
+SsUtGetDetVVol        ｜ボイスボリューム詳細値を得る
+SsUtSetDetVVol        ｜ボイスボリュームを詳細設定する
+SsUtAutoVol           ｜ボイスボリュームを自動的に変化させる
+SsUtAutoPan           ｜パンニングを自動的に変化させる
+SsUtReverbOn          ｜リバーブオン
+SsUtReverbOff         ｜リバーブオフ
+SsUtSetReverbType     ｜リバーブタイプ設定
+SsUtGetReverbType     ｜リバーブタイプを得る
+SsUtSetReverbDepth    ｜リバーブの深さを設定する
+SsUtSetReverbFeedback ｜フィードバック量を設定する
+SsUtSetReverbDelay    ｜Delay 量を設定する
+SsUtAllKeyOff         ｜全ボイスをキーオフする
+SsUtKeyOnV            ｜ボイス番号を指定してキーオンする
+SsUtKeyOffV           ｜ボイス番号を指定してキーオフする
+SsUtFlush             ｜キューイングしているキーオン／キーオフのリクエ
+                      ｜ストを実行する
+SsUtGetVBaddrInSB     ｜指定された VAB id の VB データが転送されたサウ
+                      ｜ンドバッファ内のアドレスを返す
+SsUtGetVagAddr        ｜VAG が格納されている SPU バッファのアドレスを	
+                      ｜返す						
+SsUtGetVagAddrFromTone｜VAG が格納されている SPU バッファのアドレスを	+
+                      ｜返す						+

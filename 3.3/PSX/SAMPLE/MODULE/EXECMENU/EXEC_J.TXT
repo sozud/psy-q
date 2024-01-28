@@ -1,0 +1,396 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+＜＜　EXEファイルの実行　＞＞
+
+1995/09/04 v1.5	by yoshi
+
+
+
+（１）このサンプルについて
+
+実行中の親EXE（MENU）から、子EXE（BALLS,RCUBE,ANIM,BALLS2,RCUBE2,ANIM2）を
+ロードして実行するサンプルです。
+balls\main.c は、sample\graphics\balls\main.c を若干変更したものです。
+rcube\main.c は、sample\graphics\tmdview\rcube\main.c を若干変更したものです。
+anim\main.c は、sample\cd\movie\tuto0.c を若干変更したものです。
+
+
+（サンプルの起動方法）
+---------------------------------------------------
+
+DOS> psymake all
+DOS> cd balls
+DOS> psymake all
+DOS> cd ..\rcube
+DOS> psymake all
+DOS> cd ..\anim
+DOS> psymake all
+
+でコンパイルし、以下の様な構造のCD-Rを作成して下さい。
+ブートさせれば MENU が立ち上がります。
+上下キー＆スタートで、各EXEファイルが読み込まれ、実行されます。
+セレクトで MENU に戻ります。
+
+\ ------+--- SYSTEM.CNF				後述
+        |
+        |
+        +--- EXECMENU --+--- EXECMENU.EXE
+        |               +--- BALLS.EXE
+        |               +--- RCUBE.EXE
+        |               +--- ANIM.EXE
+        |               +--- BALLS2.EXE
+        |               +--- RCUBE2.EXE
+        |               +--- ANIM2.EXE
+        |
+        +--- DATA ------+--- RCUBE.TIM		DTL-S2180の物を使用して下さい
+                        +--- RCUBE.TMD		DTL-S2180の物を使用して下さい
+                        +--- MOV.STR		DTL-S2180の物を使用して下さい
+
+---------------------------------------------------
+
+file: SYSTEM.CNF（注：イコールの両側に空白を入れる事）
+---------------------------------------------------
+BOOT = cdrom:\EXECMENU\EXECMENU.EXE;1
+TCB = 4
+EVENT = 16
+STACK = 801fff00
+---------------------------------------------------
+
+
+
+（２）バグフィクス：子EXE内の CdInit() について
+
+      ライブラリVer3.1では、
+
+　　　「子EXE中でCdInit()を行わないと、親に戻った後での最初の CdInit() で
+　　　ハングアップする」
+
+　　　というバグがありましたが、ライブラリVer3.2では修正されました。
+
+
+
+（３）2mbyte.obj,none2,obj 及び malloc使用上の注意
+
+      2mbyte.obj をリンクしたモジュール : 
+        起動時に、以下の処理が行われる。
+        bss領域をゼロクリアする。
+        スタックポインタの初期値を0x80200000に設定する。
+        InitHeap()を呼ぶ。
+
+      none2.obj をリンクしたモジュール : 
+        起動時には何も行われない。
+        InitHeap()も呼ばれないので、malloc() 等を使用する場合は、必ず明示的に
+        InitHeap()する必要がある。
+
+  通常、親EXE等のブートモジュールには 2mbyte.obj をリンクします。
+  子EXEとして呼び出すモジュールには、none2.objをリンクし、スタック初期値は
+  親EXEの中で設定するようにして下さい。
+
+  親EXE中でmalloc()等を使用している場合は、子EXEをロードする領域を考慮に
+  入れた上で、InitHeap()を明示的に行うようにして下さい。
+  子EXE中で使用する場合も同様で、親の占有する領域を考慮に入れてInitHeap()を
+  行うようにして下さい。
+
+
+
+（４）EXEファイル読み込み＆実行について
+
+
+このサンプルでは、２種類の方法で子EXEの起動を行っています。
+以下、それぞれの処理について詳しく説明します。
+
+
+ [4-1] 親EXEをメモリ上に残しておく場合
+      （親と重ならない位置に子をロードする場合）
+
+      親EXEには 2mbyte.obj を、子EXEには none2.obj をリンク
+      して下さい。
+
+
+  [4-1-A] CD関数のみを使用する場合
+
+        サンプルメニューの BALLS,RCUBE,ANIM がこれにあたります。
+	CD関数のみを使用してLoad()と同様の処理をする関数「cdload()」を
+	使用します。
+	cdload()のソースコードは巻末に付けますので参考にして下さい。	
+
+
+	＜親EXE＞
+
+	struct EXEC exe;
+				[前処理]
+	ResetCallback();	内部で_96_remove()を呼んでいる。
+	CdInit();		CD関数初期化
+	CdSearchFile();		[データファイル読み]
+	CdRead();
+		:
+		:
+		:
+		:
+	cdload("\\GAME.EXE;1",&exe);	[子EXEをロード]
+					オリジナル関数。詳細[4-3]。
+	DrawSync(0);			[後処理]
+	StopRCnt(RCntCNT0);		この他にも、サウンド関連、イベント等、
+	StopRCnt(RCntCNT1);		全ての割り込み処理を止めて下さい。
+	StopRCnt(RCntCNT2);
+	StopRCnt(RCntCNT3);
+	ResetGraph(3)			ResetGraph(0)でも良い。
+	PadStop();
+	StopCallback();			
+	exe.s_addr = 0x8017fff0;	[子のスタックポインタ設定]
+	exe.s_size = 0;
+	EnterCriticalSection():
+	Exec(&exe,1,0);			[子EXEを実行]
+	ResetCallback();		[再び前処理を実行]
+	CdInit();
+		:
+		:
+
+
+	＜子EXE＞
+
+	ResetCallback();	[前処理]
+	CdInit();
+	CdSearchFile();		[データファイル読み]
+	CdRead();
+		:
+		:
+		:
+		:
+	DrawSync(0);		[後処理]
+	StopRCnt(RCntCNT0);
+	StopRCnt(RCntCNT1);
+	StopRCnt(RCntCNT2);
+	StopRCnt(RCntCNT3);
+	ResetGraph(3)		ResetGraph(0)でも良い。
+	PadStop();
+	StopCallback();
+
+	return();		[メインからリターンする]
+
+
+
+  [4-1-B] 96ファイルシステムを使用する場合
+
+	本サンプル MENU.C では採用していませんが、
+	96ファイルシステムを使用する例を挙げておきます。
+
+	96のファイルシステム（Load(),open(),read(),LoadExec()等）を使用
+	する場合は、必ず_96_init()をしてから実行し、その後すぐ_96_remove()を
+	すること。
+	_96_init()をした状態では、96のファイルのアクセス以外の処理は、保証
+	されない。_96_remove()をすれば保証される。
+
+	また、_96_init()は処理時間が長いので、多用するとゲームの進行を
+	非常に遅くします。
+	以上の理由より、前述 [4-1-A] の方法を推奨します。
+
+
+	＜親EXE＞
+
+	struct EXEC exe;
+				[前処理]
+	ResetCallback();	内部で_96_remove()を呼んでいる。
+	CdInit();		CD関数初期化
+				[データファイル読み]
+	_96_init();		96のファイルシステムをアクセスする場合。
+	read();			_96_init()と_96_remove()でサンドイッチ
+	_96_remove();		にする。
+		:
+		:
+		:
+		:
+	DrawSync(0);		[後処理]
+	StopRCnt(RCntCNT0);	この他にも、サウンド関連、イベント等、
+	StopRCnt(RCntCNT1);	全ての割り込み処理を止めて下さい。
+	StopRCnt(RCntCNT2);
+	StopRCnt(RCntCNT3);
+	ResetGraph(3)		ResetGraph(0)でも良い。
+	PadStop();
+	StopCallback();
+	_96_init();		StopCallback()の後に_96_init()
+	Load("cdrom:\\GAME.EXE;1",&exe);[子EXEをロード]
+	exe.s_addr = 0x8017fff0;	[子のスタックポインタ設定]
+	exe.s_size = 0;
+	EnterCriticalSection():
+	Exec(&exe,1,0);		[子EXEを実行]
+	ResetCallback();	[再び前処理を実行]
+	CdInit();
+		:
+		:
+	
+
+	＜子EXE＞
+
+	ResetCallback();	[前処理]
+	CdInit();
+				
+	_96_init();		[データファイル読み]
+	read();			
+	_96_remove();		
+		:
+		:
+		:
+		:
+	DrawSync(0);		[後処理]
+	StopRCnt(RCntCNT0);
+	StopRCnt(RCntCNT1);
+	StopRCnt(RCntCNT2);
+	StopRCnt(RCntCNT3);
+	ResetGraph(3)		ResetGraph(0)でも良い。
+	PadStop();
+	StopCallback();
+
+	return();		[メインからリターンする]
+
+
+
+
+ [4-2] 親EXEをメモリ上に残さない場合
+       （親と重なる位置に子をロードする場合）
+
+      サンプルメニューの BALLS2,RCUBE2,ANIM2 がこれにあたります。
+      システムコール LoadExec() を使用します。
+      親EXEには 2mbyte.obj を、子EXEには 2mbyte.obj 又は none2.obj
+      をリンクして下さい。
+      （子に 2mbyte.obj がリンクされている場合は、LoadExec()の第２引数の
+      スタックポインタの設定は意味を持ちません。）
+
+
+	＜親EXE＞
+
+	ResetCallback();	[前処理]
+	CdInit();
+	CdSearchFile();		[データファイル読み]
+	CdRead();
+		:
+		:
+		:
+		:
+	DrawSync(0);		[後処理]
+	StopRCnt(RCntCNT0);	この他にも、サウンド関連、イベント等、
+	StopRCnt(RCntCNT1);	全ての割り込み処理を止めて下さい。
+	StopRCnt(RCntCNT2);
+	StopRCnt(RCntCNT3);
+	ResetGraph(3)		ResetGraph(0)でも良い。
+	PadStop();
+	StopCallback();		StopCallback()の後に_96_init()
+	_96_init();
+	LoadExec("cdrom:\\GAME.EXE;1",0x801fff00,0);	[子EXEをロード、実行]
+						第２引数でスタックポインタ指定
+
+
+	＜子EXE＞
+
+	ResetCallback();	[前処理]
+	CdInit();
+	CdSearchFile();		[データファイル読み]
+	CdRead();
+		:
+		:
+		:
+		:		親に戻る場合は、もう一度親をロードする。
+	DrawSync(0);		[後処理]
+	StopRCnt(RCntCNT0);
+	StopRCnt(RCntCNT1);
+	StopRCnt(RCntCNT2);
+	StopRCnt(RCntCNT3);
+	ResetGraph(3)		ResetGraph(0)でも良い。
+	PadStop();
+	StopCallback();
+	_96_init();
+	LoadExec("cdrom:\\PSX.EXE;1",0x801fff00,0);	[親EXEをロード、実行]
+
+
+
+
+ [4-3] EXEファイルロード関数　cdload()
+
+      CD関数を用いて、Load()と同様の動作をする関数 cdload() の
+      ソースを挙げます。
+
+	（使用例）
+	struct EXEC exe;
+
+	CdInit();
+	cdload("\\GAME\\GAME.EXE;1",&exe);
+
+
+cdload.c
+-----------------------------------------------------------------
+#include <kernel.h>
+#include <libcd.h>
+
+#define H_SIZE 2048
+
+
+int
+cdload(file,exep)
+
+char *file;
+struct EXEC *exep;
+{
+  CdlFILE	fp;			/* ファイルの位置・サイズ情報 */
+  int	mode = CdlModeSpeed;	
+  char hbuf[H_SIZE];			/* EXEヘッダ用バッファ */
+  unsigned long offset;			/* 絶対セクタ位置 */
+  int cnt,i;
+  struct XF_HDR *head;
+
+  for (i = 0; i < 10; i++) {	/* リトライは 10 回 */
+    if (CdSearchFile(&fp, file) == 0) 
+      continue;
+
+    /* ターゲットポジションを設定 */
+    CdControl(CdlSetloc, (u_char *)&(fp.pos), 0);
+    cnt = _read1(H_SIZE,(void *)hbuf,mode); 	/* EXEヘッダリード */
+    if(cnt)
+      continue;
+
+    head = (struct XF_HDR *)hbuf;		
+    memcpy((void *)exep, (void *)&head->exec, sizeof(struct EXEC));
+
+    /* LOC情報を絶対セクタに直し、１セクタ（EXEファイルのヘッダ分）
+    　インクリメントした後、再びLOC情報に直す */
+    offset = CdPosToInt(&fp.pos);
+    offset++;
+    CdIntToPos(offset,&fp.pos);
+
+    /* ターゲットポジションを設定 */
+    CdControlB(CdlSetloc, (u_char *)&(fp.pos), 0);
+    /* プログラムをリード */
+    cnt = _read1(exep->t_size, (void *)exep->t_addr, mode);
+
+    /* 正常終了ならばブレーク */
+    if (cnt == 0)
+    	return(0);	/* 成功 */
+  }
+
+  return(-1);		/* 失敗 */
+}
+
+
+int
+_read1(byte,sectbuf,mode)
+
+long byte;
+void *sectbuf;
+int mode;
+{	
+  int nsector,cnt;
+	
+  nsector = (byte+2047) / 2048;
+	
+  /* リード開始 */
+  CdRead(nsector, sectbuf, mode);
+	
+  /* リードの裏で通常の処理は実行できる。*/
+  /* ここでは、Read が終了するまで残りのセクタ数を監視する */
+  while ((cnt = CdReadSync(1, 0)) > 0 ) {
+    VSync(0);
+  }
+
+  return(cnt);
+}
+
+																		以上

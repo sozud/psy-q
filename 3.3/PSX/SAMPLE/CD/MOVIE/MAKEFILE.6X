@@ -1,0 +1,46 @@
+#
+# This Makefile for DTL-H5000K of NEWS-OS 6.X.
+#
+
+# LIBDIR   = ../../../lib
+# INCDIR   = ../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+MAKE     = make
+TADDR    = 80040000
+CC       = cc -O2
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+RM       = rm -f
+DEPEND   = makedepend
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+all:	tuto0 tuto1 tuto2
+
+tuto0: tuto0.o
+	ld $(LDFLAGS) -o tuto0 $(LIBDIR)/8mbyte.o tuto0.o $(LIBS)
+
+tuto1: tuto1.o
+	ld $(LDFLAGS) -o tuto1 $(LIBDIR)/8mbyte.o tuto1.o $(LIBS)
+
+tuto2: tuto2.o
+	ld $(LDFLAGS) -o tuto2 $(LIBDIR)/8mbyte.o tuto2.o $(LIBS)
+
+for_menu: tuto0.o tuto1.o tuto2.o 
+	ld $(LDFLAGS) -o tuto0 $(LIBDIR)/none2.o tuto0.o $(LIBS)
+	out2x tuto0
+	ld $(LDFLAGS) -o tuto1 $(LIBDIR)/none2.o tuto1.o $(LIBS)
+	out2x tuto1
+	ld $(LDFLAGS) -o tuto2 $(LIBDIR)/none2.o tuto2.o $(LIBS)
+	out2x tuto2
+
+start0: 
+	psxexec tuto0 807ffff0
+
+start1: 
+	psxexec tuto1 807ffff0
+
+start2: 
+	psxexec tuto1 807ffff0
+

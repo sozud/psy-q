@@ -1,0 +1,32 @@
+
+# LIBDIR   = ../../../lib
+# INCDIR   = ../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+TADDR	 = 80080000	
+
+CC       = cc -O2
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+
+OBJS     = tuto0.o cdadd.o
+
+all::	main
+
+main : $(OBJS) 
+	ld $(LDFLAGS) -o tuto0 $(LIBDIR)/8mbyte.o $(OBJS) $(LIBS)
+
+for_menu : $(OBJS) 
+	ld $(LDFLAGS) -o tuto0 $(LIBDIR)/none2.o $(OBJS) $(LIBS)
+	out2x tuto0
+
+start: 
+	psxbload pat16.tim 80010000
+	psxbload pat8.tim  80020000
+	psxbload pat4.tim  80030000
+	psxbload cube3.tmd 80040000
+	psxexec tuto0 807ffff0

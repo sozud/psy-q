@@ -1,0 +1,37 @@
+
+# LIBDIR   = ../../../../lib
+# INCDIR   = ../../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+TADDR	 = 80040000	
+
+RM	= rm -f
+CC       = cc -O2
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+
+OBJS     = 
+
+all::	anim anim2
+
+anim.o:
+	$(CC) $(CFLAGS) -c -o anim.o main.c
+
+anim2.o:
+	$(CC) $(CFLAGS) -DDEAD_PARENT -c -o anim2.o main.c
+
+anim: anim.o
+	ld $(LDFLAGS) -o anim $(LIBDIR)/none2.o anim.o $(LIBS)
+	out2x anim
+
+anim2: anim2.o
+	ld $(LDFLAGS) -o anim $(LIBDIR)/none2.o anim2.o $(LIBS)
+	out2x anim
+
+clean:
+	$(RM) anim anim2  *.o *.exe
+

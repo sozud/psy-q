@@ -1,0 +1,152 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+ 
+ライブラリで使用する構造体
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VabHdr		バンクヘッダ
+────────────────────────────────────
+
+    構造	
+
+	struct VabHdr {		
+		long	        form;			
+		long	        ver;		
+		long	        id;		
+		unsighned long　fsize;		
+		short	        reserved0;		
+		short	        ps;		
+		short	        ts;		
+		short	        vs;		
+		char	        mvol;		
+		char	        pan;		
+		char	        attr1;		
+		char	        attr2;		
+		unsigned long   reserved;	
+	};	
+
+    メンバ	
+
+	form		フォーマットネーム (常に VABp)
+	ver		フォーマットバージョン番号
+	id		バンク (VAB) 番号	
+	fsize		バンクファイルサイズ	
+	reserved0	システム予約	
+	ps		バンクに含まれる全プログラム数	
+	ts		バンクに含まれる全 VAG 属性セット数	
+	vs		バンクにまれる VAG 数	
+	mvol		マスタボリューム	
+	pan		マスタパンレベル	
+	attr1		ユーザ定義可能なバンク属性１	
+	attr2		ユーザ定義可能なバンク属性２
+
+    解説	　
+
+	VAB バンクヘッダは、実行時に扱われる音源データセットのファイル
+        サイズ、含まれる音源の数などの情報が含まれている。
+
+        SsVabOpen() 関数が呼ばれたときにシステムに読み込まれ、SPUのロー
+        カルメモリに波形データが展開される。また、ボイスアロケーション時
+        にボリューム設定やパンニング設定などが参照される。
+
+	VAB、プログラム、VAG の各ヘッダ情報は、ユーザが実行時に変更する
+        ことも可能で、変更した属性値は次のキーオン時からボイスアロケー
+	ションに反映される。
+
+
+
+ProgAtr		プログラムヘッダ
+────────────────────────────────────
+
+    構造	
+
+	struct ProgAtr {		
+		char		tones;		
+		char		mvol;		
+		char		prior;		
+		char		mode;		
+		short		attr;		
+		short		reserved0;		
+		unsigned long	reserved1;		
+		unsigned long	reserved2;	
+	};
+
+    メンバ	
+
+	tones		プログラムに含まれる VAG 属性セットの数		
+	mvol		プログラムのマスタボリューム 	
+	prior		プログラムの優先度（0 ～ 15）	
+	mode		音源モード	
+	attr		プログラム属性	
+	reserved0	システム予約	
+	reserved1	システム予約	
+	reserved2	システム予約
+
+
+
+VagAtr		波形ヘッダ
+────────────────────────────────────
+
+    構造	
+
+	struct VagAtr {	
+		char	prior;		
+		char	mode;		
+		char	vol;		
+		char	pan;		
+		char	center;		
+		char	shift;		
+		char	min;		
+		char	max;		
+		char	vibW;		
+		char	vibT;		
+		char	porW;		
+		char	porT;		
+		char	pbmin;			
+		char	pbmax;		
+		char	reserved1;	
+		short	reserved2;	
+		short	adsr1;		
+		short	adsr2;		
+		short	prog;		
+		short	vag;		
+		short 	reserved [4];
+	}; 
+
+    メンバ	
+	prior		優先度（0～15）
+	mode		音源モード	
+	vol		ボリューム（0～127, 0:min, 127:max）	
+	pan		パンポット (0～127, 0:left,63:center,127:right)	
+	center		センターノート (0～127)	
+	shift		ピッチ補整（0～99, cent 単位）	
+	min		最小ノートリミット 	
+	max		最大ノートリミット 	
+	vibW		ビブラート幅（0 ～ 127, 127 で一オクターブ）	
+	vibT		ビブラートの１周期の時間（tick 単位）	
+	porW		ポルタメント幅	
+	porT		ポルタメント持続時間（tick 単位）	
+	pbmin		最小ピッチベンドリミット	
+	pbmax		最大ピッチベンドリミット	
+	reseaved1	システム予約	
+	reseaved2	システム予約	
+	adsr1		ADSR 設定値　その１		
+	adsr2		ADSR 設定値　その２	
+	prog		この VAG 属性が含まれる親プログラム	
+	vag		この VAG 属性が利用する VAG の ID 番号	
+	reserved [0..3]	システム予約
+
+
+SndVolume	ボリューム
+────────────────────────────────────
+
+    構造	
+	struct SndVolume {		
+		unsigned short left;		
+		unsigned short right;	
+	};
+
+    メンバ	
+
+	left	L チャンネルボリューム値	
+	right	R チャンネルボリューム値
+

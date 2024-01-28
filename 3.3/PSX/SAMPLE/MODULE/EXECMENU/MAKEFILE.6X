@@ -1,0 +1,29 @@
+
+# LIBDIR   = ../../../lib
+# INCDIR   = ../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+TADDR	 = 80010000	
+
+RM	= rm -f
+CC       = cc -O
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e start
+
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+
+OBJS     = menu.o fonttex1.o 
+
+all::	main
+
+main: $(OBJS) 
+	ld $(LDFLAGS) -o menu $(LIBDIR)/none2.o $(OBJS) $(LIBS)
+	out2x menu
+	mv menu.exe execmenu.exe
+
+
+clean:
+	$(RM) tuto0 *.o *.exe
+

@@ -1,0 +1,5 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+ver3.1 よりのバグフィックス
+	・割り込みフラグの変更
+	・StopCallback() のバグフィクス
+	・RestartCallback() の追加（割り込み環境保存)

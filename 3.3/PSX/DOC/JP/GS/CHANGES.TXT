@@ -1,0 +1,77 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+libgs changes
+
+Ver 3.1 からの 変更点
+
+【変更されたヘッダファイル】
+libgs.h
+
+	○ libgsで使っている外部変数を extern宣言した
+
+extern RECT CLIP2;		/* clipping area */
+extern u_short PSDBASEX[2],PSDBASEY[2];	/* double buffer base */
+extern u_short PSDIDX;		/* double buffer index */
+extern u_long  PSDCNT;		/* frame counter for using matrix cache */
+extern _GsPOSITION POSITION;	/* 2d offset */
+extern DRAWENV GsDRAWENV;	/* DRAWENV of Gs */
+extern DISPENV GsDISPENV;	/* DISPENV of Gs */
+extern MATRIX  GsLSMATRIX;	/* Local-Screen Matrix of Gs */
+extern MATRIX  GsWSMATRIX;	/* World-Screen Matrix of Gs */
+extern long    HWD0,VWD0; 	/* rezolution of Holyzontal and Vertical */
+extern MATRIX  GsLIGHTWSMATRIX;	/* World-Screen Light Matrix of Gs */
+extern MATRIX  GsIDMATRIX;	/* Unit Matrix */
+extern MATRIX  GsIDMATRIX2;	/* Unit Matrix including Aspect retio */
+extern PACKET  *GsOUT_PACKET_P;	/* Work Base pointer */
+
+
+makefile
+	-G0 オプションの追加
+
+
+【追加された構造体】
+
+GsFCALL		        GsSortObject5J(),GsSortObject4J()の関数テーブル
+
+
+【追加された関数】
+
+GsScaleScreen		Screen座標系のスケールをワールド座標系に
+			対して変える
+
+GsSetOrign		Offsetを画面の切替を超えて有効にする
+
+GsSortObject5J		GsSortObject5()の関数テーブル版
+
+GsSortObject4J		GsSortObject4()の関数テーブル版
+
+dmyGs...		GsSortObject5J(),GsSortObject4J()に組み込む関数
+			を特定するために使う(DEBUG用)
+
+【追加されたマクロ】
+
+GsIncFrame		フレームバッファの切替をGsSwapDispBuff()で
+			行なってない場合 フレームの切替でコールする必要有り
+
+
+【変更された関数】
+
+GsSetOffset()		GPUオフセットの時PutDrawEnvするように変更
+GsDrawBuffOffset()	GPUオフセットの時PutDrawEnvするように変更
+GsInitGraph()		PALの時に 24line下にずらす
+
+
+【修正された関数】
+
+GsSwapDispBuff()	GPUオフセットの時にGsDRAWENVのoffsetが実際には
+			GPUへ反映されていなかったバグを修正
+
+GsGetLw(),GsGetLs,GsGetLws()
+			マトリックスキャッシュが Ver3.0,Ver3.1で効かなく
+			なっていた 不具合を修正。高速化された。
+
+GsSortObject4(),GsSortObject5()
+			より コード効率をアップし 小さくした。
+
+【削除された関数】
+
+						以上

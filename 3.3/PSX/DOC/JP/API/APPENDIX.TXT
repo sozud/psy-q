@@ -1,0 +1,63 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+
+【DTL-H2000 向けパッチ】
+
+DTL-H2000（PlayStationボード）にはカーネルROMパッチ用の RAM が搭載され
+ています。サービス関数とフォントパタンの実体をこの領域にダウンロードし、
+システムコールにサービス関数を登録するプログラムを実行ファイル 
+patchx.cpe として供給します。このファイルには他の仕様変更ももりこまれ
+ています。詳しくは「DTL-H2000 Update Disk #3」の readme.doc などを参照
+ください。
+
+リセット後、run コマンドで patchx.cpe を実行すると、プログラム中からサー
+ビス関数とフォントパタンが使えるようになります。
+
+フォントパタンのアドレスはゲーム実機とは異なります。（実機では 
+0xbfc66000以上、patchX.cpeでは0x1fa66000以上となります。）よってサービ
+ス関数を経由せずフォントアドレスを直接コードに埋め込むことは避けてくだ
+さい。
+
+
+【使用例】
+
+関数 _get_font() は指定されたシフト JIS コードに対応するフォントパタン
+を VRAM に転送して 16 ビットテクスチャとして使用できる形式に展開したも
+のを返します。
+
+
+unsigned long
+_get( sjis )
+unsigned char *sjis;
+{
+        unsigned short sjiscode;
+
+        sjiscode = *sjis << 8 | *(sjis+1);
+	return Krom2RawAdd(sjiscode);  /* 漢字フォントパタンアドレスの取得 */
+}
+
+#define COLOR 0x4210
+#define BLACK 0x3000
+
+_get_font( s, data )
+char *s;
+unsigned short *data;
+{
+        unsigned short *p, *d, w;
+        long i,j;
+
+        if((p=(unsigned short *)_get(s))!=-1) {
+                d = data;
+                for(i=0;i<15;i++) {
+                       for(j=7;j>=0;j--)
+                                *d++ = (((*p>>j)&0x01)==0x01)?COLOR:BLACK;
+                       for(j=15;j>=8;j--)
+                                *d++ = (((*p>>j)&0x01)==0x01)?COLOR:BLACK;
+                        p++;
+                               }
+                else {
+                        for(d=data,i=0;i<2*16*16;i++)
+                                *d++ = BLACK;
+                }
+	}
+}

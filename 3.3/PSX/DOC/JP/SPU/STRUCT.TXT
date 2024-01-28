@@ -1,0 +1,322 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+
+			PlayStation(R) 基本サウンドライブラリ構造体詳説
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	     Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
+						    All Rights Reserved.
+
+		   $Id: struct.txt,v 1.6 1995/09/07 13:56:38 kaol Exp $
+────────────────────────────────────
+
+
+  SpuVolume
+────────────────────────────────────
+
+    定義
+
+	typedef struct {
+	    short left;
+	    short right;
+	} SpuVolume;
+
+    メンバ	
+
+	left		L チャンネルの値
+	right		R チャンネルの値
+
+    解説	　
+
+	各ボイスの set/get 時に L チャンネル/R チャンネルの値が必要と
+	なる属性に使用する。
+
+    関連構造体
+
+	SpuVoiceAttr, SpuReverbAttr, SpuExtAttr, SpuCommonAttr
+
+    関連関数
+
+	なし
+
+
+  SpuVoiceAttr
+────────────────────────────────────
+
+    定義
+
+	typedef struct {
+	    unsigned long	voice;
+	    unsigned long	mask;
+	    SpuVolume		volume;
+	    SpuVolume		volmode;
+	    SpuVolume		volumex;
+	    unsigned short	pitch;
+	    unsigned short	note;
+	    unsigned short	sample_note;
+	    short		envx;
+	    unsigned long	addr;
+	    unsigned long	loop_addr;
+	    long		a_mode;
+	    long		s_mode;
+	    long		r_mode;
+	    unsigned short	ar;
+	    unsigned short	dr;
+	    unsigned short	sr;
+	    unsigned short	rr;
+	    unsigned short	sl;
+	    unsigned short	adsr1;
+	    unsigned short	adsr2;
+	} SpuVoiceAttr;
+
+    メンバ	
+
+	voice		設定ボイス (値はビット列)
+	mask		設定属性ビット (値はビット列)
+	volume		音量
+	volmode		音量モード
+	volumex		現在の音量
+	pitch		音程 (ピッチ指定)
+	note		音程 (ノート指定)
+	sample_note	音程 (ノート指定)
+	envx		現在のエンベロープの音量値
+	addr		波形データ先頭アドレス
+	loop_addr	ループ開始アドレス
+	a_mode		Attack rate モード
+	s_mode		Sustain rate モード
+	r_mode		Release rate モード
+	ar		Attack rate
+	dr		Decay rate
+	sr		Sustain rate
+	rr		Release rate
+	sl		Sustain level
+	adsr1		構造体 VagAtr の adsr1 と等価
+	adsr2		構造体 VagAtr の adsr2 と等価
+
+    解説
+
+	各ボイスの属性を設定/診断する際に用いられる。ボイス番号は
+	voice のビット値で与え/得られ、設定時に必要なメンバを
+	mask にビット値で設定する。
+
+    関連構造体
+
+	SpuVolume
+
+    関連関数
+
+	SpuSetVoiceAttr, SpuGetVoiceAttr, SpuSetKeyOnWithAttr
+
+
+  SpuReverbAttr
+────────────────────────────────────
+
+    定義
+
+	typedef struct {
+	    unsigned long	mask;
+	    long		mode;
+	    SpuVolume		depth;
+	    long                delay;
+	    long                feedback;
+	} SpuReverbAttr;
+
+
+    メンバ	
+
+	mask		設定マスク		  
+	mode		リバーブモード       
+	depth		リバーブの深さ	  
+	delay		Delay Time (ECHO, DELAY のみ)  
+	feedback	Feedback (ECHO のみ)         
+
+    解説
+
+	リバーブの属性を設定/診断する際に用いられる。設定時に必要な
+	メンバを mask にビット値で設定する。
+
+    関連構造体
+
+	SpuVolume
+
+    関連関数
+
+	SpuSetReverbModeParam, SpuGetReverbModeParam, SpuSetReverbDepth
+
+
+  SpuDecodeData
+────────────────────────────────────
+
+    定義
+
+	#define SPU_DECODEDATA_SIZE 0x200
+	typedef struct {
+	    short cd_left  [SPU_DECODEDATA_SIZE];
+	    short cd_right [SPU_DECODEDATA_SIZE];
+	    short voice1   [SPU_DECODEDATA_SIZE];
+	    short voice3   [SPU_DECODEDATA_SIZE];
+	} SpuDecodeData;
+
+    メンバ	
+
+	cd_left		SPU でデコードされた CD L チャンネルのデータ
+	cd_right	SPU でデコードされた CD R チャンネルのデータ
+	voice1		SPU でデコードされたボイス 1 のデータ
+	voice3		SPU でデコードされたボイス 3 のデータ
+
+    解説
+
+	SPU でデコードされた CD 及びボイス 1, ボイス 3 のデータを
+	取得する際に用いられる。
+
+	実際にデータとして利用できるのは各メンバの前半 0x100 データか
+	後半 0x100 データである。これは関数 SpuReadDecodeData の返り値
+	により判定される。
+
+    関連構造体
+
+	なし
+
+    関連関数
+
+	SpuReadDecodeData
+
+
+  SpuExtAttr
+────────────────────────────────────
+
+    定義
+
+	typedef struct {
+	    SpuVolume	volume;
+	    long	reverb;
+	    long	mix;
+	} SpuExtAttr;
+
+    メンバ	
+
+	volume		音量
+	reverb		リバーブオン/オフ
+	mix		ミキシングオン/オフ
+
+    解説
+
+	CD と外部デジタル入力の属性を設定/診断する際に用いられる。
+
+    関連構造体
+
+	SpuCommonAttr, 	SpuVolume
+
+    関連関数
+
+	SpuSetCommonAttr, SpuGetCommonAttr
+
+
+  SpuCommonAttr
+────────────────────────────────────
+
+    定義
+
+	typedef struct {
+	    unsigned long	mask;
+	    SpuVolume		mvol;
+	    SpuVolume		mvolmode;
+	    SpuVolume		mvolx;
+	    SpuExtAttr		cd;
+	    SpuExtAttr		ext;
+	} SpuCommonAttr;
+
+    メンバ	
+
+	mask		設定マスク		  
+	mvol		マスタ音量		  
+	mvolmode	マスタ音量モード	  
+	mvolx		現在のマスタ音量	  
+	cd		CD 入力属性	  
+	ext		外部デジタル入力属性 
+
+    解説
+
+	共通属性について設定/診断する際に用いられる。設定時に必要な
+	メンバを mask にビット値で設定する。
+
+    関連構造体
+
+	SpuVolume, SpuExtAttr
+
+    関連関数
+
+	SpuSetCommonAttr, SpuGetCommonAttr
+
+
+  SpuStVoiceAttr							+
+────────────────────────────────────+
+									+
+    定義								+
+									+
+	typedef struct {						+
+	    char status;                /* stream status */		+
+	    char pad1;                  /* padding */			+
+	    char pad2;                  /* padding */			+
+	    char pad3;                  /* padding */			+
+	    long last_size;             /* the size of last		+
+					   transferring			+
+					   (last_size <= (size/2)) */	+
+	    unsigned long buf_addr;     /* The start address of stream	+
+					   buffer */			+
+	    unsigned long data_addr;    /* The start address of SPU	+
+					   streaming data in		+
+					   main memory */		+
+	} SpuStVoiceAttr;						+
+									+
+    メンバ								+
+									+
+	status		ストリームの状態				+
+	pad1		padding (現在の版では未使用)			+
+	pad2		padding (現在の版では未使用)			+
+	pad3		padding (現在の版では未使用)			+
+	last_size	最後に転送する波形データのサイズの指定		+
+	buf_addr	ストリームバッファの先頭アドレス		+
+	data_addr 	主記憶内の SPU ストリーミングライブラリに	+
+			使われる波形データ				+
+									+
+    解説								+
+									+
+	SPU ストリーミングライブラリにて、各ストリームの属性を保持する。+
+									+
+    関連構造体								+
+									+
+	SpuStEnv							+
+									+
+    関連関数								+
+									+
+	SpuStInit							+
+
+
+  SpuStEnv								+
+────────────────────────────────────+
+									+
+    定義								+
+									+
+	typedef struct {						+
+	    long size;                  /* The size of stream buffer */	+
+	    SpuStVoiceAttr voice [24];					+
+	} SpuStEnv;							+
+									+
+    メンバ								+
+									+
+	size		ストリームバッファのサイズ			+
+	voice		各ストリームの属性				+
+									+
+    解説								+
+									+
+	SPU ストリーミングライブラリにて、ストリーミング環境、及び各ス	+
+	トリームの属性設定に用いられる。				+
+									+
+    関連構造体								+
+									+
+	SpuStVoiceAttr							+
+									+
+    関連関数								+
+									+
+	SpuStInit							+
+
+────────────────────────────────────

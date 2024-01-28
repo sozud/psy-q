@@ -1,0 +1,44 @@
+PS-X Demonstration Program "bgsample"
+=====================================
+
+・bgsampleはlibgsのＢＧ面の描画関数を使用して、スプライトエディタで
+  作成したＢＧデータの内容を表示するプログラムです。
+
+・実行方法
+	psymake
+	resetps
+	runbg
+
+
+・ファイルの説明
+	makefile.mak	メイクファイル
+	runbg.bat	実行用バッチファイル
+
+	main.c		メインルーチン
+
+	sample.bgd	BGマップデータ
+	sample.cel	BGセルデータ
+	sample.tim	テクスチャデータ
+
+・コントロールパッドの操作は以下の通り。
+
+	十字キー：	スクロール
+
+	○ボタン：	ＢＧサイズ変更：横幅縮小
+	□ボタン：	ＢＧサイズ変更：横幅拡大
+	×ボタン：	ＢＧサイズ変更：高さ縮小
+	△ボタン：	ＢＧサイズ変更：高さ拡大
+
+	L1ボタン：	左回転 ※
+	R1ボタン：	右回転 ※
+	L2ボタン：	縮小 ※
+	R2ボタン：	拡大 ※
+
+	※(回転拡大縮小の操作はGsSortFastBG使用時は不可)
+
+	SELECTボタン：	終了
+
+
+
+		Copyright (C) 1994,1995 by Sony Computer Entertainment
+		All Rights Reserved

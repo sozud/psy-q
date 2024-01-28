@@ -1,0 +1,24 @@
+
+# LIBDIR   = ../../../lib
+# INCDIR   = ../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+TADDR	 = 801ff000
+
+CC       = cc -O
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e main
+
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcomb -letc -lc -lapi
+
+
+OBJS     = cdexec.o
+
+all::	main
+
+main : $(OBJS) 
+	ld $(LDFLAGS) -o cdexec $(LIBDIR)/8mbyte.o $(OBJS) $(LIBS)
+
+start: 
+	psxexec cdexec 807ffff0

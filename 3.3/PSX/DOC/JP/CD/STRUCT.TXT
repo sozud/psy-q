@@ -1,0 +1,54 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+*ライブラリで使用される構造体	
+	
+CdlLOC		CD-ROM ロケーション
+
+	構造	typedef struct {
+			u_char minute;
+			u_char second;
+			u_char sector;
+			u_char track;
+		} CdlLOC;
+	
+	メンバ	minute		分
+		second		秒
+		sector		セクタ
+		track		トラック番号
+
+	解説	CD-ROM の位置指定構造体
+
+	備考	track メンバは現在使用されていない。
+	
+CdlATV		オーディオアッテネータ
+
+	構造	typedef struct {
+			u_char	val0;
+			u_char	val1;
+			u_char	val2;
+			u_char	val3;
+		} CdlATV;
+	
+	メンバ	val0 	CD (L) → SPU (L) への減衰量
+		val1	CD (L) → SPU (R) への減衰量
+		val2 	CD (R) → SPU (L) への減衰量
+		val3	CD (R) → SPU (R) への減衰量
+
+CdlFILE		9660 ファイルディスクリプタ
+
+	構造	typedef struct {
+			CdlLOC	pos;
+			u_long	size;
+			char	name[16];
+		} CdlFILE;
+	
+	メンバ	pos	ファイルポジション
+		size	ファイルサイズ
+		name	ファイル名
+
+	解説	9660 CD-ROM ファイルの位置・サイズを取得する
+
+*構造体一覧	
+
+CdlLOC		CD-ROM ロケーション
+CdlATV		オーディオアッテネータ
+CdlFILE		9660 ファイルディスクリプタ

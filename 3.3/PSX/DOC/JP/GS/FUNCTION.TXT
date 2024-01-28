@@ -1,0 +1,1897 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+グラフィック拡張ライブラリ関数一覧
+------------------------------------------------
+
+
+GsInitGraph	グラフィックスシステムの初期化
+
+	形式	void GsInitGraph（x_res, y_res, intl, dither, vram）
+		int x_res;
+		int y_res;
+		int intl;
+		int dither;
+		int vram;
+
+	引数
+		x_res	水平解像度 (256/320/384/512/640)
+		y_res	垂直解像度 (240/480)
+		intl	インタレーレース表示フラグ(bit 0)
+			　　0:　ノンインタレース
+			    1:　インタレース
+			ダブルバッファのオフセットモード(bit 2)
+			    0:  GTE オフセット
+			    1:  GPU オフセット
+		dither	描画時にディザをかけるかどうか
+			0: OFF、1: ON
+		vram:	VRAM モード　0: 16bit、1: 24bit
+
+	解説	libgpuをリセットしlibgs のグラフィックスシステムを初期化する。
+
+		libgpuの設定は、グローバル変数GsDISPENV,GsDRAWENVによって通知
+		されるので プログラマはそれを参照することでlibgpuの設定を確認
+		及び変更が可能。
+		縦 480ライン のノンインタレースは、VGA モニタ接続時のみ有効。
+		縦 240ライン の時でも上下８ラインは家庭用のテレビではほとんど
+		の場合見えないので注意が必要。
+
+		パルモードの時は 表示位置を24ライン下にずらす。
+
+		ダブルバッファのオフセットモードとは ダブルバッファの
+		オフセットをGTE／GPUどちらで実現するのかを決定する。GPUで実現
+		すればパケットにはダブルバッファのオフセット値は足し込まれ
+		ないので扱いやすい。
+
+		24bit モードではメモリイメージ表示のみが可能であり ポリゴン
+		描画などはできない。
+
+		グラフィックスシステムの初期化は GsIDMATRIX,GsIDMATRIX2の
+		初期化も含むため 全てのGsライブラリ関数は GsInitGraph()を
+		呼んだ後でなければ正常に動作しない。
+
+	返り値  なし
+
+
+
+GsInitGraph2	グラフィックスシステムの初期化(2)
+
+	形式	void GsInitGraph（x_res, y_res, intl, dither, vram）
+		int x_res;
+		int y_res;
+		int intl;
+		int dither;
+		int vram;
+
+	引数
+		x_res	水平解像度 (256/320/384/512/640)
+		y_res	垂直解像度 (240/480)
+		intl	インタレーレース表示フラグ(bit 0)
+			　　0:　ノンインタレース
+			    1:　インタレース
+			ダブルバッファのオフセットモード(bit 2)
+			    0:  GTE オフセット
+			    1:  GPU オフセット
+		dither	描画時にディザをかけるかどうか
+			0: OFF、1: ON
+		vram:	VRAM モード　0: 16bit、1: 24bit
+
+	解説	GsInitGraphとのちがいは GPUをCOLD初期化しないことである。
+		画面の同期を乱さずにlibgsの解像度を買える時などに有効。
+
+	返り値  なし
+
+	備考  最初の１回は必ず GsInitGraph()で設定すること
+
+
+
+GsInit3D	グラフィックスシステムの初期化
+
+	形式	void GsInit3D(void)
+
+	引数	なし
+
+	解説	libgs中の３次元グラフィックスシステムを初期化する。
+		GsSetRefView() や GsInitCoordinat2() や GsSortObject...() 等の
+		３次元処理関数を使用するためには まずこの関数で３次元システム
+		を初期化する必要がある。
+
+		次の処理が実行される。
+		(１)	スクリーンの原点を画面中央に持ってくる
+		(２)	光源をデフォルトの LIGHT_NORMAL にする
+
+	返り値	なし
+
+
+
+GsDefDispBuff	ダブルバッファの定義
+
+	形式	void GsDefDispBuff（x0, y0, x1, y1）
+		int x0, y0;
+		int x1, y1;
+
+	引数	x0, y0	バッファ０原点（左上点）の座標
+		x1, y1	バッファ１原点（左上点）の座標
+
+	解説	ダブルバッファを定義する。
+		(x0, y0)、(x1, y1)はVRAM 内の座標値で指定。デフォルトでは
+		バッファ０は (0, 0)、バッファ１は (0, y_res) となっている。
+
+		y_res は InitGraph() で指定した垂直解像度。(x0, y0)と
+		(x1, y1) を同一の座標値にすると ダブルバッファが解除される。
+		インタレースモードを指定する時に このモードにしておけば
+		偶数フィールドと奇数フィールドのダブルバッファの切替は
+		自動的に行なわれる。
+
+		ダブルバッファの切り換えは GsSwapDispBuff()関数によって
+		行なう。
+
+		ダブルバッファは GPU／GTEのオフセットにより実現されている。
+		libgpu／libgteどちらのオフセットを使用するかはGsInitGraph()で
+		設定する。libgpuのオフセットを使ってダブルバッファを実現する
+		場合パケットには ダブルバッファの左上の点を原点とする座標系での
+		座標値が作られる。
+		一方 libgteオフセットを使用してダブルバッファを実現する場合は
+		パケットにはVRAMの原点（左上の点）を原点とする座標系での
+		座標値が作られる。
+
+	返り値	なし
+
+
+
+GsDefDispBuff2	ダブルバッファの定義
+
+	形式	void GsDefDispBuff（x0, y0, x1, y1）
+		int x0, y0;
+		int x1, y1;
+
+	引数	x0, y0	バッファ０原点（左上点）の座標
+		x1, y1	バッファ１原点（左上点）の座標
+
+	解説	ダブルバッファを定義する。
+		GsDefDispBuffとの違いは 内部の変数を変更するだけであり
+		libgpu,libgteには GsSwapDispBuff()が呼ばれるまで
+		変更が更新されないという点である。
+
+		プログラムの途中で設定を変更する時など画面が乱れない。
+
+	返り値	なし
+
+	備考  最初の１回は必ず GsDefDispBuff()で設定すること
+	
+
+
+GsSwapDispBuff	ダブルバッファの切り替え
+
+	形式	void GsSwapDispBuff(void)
+
+	引数	なし
+
+	解説	DefDispBuff() によって設定されたダブルバッファ情報により、
+		表示バッファと描画バッファを入れ換える。
+		通常は垂直帰線区間突入直後に実行する。
+		また 関数内では次の処理が実行される。
+
+		(１)	表示開始アドレスの設定
+		(２)	ブランキングの解除
+		(３)	ダブルバッファのインデックス設定
+		(４)	２次元クリッピングの切り替え
+		(５)	libgte or libgpuのオフセットの設定
+		(６)	libgs のオフセットの設定
+		(７)	GsIncFrame()を呼ぶ
+
+		注）ダブルバッファはオフセットによって実現されている。
+		libgte or libgpu どちらのオフセットを設定するかは
+		GsInitGraph()の第３引数にGsOFSGPU or GsOFSGTEのマクロにて決定。
+
+	返り値
+		なし
+
+	備考	GPU が描画中の場合、この関数はうまく動作しないので
+		ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。
+
+
+
+GsIncFrame	フレームのIDを更新する
+
+	形式	GsIncFrame()		（マクロ）
+
+	引数	なし
+
+	解説	GsSwapDispBuff()の内部で呼ばれるマクロ。グローバル変数
+		PSDCNTを１インクリメントする。PSDCNTは32bitであるが
+		折り返ったとしても ０にはならなず１からスタートする。
+
+		PSDCNTは GsGetLw(),GsGetLs(),GsGetLws()で マトリックス
+		キャッシュのヴァリディティを判定する時に参照される。
+
+		GsSwapDispBuff()を使わないで ダブルバッファを切り替え
+		かつ GsGetLw(),GsGetLs(),GsGetLws()を利用する場合は
+		直接 このマクロを ダブルバッファの切替の度に 呼ぶ必要が
+		ある。
+
+	関  連	PSDCNT,GsGetLw(),GsGetLs(),GsGetLws(),GsSwapDispBuff()
+
+
+
+GsGetActiveBuff	描画中のバッファ番号の取得
+
+	形式	int GsGetActiveBuff(void)
+
+	引数	なし
+
+	解説	ダブルバッファのインデックスを取得する。インデックス値は
+		０か１のどちらか。
+
+		外部変数 PSDBASEX[],PSDBASEY[]にインデックスを入れることで
+		ダブルバッファのオリジンポイント（左上の座標）のVRAM上の
+		２次元アドレスが分かる。
+
+	返り値	ダブルバッファのインデックス（バッファ０のとき０ バッファ１
+		のとき１）を返す。
+
+
+
+
+GsSetDrawBuffOffset	描画オフセットの更新
+
+	形式	void GsSetDrawBuffOffset(void)
+
+	引数	なし
+
+	解説	描画のためのオフセットを更新する。
+		更新されるオフセット値は、グローバル変数 POSITIONに設定
+		された値が反映される。
+		このオフセットは、ダブルバッファ内の相対的なものであり、
+		ダブルバッファを切り替えてもオフセット値は維持される。
+		次の処理が実行される。
+
+		(１)	libgte or libgpu のオフセット設定
+
+		注）libgte or libgpu どちらのオフセットを設定するかは
+		    GsInitGraph()の第３引数にGsOFSGPU or GsOFSGTEのマクロにて
+		    決定。
+
+	返り値	なし
+
+	備考	GPU が描画中の場合、この関数はうまく動作しないので
+		ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。
+
+
+
+GsSetOffset	オフセットの設定
+
+	形式	void GsSetOffset(offx,offy)
+		int offx
+		int offy
+
+	引数	offx	描画オフセットX
+		offy	描画オフセットY
+
+	解説	描画オフセットを指定する。GsSetDrawBuffOffset()との違いは、
+		GsSetDrawBuffOffset()は グローバル変数 POSITIONの値を設定
+		するが GsSetOffset()は 引数で与えられたオフセットを設定する。
+
+		引数で与えられるオフセットは ダブルバッファ内の相対的なもの
+		である。すなわち実際に設定されるオフセットは 引数で与えられる
+		オフセットにダブルバッファのベースのオフセットを加算したも
+		のである。
+
+		注）libgte or libgpu どちらのオフセットを設定するかは
+		    GsInitGraph()の第３引数にGsOFSGPU or GsOFSGTEのマクロにて
+		    決定。
+
+	返り値	なし
+
+	備考	GPU が描画中の場合、この関数はうまく動作しないので
+		ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。
+
+
+
+GsSetOrign	画面の原点位置の設定
+
+	形式	void GsSetOrign(x,y)
+		int x
+		int y
+
+	引数	x	画面の原点位置のX
+		y	画面の原点位置のY
+
+	解説	描画オフセットを指定する。GsSetOffset()との違いは
+		GsSetOffset()で設定される設定される オフセット値は
+		一時的なものであり GsSwapDispBuff()やGsSetDrawBuffOffset()
+		が呼ばれると設定したオフセットは無効になるのに対して
+		GsSetOrign()で設定されたオフセット値は 次に GsSetOrign()
+		が呼ばれるまで有効であるというところである。
+
+		引数で与えられるオフセットは ダブルバッファ内の相対的なもの
+		である。すなわち実際に設定されるオフセットは 引数で与えられる
+		オフセットにダブルバッファのベースのオフセットを加算したも
+		のである。
+
+		クリッピングにおける GsSetClip2D()と同じ位置づけである。
+
+		注）libgte or libgpu どちらのオフセットを設定するかは
+		    GsInitGraph()の第３引数にGsOFSGPU or GsOFSGTEのマクロにて
+		    決定。
+
+	関連する外部変数
+
+		POSITION	実際にはこの変数のoffx,offyに設定される
+
+	返り値	なし
+
+	備考	GPU が描画中の場合、この関数はうまく動作しないので
+		ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。
+
+
+
+GsSetDrawBuffClip	描画クリッピング領域の更新
+
+	形式	void GsSetDrawBuffClip(void)
+
+	引数	なし
+
+	解説	描画のためのクリップを更新する。GsClip2D() 関数で設定された
+		クリップ値を libgs に更新する。
+		なお、このクリップ値はダブルバッファ内の相対的なものであり、
+		ダブルバッファを切り替えてもクリップの位置は変わらない。
+
+	返り値	なし。
+
+	備考	GPU が描画中の場合、この関数はうまく動作しないので
+		ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。
+		クリッピングは libgpu によって行なわれる。
+
+
+
+GsSetClip	描画クリッピング領域の設定
+
+	形式	void GsSetClip(clip)
+		RECT *clip;
+
+	引数	clip	クリッピング領域を設定するためのRECT構造体の先頭
+
+	解説	描画のためのクリップを設定する。GsSetDrawBuffClip()との
+		違いは、引数によってクリップエリアを指定できるところである。
+
+		なお、このクリップ値はダブルバッファ内の相対的なものであり、
+		ダブルバッファを切り替えてもクリップの位置は変わらない。
+
+	返り値	なし
+
+	備考	クリッピングは libgpu によって行なわれる。
+
+
+
+GsSetClip2	描画クリッピング領域の設定
+
+	形式	DRAWENV *GsSetClip(clip)
+		RECT *clip;
+
+	引数	clip	クリッピング領域を設定するためのRECT構造体の先頭
+
+	解説	描画のクリップを設定するためのパラメータを得る。
+		GsSetClip()との違いは この関数の中では 実際にDRAWENVを
+		設定せず、返り値をで 設定を返すという部分である。
+		libgpuのキューイングは、DRAWENV,DISPENVの環境については
+		実体をコピーしないので キューイングを利用して環境を変えたい
+		場合は この関数の返り値をコピーしてから PutDrawEnv()しなければ
+		ならない。
+
+		なお、このクリップ値はダブルバッファ内の相対的なものであり、
+		ダブルバッファを切り替えてもクリップの位置は変わらない。
+
+	返り値	設定すべきDRAWENVのポインタ
+
+	備考	クリッピングは libgpu によって行なわれる。
+
+
+
+
+GsGetTimInfo	TIMフォーマットのヘッダを調べる
+
+	形式	void GsGetTimInfo(tim, im)
+		unsigned long *tim;
+		GsIMAGE *im;
+
+	引数	tim	TIM データへのポインタ
+		im	イメージ構造体へのポインタ
+
+	解説	引数 tim で指定された TIM フォーマットの情報が im に格納
+		される。
+		TIMデータの先頭とは IDをスキップしたアドレスである。
+		つまり TIMファイルをロードしたらその先頭から４byteオフセット
+		したものである。
+
+	返り値　なし。
+
+
+
+
+GsMapModelingData	TMDデータを実アドレスにマップ
+
+	形式	void GsMapModelingData
+		unsigned long *p;
+
+	引数	p	TMD データの先頭アドレス
+
+	解説	TMD データにはポインタで参照する部分が存在する。
+		TMD データ作成時には メモリのどこにロードされるか確定しない
+		ため TMD データの先頭からのオフセットアドレスが格納されている。
+		GsMapModelingData() 関数は、このオフセットアドレスを
+		実アドレスに変換するもので、TMD データを使用するには この
+		実アドレス変換を まず最初に行なわなければならない。
+
+		TMDデータの先頭アドレスとはIDをスキップしたアドレスである。
+		すなわち TMDファイルをロードしたアドレスに4byteオフセットした
+		アドレスである。
+
+	返り値	なし
+
+	備考	一度実アドレスに変換された TMD データにはフラグが立っているので
+		再度GsMapModelingData() を呼び出しても、副作用は起こらない。
+
+
+
+
+GsLinkObject3	オブジェクトとPMDデータをリンク（GsSortObject3用）
+
+	形式	void GsLinkObject3(pmd, obj_base)
+		unsigned long *pmd;
+		GsDOBJ3 *obj_base;
+
+	引数	pmd		リンクする PMD データの先頭アドレス
+		obj_base	リンクされるオブジェクト構造体の配列
+
+	解説	PMDデータでモデリングされた３次元オブジェクトを、GsDOBJ3
+		でハンドルできるように GsDOBJ3 のオブジェクト構造体と
+		PMDデータに含まれる全てのオブジェクトをリンクする。
+
+	返り値	なし
+
+	備考	GsLinkObject4()と違いPMDデータに含まれるオブジェクトを選択して
+		リンクできない。pmdに含まれる全てのオブジェクトがobj_baseを
+		先頭にするオブジェクトハンドラの配列に オブジェクトの数だけ
+		リンクされる。
+
+
+
+GsLinkObject4	オブジェクトとTMDデータをリンク（GsSortObject4用）
+
+	形式	void GsLinkObject4(tmd, obj_base, n)
+		unsigned long *tmd;
+		GsDOBJ2 *obj_base;
+		unsigned long n;
+
+	引数	tmd		リンクする TMD データの先頭アドレス
+		obj_base	リンクされるオブジェクト構造体の配列
+		n		リンクするオブジェクトのインデックス
+
+	解説	TMD データの３次元オブジェクトを、GsDOBJ2 でハンドルできる
+		ように、GsDOBJ2 のオブジェクト構造体と TMD データ
+		（の n 番目の）	オブジェクトをリンクする。
+
+	返り値	なし
+
+	備考	GsLinkObject4()でリンクされたオブジェクトはGsSortObject4()
+		でパケットを生成する。
+
+
+
+GsLinkObject5	オブジェクトとTMDデータをリンク（GsSortObject5用）
+
+	形式	void GsLinkObject5(tmd, obj_base, n)
+		unsigned long *tmd;
+		GsDOBJ5  *obj_base;
+		unsigned long n;
+
+	引数	tmd		リンクする TMD データの先頭アドレス
+		obj_base	リンクされるオブジェクト構造体の配列
+		n		リンクするオブジェクトのインデックス
+
+	解説	TMDデータでモデリングされた３次元オブジェクトを GsDOBJ5で
+		ハンドルできるようにGsDOBJ5のオブジェクト構造体と
+		TMDデータのn番目のオブジェクトとをリンクする
+
+	返り値	なし
+
+
+
+GsPresetObject	GsDOBJ5型のオブジェクトのプリセットパケットを生成する
+
+	形式	u_long *GsPresetObject(objp,addr)
+		GsDOBJ5 *objp;
+		u_long  *addr;
+
+	引数	objp	プリセットする対象となるオブジェクトへのポインタ
+		addr	プリセットパケットを作成するエリアの先頭アドレス
+
+	解説	プリセットとは、予めオブジェクト全てのポリゴンをパケットとして
+		作っておくことをいう。このメリットは 毎フレーム書き換えなくて
+		もよい部分（例えば テクスチャの U、Vなど）は書き換えをなくし
+		高速化を計るものである。
+
+		GsDOBJ5型のオブジェクトポインタはプリセット専用である。
+
+		返り値は、プリセットしたアドレスの最後の次を指し示すポインタ
+		なので 次のオブジェクトをプリセットする時には 返り値を
+		とっておき新たに次のGsPresetObject()の引数として渡せばよい。
+
+		また どのくらいの領域をプリセット領域として確保すれば良いか
+		は 返り値をみればわかる。
+
+	返り値	プリセットしたアドレスの最後の次を指し示すポインタ
+
+
+
+GsSetRefView2	視点位置の設定
+
+	形式	int GsSetRefView2(pv)
+		GsRVIEW2 *pv;
+
+	引数	pv	視点位置情報（視点注視点型）
+
+	解説　視点情報から WSMATRIX を計算する。パラメータはGsRVIEW2 構造体。
+		視点を動かさなければ WSMATRIXは変わらないのでフレーム毎に呼ぶ
+		必要はない。しかし 視点を動かす場合は フレーム毎に呼ばなければ
+		変更が反映されない。
+
+		GsRVIEW2のメンバのsuperをWORLD以外に設定した場合は 他の
+		パラメータをいじらなくても 親座標系のパラメータが変われば
+		結果的に視点は動いてることになるので この場合はフレーム毎に
+		GsSetRefView2()を呼ぶ必要がある。
+
+	返り値　視点の設定に成功すると０、失敗すると１を返す
+
+
+
+GsSetView2	視点の設定
+
+	形式	int GsSetView2(pv)
+		GsVIEW2 *pv;
+
+	引数	pv	視点位置情報（マトリックス型）
+
+	解説  WSマトリックスを直接設定する。視点を動かす場合
+		GsSetRefView2()では 視点 注視点から WSマトリックスを求める
+		過程で 精度不足による誤差が出てしまう可能性があるので
+		GsSetView2()を使った方が有利である。
+
+		GsVIEW2のメンバのsuperをWORLD以外に設定した場合は 他の
+		パラメータをいじらなくても 親座標系のパラメータが変われば
+		結果的に視点は動いてることになるので この場合はフレーム毎に
+		GsSetRefView2()を呼ぶ必要がある。
+
+		基本となるマトリックスにGsIDMATRIX2を使用すれば 画面の
+		アスペクト比が 自動的に調整される。
+
+	返り値	設定に成功した場合 ０ 失敗した場合 １が返る
+
+
+
+GsSetProjection	投影面位置の設定
+
+	形式	void GsSetProjection(h)
+		unsigned short h;
+
+	引数	h	視点と投影面の距離（プロジェクション）
+			デフォルト 1000
+
+	解説	画角を調整する。
+		プロジェクションとは、視点から投影面への距離のこと。
+		投影面の大きさは GsInitGraph() 関数の (xres, yres) の解像度
+		で設定される。投影面の大きさは解像度により固定なので
+		プロジェクションを大きくすれば画角は狭まり 小さくすれば画角
+		は広がる。
+
+		解像度によっては アスペクト比が１対１にならない場合もある。
+		┌──────┬─────┬───────┬───────┐
+		│解像度      │640x480	  │    640x240	  │    320x240	  │
+		├──────┼─────┼───────┼───────┤
+		│アスペクト比│1:1	  │    2:1	  │    1:1	  │
+		└──────┴─────┴───────┴───────┘
+		この場合は Y座標のスケールが1/2にして アスペクト比を調整する。
+
+
+	返り値	なし
+
+
+
+
+GsSetFlatLight	平行光源の設定
+
+	形式	void GsSetFlatLight(id, lt)
+		unsigned short id;
+		GsF_LIGHT *lt;
+
+	引数	id	光源番号 (0,1,2)
+		lt	光源情報
+
+	解説	平行光源を設定する。光源は３つ（ID = 0, 1, 2）まで設定可能。
+		光源の情報は GsF_LIGHT 構造体によって与えられる。
+
+	返り値	なし
+
+	備考	GsF_LIGHT 構造体の内容を書き替えても、この関数を呼ばなければ
+		設定が libgs に反映されないので注意。
+
+
+
+
+GsSetLightMode	光源モードの設定
+
+	形式	void GsSetLightMode(mode)
+		unsigned short mode;
+
+	引数	mode	光源モード値 (0～3)
+		0: normal lighting
+		1: normal lighting フォグ ON
+		2: material lighting 　　　　　※
+		3: material lighting フォグ ON  ※
+		※　現在未サポート
+
+	解説	デフォルトの光源モードを設定する。
+	　	光源計算の方式は、オブジェクト毎のステータスビットによっても
+		設定可能。
+		ステータスビットによる設定は、デフォルトの設定に優先して
+		採用される。
+
+	返り値　なし
+
+
+
+
+GsSetFogParam	フォグパラメータの設定
+
+	形式	void GsSetFogParam(fogparam)
+		GsFOGPARAM *fogparam;
+
+	引数	fogparam	フォグパラメータ構造体へのポインタ
+
+	解説	フォグパラメータの設定を行なう。フォグが効くのはライトモード１
+		及び３の場合のみ。※
+
+		※　ライトモード３は未サポート
+
+	返り値　なし
+
+
+
+GsSetAmbient	アンビエントカラーの設定
+
+	形式	void GsSetAmbient(r, g, b)
+		unsigned short r, g, b;
+
+	引数	r, g, b		アンビエントカラーの RGB 値 (0～4095)
+
+	解説	周囲光を設定する。設定は r, g, b ごとに 光の当たっていない
+		部分が 光の当たっている部分の何分の１になるかで行なう。
+		1/1 は 4096、1/8 は 4096/８となる。
+
+	返り値　なし
+
+
+
+
+GsInitCoordinate2	ローカル座標系の初期化（GsCOORDINATE2用）
+
+	形式	void GsInitCoordinate2(super, base)
+		GsCOORDINATE2 *super;
+		GsCOORDINATE2 *base;
+
+	引数	super	親座標系へのポインタ
+		base	（初期化する）座標系へのポインタ
+
+	解説	base－＞coord は単位行列に、base－＞super は引数で指定される
+		座標系に 各々初期化される。
+
+	返り値　なし
+
+
+
+
+GsGetLw	ローカルワールドマトリックスを計算
+
+	形式	void GsGetLw(coord,m)
+		GsCOORDINATE2 *coord;
+		MATRIX *m;
+
+	引数	coord	ローカル座標系
+		m	マトリックス
+
+	解説	引数で指定されたマトリックス型座標系 GsCOORDINATE2のcoord
+		から ローカルワールドの透視変換マトリックスを計算し、
+		MATRIX 型構造体 m に結果を格納する。
+
+		また 高速化のために階層座標系の各ノードでの計算結果を保持する。
+		次の GsGetLw() 関数が呼ばれると 変更されてないノードまでの
+		計算が省略される。これは GsCOORDINATE2 の flag によって制御
+		される。libgs は計算済みのGsCOORDINATE2のflag に１を代入する。
+
+		計算省略のアルゴリズムは 親のノードの内容が変更された場合の
+		子の影響は libgsで面倒を見るため 変更したノードの子のノード
+		全てのフラグをクリアする必要はない。
+
+	返り値	なし
+
+
+
+
+GsGetLs	ローカルスクリーンマトリックスを計算
+
+	形式	void GsGetLs(coord, m)
+		GsCOORDINATE2 *coord;
+		MATRIX *m;
+
+	引数	cooord	ローカル座標
+		m	マトリックス
+
+	解説	引数で指定されたマトリックス型座標系 GsCOORDINATE2 の
+		coord から ローカルスクリーンの透視変換マトリックスを
+		計算し MATRIX 型構造体 mに結果を格納する。
+
+		また 高速化のために階層座標系の各ノードでの計算結果を保持する。
+		次のGsGetLs() 関数が呼ばれると 変更されてないノードまでの計算が
+		省略される。これは GsCOORDINATE2 の flag によって制御される。
+		libgs は計算済みのGsCOORDINATE2のflag に１を代入する。
+
+		計算省略のアルゴリズムは 親のノードの内容が変更された場合の
+		子の影響は libgsで面倒を見るため 変更したノードの子のノード
+		全てのフラグをクリアする必要はない。
+
+	返り値　なし
+
+
+
+GsGetLws	ローカルワールド／ローカルスクリーン二つのマトリックスを
+		計算する
+
+	形式	void GsGetLws(coord2,lw,ls)
+		GsCOORDINATE2 *coord2;
+		MATRIX        *lw,*ls;
+
+	引数	coord2	ローカル座標へのポインタ
+		lw	ローカルワールド座標が結果として格納される
+		ls	ローカルスクリーン座標が結果として格納される
+
+	解説	GsGetLws()は、ローカルワールド座標 ローカルスクリーン座標を
+		療法求める関数です。
+		GsGetLw(),GsGetLs()をたて続けに呼ぶより高速である。
+		光源計算を実行時に行なう場合 LightMatrixは、ローカルワールド
+		マトリックスを指定する必要があるため ローカルワールド
+		マトリックスも必要です。このような場合 GsGetLws()で一度に
+		求めた方が高速です。
+
+	返り値	なし
+
+
+
+GsScaleScreen	スクリーン座標系をスケーリングする
+		
+
+	形式	void GsScaleScreen(scale)
+		SVECTOR *scale;
+
+	引数	scale	スケールファクター（12bit固定小数点フォーマット）
+			常に GsSetView2(),GsSetRefView2()で設定した
+			オリジナルのスクリーン座標系に対して ファクター
+			を設定する。vx,vy,vzともにONEをいれることで
+			オリジナルに戻る。
+
+	解説	GsScaleScreenは、スクリーン座標系をワールド座標系に
+		対してスケーリングします。
+
+		ワールド座標系は ３２ビット空間を持つのに対し スクリーン
+		座標系は１６ビットしかありません。よってFarClipが
+		近いなどの問題が生じます。
+
+		これを解決するため スクリーン座標をスケーリングし
+		ワールドに対して より広い領域をカバーするようにするために
+		GsScaleScreen()があります。
+
+		例えば vx,vy,vzにONE/2を指定すると screen座標系は 17bit
+		相当の大きさに拡張されます。ただし 精度は16bitなので
+		下１ビットは 無効になります。
+
+		ここで 注意しなければならないのは スケールの違うスクリーン
+		座標系を 同じスケールでOTに登録してはならないということです。
+	
+		例えば スクリーン座標系のスケールを1/2にしたオブジェクトを
+		登録したOTにノーマルのスケーリングのスクリーン座標系で計算
+		したオブジェクトを登録するには1bit余計にshiftして登録しな
+		なればなりません。
+
+
+	関連する外部変数
+
+		GsWSMATRIX	GsScaleScreenでスケーリングするマトリックス
+		GsWSMATRIX_ORG	GsSetView2,GsSetRevView2でスクリーン座標系
+				を定義した時のWSMATRIXを保持する
+
+	返り値	なし
+
+
+
+GsSetLsMatrix	ローカルスクリーンマトリックスを設定
+
+	形式	void GsSetLsMatrix(mp)
+		MATRIX *mp;
+
+	引数	mp	セットするローカルスクリーンマトリックス
+
+	解説	ローカルスクリーンマトリックスを libgte にセットする。
+		透視変換の処理をlibgteを用いて行なう場合には ローカルスクリーン
+		マトリックスをlibgteに予めセットしておく必要がある。
+		GsSortObject... 関連の関数は libgteを利用して透視変換を
+		しているため その前に GsSetLsMatrixを呼んでおく必要がある。
+
+	返り値	なし
+
+
+
+
+GsSetLightMatrix	ライトマトリックスを設定
+
+	形式	void GsSetLightMatrix(mp)
+		MATRIX *mp;
+
+	引数	mp	マトリックス
+
+	解説	引数で与えられるローカルスクリーンライトマトリックス mp と、
+		３つの光源ベクトルのマトリックスをかけ合わせ libgteに設定する。
+
+		光源計算の処理を 実行時にlibgteを用いて行なう場合は 必ずセット
+		しておく必要がある。GsSortObject... は扱うモデリングデータの
+		種類により実行時に光源計算をするものがある。この場合も 予め
+		GsSetLightMatrix()を使って ライトマトリックスをセットしておく
+		必要がある。
+
+		GsSetLightMatrix()の引数として設定するマトリックスは 通常は
+		ローカルワールドマトリックスである。
+
+	返り値	なし
+
+
+
+GsSetLightMatrix2	ライトマトリックスを設定
+
+	形式	void GsSetLightMatrix(mp)
+		MATRIX *mp;
+
+	引数	mp	マトリックス
+
+	解説	引数で与えられるローカルスクリーンライトマトリックス mp と、
+		３つの光源ベクトルのマトリックスをかけ合わせ libgteに設定する。
+
+		光源計算の処理を 実行時にlibgteを用いて行なう場合は 必ずセット
+		しておく必要がある。GsSortObject... は扱うモデリングデータの
+		種類により実行時に光源計算をするものがある。この場合も 予め
+		GsSetLightMatrix()を使って ライトマトリックスをセットしておく
+		必要がある。
+
+		GsSetLightMatrix()の引数として設定するマトリックスは 通常は
+		ローカルワールドマトリックスである。
+
+	返り値	なし
+
+	備考	GsSetLightMatrix()との違いは GTEの回転マトリックス
+		及び 引数で与えられるmpを壊すか壊さないかである。
+		GsSetLightMatrix2()は壊すかわりにGsSetLightMatrix()より
+		高速である。
+		GsSetLightMatrix()は GsSetLsMatrix()よりも前に呼ばなければ
+		ならない。
+
+
+GsClearOt	OTの初期化
+
+	形式	void GsClearOt(offset, point, otp)
+		unsigned short offset;
+		unsigned short point;
+		GsOT *otp;
+
+	引数	offset	オーダリングテーブルのオフセット値
+		point	オーダリングテーブルの代表値Ｚ
+		otp	オーダリングテーブルへのポインタ
+
+	解説	otp で示されるオーダリングテーブルを初期化する。
+		offset はそのオーダリングテーブルの先頭のＺの値。
+		point は そのオーダリングテーブルを、他のオーダリングテーブルに
+		組み込ませる時に参照されるＺ。
+		また、clear するサイズを確定するため OTのlengthをあらかじめ
+		指定しておかなければならない。
+
+	返り値　なし
+
+
+
+GsDrawOt	OTに割り付けられた描画コマンドの実行
+
+	形式	void GsDrawOt(otp)
+		GsOT *otp;
+
+	引数	otp	OT へのポインタ
+
+	解説　otpで示されるOTに登録された描画コマンドの実行を開始する。
+		描画処理はバックグラウンドで行なわれるため GsDrawOt()はすぐに
+		リターンする。
+
+	備考	GPU が描画中の場合、この関数はうまく動作しないので
+		ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。
+
+	返り値　なし
+
+
+
+
+GsSortObject3	objectをオーダリングテーブルに割り付け
+
+	形式	void GsSortObject3(objp, otp, shift)
+		GsDOBJ3 *objp;
+		GsOT *otp;
+		long shift;
+
+	引数	objp	オブジェクトへのポインタ
+		otp	OT へのポインタ
+		shift	OT への割り付け時にＺの値を何ビット右にシフトさせ
+			るかを設定
+
+	解説	GsDOBJ3 でハンドルされる３次元オブジェクトに対して透視変換及び
+		光源計算を行ない、描画コマンドを PMDフォーマット内のパケット
+		メモリへ生成する。
+
+		続いて生成された描画コマンドをＺソートしotp で示されるOTに割り
+		付ける。
+	
+		また、Ｚの精度は shift の値によって調整可能。
+		オーダリングテーブルの大きさ（解像度）の最大値は 14 ビットだが
+		これを例えば 12 ビットにした場合は、shift の値を（＝14－12）
+		としオーダリングテーブルの領域をオーバーしないようにしなけれ
+		ばならない。
+
+	返り値　なし
+
+
+
+
+GsSortObject4	objectをオーダリングテーブルに割り付け
+
+	形式	void GsSortObject4(objp, otp, shift,scratch)
+		GsDOBJ2 *objp;
+		GsOT *otp;
+		long shift;
+		u_long *scratch;
+
+	引数	objp	オブジェクトへのポインタ
+		otp	OT へのポインタ
+		shift	OT への割り付け時にＺの値を何ビット右にシフトさせ
+			るかを設定
+		scratch	スクラッチパッドのアドレスを指定
+
+	解説　GsDOBJ2 でハンドルされる３次元オブジェクトに対して透視変換及び
+		光源計算を行ない描画コマンドを GsSetWorkBase()で指定される
+		パケットエリアに生成する。
+
+		続いて、生成された描画コマンドをＺソートしotp で示される OT
+		に割り付ける。
+
+		またＺの精度は shiftの値によって調整可能。オーダリングテーブル
+		の大きさ（解像度）の最大値は 14 ビットだが、これを例えば 12
+		ビットにした場合は、shift の値を 2（＝14－12）としオーダリング
+		テーブルの領域をオーバーしないようにしなければならない。
+
+		scratchは、自動分割を行なう時にワークとして使用される。
+		attributeで分割を有効にするには libgs.hのマクロ GsDIV1
+		～GsDIV5を OR すればよい。GsDIV1の時は１ポリゴンを2x2の
+		４分割に、GsDIV5の時は 32x32の1024分割になる。
+
+		スクラッチパッドとはキャッシュメモリのことで0x1f800000から
+		２５６ワードが実装されている。
+
+	返り値　なし
+
+
+
+GsSortObject4J	objectをオーダリングテーブルに割り付け(関数TALBE版）
+
+	形式	void GsSortObject4J(objp, otp, shift,scratch)
+		GsDOBJ2 *objp;
+		GsOT *otp;
+		long shift;
+		u_long *scratch;
+
+	引数	objp	オブジェクトへのポインタ
+		otp	OT へのポインタ
+		shift	OT への割り付け時にＺの値を何ビット右にシフトさせ
+			るかを設定
+		scratch	スクラッチパッドのアドレスを指定
+
+	解説　全ての下位関数を登録した場合の機能はGsSortObject4()と同等
+		加えて テーブルに登録する関数を プログラマが制御できるため
+		不必要な下位関数を呼ばないようにしてコード効率をあげることが
+		できる。
+
+		プロトタイピングにGsSortObject4()を使い 最終的には
+		GsSortObject4J()に変えて メモリを節約することができる。
+
+		最大で 40kbyte 程度 節約できる。
+
+		GsFCALL4の登録しないスロットには 取り敢えずdmyを先頭に
+		つけた関数名を書いておけば 万が一その下位関数が呼ばれた
+		としても BUS ERRORを起こすことはなく 最初にその関数が呼ばれ
+		た時 関数名をprint outするので dmyをとって登録すれば良い。
+
+	返り値　なし
+
+	関連する外部変数
+
+		GsFCALL4	GsSortObject4J()が参照する関数テーブル
+
+
+
+GsSortObject5	objectをオーダリングテーブルに割り付け
+
+	形式	void GsSortObject5(objp, otp, shift,scratch)
+		GsDOBJ5 *objp;
+		GsOT *otp;
+		long shift;
+		u_long *scratch;
+
+	引数	objp	オブジェクトへのポインタ
+		otp	OT へのポインタ
+		shift	OT への割り付け時にＺの値を何ビット右にシフトさせ
+			るかを設定
+		scratch	スクラッチパッドのアドレスを指定
+
+	解説　GsDOBJ5 でハンドルされる３次元オブジェクトに対して透視変換及び
+		光源計算を行ない 描画コマンドを分割しないものはプリセット
+		パケット領域へ、分割するものはGsSetWorkBase()で指定される
+		パケットエリアに生成する。
+	
+		続いて生成された描画コマンドをＺソートしotp で示される OTに
+		割り付ける。
+
+		また Ｚの精度はshiftの値によって調整可能。オーダリングテーブル
+		の大きさ（解像度）の最大値は 14 ビットだが これを例えば 12
+		ビットにした場合は、shift の値を 2（＝14－12）とし オーダリング
+		テーブルの領域をオーバーしないようにしなければならない。
+
+		scratchは 自動分割を行なう時にワークとして使用される。
+		attributeで分割を有効にするには libgs.hのマクロ
+		GsDIV1～GsDIV5を OR する。GsDIV1の時は１ポリゴンを2x2の４分割に
+		GsDIV5の時は 32x32の1024分割になる。
+
+		スクラッチパッドとは、キャッシュメモリのことで、0x1f800000から
+		２５６ワードが実装されている。
+
+	返り値　なし
+
+
+
+GsSortObject5J	objectをオーダリングテーブルに割り付け(関数TALBE版）
+
+	形式	void GsSortObject5J(objp, otp, shift,scratch)
+		GsDOBJ5 *objp;
+		GsOT *otp;
+		long shift;
+		u_long *scratch;
+
+	引数	objp	オブジェクトへのポインタ
+		otp	OT へのポインタ
+		shift	OT への割り付け時にＺの値を何ビット右にシフトさせ
+			るかを設定
+		scratch	スクラッチパッドのアドレスを指定
+
+	解説　全ての下位関数を登録した場合の機能はGsSortObject5()と同等
+		加えて テーブルに登録する関数を プログラマが制御できるため
+		不必要な下位関数を呼ばないようにしてコード効率をあげることが
+		できる。
+
+		プロトタイピングにGsSortObject5()を使い 最終的には
+		GsSortObject5J()に変えて メモリを節約することができる。
+
+		最大で 40kbyte 程度 節約できる。
+
+		GsFCALL5の登録しないスロットには 取り敢えずdmyを先頭に
+		つけた関数名を書いておけば 万が一その下位関数が呼ばれた
+		としても BUS ERRORを起こすことはなく その関数が最初に呼ばれ
+		た時 関数名をprint outするので print outされたらdmyをとって
+		登録すれば良い。
+
+	返り値　なし
+
+	関連する外部変数
+
+		GsFCALL5	GsSortObject5J()が参照する関数テーブル
+
+
+
+GsMulCoord0	MATRIXの乗算
+
+	形式	void GsMulCoord2(m1, m2,m3)
+		MATRIX *m1,*m2,*m3;
+
+	引数	m1, m2	マトリックス
+
+	解説	translation も考慮した MATRIX の乗算を行なう。
+		結果は m2 に 格納される。
+
+		m3＝m1×m2
+
+	返り値　なし
+
+
+
+GsMulCoord2	MATRIXの乗算
+
+	形式	void GsMulCoord2(m1, m2)
+		MATRIX *m1,*m2;
+
+	引数	m1, m2	マトリックス
+
+	解説	translation も考慮した MATRIX の乗算を行なう。
+		結果は m2 に 格納される。
+
+		m2＝m1×m2
+
+	返り値　なし
+
+
+
+GsMulCoord3	MATRIXの乗算
+
+	形式	void GsMulCoord3(m1,m2)
+		MATRIX *m1,*m2;
+
+	引数	m1, m2	マトリックス
+
+	解説	translation も 考慮した MATRIX の乗算を行なう。
+		結果は m1 に格納される。
+
+		m1＝m1×m2
+
+	返り値	なし
+
+
+
+GsSetWorkBase	描画コマンドを格納するアドレスを設定
+
+	形式	void GsSetWorkBase(base_addr)
+		PACKET *base_addr;
+
+	引数	base_addr	描画コマンドを格納するアドレス
+
+	解説	GsSortObject...() GsSrotSprite() GsSortBg() などの関数が
+		生成する描画プリミティブを格納するメモリの番地を設定する。
+	
+		各フレームの処理の初めで ユーザが確保したパケット領域の
+		先頭アドレスに設定しなければならない
+
+	返り値	なし
+
+
+
+GsGetWorkBase	現在の描画コマンドを格納するアドレスを取得
+
+	形式	PACKET *GsGetWorkBase(void)
+
+	引数	なし
+
+	解説　現在の描画プリミティブパケットの生成アドレスを取得する。
+		未使用領域の先頭アドレスが取得できる。
+
+	返り値　次の描画プリミティブパケットを作成するアドレス。
+
+
+
+GsSortClear	画面クリアコマンドをOTに登録
+
+	形式	void GsSortClear(r, g, b, otp)
+		unsigned char r, g, b;
+		GsOT *otp;
+
+	引数	r, g, b		バックグラウンドカラーの RGB 値
+		otp		OT へのポインタ
+
+	解説	otp で示される OT の先頭に画面クリアコマンドをセットする。
+
+	返り値	なし
+
+	備考	あくまでもクリアコマンドをオーダリングテーブルに登録
+		するだけであり GsDrawOt() 関数で描画を開始しなければクリア
+		は実行されない。
+
+
+
+GsClearDispArea	画面をクリアする
+
+	形式	GsClearDispArea(r,g,b)
+		unsigned char r,g,b;
+
+	引数	r,g,b		バックグラウンドカラーのRGB 値
+
+	解説	IOで描画領域をクリアする
+
+	備考	GsSortClearと異なりGsClearDispArea()は この関数を
+		呼んだ時点で クリア命令が発行される
+
+
+
+GsA4divTG4L,GsA4divTG3LFG,GsA4divTG4NL	GsSortObject4J()の下位関数群（自動分割を行なう）
+
+	形式	PACKET *GsA4divF3L(TMD_P_F3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divF3LFG(TMD_P_F3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divF3NL(TMD_P_F3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divF4L(TMD_P_F4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divF4LFG(TMD_P_F4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divF4NL(TMD_P_F4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divFT3L(TMD_P_TF3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divFT3LFG(TMD_P_TF3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divFT3NL(TMD_P_TF3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divFT4L(TMD_P_TF4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divFT4LFG(TMD_P_TF4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divFT4NL(TMD_P_TF4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divG3L(TMD_P_G3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divG3LFG(TMD_P_G3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divG3NL(TMD_P_G3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divG4L(TMD_P_G4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divG4LFG(TMD_P_G4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divG4NL(TMD_P_G4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divGT3L(TMD_P_TG3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divGT3LFG(TMD_P_TG3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divGT3NL(TMD_P_TG3 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divGT4L(TMD_P_TG4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+	
+	形式	PACKET *GsA4divGT4LFG(TMD_P_TG4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divGT4NL(TMD_P_TG4 *op,VERT *vp,VERT *np,
+			PACKET *pk,int n,int shift,GsOT *ot,u_long *scratch);
+
+	
+
+	引数	op      TMDデータのプリミティブ先頭アドレス
+	      	vp      TMDデータのバーテックス先頭アドレス
+	      	np      TMDデータのノーマル先頭アドレス
+	      	n       プリミティブの数
+	      	shift   OTにソートする際のshiftするbit数
+	      	ot      GsOTへのポインタ
+	      	scratch 未使用のscratch pad の先頭アドレス
+
+	解説	Z値やポリゴンの大きさなどに応じて 能動的に自動分割を行なう。
+
+		使用するためには GsFCALL4に下位関数として登録し GsDOBJ4
+		のattributeに分割数を指定する。
+
+		一つ一つの関数の コード量が比較的多いため 必要なポリゴン
+		の種類のみを登録した方が コード効率が良い。
+
+		分割の条件として Z値 、ポリゴンの大きさ 及び GTE計算の
+		オーバーフローフラグがある。GsSetAzwh(az,aw,ah)マクロによって
+		設定する。
+
+		能動的分割のアルゴリズムは 以下の通りです。
+
+		１ azより遠くで GTE計算でオーバーフローしないものは
+		   分割しない。
+
+		２ １以外の場合 分割を行なう。（３を呼ぶ）
+
+		３ ポリゴンの大きさが aw,ahを越えず GTE計算でオーバーフロー
+		   しないものは そこで分割を打ち切る。
+		   それ以外は X方向 Y方向 1/2にし４片に分割して ３を再帰的
+		   に呼び出す。分割の最大値 (attributeの分割数）に達したら
+		   そこで分割を打ち切る。
+
+	返り値	未使用のpacket領域の先頭アドレス
+	
+	備考	従来の固定分割方式を使う場合は GsTMDdiv系関数群を
+		GsFCALL4に登録する。
+
+	関  連	GsTMDdiv... ,GsSetAzwh
+
+
+
+GsA4divNG3,GsA4divNG4,GsA4divTNG3,GsA4divTNG4	GsSortObject4J()の下位関数群（自動分割を行なう）
+
+	形式	PACKET *GsA4divNF3(TMD_P_NF3 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divNF4(TMD_P_NF4 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divTNF3(TMD_P_TNF3 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divTNF4(TMD_P_TNF4 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divNG3(TMD_P_NG3 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divNG4(TMD_P_NG4 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divTNG3(TMD_P_TNG3 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	形式	PACKET *GsA4divTNG4(TMD_P_TNG4 *op,VERT *vp,PACKET *pk,
+				  int n,int shift,GsOT *ot,u_long *scratch);
+
+	引数	op      TMDデータのプリミティブ先頭アドレス
+	      	vp      TMDデータのバーテックス先頭アドレス
+	      	n       プリミティブの数
+	      	shift   OTにソートする際のshiftするbit数
+	      	ot      GsOTへのポインタ
+	      	scratch 未使用のscratch pad の先頭アドレス
+
+	解説	Z値やポリゴンの大きさなどに応じて 能動的に自動分割を行なう。
+
+		使用するためには GsFCALL4に下位関数として登録し GsDOBJ4
+		のattributeに分割数を指定する。
+
+		一つ一つの関数の コード量が比較的多いため 必要なポリゴン
+		の種類のみを登録した方が コード効率が良い。
+
+		分割の条件として Z値 、ポリゴンの大きさ 及び GTE計算の
+		オーバーフローフラグがある。GsSetAzwh(az,aw,ah)マクロによって
+		設定する。
+
+		能動的分割のアルゴリズムは 以下の通りです。
+
+		１ azより遠くで GTE計算でオーバーフローしないものは
+		   分割しない。
+
+		２ １以外の場合 分割を行なう。（３を呼ぶ）
+
+		３ ポリゴンの大きさが aw,ahを越えず GTE計算でオーバーフロー
+		   しないものは そこで分割を打ち切る。
+		   それ以外は X方向 Y方向 1/2にし４片に分割して ３を再帰的
+		   に呼び出す。分割の最大値 (attributeの分割数）に達したら
+		   そこで分割を打ち切る。
+
+	返り値	未使用のpacket領域の先頭アドレス
+
+	備考	従来の固定分割方式を使う場合は GsTMDdiv系関数群を
+		GsFCALL4に登録する。
+
+	関  連	GsTMDdiv... ,GsSetAzwh
+
+
+
+GsSetAzwh	能動的自動分割の条件を設定する
+
+	形式	GsSetAzwh(int z,short w,short h)
+
+	引数	z  : 分割ルーチンを起動させるための臨界 near Z値
+		w,h: 分割ルーチンの中でこれ以上分割しないポリゴンの大きさ
+
+	解説	能動的自動分割の条件を設定する。
+		z は 分割を開始する near Z値
+		w,hは 分割を停止させるためのポリゴンの大きさ
+		をあらわす。 上の項参照のこと
+
+
+
+GsSortSprite,GsSortFastSprite	スプライトをOTに登録
+
+	形式	void GsSortSprite(sp, otp, pri)
+		GsSPRITE *sp;
+		GsOT *otp;
+		unsigned short pri;
+
+
+	形式	void GsSortFastSprite(sp, otp, pri)
+		GsSPRITE *sp;
+		GsOT *otp;
+		unsigned short pri;
+
+	引数	sp	スプライトへのポインタ
+		otp	OT へのポインタ
+		pri	OT での位置
+
+	解説	sp で示されるスプライトを、otp で示されるオーダリングテーブルに
+		割り付ける。
+
+		スプライトの表示位置等のパラメータは全て、sp のメンバで与える。
+		pri はそのスプライトのオーダリングテーブル上での優先順位。	
+		優先順位は最高値が０で最低値はそのオーダリングテーブルの
+		大きさに依存する。オーダリングテーブルの大きさ以上の数値は、
+		そのオーダリングテーブルの取り得る最大値にクリップされる。
+	　	また、GsSortFastSprite() は、拡大回転縮小の機能が使えなくなる
+		ものの、高速に処理される。
+		この時スプライト構造体のメンバのうち、mx, my,scalex, scaley,
+		rotate の値は無視される。
+
+	返り値　なし
+
+
+
+GsSortBg, GsSortFastBg	BGをOTに登録
+	
+	形式	void GsSortBg(bg, otp, pri)
+		GsBG 		*bg;
+		GsOT 		*otp;
+		unsigned short	 pri;
+
+		void GsSortFastBg(bg, otp, pri)
+		GsBG 		*bg;
+		GsOT 		*otp;
+		unsigned short	 pri;
+
+	引数	bg	BG へのポインタ
+		otp	OT へのポインタ
+		pri	OT での位置
+
+	解説	bg で示される BG を、otp で示されるオーダリングテーブルに
+		割り付ける。
+
+		pri はそのスプライトのオーダリングテーブル上での優先順位。
+		優先順位は最高が０で最低はそのオーダリングテーブルの大きさに
+		依存する。
+	
+		オーダリングテーブルの大きさ以上の数値は、そのオーダリング
+		テーブルの取り得る最大値にクリップされる。
+
+		また、bg の持つアトリビュートの内、拡大回転機能が OFF
+		になっていると処理が高速化される。
+
+	　	また、GsSortFastBg() は、拡大回転縮小の機能が使えなく
+		なるものの、高速に処理される。この時スプライト構造体の
+		メンバのうち、mx, my,scalex, scaley,rotate の値は無視
+		される。
+
+	返り値	なし
+
+
+
+GsInitFixBG16, GsInitFixBg32	高速BGの作業領域を初期化
+
+	形式	void GsInitFixBg16(bg, work);
+			GsBG *bg;
+			ungigned long *work;
+
+		void GsInitFixBg32(bg, work);
+			GsBG *bg;
+			ungigned long *work;
+
+	引数	bg	GsBGへのポインタ
+		work	作業領域（プリミティブ領域）へのポインタ。
+
+	解説	GsSortFixBg16/GsSortFixBg32()関数で使用する作業領域を
+		初期化します。必要となる配列の大きさは画面のモードによっ
+		て異なります。
+
+		大きさ(単位はlong） = (((ScreenW/CellW+1)*(ScreenH/CellH+1+1)*6+4)*2+2)
+	
+		ScreenH: 画面の縦ドット数(240/480)
+		ScreenW: 画面の横ドット数(256/320/384/512/640)
+		CellH:	 セルの高さ（ピクセル数）
+		CellW:	 セルの横幅（ピクセル数）
+
+		GsInitFixBg16()/GsInitFixBg32()は一度実行すれば毎フレー
+		ム実行する必要はありません。
+
+	返り値	なし
+
+
+
+GsSortFixBG16, GsSortFixBg32	高速BGをOTへ登録
+
+	形式	void GsSortFixBg16(bg, work, otp, pri);
+			GsBG *bg;
+			unsigned long *work;
+			GsOT *otp;
+			unsigned short pri;
+
+		void GsSortFixBg32(bg, work, otp, pri);
+			GsBG *bg;
+			unsigned long *work;
+			GsOT *otp;
+			unsigned short pri;
+
+	引数	bg	GsBGへのポインタ
+		work	作業領域（プリミティブ領域）へのポインタ。
+		otp	OTへのポインタ
+		pri	OTでの位置
+
+
+	解説	高速のBG登録処理を行ないます。GsSortFastBg()に比べて
+		CPUの負荷が低減されていますがいくつかの制約があります。
+
+		・BGの回転／拡大／縮小は不可
+		・セルサイズ固定
+		   （GsSortFixBG16は16×16, GsSortFixBg32は32×32）
+		・テクスチャパターンの色モードは4bit/8bitのみ
+		・マップサイズは任意
+		・スクロール可（１ピクセル単位）
+		・フルスクリーンのみ
+	
+		この関数は描画プリミティブを格納するための作業領域を必
+		要とします。unsigned long型の配列として用意し、あらか
+		じめGsInitFixBg16()/GsInitFixBg32()で初期化をしておく
+		必要があります。なお、Packet Area (GsSetWorkBase()で設
+		定する領域）は使用しません。
+
+	返り値	なし
+
+
+
+GsSortLine, GsSortGLine	直線をOTへ登録
+
+	形式	void GsSortLine(lp, otp, pri)
+		GsLINE *lp;
+		GsOT *otp;
+		unsigned short pri;
+
+	形式	void GsSortGLine(lp, otp, pri)
+		GsGLINE *lp;
+		GsOT *otp;
+		unsigned short pri;
+
+	引数	lp	GsLINE/GsGLINE へのポインタ
+		otp	OT へのポインタ
+		pri	OT での位置
+
+	解説	lp で示される直線を、otp で示されるオーダリングテーブルに
+		割り付ける。
+	
+		GsSortLine() では単一色の直線を GsSortGLine()ではグラデーション
+		のかかった直線をそれぞれ OT に登録する。
+
+	返り値　なし
+
+
+
+GsSortBoxFill	矩形をOTへ登録
+
+	形式	void GsSortBoxFill(bp, otp, pri)
+		GsBOXF *bp;
+		GsOT *otp;
+		unsigned short pri;
+
+	引数	bp	GsBOXF へのポインタ
+		otp	OT へのポインタ
+		pri	OT での位置
+
+	解説	bp で示される矩形を otp で示されるオーダリングテーブルに
+		割り付ける。
+
+	返り値	なし
+
+
+
+GsSortPoly	ポリゴン描画プリミティブをOTへ登録
+
+	形式	void GsSortPoly(prim, otp, pri)
+		void *prim;
+		GsOT *otp;
+		unsigned short pri;
+
+	引数	prim	描画プリミティブへのポインタ
+		otp	OT へのポインタ
+		pri	OT での位置
+
+	解説	prim で示される描画プリミティブを、otp で示される
+		オーダリングテーブルに割り付ける。
+
+		ここでいう描画プリミティブは、libgpu で定義されている
+		プリミティブのうちポリゴンのみ (POLY_...)を差す。
+
+		libgs では、プリミティブ構造体の内容はパケット生成領域
+		にコピーされるためダブルバッファリングの必要はない。
+
+		また描画の座標値は libgsで扱う描画座標系に合わせられるように
+		なっている。
+
+	返り値	なし
+
+
+
+GsSortOt	OTを他のOTへ割り付け
+
+	形式	GsOT *GsSortOt(ot_src, ot_dest)
+		GsOT *ot_src;
+		GsOT *ot_dest;
+
+	引数	ot_src		割り当て元 OT へのポインタ
+		ot_dest		割り当て先 OT へのポインタ
+
+	解説	ot_src によって示される OT を、ot_dest へ割り当てる。
+		このとき使用される OTZ の値は、ot_src の point フィールドに
+		ある代表値である。統合化された OT は ot_dest に代入される。
+
+	返り値	統合化された OT へのポインタ。
+
+
+
+GsCutOt	OTの独立化
+
+	形式	OT *GsCutOt(ot_src, ot_dest)
+		GsOT *ot_src;
+		GsOT *ot_dest;
+
+	引数	ot_src	元 OT へのポインタ
+		ot_dest	先 OT へのポインタ
+
+	解説	ot_src で示される OT に登録された描画コマンドを抽出し 元の
+		OTから切り離す。
+
+		ot_dest の tag に切り離された描画コマンドへのポインタが格納
+		される。
+
+		また、ot_dest の length は０になり、org は NULL になる。
+		この関数を呼んだ後であれば、ot_src をクリアしても、ot_dest
+		を使ってOT にアクセスできる。
+
+	返り値　ot_dest の先頭アドレス。
+
+
+
+
+
+GsSetClip2D	２次元クリッピングの設定
+
+	形式	void GsSetClip2D(rectp)
+		RECT *rectp;
+
+	引数	rectp	クリップする領域
+
+	解説	RECT で示されるエリアをクリッピング領域として設定する。
+		この設定はダブルバッファの影響を受けないため、一度設定すれば
+		ダブルバッファが切り替わっても自動的に同じエリアがクリップ
+		される。
+		この設定を直後に有効にするには GsSetDrawBuffClipを呼ぶ必要
+		がある。
+	　	GsSetDrawBuffClip()を明示的に呼ばなければ次のフレームから設定が
+		有効になる。
+
+	返り値　なし
+
+
+
+GsInitVcount	垂直帰線カウンタの初期化
+
+	形式	void GsInitVcount(void)
+
+	引数	なし
+
+	解説	垂直帰線カウンタを初期化し スタートさせる。
+
+	返り値	なし
+
+
+
+GsClearVcount	垂直帰線カウンタのクリア
+
+	形式	void GsClearVcount(void)
+
+	引数　なし
+
+	解説　垂直帰線カウンタをクリアする。
+
+	返り値　なし
+
+
+
+GsGetVcount	垂直帰線カウンタの値の取得
+
+	形式	long GsGetVcount(void)
+
+	引数	なし
+
+	解説　垂直帰線カウンタの値を得る。
+
+	返り値　垂直帰線カウンタの値
+
+
+
+GsInitObjTable2	オブジェクトテーブルの初期化
+
+	形式	void GsInitObjTable2
+			(obj_tbl, obj_area, obj_coord,obj_cparam, nobj)
+		GsOBJTABLE2 	*obj_tbl;
+		GsDOBJ2 		*obj_area;
+		GsCOORDINATE2	*obj_coord;
+		GsCOORD2PARAM	*obj_cparam;
+		long		nobj;
+
+	引数	obj_tbl		オブジェクトテーブルへのポインタ
+		obj_area		GsDOBJ2 の配列へのポインタ
+		obj_coord		GsCOORDINATE2 の配列へのポインタ
+		obj_cparam		GsCOORD2PARAM の配列へのポインタ
+		nobj		最大オブジェクト数（配列の大きさ）
+
+	解説	obj_tbl で表示されたオブジェクトテーブルの初期化、obj_area
+		で示されたGsDOBJ2 型の配列内の３次元オブジェクトの初期化を
+		行なう。
+
+		初期化されたオブジェクトには次のようなパラメータがセット
+		される。
+
+			ID 番号		GsOBJ_UNDEF( = 0xFFFFFFFF)
+			親オブジェクト	WORLD( = 0)
+			TMD アドレス	0
+			座標系		obj_coord の指す配列の同一順の要素
+
+		ID 管理されるオブジェクトはそれぞれ１つずつ座標系を持つため
+		obj_tblと同じ大きさの GsCOORDINATE2 と GsCOORD2PARAM の配列を
+		用意し それぞれ同じ順の要素が対応するように初期化される。
+
+	返り値	なし
+
+
+
+GsSearchObjByID2	オブジェクトの検索
+
+	形式	GsDOBJ2 *GsSearchObjByID2(*table, id);
+		GsOBJTABLE2 *table;
+		unsigned long id;
+
+	引数	table	オブジェクトテーブルへのポインタ
+		id	検索するオブジェクトの ID 番号
+
+	解説	table で示されるオブジェクトテーブルから id で指定した
+		ID 番号を持つオブジェクトを検索しそのアドレスを返す。
+
+	返り値	該当オブジェクトへのポインタ。見つからなかった場合は
+		NULL を返す。
+
+
+
+GsCreateNewObj2	新規オブジェクトの生成
+
+	形式	GsDOBJ2 *GsCreateNewObj2(table, id)
+		GsOBJTABLE2 *table;
+		unsigned long id;
+
+	引数	table	オブジェクトテーブルへのポインタ
+		id	生成するオブジェクトの ID 番号
+
+	解説	オブジェクトテーブルに id で指定された ID 番号を持つ
+		オブジェクトを生成する。
+
+		親座標系は WORLD, attribute は０に設定される。
+
+	返り値	生成したオブジェクトへのポインタ。生成に失敗した場合は
+		NULL を返す。
+
+
+GsRemoveObj2	オブジェクトの削除
+
+	形式	GsDOBJ2 *GsRemoveObj2(table, id)
+		GsOBJTABLE2 *table;
+		unsigned long id;
+
+	引数	table	オブジェクトテーブルへのポインタ
+		id	削除するオブジェクトの ID 番号
+
+	解説	オブジェクトテーブルから指定した ID 番号を持つオブジェクト
+		を検索し削除する。
+
+		発生した空き領域は詰められず、空き領域の ID の値は
+		GsOBJ_UNDEF に設定される。
+
+	返り値	削除に成功した場合は０以外、失敗した場合は NULL を返す。
+
+
+
+GsSearchTmdByID	TMDデータ内のモデリングデータの検索
+
+	形式	unsingned long *GsSearchTmdByID(tmd, id_list, id);
+		unsingned long *tmd;
+		int *id_list;
+		int id;
+
+	引数	tmd	TMD データへのポインタ
+		id_list	モデリングデータの ID リストへのポインタ
+		id	モデリングデータの ID 番号
+
+	解説	TMD データとそれに対応したモデリングデータリストから指定した
+		ID 番号を持つモデリングデータを検索しそのアドレスを返す。
+
+	返り値	該当モデリングデータへのポインタ。
+		この値は GsDOBJ2 構造体のメンバtmd の値としてそのまま
+		代入可能である。見つからなかった場合はNULL を返す。
+
+
+
+GsSetTodFrame2	フレーム分のTODデータ処理
+
+	形式	unsigned long	*GsSetTodFrame2
+					(fn, dp, table, tmd_id, tmd, mode)
+		int fn;
+		unsigned  	*dp;
+		GsOBJTABLE2 *table;
+		int 	*tmd_id;
+		unsigned 	*tmd;
+		int mode;
+
+	引数	fn	現在のフレーム番号
+		dp	TOD データへのポインタ
+		table	オブジェクトテーブルへのポインタ
+		tmd_id	TMD の ID リストへのポインタ
+		tmd	TMD データへのポインタ
+		mode	実行するパケットの種類を指定
+		GsTOD_CREATE
+			全てのパケットを実行
+		GsTOD_NOCREATE
+			オブジェクトの生成／削除は行なわない
+		GsTOD_COORDONLY
+			座標系の変化のみ実行
+
+	解説	TOD データ内の１フレーム分のパケット群の内容に従って
+		オブジェクトのパラメータを更新する。
+		mode の値を GsTOD_COORDONLY としたときは tmd_id	および
+		tmdの値は参照されない。
+
+	返り値	実行後の TOD データへのポインタを返す。
+		この値は必ず１フレーム分のTOD データの先頭を指す。
+
+
+
+GsSetTodPacket2	１パケット分のTODデータ処理
+	
+	形式	unsigned long *GsSetTodPacket2(dp, tbl, tmd_id, tmd, mode)
+		unsigned *dp;
+		GsOBJTABLE2 *tbl;
+		int *tmd_id;
+		unsigned*tmd;
+		int mode;
+
+	引数	dp		実行中の TOD データへのポインタ
+		tbl		オブジェクトテーブル
+		tmd_id		モデリングデータリスト
+		tmd		TMD データへのポインタ
+		mode		実行するパケットの種類を指定
+		GsTOD_CREATE
+			全てのパケットを実行
+		GsTOD_NOCREATE
+			オブジェクトの生成／削除は行なわない
+		GsTOD_COORDONLY
+			座標系の変化のみ実行
+
+	解説	TOD データから１パケット分のデータを処理。
+
+	返り値	実行後の TOD データへのポインタを返す。

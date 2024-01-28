@@ -1,0 +1,142 @@
+$PSDocId: Document Version 1.0 for Runtime Library Version 3.3$
+カーネルライブラリ
+
+*関数詳細
+
+**構造体
+
+-----------------------------------------------------------------------------
+ToT		システムテーブル情報
+
+	構造	struct ToT {
+			unsigned long *head;
+			long size;
+		};
+
+	メンバ	head	システムテーブル先頭アドレス
+		size	システムテーブルサイズ（バイト）
+
+	解説	サービス実現のためにカーネル内部で使用する各種システムテーブル
+		へのアクセスを統一的に行なうためのテーブル情報。配置アドレスは
+		0x00000100。
+-----------------------------------------------------------------------------
+EvCB		イベント管理ブロック
+
+	構造	struct EvCB {
+		        unsigned long desc;
+		        long status;
+		        long spec;
+		        long mode;
+		        long (*FHandler)();
+		        long system[2];
+		};
+
+	メンバ	desc		原因ディスクリプタ
+		status		ステータス
+		spec		イベント種別
+		mode		モード
+		FHandler	関数型ハンドラ
+		system		システム予約
+
+	解説	イベント管理サービスで使用。
+
+	備考	関連項目：OpenEvent(), GetConf(), SetConf()
+
+-----------------------------------------------------------------------------
+TCBH		タスク実行キュー
+
+	構造	struct TCBH {
+        		struct TCB *entry;
+			long flag;
+		};
+
+	メンバ	entry	実行TCBへのポインタ
+		flag	フラグ（システム予約）
+
+	解説	スレッド管理サービスで使用。entryに実行TCBがリンクされる。
+
+	備考	関連項目：ChangeTh()
+
+-----------------------------------------------------------------------------
+TCB		タスク管理ブロック
+
+	構造	struct TCB {
+		        long status;
+		        long mode;
+		        unsigned long reg[NREGS];
+		        long system[6];
+		};
+
+	メンバ	status		ステータス
+		mode		モード
+		reg		レジスタ退避領域
+		system		システム予約
+
+	解説	スレッド管理サービスにおいて、コンテキスト（レジスタの内容一
+		式）を格納するデータブロック。
+
+	備考	関連項目：OpenTh(), ChangeTh(), GetConf(), SetConf()
+
+-----------------------------------------------------------------------------
+EXEC		実行ファイルのデータ構造
+
+	構造	struct EXEC {
+		        unsigned long pc0;
+		        unsigned long gp0;
+		        unsigned long t_addr;
+		        unsigned long t_size;
+		        unsigned long d_addr;
+		        unsigned long d_size;
+		        unsigned long b_addr;
+		        unsigned long b_size;
+		        unsigned long s_addr;
+		        unsigned long s_size;
+		        unsigned long sp,fp,gp,ret,base;
+		};
+
+	メンバ	pc0	実行開始アドレス
+		gp0	gpレジスタ初期値
+		t_addt	テキストセクション＋初期値ありデータセクションの先頭
+			アドレス
+		t_size	テキストセクション＋初期値ありデータセクションのサイズ
+		d_addr	システム予約
+		d_size	システム予約
+		b_addr	初期値なしデータセクション先頭アドレス
+		b_size	初期値なしデータセクションサイズ
+		s_addr	スタック領域先頭アドレス（ユーザ指定用）
+		s_size	スタック領域サイズ（ユーザ指定用）
+		sp,fp,gp,base	レジスタ退避領域
+
+	解説	実行ファイル（PS-X EXE形式）の先頭の2Kバイト中に配置され、ファ
+		イルに格納されたプログラムのロードと実行のための情報を保持す
+		る。スタック情報を追加してExec()関数に引き渡すことでプログラム
+		を起動する。
+
+	備考	関連項目：Exec()
+
+-----------------------------------------------------------------------------
+DIRENTRY	ディレクトリエントリのデータ構造
+
+	構造	struct DIRENTRY {
+		        char name[20];
+		        long attr;
+		        long size;
+		        struct DIRENTRY *next;
+		        long head;
+		        char system[4];
+		};
+
+	メンバ	name		ファイル名
+		attr		属性（ファイルシステムに依存）
+		size		ファイルサイズ（バイト単位）
+		next		次のファイルエントリ（ユーザ用）
+		head		先頭セクタ
+		system		システム予約
+
+	解説	ファイルシステムに登録されているファイルに関する情報を格納
+		する。
+
+	備考	関連項目：firstfile(), nextfile()
+
+-----------------------------------------------------------------------------
+								以上
