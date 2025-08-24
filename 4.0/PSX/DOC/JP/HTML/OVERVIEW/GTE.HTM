@@ -1,0 +1,1393 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 基本ジオメトリライブラリ(libgte)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+基本ジオメトリライブラリ(libgte)
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PlayStationにはジオメトリ演算を高速に行うコ・プロセッサとしてGTEが搭載されています。基本ジオメトリライブは、このGTEの機能を呼び出す関数、及び他のジオメトリ演算に有用な関数を提供しています。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘツダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 libgteで想定しているジオメトリ演算</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> 座標計算</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 光源計算</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> 法線ベクトル、光源ベクトルの方向</A><BR>
+    <A HREF="#Heading4_1_3_2"> GPUコードについて</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_4"> 4 法線クリップ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_4_1"> libgteの法線クリップ関数</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_5"> 5 デプスキューイング</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_5_1"> デプスキューイングの実現方法（共通事項）</A><BR>
+    <A HREF="#Heading4_1_5_2"> 頂点色によるデプスキューイング</A><BR>
+    <A HREF="#Heading4_1_5_3"> テクスチャによるデプスキューイング</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_6"> 6 バックカラー、ファーカラー、ＢＧカラー</A><BR>
+<P><A HREF="#Heading3_1_7"> 7 材質つき光源計算</A><BR>
+<P><A HREF="#Heading3_1_8"> 8 ３頂点、４頂点関数</A><BR>
+<P><A HREF="#Heading3_1_9"> 9 libgte引数フォーマット</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_9_1"> 推奨フォーマット</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_10"> 10 libgteの関数のフラグ変数について</A><BR>
+<P><A HREF="#Heading3_1_11"> 11 libgteのメッシュ関数について</A><BR>
+<P><A HREF="#Heading3_1_12"> 12 画面オフセットの変更</A><BR>
+<P><A HREF="#Heading3_1_13"> 13 ＰＭＤ関数</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_13_1"> PRIMITIVE Group</A><BR>
+    <A HREF="#Heading4_1_13_2"> VERTEX</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_14"> 14 ＳＭＤ，ＲＭＤ関数</A><BR>
+<P><A HREF="#Heading3_1_15"> 15 ポリゴン分割</A><BR>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationでポリゴンの描画を行なうには<BR>
+    <BR>
+      <BLOCKQUOTE>
+      ジオメトリ演算 → 描画<BR>
+      </BLOCKQUOTE>
+    <BR>
+    というポリゴン単位のパイプライン処理ではなく、<BR>
+    <BR>
+      <BLOCKQUOTE>
+      ジオメトリ演算 → ソーティング → 描画<BR>
+      </BLOCKQUOTE>
+    <BR>
+    というように１画面分のポリゴン（複数）を単位として処理しなければなりません。そのため、１個のポリゴンのジオメトリ演算から描画までを全部行なう関数はなく、別々の関数を組み合わせてジオメトリ演算から描画までを行なう必要があります。<BR>
+    ＧＴＥはジオメトリ演算を高速に行なうためのコプロセッサであり、ＧＴＥの機能を呼びだす関数及びその他のジオメトリ演算に有用な関数群を集めたものがlibgteです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    基本ジオメトリライブラリのファイル名は「libgte.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘツダ</B>
+</A>
+</H3>
+<blockquote>
+    基本ジオモトリライブラリのインクルードヘッダは「libgte.h」です。基本グラフィックスライブラリと共通です。<BR>
+    各種のデータ構造、マクロはすべてこのファイルで定義されています。各サービスを呼び出すプログラムは、必ずこれをインクルードする必要があります。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libgte.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libgte.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>libgteで想定しているジオメトリ演算</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationではlibgteを使うことにより座標変換演算等を高速に実行することができます。ＧＴＥのジオメトリ演算は座標計算と光源計算に分けられます。<BR>
+    座標計算とはポリゴンの頂点の３次元座標からスクリーン（ディスプレイ画面）上の２次元座標を求める計算で座標変換と透視変換からなります。<BR>
+    光源計算とは光源の方向、色、強さとポリゴンの向き、色からスクリーン上でのポリゴンの光り方を求める計算です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>座標計算</B>
+</A>
+</H3>
+<blockquote>
+    ここでは説明を簡単にするため座標系として<BR>
+    <BR>
+<UL>
+         <LI> ローカル座標系 ： オブジェクトに固定の座標系
+         <LI> ワールド座標系 ： オブジェクトが置かれる世界に固定の座標系
+         <LI> スクリーン座標系 ： スクリーンに固定の座標系
+</UL>
+    <BR>
+    の三種類を想定します。オブジェクトとは複数のポリゴンが集まって構成している物体で、複数のオブジェクトが１画面を構成します。従ってローカル座標系は複数個になる可能性があります。<BR>
+    各ポリゴンの頂点データは通常、ローカル座標系の座標値で与えられるので、これをスクリーン上の座標値に変換するためには、<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten1.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    という座標変換が必要です。ここで<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+         [WLij]はワールド/ローカルの変換マトリックス<BR>
+         (WLx,WLy,WLz)はワールド/ローカルの平行移動ベクトル<BR>
+         [SWij]はスクリーン/ワールドの変換マトリックス<BR>
+         (SWx,SWy,SWz)はスクリーン/ワールドの平行移動ベクトル<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    であるとします。これを合成すると<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten2.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    となります。座標系間の座標変換マトリックスと平行移動ベクトルを前もってすべて合成したものを<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten3.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    とよびます。回転マトリックスを使えばローカル座標値はスクリーン座標値に１回のマトリックス乗算とベクトルの加算で計算できます。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten4.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    ＧＴＥは回転マトリックスと平行移動ベクトルを１つずつ定数として持つことができます。回転マトリックス、平行移動ベクトルはそれぞれ<BR>
+    <BR>
+<UL>
+         <LI> SetRotMatrix
+         <LI> SetTransMatrix
+</UL>
+    <BR>
+    という関数で設定でき座標系の位置、向きを変えないかぎり変更する必要がありませんが、オブジェクトごとに異なったローカル座標系を使った場合それぞれに応じた回転マトリックス、平行移動ベクトルを設定する必要があります。<BR>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      ローカル座標系の持ちかたはユーザーの自由です。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    libgteにはローカル座標値からスクリーン座標値を求める計算(1)を行なう関数として<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        RotTrans<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    があります。これを呼べば前もって設定された回転マトリックス、平行移動ベクトルによる座標変換が行なえます。<BR>
+    RotTransにより求められたスクリーン座標値を使ってスクリーン上に描画すると物体がスクリーンに平行投影されたような画像が得られます。実際の視覚では遠くのものが小さく見える「透視変換」がかかります。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten5.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    ここでhは視点からスクリーンまでの距離を表します。このように透視変換はスクリーン座標のＸ、Ｙ成分にh/SZを乗算することにより得られますが、libgteにはRotTransと透視変換を一度に行なう関数、<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        RotTransPers<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    があります。<BR>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      RotTransPersでは、実際には以下のようなオフセット値が加算されます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<P>
+<IMG SRC ="gif/gten6.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      また、同時にデプスキューイング用内挿係数pを計算します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>光源計算</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ＧＴＥの想定している光源計算モデルは平行光源の完全散乱反射モデルです。つまり視点の位置に依存せず、光源の属性とポリゴンの属性だけで決まります。<BR>
+    ここではポリゴンの一つの頂点について光源計算をする場合を説明します。ポリゴンの一つの頂点の属性は<BR>
+    <BR>
+    <OL>
+         <LI VALUE= 1> 法線ベクトル		(Nx,Ny,Nz)
+         <LI VALUE= 2> 頂点の色		(R,G,B)
+    </OL>
+    <BR>
+    の二つです。ここで法線ベクトルは通常ローカル座標系で与えられます。一方、光源の属性とは、<BR>
+    <BR>
+    <OL TYPE="a">
+         <LI VALUE= 1> 光源ベクトル(方向と強さ)	(Lx,Ly,Lz)
+         <LI VALUE= 2> 光源の色			(Lr,Lg,Lb)
+         <LI VALUE= 3> アンビエント色		(BKr,BKg,BKb)
+    </OL>
+    <BR>
+    の三つです。光源は平行光源ですから位置の情報はありません。また光源は各オブジェクトに共通ですからワールド座標系で与えられます。背景色とは光源の影響以外にすべての頂点にかけられる光の色です。これらから頂点がスクリーン上で何色(RR,GG,BB)に描かれるかは次のようにして計算されます。<BR>
+    <BR>
+    1) 法線ベクトルをワールド座標系に座標変換する。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten7.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    2) 光源ベクトルと法線ベクトル（ワールド）の内積をとる。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten8.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    3) この内積と光源の色を項別に乗算する。これにより頂点に対する光源の影響色が求める。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten9.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    4) 光源の影響色とアンビエント色を足してすべての環境からの影響色を求める。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten10.gif">
+<P>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    5) 頂点の色に影響色を項別に乗算して頂点のスクリーン上の色を求める。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten11.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    ３つの光源があるとすると１）２）をまとめて<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten12.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    のようになります。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten13.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    を前もって乗算しておいたものを[Lij]と書くと 1) 2) は<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten14.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    と一回のマトリックス演算で実現できます。このマトリックス[Lij]をＧＴＥでは<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        ローカルライトマトリックス(LLM)<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    とよびます。このようにlibgteではポリゴンごとに与えられる法線ベクトルをワールド座標系に変換する必要がありません。オブジェクトごとにローカルライトマトリックス[Lij]を計算すれば済みます。<BR>
+    一方、光源の色も３個存在することになりますから、全ての光源による影響色は、<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten15.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    となります。この<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten16.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    というマトリックスを[LRij]とかくと３光源のときの 3) 4) は<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten17.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    となります。[LRij]をＧＴＥでは<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        ローカルカラーマトリックス(LCM)<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    とよびます。ローカルライトマトリックス、ローカルカラーマトリックスも回転マトリックスと同様にＧＴＥの定数マトリックスです。それぞれSetLightMatrix、SetColorMatrixで設定できます。<BR>
+    また、アンビエント色は<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        バックカラー(BK)<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    とよばれSetBackColorで設定できます。以上をまとめるとＧＴＥでは 1) 2) 3) 4) 5) の計算を３光源までを標準にして<BR>
+    <BR>
+    6) 法線ベクトル（ローカル） → 光源の影響（ローカルライトマトリックス）<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten18.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    7) 光源の影響 → 影響色 （ローカルカラーマトリックス、バックカラー）<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten19.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    8) 影響色、頂点の色 → 頂点スクリーン色<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten20.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    のようにまとめられます。libgte には6)7)8)を一度に行なう関数に<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        NormalColorCol<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    があります。影響色のことをＧＴＥではローカルカラー（LC)と呼びます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>法線ベクトル、光源ベクトルの方向</B>
+</A>
+</H3>
+<blockquote>
+    ポリゴンの各頂点に与えられる法線ベクトルは「おもて面」側から「うら面」側へ向かう方向にしてください。光源ベクトルは光源の位置ではなく、光線の進む方向にしてください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>GPUコードについて</B>
+</A>
+</H3>
+<blockquote>
+    GTEは内部にGPUパケットコードを保持するレジスターを持っており光源計算を行なってRGB値を出力する関数はRGB値の頭にそのGPUパケットコードをくっつけて出力します。<BR>
+    GPUのパケットはRGBとコードが１ワードになっていますから、こうすることにより１回のメモリライトでパケットのRGBcd部分を作ることができます。<BR>
+    GTE内部のGPUパケットコードレジスターが正しく設定されていないとGPUパケットが正しく生成できません。<BR>
+    GPUパケットコードレジスターを設定するには各光源計算関数の入力の原色ベクトルの最上位８ビットにGPUパケットコードを設定すれば自動的にコピーされます。ただし、入力に原色ベクトルを持たない関数の場合は SetRGBcd() という関数をお使いください。<BR>
+    GPUパケットコードをコピーする関数は下記の通りです。(*は原色ベクトルの入力がありません）<BR>
+    <BR>
+<UL>
+         <LI> DpqColorLight
+         <LI> DpqColor
+         <LI> DpqColor3
+         <LI> Intpl*
+         <LI> NormalColor*
+         <LI> NormalColor3*
+         <LI> NormalColorDpq
+         <LI> NormalColorDpq3
+         <LI> NormalColorCol	
+         <LI> NormalColorCol3	
+         <LI> ColorDpq
+         <LI> ColorCol
+         <LI> RotColorDpq
+         <LI> RotColorDpq3
+         <LI> RotAverageNclipColorDpq3
+         <LI> RotAverageNclipColorCol3
+         <LI> RotColorMatDpq
+         <LI> ColorMatDpq
+         <LI> ColorMatCol
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>法線クリップ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    法線クリップとは、視点からみて裏面の見えるポリゴンを描画しないで描画速度をあげる方法です。おもて面が見えるか裏面が見えるかは、ポリゴンの法線のスクリーン座標系でのＺ成分の符号で決まります。<BR>
+    球面のような閉曲面で有効です。また「Ｚソート問題」を低減するのにも有効です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>libgteの法線クリップ関数</B>
+</A>
+</H3>
+<blockquote>
+    ポリゴンの法線のスクリーン座標系でのＺ成分は法線の座標変換によってもとまりますが、ポリゴンの２辺の外積によっても求められます。<BR>
+    libgteには法線クリップのための２次元外積を計算する関数があります。<BR>
+    <BR>
+        <BLOCKQUOTE><UL>
+        NormalClip<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    これは３つの頂点のスクリーン座標から三角形の表裏を判別するための値を計算します。表裏はその返り値の正負で判断できますが、座標軸の向きや頂点の順番で符号が変わります。ここでは下図のような座標軸の向きを想定します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef1.gif">
+<P>
+    <B>図 1 座標軸</B><BR>
+</CENTER>
+    視点はＺ軸の負の方向にあります。視点から見たとき、３頂点が右回りに並んでいるとNormalClipは正の値を返します。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef2.gif">
+<P>
+    <B>図 2 頂点の順番</B><BR>
+</CENTER>
+    NormalClipと同じ計算を行なう関数<BR>
+    <BR>
+<UL>
+         <LI> RotNclip
+         <LI> RotNclip3
+         <LI> RotNclip4
+         <LI> RotAverageNclip3
+         <LI> RotAverageNclip4
+         <LI> RotAverageNclipColorDpq3
+         <LI> RotAverageNclipColorCol3
+</UL>
+    <BR>
+    では外積値が負または０のとき法線クリップすることとし、座標計算を中止し、正しくないsx,syの値を返します。従って、これらの関数を使うときは上の座標系でポリゴンの頂点順は、おもて面側から見て右回りになるようモデリングする必要があります。<BR>
+    ４頂点関数<BR>
+    <BR>
+<UL>
+         <LI> RotNclip4
+         <LI> RotAverageNclip4
+</UL>
+    <BR>
+    は最初の３つの点を使って外積値を計算するので、下図のように頂点の順番を決める必要があります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef3.gif">
+<P>
+    <B>図 3 ４頂点</B><BR>
+</CENTER>
+    <BR>
+    ただし、ＧＰＵは（２）の順では四角形を描画しないので（１）のように決めておく方が便利です。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>デプスキューイング</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    デプスキューイングとは、遠方にある物体ほどかすんで見える効果です。スクリーン座標系におけるZ値に応じて、もとのポリゴンの色と遠方色とを混ぜ合わせる（内挿する）ことによって実現できます。遠方色を白にすればフォグのような、黒にすれば夜の闇のような効果を得ることができます。<BR>
+    デプスキューイングの方法は、大きく２種類にわけられます。<BR>
+
+     <H4><B>(1) 頂点色による方法</B></H4>
+
+      <BLOCKQUOTE>
+      適した対象：<BR>
+      </BLOCKQUOTE>
+    <OL TYPE="a">
+         <LI VALUE= 1> テクスチャのないポリゴンの場合
+         <LI VALUE= 2> テクスチャつきポリゴンの場合は、条件によって可能。例えば、以下のいずれかを満たすもの：
+    </OL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> 遠方色が黒、もしくは黒に近い暗い色の場合。
+         <LI> テクスチャが比較的明るい色、かつ遠方色に近い色のみで構成され、暗い色の点が含まれない場合。この場合、完全には遠方色にとけこまないときもあります。
+</UL>
+
+     <H4><B>(2) テクスチャ色による方法</B></H4>
+
+      <BLOCKQUOTE>
+      適した対象：<BR>
+      </BLOCKQUOTE>
+    <OL TYPE="a">
+         <LI VALUE= 1> テクスチャつきポリゴン全般。特に、上記(1)-(b)の頂点色による方法にあてはまらないもの
+    </OL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_1">
+<A HREF="#Heading3_1_5"> 5. </A>1 <B>デプスキューイングの実現方法（共通事項）</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1_1">
+(1) <B>内挿係数について</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      GTEには、遠方色との非線型内挿により、効果的なデプスキューイングを行う機能があります。この機能を使うには、SetFogNear/SetFogFar/SetFogNearFarのいずれかの関数によって、デプスキューイングの深さを設定する必要があります。<BR>
+      深さを設定したのち、RotTransPers系の関数を実行すると、非線型内挿係数pを得ることができます。pは、０から４０９６までの値をとり、Zが充分小さいとき０に飽和し、Zが十分大きいとき４０９６に飽和します（SetFog*関数の解説を参照のこと）。一般に、デプスキューイングに用いる内挿計算は、oをもとの色、fを遠方色、pを内挿係数として、<BR>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        	内挿計算(o,f,p) = ((o x p) + (f x (4096-p))) / 4096<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      で表すことができます。なお、多くの場合において、遠方色は背景色と同じでしょうから、pが４０９６に飽和している場合、そのポリゴンを描画するのは無駄になります。<BR>あるotzの値に対して、GTEが作成する内挿係数pとほぼ同じ値のpを得るためには、otz2p関数が使えます。また逆に、pからotzを求めるためにはp2otz関数が用意されています。なお、p2otzおよびotz2pは、除算を含む比較的重い関数なので注意が必要です。なお、内挿係数pは、ユーザー独自の値を使用することもできます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1_2">
+(2) <B>内挿された｛CLUT or テクスチャ｝データの作成方法について</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      いくつかのpに対するデータをあらかじめ持っておくこともできますが、ランタイムに、使用するpに対するデータを作成することも可能です。このような色の内挿に便利な関数に、DpqColor関数があります。DpqColor関数を使用するには、前もってSetFarColor関数で遠方色を設定する必要があります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_2">
+<A HREF="#Heading3_1_5"> 5. </A>2 <B>頂点色によるデプスキューイング</B>
+</A>
+</H3>
+<blockquote>
+    頂点色による方法では、ポリゴンの頂点の色と遠方色を内挿することによって、デプスキューイング効果を出します。このためには、まず共通事項で述べたSetFog*による深さの設定を行い、さらにSetFarColor関数によって遠方色を設定します。その後、各頂点もしくは各ポリゴンについて、RotTransPers系の関数によって内挿係数pを得て、NormalColorDpqなどの関数にpを与えると、遠方色と内挿計算済みの頂点スクリーン色が選られます。このような計算を行う関数は、NormalColorDpq*関数のほかに、DpqColor*関数、*ColorDpq関数、Intpl関数などがあります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_3">
+<A HREF="#Heading3_1_5"> 5. </A>3 <B>テクスチャによるデプスキューイング</B>
+</A>
+</H3>
+<blockquote>
+    テクスチャによる方法では、テクスチャの色と遠方色とを内挿することによって、デプスキューイング効果を出します。実現方法はケースによって異なります。<BR>
+
+     <H4><B>何を内挿するか</B></H4>
+
+     (1) CLUTの色を内挿する<BR>
+      <BLOCKQUOTE>
+      CLUTを使ったテクスチャについては、CLUT内挿を行うことが可能です。<BR>
+      </BLOCKQUOTE>
+     (2) テクスチャそのものの色を内挿する<BR>
+      <BLOCKQUOTE>
+      CLUTを使わないテクスチャについては、そのものの色を内挿するほかはありません。また、CLUTを使ったテクスチャにおいても、mip-mapなどの手法を用いるなど、深度によってテクスチャを切り替えて使うときには、同時にデプスキューイングをかけておくことが可能です。この場合、CLUT色内挿との併用も可能です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>内挿データを作るタイミング</B></H4>
+
+     (1) あらかじめ内挿された｛CLUT or テクスチャ｝をデータとして持っておく<BR>
+      <BLOCKQUOTE>
+      最初に、いくつかの内挿係数pに応じたCLUTもしくはテクスチャのデータを作成しておき、描画したいポリゴンやオブジェクトのZ値やp値に応じて使用します。<BR>ランタイムでの計算時間は軽減されますが、メモリ使用量の観点から持てるデータの量が軽減され、内挿係数pの解像度はあまり高くできません。<BR>
+      </BLOCKQUOTE>
+     (2) ランタイムに、内挿された｛CLUT or テクスチャ｝を作成する<BR>
+      <BLOCKQUOTE>
+      ランタイムに、使用する内挿係数pに対してCLUTもしくはテクスチャのデータを作成する方法です。<BR>ランタイムでの計算時間はかかりますが、フレームごとにデータを作成するのでオリジナル色のデータだけを持っておけばよく、使用メモリは比較的少なくて済みます。また、pの解像度が高くても問題ありません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>描画テクスチャを変更する方法</B></H4>
+
+     (1) ポリゴンが参照する｛CLUT or テクスチャ｝座標を変更する<BR>
+      <BLOCKQUOTE>
+      フレームバッファ上の空いた場所に、いくつかのpに応じたデータを置いておき、各ポリゴンが参照するテクスチャ座標、CLUT ID、テクスチャページIDなどを変更することによって、デプスキューイングを与える方法です。<BR>
+      </BLOCKQUOTE>
+     (2) フレームバッファ上の｛CLUT or テクスチャ｝を変更する<BR>
+      <BLOCKQUOTE>
+      フレームバッファ上のCLUTもしくはテクスチャデータをすりかえることにより、描画されるテクスチャを変更する方法です。ポリゴンパケットに手を加える必要がないため、Gsライブラリによる描画でも簡単にテクスチャデプスキューイングを与えることができます。<BR>
+      フレームバッファ上のデータの変更方法は、以下の3つがあります。<BR>
+      <BR>
+      </BLOCKQUOTE>
+     (a) DR_LOADプリミティブを使って書き込む<BR>
+      <BLOCKQUOTE>
+      DR_LOADプリミティブ内にデータを設定し、フレームバッファへ書きこむ方法です。大きなデータをいくつものDR_LOADプリミティブに分割して転送する場合には、フレームバッファ上でなるべく横長のデータになるように分割したほうが速度の点で有利です。１フレームに１つの｛CLUT orテクスチャ｝に対して内挿係数pがひとつでいいのであれば、オーダリングテーブルの最初に登録して描画します。<BR>
+      １フレームで１つの｛CLUT orテクスチャ｝に対して深さに応じたいくつもの内挿係数pを使いたい場合は、以下に述べるようにします。オーダリングテーブルの数箇所に、そのotz値に応じたpによるデータを転送するDR_LOADプリミティブを登録します。<BR>
+      以下に、４段階のpを使った例を示します。あらかじめDrawOTagやGsライブラリによりオーダリングテーブルOTagにポリゴンが登録されているものとします。<BR>
+      <BR>
+      ピクセルデータをフレームバッファ内の指定領域へ直接書き込むプリミティブ。詳しくは、libgpuのSetDrawLoad()の項を参照してください。<BR>
+      <BR>
+<P>
+<IMG SRC ="gif/gten21.gif">
+<P>
+<CENTER>
+      </BLOCKQUOTE>
+    <BR>
+</CENTER>
+      <BLOCKQUOTE>
+      あるひとつのpを使って描画する範囲をp1からp2までとすると、p2に対応するotzのところにpによるデータを転送するDR_LOAD（図中B）を登録し、p1のところに次のpによるデータを転送するDR_LOAD（図中C）を登録します。<BR>
+      例えば、図のような場合の描画順は、<BR>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        	A - a - b - c - d - e - B - f - g - h - C - i - D - j - k - l<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      となり、ポリゴンa - eはDR_LOAD Aで転送したデータで描画され、ポリゴンf - hはDR_LOAD Bで転送したデータで描画されます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+     (b) DR_MOVEプリミティブを使って書き込む<BR>
+      <BLOCKQUOTE>
+      フレームバッファの空いた場所に、いくつかのpに応じたデータを置いておき、該当ポリゴンの描画よりも前に、実際の描画に使う場所へ転送する方法です。前述のDR_LOADプリミティブと同様に、オーダリングテーブルに登録して実行すれば、ひとつの｛CLUT orテクスチャ｝を使った複数のポリゴンに対し、それぞれの深さに応じたpを使ったデプスキューイング効果をかけることができます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+     (c) LoadImageでメインメモリから転送する<BR>
+      <BLOCKQUOTE>
+      LoadImage関数でメインメモリからフレームバッファ上の使用領域に転送する方法です。あまり頻繁にLoadImageを行うとCPUの負担が大きくなるので注意が必要です。このため、同じframe内でひとつの｛CLUT orテクスチャ｝に対していくつものpを適用させたい場合には、この方式は向いていません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>バックカラー、ファーカラー、ＢＧカラー</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationでは、<BR>
+    <BR>
+<UL>
+         <LI> SetBackColorで設定されるアンビエント色をバックカラー（BK）
+         <LI> SetFarColorで設定される遠方色をファーカラー（FC）
+         <LI> ＢＧ面に貼られる色をＢＧカラー（BG）
+</UL>
+    <BR>
+    と呼びます。デプスキューイングでＢＧ面にとけこませたいときは、ファーカラーとＢＧカラーを一致させます。バックカラーとＢＧカラーは異なることに注意してください。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>材質つき光源計算</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationにおける光源計算（デプスキューなし）をまとめると以下のようになります。<BR>
+    1)<BR>
+<P>
+<IMG SRC ="gif/gten22.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    2)<BR>
+<P>
+<IMG SRC ="gif/gten23.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    3)<BR>
+<P>
+<IMG SRC ="gif/gten24.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+        </BLOCKQUOTE></UL>
+    ここで<BR>
+        <BLOCKQUOTE><UL>
+        	(Nx,Ny,Nz):	法線ベクトル<BR>
+        	[Lij]:		ローカルライトマトリックス(LLM)<BR>
+        	(L1,L2,L3):	ローカルライトベクトル(LLV)<BR>
+        	[LRi]:		ローカルカラーマトリックス(LCM)<BR>
+        	(RBK,GBK,BBK):	バックカラー(BK)<BR>
+        	(RLT,GLT,BLT):	ローカルカラー(LC)<BR>
+        	(R,G,B):		原色ベクトル<BR>
+        	(RR,GG,BB):	出力色ベクトル<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    です。「libgteリファレンスマニュアル」では上のような計算を次のように省略して書いてあります。<BR>
+      <BLOCKQUOTE>
+      <BR>
+      1) LLV = LLM x v0<BR>
+      2) LC = BK + LCM x LLV<BR>
+      3) v2 = v1 x LC<BR>
+      </BLOCKQUOTE>
+    <BR>
+    ところで1) の計算のあとにLLVの各項を２乗したものをあらためて<BR>
+    LLVとすることができます。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      1) LLV = LLM x v0<BR>
+      2) LLV = LLV<SUP>2 </SUP> = (L1<SUP>2</SUP>, L2<SUP>2</SUP>, L3<SUP>2</SUP>)<BR>
+      3) LC = BK + LCM x LLV<BR>
+      4) v2 = v1 x LC<BR>
+      <BR>
+      </BLOCKQUOTE>
+    このようにすると光源によって光る部分が狭くなりオブジェクトの材質感が変わります。libgteでは<BR>
+    <BR>
+<UL>
+         <LI> RotColorMatDpq
+         <LI> ColorMatDpq
+         <LI> ColorMatCol
+</UL>
+    <BR>
+    という材質つき関数を用意してあります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>３頂点、４頂点関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgteには３頂点、４頂点分の座標変換や光源計算を一度に行なう関数があります。<BR>
+    たとえばRotTransPers3やRotTransPers4はそれぞれ３頂点、４頂点の座標変換を一度に行ないます。またNormalColorCol3やNormalColorDpq3は３頂点の光源計算を一度に行ないます。<BR>
+    独立頂点三角形や独立頂点四角形でできたデータから描画するときはこれらを使えば高速に処理できます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>libgte引数フォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ＧＴＥではすべての数が固定小数点であらわされます。たとえば、回転マトリックスは各成分が(1,3,12)のフォーマットの固定小数点数です。ここで(1,3,12)とは<BR>
+    <BR>
+<UL>
+         <LI> 符号：1ビット
+         <LI> 整数部：3ビット
+         <LI> 小数部：12ビット
+</UL>
+    <BR>
+    を表します。そのためRotTrans(&v0,&v1,&flag)は次のように計算されます。<BR>
+    <BR>
+<P>
+<IMG SRC ="gif/gten25.gif">
+<P>
+        <BLOCKQUOTE><UL>
+        <BR>
+<P>
+<IMG SRC ="gif/gten26.gif">
+<P>
+        <BR>
+        </BLOCKQUOTE></UL>
+    ここで、v0,v1は下のような構造体SVECTORです。<BR>
+<PRE>        
+        typedef struct {
+        	short vx, vy;
+        	short vz, pad;
+        } SVECTOR;
+        
+</PRE>
+    [Rij]は回転マトリックス、(TRX,TRY,TRZ)は平行移動ベクトルです。従ってv0とv1の小数点以下のフォーマットは(TRX,TRY,TRZ)と同じです。<BR>
+    (TRX,TRY,TRZ)のフォーマットは(1,31,0)なので、v0は(1,15,0)、v1は(1,31,0)になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_1">
+<A HREF="#Heading3_1_9"> 9. </A>1 <B>推奨フォーマット</B>
+</A>
+</H3>
+<blockquote>
+    以下にGTEの主な定数の推奨フォーマットを示します。<BR>
+    <BR>
+<UL>
+         <LI> 回転マトリックス[Rij]:(1,3,12)
+         <LI> 平行移動ベクトル(TRX,TRY,TRZ):(1,31,0)
+         <LI> ローカルライトマトリックス[Lij]:(1,3,12)
+         <LI> ローカルカラーマトリックス[L(R,G,B)i]:(1,3,12)
+         <LI> バックカラー(RBK,GBK,BBK):(0,32,0)(0...255）
+         <LI> ファーカラー(RFC,GFC,BFC):(0,32,0)(0...255）
+</UL>
+    <BR>
+    これ以外のフォーマットでも計算可能ですが12ビットシフトがGTEに内蔵されていることを考慮しなければならず複雑になります。各関数の引数フォーマットはlibgteリファレンスマニュアルを参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>libgteの関数のフラグ変数について</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgteの座標計算関数Rot...はクリッピングを行なうためのフラグ変数がついています。座標計算関数は以下のとおりです。<BR>
+    <BR>
+<UL>
+         <LI> RotTransPers
+         <LI> RotTransPers3
+         <LI> RotTrans
+         <LI> RotTransPers4
+         <LI> RotAverage3
+         <LI> RotAverage4
+         <LI> RotNclip
+         <LI> RotNclip3
+         <LI> RotNclip4
+         <LI> RotAverageNclip3
+         <LI> RotAverageNclip4
+         <LI> RotColorDpq
+         <LI> RotColorDpq3
+         <LI> RotAverageNclipColorDpq3
+         <LI> RotAverageNclipColorCol3
+         <LI> RotColorMatDpq
+</UL>
+    <BR>
+    これらの関数では座標変換をした直後のフラグの状態を返します。<BR>
+    RotTransPers3、RotTransPers4など３頂点、４頂点の座標変換をする関数では各頂点の座標変換結果のフラグのORを返します。ただし、RotNclip4、RotAverageNclip4は返り値が-1のとき、すなわち法線クリップされたとき最後の１頂点は計算されませんから、最初の３頂点の座標変換結果のフラグのORになります。<BR>
+    フラグのビットの意味は次の通りです。<BR>
+<CENTER>
+        <H4><B>表 2 フラグのビット</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31</TD><TD>(30)|(29)|(28)|(27)|(26)|(25)|(24)|(23)|(18)|(17)|</TD><TR>
+    <TD ALIGN="center"></TD><TD>(16)|(15)|(14)|(13)|(11)</TD><TR>
+    <TD ALIGN="center">30</TD><TD>計算途中でのオーバーフロー(&gt;=2^43)</TD><TR>
+    <TD ALIGN="center">29</TD><TD>計算途中でのオーバーフロー(&gt;=2^43)</TD><TR>
+    <TD ALIGN="center">28</TD><TD>計算途中でのオーバーフロー(&gt;=2^43)</TD><TR>
+    <TD ALIGN="center">27</TD><TD>計算途中でのオーバーフロー(&lt;-2^43)</TD><TR>
+    <TD ALIGN="center">26</TD><TD>計算途中でのオーバーフロー(&lt;-2^43)</TD><TR>
+    <TD ALIGN="center">25</TD><TD>計算途中でのオーバーフロー(&lt;-2^43)</TD><TR>
+    <TD ALIGN="center">24</TD><TD>出力値が[-2^15,2^15)を超えた</TD><TR>
+    <TD ALIGN="center">23</TD><TD>出力値が[-2^15,2^15)を超えた</TD><TR>
+    <TD ALIGN="center">22</TD><TD>出力値が[-2^15,2^15)を超えた</TD><TR>
+    <TD ALIGN="center">21</TD><TD>出力値が[0,2^8)を超えた</TD><TR>
+    <TD ALIGN="center">20</TD><TD>出力値が[0,2^8)を超えた</TD><TR>
+    <TD ALIGN="center">19</TD><TD>出力値が[0,2^8)を超えた</TD><TR>
+    <TD ALIGN="center">18</TD><TD>スクリーン座標系でのZ値が[0,2^16)を超えた</TD><TR>
+    <TD ALIGN="center">17</TD><TD>透視変換後のZ座標がh/2より小さくなった</TD><TR>
+    <TD ALIGN="center">16</TD><TD>計算途中でのオーバーフロー(&gt;=2^32)</TD><TR>
+    <TD ALIGN="center">15</TD><TD>計算途中でのオーバーフロー(&lt;-2^32)</TD><TR>
+    <TD ALIGN="center">14</TD><TD>透視変換後のX座標が[-2^10,2^10)を超えた</TD><TR>
+    <TD ALIGN="center">13</TD><TD>透視変換後のY座標が[-2^10,2^10)を超えた</TD><TR>
+    <TD ALIGN="center">12</TD><TD>pの値が[0,2^12)を超えた</TD><TR>
+    <TD ALIGN="center">11-0</TD><TD>使われていません</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    ここでhは視点からスクリーンまでの距離です。つぎの関数は１６ビットのフラグを返します。<BR>
+    <BR>
+<UL>
+         <LI> RotTransPersN
+         <LI> RotTransPers3N
+         <LI> RotMeshH
+</UL>
+    <BR>
+    １６ビットのフラグの意味は次の通りです。<BR>
+<CENTER>
+        <H4><B>表 3  16ビットフラグのビット</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">15</TD><TD>計算途中でのオーバーフロー(&lt;-2^43)</TD><TR>
+    <TD ALIGN="center">14</TD><TD>計算途中でのオーバーフロー(&lt;-2^43)</TD><TR>
+    <TD ALIGN="center">13</TD><TD>計算途中でのオーバーフロー(&lt;-2^43)</TD><TR>
+    <TD ALIGN="center">12</TD><TD>出力値が[-2^15,2^15)を超えた</TD><TR>
+    <TD ALIGN="center">11</TD><TD>出力値が[-2^15,2^15)を超えた</TD><TR>
+    <TD ALIGN="center">10</TD><TD>出力値が[-2^15,2^15)を超えた</TD><TR>
+    <TD ALIGN="center">9</TD><TD>出力値が[0,2^8)を超えた</TD><TR>
+    <TD ALIGN="center">8</TD><TD>出力値が[0,2^8)を超えた</TD><TR>
+    <TD ALIGN="center">7</TD><TD>出力値が[0,2^8)を超えた</TD><TR>
+    <TD ALIGN="center">6</TD><TD>スクリーン座標系でのZ値が[0,2^16)を超えた</TD><TR>
+    <TD ALIGN="center">5</TD><TD>透視変換後のZ座標がh/2より小さくなった</TD><TR>
+    <TD ALIGN="center">4</TD><TD>計算途中でのオーバーフロー(&gt;=2^32)</TD><TR>
+    <TD ALIGN="center">3</TD><TD>計算途中でのオーバーフロー(&lt;-2^32)</TD><TR>
+    <TD ALIGN="center">2</TD><TD>透視変換後のX座標が[-2^10,2^10)を超えた</TD><TR>
+    <TD ALIGN="center">1</TD><TD>透視変換後のY座標が[-2^10,2^10)を超えた</TD><TR>
+    <TD ALIGN="center">0</TD><TD>pの値が[0,2^12)を超えた</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_11">
+<H2>
+<A HREF="#Top">↑</A> 11 <B>libgteのメッシュ関数について</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgteは２種類の三角メッシュ型のデータをサポートしています。メッシュ型データを使うと頂点計算の回数とデータの容量を減らすことができます。一つはstrip meshと呼ばれるもので下図のようにジグザグに頂点が並んでいます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef4.gif">
+<P>
+    <B>図 4 strip mesh</B><BR>
+</CENTER>
+    <BR>
+    もう一つはround meshと呼ばれるもので下図のように０番目の頂点のまわりを他の頂点が取り囲んでいます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef5.gif">
+<P>
+    <B>図 5 round mesh</B><BR>
+</CENTER>
+    <BR>
+    どちらの場合も最初の三角形012がこの順に右回りであるとき012は表示され、ほかの三角形は012の向きを規準に表裏が決められます。<BR>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      光源計算（シェーディングやデプスキューイング）を行なう場合は法線クリップをできなくなりますので計算速度が必ず増すとは限りません。メッシュデータが計算速度上有効なのは<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> シェーディング＆デプスキューイングなし
+         <LI> フラットシェーディング
+</UL>
+      <BLOCKQUOTE>
+      <BR>
+      の場合です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_12">
+<H2>
+<A HREF="#Top">↑</A> 12 <B>画面オフセットの変更</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationの画面オフセットの変更の方法は２通りあります。<BR>
+    libgpuのSetDefDrawEnvを使う方法と、libgteのSetGeomOffsetを使う方法です。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_13">
+<H2>
+<A HREF="#Top">↑</A> 13 <B>ＰＭＤ関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgteには下記のようなフォーマットのデータを読み込み座標変換を行なったあとGPUパケットを生成しOTへリンクするPMD関数が用意されています。<BR>
+    これらのデータはあらかじめパケットの定数と色変数、テクスチャ変数などがプリセットされているため座標変数だけを設定すればよく高速に描画ができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_1">
+<A HREF="#Heading3_1_13"> 13. </A>1 <B>PRIMITIVE Group</B>
+</A>
+</H3>
+<blockquote>
+    PMDデータでは、同一の属性を持つポリゴンを人まとめにしてPRIMITIVE Gp部はオブジェクトの構成要素（プリミティブ）の描画パケットが並んだもので、１つのパケットで１個のプリミティブを表します。<BR>
+    PMDで定義されているプリミティブはlibgpuで扱う描画プリミティブとは異なります。libgsの関数によって透視変換の処理を行なうと共に描画プリミティブへ変換されます。<BR>
+    １つのPrimitive Groupは次のような構造になっています。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef6.gif">
+<P>
+    <B>図 6 PACKET Gp部の構造</B><BR>
+        <H4><B>表 4 TYPEのbit構成</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit No</TD><TD ALIGN="center">0のとき</TD><TD ALIGN="center">1のとき</TD><TR>
+    <TD ALIGN="center">16</TD><TD>3角形</TD><TD>4角形</TD><TR>
+    <TD ALIGN="center">17</TD><TD>Flat</TD><TD>Gouraud</TD><TR>
+    <TD ALIGN="center">18</TD><TD>Texture-On</TD><TD>Texture-Off</TD><TR>
+    <TD ALIGN="center">19</TD><TD>独立Vertex</TD><TD>共有Vertex</TD><TR>
+    <TD ALIGN="center">20</TD><TD>光源計算OFF</TD><TD>光源計算ON</TD><TR>
+    <TD ALIGN="center">21</TD><TD>Back clipあり</TD><TD>Back clipなし</TD><TR>
+    <TD ALIGN="center">22～31</TD><TD>( Reserved )</TD><TD></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    Packet Dataの構成はTYPEの値によって変化します。TYPE別 Packet Data構成は次の通り<BR>
+    （注１）構造体中のプリミティブ部(POLY_***)はダブルバッファ対応のために２セット用意されます。<BR>
+    双方の内容はあらかじめ初期化されている必要があります。<BR>
+    （注２）bit20,21はPacket Dataの構成には影響しません。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_1">
+(1) <B>TYPE=00 (3角形/Flat/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft3 {
+        POLY_FT3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_2">
+(2) <B>TYPE=01 (4角形/Flat/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft4 {
+        POLY_FT4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_3">
+(3) <B>TYPE=02 (3角形/Gouraud/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt3 {
+        POLY_GT3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+        
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_4">
+(4) <B>TYPE=03 (4角形/Gouraud/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt4 {
+        POLY_GT4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_5">
+(5) <B>TYPE=04 (3角形/Flat/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f3 {
+        POLY_F3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_6">
+(6) <B>TYPE=05 (4角形/Flat/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f4 {
+        POLY_F4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_7">
+(7) <B>TYPE=06 (3角形/Gouraud/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g3 {
+        POLY_G3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_8">
+(8) <B>TYPE=07 (4角形/Gouraud/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g4 {
+        POLY_G4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_9">
+(9) <B>TYPE=08 (3角形/Flat/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft3c {
+        POLY_FT3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_10">
+(10) <B>TYPE=09 (4角形/Flat/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft4c {
+        POLY_FT4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_11">
+(11) <B>TYPE=0a (3角形/Gouraud/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt3c {
+        POLY_GT3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_12">
+(12) <B>TYPE=0b (4角形/Gouraud/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt4c {
+        POLY_GT4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_13">
+(13) <B>TYPE=0c (3角形/Flat/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f3c {
+        POLY_F3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_14">
+(14) <B>TYPE=0d (4角形/Flat/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f4c {
+        POLY_F4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_15">
+(15) <B>TYPE=0e (3角形/Gouraud/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g3c {
+        POLY_G3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1_16">
+(16) <B>TYPE=0f (4角形/Gouraud/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g4c {
+        POLY_G4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+      <BLOCKQUOTE>
+      pkt[]は対応する描画プリミティブパケット<BR>
+      v1～v4の値は頂点座標値<BR>
+      vp1～vp4の値は共有頂点列の先頭からのオフセットです。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_2">
+<A HREF="#Heading3_1_13"> 13. </A>2 <B>VERTEX</B>
+</A>
+</H3>
+<blockquote>
+    VERTEX部は共有頂点を表すSVECTOR構造体の配列です。１つの構造体のフォーマットは次に示す通りです。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gtef7.gif">
+<P>
+    <B>図 7 VERTEX構造体</B><BR>
+      <BLOCKQUOTE>
+      VX, VY, XZ : 頂点座標のx,y,z値（16bit整数）<BR>
+</CENTER>
+      </BLOCKQUOTE>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_14">
+<H2>
+<A HREF="#Top">↑</A> 14 <B>ＳＭＤ，ＲＭＤ関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ＰＭＤ関数の高速版としてＳＭＤ関数、ＲＭＤ関数があります。両方ともＰＭＤと同じフォーマットのデータを処理できます。ＳＭＤは常に法線クリップを行ない、ＲＭＤは常に行ないません。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_15">
+<H2>
+<A HREF="#Top">↑</A> 15 <B>ポリゴン分割</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationは、多くの小さなポリゴンを効率良く生成するように設計されています。<BR>
+    大きなポリゴンは分割処理を用いて小さなポリゴンに分割すると、クリッピング処理も効率良く行なわれ、テクスチャの歪みも小さくなります。<BR>
+    ポリゴン分割処理はlibgsで自動分割アトリビュートを用いてオブジェクト単位に行なうか以下の関数を直接呼ぶことにより利用できます。<BR>
+<CENTER>
+        <H4><B>表 5 ポリゴン分割関数</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">関数名</TD><TD ALIGN="center">対応プリミティブ</TD><TR>
+    <TD ALIGN="center">DivideF3</TD><TD>フラット３角形</TD><TR>
+    <TD ALIGN="center">DivideF4</TD><TD>フラット４角形</TD><TR>
+    <TD ALIGN="center">DivideFT3</TD><TD>フラットテクスチャ３角形</TD><TR>
+    <TD ALIGN="center">DivideFT4</TD><TD>フラットテクスチャ４角形</TD><TR>
+    <TD ALIGN="center">DivideG3</TD><TD>グーロー３角形</TD><TR>
+    <TD ALIGN="center">DivideG4</TD><TD>グーロー４角形</TD><TR>
+    <TD ALIGN="center">DivideGT3</TD><TD>グーローテクスチャ３角形</TD><TR>
+    <TD ALIGN="center">DivideGT4</TD><TD>グーローテクスチャ４角形</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

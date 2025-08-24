@@ -1,0 +1,2080 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> CD-ROMライブラリ(libcd)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+CD-ROMライブラリ(libcd)
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+CD-ROMライブラリは、PlayStationに搭載されたCD-ROMドライブをさまざまな形で制御するサービスを提供しています。この章では、CD-ROMシステム、ライブラリの概要について解説しています。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 CD-ROMのセクタ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> オーディオセクタ</A><BR>
+    <A HREF="#Heading4_1_2_2"> データセクタ</A><BR>
+    <A HREF="#Heading4_1_2_3"> ADPCMセクタ</A><BR>
+    <A HREF="#Heading4_1_2_4"> インターリーブ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 アドレッシング</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> トラック</A><BR>
+    <A HREF="#Heading4_1_3_2"> 絶対セクタ</A><BR>
+    <A HREF="#Heading4_1_3_3"> ファイルシステム</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_4"> 4 転送レート</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_4_1"> セクタバッファ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_5"> 5 サウンド制御</A><BR>
+<P><A HREF="#Heading3_1_6"> 6 プリミティブコマンド</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_6_1"> コマンド引数</A><BR>
+    <A HREF="#Heading4_1_6_2"> コマンド返り値</A><BR>
+    <A HREF="#Heading4_1_6_3"> ステータス</A><BR>
+    <A HREF="#Heading4_1_6_4"> コマンド概要</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_7"> 7 コマンド同期</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_7_1"> コマンドの実行状態</A><BR>
+    <A HREF="#Heading4_1_7_2"> コマンド同期コールバック</A><BR>
+    <A HREF="#Heading4_1_7_3"> CdControlFインタフェース</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_8"> 8 データリード</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_8_1"> リトライリードとノーリトライリード</A><BR>
+    <A HREF="#Heading4_1_8_2"> セクタレディ同期</A><BR>
+    <A HREF="#Heading4_1_8_3"> データレディ同期コールバック</A><BR>
+    <A HREF="#Heading4_1_8_4"> セクタバッファ転送</A><BR>
+    <A HREF="#Heading4_1_8_5"> セクタ転送同期</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_9"> 9 高レベルインターフェース</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_9_1"> データリード</A><BR>
+    <A HREF="#Heading4_1_9_2"> データリード同期</A><BR>
+    <A HREF="#Heading4_1_9_3"> ストリーミング</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_10"> 10 ADPCM</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_10_1"> マルチチャネル</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_11"> 11 ポジション確定ユーティリティ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_11_1"> TOCリード</A><BR>
+    <A HREF="#Heading4_1_11_2"> ディレクトリリード</A><BR>
+    <A HREF="#Heading4_1_11_3"> レポートモード</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_12"> 12 イベントサービス</A><BR>
+<P><A HREF="#Heading3_1_13"> 13 コールバック・同期関数一覧</A><BR>
+<P><A HREF="#Heading3_1_14"> 14 Appendix</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_14_1"> ディスクアクセスに関する注意事項</A><BR>
+    <A HREF="#Heading4_1_14_2"> 外周３分問題</A><BR>
+    <A HREF="#Heading4_1_14_3"> 低レベル関数群を使用する場合の留意点</A><BR>
+    <A HREF="#Heading4_1_14_4"> CD交換時の必須処理</A><BR>
+    <A HREF="#Heading4_1_14_5"> CDサブシステムのモーター回転を変更する際の注意点</A><BR>
+    <A HREF="#Heading4_1_14_6"> libcdメッセージリファレンス</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMライブラリ（libcd）では、PlayStationに搭載されたCD-ROMドライブを制御するサービスを提供しています。CD-ROMライブラリが提供するサービスには以下のものがあります。<BR>
+    <BR>
+<UL>
+         <LI> CD-ROMドライブの制御
+         <LI> CDサウンドの制御
+         <LI> その他
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROMライブラリのファイル名は「libcd.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROMライブラリのインクルードヘッダは「libcd.h」です。<BR>
+    各種のデータ構造、マクロはすべてこのファイルで定義されています。各サービスを呼び出すプログラムは必ずこれをインクルードする必要があります。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libcd.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libcd.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>CD-ROMのセクタ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROM上にはCDオーディオディスクと同様に、スパイラル状にデジタルデータが記録されています。このデジタルデータは、セクタと呼ばれる処理単位で管理されます。１秒分のデジタルデータ領域は７５個のセクタに分割されます。各セクタはどのような目的で使用されるかによって以下のようなセクタタイプに分けられます。<BR>
+<CENTER>
+        <H4><B>表 2 セクタタイプ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">セクタタイプ</TD><TD ALIGN="center">格納データ</TD><TR>
+    <TD>オーディオセクタ</TD><TD>CD-DAオーディオデータ</TD><TR>
+    <TD>ADPCMセクタ</TD><TD>ADPCM圧縮オーディオセクタ</TD><TR>
+    <TD>データセクタ</TD><TD>ユーザーデータセクタ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>オーディオセクタ</B>
+</A>
+</H3>
+<blockquote>
+    オーディオセクタにはfs=44.1kHzデジタルステレオオーディオデータ（通常のCDオーディオデータ）が記録されています。オーディオセクタは、CdlPlayコマンドで再生させることができます。これをユーザーデータとして読み込むことはできません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>データセクタ</B>
+</A>
+</H3>
+<blockquote>
+    データセクタにはユーザーデータが記録されています。データセクタの実効ユーザエリアはモードによって若干異なりますが、標準は2048バイトが使用されます。（mode-1フォーマット）<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>ADPCMセクタ</B>
+</A>
+</H3>
+<blockquote>
+    正式には、リアルタイムセクタ、mode-2form-2セクタと呼ばれるセクタを指します。ここには、ADPCM圧縮音声データが格納されています。これはオーディオセクタ同様に音声として再生することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>インターリーブ</B>
+</A>
+</H3>
+<blockquote>
+    ADPCMセクタには、通常音声データをオーディオセクタのデータと比べて1/4に圧縮されて記録されています。CD-ROMがセクタごとにシークを行なわないでADPCM再生するためには、ADPCMセクタを４セクタおきにディスク上に配置する必要があります。これをインターリーブとよびます。ADPCMセクタをインターリーブすることで、余ったセクタには他のデータを記録しておくことが可能となり、データを読み込みながらオーディオを再生することができます。<BR>
+    なお、ディスクを標準の２倍（倍速）で再生する場合はインターリーブ間隔は、８セクタおきでなくてはなりません。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>アドレッシング</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMのアドレッシング（位置指定）は、CDオーディオとの互換性からトラック番号・インデクス番号・分・秒・セクタを用いて行なわれます。すなわちCD-ROMデータをオーディオデータとして見た時のトラック番号・インデクス番号、あるいは、ディスクの先頭から数えてその地点が何分何秒何セクタであるかで位置を確定します。<BR>
+    １秒は７５セクタ、１分は６０秒からなります。先頭セクタは、00分02秒00セクタから始まります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>トラック</B>
+</A>
+</H3>
+<blockquote>
+    ディスクには各トラックの先頭にトラック信号が記録され、さらにトラック信号の位置のテーブルがディスクの先頭にTOC（Table Of Contents）として記録されています。オーディオセクタの再生開始位置はTOCとトラック信号を用いて検出することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>絶対セクタ</B>
+</A>
+</H3>
+<blockquote>
+    データセクタは、分・秒・セクタでアドレシングされますが、位置計算を容易にするために先頭（00分02秒00セクタ）からの総セクタ数で数える指定方法もあります。これを絶対セクタ指定と呼びます。絶対セクタは分・秒・セクタの値から容易に計算できます。これを行なうためのCdIntToPos()、CdPosToInt()関数が用意されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>ファイルシステム</B>
+</A>
+</H3>
+<blockquote>
+    これら低レベルのアドレシング手段の他にも、9660ファイルシステムを通じてディスクの絶対値を取得する方法があります。ただし、これはディスクがIS0-9660ファイルシステムフォーマットで記録されている場合に限ります。<BR>
+    CD-ROMはリードオンリーのため、ディスク上のファイルは全て連続したセクタ領域になるように配置しておくことができます。従ってファイルを読み出すためにはそのファイルの先頭位置を確定するだけで良く、通常のFAT（File Allocation Table）に相当するものは必要ありません。ライブラリでは、ファイル名をインデクスとしてファイルの先頭ポジションを検索する関数CdSearchFile()が用意されています。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>転送レート</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMはディスクを標準速度・倍速度のいずれかで回転できます。<BR>
+    標準速は、通常のCDプレイヤと同じ回転数で、倍速はその２倍になります。ディスクの回転が速いほどデータ転送速度は上がります。<BR>
+    CD-ROMの転送レートは、標準速度・倍速度の場合に応じてそれぞれ、150KB/sec、300KB/secになります。これは１秒間に標準速で７５セクタ、倍速で１５０セクタのデータが読めることを表します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>セクタバッファ</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROMの転送速度はホストシステムのバス速度（132MB/sec）に比べて極めて遅いため、CD-ROMシステムは内部にセクタバッファと呼ばれる１セクタ分のローカルメモリを内部に持っており、CD-ROMからのデータは、一旦セクタバッファに格納されてからまとめて転送されます。従ってCD-ROMからの転送は下図の手順を踏むことになります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/cdf1.gif">
+<P>
+    <B>図 1 CD-ROMからの転送手順</B><BR>
+</CENTER>
+    <BR>
+    ただしこれは低レベルインタフェースを用いた場合であり、より簡単にデータをリードできるCdRead()などの高レベルインタフェースも提供しています。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>サウンド制御</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMサブシステムからは右（Ｒ）と左（Ｌ）２チャンネルのオーディオ信号が出力されています。ここには、CDオーディオ、および、ADPCMオーディオが出力されます。これらは、一旦SPUに入力され、続いてSPU内の音源からの信号と加算合成されて最終的なサウンドとして出力されます。CD-ROMからのオーディオ出力は4個のアッテネータ（減衰器）によって制御されます。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      CD (L) → ATV0 → SPU (L)<BR>
+      CD (L) → ATV1 → SPU (R)<BR>
+      CD (R) → ATV2 → SPU (R)<BR>
+      CD (R) → ATV3 → SPU (L)<BR>
+      </BLOCKQUOTE>
+    <BR>
+    アッテネータの制御は、CdMix() 関数を通じて、CdlATV構造体を用いて指定します。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>プリミティブコマンド</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMに対する最も低レベルの操作は、CD-ROMサブシステムに直接コマンドを発行することで行ないます。各コマンドの発行にはCdControl()関数を使用します。CdControl()関数は以下の引数を持ちます。<BR>
+<PRE>        
+        CdControl( com, param, result )
+        u_char	com;			/* コマンドコード */
+        u_char	*param;			/* コマンド引数設定アドレス */
+        u_char	*result;		/* コマンドの返り値格納アドレス */
+        
+</PRE>
+    例えば、CdControl()を使用してCDを1分00秒から再生する場合は、以下のように、CdlPlayプリミティブコマンド（コード0x03）を発行します。<BR>
+<PRE>        
+        #include &lt;libcd.h&gt;
+        
+        CdlLOC	pos;
+        u_char	result[ 8 ];
+        
+        pos.minute = 0x01;		/* 1 min */
+        pos.second = 0x00;		/* 0 sec */
+        pos.sector = 0x00;		/* 0 sector (void) */
+        pos.track  = 0x00;		/* void */
+        
+        CdControl( CdlPlay, &pos, result );
+        
+</PRE>
+    param、resultの内容、ビットアサインはコマンドごとに異なります。CdControl()関数で定義される低レベルコマンドをプリミティブコマンドと呼びます。プリミティブコマンドには、それぞれ対応するコマンドコードが以下のように割り当てられています。<BR>
+<CENTER>
+        <H4><B>表 3</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">シンボル</TD><TD ALIGN="center">コード</TD><TD ALIGN="center">タイプ</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlNop</TD><TD ALIGN="center">0x01</TD><TD ALIGN="center">B</TD><TD>NOP（NoOperation）</TD><TR>
+    <TD>CdlSetloc</TD><TD ALIGN="center">0x02</TD><TD ALIGN="center">B</TD><TD>シークのターゲット位置を設定</TD><TR>
+    <TD>CdlPlay</TD><TD ALIGN="center">0x03</TD><TD ALIGN="center">B</TD><TD>CD-DA演奏開始</TD><TR>
+    <TD>CdlForward</TD><TD ALIGN="center">0x04</TD><TD ALIGN="center">B</TD><TD>早送り</TD><TR>
+    <TD>CdlBackward</TD><TD ALIGN="center">0x05</TD><TD ALIGN="center">B</TD><TD>巻き戻し</TD><TR>
+    <TD>CdlReadN</TD><TD ALIGN="center">0x06</TD><TD ALIGN="center">B</TD><TD>データリード開始（リトライつき）</TD><TR>
+    <TD>CdlStanby</TD><TD ALIGN="center">0x07</TD><TD ALIGN="center">N</TD><TD>ディスクを回転させた状態で待機</TD><TR>
+    <TD>CdlStop</TD><TD ALIGN="center">0x08</TD><TD ALIGN="center">N</TD><TD>ディスクの回転を停止</TD><TR>
+    <TD>CdlPause</TD><TD ALIGN="center">0x09</TD><TD ALIGN="center">N</TD><TD>現在位置で一時停止</TD><TR>
+    <TD>CdlMute</TD><TD ALIGN="center">0x0b</TD><TD ALIGN="center">B</TD><TD>CD-DAミュート</TD><TR>
+    <TD>CdlDemute</TD><TD ALIGN="center">0x0c</TD><TD ALIGN="center">B</TD><TD>ミュート解除</TD><TR>
+    <TD>CdlSetfilter</TD><TD ALIGN="center">0x0d</TD><TD ALIGN="center">B</TD><TD>再生ADPCMセクタを選択</TD><TR>
+    <TD>CdlSetmode</TD><TD ALIGN="center">0x0e</TD><TD ALIGN="center">B</TD><TD>基本モード設定</TD><TR>
+    <TD>CdlGetparam</TD><TD ALIGN="center">0x0f</TD><TD ALIGN="center">B</TD><TD>CDサブシステムの現在のmodeを獲得</TD><TR>
+    <TD>CdlGetlocL</TD><TD ALIGN="center">0x10</TD><TD ALIGN="center">B</TD><TD>論理位置獲得（データセクタ）</TD><TR>
+    <TD>CdlGetlocP</TD><TD ALIGN="center">0x11</TD><TD ALIGN="center">B</TD><TD>物理位置獲得（オーディオセクタ）</TD><TR>
+    <TD>CdlGetTN</TD><TD ALIGN="center">0x13</TD><TD ALIGN="center">B</TD><TD>TOCエントリ数の取得</TD><TR>
+    <TD>CdlGetTD</TD><TD ALIGN="center">0x14</TD><TD ALIGN="center">B</TD><TD>TOCの取得</TD><TR>
+    <TD>CdlSeekL</TD><TD ALIGN="center">0x15</TD><TD ALIGN="center">N</TD><TD>論理シーク（データセクタシーク）</TD><TR>
+    <TD>CdlSeekP</TD><TD ALIGN="center">0x16</TD><TD ALIGN="center">N</TD><TD>物理シーク（オーディオセクタシーク）</TD><TR>
+    <TD>CdlReadS</TD><TD ALIGN="center">0x1b</TD><TD ALIGN="center">B</TD><TD>データリード開始（リトライなし）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    B: Blocking, N:Non-Blocking operation<BR>
+</CENTER>
+    <BR>
+    プリミティブコマンドは処理の終了を待ってリターンするブロックコマンド、終了をまたずにリターンするノンブロックコマンドの２つのタイプがあります。 コマンドはキューイングされません そのため必ず先行して発行したコマンドの終了を確認してから後続のコマンドを発行しなければ後続のコマンドの発行はブロックされます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>コマンド引数</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブコマンドのうち以下のものはパラメータと呼ばれる引数のリストが必要になります。コマンドの引数は以下の通りです。<BR>
+<CENTER>
+        <H4><B>表 4 引数を取るプリミティブコマンド</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">シンボル</TD><TD ALIGN="center">パラメータタイプ</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlSetloc</TD><TD>CdlLOC *</TD><TD>開始セクタ位置</TD><TR>
+    <TD>CdlReadN</TD><TD>CdlLOC *</TD><TD>開始セクタ位置</TD><TR>
+    <TD>CdlReadS</TD><TD>CdlLOC *</TD><TD>開始セクタ位置</TD><TR>
+    <TD>CdlPlay</TD><TD>CdlLOC *</TD><TD>開始セクタ位置</TD><TR>
+    <TD>CdlSetfilter</TD><TD>CdlFILTER *</TD><TD>再生 ADPCM セクタ指定</TD><TR>
+    <TD>CdlSetmode</TD><TD>u_char *</TD><TD>基本モード指定</TD><TR>
+    <TD>CdlGetTD</TD><TD>u_char *</TD><TD>トラックNo, （BCD）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    これ以外のコマンドは引数は必要ありません。引数の必要ないコマンドには、引数ポインタにNULL（0）を指定します。<BR>
+    CdlLOCはディスクの位置を表現するもので、以下の構造をもちます。<BR>
+<PRE>        
+        struct {
+        	u_char minute;		/* セクタ位置（分）*/
+        	u_char second;		/* セクタ位置（秒）*/
+        	u_char sector;		/* セクタ位置（セクタ）*/
+        	u_char track;		/* reserved */
+        } CdlLOC;
+        
+</PRE>
+    このうち、minute、second、sectorメンバはBCDと呼ばれる形式で指定されます。BCDは１０進数表示の各桁をそれぞれ4bitごとのフィールドに割り当てたものです。たとえば １０進の６０を指定するためには１６進で0x60と表記します。<BR>
+    CdlFILTER構造体はマルチチャネルADPCMの再生チャネルを特定するために使用するもので、以下の構造を持ちます。<BR>
+<PRE>        
+        struct {
+        	u_char	file;		/* 再生 file ID */
+        	u_char	chan;		/* 再生 channel ID */
+        	u_short	pad;
+        } CdlFILTER;
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_2">
+<A HREF="#Heading3_1_6"> 6. </A>2 <B>コマンド返り値</B>
+</A>
+</H3>
+<blockquote>
+    一方、プリミティブコマンドは、コマンド実行後に常に８バイトの返り値を返します。返り値の意味はコマンドごとに異なります。返り値の内容は以下の通りです。<BR>
+<CENTER>
+        <H4><B>表 5 プリミティブコマンドの返り値</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>シンボル</TD><TD>0 byte</TD><TD>1 byte</TD><TD>2 byte</TD><TD>3 byte</TD><TD>4 byte</TD><TD>5 byte</TD><TD>6 byte</TD><TD>7 byte</TD><TR>
+    <TD>CdlNop</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlSetloc </TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlPlay </TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlForward </TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlBackward</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlReadN</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlStanby</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlStop</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlPause</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlMute</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlDemute</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlSetfilter</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlSetmode</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlGetparam</TD><TD>status</TD><TD>mode</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlGetlocL</TD><TD>min</TD><TD>sec</TD><TD>sector</TD><TD>mode</TD><TD>file</TD><TD>chan</TD><TD></TD><TD></TD><TR>
+    <TD>CdlGetlocP</TD><TD>track</TD><TD>index</TD><TD>min</TD><TD>sec</TD><TD>frame</TD><TD>amin</TD><TD>asec</TD><TD>aframe</TD><TR>
+    <TD>CdlGetTN</TD><TD>status</TD><TD>Btrack</TD><TD>Etrack</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlGetlocP</TD><TD>status</TD><TD>min</TD><TD>sec</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlSeekL</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlSeekP</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+    <TD>CdlReadS</TD><TD>status</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    返り値がstatusの１バイトだけのコマンドであっても、返り値を格納するバッファ領域は８バイト分必要になります。また、返り値の引数にNULL（0）を指定する返り値の設定が抑制されます。すなわち、<BR>
+<PRE>        
+        CdlLOC	pos;
+        CdControl(CdlSeekL, &pos, 0);
+        
+</PRE>
+    の例では、CdlSeekLの返り値は設定されずに関数はリターンします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_3">
+<A HREF="#Heading3_1_6"> 6. </A>3 <B>ステータス</B>
+</A>
+</H3>
+<blockquote>
+    ほとんどのコマンドでは、返り値の最初の１バイトはCD-ROMのステータスを表します。ステータスバイトのビットアサインは以下の通りです。ステータスだけを獲得したい場合はCdlNopコマンドを使用します。<BR>
+<CENTER>
+        <H4><B>表 6 ステータスバイトのビットアサイン</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">シンボル</TD><TD ALIGN="center">コード</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlStatPlay</TD><TD> 0x80</TD><TD>1: CD-DA再生中</TD><TR>
+    <TD>CdlStatSeek</TD><TD> 0x40</TD><TD>1: シーク中</TD><TR>
+    <TD>CdlStatRead</TD><TD> 0x20</TD><TD>1: データセクタ読み込み中</TD><TR>
+    <TD>CdlStatShellOpen</TD><TD> 0x10</TD><TD>1: 蓋（シェル）が開いている *1</TD><TR>
+    <TD>CdlStatSeekError</TD><TD> 0x04</TD><TD>1: シーク・リード中にエラー発生</TD><TR>
+    <TD>CdlStatStandby</TD><TD> 0x02</TD><TD>1: モータ回転中</TD><TR>
+    <TD>CdlStatError</TD><TD> 0x01</TD><TD>1: コマンド発行エラー</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+      <BLOCKQUOTE>
+      *1: このフラグはCdlNOPコマンドによりクリアされます。したがって現在ふたが開いているかどうかを判定するためにはこのフラグをチェックする前に少なくとも１回はCdlNopコマンドを発行する必要があります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_4">
+<A HREF="#Heading3_1_6"> 6. </A>4 <B>コマンド概要</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_1">
+(1) <B>CdlNop</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      何もしません。ステータスを獲得するために使用します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_2">
+(2) <B>CdlSetloc</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ターゲットポジションを設定します。これは位置の設定のみを行ない、実際の動作は行なわれません。ここで設定したターゲットポジションは次にCdlPlay、CdlReadN、CdlReadS、CdlSeekP、CdlSeekLを実行する時に使用されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_3">
+(3) <B>CdlPlay</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ターゲットポジションへCD-ROMのヘッドをシークしてからCD-DAの再生を開始します。ターゲットポジションは、引数で設定します。引数にNULLを指定すると直前のCdlSetloc、CdlSeekPで指定された値が使用されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_4">
+(4) <B>CdlReadS/CdlReadN</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ターゲットポジションへCD-ROMのヘッドをシークしてからデータセクタの内容を読み出して、ローカルバッファへ転送します。ターゲットポジションは、引数で設定します。引数にNULLを指定すると直前のCdlSetloc、CdlSeekLで指定された値が使用されます。<BR>
+      CdlReadSはエラー発生の際にリトライしません。これは主にストリーミング再生などのリアルタイム読み込みに使用されます。<BR>
+      CdlReadNはリードエラーが発生した場合可能な限り（最大８秒）リトライをおこないます。ただしこのリトライを行った場合でも失敗する可能性はあります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_5">
+(5) <B>CdlSeekL/CdlSeekP</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ターゲットポジションへCD-ROMのヘッドをシークしてからポーズ状態で待機します。CD-ROMはハードディスクなどと異なりシーク時間が長いため、目的のアドレスがあらかじめ確定している場合は、前もってヘッドをターゲットポジションへ移動しておくことでアクセスを高速にすることができます。<BR>
+      CdlSeekLはデータセクタへの論理シークを行ないます。データセクタの先頭にはセクタアドレスが記録されており、それを使用して正確なシークが可能です。これを論理シークと呼びます。論理シークはデータセクタに対してのみ有効です。<BR>
+      これに対してセクタヘッダを持たないオーディオセクタに対してはサブコードを使用したシーク（物理シーク）を行なわれます。物理シークは正確さに欠けるもののあらゆるタイプのセクタに対して有効です。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 7 CdlSeekL/ CdlSeekPの動作</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">コマンド</TD><TD ALIGN="center">シーク方法</TD><TD ALIGN="center">精度</TD><TD ALIGN="center">使用可能セクタ</TD><TR>
+    <TD>CdlSeekL</TD><TD>論理シーク</TD><TD>高い</TD><TD>オーディオセクタ以外</TD><TR>
+    <TD>CdlSeekP</TD><TD>物理シーク</TD><TD>低い</TD><TD>全てのセクタ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_6">
+(6) <B>CdlForward/CdlBackward</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      オーディオセクタを再生中に早送り・巻き戻しを開始します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_7">
+(7) <B>CdlStandby/CdlStop/CdlPause</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CdlStandbyはスピンドルモータを回転させた状態で待機します。<BR>
+      CdlStopはスピンドルモータを停止させ ヘッドをホームポジションへ戻します。ストップ状態にあるよりもスタンバイ状態にある方が、次のシーク・リード・プレイへ遷移を高速に行なうことができます。<BR>
+      CdlPauseはリード・プレイを一時中断し、スタンバイ状態でヘッドを中断した位置で待機させます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_8">
+(8) <B>CdlMute/CdlDemute</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CD-DA、ADPCM再生をミュート（消音）・ミュート解除を行ないます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_9">
+(9) <B>CdlSetfilter</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      マルチチャネルADPCMの再生チャネルを指定します。再生できるチャネルはファイル番号とチャネル番号の２つでインデクスされます。デフォルトのファイル番号・チャネル番号は、(1,1)です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_10">
+(10) <B>CdlSetMode</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CD-ROMの基本的な動作モードを設定します。<BR>
+      モードの設定は、以下のビットの論理和をとった１バイトをCdlSetModeコマンドを用いて設定することで行ないます。また、現在のモードは、CdlGetlocLコマンドで獲得できます。<BR>
+      <BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 8 CdlSetModeで指定するモード</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">シンボル</TD><TD ALIGN="center">コード</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlModeSpeed</TD><TD>0x80</TD><TD>転送速度        0: 標準速  1: 倍速</TD><TR>
+    <TD>CdlModeRT</TD><TD>0x40</TD><TD>ADPCM 再生    0: ADPCM OFF  1: ADPCM ON</TD><TR>
+    <TD>CdlModeSize1</TD><TD>0x20</TD><TD>セクタサイズ    0: 2048 byte  1: 2340byte</TD><TR>
+    <TD>CdlModeSize0</TD><TD>0x10</TD><TD>セクタサイズ    0:   1: 2328byte</TD><TR>
+    <TD>CdlModeSF</TD><TD>0x08</TD><TD>サブヘッダフィルタ 0: OFF  1: ON</TD><TR>
+    <TD>CdlModeRept</TD><TD>0x04</TD><TD>レポートモード  0: off  1: ON</TD><TR>
+    <TD>CdlModeAP</TD><TD>0x02</TD><TD>オートポーズ    0: off  1: ON</TD><TR>
+    <TD>CdlModeDA</TD><TD>0x01</TD><TD>CD-DA 再生     0: CD-DA off  1: CD-DA on</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_11">
+(11) <B>CdlGetparam</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CDサブシステムの現在のmodeを獲得します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_12">
+(12) <B>CdlGetlocL</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      データセクタをリード／ADPCM再生中の現在ポジションを獲得します。<BR>
+      獲得されるパラメータには以下のものがあります。CdlGetlocLは、オーディオセクタ再生中には動作しません。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 9 CdlGetlocLで取得されるパラメータ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">result</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>分（BCD）</TD><TR>
+    <TD ALIGN="center">1</TD><TD>秒（BCD）</TD><TR>
+    <TD ALIGN="center">2</TD><TD>セクタ（BCD）</TD><TR>
+    <TD ALIGN="center">3</TD><TD>モード（CdlSetModeコマンド参照）</TD><TR>
+    <TD ALIGN="center">4</TD><TD>ファイル番号（CdlSetFileterコマンド参照）</TD><TR>
+    <TD ALIGN="center">5</TD><TD>チャネル番号（CdlSetFileterコマンド参照）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_13">
+(13) <B>CdlGetLocP</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      現在リード／プレイ中のセクタ物理アドレスを獲得します。<BR>
+      獲得されるパラメータには以下のものがあります。<BR>
+      CdlGetlocPは、サブコードアドレスを獲得するためオーディオセクタを含む全てのセクタタイプに対して有効に動作します。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 10 CdlGetLocP
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">result</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>トラック番号（BCD）</TD><TR>
+    <TD ALIGN="center">1</TD><TD>インデックス番号（BCD）</TD><TR>
+    <TD ALIGN="center">2</TD><TD>トラック相対分（BCD）</TD><TR>
+    <TD ALIGN="center">3</TD><TD>トラック相対秒（BCD）</TD><TR>
+    <TD ALIGN="center">4</TD><TD>トラック相対セクタ（BCD）</TD><TR>
+    <TD ALIGN="center">5</TD><TD>絶対分（BCD）</TD><TR>
+    <TD ALIGN="center">6</TD><TD>絶対秒（BCD）</TD><TR>
+    <TD ALIGN="center">7</TD><TD>絶対セクタ（BCD）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      トラック相対分・秒・セクタは、そのトラックの先頭位置からのオフセット値を表します。絶対分・秒・セクタは、先頭トラックからの位置を表します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_14">
+(14) <B>CdlGetTN</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      TOCエントリ数を獲得します。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 11CdlGetTN
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">result</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>ステータス</TD><TR>
+    <TD ALIGN="center">1</TD><TD>先頭トラックNo. （BCD）</TD><TR>
+    <TD ALIGN="center">2</TD><TD>最終トラックNo. （BCD）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_15">
+(15) <B>CdlGetTD</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      パラメータで指定されたトラックNo.に対応するTOC情報（min、sec）を獲得します。パラメータにはトラックNo.をBCDで指定してください。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 12 CdlGetTD
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">result</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>ステータス</TD><TR>
+    <TD ALIGN="center">1</TD><TD>TOCのmin</TD><TR>
+    <TD ALIGN="center">2</TD><TD>TOCのsec</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      ただし、トラックNo.として０を指定した場合は、<BR>
+      	min:	総演奏時間（分）<BR>
+      	sec:	総演奏時間（秒）<BR>
+      となります。<BR>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>コマンド同期</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    プリミティブコマンドのうち、処理時間のかかるものは実際の処理の終了を待たずにリターンします。これらのコマンドをノンブロックコマンド（非同期コマンド）と呼びます。これに対して処理の終了を待ってリターンするものをブロックコマンド（同期コマンド）と呼びます。<BR>
+    ノンブロックコマンドは、CdControl()関数がリターンした後もバックグラウンドで処理を続行します。その間ホストシステムは並列して他の処理を行なうことができます。<BR>
+    ノンブロックコマンドの実際の処理の終了はCdSync()関数を使用するか後述するコールバック関数を使用します。以下の例は全てのコマンドの終了までブロックする関数です。<BR>
+<PRE>        
+        CdControlB( u_char com, u_char* param, u_char* result )
+        
+        /* コマンドの発行 */
+        if( CdControl( com. param, result ) == 0 )
+        	return 0;
+        /* コマンドが終了するまでブロックする */
+        if( CdSync( 0, result ) == CdlComplete )
+        	return 1;
+        else
+        	return 0;
+        
+</PRE>
+    なおノンブロックコマンドを発行した際のCdControl()関数の返り値は一時的なものであり、最終的なステータスはCdSync()関数の返り値かコールバック関数に渡される引数で確定します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>コマンドの実行状態</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブコマンドは以下の処理状態をもちます。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 13 プリミティブコマンドの処理状態
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">処理状態</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlNoIntr</TD><TD>コマンド実行中</TD><TR>
+    <TD>CdlComplete</TD><TD>実行終了・待機中</TD><TR>
+    <TD>CdlDiskError</TD><TD>エラー発生</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    コマンドが発行されると実行状態はCdlCompleteからCdlNoIntrへ移行します。コマンドが正常終了して次のコマンドが受け付けられる状態になるとCdlComplete状態へ移行します。実行時にエラーが検出されるとCdlDiskError状態になります。<BR>
+    ブロックコマンド・ノンブロックコマンドは、関数のリターン時の処理状態によっても定義できます。ブロックコマンドではコマンド発行後CdlComplete/CdlDiskError状態になるのを待ってリターンするのに対してノンブロックコマンドは、CdlNoIntrのままリターンします。<BR>
+    これらのコマンド実行状態はCdSync()関数のリターン値で獲得できます。<BR>
+<PRE>        
+        CdSync( u_char mode, u_char* result )
+        u_char	mode;		/* モード 0:ブロック 1:ノンブロック */
+        u_char	*result;	/* コマンドの返り値格納アドレス */
+        
+</PRE>
+    mode 引数によってブロックモード／ノンブロックモードが選択されます。<BR>
+<PRE>        
+<CENTER>
+</PRE>
+        <H4><B>表 14 CdSync()の引数の値と内容
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">mode</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>実行状態がCdlNoIntr以外に移行するまでリターンしない</TD><TR>
+    <TD ALIGN="center">1</TD><TD>実行状態にかかわらずに直ちにリターンする</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    従って以下のコードは同じ結果になります。<BR>
+<PRE>        
+        a)	CdControl( CdlSeekL, ( u_char* )pos, 0 );
+        	CdSync( 0, result );
+        
+        b)	CdControl( CdlSeekL, ( u_char* )pos, 0 );
+        	while( CdSync( 1, result ) != CdlNoIntr );
+        
+</PRE>
+    なお、CdSync()の返り値（result）は実行状態がCdlComplete/CdlDiskErrorになった時点で初めて確定します。処理状態がCdlNoIntrの場合、次のコマンドは受け付けられません。<BR>
+    コマンドの実行はキューイングされないため、新しいコマンドは前のコマンドが終了し、実行状態がCdlNoIntrに移行するのを待って実行されます。従って以下のコードは同じ結果になります。<BR>
+<PRE>        
+        a)	CdControl( CdlSeekP, ( u_char* )pos, 0 );
+        	CdControl( CdlPlay, 0, result );
+        b)	CdControl( CdlSeekP, ( u_char* )pos, 0 );
+        	CdSync( 0, 0 );
+        	CdControl( CdlPlay, 0, result );
+</PRE>
+    <BR>
+    a)、b)の例ともシークの間は処理がブロックされます。これを避けるためには、直接位置指定をしてCdlPlayを発行するか、コールバック関数内でCdlPlayを起動するようにします。<BR>
+<PRE>        
+        /* シークの間ブロックされる */
+        CdControl( CdlSeekP, ( u_char* )pos, 0 );
+        CdControl( CdlPlay, 0, result );
+        /* シークの間ブロックされない */
+        CdControl( CdlPlay, ( u_char* )pos, result );
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_2">
+<A HREF="#Heading3_1_7"> 7. </A>2 <B>コマンド同期コールバック</B>
+</A>
+</H3>
+<blockquote>
+    コマンド実行状態がCdlNoIntrからCdlComplete/CdlDiskErrorに移行する際に呼ばれる関数（コールバック関数）を登録することができます。<BR>
+    コールバックの登録にはCdSyncCallback()関数を使用します。<BR>
+    コールバック関数には以下の形式の引数が渡されます。<BR>
+<PRE>        
+        callback( u_char intr, u_char* result )
+        u_char	intr;		/* その時点の実行状態 */
+        u_char	*result;	/* その時点で最新の返り値  */
+</PRE>
+    <BR>
+    以下にコールバックを使用した例をあげます。<BR>
+<PRE>        
+        main() {
+        	void callback();
+        	CdlLOC pos;	....
+        	/* コールバック関数 callback() を登録 */
+        	CdSyncCallback( callback );
+        	....
+        	/* コマンド発行 */
+        	CdControl( CdlSeekP, ( u_char* )&pos, 0 );
+        }
+        
+        /* コマンド終了時に以下の関数が呼ばれる */
+        void callback( u_char intr, u_char* result )
+        {
+        	if( intr == CdlComplete )	/* ここで必ずステータスのチェックを行うこと */
+        		CdControl( CdlPlay, 0, 0 );
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_3">
+<A HREF="#Heading3_1_7"> 7. </A>3 <B>CdControlFインタフェース</B>
+</A>
+</H3>
+<blockquote>
+    CdControl()は、コマンドの発行がサブシステムへ通知されるまでブロックします。このブロックしている時間はコマンドの実行時間と比較すると短いために通常は無視できます。ただし アプリケーションによってはこの時間もブロックしないでプログラムを動かしたいという要望があるかもしれません。そのためにCdControlF()があります。CdControlF()はコマンドの通知まで待たないため、コマンドを発行した直後にリターンします。そのためコマンドが受け付けられたかどうかの判定が簡単にできません。ポーリングでCdSync()を発行してエラー処理を行う必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>データリード</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMは、倍速モードでもデータ転送速度が300KB/secとメインバス転送速度に比べて非常に遅いために内部にセクタデータバッファを持ち、セクタ単位にまとめてデータを読み出せるようになっています。<BR>
+    データセクタ読みだしコマンド（CdlReadN/CdlReadS）が発行されると、CD-ROMサブシステムはセクタデータを読みだし、一旦セクタバッファ上にデータを展開します。セクタバッファに展開されたデータの内容は次のセクタのデータが新しく上書きされるまで有効です。<BR>
+    セクタバッファ上に確定したデータは、CdGetSector()関数を使用して高速にメインメモリに転送することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_1">
+<A HREF="#Heading3_1_8"> 8. </A>1 <B>リトライリードとノーリトライリード</B>
+</A>
+</H3>
+<blockquote>
+    データリードには、読み込み時にエラーが発生した時にセクタ単位でリトライをかけるタイプ（CdlReadN）と、エラーを報告するだけでリトライを行なわないタイプ（CdlReadS）があります。<BR>
+    CdlReadNを使用した読み込みは読み出されたデータが正しいことが保証されますが、エラー発生時に一旦前に戻って再度セクタの読み込み（リトライ）を行なうために、ADPCMの再生と同時に使用できません。<BR>
+    また、ストリーミングのように、データの品質よりも転送レートを一定に保ちたい場合にも適切ではありません。こうした場合には、エラー発生時にもリトライを行なわないCdlReadSを使用します。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 15 リトライリードとノーリトライリード
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>リードコマンド</TD><TD>リトライ</TD><TD>エラー検出</TD><TR>
+    <TD>CdlReadN</TD><TD>あり</TD><TD>あり</TD><TR>
+    <TD>CdlReadS</TD><TD>なし </TD><TD>あり</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_2">
+<A HREF="#Heading3_1_8"> 8. </A>2 <B>セクタレディ同期</B>
+</A>
+</H3>
+<blockquote>
+    セクタバッファにデータが用意されたかどうかは、CdReady()関数によって検出できます。<BR>
+<PRE>        
+        CdReady( u_char mode, u_char* result )
+        u_char	mode;		/* モード 0:ブロック 1:ノンブロック */
+        u_char	*result;	/* 最近のコマンド返り値 */
+        
+</PRE>
+      <BLOCKQUOTE>
+      CdReady() 関数は以下のセクタバッファの状態を返します。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+<CENTER>
+</PRE>
+        <H4><B>表 16 セクタバッファの状態
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">処理状態</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlNoIntr</TD><TD>準備中</TD><TR>
+    <TD>CdlDataReady</TD><TD>データ準備完了</TD><TR>
+    <TD>CdlDiskError</TD><TD>エラー発生</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    セクタバッファ上にデータが確定すると状態はCdlNoIntrからCdlDataReady/CdlDiskError状態に移行します。CdReady()のmode引数に0を指定した場合は、状態がCdlNoIntrから移行するまで処理をブロックします。<BR>
+    また、CdRady()関数が一旦CdlDataReady/CdlDiskErrorを返すと状態はCdlNoIntrに戻ります。<BR>
+    なお、CdReady()関数はセクタバッファの状態をレポートするもので、後述するCdRead()の終了をリポートするCdReadSync()関数よりも低レベルのインターフェースであることにご注意下さい。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_3">
+<A HREF="#Heading3_1_8"> 8. </A>3 <B>データレディ同期コールバック</B>
+</A>
+</H3>
+<blockquote>
+    CdSyncCallback()と同様にセクタバッファの状態がCdlNoIntrからCdlDataReady/CdlDiskErrorに移行する際に呼ばれる関数（コールバック 関数）を登録することができます。<BR>
+    コールバックの登録にはCdReadyCallback()関数を使用します。<BR>
+    ここで登録されたコールバック関数は、１セクタ分のデータが用意されるたびに起動します。後述するCdReadCallback()とは仕様が異なるの点にご注意下さい。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_4">
+<A HREF="#Heading3_1_8"> 8. </A>4 <B>セクタバッファ転送</B>
+</A>
+</H3>
+<blockquote>
+    セクタバッファ上には次々に新しいセクタデータが上書きされていきます。従ってセクタデータは、上書きされる前にセクタデータをメインメモリ上に転送する必要があります。これにはCdGetSector()関数が使用されます。セクタバッファのデータを直接フレームバッファやサウンドバッファに転送する場合も一旦メインメモリに転送してから各デバイスへ再転送を行ないます。<BR>
+    セクタバッファのサイズは１セクタ分です。セクタサイズは、CD-ROMのモードによって異なりますが、通常は2KByteが使用されます。この場合、一回のCdGetSector()関数でメインメモリに引き上げられるデータサイズの上限も2KByteになります。データは、複数回にわけて別々の場所に転送することもできます。ただしその場合も転送するデータサイズの合計は、セクタサイズに等しくなくてはなりません。<BR>
+    CD-ROMからnセクタ分のデータを読み出す例を以下にあげます。<BR>
+<PRE>        
+        cd_read( CdlLOC* loc, u_long* buf, int nsec )
+        /* loc:		ターゲットポジション */
+        /* buf:		読み込みバッファ */
+        /* nsec:	セクタ数 */
+        {
+        	u_char	param[ 4 ];
+        	/* 倍速モードを指定 */
+        	param[ 0 ] = CdlModeSpeed;
+        	CdControl( CdlSetmode, param, 0 );
+        	/* リトライリードコマンドを発行 */
+        	CdControl( CdlReadN, ( u_char* )loc, 0 );
+        	/* データが用意され次第メインメモリへ転送 */
+        	while( n-- ) {
+        		if( CdReady( 0, 0 ) != CdlDataReady )
+        			return -1;
+        		CdGetSector( buf, 2048 / 4 );
+        		buf += 2048 / 4;
+        	}
+        }
+        
+</PRE>
+    なお、CdGetSector()はデータ転送の終了を確認してリターンしますので、転送が終了するまで処理はブロックされます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_5">
+<A HREF="#Heading3_1_8"> 8. </A>5 <B>セクタ転送同期</B>
+</A>
+</H3>
+<blockquote>
+    セクタバッファからメインメモリへのデータの転送はCdGetSector()でおこないます。CdGetSector()はブロック関数であるため関数からリターンした時にはデータの転送は終了しています。よってデータ転送の終了を非同期に監視する必要はありません。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>高レベルインターフェース</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_1">
+<A HREF="#Heading3_1_9"> 9. </A>1 <B>データリード</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROM上のデータは、CdlReadNプリミティブコマンドとCdGetSector()関数を組み合わせて読み出すことができますが、ライブラリではこれらをまとめて複数セクタをメインメモリへ展開する関数CdRead()も用意されています。<BR>
+<PRE>        
+        CdRead( int sectors, u_long* buf, u_char mode )
+        sectors		/* 読みだしセクタ数 */
+        buf		/* メインメモリアドレス */
+        mode		/* リードモード */
+        
+</PRE>
+    CdRead()は内部でCdReadyCallback()を使用します。そのためCdRead()関数使用時にはこのコールバックは使用できません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_2">
+<A HREF="#Heading3_1_9"> 9. </A>2 <B>データリード同期</B>
+</A>
+</H3>
+<blockquote>
+    CdRead()関数はノンブロック関数として動作します。CdRead()の実際の終了はCdReadSync()関数を使用します。CdReadSync()関数はノンブロックモード動作時には、未リードの残りセクタ数を返します。<BR>
+    以下の例はブロック型のCD-ROM読み込み関数です。<BR>
+<PRE>        
+        CdReadB( CdlLOC* loc, u_long* buf, int nsector )
+        /* loc		ターゲットポジション */
+        /* buf		メモリアドレス */
+        /* nsector	読みだしセクタ数 */
+        {
+        	int cnt;
+        	u_char param[ 4 ];
+        	/* 倍速モードを指定 */
+        	param[ 0 ] = CdlModeSpeed;	
+        	CdControl( CdlSetmode, param, 0 );
+        	/* ターゲットポジションを設定 */
+        	CdControl( CdlSetloc, ( u_char* )&loc, 0 );
+        	/* リード開始 */
+        	CdRead( nsector, buf, mode );
+        
+        	/* リードが終了するまで残りのセクタ数を監視する */
+        	while( ( cnt = CdReadSync( 1, 0 ) ) &gt; 0 ); 
+        
+        	return cnt;
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_3">
+<A HREF="#Heading3_1_9"> 9. </A>3 <B>ストリーミング</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROMからデータを連続的に読み込んでメインメモリへ転送する処理をストリーミングと呼びます。ストリーミングは、複数のセクタからなるデータの処理単位（１フレーム分の圧縮画像データなど）をメインメモリ上にまとめ、その先頭ポインタをアプリケーションに渡します。<BR>
+    ストリーミングは、St*()関数として別に詳細に解説されておりますのでそちらを参照ください。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>ADPCM</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ADPCM（Adaptive Differential PCM: 適応的差分符号）は、16bitストレートPCMで表現された音声データを1/4に圧縮したものです。ADPCMデータが格納されたセクタをADPCMセクタと呼びます。一連の音声を再生するためのADPCMセクタは、標準速再生時には４セクタおき、倍速再生時には８セクタおきにディスクに飛び飛びに記録されます（インターリーブ）。<BR>
+    倍速度の場合のADPCMセクタインターリーブは以下のようになります。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">0</TD><TD ALIGN="center">1</TD><TD ALIGN="center">2</TD><TD ALIGN="center">3</TD><TD ALIGN="center">4</TD><TD ALIGN="center">5</TD><TD ALIGN="center">6</TD><TD ALIGN="center">7</TD><TD ALIGN="center">8</TD><TD ALIGN="center">9</TD><TD ALIGN="center">a</TD><TD ALIGN="center">b</TD><TD ALIGN="center">c</TD><TD ALIGN="center">d</TD><TD ALIGN="center">e</TD><TD ALIGN="center">f</TD><TD ALIGN="center">・</TD><TD ALIGN="center">・</TD><TR>
+    <TD ALIGN="center">A</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">A</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">D</TD><TD ALIGN="center">・</TD><TD ALIGN="center">・</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<CENTER>
+    (A: ADPCM セクタ, D: データセクタ) <BR>
+        <H4><B>図 2 セクタインターリーブ</B></H4>
+
+</CENTER>
+    インターリーブを行なうことでADPCM再生を行ないながらデータのリードを行なうことができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_1">
+<A HREF="#Heading3_1_10"> 10. </A>1 <B>マルチチャネル</B>
+</A>
+</H3>
+<blockquote>
+    ADPCMがインターリーブされたデータセクタに他のADPCMチャネルのADPCMセクタをおくことができます。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">0</TD><TD ALIGN="center">1</TD><TD ALIGN="center">2</TD><TD ALIGN="center">3</TD><TD ALIGN="center">4</TD><TD ALIGN="center">5</TD><TD ALIGN="center">6</TD><TD ALIGN="center">7</TD><TD ALIGN="center">8</TD><TD ALIGN="center">9</TD><TD ALIGN="center">a</TD><TD ALIGN="center">b</TD><TD ALIGN="center">c</TD><TD ALIGN="center">d</TD><TD ALIGN="center">e</TD><TD ALIGN="center">f</TD><TD ALIGN="center">・</TD><TD ALIGN="center">・</TD><TR>
+    <TD ALIGN="center">A0</TD><TD ALIGN="center">A1</TD><TD ALIGN="center">A2</TD><TD ALIGN="center">A3</TD><TD ALIGN="center">A4</TD><TD ALIGN="center">A5</TD><TD ALIGN="center">A6</TD><TD ALIGN="center">A7</TD><TD ALIGN="center">A0</TD><TD ALIGN="center">A1</TD><TD ALIGN="center">A2</TD><TD ALIGN="center">A3</TD><TD ALIGN="center">A4</TD><TD ALIGN="center">A5</TD><TD ALIGN="center">A6</TD><TD ALIGN="center">A7</TD><TD ALIGN="center">・</TD><TD ALIGN="center">・</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<CENTER>
+    An:nチャンネルADPCMデータ<BR>
+        <H4><B>図 3 マルチチャネルインターリーブ</B></H4>
+
+</CENTER>
+    この例では８チャネルのADPCMセクタ（A0-A7）をインターリーブしてディスクに記録することを表します。この場合、８チャネルまでのオーディオ再生をディスクのシークなしに切替えることができます。<BR>
+    こうした、マルチチャンネルADPCMトラックを再生する際、どのチャネルを再生するかはCdlSetFilterコマンドを使用します。ADPCMトラックは、CdlFILTER構造体のファイルメンバとチャネルメンバで確定されます。CdlSetFilterコマンドを有効にするためにはモード設定コマンドでCdlModeSFを立てる必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_11">
+<H2>
+<A HREF="#Top">↑</A> 11 <B>ポジション確定ユーティリティ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMへの直接的なのアドレシングは、CdlLOC構造体に分・秒・セクタのメンバを指定して対応するプリミティブコマンドを発行することでおこないます。CD-ROMの各トラック・ファイルの絶対位置はディスクを作成する前にあらかじめ決定できるために、基本的にはアプリケーション内で動的にトラック・ファイルの先頭ポジションを検索する必要はありませんし 検索時間がかかるため スピード的にもお勧めしません。<BR>
+    しかしプログラムの開発・デバッグのために実行時に動的に目的のトラック・ファイルの先頭ポジションを検索するユーティリティが用意されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_1">
+<A HREF="#Heading3_1_11"> 11. </A>1 <B>TOCリード</B>
+</A>
+</H3>
+<blockquote>
+    ディレクトリリードCD-ROMはCDプレイヤの機能としてディスク作成時にオーディオセクタ・データセクタ列の先頭にトラックおよびインデックスを打ち込むことができます。トラック・インデックスは、ディスクのTOC領域に記録され、CdGetToc()関数で獲得できます。<BR>
+    TOCを使用したアドレッシングは、もともとオーディオトラックの再生位置を確定するための規格です。そのため秒単位の分解能しかもたず、正確ではありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_2">
+<A HREF="#Heading3_1_11"> 11. </A>2 <B>ディレクトリリード</B>
+</A>
+</H3>
+<blockquote>
+    ディスクがIS0-9660ファイルシステムフォーマットで記録されている場合は、9660ファイルシステムを通じてディスクの絶対値を取得することができます。ファイルシステム経由のアドレッシングは、TOCを使用したアドレッシングよりも正確な位置を取得できますが、ISO-9660ファイルシステムが実装されていることが必要であり、オーディオセクタには使用できません。<BR>
+    9660ファイルシステムを経由してファイルの先頭位置を検索するには、CdSearchFile()関数を使用します。CdSearchFile()はファイルの絶対パスから、ファイルの先頭位置を検索します。検索結果は、構造体CdlFILEに格納されます。以下は9660ファイルをディスクから読み出す例です。<BR>
+<PRE>        
+        CdlFILE	fp; 
+        while( CdSearchFile( &fp0, "\\PSX\\SAMPLE\\RCUBE.TIM" ) == 0 );
+        CdControl( CdlSetloc, ( u_char* )&fp.pos, 0 );
+        CdRead( ( fp.size + 2047 ) / 2048, sectbuf, CdlModeSpeed );
+        
+</PRE>
+    CdSearchFile ()は、以下のCdlFILE構造体メンバを返します。<BR>
+<PRE>        
+        typedef struct {
+        	CdlLOC pos;		/* ファイルポジション */
+        	u_long size;		/* ファイルサイズ */
+        	char name[ 16 ];	/* ファイル名（ボディ） */
+        } CdlFILE;
+        
+</PRE>
+    ただしCdSearchFile()で正しくセクタ位置がわかるのはディレクトリ数４０、１ディレクトリのファイル数３０以下にした場合だけです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_3">
+<A HREF="#Heading3_1_11"> 11. </A>3 <B>レポートモード</B>
+</A>
+</H3>
+<blockquote>
+    オーディオセクタを再生中に再生ポジションを定期的にレポートする機能があります。これをレポートモードと呼びます。モードにCdlModeReptビットを設定すると、CDオーディオ再生中１秒あたり１０回CdlDataReady状態に移行して、レポート結果を返り値（result）に返します。返り値には以下の情報が格納されます。<BR>
+<CENTER>
+        <H4><B>表 17 レポートモードで取得できる情報
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">0</TD><TD ALIGN="center">1</TD><TD ALIGN="center">2</TD><TD ALIGN="center">3</TD><TD ALIGN="center">4</TD><TD ALIGN="center">5</TD><TD ALIGN="center">6</TD><TD ALIGN="center">7</TD><TR>
+    <TD ALIGN="center">status</TD><TD ALIGN="center">track</TD><TD ALIGN="center">index</TD><TD ALIGN="center">amin</TD><TD ALIGN="center">asec</TD><TD ALIGN="center">aframe</TD><TD ALIGN="center">levelH</TD><TD ALIGN="center">levelL</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    レポートの取得には、CdReady()関数でポーリングするか、CdReadyCallback()を使用してバックグラウンドで取り込みます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_12">
+<H2>
+<A HREF="#Top">↑</A> 12 <B>イベントサービス</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    初期化時には各コールバックに対してデフォルトのコールバック関数が登録されています。これらは、以下に示すイベントを配布します。<BR>
+<CENTER>
+        <H4><B>表 18
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">原因</TD><TD ALIGN="center">ディスクリプタ内容</TD><TD ALIGN="center">イベント種別</TD><TR>
+    <TD>HwCdRom</TD><TD>処理完了</TD><TD>EvSpCOMP</TD><TR>
+    <TD>HwCdRom</TD><TD>データレディ</TD><TD>EvSpDR</TD><TR>
+    <TD>HwCdRom</TD><TD>データエンド</TD><TD>EvSpDE</TD><TR>
+    <TD>HwCdRom</TD><TD>エラー発生</TD><TD>EvSpERROR</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    従ってコマンドの終了・データ読み込み終了はイベントハンドラを経由して検出することができます。ただし、新しくコールバックを設定した時点でデフォルトコールバックは解除され、イベントの送信は停止します。解除されたデフォルトコールバックの復帰はアプリケーションに任せられています。以下にその例を示します。<BR>
+<PRE>        
+        void ( *old_callabck )();
+        
+        ....
+        
+        /* コールバック設定の際に前のコールバックポインタを退避する */
+        old_callback = CdSyncCallback( local_callback );
+        ....
+        /* コールバックを復帰 */
+        CdSyncCallback( old_callback );
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_13">
+<H2>
+<A HREF="#Top">↑</A> 13 <B>コールバック・同期関数一覧</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+<CENTER>
+        <H4><B>表 19
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">発行関数</TD><TD ALIGN="center">同期検出</TD><TD ALIGN="center">コールバック</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdControl</TD><TD>CdSync</TD><TD>CdSyncCallback</TD><TD>コマンド発行</TD><TR>
+    <TD> </TD><TD>CdReady</TD><TD>CdReadyCallback</TD><TD>セクタリード</TD><TR>
+    <TD>CdRead</TD><TD>CdReadSync</TD><TD>CdReadCallback</TD><TD>複数セクタリード</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_14">
+<H2>
+<A HREF="#Top">↑</A> 14 <B>Appendix</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_1">
+<A HREF="#Heading3_1_14"> 14. </A>1 <B>ディスクアクセスに関する注意事項</B>
+</A>
+</H3>
+<blockquote>
+    基本的にはCD-ROM XAに準拠していれば再生できますが、仕様上データトラックはDAのトラックの前に配置しなくてはいけません（DAトラックはなくても構いません）。<BR>
+    間違った例としては、１トラックがデータで、２、３トラックがCD-DA、４トラックがデータという配置です。このような時は、１、４トラックをまとめて前の方に配置して１トラックとし２トラック以降をCD-DAというように配置して下さい。<BR>
+    <BR>
+    曲間がないまたは極端に短いDISCの場合でauto pause機能を使用すると、auto pauseできないでそのままDISCの最後まで再生してしまうことがあります。これを防ぐためには、曲間を２秒以上空けなければなりません。例えばゲームのBGMにCD-DAを１曲リピートで使う場合は、auto pause onで曲間を２秒以上設けるか、常に現在位置をポーリングし、終了点が来たらTOPに戻すということをしなければなりません。<BR>
+    <BR>
+    外周から３分以内のところへトラックジャンプを行った場合、ヘッドが外側へ飛び出すという不具合があります。これを防ぐ方法は外周３分以内をアクセスしないようにすることです。通常は外周３分にＮＵＬＬデータを焼きます。ただし 外周３分にアクセスしないのであればＮＵＬＬデータでなくともかまいません。たとえば３分以上連続するエンディングムービーをＮＵＬＬデータの代わりに焼いておき、エンディングムービーは必ず最初から再生するようにしておけば外周３分以内のアクセスは発生しません。<BR>
+    <BR>
+    データトラック上を再生してそのままCD-DAトラックを再生した場合mute off機構が働きません。よって、このような使い方をする場合は、CD-DAトラックになった時にmute offしてください。<BR>
+    <BR>
+    データREAD中にreport modeをonにしておくと、ピックアップの位置情報の割り込みとデータの転送開始の割り込みが区別できません。report modeをonにするのは、CD-DAを再生している時のみ使用してください。また レポートモードを有効にした時に送られる演奏時間に関しては以下の決まりがあります。CDのDISCの始めからの絶対時間と各トラック内での時間を示す相対時間を交互に送るようになっています。送られてきたデータが絶対時間か相対時間化の区別をつけるために、相対時間のセクタのデータの最上位に１が立っています。レポートモーﾄﾞでレポートを送るタイミングは 以下のようになっています。<BR>
+<UL>
+         <LI> ff,fr中は読めるデータが限られているのでチェックを通ったものは全て送る。
+         <LI> 絶対時間の十の桁のframeが偶数の時は絶対時間を送る。
+         <LI> 絶対時間の十の桁のframeが奇数の時は相対時間を送るが、この時frameのバイトの最上位ビットを立てておく。
+         <LI> frameは0から74までしかないので、ビットを立てることによる問題はない。
+         <LI> 普通通常再生中は位置データを読めるが、念のため十の桁が書き変わった時に送るようになっていて、絶対時間と相対時間の関係は上と同じになっている。
+</UL>
+    また、レベルも送られていて2byte中の15bitのデータとなっており、残り1bitはL/Rの識別になっています。<BR>
+    <BR>
+    CD-DAで曲単位でアクセスをする場合と、TOCのデータを吸い上げてそこに絶対時間のアクセスをした場合と音の出方が違う場合があります。これは、TOCに書かれているデータと実際の場所にずれが許容されているために起きる現象です。ちなみに、曲単位でアクセスをする場合のアクセス先は目標のトラックのindexが１の先頭を自動計算して、アクセスします。よって、曲間は再生されません。<BR>
+    <BR>
+    リセットコマンドはホストからモードを設定するところで以下処理を行い一曲目の頭でポーズします。<BR>
+    よって、何回使っても問題はありませんが、リセット後は標準速設定なので前の状態が倍速でデータを読んでいた場合は、標準速倍速を繰り返すため回転が安定するまでの時間がかかります。これを回避するためには、自分が設定したい状態にモードを設定すれば（モードを上書きまたは、今のモードを見て設定し直す）データの読み込み迄の待ち時間は回転の安定時間を待たなくなる分、速くなります。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      リセット後のモード<BR>
+      ドライブは標準速設定<BR>
+      リアルタイムAD-PCM:off<BR>
+      データ転送バイト数:2340 byte<BR>
+      サブヘッダフィルター:off<BR>
+      レポートモード:off<BR>
+      オートポーズ:off<BR>
+      CD-ROMモードの時のCD-DA再生:disable<BR>
+      setlocコマンドで設定された場所をクリアする。<BR>
+      過去に起こったエラーのステータスをクリアする。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    DISCの状態が悪くアクセスができない場合、所定時間経過ののちエラーを返します。普通はこのようなことは起きないので、この時のエラー処理を忘れがちです。注意してください。<BR>
+    また 以下のようなことも起こり得ます。ユーザが 複数のセクターリードを期待していて、たまたまデータが読みづらくちょっと読めてはエラーでちょっと読めてはエラーということがおきている時がありえます。このような時 リトライの回数が非常に多く 読込みに要する時間が期待される時間に比べ大変に掛かり一見ハングアップしたように見えることがあります。<BR>
+    <BR>
+    データを読み込む際に普通FF,FRはできません。ムービーのような環境下で、このような機能を使用する場合は、ユーザの管理下において工夫して行なって下さい。<BR>
+    <BR>
+    データを読み込む際、setloc + seekL + readの手順も可能ですが、setloc + readでも可能です。また、setlocはそれ以後に以下のコマンドが来ると保持していたロケーション情報は上書きされます。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      play(playN)<BR>
+      readN<BR>
+      readS<BR>
+      seekL<BR>
+      seekP<BR>
+      ff<BR>
+      fr<BR>
+      stop<BR>
+      reset<BR>
+      </BLOCKQUOTE>
+    <BR>
+    また、ふたを開けた時にもキャンセルされます。このことから、以下のような使い方はできません。<BR>
+    場所の指定をして（setlocをして）ここを読込む（readN or readS）その後にまた（readN or readS）をおくるような方法をとる２度読み。この時は、位置指定して（setlocをして）そこを読込む(readN or readS)を２回繰返さなくてはいけません。<BR>
+    <BR>
+    CD-ROM Decorderに32kbyteのローカルメモリーがついていますが、全てのエリアをユーザは使用できません。また、デコーダのコントロールソフトがローカルメモリーの先読みをサポートしていないため、data readyの割込み後 倍速時で、6.6msec以内標準速で13.3msec以内にデータを読みだしを開始して下さい。さもないと、HOSTに送るデータは次に更新されて１つ飛ばされてしまいます。<BR>
+    イメージとしては2340byteを1blockとするFIFOが2blockあり片方が溜れば、FIFOを切替えるという感じになります。<BR>
+    <BR>
+    アクセス時間は、同じ区間を計測していても多少バラツキがあります。また、個々の機器によっても若干変わります。ソフトを作成する際には、この点を考慮してユーザの管理下において先読みをさせることによりバラツキ分を吸収できます。<BR>
+    <BR>
+    BGMを使用する環境下において、アクセスを多用し切替え時間を要求するような場合は、CD-ROM XAのMulti channel AD-PCMを使用すること良い場合があります。CD-DAの場合、アクセスが必要なため俊敏な切替えはできません。また、設定の仕方によっては音を出しながらデータを読込むといったこともできます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_2">
+<A HREF="#Heading3_1_14"> 14. </A>2 <B>外周３分問題</B>
+</A>
+</H3>
+<blockquote>
+    現在のCD-ROMサブシステムでは、CD-ROMの外周３分以内へシークする場合、シーク開始地点によっては、正しくシークが行なわれない場合があります。<BR>
+    この現象を回避するために以下のいずれかの方法をとる必要があります。<BR>
+    <BR>
+    <OL>
+         <LI VALUE= 1> 最外周３分（データの最後の３分）にダミーデータを入れておく（ダミーデータは使用しない）。
+         <LI VALUE= 2> BGMなどにCD-DAを使用する場合、最終曲を３分以上にする。この場合は、曲の途中から再生したり、曲の途中でリピートをかけない限り、最外周３分へのシークは発生しません。従ってCD-ROMサブシステムは正常に動作します。
+         <LI VALUE= 3> どうしても最外周３分をデータエリアとして使いたい場合は、外周３分以上は連続した１つのファイルとしてアクセスする（オープニング、エンディングのムービに使用するなど）。
+    </OL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_3">
+<A HREF="#Heading3_1_14"> 14. </A>3 <B>低レベル関数群を使用する場合の留意点</B>
+</A>
+</H3>
+<blockquote>
+    CdControl()インターフェースの低レベル関数の組合せでCD-ROMのリードアクセスを行なう場合、エラー処理やコールバック処理はアプリケーションで行なう必要があります。その際には、以下の点にご注意下さい。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_3_1">
+(1) <B>セクタの読み飛ばし </B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CD-ROMからは、倍速モードで300 sector/secのデータが読み出されます。従ってホストシステムが 1/300 sec以内に前のセクタのリード処理を終了していない場合、読み出されたデータが１セクタ分欠落してしまいます。この問題は、処理時間の長いコールバック処理を他で行なっている場合に特に発生しやすくなります。<BR>
+      そこで、セクタの欠落が懸念される箇所では、CdlModeSize1でセクタヘッダをアプリケーションでも読み出し、セクタの連続性を確認するようにして下さい。<BR>
+      その際は、CdlSetmodeコマンドでCdlModeSize1（セクタヘッダも読み出すモード）にあらかじめ設定しておきます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        param[ 0 ] = CdlModeSpeed | CdlModeSize1;
+        CdControlB( CdlSetmode, param, 0 );
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      そして、データをCdGetSector()で読み出すにあたって、まず先頭の12byte（3word）を読みます。ここにはセクタアドレスがCdlLOC形式で格納されています。これが直前に読みだしたセクタアドレスと連続しているかを調べればセクタの欠落を検知できます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        ......
+        CdGetSector( buf, 3 );
+        if( CdPosToInt( ( CdlLOC* )buf ) != prev_pos + 1 )
+        	return -1;
+        else
+        	prev_pos++;
+        
+        CdGetSector( bufp, 512 );
+        bufp += 512;
+        ......
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_3_2">
+(2) <B>callbackの解析</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      セクタデータの準備が完了したかどうかは通常CdReady()関数かCdReadyCallback()に登録したコールバックで検出できます。libcdのコールバックは他のコールバックと異なり２つの引数を持つため、使用の場合は注意が必要です。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        CdReadyCallback( callback );
+        ....
+        
+        void callback( u_char intr, u_char* result )
+        {
+        	....
+        }
+        
+</PRE>
+      <BLOCKQUOTE>
+      この例の場合、callbackはリード処理が失敗した場合でも呼び出されることにご注意下さい。<BR>
+      callback処理が成功したかどうかはintr引数によって判定できます。これを行なわないと正しくリードエラーを捕獲できません。 処理の詳細はcd/tutoサンプルプログラムをご参照下さい。<BR>
+      またresultには最後に発行されたコマンドの返り値が8byteの配列に収められています。result配列の実体（8byte）はシステム側で保持されます。<BR>
+      resultに格納される情報は発行されるコマンドによって異なります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_3_3">
+(3) <B>callbackの削除</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      コールバックは処理が終了したら済みやかに切り離して下さい。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        CdReadyCallback( callback );
+        /* CdRead() に相当する処理 */
+        CdReadyCallback( 0 );
+        
+</PRE>
+      <BLOCKQUOTE>
+      この例で最後にコールバックを切り離す処理が抜けた場合、この後の処理で他の要因からCdlDataReadyイベントが発生すると、思わぬタイミングで関数callback()が起動されてしまいます。特に関数callback()がメインメモリを書き換える処理を含んでいる場合、予測できない時にメモリの特定領域が破壊されるといったバグを引き起こします。 <BR>
+      <BR>
+      またCdSyncCallback()で登録されたコールバック中にCdControl()を発行する場合も注意が必要です。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        CdSyncCallback( callback );
+        ...
+        void callback( u_char intr, u_char* result )
+        {
+        	....
+        	CdControl( CdlSeekL, ....);
+        	...
+        }
+        
+</PRE>
+      <BLOCKQUOTE>
+      この例では、callback()内で発行されたCdlSeekLが完了する時に再びcallbackを起動し、コーディングによっては、それが再帰的にCdlSeekLを呼び出す無限ループを引き起こします。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_3_4">
+(4) <B>watch dog</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      こうした個別に局所的なエラー処理を組み込むと同時に、不可避のエラーに対応できるようにかならず CD-ROMサブシステムの状態を定期的（数VSyncごとなど）に見張る処理と、タイムアウトの処理をかならず組み込んで下さい。こうしたwatch dogの手法はシステムの状態をエラーの原因によらず一定時間後にはかならず正常に引き戻すことができます。 <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>CD-DA/CD-XA演奏中の場合</B></H4>
+
+      <BLOCKQUOTE>
+      シークの失敗や、不慮の蓋の開閉などで、CD-DA/CD-XAの演奏が何らかの理由で停止することが考えられます。この際は、定期的にCdlNopコマンドでCD-ROMの状態をポーリングします。CdlNopのresultバッファの最初の1 byteにサブシステムのステータスが格納されています。これを調べてCdlStatPlayビットがたっていない場合は、適切なトラックを再生し直すようにして下さい。<BR>
+      <BR>
+      また、CdlSeekL、CdlGetlocLのロジカルアクセスは、CD-ROMのセクタヘッダを読んで位置を獲得するため、CD-DAトラックには使用できません。CD-XAトラックに対してはロジカルアクセスは有効ですが、それでもシーク中は失敗します。特に CdlGetlocLを発行する場合は、リード中（演奏中）であることを確認する必要があります。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        VSyncCallback( vcallback );
+        ...
+        
+        static CdlLOC pos;
+        void vcallback( void )
+        {
+        	int ret;
+         
+        	/* if normal, polling */
+        	if( ( ret = CdReady( 1, result ) ) == CdlDataReady )
+        		if( CdLastCom() == CdlGetlocL )
+        			pos = *( CdlLOC* )result;
+        		CdControlF( CdlGetlocL, 0 );
+        	}
+        
+        	/* if error, retry */
+        	else if( ret == CdlDiskError )
+        		CdControlF( CdlReadS, ( u_char* )&pos );
+        }
+        
+</PRE>
+      <BLOCKQUOTE>
+      この例のようなwatch dogは動作しない場合があります。これはCdlGetlocLがシーク中に実行される可能性があり、それがCdlDiskErrorを引き起こすため、CdlSeekL, CdlGetlocLが無限に繰り返されます。 なおCdlGetlocLはresultの最初の3byteがCdlLOC形式のセクタポジションを与えます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>データリード中の場合</B></H4>
+
+      <BLOCKQUOTE>
+      演奏再生時と同様の理由でCD-ROMのリードの途中でCdlDataReadyイベントが途切れる可能性があります。これも最後にCdlDataReadyが発生した時のタイムスタンプを保持しておき、これが一定時間（数秒程度）更新されない場合は、すべてのリード動作を最初からやりなおすなどの処理を組み込みむことで、確実に検出できます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        void callback( u_char intr, u_char* result )
+        {
+        	.....
+        	called_time = VSync( -1 );
+        	....
+        }
+        main()
+        {
+        	.....
+        	CdReadyCallback( callback );
+        	....
+        	while( 1 ) {
+        		....
+        		if( VSync( -1 ) &gt; called_time + TIME_OUT )
+        			break;
+        	}
+        }
+        
+</PRE>
+      <BLOCKQUOTE>
+      CdlDataReadyコールバックを永遠に待ち続けて無限ループになる可能性がある箇所では、こうした一定時間後にはループから抜けられるような処理を組み込んでおきます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_3_5">
+(5) <B>その他</B>
+</A>
+</H4>
+
+     <H4><B>CdReadSyncの返り値</B></H4>
+
+      <BLOCKQUOTE>
+      CdReadSync()をノンブロックモードで発行すると、まだ読み出していない残りのセクタ数を返します。CdRead()はリードエラーの際、内部でリトライを行なうため、この返り値が単調減少しない場合がありますのでご注意下さい。 <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>CdReadのエラー訂正</B></H4>
+
+      <BLOCKQUOTE>
+      CdRead()ではLibrary version3.5よりセクタの読み飛ばしを防止するため、内部でセクタヘッダの連続性の確認を行っています。そのためセクタヘッダが正しく記録されていないセクタを読み出すことができなくなりました。CdRead()のエラーが非常に多い場合はディスクへの記録方式をご確認下さい。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>高レベル関数</B></H4>
+
+      <BLOCKQUOTE>
+      いくつかの定型処理に関しては一連の処理をまとめて行なう高レベル関数が用意されています。速度が問題にならない部分では高レベル関数をご使用下さい。詳細は「関数リファレンス」を参照下さい。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        CdReadFile	CD-ROM上のファイルを読み込む
+        	形式	int CdReadFile( char* file, u_long* addr, int nbyte )
+        	引数	file	ファイル名
+        		addr	読み込むメインメモリアドレス
+        		nbyte	読み込むサイズ
+        
+        CdReadExec	実行可能ファイルをCD-ROMよりロードする。
+        	形式	struct EXEC* CdReadExec( char* file )
+        	引数	file	実行可能ファイル名
+        
+        CdPlay		CD-DAトラックを再生する。
+        	形式	int CdPlay( int mode, int* tracks, int offset )
+        	引数	mode	演奏モード
+        		tracks	演奏するトラックを指定した配列。
+        		offset	演奏を開始するtracksのインデクス
+        
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_4">
+<A HREF="#Heading3_1_14"> 14. </A>4 <B>CD交換時の必須処理</B>
+</A>
+</H3>
+<blockquote>
+      <BLOCKQUOTE>
+      CD交換を伴うタイトルについて、ゲーム進行中に本体リセットなしでCDの交換を行う場合は、市場でのトラブルを未然に防止するために、以下に述べる処理を必ず行ってください。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_4_1">
+(1) <B>CDの交換を行う前の処理</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      （必須）<BR>
+      CDの交換を行う前（CDの交換メッセージを出力する前）に、CDサブシステムを標準速モードに設定してください。 <BR>
+      （オプション）<BR>
+      上記操作後、標準速モード設定後、CdlStopを使用してCDの回転を止めてください。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      標準速モードに設定するプログラム例を以下に示します。<BR>
+      </BLOCKQUOTE>
+<PRE>        	:
+        com = 0;
+        CdControlB( CdlSetmode, &com, result );
+        	:
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_4_2">
+(2) <B>CD交換の検出</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CDの交換の終了検出は、(A)蓋の開閉の検出と(B)スピンドル回転の検出の２つを順にテストすることにより行ってください。いずれの検出テストも、CdlNopコマンドにより実施できます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        CdControlB( CdlNop, 0, result );	/* char result[ 8 ]; */
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      (A) 蓋の開閉の検出は、result[ 0 ]のCdlStatShellOpenビットに反映されます。 CdlStatShellOpenビットは、蓋が開けて閉められたことを検出するもので、以下の状態を持ちます。<BR>
+      	蓋が開いている場合：	常に１<BR>
+      	蓋を閉めた場合：		最初の１回の検出は１、その後は０<BR>
+      よって、このビットが１→０に遷移すれば交換が行われたものと判断できます。<BR>
+      (B) CdlNop コマンドを使用し、result[ 0 ]のビット１（0x02）が１となるまで待機してください。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_4_3">
+(3) <B>交換直後の処理</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CDが交換され、蓋が閉められると、CDサブシステムはTOC情報を読み始めます。この動作期間中は、CdlNopおよびCdlGetTN以外のコマンドを発行しないでください。<BR>
+      TOCの読み込みの終了を検出するためには、CdlGetTNコマンドを使用します。このコマンドの実行が成功すれば、TOC読み込みが終了し通常のコマンド発行が可能な状態になっています。成功するまで繰り返しCdlGetTNコマンドを発行してください。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        CdControlB( CdlGetTN, 0, result );	/* char result[ 8 ]; */
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_4_4">
+(4) <B>PlayStationディスクの確認</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      セットされたCDがPlayStationディスク（黒ディスク）であることを、論理アクセスコマンド（CdlReadS/NやCdlSeekLなど）を発行して確認してください。<BR>
+      <BR>
+      PlayStationディスクとして認識されなかったCDに対して論理アクセスを行うと、コマンドエラーが発生します。コマンドエラーは、通常のCdlDiskErrorとは異なり、CdlDiskError発生と同時に、<BR>
+      <BR>
+      	result[ 0 ]のビット０（0x01）<BR>
+      	result[ 1 ]のビット６（0x40）<BR>
+      <BR>
+      が１になります。<BR>
+      コマンドエラーが検出された場合は、その後の論理アクセスが行えません。この場合は、間違ったCD（CD-DAなど）がセットされていたり、CDがしっかりセットされていないなどが考えられます。コマンドエラーのリカバリーは、蓋を開けてCDをセットし直すしか方法がありませんので、その旨メッセージを出力し、再び最初から手順を繰り返してください。<BR>
+      PlayStationディスクの確認は、ゲームの進行上、CD交換直後にデータのロードなど論理アクセスが存在する場合は、そのコマンドで行うことが出来ます。そうでない場合（DAトラックの再生などを行う場合）は、必ずダミーリードなどでディスクの確認を行ってください。<BR>
+      <BR>
+      CD-DAや一般のCD-ROMがセットされていた場合、手順(3)までは正常に実行されます。よって、PlayStationディスクの確認は必ず行ってください。<BR>
+      デバッギングステーションでは、CD-Rおよび一般のCD-ROMもPlayStationディスクとして認識されますが、PlayStationでは黒ディスクのみPlayStationディスクとして認識されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_14_4_5">
+(5) <B>その他</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      上記手順の(1)～(3)までは、必ず標準速モードのままで行ってください。<BR>
+      上記手順の(1)～(3)までのコマンドの発行は、必ずCdControlBを使用して確実に終了を検出してください。また、上記の例では説明のため簡略化してありますが、各コマンドの実行結果の確認も確実に行ってください。<BR>
+      CD検出中のメッセージなどは適宜出力してください。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_5">
+<A HREF="#Heading3_1_14"> 14. </A>5 <B>CDサブシステムのモーター回転を変更する際の注意点</B>
+</A>
+</H3>
+<blockquote>
+      <BLOCKQUOTE>
+      PlayStationのCDサブシステムでは、標準速／倍速の切り替えてから一部のコマンドを発行するまでに、一定時間の間隔を置く必要があります。この注意事項を守らないと、以下の現象が発生し、市場クレームに繋がりかねない事態を引き起こす可能性がありますため、徹底をお願いいたします。<BR>
+      <BR>
+      （現象）<BR>
+      CDの転送速度を変更した直後にCDのヘッドを移動させるコマンド（CdlSeekL/P, CdlReadS/N）を発行すると、ヘッドが暴走し、異音が発生することがある。<BR>
+      <BR>
+      これは、CDサブシステムの動作において、転送速度の変更後ヘッドの制御がうまくいかないタイミングが存在するために発生するものです。このタイミングは転送速度の変更後に存在します。<BR>
+      このタイミング中にヘッド移動に関するコマンドが発行されると、最悪の場合はヘッドが暴走し、メカニカルストッパーに衝突して停止します。この現象が発生した場合、ヘッドの制御はCDサブシステムによってリカバリーされますので、プログラムが止まるようなことはありません。また、ヘッドが暴走してストッパーに衝突した場合は、セーフティ機構が作動するため部品を破壊するようなことはありません。<BR>
+      ただし、セーフティ機構が作動する際に異音を発生しますので、市場でのクレームとなることが考えられます。<BR>
+      <BR>
+      ヘッド移動に関する関数／コマンドは、現在以下の通りです。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        CdRead( int sectors, u_long* buf, int mode )
+        CdRead2( long mode )
+        CdSearchFile( CdlFILE* fp, char* name )
+        CdReadFile( char* file, u_long* addr, int nbyte )
+        CdReadExec( char* file )
+        CdPlay( int mode, int* tracks, int offset )
+        
+        CdlSeekP
+        CdlSeekL
+        CdlReadS
+        CdlReadN
+        CdlPlay
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      転送速度を変更した後に上記の関数／コマンドを行う場合には、必ず以下の対策を行ってください。<BR>
+      <BR>
+      （対策）<BR>
+      CDの転送速度を変更した後にCDのヘッド移動コマンドを発行する場合は、必ず３以上の垂直帰線（vsync）の間隔をあける。<BR>
+      <BR>
+      例：<BR>
+      </BLOCKQUOTE>
+<PRE>        	:
+        com = CdlModeSpeed;
+        CdControl( CdlSetmode, &com, 0 );
+        	:
+        	:
+        /* ３以上の垂直帰線が経過する処理を行う */
+        /* 例えば VSync( 3 ); */
+        	:
+        	:
+        ret1 = CdControl( CdlSeekL, &pos, result );
+        ret2 = CdControl( CdlReadN, &pos, result );
+        	:
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      これにより、ヘッドの制御がうまくいかないタイミングを回避することが出来ます。なお、以下の関数において、引数で転送速度が変更されますと、同様の事態が発生いたします。よって、これらの関数において引数での転送速度の変更は行わず、（３以上の垂直帰線をはさんだ）手前で転送速度を変更してください。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        CdRead( int sectors, u_long* buf, int mode )
+        CdRead2( long mode )
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      また、以下の関数実行後は、CDサブシステムの転送速度は等速になります。ご注意ください。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        CdInit( void )
+        CdReset( int mode )
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_6">
+<A HREF="#Heading3_1_14"> 14. </A>6 <B>libcdメッセージリファレンス</B>
+</A>
+</H3>
+<blockquote>
+    以下にlibcdのエラーメッセージの内容を示します。<BR>
+    レベルは、CdSetDebug()のモードに対応します。<BR>
+<CENTER>
+        <H4><B>表 20 エラーレベル
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">level</TD><TD ALIGN="center">出力条件</TD><TR>
+    <TD ALIGN="center">0</TD><TD>常に出力</TD><TR>
+    <TD ALIGN="center">1</TD><TD>デバッグレベル 1 の時出力</TD><TR>
+    <TD ALIGN="center">2</TD><TD>デバッグレベル 2 の時出力</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+
+     <H4><B>CD timeout	CD-ROM のタイムアウト</B></H4>
+
+<PRE>        形式	CD timeout: [pos] ([status]) Sync=[sync], Ready=[ready]
+        レベル	0
+        引数	[pos]		タイムアウトの発生した場所
+        	[command]	最後に発行されたコマンド
+        	[sync]		最後のCdSyncのステータス
+        	[ready]		最後のCdReadyのステータス
+        例	CD timeout; CD_sync: (CdlNop) Sync=NoIntr, Ready=NoIntr
+        原因	期待された時間内にCD-ROMサブシステムからのコールバックが発生しない。
+</PRE>
+
+     <H4><B>CDROM: unknown intr 	サブシステムからの異常な割り込み</B></H4>
+
+<PRE>        形式	CDROM: unknown intr ([num])
+        レベル	0
+        引数	[num]		サブシステムステータス
+        原因	未定義のサブシステムステータス が得られた。
+        	通常のサブシステムステータスは、
+        		CdlDataReady	0x01
+        		CdlComplete	0x02
+        		CdlAcknowledge	0x03
+        		CdlDataEnd	0x04
+        		CdlDiskError	0x05
+        	のいずれか。
+</PRE>
+
+     <H4><B>CD_init	サブシステム初期化情報</B></H4>
+
+<PRE>        形式	CD_init: addr=[addr]
+        レベル	0
+        引数	[addr]		biosの関数テーブルのスタートアドレス
+        原因	CdInit()/CdReset()でbios関数のスタートアドレスが設定された時に出力される。
+</PRE>
+
+     <H4><B>CdInit: Init failed	初期化に失敗</B></H4>
+
+<PRE>        形式	CdInit: Init failed
+        レベル	0
+        引数	なし。
+        原因	多くの場合は、CdlStatShellOpenフラグが立っている場合。
+        	その場合は、２回目以降は成功する。
+</PRE>
+
+     <H4><B>DiskError</B></H4>
+
+<PRE>        形式	DiskError
+        レベル	0
+        引数	なし
+        原因	致命的なエラーが発生した
+</PRE>
+
+     <H4><B>DiskError	致命的なエラーが発生した</B></H4>
+
+<PRE>        形式	DiskError
+        レベル	0
+        引数	なし
+        原因	コマンドが受け付けられなかったか、データを正しく読み出せなかった。
+</PRE>
+
+     <H4><B>CdRead: sector error	セクタアドレスが不連続</B></H4>
+
+<PRE>        形式	CdRead: sector error
+        レベル	0
+        引数	なし
+        原因	何らかの原因でセクタデータのアドレスが不連続。
+        	この時、CdRead()は読み飛ばしたセクタがあるとみなして、
+        	最初のセクタに戻ってリトライを行なう。
+</PRE>
+
+     <H4><B>CdRead: Shell open	リード中に蓋（シェル）が開けられた。</B></H4>
+
+<PRE>        形式	CdRead: Shell open
+        レベル	0
+        引数	なし
+        原因	CdRead()実行中に蓋が開閉された。
+        	この時、CdRead()は最初のセクタに戻ってリトライを行なう。
+</PRE>
+
+     <H4><B>CdRead: retry	CdReadのリトライの発生</B></H4>
+
+<PRE>        形式	CdRead: retry
+        レベル	0
+        引数	なし
+        原因	CdRead()が、最初のセクタに戻ってリトライを行なう。
+</PRE>
+
+     <H4><B>No TOC found: オーディオトラックが見つからない。</B></H4>
+
+<PRE>        形式	No TOC found: please use CD-DA disc
+        レベル	0
+        引数	なし
+        原因	オーディオトラックが存在しないため、CdPlay()関数が実行できない。
+        	ディスクが装着されていない場合にも発生する。
+</PRE>
+
+     <H4><B>cbdataready: CdlDataEnd	自動リピートが発生</B></H4>
+
+<PRE>        形式	cbdataready: CdlDataEnd (track=[track],time=[time])
+        レベル	0
+        引数	[track]		演奏が終了したトラック番号
+        	[time]		最後にResetCallback()を呼び出してからの絶対時間
+        原因	CdPlay()実行中にバックグラウンドで自動リピートが発生した。
+</PRE>
+
+     <H4><B>track overflow</B></H4>
+
+<PRE>        形式	[track]: track oveflow
+        レベル	0
+        引数	[track]		次に演奏しようとしたトラック番号
+        原因	CdPlay()がトラック番号[track]の演奏を開始できない。
+        	ディスクに対応するトラックが存在しない。
+</PRE>
+
+     <H4><B>com=	発行されたコマンドにエラーが検出された。</B></H4>
+
+<PRE>        形式	com=[command],code=([result0]:[rusult1])
+        レベル	1
+        引数	[command]	最後に発行されたコマンド
+        	[result0]	CdSyncのresultの最初のバイト
+        	[result1]	CdSyncのresultの２番目ののバイト
+</PRE>
+
+     <H4><B>no param	プリミティブコマンドにパラメータが設定されていない。</B></H4>
+
+<PRE>        形式	[command]: no param
+        レベル	1
+        引数	[command]	最後に発行されたコマンド
+</PRE>
+
+     <H4><B>CdSearchFile: 	CdSearchFile の詳細情報</B></H4>
+
+<PRE>        形式	CdSearchFile: disc error
+        	[name]: path level ([num]) error
+        	[name]: dir was not found
+        レベル	1
+        引数	[name]		検索対象のファイル名
+        	[num]		パスの深さ
+        原因	ルートディレクトリが読めない。ISO-9660形式のディスクではない。
+</PRE>
+
+     <H4><B>CD_newmedia:	CdSearchFile のルートディレクトリ取得の詳細情報</B></H4>
+
+<PRE>        形式	CD_newmedia: Read error in cd_read(PVD)
+        	CD_newmedia: Disc format error in cd_read(PVD)
+        	CD_newmedia: Read error (PT:[pos]
+        	CD_newmedia: sarching dir..\n"));
+        		[min0]:[sec0]:[sector0]
+        		[min1]:[sec1]:[sector1]
+        		........
+        レベル	2
+        引数	[pos]		ルートディレクトリの場所
+        	[min(n)]	ディレクトリの位置（分）
+        	[sec(n)]	ディレクトリの位置（秒）
+        	[sector(n)]	ディレクトリの位置（セクタ）
+        原因	PVDセクタが読めない。
+        	PVDセクタの形式が正しくない。
+        	ルートディレクトリが読めない。
+        	ルートディレクトリが読めれば、その内容を出力する。
+</PRE>
+
+     <H4><B>CD_chachefile:	CdSearchFileのカレントディレクトリの内容を表示</B></H4>
+
+<PRE>        形式	CD_cachefile: searching...
+        		([min0]:[sec0]:[sector0])
+        		([min1]:[sec1]:[sector1])
+        			.......
+        	CD_cachefile: [num] files found
+        レベル	2
+        引数	[min(n)]	カレントディレクトリのファイルの位置（分）
+        	[sec(n)]	カレントディレクトリのファイルの位置（秒）
+        	[sector(n)]	カレントディレクトリのファイルの位置（セクタ）
+        	[num]		カレントディレクトリ数のファイルの数
+</PRE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

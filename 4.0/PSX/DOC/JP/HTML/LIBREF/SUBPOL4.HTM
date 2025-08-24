@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SubPol4
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SubPol4
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ４頂点ポリゴンを細分割する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SubPol4 </B>(
+POL4 *<I>p</I>,
+SPOL *<I>sp</I>,
+int <I>ndiv</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>p		</I>４頂点ポリゴン
+<I>sp		</I>細分割頂点配列
+<I>ndiv		</I>分割数(0:分割なし,1:2x2,2:4x4)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ４頂点ポリゴン <I>p </I>を分割数2**<I>ndiv </I>で細分割し、その細分割頂点座標やテクスチャー座標やＲＧＢ値を <I>sp </I>のさす配列に返す。 <BR>
+<BR>
+<P>
+<IMG SRC ="gif/lgten33.gif">
+<P>
+<BR>
+    引数フォーマット： <BR>
+    <I>p</I>-&gt;sxy : (1,15,0),(1,15,0) <BR>
+    <I>p</I>-&gt;sz : (0,16,0) <BR>
+    <I>p</I>-&gt;uv : (1,15,0),(1,15,0) <BR>
+    <I>p</I>-&gt;rgb : (0,8,0),(0,8,0),(0,8,0) <BR>
+    <I>p</I>-&gt;code : (0,32,0) <BR>
+    <I>sp</I>-&gt;xy : (1,15,0),(1,15,0) <BR>
+    <I>sp</I>-&gt;uv : (1,15,0),(1,15,0) <BR>
+    <I>sp</I>-&gt;rgb : (0,8,0),(0,8,0),(0,8,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

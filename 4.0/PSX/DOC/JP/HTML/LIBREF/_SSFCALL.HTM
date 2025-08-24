@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    _SsFCALL
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    _SsFCALL
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SsSeqOpenJ(), SsSepOpenJ() で参照する関数テーブルの型
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		void (*<I>noteon</I>)();
+		void (*<I>programchange</I>)();
+		void (*<I>pitchbend</I>)();
+		void (*<I>metaevent</I>)();
+		void (*<I>control</I>[13])();
+		void (*<I>ccentry</I>[20])();
+} <B>_SsFCALL</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>それぞれの要素は 下位関数へのポインタ
+<I>noteon</I>			MIDI status data
+<I>programchange</I>
+<I>pitchbend</I>
+<I>metaevent</I>
+<I>control</I>
+<I>ccentry</I>
+ 
+<I>control</I> 第一配列		MIDI status data の control change の各イベント
+	CC_NUMBER		Control Changeを使う際に指定
+	CC_BANKCHANGE		Control Change 1番(Bank Change)
+	CC_DATAENTRY		Control Change 6番(Data Entry)
+	CC_MAINVOL		Control Change 7番(Main Volume)
+	CC_PANPOT		Control Change 10番(Pan Pot)
+	CC_EXPRESSION		Control Change 11番(Expression)
+	CC_DAMPER		Control Change 64番(Damper pedal)
+	CC_NRPN1		Control Change 98番(NRPN)
+	CC_NRPN2		Control Change 99番(NRPN)
+	CC_RPN1			Control Change 100番(RPN)
+	CC_RPN2			Control Change 101番(RPN)
+	CC_EXTERNAL		Control Change 91番(External Effect Depth)
+	CC_RESETALL		Control Change 121番(Reset All)
+<I>ccentry</I> 第一配列		nrpn, rpn data のentry イベント
+ 			各イベントの詳細は、概要をご覧ください。
+	DE_PRIORITY		priority
+	DE_MODE			mode
+	DE_LIMITL		limit low
+	DE_LIMITH		limit high
+	DE_ADSR_AR_L		ADSR (AR-L)
+	DE_ADSR_AR_E		ADSR (AR-E)
+	DE_ADSR_DR		ADSR (DR)
+	DE_ADSR_SL		ADSR(SL)
+	DE_ADSR_SR_L		ADSR(SR-L)
+	DE_ADSR_SR_E		ADSR(SR-E)
+	DE_ADSR_RR_L		ADSR(RR-L)
+	DE_ADSR_RR_E		ADSR(RR-E)
+	DE_ADSR_SR		ADSR(SR)
+	DE_VIB_TIME		vibrate time (no support)
+	DE_PORTA_DEPTH		portamento depth (no support)
+	DE_REV_TYPE		reverb type
+	DE_REV_DEPTH		reverb depth
+	DE_ECHO_FB		echo feed back
+	DE_ECHO_DELAY		echo feed delay
+	DE_DELAY		delay time
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SsSeqPlay(), SsSepPlay()は MIDI の status data を解析して下位関数を呼び出している。この下位関数はかなりの数にのぼり、1 つのアプリケーションでは全ての下位関数を使わない場合がほとんどである。これらの下位関数群は、SsSeqOpen(), SsSepOpen() を CALL することでセットされる。 <BR>
+<BR>
+    そこで、不要な下位関数をリンクしないことでコードを小さくするために SsSeqOpenJ(),SsSepOpenJ()という、それぞれSsSeqOpen(),SsSepOpen()コンパチで下位関数をジャンプテーブル化し、必要な関数群をユーザが設定出来るようにした。 <BR>
+<BR>
+    _SsFCALLは、この関数テーブルを定義した構造体である。それぞれの要素に適切な下位関数のポインタを入れることで、その関数はリンクされる。逆にポインタを入れず extern宣言もしないことでリンクを切ることができる。ただしポインタのない関数が呼ばれた場合は、BUS ERRORが発生するので注意が必要である。これは下位関数の頭に dmy をつけたダミー関数を設定することで回避することが出来る。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssoseqpn.htm">SsSeqOpen</a>(), <a href="ssoseppn.htm">SsSepOpen</a>(), <a href="ssoseqpj.htm">SsSeqOpenJ</a>(), <a href="ssoseppj.htm">SsSepOpenJ</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

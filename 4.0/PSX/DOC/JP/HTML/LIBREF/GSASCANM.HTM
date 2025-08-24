@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsScanAnim
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsScanAnim
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMDのアニメーション用専用SCAN関数
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long 	*<B>GsScanAnim</B> (
+unsigned long 	*<I>p</I>
+GsTYPEUNIT	*<I>ut</I>,
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>p</I>		アニメーションセクションの最初のtypeが存在するアドレス
+		<I>p</I> が 0 の時は、前回 <B>GsScanAnim</B>() がコールされた次のタイプを調べる。
+<I>ut</I>		タイプとそのアドレスを格納する領域へのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    HMD データのSCANは全てのセクションで共通なSCAN（global SCANと呼ぶ）を行うGsScanUnit()と、セクション毎にローカルなSCAN(local Scanと呼ぶ)を行う専用のSCAN関数とに分けられる。GsScanAnim()は後者でありHMDアニメーションセクション専用のSCAN関数である。 <BR>
+<BR>
+    SCANを行うタイミングはアニメーションタイプが最初にglobal SCANされた時が良い。オーサリングレベルで最初にglobal SCANされるアニメーションtypeのINIフィールドにビットを立てるため、そのビットを見張ることでlocal SCANを行うタイミングをつかむことができる。 <BR>
+<BR>
+    アニメーションセクションのすべてのtypeをスキャンするには以下の手順でGsScanAnim()を呼び出す。 <BR>
+<BR>
+    (1) global SCANで選られたtypeのカテゴリが３（アニメーションカテゴリ）でかつINIが１であるならばlocal SCANをかけるタイミングである。type=0x03800000 <BR>
+    (2) GsScanAnim()を上記typeのアドレスをpとして発行する。 <BR>
+    (3) 返り値を検査し０であったならばデータ異常 <BR>
+    (4) 1ならば、もう一度GsScanAnim()を発行する。 <BR>
+    (5) 選られたut.typeからそのタイプに相当する補完プリミティブドライバの関数のポインタをut.ptrに代入する。 <BR>
+    (6)    4)に戻って０が返ってくるまで繰り返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ０	SCANするべきtypeが存在しない <BR>
+    １	SCAN成功  typeが存在した <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    一度タイプがプリミティブドライバのポインタに上書きされたＨＭＤデータは、再度GsScanAnim()を呼び出しても、副作用は起こらない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsuscant.htm">GsScanUnit</a>(),<a href="glasinkm.htm">GsLinkAnim</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

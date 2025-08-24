@@ -1,0 +1,93 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsOT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsOT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        オーダリングテーブルヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsOT</B> {
+		unsigned short <I>length</I>;
+		GsOT_TAG *<I>org</I>;
+		unsigned short <I>offset</I>;
+		unsigned short <I>point</I>;
+		GsOT_TAG * <I>tag</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>length	</I>	OT のビットレングス
+<I>org</I>		GsOT_TAG テーブルの先頭アドレス
+<I>offset	</I>	OT のスクリーン座標系におけるＺ軸上のオフセット
+<I>point</I>		OT のスクリーン座標系におけるＺ軸上の代表値
+<I>tag</I>		現在の先頭の GsOT_TAG へのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsOT は libgs でサポートされるオーダリングテーブルのヘッダを表わす。 <BR>
+    このヘッダは、実体となるオーダリングテーブルへのポインタ <I>org</I>、<I>tag </I>を持ち、GsClearOt() 関数で <I>org</I> 、<I>tag</I> 共に初期化される。 <BR>
+    <I>tag </I>は、オーダリングテーブルの先頭をポイントしている。 <BR>
+    GsDrawOt() 関数は、<I>tag </I>でポイントされたオーダリングテーブルを描画する。 <BR>
+    <I>tag</I> の値は、GsSortClear() や GsSortOt() 関数で先頭が変わるため変化する。そのためオーダリングテーブルの先頭を常に保持するために <I>org </I>がある。 <BR>
+    <I>length</I> にはオーダリングテーブルの大きさを設定する。設定できる値は１から 14 までで、１で０～1、14 で０～16384 の GsOT_TAG の配列を <I>org</I>でポイントしたことになる。 <BR>
+    GsClearOt() 関数は <I>org</I> から <I>length</I>で設定大きさまでメモリ領域を初期化する。従って、<I>org</I> でポイントする GsOT_TAG の配列の大きさが、<I>length</I> で示される大きさより小さいと、メモリを壊す可能性があるので注意が必要。 <BR>
+    <I>point</I> は GsSortOt() 関数でオーダリングテーブル同士をソートする際にそのオーダリングテーブルの代表値として参照される。 <BR>
+    <I>offset</I> にはオーダリングテーブルのＺ軸上のオフセットを設定する。 <BR>
+    例えば <I>offset</I> = 256 とした場合、オーダリングテーブルの先頭は Z = 256となる。（※１） <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>length</I> と <I>org</I> の値は初期化の段階でセットする必要がある。 <BR>
+    その他のメンバは GsClearOt() 関数でセットされる。 <BR>
+    ※１：現在、未サポート。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gcosleat.htm">GsClearOt</a>(),<a href="gsdrawot.htm">GsDrawOt</a>(),<a href="gssortot.htm">GsSortOt</a>(),<a href="gscutot.htm">GsCutOt</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    FntPrint
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    FntPrint
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        プリントストリームに出力
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>FntPrint </B>(
+int <I>id</I>, *<I>format</I>,<I>...</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>id		</I>プリントストリームID
+<I>format		</I>プリントフォーマット
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    printf()インターフェースでプリントストリームに文字列sを送る。 <BR>
+    文字列中に '~' が現れた場合は、続く3文字が文字の輝度値（RGB）として解釈される。 <BR>
+    輝度値は0-15の16段階で表示される。 <BR>
+      <BR>
+    例： <BR>
+        <BLOCKQUOTE>
+    FntPrint("~c800This is red\n") <BR>
+    FntPrint("~c080This is green\n") <BR>
+    FntPrint("~c444This is half tone\n") <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ストリーム内の文字数 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    実際に文字列が表示されるのは、FntFlush()が実行された時となる。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    VSync
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libetc.htm">ETC ライブラリ (libetc) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    VSync
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        垂直同期を待つ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>VSync </B>(
+int <I>mode </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode	</I>0: 垂直同期が発生するまでブロックする
+ 	1: 前回 VSync() が呼ばれた時点からの経過時間を１水平同期間隔を単位として返す
+ 	n: (n&gt;1) 前回 VSync() が呼ばれた時点から数えて n 回の垂直同期が発生するまでブロックする
+ 	-n:(n&gt;0) プログラムが起動してからの絶対時間を垂直同期間隔を単位として返す
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>mode</I> で指定されたモードに従って、垂直同期を待つ。 <BR>
+    <I>mode</I> に指定できる値は次の通り。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">mode</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>垂直同期が発生するまでブロックする</TD><TR>
+    <TD ALIGN="center">1<BR></TD><TD>前回 VSync() が呼ばれた時点からの経過時間を<BR>１水平同期間隔を単位として返す</TD><TR>
+    <TD ALIGN="center">n<BR></TD><TD>(n&gt;1) 前回 VSync() が呼ばれた時点から数えて<BR> n 回の垂直同期が発生するまでブロックする</TD><TR>
+    <TD ALIGN="center">-n<BR></TD><TD>(n&gt;0) プログラムが起動してからの絶対時間を<BR>垂直同期間隔を単位として返す</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">mode</TD><TD ALIGN="center">返り値</TD><TR>
+    <TD>mode &gt;= 0</TD><TD>前回 VSync() が呼ばれた時点からの経過時間（水平帰線単位）</TD><TR>
+    <TD>mode &lt; 0</TD><TD>プログラムが起動してからの経過時間（垂直帰線単位）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

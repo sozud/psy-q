@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    ProgAtr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    ProgAtr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        プログラムヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>ProgAtr</B> {
+		char <I>tones</I>;
+		char <I>mvol</I>;
+		char <I>prior</I>;
+		char <I>mode</I>;
+		short <I>attr</I>;
+		short <I>reserved0</I>;
+		unsigned long <I>reserved1</I>;
+		unsigned long <I>reserved2</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tones</I>		プログラムに含まれる VAG 属性セットの数
+<I>mvol</I>		プログラムのマスタボリューム
+<I>prior</I>		プログラムの優先度（0 ～ 15）
+<I>mode</I>		音源モード
+<I>attr</I>		プログラム属性
+<I>reserved0</I>	システム予約
+<I>reserved1	</I>システム予約
+<I>reserved2</I>	システム予約
+</PRE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

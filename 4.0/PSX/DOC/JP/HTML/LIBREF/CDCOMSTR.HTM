@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdComstr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdComstr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        コマンドのコードに対応する文字列を得る（デバッグ用）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>char *<B>CdComstr </B>(
+u_char <I>com </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>com</I>		コマンド終了コード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    デバッグ用。処理状態コードから対応する文字列を得る。例えばコードに応じて以下のような文字列を得る。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>コマンドコード</TD><TD>文字列</TD><TR>
+    <TD>CdlNop</TD><TD>CdlNop</TD><TR>
+    <TD>CdlSetloc</TD><TD>CdlSetLoc</TD><TR>
+    <TD>CdlPlay</TD><TD>CdlPlay</TD><TR>
+    <TD>CdlForward</TD><TD>CdlForward</TD><TR>
+    <TD>CdlBackward</TD><TD>CdlBackward</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    文字列の先頭ポインタ <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

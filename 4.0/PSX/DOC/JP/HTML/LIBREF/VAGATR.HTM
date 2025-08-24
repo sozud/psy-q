@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    VagAtr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    VagAtr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        波形ヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>VagAtr</B> {
+		unsigned char <I>prior</I>;
+		unsigned char <I>mode</I>;
+		unsigned char <I>vol</I>;
+		unsigned char <I>pan</I>;
+		unsigned char <I>center</I>;
+		unsigned char <I>shift</I>;
+		unsigned char <I>min</I>;
+		unsigned char <I>max</I>;
+		unsigned char <I>vibW</I>;
+		unsigned char <I>vibT</I>;
+		unsigned char <I>porW</I>;
+		unsigned char <I>porT</I>;
+		unsigned char <I>pbmin</I>;
+		unsigned char <I>pbmax</I>;
+		unsigned char <I>reserved1</I>;
+		unsigned short <I>reserved2</I>;
+		unsigned short <I>adsr1</I>;
+		unsigned short <I>adsr2</I>;
+		short <I>prog</I>;
+		short <I>vag</I>;
+		short <I>reserved</I> [4];
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>prior</I>		優先度（0～15）
+<I>mode</I>		音源モード
+<I>vol</I>		ボリューム（0～127, 0:min, 127:max）
+<I>pan</I>		パンポット (0～127, 0:left,63:center,127:right)
+<I>center</I>		センターノート (0～127)
+<I>shift</I>		ピッチ補整（0～99, cent 単位）
+<I>min</I>		最小ノートリミット
+<I>max</I>		最大ノートリミット
+<I>vibW</I>		ビブラート幅（0 ～ 127, 127 で一オクターブ）
+<I>vibT</I>		ビブラートの１周期の時間（tick 単位）
+<I>porW</I>		ポルタメント幅
+<I>porT</I>		ポルタメント持続時間（tick 単位）
+<I>pbmin</I>		最小ピッチベンドリミット
+<I>pbmax</I>		最大ピッチベンドリミット
+<I>reseaved1</I>	システム予約
+<I>reseaved2</I>	システム予約
+<I>adsr1</I>		ADSR 設定値 (その１)
+<I>adsr2</I>		ADSR 設定値 (その２)
+<I>prog</I>		この VAG 属性が含まれる親プログラム
+<I>vag</I>		この VAG 属性が利用する VAG の ID 番号
+<I>reserved</I> [0..3]	システム予約
+
+<CENTER>
+</CENTER>
+</PRE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

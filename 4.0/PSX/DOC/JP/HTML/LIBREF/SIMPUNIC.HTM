@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuInitMalloc
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuInitMalloc
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        サウンドバッファメモリ管理機構の初期化
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuInitMalloc</B> (
+long <I>num</I>,
+char *<I>top</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>num	</I>	最大メモリ確保回数
+<I>top</I>		管理テーブルを保持する領域の先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サウンドバッファを <I>num </I>個の領域に分割管理するための初期化を行う。 <BR>
+    確保要求のたびに1ずつ消費されるメモリ管理ブロックを <I>num </I>個 <I>top </I>で与えられた領域に確保する。この領域サイズは <BR>
+        <BLOCKQUOTE>
+    (SPU_MALLOC_RECSIZ * (<I>num</I> + 1))バイト <BR>
+        </BLOCKQUOTE>
+    が必要である。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    確保したメモリ管理ブロック数を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サンプル： <BR>
+    10回のSpuMallocが使えるようなメモリ管理ブロックを作成する際には以下のようにしてSpuInitMallocを呼ぶ。 <BR>
+<BR>
+    char rec [SPU_MALLOC_RECSIZ * (10 + 1)]; <BR>
+    SpuInitMalloc (10,	/* 10 回 SpuMalloc が使える*/ <BR>
+    <blockquote>
+    		rec);	/* メモリ管理ブロック*/ <BR>
+    </blockquote>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="malloc.htm">malloc</a>(), <a href="smpuallc.htm">SpuMalloc</a>(), <a href="smwsapur.htm">SpuMallocWithStartAddr</a>(), <a href="spufree.htm">SpuFree</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

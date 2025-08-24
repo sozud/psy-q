@@ -1,0 +1,130 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>rsd2hmd</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    RSD フォーマットファイルを、HMD フォーマットに変換します。<BR>
+    ここでは、Version 1.0に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>rsd2hmd [<I>options</I>] <I>RSD-file</I></B></H4>
+
+    <BR>
+    RSD フォーマットのファイルを、HMD フォーマットに変換します。出力される HMD ファイルは、入力 RSD ファイルから拡張子を取り除いた名前に ".hmd" をつけたファイル名になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは入力ファイルの拡張子を".hmd"に変換したものを現在のディレクトリに生成します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-s X</B></H4>
+
+      <BLOCKQUOTE>
+      指定された倍率でオブジェクトを拡大・縮小します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-bin2cl file-name</B></H4>
+
+      <BLOCKQUOTE>
+      出力したHMDデータを16進表記で表したものを指定されたファイルに出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-ni</B></H4>
+
+      <BLOCKQUOTE>
+      イメージデータをHMDに出力しません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>備考</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> 使用されるRSDファイル、及びTIMファイルは同一ディレクトリに存在しなくてはなりません。別ディレクトリに存在する場合は、その相対パスあるいは絶対パスを指定して下さい。
+         <LI> 出力されるHMDファイルはRSDファイル中に示される情報を全て含みます。連結情報や、COORDINATE情報など含みたくない情報が存在する場合は、RSDファイル中でファイル指定をしないか、あるいはコメントアウトしておいて下さい。
+         <LI> 出力ファイル名が既に存在する場合、その内容は上書きされます。警告などは出力しませんので、ご注意ください。
+         <LI> 本プログラムはRSDフォーマットの以下のバージョンに対応しています。その他のバージョンのRSDファイルは使用することができませんので、あらかじめご了承下さい。
+</UL>
+        <BLOCKQUOTE><UL>
+        <BR>
+              RSDファイル      version 3.0<BR>
+              PLYファイル      version 3.0<BR>
+              MATファイル      version 3.0<BR>
+              GRPファイル      version 3.0<BR>
+              (rsd2hmd version 1.0ではGRPファイルは使用しないため、versionは問いません)<BR>
+              MSHファイル      version 1.0<BR>
+              PVTファイル      version 1.0<BR>
+              CODファイル      version 1.0<BR>
+              OGPファイル      version 1.0<BR>
+              MOTファイル      version 1.0<BR>
+</BLOCKQUOTE></UL>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

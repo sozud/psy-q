@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdGetDiskType
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdGetDiskType
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CD のフォーマットを得る
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>CdGetDiskType </B>( void )
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CDのフォーマットを得る。検出可能なフォーマットは現在CD-ROMフォーマットのみ。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>返り値</TD><TD>意味</TD><TR>
+    <TD>CdlCdromFormat</TD><TD>CD-ROMフォーマット</TD><TR>
+    <TD>CdlOtherFormat</TD><TD>他のフォーマット</TD><TR>
+    <TD>CdlStatShellOpen</TD><TD>プレイヤーのカバーが開いている</TD><TR>
+    <TD>CdlStatNoDisk</TD><TD>CDが入っていない</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    デバッギングステーションではPlayStationディスク（ブラックディスク）、CD-Rおよび一般のCD-ROM （ISO9600フォーマットのもの）がCD-ROMとして認識されるが、PlayStation（実機）ではPlayStationディスクのみCD-ROMとして認識される。CD-DAは常にOtherFormatと認識される。CDの交換などプレイヤーのカバーが閉じられた直後にこの関数を使用する場合は、その前にCdDiskReady()を呼んでCDサブシステムが安定したことを確認する。 <BR>
+    ※この関数は、DTL-H2000では正常に動作しない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

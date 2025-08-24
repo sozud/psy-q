@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsIsEos
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsIsEos
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        演奏中か否かを判別する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>short <B>SsIsEos</B> (
+short <I>access_num</I>,
+short <I>seq_num</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>access_num</I>	SEQ/SEPアクセスナンバー
+<I>seq_num</I>		SEPデータ内のSEQナンバー
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    指定した曲が演奏中か否かを判別する。 <BR>
+    SEQデータにこの関数を使用する時は、<I>seq_num </I>は0を設定し、SEPデータに使用する時は、判別したいSEQの入っている番号を設定する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    演奏中ならば1を、演奏していなければ0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sspseqly.htm">SsSeqPlay</a>(),<a href="sspseply.htm">SsSepPlay</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

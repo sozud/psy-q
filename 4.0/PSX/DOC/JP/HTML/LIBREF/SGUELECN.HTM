@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SelectGUN
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgun.htm">ガン ライブラリ (libgun) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SelectGUN
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ガンを選択する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SelectGUN </B>(
+int <I>ch,</I>
+unsigned char <I>mask</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>ch		</I>ガンのチャネル（0 または 1）
+<I>mask		</I>割り込みマスクの設定（0:割り込み禁止、1:割り込み許可）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ガンに対して割り込みマスクのオンオフを知らせる。 <BR>
+    同時に２つ以上のマスクの解除はできない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="initgun.htm">InitGUN</a>(),<a href="startgun.htm">StartGUN</a>(),<a href="stopgun.htm">StopGUN</a>(),<a href="sguelecn.htm">SelectGUN</a>(),<a href="rguemovn.htm">RemoveGUN</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

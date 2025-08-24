@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsReady
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsReady
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        データの到着を確認する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsReady </B>(
+u_char* <I>result</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>result</I>		結果格納バッファのポインタ（u_char[ 8 ]）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    データリード（DslReadS/DslReadN）で読み出されたデータの到着を確認する。もしくはレポートモードでのDA再生時のレポートの到着を監視する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    データの到着状態 <BR>
+    <blockquote>
+    	DslDataReady：	新しいデータがセクタバッファに到着した <BR>
+    </blockquote>
+    <blockquote>
+    	DslNoIntr：	新しいデータは到着していない <BR>
+    </blockquote>
+    <blockquote>
+    	DslDataEnd：	最終セクタが確認された（DA再生のみ） <BR>
+    </blockquote>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    セクタバッファの値はデータリードでのみ意味を持つ。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

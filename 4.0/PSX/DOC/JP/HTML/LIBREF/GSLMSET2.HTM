@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSetLightMatrix2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSetLightMatrix2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ライトマトリックスを設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSetLightMatrix2</B> (
+MATRIX * <I>mp </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mp		</I>マトリックス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    引数で与えられるローカルスクリーンライトマトリックス <I>mp </I>と、３つの光源ベクトルのマトリックスをかけ合わせlibgteに設定する。 <BR>
+    光源計算の処理を実行時にlibgteを用いて行なう場合は必ずセットしておく必要がある。 <BR>
+    GsSortObject...は扱うモデリングデータの種類により実行時に光源計算をするものがある。 <BR>
+    この場合も予めGsSetLightMatrix2()を使ってライトマトリックスをセットしておく必要がある。 <BR>
+    GsSetLightMatrix2()の引数として設定するマトリックスは通常はローカルワールドマトリックスである。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsSetLightMatrix()との違いはGTEの回転マトリックス及び引数で与えられる <I>mp </I>を壊すか壊さないかである。 <BR>
+    GsSetLightMatrix2()は壊すかわりにGsSetLightMatrix()より高速である。 <BR>
+    GsSetLightMatrix()はGsSetLsMatrix()よりも前に呼ばなければならない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

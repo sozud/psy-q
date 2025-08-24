@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    TIM_IMAGE
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    TIM_IMAGE
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ＴＩＭ形式画像データヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>mode</I>;
+		RECT	*<I>crect</I>;
+		u_long	*<I>caddr</I>;
+		RECT	*<I>prect</I>;
+		u_long	*<I>paddr</I>;
+} <B>TIM_IMAGE</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		ピクセルモード 
+<I>crect</I>	 	CLUT のフレームバッファ上の期待される位置 
+<I>caddr</I>		CLUT のメインメモリアドレス 
+<I>prect</I>		テクスチャのフレームバッファ上の期待される位置
+<I>paddr</I>	 	テクスチャのメインメモリアドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TIM データヘッダ情報。ReadTIM() によって獲得される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CLUT を持たない TIM に関しては <I>crect</I>, <I>caddr</I> には 0 が入る。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

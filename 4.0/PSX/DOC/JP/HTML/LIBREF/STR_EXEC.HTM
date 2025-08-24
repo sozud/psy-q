@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    EXEC
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libapi.htm">カーネル ライブラリ (libapi) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    EXEC
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        実行ファイルのデータ構造
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>EXEC</B> {
+		unsigned long <I>pc0</I>;
+		unsigned long <I>gp0</I>;
+		unsigned long <I>t_addr</I>;
+		unsigned long <I>t_size</I>;
+		unsigned long <I>d_addr</I>;
+		unsigned long <I>d_size</I>;
+		unsigned long <I>b_addr</I>;
+		unsigned long <I>b_size</I>;
+		unsigned long <I>s_addr</I>;
+		unsigned long <I>s_size</I>;
+		unsigned long <I>sp</I>,<I>fp</I>,<I>gp</I>,<I>ret</I>,<I>base</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pc0</I>		実行開始アドレス
+<I>gp0</I>		gpレジスタ初期値
+<I>t_addt</I>		テキストセクション＋初期値ありデータセクションの先頭アドレス
+<I>t_size</I>		テキストセクション＋初期値ありデータセクションのサイズ
+<I>d_addr</I>		システム予約
+<I>d_size</I>		システム予約
+<I>b_addr</I>		初期値なしデータセクション先頭アドレス
+<I>b_size</I>		初期値なしデータセクションサイズ
+<I>s_addr</I>		スタック領域先頭アドレス（ユーザ指定用）
+<I>s_size</I>		スタック領域サイズ（ユーザ指定用）
+<I>sp</I>,<I>fp</I>,<I>gp</I>,<I>base</I>	レジスタ退避領域
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    実行ファイル（PS-X EXE形式）の先頭の2Kバイト中に配置され、ファイルに格納されたプログラムのロードと実行のための情報を保持する。スタック情報を追加してExec()関数に引き渡すことでプログラムを起動する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="exec.htm">Exec</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

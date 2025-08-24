@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuReserveReverbWorkArea
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuReserveReverbWorkArea
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        リバーブワークエリアの予約/解放
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long<B> SpuReserveReverbWorkArea</B> (
+long <I>on_off</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>on_off</I>		SPU_ON（リバーブワークエリア予約）または
+ 		SPU_OFF（リバーブワークエリア解放）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在のリバーブモードに応じたリバーブワークエリアとして占める領域がSpuMalloc/SpuMallocWithStartAddrによって確保されないように予約する。 <BR>
+    あるいは確保されるように解放する。 <BR>
+<BR>
+    <I>on_off</I> = SPU_ON <BR>
+        <BLOCKQUOTE>
+    リバーブワークエリアを SpuMalloc/SpuMallocWithStartAddrによって領域確保されないように予約する。リバーブのオン/オフに関わらず予約される。 <BR>
+    リバーブワークエリアが既に SpuMalloc/SpuMallocWithStartAddrによって他の領域として確保されている場合は予約されず、SPU_OFFを返す。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    <I>on_off </I>= SPU_OFF <BR>
+        <BLOCKQUOTE>
+    リバーブワークエリアをSpuMalloc/SpuMallocWithStartAddrによって領域確保されてもいいように解放する。リバーブのオン/オフに関わらず解放するため、リバーブを事前にオフしておく必要がある。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>on_off </I>= SPU_ONの場合、リバーブワークエリアが既にSpuMalloc / SpuMallocWithStartAddrによって他の領域として確保され、予約できない場合は SPU_OFFを返す。予約できればSPU_ONを返す。 <BR>
+    <I>on_off</I> = SPU_OFFの場合、常にSPU_OFFを返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sirwarpd.htm">SpuIsReverbWorkAreaReserved</a>(), <a href="ssrmppum.htm">SpuSetReverbModeParam</a>(), <a href="ssrpuetb.htm">SpuSetReverb</a>(), <a href="smpuallc.htm">SpuMalloc</a>(), <a href="smwsapur.htm">SpuMallocWithStartAddr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

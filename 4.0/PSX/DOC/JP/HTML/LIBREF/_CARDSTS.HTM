@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    _card_status
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcard.htm">メモリカード ライブラリ (libcard) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    _card_status
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        メモリカードBIOSステータスの取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>_card_status </B>(
+long <I>drv</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>drv		</I>差し込み口番号（0：向かって左、1：向かって右）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    差し込み口毎のメモリカードBIOSステータスを取得する。 <BR>
+    同期処理関数だが直ちに終了する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    メモリカードBIOSが稼働状態にあれば、次のいずれかの値を返す。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>状態</TD><TR>
+    <TD>0x01</TD><TD>登録処理なし</TD><TR>
+    <TD>0x02</TD><TD>READ処理登録あり</TD><TR>
+    <TD>0x04</TD><TD>WRITE処理登録あり</TD><TR>
+    <TD>0x08</TD><TD>接続テスト処理登録あり</TD><TR>
+    <TD>0x11</TD><TD>登録処理なし（直前にタイムアウト発生）</TD><TR>
+    <TD>0x21</TD><TD>登録処理なし（直前に通信エラー発生）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="_cardwat.htm">_card_wait</a>(), <a href="_cardchn.htm">_card_chan</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

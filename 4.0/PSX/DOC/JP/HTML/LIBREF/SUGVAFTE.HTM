@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsUtGetVagAddrFromTone
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsUtGetVagAddrFromTone
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        VAGが格納されているSPUバッファのアドレスを返す
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsignedlong <B>SsUtGetVagAddrFromTone </B>(
+short <I>vabid</I>,
+short <I>progid</I>,
+short <I>toneid</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>vabid</I>		VABid
+<I>progid</I>		Program番号
+<I>toneid</I>		Tone番号
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    指定されたVABid、Program番号、Tone番号のVAGの波形データが転送されたサウンドバッファ内のアドレスを返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サウンドバッファ内のアドレス <BR>
+    失敗したら-1を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="svohsabd.htm">SsVabOpenHead</a>(), <a href="svtbsaby.htm">SsVabTransBody</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

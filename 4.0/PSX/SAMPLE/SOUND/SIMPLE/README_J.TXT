@@ -1,0 +1,49 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.0$
+┏━━━━━━━━━━━━━━━━━┓
+┃  ♪サウンドサンプルプログラム♪  ┃ 
+┗━━━━━━━━━━━━━━━━━┛       
+
+
+・simple：1 曲を無限回演奏します。
+
+	画面には、現在のテンポやボリュームやステータスなどが
+	表示されます。基本的な Ss 関数の使用例です。
+
+	波形データはヘッダとして sample.vh を使い、
+	ボディとして sample.vb を分割転送しています。
+
+	コントロールパッドの操作は以下の通りです。
+		H ボタン(START) ： プレイ（演奏開始）
+		K ボタン(SELECT) ： ストップ（演奏停止）
+		F ボタン(×ボタン) ： リプレイ（演奏を再開する）
+		E ボタン(△ボタン) ： ポーズ（演奏を一時停止する）
+		L ボタン(R1ボタン) ： 曲の速度をだんだん速くする
+		N ボタン(L1ボタン) ： 曲の速度をだんだん遅くする
+		A ボタン(↑ボタン) ： 曲のボリュームを大きくする
+		B ボタン(↓ボタン) ： 曲のボリュームを小さくする
+		C ボタン(←ボタン) 
+			： 曲のボリュームを 0 までだんだん小さくする
+		D ボタン(→ボタン) 
+			： 曲のボリュームを 127 までだんだん大きくする
+		K ボタン(SELECT) & H(START) ボタン
+			： クローズ（演奏終了）
+
+・jump：simple のジャンプテーブル化版です。
+        SEQ は、Note On/Off, Control Change の main volume, panpot が
+	使われています。
+
+
+【プログラムのロード・実行】
+
+	> psymake 
+	> psymake load
+	> dbugpsx simple /r50 /e
+
+	> psymake 
+	> psymake load
+	> dbugpsx jump /r50 /e
+
+	を行なって下さい。
+
+
+                Copyright (C) 1994 by Sony Computer Entertainment Inc.

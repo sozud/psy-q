@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuRead
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuRead
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        サウンドバッファからメインメモリへの転送
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long<B> SpuRead</B> (
+unsigned char *<I>addr</I>,
+unsigned long <I>size</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>addr</I>		転送されるメインメモリ内の先頭アドレス
+<I>size</I>		転送するデータのサイズ(バイト単位)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サウンドバッファからメインメモリへデータを転送する。 <BR>
+    ただし転送されるメインメモリのアドレス <I>addr</I> は、 <BR>
+<BR>
+<UL>
+         <LI> 大域変数として取られた変数へのアドレス
+         <LI> mallocなどでヒープ領域に取られた変数へのアドレスでなければならない
+</UL>
+        <BLOCKQUOTE>
+    すなわち、 <BR>
+        </BLOCKQUOTE>
+<UL>
+         <LI> スタック領域へのアドレス（auto変数へのアドレス）であってはならない
+</UL>
+<BR>
+    呼び出し後、転送終了を確認するために SpuIsTransferCompleted() を呼ぶか、事前にSpuSetTransferCallback() にて DMA転送終了Callback関数を設定しておくこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    転送されたデータサイズ <BR>
+    設定したデータサイズが512KBより大きければ、実際に転送されたサイズが返る。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="spuwrite.htm">SpuWrite</a>(), <a href="swpurit0.htm">SpuWrite0</a>(), <a href="swppuriy.htm">SpuWritePartly</a>(), <a href="sstsapur.htm">SpuSetTransferStartAddr</a>(), <a href="sgtsapur.htm">SpuGetTransferStartAddr</a>(), <a href="sitcpusd.htm">SpuIsTransferCompleted</a>(), <a href="sstcpuek.htm">SpuSetTransferCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

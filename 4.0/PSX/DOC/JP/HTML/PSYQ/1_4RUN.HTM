@@ -1,0 +1,175 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> プログラムの実行- RUN</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+プログラムの実行- RUN
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+作成したプログラムをターゲットにダウンロードし、実行するには、RUN.EXE を用います。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    RUN.EXE を実行するには、MS-DOS のプロンプトから次のように入力します。<BR>
+<PRE>        run [/option] &lt;filename&gt; [[/option] &lt;filename&gt;]...
+</PRE>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションに続き、実行可能ファイル名を指定します。拡張子が省略された場合、".CPE"が用いられます。次の例では、test.cpe をダウンロードし、ファイル記述された実行開始アドレスから実行します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        run test.cpe （拡張子あり）
+        run test     （拡張子なし）
+</PRE>
+    <BR>
+    ファイルは最大８個まで指定できます、この場合、左から順にダウンロードされていきます。ただし、実行開始アドレスは最後に指定されたファイルに記述されているものになります（下の例では test3.cpe に記述されたアドレス）。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        run test1 test2 test3
+</PRE>
+    <BR>
+    Ver.2.32より、バイナリファイルのダウンロードをサポートしました。ファイル名に続けてロードアドレスを設定します。ファイル名の拡張子は .binでなければなりません。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        run mydemo.bin,80010000 /e80011000
+</PRE>
+    <BR>
+    また、RUN.EXE を引数なしで起動すると、ターゲットボードとの通信のみを行ないます。成功した場合はターゲット ID を表示し、失敗した場合はエラーメッセージが表示されます。これにより、ターゲットボードが正常に動作しているかを確認することができます。<BR>
+
+     <H4><B>例</B></H4>
+
+
+     <H4><B>≪失敗時≫</B></H4>
+
+<PRE>        C:＼&gt;run
+        RUN.EXE Executable/Binary file downloader version 2.23
+        	Copyright(C) 1992, 93 S N Systems Ltd.
+        Cannot connect to target
+</PRE>
+
+     <H4><B>≪成功時≫</B></H4>
+
+<PRE>        C:＼&gt;run
+        RUN.EXE Executable/Binary file downloader version 2.23
+        	Copyright(C) 1992, 93 S N Systems Lted.
+        Target () is R3000-SONY_PSX4.00
+        No file to process
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションには次のものがあります。<BR>
+
+     <H4><B>ターゲット停止(/h)</B></H4>
+
+      <BLOCKQUOTE>
+      "/h"を指定すると、ターゲットを停止します。すなわち、ダウンロードのみを行ない、実行はしません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        run /h test.cpe
+</PRE>
+
+     <H4><B>タイムアウト時間指定(/w##)</B></H4>
+
+      <BLOCKQUOTE>
+      "/w"に続いて数字を指定する事によって、タイムアウト時間を設定できます。<BR>
+      バッチファイル等で resetpsやrunを連続して実行する際、ターゲット側の処理が<BR>
+      終了する前に次のrunが発行され、"Cannot connect to target" エラーが起きる事が<BR>
+      あります。そういった場合にはこのオプションで調整して下さい。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        resetps 1         # reset the PSX (this takes a while to complete)
+        run /w4 patchx    # install new kernel (4 second timeout)
+        run /w4 newdex    # install debug stub (4 second timeout)
+</PRE>
+
+     <H4><B>実行開始アドレス指定(/e[address])</B></H4>
+
+      <BLOCKQUOTE>
+      "/e"で実行開始アドレスが指定できます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        run mydemo.bin,80010000 /e80011000
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>ファイルについて</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    RUN.EXE の引数として指定できるファイルは、Psy-Q システムによって作成された.CPE 形式の実行可能イメージです。<BR>
+    実行開始アドレスは、指定されたファイルに記述されたものとなります。ただし、複数指定した場合は、最後に指定されたファイルに記述されたアドレスとなりますのでご注意ください。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

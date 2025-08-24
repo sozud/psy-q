@@ -1,0 +1,236 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> &lt;PlayStation OS&gt; 概要</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+&lt;PlayStation OS&gt; 概要
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PlayStationには、柔軟で強力なOSが搭載されています。このOSを利用することにより、PlayStationの能力を最大限に引き出し、かつ、これを自在に制御するアプリケーションを開発することができます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 &lt;PlayStation OS&gt;とは</A><BR>
+<P><A HREF="#Heading3_1_2"> 2 &lt;PlayStation OS&gt;の特徴</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> C言語によるプログラミング</A><BR>
+    <A HREF="#Heading4_1_2_2"> R3000の機能を簡単に利用可能</A><BR>
+    <A HREF="#Heading4_1_2_3"> 軽量・小型・パフォーマンス重視</A><BR>
+    <A HREF="#Heading4_1_2_4"> ハードウェアのすべての機能を提供</A><BR>
+    <A HREF="#Heading4_1_2_5"> シングル／マルチタスクの選択が可能</A><BR>
+    <A HREF="#Heading4_1_2_6"> ファイルシステムのデバイスドライバ化</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 OSの起動／操作</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> OSの起動</A><BR>
+    <A HREF="#Heading4_1_3_2"> ブートシーケンス</A><BR>
+    <A HREF="#Heading4_1_3_3"> システム設定ファイル(system.cnf)</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>&lt;PlayStation OS&gt;とは</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    &lt;PlayStation OS&gt;は、PlayStationのCPUとして搭載されているR3000をターゲットに開発された、きわめて新しいコンセプトを持つオペレーティングシステムです。プログラム開発の効率は、そのマシンに搭載されているOSが提供する環境、サービスに大きく依存します。十分に高速なCPUと周辺デバイスが保証されてさえいれば、OSの提供するサービスをうまく利用し開発を進めて行くことで、ハードウェアの能力を限界まで引き出す方法を考察するといったことに時間をとられる必要はなく、集中してプログラミングに取り組むことができます。<BR>
+    &lt;PlayStation OS&gt;の設計コンセプトは、「ゲームプログラム開発者のために」「割り込み駆動のプログラムを快適に動作させる環境を提供」することにあります。このコンセプトに基づき、&lt;PlayStation OS&gt;のカーネルは、R3000およびPlayStationハードウェアを制御するサービス（サブルーチン）の集合体として提供されます。<BR>
+    さらに、各サービスはすべてC言語の関数として提供されます。C言語を用いることにより、ソースコードの視認性、保守性の向上を図れるだけでなく、ブロック構造記述、および関数呼び出しの容易さなどの特長を活かし、プログラミングをより平易に行なうことが可能になります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>&lt;PlayStation OS&gt;の特徴</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    &lt;PlayStation OS&gt;には、その設計コンセプトを実現する、数々の特長があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>C言語によるプログラミング</B>
+</A>
+</H3>
+<blockquote>
+    R3000 CPUの制御、PlayStationハードウェア群の制御など、ほとんどのサービスはC言語の関数として提供されます。よって、プログラミングは一貫してC言語で行うことができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>R3000の機能を簡単に利用可能</B>
+</A>
+</H3>
+<blockquote>
+    R3000での割り込み処理手続きは複雑であると言われていますが、&lt;PlayStation OS&gt;ではこれをOSが代行処理する「ディスパッチャー」システムを採用し、平易なインターフェイスを提供しています。もちろん、ディスパッチに伴うオーバーヘッドは最小限に抑えています。<BR>
+    さらに、通常のOSでは公開されないようなネイティブ・レベルでの使い方もサポートしています。これにより、チップの能力を最大限に引き出し、より高度なチューニングを行うことができます。もちろん、すべてC言語により制御できますので、難解なR3000のアセンブラを修得する必要はありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>軽量・小型・パフォーマンス重視</B>
+</A>
+</H3>
+<blockquote>
+    せっかくの高速ゲームも、OSが鈍重であっては、その足を引っ張ることになりかねません。アプリケーションのパフォーマンス重視のため、&lt;PlayStation OS&gt;のメモリ常駐サイズを64Kバイトと最小限のレベルに抑え、CPU占有時間も最小限となるよう設計されています。また、OSのシステムテーブルも公開され、OSの拡張、内部データの取得といった点にも配慮がなされています。<BR>
+    さらに&lt;PlayStation OS&gt;では、より一層の高速化を図るべく、一般のOSにみられる禁止事項のチェックをも敢えてカットしています。これらのチェックは、アプリケーションが責任を持って行う必要があります。従って、本来禁止されている操作を行ってしまう危険性もありますが、注意深くプログラミングすることにより、OS内部の機能を利用した、よりハイレベルなチューニングを可能にしています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>ハードウェアのすべての機能を提供</B>
+</A>
+</H3>
+<blockquote>
+    これまで、ビデオゲーム機のハードウェア制御と言えば、これを解析し、アセンブラにより隅々まで神経を行き届かせる必要がありました。&lt;PlayStation OS&gt;ではこういった負担を軽減するため、ハードウェアのすべての機能をC言語の関数として提供しています。各関数のオーバーヘッドは最小限に抑えられています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_5">
+<A HREF="#Heading3_1_2"> 2. </A>5 <B>シングル／マルチタスクの選択が可能</B>
+</A>
+</H3>
+<blockquote>
+    &lt;PlayStation OS&gt;は、基本的に複数の処理を非同期に行うことのできるマルチタスクOSです。マルチタスク制御は、比較的遅いデバイスであるCD-ROMの制御、あるいはBGMの演奏などに適しています。<BR>
+    また、従来型のプログラミング、すなわちシングルタスクに慣れた方のために、マルチタスクを利用するかどうかを選択可能としています。OS起動直後はシングルタスク・モードであり、ここで設定を行うことにより、動作モードを選択することが可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_6">
+<A HREF="#Heading3_1_2"> 2. </A>6 <B>ファイルシステムのデバイスドライバ化</B>
+</A>
+</H3>
+<blockquote>
+    &lt;PlayStation OS&gt;では、ファイルシステムのデバイスドライバ化という、これまでにない仕組みが採用されています。デバイスを自由に着脱し、複数のファイルシステムを共存させることが可能です。これにより、開発効率をより一層高めることができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>OSの起動／操作</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    &lt;PlayStation OS&gt;は「ゲームプログラム開発者のための環境」を提供するOSです。従ってユーザがこれを直接操作するためのインターフェースは基本的に装備されていません（デバッグ環境下でのデバッグモニタを除く）。ユーザインターフェースは、アプリケーションの責任において提供する必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>OSの起動</B>
+</A>
+</H3>
+<blockquote>
+    まず、ROMの特定番地にジャンプし、接続されているハードウェア（CD-ROMドライブなど）のチェックを行ないます。<BR>
+    次にCD-ROMドライブ中のディスク種別判定を行ないます。ディスクが適したものであれば、システム設定ファイル（system.cnf）を検索し、これに従って起動します。<BR>
+    また、ディスクが入っていない場合は、CDプレーヤーとメモリカード管理のふたつの機能を備えたROM常駐プログラム「OSD」（On Screen Display）が起動されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>ブートシーケンス</B>
+</A>
+</H3>
+<blockquote>
+    ブートシーケンスの動作は次のとおりです。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/abstn1.gif">
+<P>
+    <BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>システム設定ファイル(system.cnf)</B>
+</A>
+</H3>
+<blockquote>
+    ここに&lt;PlayStation&gt;システムの設定、起動するアプリケーション等を記述します。<BR>
+    パラメータは、行頭から「＜キーワード＞ = ＜内容＞」の形式で記述します。記述はすべて1バイト英数字、大文字で行ない、等号の両端には半角空白が必要です。小文字は使用できません。また、数値は16進表記です。ファイル内に同一パラメータが複数存在する場合は、最初に見つかった内容が優先されます。<BR>
+    記述可能なパラメータは次のとおりです。<BR>
+<CENTER>
+        <H4><B>表 1 システム設定ファイルのキーワード一覧</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">キーワード</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">BOOT<BR></TD><TD>起動するファイル名を指定。デフォルトはcdrom:PSX.EXE;1<BR>例：BOOT = cdrom:PSXAPP.EXE;1</TD><TR>
+    <TD ALIGN="center">TCB<BR></TD><TD>タスク管理ブロック要素数を指定。デフォルトは4。<BR>例：TCB = 5</TD><TR>
+    <TD ALIGN="center">EVENT<BR></TD><TD>イベント管理ブロック要素数を指定。デフォルトは16。<BR>例：EVENT = 5</TD><TR>
+    <TD ALIGN="center">STACK<BR></TD><TD>BOOTで指定したファイルが起動される時のスタックポインタ値。<BR>デフォルトは0x801ff00。例：STACK = 800ffff0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

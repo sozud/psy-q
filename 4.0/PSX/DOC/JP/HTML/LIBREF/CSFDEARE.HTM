@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdSearchFile
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdSearchFile
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CD-ROM 上のファイル名から位置とサイズを獲得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>CdlFILE *<B>CdSearchFile </B>(
+CdlFILE *<I>fp</I>, 
+char<I> </I>*<I>name </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>fp</I>		CD-ROMファイル構造体のポインタ
+<I>char		</I>ファイル名
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CD-ROM上のファイル名から絶対位置（分・秒・セクタ）とサイズを知る。結果は*<I>fp</I>に格納される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">返り値</TD><TD ALIGN="center">意味</TD><TR>
+    <TD ALIGN="center">0</TD><TD>ファイルが見つからない</TD><TR>
+    <TD ALIGN="center">-1</TD><TD>サーチに失敗</TD><TR>
+    <TD ALIGN="center">それ以外</TD><TD>獲得されたCD-ROMファイル構造体のポインタ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル名は全て絶対パスでかかれなくてはいけない。<I>fp</I>で指定されたファイルと同じディレクトリにあるファイルの位置情報はメモリにキャッシュされる。そのため同一ディレクトリ内のファイルに続けてCdSearchFile()を行なう場合は２回目以降のアクセスは高速になる。 <BR>
+    返り値が-1の場合は何らかの理由でディレクトリのリードに失敗したことを示す。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

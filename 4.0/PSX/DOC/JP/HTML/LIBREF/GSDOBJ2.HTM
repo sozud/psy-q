@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsDOBJ2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsDOBJ2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ３次元オブジェクトハンドラ GsCOORDINATE2 用
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsDOBJ2</B> {
+		unsigned long <I>attribute</I>;
+		GsCOORDINATE2 * <I>coord2</I>;
+		unsigned long * <I>tmd</I>;
+		unsigned long <I>id</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attribute</I>	オブジェクトの属性（ 32bit ）
+<I>coord2</I>		ローカル座標系へのポインタ
+<I>tmd</I>		モデリングデータへのポインタ
+<I>id</I>		レイアウトツールで予約
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsDOBJ2 は３次元モデルのオブジェクトごとに存在し、この GsDOBJ2 構造体を通じて３次元モデルを操作することができる。GsDOBJ2 を TMDファイルのモデリングデータとリンクさせるにはGsLinkObject4()を使用する。 <BR>
+    リンクを張られた TMD データは、GsDOBJ2 を通じてアクセス可能。 <BR>
+    GsDOBJ2 をオーダリングテーブルに登録するにはGsSortObject4()を用いる。 <BR>
+    <I>coord2</I> はそのオブジェクト固有の座標系へのポインタである。オブジェクトの位置、傾き、大きさは <I>coord2</I> でポイントされる座標系にマトリックスを設定することで反映される。 <BR>
+    <I>tmd</I> には、メモリ上に格納された TMD フォーマットのモデリングデータの先頭アドレスが保持される。<I>tmd </I>は GsLinkObject4()によって計算され設定される。 <BR>
+    <I>attribute</I> は 32 ビットでここで、表示のためのさまざまな属性を設定する。 <BR>
+    以下、各ビットについて解説する。 <BR>
+<BR>
+    (a)光源計算 ON/OFF スイッチ (bit 6) <BR>
+        <BLOCKQUOTE>
+    光源計算を外す場合、このビットを立てる。光源計算が外されると、テクスチャマッピングされたポリゴンはテクスチャの元の色で表示される。 <BR>
+    マッピングされないポリゴンはモデリングデータの色でそのまま表示される。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (b)自動分割機能スイッチ (bit 9-11) <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>機能</TD><TR>
+    <TD>0</TD><TD>自動分割しない</TD><TR>
+    <TD>1</TD><TD>2x2分割</TD><TR>
+    <TD>2</TD><TD>4x4分割</TD><TR>
+    <TD>3</TD><TD>8x8分割</TD><TR>
+    <TD>4</TD><TD>16x16分割</TD><TR>
+    <TD>5</TD><TD>32x32分割</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+        <BLOCKQUOTE>
+    自動分割の分割数を指定する。自動分割とは１つのポリゴンを実行時に自動的に分割する機能のことである。テクスチャの歪みを少なくしたり近くのポリゴンが欠けるのを防ぐために使われる。ただし 分割はポリゴン数を指数関数的に増大させるため 最小限にとどめるべきである。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (c)半透明レート (bit28-29) <BR>
+        <BLOCKQUOTE>
+    bit30 で半透明を ON にした場合に、ピクセルをブレンディングする方式を設定する。 <BR>
+    ０のときは通常の半透明処理、１のときはピクセル加算、２のときはピクセル減算、３のときは25%加算になる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (d)半透明 ON/OFF (bit30) <BR>
+        <BLOCKQUOTE>
+    半透明を ON/OFF する。 <BR>
+    なお、半透明にするには、このビットを立てると共に、テクスチャの色のフィールド（ダイレクトの時はテクスチャパターン、indexedの時は CLUT の色のフィールド）の最上位ビット（STP ビット）を立てる必要がある。また、この STP ビットを利用しピクセル単位の半透明／不透明の制御が可能。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (e)表示 ON/OFF (bit31) <BR>
+        <BLOCKQUOTE>
+    表示を ON/OFF する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

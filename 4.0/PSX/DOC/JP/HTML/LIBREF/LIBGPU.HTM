@@ -1,0 +1,620 @@
+<HTML>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 基本グラフィックス ライブラリ (libgpu)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm" TARGET="_top"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm" TARGET="_top"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2">
+<H1>
+基本グラフィックス ライブラリ (libgpu) 関数一覧
+<HR>
+</H1>
+</A>
+<blockquote>
+
+<TABLE CELLPADDING=0>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>構造体</TD><TR>
+<TD></TD><TD>
+<A HREF="dispenv.htm" _TARGET="main"> DISPENV </A><BR>
+</TD><TD> </TD>
+<TD>表示環境</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_area.htm" _TARGET="main"> DR_AREA </A><BR>
+</TD><TD> </TD>
+<TD>描画領域変更プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_env.htm" _TARGET="main"> DR_ENV </A><BR>
+</TD><TD> </TD>
+<TD>描画環境変更プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_load.htm" _TARGET="main"> DR_LOAD </A><BR>
+</TD><TD> </TD>
+<TD>矩形領域転送プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_mode.htm" _TARGET="main"> DR_MODE </A><BR>
+</TD><TD> </TD>
+<TD>描画モード変更プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_move.htm" _TARGET="main"> DR_MOVE </A><BR>
+</TD><TD> </TD>
+<TD>矩形領域複写プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="droffset.htm" _TARGET="main"> DR_OFFSET </A><BR>
+</TD><TD> </TD>
+<TD>描画オフセット変更プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_tpage.htm" _TARGET="main"> DR_TPAGE </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャページ変更プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="dr_twin.htm" _TARGET="main"> DR_TWIN </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャウィンドウ変更プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="drawenv.htm" _TARGET="main"> DRAWENV </A><BR>
+</TD><TD> </TD>
+<TD>描画環境</TD><TR>
+<TD></TD><TD>
+<A HREF="line_f2.htm" _TARGET="main"> LINE_F2 </A><BR>
+</TD><TD> </TD>
+<TD>フラット非連結直線</TD><TR>
+<TD></TD><TD>
+<A HREF="line_f3.htm" _TARGET="main"> LINE_F3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット１連結直線</TD><TR>
+<TD></TD><TD>
+<A HREF="line_f4.htm" _TARGET="main"> LINE_F4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット２連結直線</TD><TR>
+<TD></TD><TD>
+<A HREF="line_g2.htm" _TARGET="main"> LINE_G2 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー非連結直線</TD><TR>
+<TD></TD><TD>
+<A HREF="line_g3.htm" _TARGET="main"> LINE_G3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー１連結直線</TD><TR>
+<TD></TD><TD>
+<A HREF="line_g4.htm" _TARGET="main"> LINE_G4 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー２連結直線</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_f3.htm" _TARGET="main"> POLY_F3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_f4.htm" _TARGET="main"> POLY_F4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_ft3.htm" _TARGET="main"> POLY_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャマップ３角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_ft4.htm" _TARGET="main"> POLY_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャマップ４角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_g3.htm" _TARGET="main"> POLY_G3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローシェーディング３角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_g4.htm" _TARGET="main"> POLY_G4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローシェーディング４角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_gt3.htm" _TARGET="main"> POLY_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャマップ３角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="poly_gt4.htm" _TARGET="main"> POLY_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャマップ４角形プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="rect.htm" _TARGET="main"> RECT </A><BR>
+</TD><TD> </TD>
+<TD>フレームバッファ矩形領域</TD><TR>
+<TD></TD><TD>
+<A HREF="sprt.htm" _TARGET="main"> SPRT </A><BR>
+</TD><TD> </TD>
+<TD>任意サイズスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="sprt_16.htm" _TARGET="main"> SPRT_16 </A><BR>
+</TD><TD> </TD>
+<TD>16x16 固定サイズスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="sprt_8.htm" _TARGET="main"> SPRT_8 </A><BR>
+</TD><TD> </TD>
+<TD>8x8 固定サイズスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="tile.htm" _TARGET="main"> TILE </A><BR>
+</TD><TD> </TD>
+<TD>任意サイズタイルスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="tile_1.htm" _TARGET="main"> TILE_1 </A><BR>
+</TD><TD> </TD>
+<TD>1x1 固定サイズタイルスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="tile_16.htm" _TARGET="main"> TILE_16 </A><BR>
+</TD><TD> </TD>
+<TD>16x16 固定サイズタイルスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="tile_8.htm" _TARGET="main"> TILE_8 </A><BR>
+</TD><TD> </TD>
+<TD>	8x8 固定サイズタイルスプライト</TD><TR>
+<TD></TD><TD>
+<A HREF="timimage.htm" _TARGET="main"> TIM_IMAGE </A><BR>
+</TD><TD> </TD>
+<TD>ＴＩＭ形式画像データヘッダ</TD><TR>
+<TD></TD><TD>
+<A HREF="tmd_prim.htm" _TARGET="main"> TMD_PRIM </A><BR>
+</TD><TD> </TD>
+<TD>ＴＭＤ形式モデルデータヘッダ</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>関数</TD><TR>
+<TD></TD><TD>
+<A HREF="addprim.htm" _TARGET="main"> AddPrim </A><BR>
+</TD><TD> </TD>
+<TD>描画するプリミティブをＯＴに登録</TD><TR>
+<TD></TD><TD>
+<A HREF="addprims.htm" _TARGET="main"> AddPrims </A><BR>
+</TD><TD> </TD>
+<TD>描画するプリミティブをまとめてＯＴに登録</TD><TR>
+<TD></TD><TD>
+<A HREF="bdreakrw.htm" _TARGET="main"> BreakDraw </A><BR>
+</TD><TD> </TD>
+<TD>描画を中断する</TD><TR>
+<TD></TD><TD>
+<A HREF="catprim.htm" _TARGET="main"> CatPrim </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブリストを連結</TD><TR>
+<TD></TD><TD>
+<A HREF="cpheckrm.htm" _TARGET="main"> CheckPrim </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブの各メンバの値の整合性をチェック</TD><TR>
+<TD></TD><TD>
+<A HREF="cilearme.htm" _TARGET="main"> ClearImage </A><BR>
+</TD><TD> </TD>
+<TD>フレームバッファ高速塗りつぶし</TD><TR>
+<TD></TD><TD>
+<A HREF="cilearm2.htm" _TARGET="main"> ClearImage2 </A><BR>
+</TD><TD> </TD>
+<TD>フレームバッファ高速塗りつぶし(インターレース)</TD><TR>
+<TD></TD><TD>
+<A HREF="cotlearg.htm" _TARGET="main"> ClearOTag </A><BR>
+</TD><TD> </TD>
+<TD>ＯＴを初期化する</TD><TR>
+<TD></TD><TD>
+<A HREF="cotlearr.htm" _TARGET="main"> ClearOTagR </A><BR>
+</TD><TD> </TD>
+<TD>逆順ＯＴを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="cdontinw.htm" _TARGET="main"> ContinueDraw </A><BR>
+</TD><TD> </TD>
+<TD>BreakDrawで中断したOTを描画続行する</TD><TR>
+<TD></TD><TD>
+<A HREF="drawotag.htm" _TARGET="main"> DrawOTag </A><BR>
+</TD><TD> </TD>
+<TD>ＯＴに登録されたプリミティブを描画</TD><TR>
+<TD></TD><TD>
+<A HREF="doterawv.htm" _TARGET="main"> DrawOTagEnv </A><BR>
+</TD><TD> </TD>
+<TD>描画環境を設定し、ＯＴに登録されたプリミティブを描画</TD><TR>
+<TD></TD><TD>
+<A HREF="dotirawo.htm" _TARGET="main"> DrawOTagIO </A><BR>
+</TD><TD> </TD>
+<TD>ＯＴに登録されたプリミティブを描画</TD><TR>
+<TD></TD><TD>
+<A HREF="drawprim.htm" _TARGET="main"> DrawPrim </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブを描画</TD><TR>
+<TD></TD><TD>
+<A HREF="drawsync.htm" _TARGET="main"> DrawSync </A><BR>
+</TD><TD> </TD>
+<TD>全ての描画の終了を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="dscrawyk.htm" _TARGET="main"> DrawSyncCallback </A><BR>
+</TD><TD> </TD>
+<TD>描画終了コールバック関数を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="dumpclut.htm" _TARGET="main"> DumpClut </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのclutメンバの内容をプリント</TD><TR>
+<TD></TD><TD>
+<A HREF="ddeumpiv.htm" _TARGET="main"> DumpDispEnv </A><BR>
+</TD><TD> </TD>
+<TD>描画環境構造体の内容をプリント</TD><TR>
+<TD></TD><TD>
+<A HREF="ddeumprv.htm" _TARGET="main"> DumpDrawEnv </A><BR>
+</TD><TD> </TD>
+<TD>描画環境構造体の内容をプリント</TD><TR>
+<TD></TD><TD>
+<A HREF="dumpotag.htm" _TARGET="main"> DumpOTag </A><BR>
+</TD><TD> </TD>
+<TD>ＯＴに登録されたプリミティブをプリント</TD><TR>
+<TD></TD><TD>
+<A HREF="dtpumpae.htm" _TARGET="main"> DumpTPage </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのtpageメンバの内容をプリント</TD><TR>
+<TD></TD><TD>
+<A HREF="fntflush.htm" _TARGET="main"> FntFlush </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリーム内容を描画</TD><TR>
+<TD></TD><TD>
+<A HREF="fntload.htm" _TARGET="main"> FntLoad </A><BR>
+</TD><TD> </TD>
+<TD>フォントパターンを転送</TD><TR>
+<TD></TD><TD>
+<A HREF="fntopen.htm" _TARGET="main"> FntOpen </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリームをオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="fntprint.htm" _TARGET="main"> FntPrint </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリームに出力</TD><TR>
+<TD></TD><TD>
+<A HREF="getclut.htm" _TARGET="main"> GetClut </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのclutメンバの値を計算</TD><TR>
+<TD></TD><TD>
+<A HREF="gdeetisv.htm" _TARGET="main"> GetDispEnv </A><BR>
+</TD><TD> </TD>
+<TD>現在の表示環境を獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="gdeetrav.htm" _TARGET="main"> GetDrawEnv </A><BR>
+</TD><TD> </TD>
+<TD>現在の描画環境を獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="ggdetrag.htm" _TARGET="main"> GetGraphDebug </A><BR>
+</TD><TD> </TD>
+<TD>現在のデバッグレベルを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="getode.htm" _TARGET="main"> GetODE </A><BR>
+</TD><TD> </TD>
+<TD>現在描画中のフィールドを得る</TD><TR>
+<TD></TD><TD>
+<A HREF="gtsetime.htm" _TARGET="main"> GetTimSize </A><BR>
+</TD><TD> </TD>
+<TD>Krom2Tim()で返されるTimデータの領域のサイズを計算する</TD><TR>
+<TD></TD><TD>
+<A HREF="gettpage.htm" _TARGET="main"> GetTPage </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのtpageメンバの値を計算</TD><TR>
+<TD></TD><TD>
+<A HREF="iepsndrm.htm" _TARGET="main"> IsEndPrim </A><BR>
+</TD><TD> </TD>
+<TD>リストの最後尾のプリミティブを判定</TD><TR>
+<TD></TD><TD>
+<A HREF="iigpsdlu.htm" _TARGET="main"> IsIdleGPU </A><BR>
+</TD><TD> </TD>
+<TD>BreakDrawで中断した描画の終了を検知する</TD><TR>
+<TD></TD><TD>
+<A HREF="kfcanjie.htm" _TARGET="main"> KanjiFntClose </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリームをクローズ</TD><TR>
+<TD></TD><TD>
+<A HREF="kffanjih.htm" _TARGET="main"> KanjiFntFlush </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリーム内容を描画</TD><TR>
+<TD></TD><TD>
+<A HREF="kfoanjin.htm" _TARGET="main"> KanjiFntOpen </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリームをオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="kfpanjit.htm" _TARGET="main"> KanjiFntPrint </A><BR>
+</TD><TD> </TD>
+<TD>プリントストリームに出力</TD><TR>
+<TD></TD><TD>
+<A HREF="krom2tim.htm" _TARGET="main"> Krom2Tim </A><BR>
+</TD><TD> </TD>
+<TD>SJIS文字列を4 bits clutのTimデータに変換する</TD><TR>
+<TD></TD><TD>
+<A HREF="loadclut.htm" _TARGET="main"> LoadClut </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャCLUTをロード</TD><TR>
+<TD></TD><TD>
+<A HREF="lcoadlu2.htm" _TARGET="main"> LoadClut2 </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャCLUTをロード</TD><TR>
+<TD></TD><TD>
+<A HREF="lioadmae.htm" _TARGET="main"> LoadImage </A><BR>
+</TD><TD> </TD>
+<TD>フレームバッファにデータを転送</TD><TR>
+<TD></TD><TD>
+<A HREF="ltpoadae.htm" _TARGET="main"> LoadTPage </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャページをロード</TD><TR>
+<TD></TD><TD>
+<A HREF="mpargerm.htm" _TARGET="main"> MargePrim </A><BR>
+</TD><TD> </TD>
+<TD>数のプリミティブを結合</TD><TR>
+<TD></TD><TD>
+<A HREF="miovemae.htm" _TARGET="main"> MoveImage </A><BR>
+</TD><TD> </TD>
+<TD>フレームバッファ間でデータを転送</TD><TR>
+<TD></TD><TD>
+<A HREF="nextprim.htm" _TARGET="main"> NextPrim </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブリストの次のプリミティブを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="opentim.htm" _TARGET="main"> OpenTIM </A><BR>
+</TD><TD> </TD>
+<TD>TIMデータをオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="opentmd.htm" _TARGET="main"> OpenTMD </A><BR>
+</TD><TD> </TD>
+<TD>TMDデータをオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="pdeutisv.htm" _TARGET="main"> PutDispEnv </A><BR>
+</TD><TD> </TD>
+<TD>表示環境を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="pdeutrav.htm" _TARGET="main"> PutDrawEnv </A><BR>
+</TD><TD> </TD>
+<TD>描画環境を設定する。</TD><TR>
+<TD></TD><TD>
+<A HREF="readtim.htm" _TARGET="main"> ReadTIM </A><BR>
+</TD><TD> </TD>
+<TD>TIMヘッダを解析</TD><TR>
+<TD></TD><TD>
+<A HREF="readtmd.htm" _TARGET="main"> ReadTMD </A><BR>
+</TD><TD> </TD>
+<TD>TMDプリミティブの内容を解析</TD><TR>
+<TD></TD><TD>
+<A HREF="rgesetrh.htm" _TARGET="main"> ResetGraph </A><BR>
+</TD><TD> </TD>
+<TD>描画エンジンを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sddeetev.htm" _TARGET="main"> SetDefDispEnv </A><BR>
+</TD><TD> </TD>
+<TD>標準の表示環境を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sddrawev.htm" _TARGET="main"> SetDefDrawEnv </A><BR>
+</TD><TD> </TD>
+<TD>標準の描画環境を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sdmetisk.htm" _TARGET="main"> SetDispMask </A><BR>
+</TD><TD> </TD>
+<TD>ディスプレイマスクを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sdaetraa.htm" _TARGET="main"> SetDrawArea </A><BR>
+</TD><TD> </TD>
+<TD>描画範囲設定プリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdeetrav.htm" _TARGET="main"> SetDrawEnv </A><BR>
+</TD><TD> </TD>
+<TD>描画環境変更プリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdletrad.htm" _TARGET="main"> SetDrawLoad </A><BR>
+</TD><TD> </TD>
+<TD>矩形領域転送プリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdmetrae.htm" _TARGET="main"> SetDrawMode </A><BR>
+</TD><TD> </TD>
+<TD>描画モードプリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdmv.htm" _TARGET="main"> SetDrawMove </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdoetrat.htm" _TARGET="main"> SetDrawOffset </A><BR>
+</TD><TD> </TD>
+<TD>描画オフセット設定プリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdtpetre.htm" _TARGET="main"> SetDrawTPage </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャページ変更プリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sdfetumt.htm" _TARGET="main"> SetDumpFnt </A><BR>
+</TD><TD> </TD>
+<TD>オンスクリーンダンプのためのストリームを定義</TD><TR>
+<TD></TD><TD>
+<A HREF="sgdetrag.htm" _TARGET="main"> SetGraphDebug </A><BR>
+</TD><TD> </TD>
+<TD>デバッグレベルを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="slfetin2.htm" _TARGET="main"> SetLineF2 </A><BR>
+</TD><TD> </TD>
+<TD>フラット非連結直線描画プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="slfetin3.htm" _TARGET="main"> SetLineF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット１連結直線描画プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="slfetin4.htm" _TARGET="main"> SetLineF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット２連結直線描画プリミティブ</TD><TR>
+<TD></TD><TD>
+<A HREF="slgetin2.htm" _TARGET="main"> SetLineG2 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー非連結直線描画プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="slgetin3.htm" _TARGET="main"> SetLineG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー１連結直線描画プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="slgetin4.htm" _TARGET="main"> SetLineG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー２連結直線描画プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spfetol3.htm" _TARGET="main"> SetPolyF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットシェーディング３角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spfetol4.htm" _TARGET="main"> SetPolyF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットシェーディング４角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spfteto3.htm" _TARGET="main"> SetPolyFT3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spfteto4.htm" _TARGET="main"> SetPolyFT4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spgetol3.htm" _TARGET="main"> SetPolyG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローシェーディング３角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spgetol4.htm" _TARGET="main"> SetPolyG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローシェーディング４角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spgteto3.htm" _TARGET="main"> SetPolyGT3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="spgteto4.htm" _TARGET="main"> SetPolyGT4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形プリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sstetems.htm" _TARGET="main"> SetSemiTrans </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブに半透明属性を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sstethax.htm" _TARGET="main"> SetShadeTex </A><BR>
+</TD><TD> </TD>
+<TD>シェーディング機能の禁止</TD><TR>
+<TD></TD><TD>
+<A HREF="setsprt.htm" _TARGET="main"> SetSprt </A><BR>
+</TD><TD> </TD>
+<TD>スプライトプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="ss1etpr6.htm" _TARGET="main"> SetSprt16 </A><BR>
+</TD><TD> </TD>
+<TD>16x16スプライトプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="setsprt8.htm" _TARGET="main"> SetSprt8 </A><BR>
+</TD><TD> </TD>
+<TD>8x8スプライトプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="stwetexw.htm" _TARGET="main"> SetTexWindow </A><BR>
+</TD><TD> </TD>
+<TD>テクスチャウィンドウプリミティブの内容を初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="settile.htm" _TARGET="main"> SetTile </A><BR>
+</TD><TD> </TD>
+<TD>タイルプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="settile1.htm" _TARGET="main"> SetTile1 </A><BR>
+</TD><TD> </TD>
+<TD>1x1タイルプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="st1etil6.htm" _TARGET="main"> SetTile16 </A><BR>
+</TD><TD> </TD>
+<TD>16x16タイルプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="settile8.htm" _TARGET="main"> SetTile8 </A><BR>
+</TD><TD> </TD>
+<TD>8x8タイルプリミティブを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sitoreme.htm" _TARGET="main"> StoreImage </A><BR>
+</TD><TD> </TD>
+<TD>フレームバッファからデータを転送</TD><TR>
+<TD></TD><TD>
+<A HREF="termprim.htm" _TARGET="main"> TermPrim </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブリストを終端</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>マクロ</TD><TR>
+<TD></TD><TD>
+<A HREF="avddectr.htm" _TARGET="main"> addVector </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルの加算</TD><TR>
+<TD></TD><TD>
+<A HREF="avpplyer.htm" _TARGET="main"> applyVector </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルの演算</TD><TR>
+<TD></TD><TD>
+<A HREF="cvopyecr.htm" _TARGET="main"> copyVector </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルのコピー</TD><TR>
+<TD></TD><TD>
+<A HREF="setrect.htm" _TARGET="main"> setRECT </A><BR>
+</TD><TD> </TD>
+<TD>矩形領域の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setrgb0.htm" _TARGET="main"> setRGB0 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのRGBメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setrgb1.htm" _TARGET="main"> setRGB1 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのRGBメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setrgb2.htm" _TARGET="main"> setRGB2 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのRGBメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setrgb3.htm" _TARGET="main"> setRGB3 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのRGBメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setuv0.htm" _TARGET="main"> setUV0 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのUVメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setuv3.htm" _TARGET="main"> setUV3 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのUVメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setuv4.htm" _TARGET="main"> setUV4 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのUVメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="svetectr.htm" _TARGET="main"> setVector </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルに値を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setvwh.htm" _TARGET="main"> setVWH </A><BR>
+</TD><TD> </TD>
+<TD>４点指定プリミティブのUVメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setwh.htm" _TARGET="main"> setWH </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブpのw,hメンバに値を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setxy0.htm" _TARGET="main"> setXY0 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのXYメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setxy2.htm" _TARGET="main"> setXY2 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのXYメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setxy3.htm" _TARGET="main"> setXY3 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのXYメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setxy4.htm" _TARGET="main"> setXY4 </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブのXYメンバを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setxywh.htm" _TARGET="main"> setXYWH </A><BR>
+</TD><TD> </TD>
+<TD>４点指定プリミティブのXYメンバを設定</TD><TR>
+</TABLE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

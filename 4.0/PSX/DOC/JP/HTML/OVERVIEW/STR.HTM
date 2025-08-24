@@ -1,0 +1,268 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> ストリーミングライブラリ（libcd）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+ストリーミングライブラリ（libcd）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+ストーミングライブラリ(libcd)は、CD-ROMに代表される大容量メディアに格納された動画像、音、頂点データなどのリアルタイムデータを連続的に取り出すための関数群です。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 ストリーミング</A><BR>
+<P><A HREF="#Heading3_1_3"> 3 同期制御</A><BR>
+<P><A HREF="#Heading3_1_4"> 4 リングバッファ</A><BR>
+<P><A HREF="#Heading3_1_5"> 5 リングバッファフォーマット</A><BR>
+<P><A HREF="#Heading3_1_6"> 6 メモリストリーミング</A><BR>
+<P><A HREF="#Heading3_1_7"> 7 24bit動画再生時の割り込み制御</A><BR>
+<P><A HREF="#Heading3_1_8"> 8 使用する割り込み関数</A><BR>
+<P><A HREF="#Heading3_1_9"> 9 CD-ROMドライブの制御について</A><BR>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ストリーミングライブラリは、大容量メディアに格納された動画像や音や頂点データなどのリアルタイムデータをFRAMEという単位で連続的にとり出すための関数群です。FRAMEとはCD-ROMのデータの最小単位であるセクタが１ないしは複数まとまったものです。<BR>
+    大容量メディアとしてはCD-ROM、半導体メモリ、ハードディスクなどが現状では想定されますが、今回のバージョンでは、CD-ROMがサポートされています。ストリーミングライブラリを使ってとり出された１FRAMEのデータは「完全で」「欠落がなく」「アドレス上での連続性」が保証されます。<BR>
+    ライブラリ関数には以下の機能のものがあります。<BR>
+    <BR>
+    <OL>
+         <LI VALUE= 1> CDROMとビデオとの同期処理
+         <LI VALUE= 2> CDROMデータのエラー処理
+         <LI VALUE= 3> 連続的なデータの読みだし
+         <LI VALUE= 4> 中断処理
+         <LI VALUE= 5> 終了処理
+    </OL>
+    <BR>
+    ストリーミングライブラリは CD-ROM をアクセスして、単位時間当たりに必要なデータをメモリ上に置くまでを担当します。これらのデータを画面に表示したり、音声として出力したりという部分についてはユーザープログラムで対応することになります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    ストリーミングライブラリのファイル名は 「libcd.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこのファイルをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    ストリーミングライブラリのインクルードヘッダは「libcd.h」です。<BR>
+    各種のデータ構造、マクロは全てこのファイルで定義されています。各サービスを呼び出すプログラムは必ずこのファイルをインクルードする必要があります。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libcd.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libcd.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ストリーミング</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ストリーミングとはビデオ再生や３D頂点アニメーションなど、リアルタイム再生されるために作られたデータをリアルタイムに処理することです。<BR>
+    CD-ROMのセクターを連続的に読みだし処理することでCD-ROMの転送レートをフルに使った処理を実現します。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>同期制御</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    連続的にセクタを読み処理を行なうには１FRAMEの処理が１FRAMEをCDROMから読み出す時間以内になされなければなりません。さもないと処理が追いつかずCDROMのデータを貯めておくバッファが溢れてしまいます。<BR>
+    しかし1FRAMEの処理はCDROMのREADに同期していないので1FRAMEの読み出しの時間以内に処理の時間を必ず終らせる、つまり同期をとることは困難です。<BR>
+    ストリーミングライブラリは同期をライブラリが吸収します。もし1FRAMEの処理が1FRAMEの読み込みの時間を越える場合はFRAME単位で読み込んだデータを捨てます。<BR>
+    このメカニズムによりCDROMから読み込まれたデータはFRAME単位で一貫性があり常に処理の速度に同期させてデータを読み込むことができます。この機能は CDROMのデータをリングバッファに格納することにより実現しています。<BR>
+    ただし アプリケーションによってはどうしてもＦＲＡＭＥを捨てたくない場合があります。このような時は ヘッドを戻すことで時間を調整する手段も提供しています。ただし この方法で同期を取った場合ヘッドのアクセスが伴うためＸＡ ＡＵＤＩＯをストリーミングと同時に使用することはできません。<BR>
+    （参照 StGetBackloc().StRingStatus()）<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>リングバッファ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ストリーミングライブラリはリングバッファをもち、読み込まれたデータはこのリングバッファに格納されロックされます。<BR>
+    リングバッファのサイズはセクタ単位で任意でありメインプログラムでその領域を指定する必要があります。StSetRing()でライブラリに通知します。プログラマはそのデータを処理し終ったらロックを解除する必要があります。ロックの解除はStFreeRing()で行ないます。リングバッファが、ロックされたデータでいっぱいになった場合、ライブラリはFRAME単位でデータを捨てます。そしてロックが解除されしだいデータを読みこみます。<BR>
+    ライブラリはリングバッファのアドレスの切れ目が１FRAMEのデータの途中にこないよう自動的に調整します。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>リングバッファフォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    リングバッファのフォーマットは以下の通りです。リングバッファの領域は大きく二つの領域にわかれておりそれぞれがリングバッファとして存在します。アドレス的に上位の部分がヘッダ領域、下位の部分がデータ領域です。<BR>
+    ヘッダ領域は１セクタ８ワード（３２バイト）のリングバッファです。データ領域は１セクタ５０４ワード（２０１６バイト）のリングバッファです。<BR>
+    例えばリングバッファのサイズを４にした場合以下のようにデータが読み込まれます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strf1.gif">
+<P>
+    <B>図 1 サイズが４の場合</B><BR>
+</CENTER>
+    CDROMからデータが読み込まれるとそのセクタはロックされます。<BR>
+    StGetNext()が呼ばれると1FRAME分のデータが揃ったところでFRAMEの先頭アドレスが返ります。プログラマはそのFRAMEのデータを処理し終ったら StFreeRing()でそのFRAMEの領域を解放します。解放された領域には 新しいデータがCDROMから読み込まれます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>メモリストリーミング</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    リングバッファの領域を１シーケンスが入るくらい大きくとりリングバッファが溢れる前に読み込みを終了するとシーケンスの繰り返しだけならばCDROMからではなくメモリからストリーミングをさせることができます。<BR>
+    StSetStream()の引数のend_flameを０に設定すると自動的にリングバッファに入り切るたけでCD-ROMからの読み込みを終了させることができます。<BR>
+    このようにすることでリングバッファの折り返りがおこらずメモリストリーミングを容易に実現することができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>24bit動画再生時の割り込み制御</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    関数StCdInterrupt()はストリーミングライブラリの内部関数であり通常は呼び必要はありません。<BR>
+    CD-ROMからの割り込みによって自動的にこの関数が呼ばれます。ただしこの関数はCD-ROMからメインメモリへ比較的大きな２KBYTEのDMA転送を行なうため、BUSが比較的長い間占有されてしまいます。そのため、この関数の呼び出しを制御する方法が提供されています。<BR>
+    RGB２４ビットの動画を再生する時にこの機能を使用しています。<BR>
+    StSetStream()の引数のmodeで24bitmodeをONにすると自動的にStCdInterrupt()が呼ばれなくなり代わりにStCdIntrFlagというフラグがセットされます。プログラマはこのフラグを見張っていて適当な時にこの関数を呼ぶことでタイミングを制御することとができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>使用する割り込み関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ストリーミングライブラリは 以下の２つの割り込み関数を使用します。<BR>
+<CENTER>
+        <H4><B>表 2</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">関数名</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdDataCallback</TD><TD>セクタデータ転送終了コールバック</TD><TR>
+    <TD>CdReadyCallback</TD><TD>セクタデータレディコールバック</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>CD-ROMドライブの制御について</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CD-ROMドライブの制御についてはlibcdを御使用ください。詳細はlibcdのドキュメントを参照して下さい。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

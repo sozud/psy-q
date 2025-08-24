@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    ORGB
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    ORGB
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	データ＃２９</B> <BR>
+<BR>
+    アクセス：	Ｒ <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                          15 14     10 9       5 4        0
++---------------------------------+---------+---------+---------+
+|                                 |   OB    |   OG    |   OR    |
++---------------------------------+---------+---------+---------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>OR	(-.5.-)		中間値から生成した色情報（Ｒ成分）
+OG	(-.5.-)		中間値から生成した色情報（Ｇ成分）
+OB	(-.5.-)		中間値から生成した色情報（Ｂ成分）
+</PRE>
+</blockquote>
+<BR>
+    内部処理： <BR>
+        <BLOCKQUOTE>
+    このレジスタからのデータ読み取り操作により各フィールドへの代入を含む以下の処理が行われ、得られた結果が読み出される。 <BR>
+<BR>
+        </BLOCKQUOTE>
+<blockquote> <PRE>OR = (IR1&gt&gt7)&0x1f;
+OG = (IR2&gt&gt7)&0x1f;
+OB = (IR3&gt&gt7)&0x1f;
+</PRE>
+</blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

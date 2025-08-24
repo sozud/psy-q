@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RGB0
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RGB0
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	データ＃２０</B> <BR>
+<BR>
+    アクセス：	Ｒ／Ｗ <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                        16 15                             0
++---------------+---------------+---------------+---------------+
+|      CD0      |       B0      |       G0      |       R0      |
++---------------+---------------+---------------+---------------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>R0	(0.8.0)		固有色のＲ成分
+G0	(0.8.0)		固有色のＧ成分
+B0	(0.8.0)		固有色のＢ成分
+CD0	(-.8.-)		任意の８ビットデータ
+</PRE>
+</blockquote>
+<BR>
+    内部動作： <BR>
+        <BLOCKQUOTE>
+    データ＃２２：RGB2参照。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

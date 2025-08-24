@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetNoiseVoice
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetNoiseVoice
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        各ボイスに対してノイズ音源のオン/オフを設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long <B>SpuSetNoiseVoice </B>(
+long <I>on_off</I>,
+unsigned long <I>voice_bit</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>on_off</I>		SPU_ON（ノイズ音源設定）またはSPU_OFF（ノイズ音源解除）
+<I>voice_bit</I>	設定するボイス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    各ボイスに対してノイズ音源のオン/オフ (ノイズ音源を使う/使わない) を設定する。 <BR>
+    <I>voice_bit </I>にはSPU_0CH, SPU_1CH, ..., SPU_23CHのビット和で設定する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在設定されている各ボイスに対するノイズ音源のオン/オフの値 <BR>
+    すなわちSPU_0CH, SPU_1CH, ..., SPU_23CHのビット和 <BR>
+    返り値とSPU_xxCH(xx = 0～23)とのビット積の結果 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット積</TD><TD>意味</TD><TR>
+    <TD>=0</TD><TD>ノイズ音源オフ設定</TD><TR>
+    <TD>0以外</TD><TD>ノイズ音源オン設定</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サンプル： <BR>
+    ボイス0とボイス2にノイズ音源オンを設定する際には以下のようにしてSpuSetNoiseVoiceを呼ぶ。 <BR>
+    SpuSetNoiseVoice(SPU_ON, 		/*ノイズ音源オン設定*/ <BR>
+    <blockquote>
+    		SPU_0CH | SPU_2CH);	/* 0ch と2ch */ <BR>
+    </blockquote>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssncpuek.htm">SpuSetNoiseClock</a>(), <a href="sgncpuek.htm">SpuGetNoiseClock</a>(), <a href="sgnvpuee.htm">SpuGetNoiseVoice</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

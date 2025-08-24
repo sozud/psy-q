@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DR_LOAD
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DR_LOAD
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        矩形領域転送プリミティブ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>tag</I>;
+		u_long	<I>code</I>[3];
+		u_long	<I>p</I>[13];
+} <B>DR_LOAD</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tag</I>		次のプリミティブへのフック（予約）
+<I>code</I>		プリミティブ ID
+<I>p</I>		転送データ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DR_LOAD は、配列 <I>p</I> 以下のデータをフレームバッファへ転送する。LoadImage() と同様に半透明・透明色制御を行なわない。 また描画環境に依存しない。  <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

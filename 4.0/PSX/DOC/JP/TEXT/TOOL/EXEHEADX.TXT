@@ -1,0 +1,26 @@
+                                                   PlayStation Data Converter
+
+exeheadx
+---------
+
+
+ 1 概要
+
+    EXEファイル作成ツール。
+    ここでは、Version1.0に関する内容を記述しています。
+
+ 2 使い方
+
+
+    exeheadx  load-address start-address binfile
+
+      ロードアドレスとスタートアドレス（pc初期値）を引数に指定します。
+      スタートアドレスは、dbugpsx等で参照した値を指定して下さい。
+    
+
+    使用例
+
+        ccpsx -O -Xo$80010000 -Xp test.c -otest.bin
+        exeheadx 80010000 800154fc test.bin
+    
+      ccpsxで-Xpオプションを指定し、実行ファイルをバイナリ形式で出力します。

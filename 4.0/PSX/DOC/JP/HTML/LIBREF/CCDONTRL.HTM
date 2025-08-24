@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdControl
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdControl
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CD-ROMサブシステムにプリミティブコマンドを発行
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>CdControl </B>(
+u_char <I>com</I>, 
+u_char *<I>param</I>, 
+u_char *<I>resrult </I>
+）
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>com</I>		コマンドコード
+<I>param		</I>コマンドに対する引数
+<I>result		</I>返り値（8byte）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CD-ROMサブシステムにプリミティブコマンドを発行する。プリミティブコマンドには、それぞれ対応するコマンドコードが以下のように割り当てられている。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">シンボル</TD><TD ALIGN="center">コード</TD><TD ALIGN="center">タイプ</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>CdlNop</TD><TD>0x01</TD><TD>B</TD><TD>NOP（No Operation）</TD><TR>
+    <TD>CdlSetloc</TD><TD>0x02</TD><TD>B</TD><TD>シークのターゲット位置を設定</TD><TR>
+    <TD>CdlPlay</TD><TD>0x03</TD><TD>B</TD><TD>CD-DA演奏開始</TD><TR>
+    <TD>CdlForward</TD><TD>0x04</TD><TD>B</TD><TD>早送り</TD><TR>
+    <TD>CdlBackward</TD><TD>0x05</TD><TD>B</TD><TD>巻き戻し</TD><TR>
+    <TD>CdlReadN</TD><TD>0x06</TD><TD>B</TD><TD>データリード開始（リトライつき）</TD><TR>
+    <TD>CdlStanby</TD><TD>0x07</TD><TD>N</TD><TD>ディスクを回転させた状態で待機</TD><TR>
+    <TD>CdlStop</TD><TD>0x08</TD><TD>N</TD><TD>ディスクの回転を停止</TD><TR>
+    <TD>CdlPause</TD><TD>0x09</TD><TD>N</TD><TD>現在位置で一時停止</TD><TR>
+    <TD>CdlMute</TD><TD>0x0b</TD><TD>B</TD><TD>CD-DAミュート</TD><TR>
+    <TD>CdlDemute</TD><TD>0x0c</TD><TD>B</TD><TD>ミュート解除</TD><TR>
+    <TD>CdlSetfilter</TD><TD>0x0d</TD><TD>B</TD><TD>再生ADPCMセクタを選択</TD><TR>
+    <TD>CdlSetmode</TD><TD>0x0e</TD><TD>B</TD><TD>基本モード設定</TD><TR>
+    <TD>CdlGetparam</TD><TD>0x0f</TD><TD>B</TD><TD>CDサブシステムの現在のmodeを獲得</TD><TR>
+    <TD>CdlGetlocL</TD><TD>0x10</TD><TD>B</TD><TD>論理位置獲得（データセクタ）</TD><TR>
+    <TD>CdlGetlocP</TD><TD>0x11</TD><TD>B</TD><TD>物理位置獲得（オーディオセクタ）</TD><TR>
+    <TD>CdlSeekL</TD><TD>0x15</TD><TD>N</TD><TD>論理シーク（データセクタシーク）</TD><TR>
+    <TD>CdlSeekP</TD><TD>0x16</TD><TD>N</TD><TD>物理シーク（オーディオセクタシーク）</TD><TR>
+    <TD>CdlReadS</TD><TD>0x1b</TD><TD>B</TD><TD>データリード開始（リトライなし）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+     			B: Blocking, N: Non-Blocking operation <BR>
+<BR>
+    プリミティブコマンドは処理の終了を待ってリターンするブロックコマンド、終了をまたずにリターンするノンブロックコマンドの２つのタイプがある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    発行に成功すれば1を、失敗すれば0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>param</I>を指定しないコマンドには0を指定する。<I>result</I>に0を指定すると返り値をもどさない。ノンブロック関数であるため、実際の転送の終了はCdSync()で検出する必要がある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ccdontrb.htm">CdControlB</a>(),<a href="ccdontrf.htm">CdControlF</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

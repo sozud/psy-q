@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    StHEADER
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libstr.htm">ストリーミング ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    StHEADER
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ストリーミングフォーマットのヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_short <I>id;</I>
+		u_short <I>type;</I>
+		u_short <I>secCount;</I>
+		u_short <I>nSectors</I>;
+		u_long <I>frameCount;</I>
+		u_long <I>frameSize;</I>
+		u_short <I>width</I>;
+		u_short <I>height;</I>
+} <B>StHEADER</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>id</I>		システム予約
+<I>type</I>		データタイプ（常に 0x0160)
+<I>secCount</I>	１フレーム中でのセクタオフセット
+<I>nSectors</I>	１フレームを構成するセクタ数
+<I>frameCount</I>	動画の絶対フレーム番号
+<I>frameSize</I>	動画データのサイズ（long word単位）
+<I>width</I>		動画の横サイズ
+<I>height</I>		動画の縦サイズ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    動画セクタの header部分を記述したストラクチャ。 <BR>
+    StGetNext()でとってきたヘッダ部をこのストラクチャにキャストすると 構造体のメンバを通じて それぞれの情報にアクセスできる。 <BR>
+<BR>
+    それぞれの情報の詳細は STRセクタヘッダ 及び MDEC動画セクタヘッダ を参照のこと。 <BR>
+     <BR>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

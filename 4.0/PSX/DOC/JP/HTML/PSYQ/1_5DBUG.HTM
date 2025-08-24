@@ -1,0 +1,951 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> デバッガ DBUGPSX</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+デバッガ DBUGPSX
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+Psy-Q には、作成したプログラムをデバッグするツールとして、強力なソースレベルデバッガ DBUGPSX が用意されています。<BR>DBUGPSX を用いることにより、ソースコードを表示し、これを基に実行、トレース、ブレークポイントの設定／解除を行なうことができます。無論、従来のシンボリックデバッグ機能もすべて利用することができます。<BR>なお、ソースレベルの情報が利用できない場合は、逆アセンブラ表示となります。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    DBUGPSX を実行するには、MS-DOS のプロンプトから次のように入力します。<BR>
+    <BR>
+<PRE>        dbugpsx [/option] &lt;filename&gt; [filename]...
+</PRE>
+    <BR>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションに続き、シンボルファイル名を指定します。シンボルファイルを指定することにより、ソースレベルデバッグを行なうことが可能となります。拡張子が省略された場合、".SYM"が用いられます。次の例では、test.sym を指定しています。<BR>
+    日本語モードより起動する場合は、必ず /r オプションで行数指定を行って下さい。ハングアップする場合があります。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        dbugpsx /r50 test
+</PRE>
+    ファイルはスペースで区切り複数指定することができます。この場合、ファイルは左から順に読み込まれていきます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        dbugpsx /r50 test1 test2
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションには以下のものがあります。<BR>
+
+     <H4><B>ファイルのロード(/e[&lt;file&gt;[,&lt;file&gt;]])</B></H4>
+
+      <BLOCKQUOTE>
+      "/e"に続き、ロードする CPE ファイル file を指定します。ファイルはコンマで区切って複数指定することができます。また、同じ名前のSYMファイルを指定する場合には省略する事も<BR>
+      できます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        dbugpsx /r50 /etest.cpe test
+</PRE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        dbugpsx /r50 /e test
+</PRE>
+
+     <H4><B>オート実行をオフにする(/d)</B></H4>
+
+      <BLOCKQUOTE>
+      デバッグ情報付きのSYMファイル(-gでコンパイルされたもの）を指定して起動した場合、デバッガは自動的に __SN_ENTRY_POINT(PC初期値）からmain()の先頭までの処理を実行します。"/d" オプションを指定すると、この処理は行われません。main()より前の部分をステップ実行したい場合等に便利です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        DBUGPSX /d /r50 /e main
+</PRE>
+
+     <H4><B>ターゲット停止(/h)</B></H4>
+
+      <BLOCKQUOTE>
+      "/h"を指定すると、デバッガのスタート時にターゲットマシンを停止します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>コンフィグファイル名指定(/s&lt;file&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/s"に続き、コンフィグファイル名 file を指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>式の評価(/v&lt;exprtext&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/v"に続き、式 exprtext を指定すると、これを評価し、標準出力に出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>表示行数指定(/r&lt;num&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/r"に続き、表示行数 num を指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        dbugpsx /r50 test
+</PRE>
+
+     <H4><B>大文字／小文字を区別しない(/c-)</B></H4>
+
+      <BLOCKQUOTE>
+      "/c-"を指定すると、大文字と小文字を区別しません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>大文字／小文字を区別する(/c+)</B></H4>
+
+      <BLOCKQUOTE>
+      "/c+"を指定すると、大文字と小文字を区別します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>更新間隔指定(/i&lt;num&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/i"に続き、更新間隔（1/18 秒単位） num を指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>継続更新モードオン(/u+)</B></H4>
+
+      <BLOCKQUOTE>
+      "/u+"を指定すると、継続更新モードをオンにします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>継続更新モードオフ(/u-)</B></H4>
+
+      <BLOCKQUOTE>
+      "/u-"を指定すると、継続更新モードをオフにします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>パラメータ式の指定(/&&lt;expr&gt;[,&lt;expr&gt;])</B></H4>
+
+      <BLOCKQUOTE>
+      "/&"に続き、デバッガに渡すパラメータ式 expr を指定します。式はコンマで区切って複数指定することができます。<BR>
+      "/&"を使ってデバッガに渡された式は、"&0"、"&1"などの形で参照することができます。０は最初の式、１は２番目の式を表します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>マウスの感度(/m&lt;num&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/m"に続き、マウスの感度 num を指定します。num に指定できるのは１～４までで、デフォルトは３です。<BR>
+      DBUGPSX はマウスドライバを内蔵しています。これにより、特に 132 カラムモードでの、Microsoft マウスドライバに見られる欠点をカバーすることができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>システムのマウスドライバを利用(/m+)</B></H4>
+
+      <BLOCKQUOTE>
+      "/m+"を指定すると、システムのマウスドライバを利用します。Microsoft の最近のドライバ（バージョン８以降）であれば、マウスを DOS ウィンドウでも利用することができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>DBUGPSX のマウスドライバを利用(/m-)</B></H4>
+
+      <BLOCKQUOTE>
+      "/m-"を指定すると、DBUGPSX に内蔵されているマウスドライバを利用します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>日本語モード用画面スイッチ(/j)</B></H4>
+
+      <BLOCKQUOTE>
+      画面を日本語モード用に切り替えます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        DBUGPSX /j /r50 /e main
+</PRE>
+
+     <H4><B>ヘルプ表示(/?)</B></H4>
+
+      <BLOCKQUOTE>
+      "/?"を指定すると、ヘルプメッセージを表示します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>コンフィグファイル</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    DBUGPSX は、ロード時に、デバッガ環境に関する情報を含むコンフィグファイルにアクセスします。現在の設定は、デバッガの中からいつでも保存することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>コンフィグファイル名</B>
+</A>
+</H3>
+<blockquote>
+    デバッガは、次の順でファイルを検索し、読み込みます。<BR>
+    また、コンフィグファイル名は "/s"オプションで指定することも可能です。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_1">
+(1) <B>DBUGPSX.C##を検索</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      まず、一般的なコンフィグファイルである"DBUGPSX.C##"を検索します。#の最初の数字は常に０、２番目は仮想スクリーンの番号（次頁「アクティブウインドウ」参照）です。通常、"DBUGPSX.C00"となります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_2">
+(2) <B>DBUGPSX.DF#を検索</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      DBUGPSX.C##がカレントディレクトリにない場合、デフォルトのコンフィグファイルである"DBUGPSX.DF#"を検索します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_3">
+(3) <B>SONY_PSX.CFG を検索</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      DBUGPSX.DF#も存在しない場合、デバッガのホームディレクトリから"SONY_PSX.CFG" を検索します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>コンフィグファイルの内容</B>
+</A>
+</H3>
+<blockquote>
+    コンフィグファイルは以下の情報を含んでいます。<BR>
+<UL>
+         <LI> 読み出しメモリの範囲
+         <LI> 書き込みメモリの範囲
+         <LI> ビデオの種類及び使用法
+         <LI> ラベルのレベル
+         <LI> カラー及びモノクロ属性
+         <LI> タブの設定
+         <LI> 現在のウィンドウの種類及び表示位置
+         <LI> ブレークポイント
+         <LI> ヒストリの詳細
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>デバッガ・コンフィギュレーション・ファイル dbugpsx.c##について</B>
+</A>
+</H3>
+<blockquote>
+    CTRL+Ｘを使ってデバッガを終了した場合には、デバッガ実行時に設定されていた環境が保存されることはありません。ALT+Ｘを使う場合にのみ、debugpsx.c00 というファイルに、終了時の環境が保存されます。このとき、ALT+0、ALT+1、ALT+２といったキー操作によってアクセスする仮想スクリーン（後述）ごとの設定内容は、それぞれスクリーン番号に対応する数字を末尾に持つ debugpsx.c##に保存されます。これらの内容は、次回の起動時に自動的に読み込まれます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>アクティブウィンドウ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    デバッガの表示は、複数のアクティブウィンドウから成っています。ウィンドウの数、各ウィンドウの内容、及びウィンドウのサイズはすべて、ランタイム時に指定することができます。デフォルトの表示は、以下の２つのウィンドウから成ります。上部のウィンドウは通常、レジスタを表示し、下部のウィンドウは、現在ポインタがあるコードの逆アセンブルを表示します。<BR>
+    デバッガは、最大 10 個の仮想スクリーンを実行することができます。各スクリーンには、専用のコンフィグがあります（「３コンフィグファイル」参照）。ALT-&lt;n&gt; を押すと、別のスクリーンにアクセスすることができます。ｎは０～９までのスクリーン番号を表し、０はスクリーン 10 を表しています。例えば、スクリーン１にアクセスするには、ALT-1 を押します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>ウィンドウの種類</B>
+</A>
+</H3>
+<blockquote>
+    ウィンドウには以下の種類があります。ウィンドウの種類は、[Window]メニューの"Set type"で指定します。<BR>
+
+     <H4><B>ファイルウィンドウ(ソースウィンドウ) (FILE)</B></H4>
+
+      <BLOCKQUOTE>
+      ファイルウィンドウ(ソースウィンドウ)はソースファイルを表示するためのものです。このウィンドウを選択すると、入力ボックスが表示されますので、ここでファイル名を指定してください。ファイルが表示されます。ファイル名を指定しない場合、ウィンドウは空のままとなります。このウィンドウに対してEnterキーを押すと、いつでも、ファイル名指定のための入力ボックスが表示されます。<BR>
+      このウィンドウは、デバッグ中にソースコードをダイナミックに表示するためのものです。ソースコードは、これがプログラムカウンタ(PC)のスコープにある場合のみ、表示されます。<BR>
+      デバッグ情報付きのSYMファイル(-gでコンパイルされたもの）を指定して起動した場合、デバッガは自動的に __SN_ENTRY_POINT(PC初期値）からmain()の先頭までの処理を実行します。("/d" オプションを指定すると、この処理は行われません。)<BR>
+      このときウィンドウには"main"のソースコードが表示され、ソースコード上で、シングルステップ、ブレークポイントの設定/解除、ブレークポイント数の設定などが行なえます。<BR>
+      ソースレベルのデバッグ情報がないライブラリ内ルーチンやROM内ルーチンを呼び出した場合は、そのルーチン全体を実行してから、ソースレベル情報のあるユーザールーチンに戻ります。また、ライブラリ内ルーチンをトレースするには、逆アセンブルウィンドウを利用してください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>16進ウィンドウ(ダンプウィンドウ) (HEX)</B></H4>
+
+      <BLOCKQUOTE>
+      16進ウィンドウ(ダンプウィンドウ)は、メモリ内容を指定されたアドレスから16進表示します。表示アドレスを変更するには、ALT-Gを押し、続いて入力ボックスにアドレスかラベル名を入力してください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>逆アセンブルウィンドウ (DIS)</B></H4>
+
+      <BLOCKQUOTE>
+      逆アセンブルウィンドウは、ターゲットメモリの内容を、逆アセンブルしたコードとして表示します。表示アドレスを変更したい場合は、ALT-Gを利用してください。<BR>
+      上矢印または下矢印で、表示をスクロールさせることができます。プログラムカウンタ(PC)のアドレスに戻りたい場合は、TABを押してください。また、現在、カーソルがある位置をPC値としたい場合はSHIFT-TABを押してください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>レジスタウィンドウ (REG)</B></H4>
+
+      <BLOCKQUOTE>
+      pollhost()が最後に呼び出されたときのR3000レジスタの内容を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Watchウィンドウ (WATCH)</B></H4>
+
+      <BLOCKQUOTE>
+      このウィンドウで、指定した変数を監視することができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>変数ウィンドウ (VAR)</B></H4>
+
+      <BLOCKQUOTE>
+      現在のルーチンのスコープ内にある変数を一覧表示します。従って、別のルーチンに出入りする度に内容が変更されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>メッセージウィンドウ (MSG)</B></H4>
+
+      <BLOCKQUOTE>
+      ターゲットの出力するメッセージを表示します。また、PCwrite()関数で負のファイルハンドルを指定した場合に、データはこのウィンドウに転送・表示されます。但し、転送可能なのはASCIZ文字列のみで、バイナリデータはゴミとして表示されます。ファイルハンドルとウィンドウの番号には関連があり、次のようになっています。<BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> fdが-1の場合、ウィンドウ01に表示されます
+         <LI> fdが-2の場合、ウィンドウ02に表示されます
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>ウィンドウ間の移動</B>
+</A>
+</H3>
+<blockquote>
+    ウィンドウ間の移動方法には、次のものがあります。<BR>
+<UL>
+         <LI> F1 を押し、続いて上矢印または下矢印キーを押す
+         <LI> SHIFT を押したまま上矢印または下矢印キーを押す
+         <LI> マウスで目的のウィンドウをクリックする
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_3">
+<A HREF="#Heading3_1_4"> 4. </A>3 <B>ウィンドウの種類の選択</B>
+</A>
+</H3>
+<blockquote>
+    現在選択しているウィンドウの種類を変更する方法には、次のものがあります。<BR>
+<UL>
+         <LI> [Window]メニューから"Set type"オプションを選択する（マウスで行なう）
+         <LI> SHIFT を押したまま F1 を押す
+</UL>
+    いずれの場合も、新たに種類選択ウィンドウが表示されますので、ここでマウスまたは矢印キー & ENTER キーで、新しい種類を選択してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_4">
+<A HREF="#Heading3_1_4"> 4. </A>4 <B>ウィンドウのサイズ変更</B>
+</A>
+</H3>
+<blockquote>
+    ウィンドウのサイズを変更するには、次のようにしてください。<BR>
+    また、CTRL-Z を押すと、選択したウィンドウをスクリーンいっぱいに拡大することができます。元の大きさに戻すには、再度 CTRL-Z を押してください。<BR>
+    <OL>
+         <LI VALUE= 1> 目的のウィンドウにカーソルを持って行きます。
+         <LI VALUE= 2>  F2 を押します。
+         <LI VALUE= 3> 上矢印または下矢印キーを使い、選択したウィンドウの端を、希望するサイズになるまで移動させてください。
+         <LI VALUE= 4> 作業が終了したら ENTER キーを押し、サイズを確定させます。
+    </OL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_5">
+<A HREF="#Heading3_1_4"> 4. </A>5 <B>ウィンドウの追加</B>
+</A>
+</H3>
+<blockquote>
+    新たなウィンドウを追加するには、次のようにしてください。<BR>
+    <OL>
+         <LI VALUE= 1> 目的のウィンドウにカーソルを持って行きます。
+         <LI VALUE= 2> F3 を押します。
+         <LI VALUE= 3> ウィンドウを作成したい方向を指す矢印キーを押します。
+         <LI VALUE= 4> 矢印キーで示した位置に新しいウィンドウ（カーソルがあったウィンドウと同じ種類）が追加されます。
+    </OL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_6">
+<A HREF="#Heading3_1_4"> 4. </A>6 <B>ウィンドウの削除</B>
+</A>
+</H3>
+<blockquote>
+    ウィンドウを削除するには、次のようにしてください。<BR>
+    <OL>
+         <LI VALUE= 1> 目的のウィンドウにカーソルを持って行きます。
+         <LI VALUE= 2> F4 を押します。
+         <LI VALUE= 3> 上矢印または下矢印キーで、削除するウィンドウの端を選択します。ENTER キーを押してください。
+    </OL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_7">
+<A HREF="#Heading3_1_4"> 4. </A>7 <B>ウィンドウ内でのカーソル移動</B>
+</A>
+</H3>
+<blockquote>
+    選択したウィンドウ内でカーソルを移動させるには、矢印キーを用います。使用できるキー及び動作は、ウィンドウの種類によって異なります。<BR>
+
+     <H4><B>レジスタウィンドウ</B></H4>
+
+      <BLOCKQUOTE>
+      レジスタ値の間を移動するには、矢印キー（上下左右）を使用します。また、HOME キーを押すと、カーソルは、レジスタフィールドの左上に移動します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ウォッチウィンドウ</B></H4>
+
+      <BLOCKQUOTE>
+      隣り合う行及び文字間を移動するには、矢印キー（上下左右）を使用します。また、HOME キーを押すと、カーソルは、レジスタフィールドの左上に移動します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>逆アセンブルウィンドウ／テキストウィンドウ</B></H4>
+
+      <BLOCKQUOTE>
+      強調表示されたバーに移動するには、上矢印及び下矢印キーを使用します。また、HOME キーを押すと、カーソルの下の行が、ウィンドウの最上段に移動します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>16 進ウィンドウ</B></H4>
+
+      <BLOCKQUOTE>
+      隣り合う行、及びバイト／ワード間を移動するには、矢印キー（上下左右）を使用します。また、HOME キーを押すと、カーソルの下のバイトまたはワードが、ウィンドウの左上に移動します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_8">
+<A HREF="#Heading3_1_4"> 4. </A>8 <B>ウィンドウのロック</B>
+</A>
+</H3>
+<blockquote>
+    次に示す方法で、ウィンドウをロックし、特定のメモリ領域を表示することができます。<BR>
+    <OL>
+         <LI VALUE= 1> ALT-L を押します。
+         <LI VALUE= 2> 入力ボックスで、アドレス、あるいはアドレスに対して評価を行なう式を入力します。
+         <LI VALUE= 3> [Window]メニューから"Lock"オプションを選択します。
+         <LI VALUE= 4> CTRL-L を押し、ロックを ON/OFF します。
+    </OL>
+    <BR>
+    また、画面表示を、式"&0"にロックすることができます。これにより、コマンドラインで指定されたアドレスまたはラベルを指すウィンドウで、デバッガをスタートさせることができます。<BR>
+    なお、ロック式を設定し、CTRL-L で非アクティブ化した場合、デバッガは、最初に指定されたロックアドレスを表示してスタートアップしますが、ウィンドウのスタートは、通常どおり、カーソルキーなどで引き続き変更することができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>一般的なマウスの使用法</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    マウスの一般的な使用法は次の通りです。<BR>
+<UL>
+         <LI> 左ボタンをクリックすると、デバッガのカーソルがマウスカーソルのある位置に移動します。マウスカーソルが別のウィンドウにある場合は、そのウィンドウがアクティブウィンドウになります。
+         <LI> レジスタウィンドウのレジスタを、右ボタンでクリックすると、式入力ボックスが開きます。
+         <LI> 16 進ウィンドウのメモリフィールドを、右ボタンでクリックすると、式入力ボックスが開きます。
+         <LI> 逆アセンブルウィンドウの行を、右ボタンでクリックすると、ブレークポイントがトグルします。
+         <LI> ウィンドウの端を、左ボタンでクリックし、新しい場所へドラッグすると、ウィンドウのサイズを変更することができます。
+         <LI> ウィンドウの境界線をウィンドウの端へドラッグすると、そのウィンドウが削除されます。
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>キーボードオプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    キーボードオプション（キーボードでの操作）には、さまざまなものがあります。ここではこれを機能別に表で記述していきます。<BR>
+    セッション中の多くの箇所で、デバッガは入力を求めます。これは、大抵の場合、評価式の形式を取ります。以下の例外を除いては、デバッガにおける式は、アセンブラと同じ規則に従います。<BR>
+<UL>
+         <LI> 式は、プロセッサレジスタを含むこともできます。
+         <LI> デバッガは、16 進数を採用しています。数字が 10 進であることを示すには、数字の前に"#"記号を付けます。
+         <LI> 間接アドレスは、"[]"で囲まれて表示されます。
+         <LI> デバッガは、間接データが渡されると、これをロングワードであると想定します。ただし、"[]"の後に"b"（バイトを示す）または"w"（ワードを示す）を付加し、同時に"."（ドット）の代わりに"@"を使ってこれを上書きすることができます。
+</UL>
+    また、ファイル名など、デバッガに対する入力はヒストリとして保存されます。これらのヒストリは、入力時に上下矢印キーで呼び出し、編集することができます。デバッガを終了すると、ヒストリは各クラス毎に最大４つまで保存され、次のデバッガ起動時に読み込まれます。保存はコンフィグファイルに対して行なわれます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>全ウィンドウ共通KEY FUNCTION</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>キー</TD><TD>動作</TD><TR>
+    <TD>shift+矢印</TD><TD>カレントウィンドウを変更します。</TD><TR>
+    <TD>F1</TD><TD>カレントウィンドウを変更します。矢印キーで選択します。</TD><TR>
+    <TD>F2</TD><TD>ウィンドウの端を移動させます。(ウィンドウサイズ変更)</TD><TR>
+    <TD>F3</TD><TD>新しいウィンドウを作成します。(ウィンドウ分割)</TD><TR>
+    <TD>F4</TD><TD>ウィンドウを削除します。</TD><TR>
+    <TD>F7<BR></TD><TD>トレースモードです。ステップ実行します。ソース及びディス<BR>アセンブルウィンドウで有効です。</TD><TR>
+    <TD>F8<BR></TD><TD>ステップオーバーモードです。ステップ実行しますが、関数<BR>コールはステップオーバーされます。</TD><TR>
+    <TD>F9</TD><TD>現在のプログラム位置から実行します。</TD><TR>
+    <TD>F10</TD><TD>メニューを開きます。矢印キーで選択して下さい。</TD><TR>
+    <TD>ESC</TD><TD>ターゲットを停止させます。</TD><TR>
+    <TD>shift-ESC<BR></TD><TD>割り込みをOFFにし、ターゲットを停止させます。プログラム<BR>をreloadして再実行させたい場合には、こちらのキーで停止<BR>させて下さい。</TD><TR>
+    <TD>shift-f1</TD><TD>ウィンドウ種類選択</TD><TR>
+    <TD>shift-f5</TD><TD>全てのブレークポイントをクリア</TD><TR>
+    <TD>shift-f6</TD><TD>全てのブレークポイントカウントをクリア</TD><TR>
+    <TD>shift-f9</TD><TD>指定アドレスまで実行</TD><TR>
+    <TD>shift-f10</TD><TD>新しいコンフィグファイル読み込み</TD><TR>
+    <TD>alt-U<BR></TD><TD>更新モードの ON/OFF を切り替えます。ONの場合、実行中<BR>定期的にウィンドウの情報をを更新します。少しCPUに負荷<BR>がかかります。デフォルトでは起動時はONになっています。</TD><TR>
+    <TD>alt-I<BR></TD><TD>更新間隔を設定します。1/18秒単位で設定できます。<BR>(18で1秒、9で0.5秒）</TD><TR>
+    <TD>alt-L<BR></TD><TD>表示を指定したアドレスにロックします。（例：HEXウィン<BR>ドウにて'sp'と指定すれば、常にカレントスタックの位置に<BR>ロックされます。）</TD><TR>
+    <TD>ctrl-L</TD><TD>ロックを ON/OFF します。</TD><TR>
+    <TD>ctrl-S</TD><TD>全レジスタの値をバッファにセーブします。</TD><TR>
+    <TD>ctrl-R</TD><TD>バッファから全レジスタの値をロードします。</TD><TR>
+    <TD>alt-H</TD><TD>16進計算機です。</TD><TR>
+    <TD>alt-V</TD><TD>バージョン表示</TD><TR>
+    <TD>alt-X</TD><TD>終了（設定保存する）</TD><TR>
+    <TD>/<BR></TD><TD>更新モードがOFFの場合でも、強制的にウィンドウの情報を<BR>更新します。</TD><TR>
+    <TD>*</TD><TD>強制的に全てのウィンドウの情報を更新し、表示し直します。</TD><TR>
+    <TD>ctrl-X</TD><TD>終了（設定保存しない）</TD><TR>
+    <TD>ctrl-F</TD><TD>指定した値でメモリを埋めます。</TD><TR>
+    <TD>ctrl-Z<BR></TD><TD>カレントウィンドウを、一時的にフル画面表示します。もう<BR>一度押すと戻ります。</TD><TR>
+    <TD>alt-P</TD><TD>カレントウィンドウの内容を、LPT1に出力します。</TD><TR>
+    <TD>alt-NUM</TD><TD>仮想スクリーンに切り替えます。（NUM = 1-9、0 は 10）</TD><TR>
+    <TD>alt-B</TD><TD>ハードウェアブレーク機能（章末の「補足事項」参照）</TD><TR>
+    <TD>&lt;<BR></TD><TD>データをターゲットから PC へファイル名を付けてアップ<BR>ロードします。</TD><TR>
+    <TD>&gt;</TD><TD>ファイルをターゲットへダウンロードします。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_2">
+<A HREF="#Heading3_1_6"> 6. </A>2 <B>DIS: 逆アセンブルウィンドウ</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>キー</TD><TD>動作</TD><TR>
+    <TD>alt-S</TD><TD>指定の命令をサーチします。</TD><TR>
+    <TD>alt-N</TD><TD>上記のサーチを再度実行します。</TD><TR>
+    <TD>ctrl-D</TD><TD>ディスアセンブル結果をファイルに記録します。</TD><TR>
+    <TD>left, right</TD><TD>画面表示移動</TD><TR>
+    <TD>up, down</TD><TD>カーソル移動</TD><TR>
+    <TD>pg-up <BR>pd-down</TD><TD>画面表示を１ページずつ移動します。<BR></TD><TR>
+    <TD>alt-G</TD><TD>指定アドレスに移動します。</TD><TR>
+    <TD>tab</TD><TD>カーソル位置を、プログラムカウンタ(PC)の位置に移動させます。</TD><TR>
+    <TD>shift-tab</TD><TD>カーソル位置のアドレスをPCの値にセットします。</TD><TR>
+    <TD>F5</TD><TD>カーソル位置をブレークポイント（以下BP）ON/OFF指定</TD><TR>
+    <TD>F6</TD><TD>カーソル位置まで実行します。</TD><TR>
+    <TD>ctrl-C<BR></TD><TD>BPトリガカウント設定<BR>カーソルラインをブレークポイントに合わせ、Ctrl-Cで<BR>     Enter BP trigger count : -<BR>とダイアログが出ます。ここでブレークポイントの回数を指定<BR>します。例えば 3 を指定すると、３回目にそこのブレーク<BR>ポイントを通過する時に初めてブレークします。</TD><TR>
+    <TD>alt-C<BR></TD><TD>BPトリガ条件設定<BR>カーソルラインをブレークポイントに合わせ、Alt-Cで<BR>     Enter BP trigger expression : -<BR>とダイアログが出ます。ここで、ブレークする条件を指定します。<BR>表記は、アセンブラ(ASMPSX)でサポートされる表記法に準<BR>じます。<BR>（例）<BR>  t0=0            t0 が0 ならブレークします。<BR>[t1].l&1          t1が指し示すワード(long:4byte)が奇数なら<BR>ブレークします。<BR>[myflag].b&gt;5     ラベル myflag のバイト(1byte)が 5 より<BR>大きいならブレークします。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_3">
+<A HREF="#Heading3_1_6"> 6. </A>3 <B>FILE: ファイルウィンドウ及びソースウィンドウ</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>キー</TD><TD>動作</TD><TR>
+    <TD>pg-up pg-down<BR>up down</TD><TD>カーソル移動<BR></TD><TR>
+    <TD>&lt;enter&gt;</TD><TD>指定したファイルを表示</TD><TR>
+    <TD>alt-S</TD><TD>テキストサーチ</TD><TR>
+    <TD>alt-N</TD><TD>上記のサーチを再度実行します。</TD><TR>
+    <TD>tab</TD><TD>プログラムカウンタ(PC)に移動</TD><TR>
+    <TD>shift-tab</TD><TD>カーソル位置をPCにセット</TD><TR>
+    <TD>F7</TD><TD>カレントソースのステップ実行</TD><TR>
+    <TD>F8</TD><TD>カレントソースのステップオーバー実行</TD><TR>
+    <TD>F5</TD><TD>カーソル位置をブレークポイント（以下BP）ON/OFF指定</TD><TR>
+    <TD>F6</TD><TD>カーソル位置まで実行します。</TD><TR>
+    <TD>alt-G</TD><TD>指定アドレスに移動</TD><TR>
+    <TD>alt-L</TD><TD>指定行番号へ移動</TD><TR>
+    <TD>alt-P<BR></TD><TD>ファイルパス指定<BR>ファイルをサーチするパスを指定できます。カレント以外<BR>のディレクトリにあるファイルをこまめに呼び出したい<BR>場合などは、あらかじめパスを指定しておけば楽です。<BR>（例）C:\GAME\WORK1;C:\GAME\WORK2</TD><TR>
+    <TD>space</TD><TD>disウィンドウに切り替える</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_4">
+<A HREF="#Heading3_1_6"> 6. </A>4 <B>HEX: 16進ウィンドウ</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>キー</TD><TD>動作</TD><TR>
+    <TD>alt-F<BR></TD><TD>カーソル位置の内容から、ロングワードポインタ参照される<BR>先へ画面表示を移動します。</TD><TR>
+    <TD>&lt;return&gt;<BR></TD><TD>カーソル位置の内容を、expressionで指定する内容に変更<BR>します。<BR>[Assembler expression]<BR>16進数で指定します。他にもレジスタ、変数、関数等の<BR>  各種シンボルが指定できます。<BR>[C expression]<BR>10進数で指定します。他にも変数等の各種シンボルが指定<BR>できます。</TD><TR>
+    <TD>0-9 A-F a-f</TD><TD>カーソル位置の内容を、直接変更します。</TD><TR>
+    <TD>矢印キー</TD><TD>カーソル移動</TD><TR>
+    <TD>pg-up pd-down</TD><TD>画面表示を１ページずつ移動します。</TD><TR>
+    <TD>alt-W</TD><TD>バイト／ワード／ロングワード表示切り替え</TD><TR>
+    <TD>+</TD><TD>カーソル位置の内容を増やします。</TD><TR>
+    <TD>-</TD><TD>カーソル位置の内容を減らします。</TD><TR>
+    <TD>alt-G</TD><TD>指定アドレスに移動します。</TD><TR>
+    <TD>alt-S<BR></TD><TD>指定するパターンをサーチします。TEXT形式でも検索<BR>できます。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_5">
+<A HREF="#Heading3_1_6"> 6. </A>5 <B>REG: レジスタウィンドウ</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>キー</TD><TD>動作</TD><TR>
+    <TD>left right<BR>up down</TD><TD>カーソル移動<BR></TD><TR>
+    <TD>0-9 A-F a-f</TD><TD>レジスタ値を直接変更</TD><TR>
+    <TD>&lt;return&gt;</TD><TD>レジスタ値を指定の値に変更</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_6">
+<A HREF="#Heading3_1_6"> 6. </A>6 <B>WATCH: ウォッチウィンドウ</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>キー</TD><TD>機能</TD><TR>
+    <TD>up down</TD><TD>カーソル移動</TD><TR>
+    <TD>alt-G<BR></TD><TD>いちいちinsertで登録せずとも、alt-Gで総てのグローバル変数を一度<BR>に表示できます。</TD><TR>
+    <TD>insert<BR></TD><TD>新しいウォッチ式追加<BR>expressionには、アドレス、変数、関数等の各種シンボルが指定<BR>できます。<BR>[Assembler expression]<BR>expressionで指定された番地より、formatに基づいてダンプ表示<BR>します。formatの意味は次の通りです。<BR>バイト長  B  1byte<BR>          W  2byte(word)<BR>          L   4byte(long-word)<BR>形式     A   ASCII形式<BR>         D   10進形式<BR>         H   16進形式<BR>         I   instruction形式<BR>         U   符号なし10進形式<BR>  （例）<BR>   format BA : 1バイトずつASCII表示<BR>   format LH : 4バイトずつ16進表示 <BR>[C expression]<BR>expressionの内容を表示します。 構造体の場合は、以下に述べる<BR>「+」キーにて、各メンバを  詳しく表示できます。</TD><TR>
+    <TD>delete</TD><TD>ウォッチ式削除</TD><TR>
+    <TD>tab</TD><TD>10進/16進/ASCII表示切り替え</TD><TR>
+    <TD>+<BR></TD><TD>構造体メンバ表示、配列メンバ表示構造体に合わせ + キーを押すと、<BR>各メンバの値を表示します。配列に合わせ + キーを押すと、まず<BR>最初の要素[0]の内容が表示されます。その後カーソルを[0]に<BR>合わせて、矢印キーの左右で、[1][2]...と、各要素の内容が順に<BR>見れます。</TD><TR>
+    <TD>-</TD><TD>構造体、配列メンバ表示を閉じます。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_7">
+<A HREF="#Heading3_1_6"> 6. </A>7 <B>VAR: 変数ウィンドウ</B>
+</A>
+</H3>
+<blockquote>
+    機能はWATCHウィンドウに準じます。<BR>
+    但し、insert,delete,alt-G 機能は使えません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_8">
+<A HREF="#Heading3_1_6"> 6. </A>8 <B>補足事項</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_8_1">
+(1) <B>ターゲットの出力メッセージについて</B>
+</A>
+</H4>
+
+     <H4><B>DEXBIOS Ver.1.22以前をご使用の場合</B></H4>
+
+    IRQ割り込みを利用する事により、MSGウィンドウへの出力を高速にする事ができます。それには以下の設定が必要です。   <BR>
+        <BLOCKQUOTE><UL>
+        1) DTL-H2000のIRQジャンパを設定する。詳しくはH2000の取扱説明書参照。（出荷時はIRQなしに設定されています）<BR>
+        2) DEXBIOS起動時にオプション /i を設定する<BR>
+        </BLOCKQUOTE></UL>
+
+     <H4><B>         例：address 0x1340, IRQ 10 に設定している場合</B></H4>
+
+<PRE>                 DOS&gt; DEXBIOS /a1340 /i10
+</PRE>
+
+     <H4><B>（注意）</B></H4>
+
+    IRQ割り込みを使用した場合、短い時間に大量のメッセージを出力しようとすると、デバッガ内部のバッファに入り切らずに、表示が抜け落ちてしまう場合があります。そのような場合は、DEXBIOSの /i 設定をせずにご使用下さい（IRQなしの状態になります）。<BR>
+
+     <H4><B>DEXBIOS Ver.1.23以降をご使用の場合</B></H4>
+
+    MESS1.COMは、メッセージハンドラをDOS上に常駐する事で、より多くのバッファを確保します。これによって高速、かつ表示抜けのないメッセージ出力が得られます。MESS1.COMはDEXBIOS Ver.1.23以降に対応しています。<BR>
+
+     <H4><B>Usage: MESS1 &lt;buffer size&gt;</B></H4>
+
+    デフォルトのバッファサイズは4Kです。最大 65534byte まで指定できます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        &gt; dexbios /i11
+        &gt; mess1 10000
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_8_2">
+(2) <B>ハードウェアブレーク機能について</B>
+</A>
+</H4>
+    DBUGPSX Ver.4.30より、ハードウェアブレーク機能が使用できるようになっています。ある範囲のアドレスに対して read/write アクセスがあった時にブレークします。この機能を使用するには、DBUGPSX を起動する前に、あらかじめ NEWDEX.CPE が実行されていなければなりません。NEWDEX.CPEは、CPUのハードウェアブレーク機能を使用する為に必要なモジュールです。<BR>
+    尚、パッチモジュールとしてSNPATCHJ.CPE又はSNPATCHW.CPEをご使用の場合は、NEWDEX.CPEを実行するは必要ありません。<BR>
+
+     <H4><B>（起動例）</B></H4>
+
+<PRE>        DOS&gt; run patchx
+        DOS&gt; run newdex
+        DOS&gt; dbugpsx /r50 /e main
+</PRE>
+
+     <H4><B>（起動例）</B></H4>
+
+<PRE>        DOS&gt; run snpatchj
+        DOS&gt; dbugpsx /r50 /e main
+</PRE>
+
+     <H4><B>（使用法）</B></H4>
+
+    Alt-B でダイアログが表示され、パラメータが要求されます。（NEWDEX.CPEが実行されていない場合は「Hardware Break requires newer Psy-Q downloader」とエラーが出ます。）<BR>
+    指定するパラメータの詳細を以下に挙げます。<BR>
+    <BR>
+    Read access:  指定アドレスをリードした時にブレークします。<BR>
+    Write access:  指定アドレスにライトした時にブレークします。<BR>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>Assembly Syntax (use ASM):</B>
+</H4></BLOCKQUOTE>
+    指定された範囲のアドレスに対してブレークポイントをセットします。デバッガは、直前にアクセスしたアドレス(Access address)とBase address を比較し、一致していればブレークします。ただし、その比較の際、Address mask で 0 のビットは無視されます。この Address mask の値によって範囲の指定を行います。<BR>
+    式で表すと、以下のようになります。この式が真である場合にブレークします。<BR>
+<PRE>         (Base address) == ((Access address) & (Address mask))
+</PRE>
+
+     <H4><B> 例</B></H4>
+
+    Base address は16進入力、Address mask は16/10進入力。 <BR>
+<PRE>        Base address	80080000
+        Address mask	$fffffffc (or -4)
+</PRE>
+    では、0x80080000-0x80080003 の範囲が指定されます。<BR>
+<PRE>        Base address	80080000
+        Address mask	$fffffff0 (or -10)
+</PRE>
+    では、0x80080000-0x8008000f の範囲が指定されます。<BR>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>C Syntax (use C):</B>
+</H4></BLOCKQUOTE>
+    指定のアドレスに対してブレークポイントをセットします。シンボル指定もできるので、任意の関数、グローバル変数をセットできます。ある関数中のローカル変数を指定する事もできますが、その場合は、既にその関数まで処理が移っている事と、-g オプションでコンパイルされている事が条件です。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>メニューオプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メニューオプションを用いることにより、一般的な機能をマウスで簡単に実行することができます。また、マウスが使えない場合も、F10 を押すことにより、各メニューにアクセスできます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>[File]メニュー</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>オプション</TD><TD>動作</TD><TR>
+    <TD>Reload</TD><TD>直前の実行可能ファイルを再ロードします。</TD><TR>
+    <TD>Download</TD><TD>ファイルをターゲットへダウンロードします。</TD><TR>
+    <TD>Upload<BR></TD><TD>特定のデータをターゲットから、名前を付けてファイルに<BR>アップロードします。</TD><TR>
+    <TD>Disassemble</TD><TD>逆アセンブルの特定のセクションをファイルに保存します。</TD><TR>
+    <TD>Exit Debugger</TD><TD>デバッガを終了して、現在の設定を保存します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_2">
+<A HREF="#Heading3_1_7"> 7. </A>2 <B>[Run]メニュー</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>オプション</TD><TD>動作</TD><TR>
+    <TD>Go</TD><TD>現在のプログラムカウンタからターゲットコードを実行します。</TD><TR>
+    <TD>Stop<BR></TD><TD>ターゲットマシンを停止させます。ただし、プログラムをreloadして<BR>再実行させたい場合には、Shift-ESC（割り込みOFFにして停止）を<BR>使用して停止させて下さい。</TD><TR>
+    <TD>To Address</TD><TD>入力ウィンドウで指定されたアドレスまでを実行します。</TD><TR>
+    <TD>Backtrace<BR></TD><TD>バックトレースします。<BR>※96年12月現在、PlayStation用のDBUGPSXでは、この機能は<BR>サポートされておりません。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_3">
+<A HREF="#Heading3_1_7"> 7. </A>3 <B>[Window]メニュー</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>オプション</TD><TD>動作</TD><TR>
+    <TD>Set Type</TD><TD>ウィンドウの種類を選択します。</TD><TR>
+    <TD>Split -</TD><TD>現在選択されているウィンドウを横に２分割します。</TD><TR>
+    <TD>Split |</TD><TD>現在選択されているウィンドウを縦に２分割します。</TD><TR>
+    <TD>Lock</TD><TD>画面表示を、入力ウィンドウに入力されたアドレスにロックします。</TD><TR>
+    <TD>Print</TD><TD>スクリーンをシステムプリンタへ出力します。</TD><TR>
+    <TD>Set Tabs<BR></TD><TD>タブ位置を指定します。タブ位置は 10 進数で、間をスペースで<BR>区切り、最高８つまで指定できます。この機能は、ファイル逆<BR>アセンブルウィンドウ、及びソース逆アセンブルウィンドウに<BR>のみ関連しています。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_4">
+<A HREF="#Heading3_1_7"> 7. </A>4 <B> [Config]メニュー</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>オプション</TD><TD>動作</TD><TR>
+    <TD>Load</TD><TD>新しいコンフィグファイルを読み込みます。</TD><TR>
+    <TD>Save</TD><TD>現在の設定を、指定したファイルへ保存します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_5">
+<A HREF="#Heading3_1_7"> 7. </A>5 <B>[CPU]メニュー</B>
+</A>
+</H3>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>オプション</TD><TD>動作</TD><TR>
+    <TD>Save Regs</TD><TD>レジスタの現在の状態を保存します。</TD><TR>
+    <TD>Reset Regs</TD><TD>以前に保存したレジスタの状態を再ロードします。</TD><TR>
+    <TD>Reset</TD><TD>ターゲットプロセッサをリセットします。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

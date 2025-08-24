@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSortFastSprite
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSortFastSprite
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        スプライトをOTに登録
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSortFastSprite</B> (
+GsSPRITE * <I>sp</I>, 
+GsOT * <I>otp</I>, 
+unsigned short <I>pri</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>sp</I>		スプライトへのポインタ
+<I>otp</I>		OTへのポインタ
+<I>pri</I>		OTでの位置
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>sp </I>で示されるスプライトを、<I>otp </I>で示されるオーダリングテーブルに割り付ける。 <BR>
+    スプライトの表示位置等のパラメータは全て、<I>sp </I>のメンバで与える。 <BR>
+    <I>pri </I>はそのスプライトのオーダリングテーブル上での優先順位。 <BR>
+    優先順位は最高値が０で最低値はそのオーダリングテーブルの大きさに依存する。 <BR>
+    オーダリングテーブルの大きさ以上の数値は、そのオーダリングテーブルの取り得る <BR>
+    最大値にクリップされる。 <BR>
+    GsSortFastSprite()<B> </B>は、拡大回転縮小の機能が使えなくなるものの、高速に処理される。 <BR>
+    この時スプライト構造体のメンバのうち、mx, my, scalex, scaley, rotateの値は無視される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

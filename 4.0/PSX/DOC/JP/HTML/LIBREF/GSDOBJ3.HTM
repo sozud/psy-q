@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsDOBJ3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsDOBJ3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ３次元オブジェクトハンドラ PMD FORMAT
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct GsDOBJ3 {
+		unsigned long <I>attribute</I>;
+		GsCOORDINATE2  * <I>coord2</I>;
+		unsigned long  * <I>pmd</I>;
+		unsigned long  * <I>base</I>;
+		unsigned long  * <I>sv</I>;
+		unsigned long  <I>id</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attribute</I>	オブジェクトの属性（ 32bit ）
+<I>coord2</I>		ローカル座標系へのポインタ
+<I>pmd</I>		モデリングデータへのポインタ[PMD FORMAT]
+<I>base</I>		オブジェクトベースアドレス
+<I>sv</I>		共有頂点群ベースアドレス
+<I>id</I>		レイアウトツールで予約
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsDOBJ3 は３次元モデルのオブジェクトごとに存在し、この GsDOBJ3構造体を通じて３次元モデルを操作することができる。 <BR>
+    GsDOBJ3 を PMDフォーマットファイルのモデリングデータとリンクさせるには GsLinkObject3() 関数を使用する。 <BR>
+    GsLinkObject3() 関数でリンクを張られた PMD データは、GsDOBJ3 を通じてアクセス可能。GsDOBJ3 をオーダリングテーブルに登録するには GsSortObject3() 関数を用いる。 <BR>
+    <I>coord2</I> はそのオブジェクト固有の座標系へのポインタである。 <BR>
+    オブジェクトの位置 傾き 大きさは <I>coord2</I> でポイントされる座標系にマトリックスを設定することで反映される。 <BR>
+    <I>pmd</I> には、メモリ上に格納された PMD フォーマットのモデリングデータの先頭アドレスが保持される。 <BR>
+    <I>pmd</I> は GsLinkObject3() 関数によって計算され 設定される。 <BR>
+    <I>attribute</I> は 32 ビットでここで、表示のためのさまざまな属性を設定する。 <BR>
+    現在実装されている <I>attribute </I>は、以下のビットのみ <BR>
+<BR>
+    (a)表示 ON/OFF (bit31) <BR>
+        <BLOCKQUOTE>
+    表示を ON/OFF する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    IDはレイアウト機能を使わない限り使用されません。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

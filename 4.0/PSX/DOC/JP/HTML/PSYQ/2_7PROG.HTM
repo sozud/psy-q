@@ -1,0 +1,287 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> プログラムの構造化</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+プログラムの構造化
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+メモリを構造的編成したロケータブルなプログラムセクションを作成するには、グループ及びセクションの概念を用います。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>ディレクティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    <BR>
+
+<H1>
+    GROUP
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;GroupName&gt;	GROUP	[Attribute][,Attribute]...<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    最大７つの属性を持つグループ GroupName を宣言します。<BR>
+    Attribute には、次の何れかを指定します。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>属性</TD><TD>内容</TD><TR>
+    <TD>BSS<BR></TD><TD>初期化されていないデータのグループ。このグループ<BR>では、初期化したデータは宣言しないでください。<BR>【例】<BR>Group1    group     bss</TD><TR>
+    <TD>ORG(address)<BR></TD><TD>グループの ORG アドレスを、他のグループのアドレ<BR>スを参照せずにaddress に設定します。この属性が省<BR>略されると、グループは直前のグループの後に続くメ<BR>モリに配置されます。<BR>【例】G1,G2,G3 の順序で配置します。<BR>        org    $100<BR>G1     group<BR>G2     group  org($400)<BR>G3     group</TD><TR>
+    <TD>FILE("name")<BR></TD><TD>グループそれ自身、例えばオーバーレイのようなもの<BR>を、バイナリファイルとしてname に出力します。<BR>name はダブルクォートで囲みます。他のグループ<BR>は、宣言されたファイルに出力されます。<BR>【例】<BR>Group1     group    org($400),file("charov.bin")</TD><TR>
+    <TD>OBJ(address)<BR></TD><TD>グループの OBJ アドレスを address に設定しま<BR>す。コードは、それがあたかも OBJ アドレスで実行<BR>されているかのようにアセンブルされますが、グルー<BR>プのORG アドレスに配置されます。address が指定<BR>されていない場合、OBJ 値は、グループの ORG ア<BR>ドレスと同じになります。<BR>【例】<BR>Group1     group    org($400),obj($1000)<BR>Group2     group    org($800).obj()</TD><TR>
+    <TD>SIZE(size)<BR></TD><TD>グループの最大許容サイズを size に設定します。グ<BR>ループのサイズが指定したサイズを超える場合、エラ<BR>ーが発生します。<BR>【例】<BR>Group1     group    size(32768)</TD><TR>
+    <TD>OVER(name)<BR></TD><TD>このグループを name で指定したグループにオーバ<BR>レイします。２番目のグループの開始位置のコード<BR>は、最初のグループの開始アドレスと同じアドレスで<BR>アセンブルされます。オーバレイされたグループの最<BR>大のサイズが、各グループのサイズとして使用されま<BR>す。オーバーレイ毎に別々のファイルを出力するに<BR>は、FILE 属性を使用する必要があります。<BR>【例】<BR>Group2     group    over(Group1)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SECTION<BR>
+</blockquote>
+
+<H1>
+    SECTION
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    		SECTION[size]	&lt;SectionName&gt;[,Group]<BR>
+    &lt;SectionName&gt;	SECTION[size]	[Attribute][,Attribute]...<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    論理コードセクション SectionName を宣言します。<BR>
+    size には、"b"、"h"、または"w"のいずれかを指定します。size を省略した場合、デフォルトのサイズはワードになります。<BR>
+    グループ名 Group が省略された場合、それが前もって指定されていない限り、そのセクションは名前のないデフォルトグループに配置されます。<BR>
+    また、２番目のフォーマットを使用することにより、そのセクションをグループ属性付きで定義することが可能です。アセンブラは、自動的に、セクション名の先頭に"~"（チルド）が付いた名前のグループを作成し、そこにセクションを配置します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GROUP<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    size が指定された場合、そのサイズへのアラインメントは、その位置で強制的に実行されます。セクションの開始は、リンクされたコードの場合、すべてのモジュールにおけるそのセクションへのエントリの最大サイズに基づく境界に配置されます。<BR>
+    セクションのサイズがバイト単位の場合、そのセクションで EVEN 命令を実行することはできません。また、CNOP 命令を使い、プログラムカウンタをそのセクションのアラインメント値より大きい値に配置することはできません。<BR>
+    セクションが、アプリケーションコードを構造化するために使用される場合、ORG 命令はすべてのセクションの定義に先行して、１回に限って使用できます。グループ及びセクションを配置するには、ORG 属性が必要となります。<BR>
+    リンク可能なオブジェクトを出力する場合、ORG ディレクティブ、ORG 属性を使用することはできません。この場合セクションは、グループ内で、リンカがセクション定義を発見した順に並べられます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 事例 -->
+<B>事例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次の例は BSS 属性をもつ Sect1 を、~Sect1 グループ内に定義します。<BR>
+
+     <H4><B>例１</B></H4>
+
+<PRE>Sect1	section	bss
+</PRE>
+    また、例２は、ターゲットメモリを構造化するためにグループ及びセクションを使用した例です。<BR>
+<UL>
+         <LI> 予備バージョンのチェックと、インクルード
+         <LI> グループ宣言
+         <LI> プログラムの開始時の変数のセクションで、絶対アドレスモードを利用する
+         <LI> アプリケーションコードのセクション
+         <LI> 未初期化データのセクション
+</UL>
+
+     <H4><B>例２</B></H4>
+
+<PRE>		opt	c-,ow+,oz+,v+
+version		equ 	0    	;0=&gt;full version
+				;1=&gt;demo version
+				;2=&gt;test version
+		include	"miscmac.obj"
+		include	"rooms.obj"
+		include	"output.obj"
+		org	$100
+numvecs		equ	$100&gt;&gt;2
+		regs	pc=progstart
+		if	~def(amiga)
+amiga		equ	1
+		endif
+		if     ~def(ntsc)
+ntsc		equ	1
+		endif
+g_short		group	word
+g_code		group   
+g_bss		group	bss
+		section	short1,g_short
+		section	short2,g_short
+		section	shortcode,g_short
+		section	code,g_code
+		section	bss,g_bss
+firstbss	equ	*
+</PRE>
+</blockquote>
+
+<H1>
+    PUSHS、POPS
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PUSHS<BR>
+    POPS<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    これらの命令を利用することにより、新たな一時セクションをオープンし、続いて元のセクションに戻ることができます。PUSHS で現行セクションを保存し、POPS でこれを復元します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    この例は、システム情報を、ロケーションカウンタの形式で、セクション間で引き渡しするために、PUSHS と POPS を使用する例を示しています。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>plotcomp	lw	r3,8(a0)
+		...
+passdl		equ	*
+		pushs
+		section	dolight
+		dw	passdl
+		...
+		pops
+</PRE>
+</blockquote>
+
+<H1>
+    SECT、OFFSET
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SECT	(expression)<BR>
+    OFFSET	(expression)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SECT は、カッコ内のシンボルが定義されているセクションのアドレスを返します。<BR>
+    OFFSET は、ホストセクションにおける、カッコ内のシンボルの位置を返します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リンクが実行されている場合、SECT はリンク時に評価されます。リンクが行なわれない場合は、２回目のパスが終了したときに評価されます。<BR>
+    リンクが実行されている場合、OFFSET はリンク時に評価されます。リンクが行なわれない場合は、最初のパスの最中に評価されます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>dh	sect(Table1)
+dh	sect(Table2)
+dh	offset(*)
+</PRE>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

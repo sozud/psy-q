@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsSeqCalledTbyT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsSeqCalledTbyT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        1Tick毎に呼ばれ、SEQ/SEPデータを解釈し演奏を行う
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SsSeqCalledTbyT</B> (void)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    1 Tick毎にこの関数が呼ばれ、SEQ / SEPデータを解釈し演奏を行う。 <BR>
+    TickはSsSetTickMode() によって設定されるが、このTickはSEQ / SEPデータで指定されている速度、及び分解能には依存せず、単にサウンドシステム内部の分解能を規定する。 <BR>
+    SsSetTickMode() での指定で、tick_modeがSS_TICK60, SS_TICK120,SS_TICK240,及び任意の分解能の指定を行った場合は、 SS_NOTICKを指定した場合はユーザ・プログラム側で垂直帰線（Vsync()）のタイミング（1/60秒間隔{NTSC}あるいは 1/50秒間隔{PAL}）あるいは指定した間隔（SS_NOTICKと「ビットor」で指定した間隔）でこの関数を呼び出す必要がある。SS_NOTICK以外を指定した場合は指定された分解能でサウンドシステム側がこの関数を呼び出す。 <BR>
+    SsSetTickCallback() で Tick Callback関数が指定された場合で SEQ/SEPデータを解釈し、演奏を行わせたい場合には、指定したTick Callback関数の中でこの関数を呼び出す必要がある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sstmsete.htm">SsSetTickMode</a>(), <a href="sstcsetk.htm">SsSetTickCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

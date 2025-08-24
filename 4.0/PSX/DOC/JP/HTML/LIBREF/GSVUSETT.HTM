@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSetViewUnit
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSetViewUnit
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMD視点の設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>GsSetViewUnit</B> (
+GsVIEWUNIT * <I>pv</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pv		</I>視点位置情報（マトリックス型）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    WSマトリックスを直接設定する。視点を動かす場合GsSetRefViewUnit()では視点注視点からWSマトリックスを求める過程で精度不足による誤差が出てしまう可能性があるのでGsSetViewUnit()を使った方が有利である。 <BR>
+    GsVIEWUNITのメンバのsuperをWORLD以外に設定した場合は他のパラメータをいじらなくても親座標系のパラメータが変われば結果的に視点は動いてることになるのでこの場合はフレーム毎にGsSetViewUnit()を呼ぶ必要がある。 <BR>
+    基本となるマトリックスにGsIDMATRIX2を使用すれば画面のアスペクト比が自動的に調整される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    設定に成功した場合０、失敗した場合１を返す。 <BR>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

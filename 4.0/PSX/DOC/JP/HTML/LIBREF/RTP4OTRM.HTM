@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotTransPers4_nom
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotTransPers4_nom
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ４頂点の座標変換と透視変換を行なう
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>RotTransPers4_nom </B>(
+SVECTOR *<I>v0</I>,
+SVECTOR *<I>v1</I>,
+SVECTOR *<I>v2</I>,
+SVECTOR *<I>v3</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0</I>,<I>v1</I>,<I>v2</I>,<I>v3	</I>入力：頂点座標ベクトル
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ３つの座標ベクトル <I>v0</I>,<I>v1</I>,<I>v2</I>,<I>v3 </I>を回転マトリックスで座標変換したあと透視変換を行ない、３つのスクリーン座標(sz0),(sx1,sy1,sz1),(sx2,sy2,sz2), (sx3,sy3,sz3)<I>v3 </I>に対応するデプスキューイング用の内挿値pをGTE内部レジスタに保持する。 <BR>
+<BR>
+    引数および内部データフォーマット： <BR>
+    <I>v0</I>,<I>v1</I>,<I>v2</I>-&gt;vx,vy,vz : (1,15,0) <BR>
+    sx0,sy0,sz0 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    sx1,sy1,sz1 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    sx2,sy2,sz2 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    sx3,sy3,sz3 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    p : (0,20,12) <BR>
+    flag : (0,32,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    flag <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    (sz0,sz1,sz2,sz3)はマクロread_sz_fifo4で、((sx1,sy1),(sx2,sy2),(sx3,sy3))はマクロread_sxsy_fifo3で、pはマクロread_pで読む。 <BR>
+    (sx0,sy0)はレジスタ <I>v1 </I>に返る。 <BR>
+    flagはレジスタ<I>v0</I>に返る。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

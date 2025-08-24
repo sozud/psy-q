@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsCOORDINATE2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsCOORDINATE2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        マトリックス型座標系
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsCOORDINATE2</B> {
+		unsigned long <I>flg</I>;
+		MATRIX <I>coord</I>;
+		MATRIX <I>workm</I>;
+		GsCOORD2PARAM * <I>param</I>;
+		GsCOORDINATE2 * <I>super</I>;
+		GsCOORDINATE2 * <I>sub</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>flg</I>		<I>coord</I> が書き換えられたかどうかのフラグ
+<I>coord</I>		マトリックス
+<I>workm</I>		この座標系から WORLD 座標系までの掛けた結果
+<I>param</I>		scale,rotation,transferのパラメータを使用するためのポインタ
+<I>super</I>		親座標へのポインタ
+<I>sub</I>		現在未使用
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsCOORDINATE2 は親座標を持ち、MATRIX 型の <I>coord</I> により定義される。 <BR>
+    <I>workm</I> には、GsGetLw() 関数や GsGetLs() 関数で WORLD 座標からGsCOORDINATE2 の各ノードでマトリックスをかけ算していく時に、その結果が保持される。 <BR>
+    ただし WORLD座標系に 直接繋がっている座標系の <I>workm </I>には 結果を格納しない。 <BR>
+    <I>flg</I> は、GsGetLw(), GsGetLs()計算時に、既に計算しているノードについての計算を省くために参照される。１でセット、０でクリアされる。 <BR>
+    プログラマは <I>coord</I> の内容を変更した場合は責任を持ってこのフラグをクリアしなければならない。さもないと GsGetLw()、GsGetLs() 関数が誤動作することになる。	 <BR>
+    <I>param</I> はレイアウトツールで <I>coord</I> の値をセットするために用いられる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TODアニメーションの機能を使わない時には <I>param </I>は自由に使ってかまわない <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

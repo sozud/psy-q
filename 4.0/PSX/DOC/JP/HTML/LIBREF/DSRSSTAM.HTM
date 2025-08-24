@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsStartReadySystem
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsStartReadySystem
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        簡易レディシステムを開始する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsStartReadySystem </B>(
+DslRCB <I>func</I>,
+int <I>count</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>func</I>		コールバック関数のポインタ
+<I>count</I>		リトライ回数（-1：無限リトライ）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    簡易レディシステムを開始する。簡易レディシステムが開始されると、DslDiskErrorが発生した場合に最後に発行されたコマンドによってリトライが行われる。リトライの回数は<I>count</I>で指定する。<I>count</I>=-1の場合は無限回リトライとなる。リトライ回数はシステムスタート時からの総回数である。 <BR>
+    <I>func</I>で指定されたコールバック関数は、通常はデータリードが成功したときのみキックされる。エラーでキックされるのは、カバーが開けられた場合かリトライ回数を超えてエラーが発生した場合に限られる。 <BR>
+<BR>
+    リトライが行われた場合、再リードされるポジションはライブラリによって決定されるが、コールバック関数は前回呼び出された次のセクタからキックされる。よって、コールバック関数の中でリトライを意識する必要はない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    1：		成功 <BR>
+    0：		失敗（既にシステムが開始されている） <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    本関数は必ず対応するデータリード（再生）コマンドのコールバック内で実行する。それ以外の場所で実行した場合、エラーハンドリングシステムが破壊されることがある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="derssndm.htm">DsEndReadySystem</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

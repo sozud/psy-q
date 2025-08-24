@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsWORKUNIT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsWORKUNIT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        共有プリミティブの計算結果格納領域
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+	DVECTOR		<I>vec; </I>
+<I>	</I>short		<I>otz:</I>
+	short		<I>p;</I>
+} <B>GsWORKUNIT</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>vec</I>		3次元の座標値を透視変換後の2次元座標値を格納する領域
+<I>otz</I>		<I>vec</I>を求めたときに得られるOTZの値を格納する領域
+<I>p</I>		<I>vec</I>を求めたときに得られる内挿値を格納する領域
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    共有プリミティブを使用した場合には、まずそれぞれのマトリックスで3次元の座標値を透視変換し、2次元の座標に変換する。すべてのマトリックスで透視変換が終わった後で、共有プリミティブはその変換後の2次元座標を参照して、パケットを作成する。その計算結果を格納するための領域である。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gargshad.htm">GsARGUNIT_SHARED</a>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSortObject5
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSortObject5
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        objectをオーダリングテーブルに割り付け
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSortObject5</B> (
+GsDOBJ5 * <I>objp</I>, 
+GsOT * <I>otp,</I> 
+int <I>shift, </I>
+unsigned long * <I>scratch</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>objp	</I>	オブジェクトへのポインタ
+<I>otp	</I>	OT へのポインタ
+<I>shift	</I>	OT への割り付け時にＺの値を何ビット右にシフトさせるかを設定
+<I>scratch</I>		スクラッチパッドのアドレスを指定
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsDOBJ5 でハンドルされる３次元オブジェクトに対して透視変換及び光源計算を行ない描画コマンドを分割しないものはプリセットパケット領域へ、分割するものはGsSetWorkBase()で指定されるパケットエリアに生成する。 <BR>
+    続いて生成された描画コマンドをＺソートし<I>otp </I>で示される OTに割り付ける。 <BR>
+    また Ｚの精度は <I>shift </I>の値によって調整可能。オーダリングテーブルの大きさ（解像度）の最大値は 14 ビットだが これを例えば 12ビットにした場合は、<I>shift</I> の値を 2（＝14－12）とし オーダリングテーブルの領域をオーバーしないようにしなければならない。 <BR>
+    <I>scratch </I>は、自動分割を行なう時にワークとして使用される領域の先頭アドレスを指定する。自動分割を使用しない場合はscratch領域は使われない。分割を有効にするにはattributeにlibgs.hのマクロGsDIV1～GsDIV5をORすればよい。GsDIV1の時は１ポリゴンを2x2の４分割に、GsDIV5の時は32x32の1024分割になる。スクラッチパッドとはキャッシュメモリのことで0x1f800000から２５６ワードが実装されている。scratchで指定されたアドレスから下位アドレスをワークとして使用する。使用量は以下の通り。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>種類</TD><TD>scratchエリアの使用量（単位Byte）</TD><TR>
+    <TD>３角形ポリゴン</TD><TD>96+88*N</TD><TR>
+    <TD>４角形ポリゴン</TD><TD>120+140*N</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetTransferMode
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetTransferMode
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        サウンドバッファへの転送モードの設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuSetTransferMode</B> (
+long <I>mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		SPU_TRANSFER_BY_DMA（DMA転送の指定）または
+ 		SPU_TRANSFER_BY_IO（I/O転送の指定）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    メインメモリからサウンドバッファへ転送する際のモードを設定する。 <BR>
+<BR>
+<UL>
+         <LI> DMA転送の場合
+</UL>
+        <BLOCKQUOTE>
+    転送中も他の処理を行うことが可能 <BR>
+        </BLOCKQUOTE>
+<UL>
+         <LI> I/O転送の場合
+</UL>
+        <BLOCKQUOTE>
+    CPUを使って転送を行うため、転送中には他の処理を行うことが出来ない。 <BR>
+    このモードはメインメモリからサウンドバッファへ転送する際にのみ有効であり、サウンドバッファからメインメモリへ転送する際には必ずDMA転送で行われる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    本関数を呼ばなかった場合の転送は、既定値としてDMA転送が設定されている。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    設定された転送モード <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>返り値</TD><TD>意味</TD><TR>
+    <TD>SPU_TRANSFER_BY_DMA</TD><TD>DMA転送の指定</TD><TR>
+    <TD>SPU_TRANSFER_BY_IO</TD><TD>I/O転送の指定</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sgtmpuee.htm">SpuGetTransferMode</a>(), <a href="spuwrite.htm">SpuWrite</a>(), <a href="swpurit0.htm">SpuWrite0</a>(), <a href="swppuriy.htm">SpuWritePartly</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

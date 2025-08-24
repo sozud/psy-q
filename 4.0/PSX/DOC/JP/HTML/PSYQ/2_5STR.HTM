@@ -1,0 +1,297 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 文字列操作関数</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+文字列操作関数
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+マクロ構造を拡張するため、ASMPSX アセンブラは、文字列の操作のための強力な関数を提供しています。これらの関数により、文字列を比較したり、テキストを調べたり、サブセットを作成したりすることができます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>文字列操作関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    <BR>
+
+<H1>
+    STRLEN
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    STRLEN(string)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    テキスト string の長さを返します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    STRCMP<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    STRLEN は、オペランドの任意の位置で使用可能です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次の例では文字列数がループの回数として使用されています。<BR>
+<PRE>Nummov	macro
+	rept	strlen(\1)
+	lw	r3,(a0)
+	endr
+	endm
+	...
+	Nummov	"12345"
+</PRE>
+</blockquote>
+
+<H1>
+    STRCMP
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    STRCMP(stringl,string2)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    文字列 strings1 と string2 を比較し、これが同じ場合は真を、異なる場合は偽を返す。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    STRLEN<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    比較は、文字列の先頭の位置を１として行なわれます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Vers	equ	"Acs"
+	...
+	if	strcmp("\Vers","Sales")
+	lw	r3,Sallnd(a0)
+	else
+	if
+	lw	r3,Aclnd(a0)
+	else
+	if	strcmp("\Vers","Test")
+	lw	r3,Tstlnd(a0)
+	endif
+	endif
+	endif
+</PRE>
+</blockquote>
+
+<H1>
+    INSTR
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INSTR([start,]string,sub-string)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    文字列 string 中に文字列 sub-string が現われる位置を返します。string が sub-string を含んでいない場合は０が返されます。<BR>
+    start で検索開始位置を指定することもできます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SUBSTR<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    返される値は比較対象となる文字列の先頭を１とした位置です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Mess	equs	"Demo for Sales Dept"
+	...
+	if	instr("\Mess","Sales")
+	lw	r3,Sallnd(a0)
+	else
+	lw	r3,Aclnd(a0)
+	endif
+</PRE>
+</blockquote>
+
+<H1>
+    SUBSTR
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	SUBSTR	[start],[end],&lt;string&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    文字列 string を symbol name に代入します。<BR>
+    start で開始位置を、end で終了位置を指定し、その間の部分文字列を代入することもできます。start が省略された場合、開始位置は文字列の先頭、end が省略された場合、終了位置は文字列の末尾となります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INSTR, EQUS<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    位置は対象となる文字列の先頭を１とした値を指定します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+
+     <H4><B>例１</B></H4>
+
+<PRE>Message		equs	"A short Sample String"
+Part1	substr	9,14,"\Message"
+Part2	substr	16,,"\Message"
+Part3	substr	,7,"\Message"
+Part4	substr	,,"\Message"
+</PRE>
+    <BR>
+    例１では、Part1 は"Sample"、Part2 は"String"、Part3 は"A Short"となります。また、Part4 への代入は、オリジナル文字列の全部を指定する EQUS に相当します。<BR>
+
+     <H4><B>例２</B></H4>
+
+<PRE>cbb	macro	string
+lc	=	0
+	rept	strlen(\string)
+cc	substr	lc+1,lc+1,\string
+	db	'\cc'^($A5+lc)
+lc	=   	lc+1
+	endr
+	endm
+</PRE>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

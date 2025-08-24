@@ -1,0 +1,813 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> メモリーカードライブラリ（libcard）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+メモリーカードライブラリ（libcard）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+メモリーカードライブラリは、メモリーカードへのスムーズなアクセスを可能とし、データの読み書きや、メモリーカードBIOSサービスの呼び出しなどを行うためのものです。この章は、その概要について解説します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 メモリカード</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> ハードウェア</A><BR>
+    <A HREF="#Heading4_1_2_2"> イベント</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 BIOS</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> カードの存在と論理フォーマットのテスト</A><BR>
+    <A HREF="#Heading4_1_3_2"> 未確認フラグ</A><BR>
+    <A HREF="#Heading4_1_3_3"> カードのテスト</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_4"> 4 ファイルシステム</A><BR>
+<P><A HREF="#Heading3_1_5"> 5 リアルタイムアクセス</A><BR>
+<P><A HREF="#Heading3_1_6"> 6 メモリーカード運用ルール</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_6_1"> 異常処理</A><BR>
+    <A HREF="#Heading4_1_6_2"> 用語体系</A><BR>
+    <A HREF="#Heading4_1_6_3"> ファイル名</A><BR>
+    <A HREF="#Heading4_1_6_4"> ファイルヘッダ</A><BR>
+    <A HREF="#Heading4_1_6_5"> 書き込みデータの内容保証</A><BR>
+    <A HREF="#Heading4_1_6_6"> 通信エラー対応</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_7"> 7 その他</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_7_1"> コーディング上の注意点</A><BR>
+    <A HREF="#Heading4_1_7_2"> 既知のバグ</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカードライブラリは、リアルタイム環境下でメモリカードへのスムーズなアクセスを可能とするサービスを提供します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードライブラリのファイル名は「libcard.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードライブラリには独自のインクルードヘッダはありません。<BR>
+    ただし、カーネルライブラリのヘッダ「kernel.h」と標準インクルードヘッダのひとつsys\file.hが必要です。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libcard.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ<BR></TD><TD ALIGN="center">kernel.h<BR>sys\file.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>メモリカード</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカードは、リセットや電源オフ後もデータを保持する通電中でも抜き差しが可能な記憶デバイスです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>ハードウェア</B>
+</A>
+</H3>
+<blockquote>
+    次にメモリカードのハードウェア諸元を示します。<BR>
+<CENTER>
+        <H4><B>表 2 メモリカード仕様</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>容量<BR></TD><TD>フォーマット時120Kバイト<BR>（128バイトのセクタ単位でアクセス）</TD><TR>
+    <TD>通信形態</TD><TD>コントローラポートを兼用した同期型シリアル通信</TD><TR>
+    <TD>アクセス速度<BR></TD><TD>(1)１セクタ書き込み後、20m秒間アクセス不可<BR>(2)最大連続読みとり速度は約10Kバイト／秒</TD><TR>
+    <TD>その他<BR></TD><TD>電源を落さずに抜き差し可能<BR>１０万回書き込み保障</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>イベント</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードライブラリは次のふたつの原因ディスクリプタを使用します。<BR>
+    なお、メモリカードライブラリが内部でイベントディスクリプタを消費することはありません。<BR>
+<CENTER>
+        <H4><B>表 3 メモリカード関連イベント</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">原因ディスクリプタ</TD><TD ALIGN="center">イベント種別</TD><TD ALIGN="center">意味</TD><TR>
+    <TD ROWSPAN= 3>HwCARD</TD><TD>EvSpIOE</TD><TD>処理完了</TD><TR>
+    <TD>EvSpERROR</TD><TD>カード不良</TD><TR>
+    <TD>EvSpTIMOUT</TD><TD>カード無し</TD><TR>
+    <TD ROWSPAN= 4>SwCARD</TD><TD>EvSpIOE</TD><TD>処理完了</TD><TR>
+    <TD>EvSpERROR</TD><TD>カード不良</TD><TR>
+    <TD>EvSpTIMOUT</TD><TD>カード無し</TD><TR>
+    <TD>EvSpNEW</TD><TD>新規カードまたは未初期化</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      注意：SwCARD/EvSpNEWは入出力要求を発行した関数により２通りの意味を持ちます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    この原因ディスクリプタに関するイベントは垂直帰線割り込み毎に自動的にクリアされます。よってlibgpuのVSync()など垂直帰線割り込みを待つ関数をはさんでイベント発生のテストを行なうと、イベント発生を検出できない状態に陥ります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>BIOS</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカード接続確認、論理フォーマットテスト、セクタ（128バイト）単位でのアクセスなどのサービスがBIOSとして用意されています。<BR>
+    コントローラ読み込みおよびAB２つのコネクタへのアクセスを共存させるため、BIOSは２垂直帰線毎にカードにアクセスします。１回のアクセスで行なえるデータの読み書きは１セクタ、128バイトです。<BR>
+    BIOSを使ったアクセスは次のようなものとなります。<BR>
+<CENTER>
+        <H4><B>表 4 メモリカードBIOS</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>起動タイミング<BR></TD><TD>垂直帰線割り込み後、コントローラ読みとりに続いてカード<BR>接続確認とハンドシェークを行なう。<BR>データ本体送受信はバイト単位の受信割り込みにより駆動。</TD><TR>
+    <TD>実効速度</TD><TD>３０セクタ／秒＝3.75Kバイト／秒</TD><TR>
+    <TD>CPU負荷<BR></TD><TD>２枚のカードから連続read時2.5％<BR>２枚のカードに連続write時3.2％</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>カードの存在と論理フォーマットのテスト</B>
+</A>
+</H3>
+<blockquote>
+    BIOSによるカードの存在と論理フォーマットテストの手順は次のようなります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_1">
+(1) <B>_card_info()でカードの存在をテストする。</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      IOEイベントが発生した場合は、すでに接続を認識したカードが継続して接続されている。(5)へ進む。<BR>
+      NEWCARDイベントが発生した場合は、接続後、_card_clear()による認識操作を行なっていないカードが接続されてる。(2)へ進む。<BR>
+      TIMOUTイベントが発生した場合、カードは接続されていない。これ以上の操作は不要。通信エラーに備えてリトライを行なうこと。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_2">
+(2) <B>_card_clear()による認識操作を行なう。</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      通常は失敗しない。失敗した場合はカードが抜きとられたか通信エラーが発生した。通信エラーに備えて(1)に戻ってリトライを行なうこと。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_3">
+(3) <B>_card_load()による論理フォーマットテストを行なう。</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      IOEイベントが発生した場合は、フォーマット済み。(5)へ進む。<BR>
+      NEWCARDイベントが発生した場合は、未フォーマット。(4)へ進む。<BR>
+      以外はカードが抜きとられたか通信エラーが発生した。通信エラーに備えて(1)に戻ってリトライを行なうこと。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_4">
+(4) <B>format()で論理フォーマットを行なう。</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      正常終了なら(5)へ進む。以外はカードが抜きとられたか通信エラーが発生した。通信エラーに備えて(1)に戻ってリトライを行なうこと。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_5">
+(5) <B>ファイルシステムによる入出力を行なう。</B>
+</A>
+</H4>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>未確認フラグ</B>
+</A>
+</H3>
+<blockquote>
+    カード内部には「未確認フラグ」とよばれるビットスイッチが用意されています。<BR>
+    このビットはカードが差込口に差し込まれるとセットされ、_card_clear()またはデータ書き込みによりクリアされます。このフラグはカードの指し代わり検出の手がかりとなります。誤ったアクセスを防ぐため、デフォルトではこのフラグがセットされたカードにに対するデータの読み書きは出来ません。エラーとなります。_card_clear()による明示的なクリアの後、アクセスしてください。<BR>
+    テストのためエラー状態を作り出したい場合など、未確認フラグを無視してアクセスするためには、_new_card()関数でデフォルトのテスト条件をマスクします。これはファイル単位での正常なアクセスでは不要な関数ですので、敢えて関数名を他のものと買えてあります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>カードのテスト</B>
+</A>
+</H3>
+<blockquote>
+    以下にカードのテストを行なうサンプルコードを掲載します。<BR>
+    使用しているイベントについては後続の「ファイルシステム」を参照してください。<BR>
+<PRE>        
+        unsigned long ev0,ev1,ev2,ev3;
+        unsigned long ev10,ev11,ev12,ev13;
+        
+        main()
+        {
+        	ev0 = OpenEvent(SwCARD, EvSpIOE, EvMdNOINTR, NULL);
+        	ev1 = OpenEvent(SwCARD, EvSpERROR, EvMdNOINTR, NULL);
+        	ev2 = OpenEvent(SwCARD, EvSpTIMOUT, EvMdNOINTR, NULL);
+        	ev3 = OpenEvent(SwCARD, EvSpNEW, EvMdNOINTR, NULL);
+        	ev10 = OpenEvent(HwCARD, EvSpIOE, EvMdNOINTR, NULL);
+        	ev11 = OpenEvent(HwCARD, EvSpERROR, EvMdNOINTR, NULL);
+        	ev12 = OpenEvent(HwCARD, EvSpTIMOUT, EvMdNOINTR, NULL);
+        	ev13 = OpenEvent(HwCARD, EvSpNEW, EvMdNOINTR, NULL);
+        
+        	PadInit(0);
+        	InitCARD(1);
+        	StartCARD();
+        	_bu_init();
+        
+        	test_card();
+        }
+        
+        test_card()
+        {
+        	long ret;
+        
+        	_card_info(0x00);		/* deliver a TEST CARD request */
+        	ret = _card_event();		/* get the result */
+        	if(ret==1 || ret==2))		/* NO CARD or Communication error */
+        		goto skip;
+        	if(ret==3) {			/* if NEWCARD, call _card_clear() */
+        		_clear_event_x();
+        		_card_clear(0x00);	/* clear NEW CARD FLAG */
+        		ret = _card_event_x();	/* wait events */
+        	}
+        	_clear_event();
+        	_card_load(0x00);		/* deliver a TEST FORMAT request */
+        
+        	if(ret==3) {			/* if NEWCARD, call format() */
+        		/* put a message to the operator */
+        		ret = format("bu00:");	/* syncronous function */
+        		if(ret==1)
+        			FntPrint("\nDONE\n");
+        		else {			/* error happened in format() */
+        			FntPrint("\nERROR IN FOORMATTING\n");
+        			goto skip;
+        		}
+        	}
+        	/* put i/o requests */
+        	return 1;
+        skip:
+        	return 0;
+        }
+        
+        _card_event()
+        {
+        	while(1) {
+        		if(TestEvent(ev0)==1) {		/* IOE */
+        			return 0;
+        		}
+        		if(TestEvent(ev1)==1) {		/* ERROR */
+        			return 1;
+        		}
+        		if(TestEvent(ev2)==1) {		/* TIMEOUT */
+        			return 2;
+        		}
+        		if(TestEvent(ev3)==1) {		/* NEW CARD */
+        			return 3;
+        		}
+        	}
+        }
+        
+        _clear_event()
+        {
+        	TestEvent(ev0);
+        	TestEvent(ev1);
+        	TestEvent(ev2);
+        	TestEvent(ev3);
+        }
+        
+        _card_event_x()
+        {
+        	while(1) {
+        		if(TestEvent(ev10)==1) {	/* IOE */
+        			return 0;
+        		}
+        		if(TestEvent(ev11)==1) {	/* ERROR */
+        			return 1;
+        		}
+        		if(TestEvent(ev12)==1) {	/* TIMEOUT */
+        			return 2;
+        
+        		if(TestEvent(ev13)==1) {	/* NEW CARD */
+        			return 3;
+        		}
+        	}
+        }
+        
+        _clear_event_x()
+        {
+        	TestEvent(ev10);
+        	TestEvent(ev11);
+        	TestEvent(ev12);
+        	TestEvent(ev13);
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>ファイルシステム</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+<CENTER>
+        <H4><B>表 5 メモリカードファイルシステム</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>デバイス名</TD><TD>buX0X:コネクタ番号（０または１）</TD><TR>
+    <TD>ファイル名</TD><TD>21文字までのASCIZ文字</TD><TR>
+    <TD>ディレクトリ構造</TD><TD>なし</TD><TR>
+    <TD>管理単位：スロット</TD><TD>8Kバイト（64セクタ）→ファイルサイズの単位</TD><TR>
+    <TD>スロット数</TD><TD>15個／カード（最大ファイル数は15）</TD><TR>
+    <TD>自動代替セクタ機能</TD><TD>20代替セクタ／カード</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    ファイル名を引数として要求するカーネルライブラリサービスはすべてbuデバイスに適用することができます。<BR>
+    ファイルサイズはcreate時にパラメータとして指定します。それ以後の変更はできません。またサイズは「スロット」単位です。create時ファイルシステムは、ファイル削除に伴い分散化したメモリ領域があれば、それらをつなぎ合わせて必要容量を確保します。<BR>
+
+     <H4><B>例 ファイルの削除と生成</B></H4>
+
+<PRE>        /* ドライバの初期化*/
+        InitCARD(0);		/* コントローラとの共存なし */
+        StartCARD();
+        _bu_init();
+        
+        /* ポートA上のカードのファイルL01を削除 */
+        pritf("delete\n");
+        delete("bu00:L01");
+        
+        /* 2スロット長のファイルL01をポートA上のカードに新規作成 */
+        printf("create\n");
+        if((fd=open("bu00:L01",O_CREAT|(2&lt;&lt;16)))==-1)
+        	printf("error\n");
+        close(fd);
+        /* 生成後は必ず１度クローズしてください */
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>リアルタイムアクセス</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    リアルタイム環境下での運用を想定し、デバイスbuはノンブロッキングモードをサポートします。オープン時にマクロsys\file.h中のO_NOWAITを使用すると、read()とwrite()は入出力要求をドライバに登録すると直ちに終了します。入出力の完了はイベントにより通知されます。<BR>
+    ただし、アクセス速度確保のため、各差込口はひとつの入出力要求だけを受け付けます。<BR>
+
+     <H4><B>例 非同期アクセス</B></H4>
+
+<PRE>        _clear-event()と_card_event()は前出の例と同内容。
+        
+        sample()
+        {
+        	long fd,i,ret;
+        
+        	fd = open("bu00:L01",O_WRONLY|O_NOWAIT);
+        	printf("open=%d\n",fd);
+        	for(i=0;i&lt;50;i++) {
+        		_clear_event();
+        		while((ret = write(fd,data,384))!=0)
+        			;
+        		printf("write=%d\n",ret);
+        		ret = _card_event();
+        		printf("event=%d\n",ret);
+        		if(ret==1)
+        		break;
+        	}
+        	close(fd);
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>メモリーカード運用ルール</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカードは複数のアプリケーションにより共有される資源です。よって共通のルールに従った運用をお願いします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>異常処理</B>
+</A>
+</H3>
+<blockquote>
+    アプリケーション実行中に容量不足や未フォーマットカードの検出などが発生した場合の処理については、標準の画面やメッセージ（例えばOSDと同じ表示が必須、というような）は定めません。個々のアプリケーションに応じた設計をお願いします。ただし、次の点に留意ください。<BR>
+    <BR>
+<UL>
+         <LI> 論理初期化を行なう場合は必ずオペレータに問い合わせて下さい。よって自動初期化機能は使わないでください。
+         <LI> カードが検出できず、かつ将来何んらかの操作制限が生ずることが判明した場合は必ずオペレータに通知してください。できれば問い合わせをお願いします。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_2">
+<A HREF="#Heading3_1_6"> 6. </A>2 <B>用語体系</B>
+</A>
+</H3>
+<blockquote>
+    商品カタログでの必要メモリ容量の単位は「ブロック」となります。これは前出の「スロット」（８Ｋバイト）に相当します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_3">
+<A HREF="#Heading3_1_6"> 6. </A>3 <B>ファイル名</B>
+</A>
+</H3>
+<blockquote>
+    ファイル名は次のような構成としてください。<BR>
+<CENTER>
+        <H4><B>表 6 メモリーカードのファイル名</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">バイト</TD><TD ALIGN="center">内容</TD><TD ALIGN="center">備考</TD><TR>
+    <TD ALIGN="center">0</TD><TD>マジック</TD><TD>常に'B'</TD><TR>
+    <TD ALIGN="center">1<BR></TD><TD>地域<BR></TD><TD>国内は'I'北米は'A'<BR>欧州は'E'（*1）</TD><TR>
+    <TD ALIGN="center">2-11</TD><TD>タイトル</TD><TD>SCE品番(*2)</TD><TR>
+    <TD ALIGN="center">12-20<BR></TD><TD>ユーザ公開<BR></TD><TD>0x00,0x2a(*),0x3f(?)以外のASCIIのみ使用<BR>0x00で終了</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+        <BLOCKQUOTE><UL>
+        	*1：いずれもシステムによるチェックなし<BR>
+        	*2：複数discタイトルは先頭discのもの<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    SCE品番は弊社発売決定予備会議（マスタ出稿の約３週間前）にて決定し、各社営業ご担当へ通知します。それを元に次のように決定してください。<BR>
+
+     <H4><B>例 商品コードが「SLPS-00001」の場合</B></H4>
+
+      <BLOCKQUOTE>
+      ファイル名の先頭１２文字は「BISLPS-00001」となる<BR>
+      </BLOCKQUOTE>
+    <BR>
+    数字部は必ず０詰めで５桁に拡張してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_4">
+<A HREF="#Heading3_1_6"> 6. </A>4 <B>ファイルヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    各ファイルの先頭には次のヘッダを必ず配置してください。<BR>
+<CENTER>
+        <H4><B>表 7 メモリーカードファイルヘッダ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">サイズ（バイト）</TD><TR>
+    <TD>ヘッダー</TD><TD>128 </TD><TR>
+    <TD>Magic</TD><TD>2（常に'SC'）</TD><TR>
+    <TD>Type</TD><TD>1</TD><TR>
+    <TD>スロット数</TD><TD>1</TD><TR>
+    <TD>文書名</TD><TD>64（シフトJIS、*1）</TD><TR>
+    <TD>pad</TD><TD>28</TD><TR>
+    <TD>CLUT</TD><TD>32</TD><TR>
+    <TD>アイコンイメージ (1)<BR>アイコンイメージ (2)<BR>アイコンイメージ (3)</TD><TD> 128 (16 x 16 x 4 bits)<BR> 128（Type==0x12,0x13のみ）<BR>128（Type==0x13のみ）</TD><TR>
+    <TD>データ</TD><TD>任意 (128B x N)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      	*1：非漢字および第一水準漢字のみ、全角３２文字。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 8 Typeﾌｨｰﾙﾄﾞ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">Type<BR></TD><TD ALIGN="center">アイコンイメージ数<BR>（自動差し替えアニメ）</TD><TR>
+    <TD>0x11</TD><TD>1</TD><TR>
+    <TD>0x12</TD><TD>2</TD><TR>
+    <TD>0x13</TD><TD>3</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_5">
+<A HREF="#Heading3_1_6"> 6. </A>5 <B>書き込みデータの内容保証</B>
+</A>
+</H3>
+<blockquote>
+    データ書き込み中のリセットやカード抜きとり・電源オフによるデータ破壊への対策はアプリケーション側で実施してください。<BR>
+
+     <H4><B>例</B></H4>
+
+      <BLOCKQUOTE>
+      書き込みデータを２重化。書き込みは交互に行なう。また、各セクタの最終バイトは自身のチェックサムを付加する。<BR>
+      読みとり時にチェックサムテストを行ない、エラー検出時はもうひとつのデータセットを使用する。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      ファイルシステムの代替セクタ機能はカード内メモリの書き込みエラーにのみ有効です。書き込み内容保証機能はハードウェア、ライブラリともにサポートしません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例 セクタチェックサム</B></H4>
+
+<PRE>        /*
+         * test check sum for 128byte block
+         * return	1:OK
+         *		0:NG
+         */
+        _test_csum(buf)
+        unsigned char *buf;
+        {
+        	long i;
+        	unsigned char c;
+        
+        	c = 0x00;
+        	for(i=0;i&lt;127;i++)
+        		c ^= *buf++;
+        	if(*buf==c)
+        		return 1;
+        	return 0;
+        }
+        
+        /* set check sum to the last byte of 128byte block */
+        _set_csum(buf)
+        unsigned char *buf;
+        {
+        	long i;
+        	unsigned char c;
+        
+        	c = 0x00;
+        	for(i=0;i&lt;127;i++)
+        		c ^= *buf++;
+        	*buf = c;
+        }
+        
+        /* sample data strucure */
+        struct SDB {
+        	char name[8];
+        	long size,attr,sector,mode;
+        }
+        
+        /* common load buffer */
+        unsigned char load_buf[1024];
+        
+        /* get data from memory card with check-sum test */
+        get(num,data)
+        long num;
+        struct SDB *data;
+        {
+        	long i,fd;
+        
+        	if((fd=open("bu00:L01",O_WRONLY))&lt;0)
+        		return 0;
+        	memcpy(&load_buf[0],data,sizeof(struct SDB));
+        	_set_csum(&load_buf[0]);
+        	i = write(fd,&load_buf[0],128);
+        	close(fd);
+        
+        	close(fd);
+        	return (i==128)?1:0;
+        }
+        
+        /* get data from memory card with check-sum test */
+        get()
+        {
+        	long i,fd;
+        
+        	if((fd=open("bu00:L01",O_RDONLY))&lt;0)
+        		return 0;
+        	if(read(fd,&load_buf[0],1024)!=1024) {
+        		close(fd);
+        		return 0;
+        	}
+        
+        	for(i=0;i&lt;8;i++)
+        		if(_test_csum(&load_buf[128*i])==1)
+        			memcpy(&data[i],&load_buf[128*i],sizeof(struct SDB));
+        		else
+        			memset(&data[i],0xff,sizeof(struct SDB));
+        	close(fd);
+        	return 1;
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_6">
+<A HREF="#Heading3_1_6"> 6. </A>6 <B>通信エラー対応</B>
+</A>
+</H3>
+<blockquote>
+    静電放電や電源ノイズによりカード接続やアクセスプログラムが正常であるにもかかわらずアクセスが失敗する場合があります。<BR>
+    カードの有無のテストや書き込み、読みとりについてはリトライ（１～２秒間）実施をお願いします。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>その他</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>コーディング上の注意点</B>
+</A>
+</H3>
+<blockquote>
+    _card_info()の前に_new_card()をコールしてEvSpNEWイベントを抑制しないでください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_2">
+<A HREF="#Heading3_1_7"> 7. </A>2 <B>既知のバグ</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> open()によりファイルを生成した場合は直ちにclose()をコールしてファイルをクローズしてください。そのままread()やwrite()を発行するとエラーとなります。
+         <LI> read()とwrite()による非同期アクセスではファイルポインタが128バイト少なく更新されます。lseek()による修正が必要です。
+         <LI> メモリカードＡ（向かって左）についてタイムアウトイベントが発生したフレーム中ではコントローラＡ（向かって左）へのアクセスが失敗し、全ボタンが「リリース」状態となる。（ライブラリVer.3.7においてバグフィックス）
+</UL>
+
+     <H4><B>差し込み口Ａにカードがセットされていない場合に問題が発生：</B></H4>
+
+<PRE>        垂直同期 --------------------------------------------------
+        		_card_info(0x00)など非同期アクセス要求
+        		pad = PadRead();	/* 正常 */
+        
+        垂直同期 --------------------------------------------------
+        		カードＡへ通信開始
+        		pad = PadRead();	/* 正常 */
+        
+        垂直同期 --------------------------------------------------
+        		カードＡタイムアウトイベント発生
+        		pad = PadRead();	/* コンローラＡ */
+        					/* 全ボタンリリース */
+        
+        垂直同期 --------------------------------------------------
+        		pad = PadRead();	/* 正常 */
+        
+        垂直同期 --------------------------------------------------
+</PRE>
+
+     <H4><B>対策</B></H4>
+
+      <BLOCKQUOTE>
+      カードＡへの非同期アクセスを行なう場合は、コントローラがオペレータの意図に反して全ボタンリリースとなっても問題が発生しないよう設計変更していただく、もしくはカードＢ（向かって右）を使用するようお願いします。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

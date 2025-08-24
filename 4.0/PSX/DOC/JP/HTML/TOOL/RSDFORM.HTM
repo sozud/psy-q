@@ -1,0 +1,286 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>rsdform </B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    アーティスト向け３Ｄモデリングデータ(RSDデータ）の変形や移動を行います。<BR>
+    DOS版とSGI版があります。ここでは、1996/Apr/1付けの Version 1.81 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>rsdform [options] <I>RSD-name</I></B></H4>
+
+      <BLOCKQUOTE>
+      RSDフォーマットのモデリングデータに対して、スケーリング・回転・平行移動の操作を行ってオブジェクトの形状を変化させます。複数の変形操作を一度に指定した場合はスケーリング→回転→平行移動の順に行われます。<BR>
+      引数のRSDファイル名の拡張子".rsd"は省略可能です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>RSD-name</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力するRSD名を指定します。拡張子は除かれます。入力ファイルに上書きすることはできません。デフォルトは"a"です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-s <I>x y x</I></B></H4>
+
+      <BLOCKQUOTE>
+      x,y,z軸のスケール値を指定します。数値はfloatで指定し、1.0が等倍です。負の数を指定することも可能です。この場合、その軸に対する鏡像になります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-r<I> x y z</I></B></H4>
+
+      <BLOCKQUOTE>
+      x,y,z軸の回転角を指定します。数値はfloatで指定します。正の値が、軸に対して右ねじの方向(*)への回転をあらわします。単位はデフォルトではdegree(度)ですが、-radオプションも指定するとradianになります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-t <I>x y z</I></B></H4>
+
+      <BLOCKQUOTE>
+      x,y,z軸の平行移動距離を指定します。数値はfloatで指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-rad</B></H4>
+
+      <BLOCKQUOTE>
+      回転角の単位をradianにします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-l</B></H4>
+
+      <BLOCKQUOTE>
+      スケーリングおよび回転において、モデルの中心を固定して行ないます。<B>-s</B>, <B>-r</B>オプションとともに指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-c</B></H4>
+
+      <BLOCKQUOTE>
+      可能ならば、ファイルを共有します(補足参照)。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-c[pmg]</B></H4>
+
+      <BLOCKQUOTE>
+      PLY/MAT/GRPファイルそれぞれを共有することを指定します。３つの文字(<B>p</B>, <B>m</B>, <B>g</B>)を組み合わせることで共有するファイルを指定できます。<B>-cpg</B> のように使います(これは<B>-cp -cg</B><BR>
+      と同じです)。他のオプションも指定していて、共有できない場合は(補足参照)、警告を出して共有指定を無視します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-k</B></H4>
+
+      <BLOCKQUOTE>
+      元のファイルのバージョンを維持します。このオプションを指定しなければ、@RSD940102、@PLY940102、@MAT940801、@GRP940102になります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-quiet</B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイルに変形履歴のコメントを加えないようにします。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      変換に関する詳細な情報を標準出力に出力します。<BR>
+      <BR>
+      注(*) 「右ねじの方向」は、右手の親指だけ立てた状態で、親指の先を回転軸の正の方向に向けたとき、残りの指が巻く方向です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>前バージョン(v1.8)からの改良点</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> 別ドライブのカレントディレクトリにあるRSDを指定した際にも正しく読み込めるようになりました(DOS版)。
+         <LI> RSDファイル中に記述されたファイルが見つからない場合、まずファイル名をすべて大文字に変換して探します。それでも見つからない場合、すべて小文字に変換して探します(SGI版のみ)。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> RSDは、.rsd, .ply, .mat, .grp の４つのファイルで一組になっています。これらは同じディレクトリになければならず、通常プロジェクトディレクトリのRSDディレクトリに置かれます。
+         <LI> ファイルの共有は次の条件の場合に可能です。<BR>PLYファイル： 変形の指定を一切行なわない場合。<BR>MATファイル： 元のデータに対して鏡像になっていない場合。<BR>GRPファイル： 常に共有可能。<BR>但し、共有するファイルはすべて同じディレクトリになければなりません。
+         <LI> TODファイルを利用したプログラムを作成する場合には、平行移動や拡大縮小は、rsdlinkではなく、当ツールを利用して行なうことをお勧めします。(rsdlink(ver.3.0以降)のドキュメント参照）
+         <LI> PlayStationでの座標系は符号付き16ビットです。RSDではこの制限がありませんが、rsdlinkを用いてTMDに変換する際には、必ずこの座標系に収まるようにする必要があります。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>使用例</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>例1 基本的な使い方</B></H4>
+
+      <BLOCKQUOTE>
+      x軸方向に１０倍した後、x軸の回りに４５度回転させる。ただし、ファイルが共有できるときには共有するように指定する。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        &gt; rsdform -v -s 10 1 1 -r 45 0 0 -c cube
+        
+        Input  RSD   : cube
+        Output RSD   : a
+        
+        Scale        :    10,     1,     1		&lt;-
+        Rotation     :    45,     0,     0  (degree)	&lt;- 変形指定の内容
+        Translation  :     0,     0,     0		&lt;-
+        Range      x :      +0.0 ...   +1000.0 (center:   +500.0)
+                   y :    -500.0 ...    +500.0 (            +0.0)
+                   z :    -500.0 ...    +500.0 (            +0.0)
+                  変形前の大きさ(各軸の最大値・最小値と中心の座標値)
+            cube.ply -&gt;           a.ply			&lt;- 入出力ファイル名
+            cube.mat -&gt;        cube.mat(Shared)		&lt;- MAT,GRPファイルは
+            cube.grp -&gt;        cube.grp(Shared)		&lt;-  共有できる&gt;
+            cube.rsd -&gt;           a.rsd			&lt;-
+        
+        New Range  x :      +0.0 ...  +10000.0 (center:  +5000.0)
+                   y :    -707.1 ...    +707.1 (            +0.0)
+                   z :    -707.1 ...    +707.1 (            +0.0)
+                  変形後の大きさ(各軸の最大値・最小値と中心の座標値)
+</PRE>
+
+     <H4><B>例2 局所的に変形する</B></H4>
+
+      <BLOCKQUOTE>
+      例1の変形に<B>-l</B>オプションを適用します。このオプションにより、モデルの重心を回転・スケーリングの中心することができ、モデルの位置が変化しません。例1の結果と比較してください。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        &gt; rsdform -v -l -s 10 1 1 -r 45 0 0 cube
+        
+        Input  RSD   : cube
+        Output RSD   : a
+        Scale        :    10,     1,     1
+        Rotation     :    45,     0,     0  (degree)
+        Translation  :     0,     0,     0
+        Range      x :     +0.0 ...   +1000.0 (center:   +500.0)
+                   y :    -500.0 ...    +500.0 (            +0.0) &lt;-----|
+                   z :    -500.0 ...    +500.0 (            +0.0)	|
+        								|
+            cube.ply -&gt;           a.ply
+            cube.mat -&gt;           a.mat				重心が
+            cube.grp -&gt;           a.grp				   変わらない
+            cube.rsd -&gt;           a.rsd
+        								|
+        New Range  x :   -4500.0 ...   +5500.0 (center:   +500.0)	|
+                   y :    -707.1 ...    +707.1 (            +0.0) &lt;-----|
+                   z :    -707.1 ...    +707.1 (            +0.0)
+</PRE>
+
+     <H4><B>例3 RSDファイルのコピー</B></H4>
+
+      <BLOCKQUOTE>
+      RSDファイルのコピーツールとして利用できます。また、RSD名の変更にも使えます。次のようなバッチファイルを用意しておくと便利です。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        &gt; type rsdcopy.bat
+        @ECHO OFF
+        rsdform -o %2 %1
+</PRE>
+
+     <H4><B>例4 RSDファイルの上書き</B></H4>
+
+      <BLOCKQUOTE>
+      当ツールでは、変形前のRSDファイルを上書きしないようになっていますが、次のようなバッチファイルにより上書きするツールとして御利用になれます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        &gt; type rsdform2.bat
+        @ECHO OFF
+        SET ARGS=
+        REM			すべての引数を読み込む
+        :LOOP1
+        IF "%9"=="" GOTO LABEL1
+        SET ARGS=%ARGS% %1
+        SHIFT
+        GOTO LOOP1
+        :LABEL1
+        REM 			とりあえず_tmpという名前で変換する 
+        rsdform -o _tmp %ARGS% %1 %2 %3 %4 %5 %6 %7 %8
+        IF ERRORLEVEL 1 GOTO END
+        REM 			最後の引数(=入力ファイル名)を探す
+        :LOOP2
+        IF "%1"=="" GOTO LABEL2
+        SHIFT
+        GOTO LOOP2
+        :LABEL2
+        REM 			入力ファイル(%0)に上書きする
+        rsdform -o %0 -quiet _tmp
+        REM 			_tmp.*を消してできあがり
+        DEL _tmp.*
+        :END
+        SET ARGS=
+</PRE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

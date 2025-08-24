@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    InitGUN
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgun.htm">ガン ライブラリ (libgun) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    InitGUN
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ガンを初期化する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>InitGUN </B>( 
+char *<I>bufA</I>, *<I>bugB</I>,
+long <I> lenA, lenB</I>
+char <I>*buf0,</I>
+char <I>*buf1,</I>
+long <I>len</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>bufA, bufB</I>	コントローラ受信データバッファ
+<I>lenA, lenB</I>	コントローラ受信データバッファ長（バイト単位）
+<I>buf0,buf1	水平・垂直位置</I>受信バッファ(バッファのサイズは、<I>len</I>*4+2 バイト必要)
+<I>len		</I>ガンによる１ Vsyncあたりの割り込み数(最大20)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コントローラの受信データバッファおよび<I>水平・垂直位置</I>受信バッファを登録する。 <BR>
+    ガンによる割り込みをトリガーとした、垂直および水平位置の取り込みをおこなう。 <BR>
+    InitPAD(),InitTAP()との併用はできません。 <BR>
+    ライブラリのバージョン4.0から、ガンの精度を上げるために割り込み処理内部でDMAと割り込みをブロックしています。1Vsyncあたりの割り込みの数を大きく設定しますと１回あたり1Hsyncの時間を消費しますので、この値は小さめに設定してください。 <BR>
+    水平方向のカウンタの値は、システムクロックの値を返していますので、ピクセル値を得るためには、水平方向の解像度に応じて下記の係数を乗算してください。 <BR>
+<CENTER>
+        <H4><B>表1 システムクロック-ピクセルクロック変換表</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>モード</TD><TD>水平方向解像度</TD><TD>係数</TD><TR>
+    <TD>NTSC:</TD><TD>256</TD><TD>0.158532</TD><TR>
+    <TD></TD><TD>320</TD><TD>0.198166</TD><TR>
+    <TD></TD><TD>384</TD><TD>0.226475</TD><TR>
+    <TD></TD><TD>512</TD><TD>0.317065</TD><TR>
+    <TD></TD><TD>640</TD><TD>0.396332</TD><TR>
+    <TD>PAL:</TD><TD>256</TD><TD>0.157086</TD><TR>
+    <TD></TD><TD>320</TD><TD>0.196358</TD><TR>
+    <TD></TD><TD>384</TD><TD>0.224409</TD><TR>
+    <TD></TD><TD>512</TD><TD>0.314173</TD><TR>
+    <TD></TD><TD>640</TD><TD>0.392717</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+     [ピクセル値] = [係数]×[システムクロック値]＋[オフセット] <BR>
+</CENTER>
+    <blockquote>
+    	 <BR>
+    </blockquote>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="initpad.htm">InitPAD</a>(),<a href="sguelecn.htm">SelectGUN</a>(),<a href="startgun.htm">StartGUN</a>(),<a href="stopgun.htm">StopGUN</a>(),<a href="rguemovn.htm">RemoveGUN</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

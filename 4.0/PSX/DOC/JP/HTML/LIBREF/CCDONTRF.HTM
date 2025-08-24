@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdControlF
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdControlF
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CD-ROMサブシステムにプリミティブコマンドを発行（高速型）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>CdControlF </B>(
+u_char<I> com</I>, 
+u_char *<I>param</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>com		</I>コマンドコード（CdControl()参照）
+<I>param		</I>コマンドに対する引数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CD-ROMサブシステムにプリミティブコマンドを発行する。サブシステムに対する一切のハンドシェークを行なわない。そのためエラーハンドリングはもちろんのこと、エラー検出までもプログラマの責任で行う必要がある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    発行に成功すれば1を、失敗すれば0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>param</I>を指定しないコマンドには0を指定する。サブシステムに対してコマンドの受け付け(ACK)さえも待たないため高速。現在は、必ず1を返すため返り値は意味を持たない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ccdontrl.htm">CdControl</a>(),<a href="ccdontrb.htm">CdControlB</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

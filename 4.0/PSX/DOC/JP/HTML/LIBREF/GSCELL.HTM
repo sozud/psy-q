@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsCELL
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsCELL
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        BG を構成するセル
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsCELL</B> {
+		unsigned char <I>u</I>, <I>v</I>;
+		unsigned short <I>cba</I>;
+		unsigned short <I>flag</I>;
+		unsigned short <I>tpage</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>u</I>		ページ内でのオフセット（Ｘ方向）
+<I>v</I>		ページ内でのオフセット（Ｙ方向）
+<I>cba</I>		CLUT ID
+<I>flag</I>		反転情報
+<I>tpage</I>		テクスチャページ番号
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsCELL は BG を構成するセルの情報を持つ構造体で メモリ上に配列として確保する。CELフォーマットデータをコンパチブルになっている。 <BR>
+    <I>(u, v)</I> には そのセルに対応するスプライトパターンの位置を<I>tpage</I> で指定したページ中のオフセットで指定する。 <BR>
+    <I>cba</I> は、そのセルに対応した CLUT のフレームバッファ内での位置を表すデータで、次のようになっている。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>値</TD><TR>
+    <TD>bit0～5</TD><TD>CLUT のＸ位置／16</TD><TR>
+    <TD>bit6～15</TD><TD>CLUT のＹ位置</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>flag </I>はそのセルが元のテクスチャパターンを反転して表示するかどうかの情報を持つ。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>値</TD><TR>
+    <TD>bit0</TD><TD>0のとき非反転、1のとき反転</TD><TR>
+    <TD>bit1</TD><TD>0のとき</TD><TR>
+    <TD>bit2～15</TD><TD>reserved</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>tpage</I> は、スプライトパターンのフレームバッファ内の位置を表すページ番号である。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

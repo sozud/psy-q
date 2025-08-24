@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GetCr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libapi.htm">カーネル ライブラリ (libapi) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GetCr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        原因レジスタ値の取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long <B>GetCr </B>( void )
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    制御レジスタのひとつである原因レジスタの値を取得する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現行の原因レジスタの値を返す。各ビットに意味は次のとおり。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>内容</TD><TR>
+    <TD>31-6</TD><TD>システム予約</TD><TR>
+    <TD>5-2</TD><TD>例外コード</TD><TR>
+    <TD> </TD><TD>0000: 外部割り込み</TD><TR>
+    <TD> </TD><TD>0001: 未使用</TD><TR>
+    <TD> </TD><TD>0010: 同上</TD><TR>
+    <TD> </TD><TD>0011: 同上</TD><TR>
+    <TD> </TD><TD>0100: アドレスリードエラー</TD><TR>
+    <TD> </TD><TD>0101: アドレスライトエラー</TD><TR>
+    <TD> </TD><TD>0110: 命令バスエラー</TD><TR>
+    <TD> </TD><TD>0111: データバスエラー</TD><TR>
+    <TD> </TD><TD>1000: システムコール</TD><TR>
+    <TD> </TD><TD>1001: ブレークポイント</TD><TR>
+    <TD> </TD><TD>1010: 未定義命令</TD><TR>
+    <TD> </TD><TD>1011: 未装着コプロセッサ</TD><TR>
+    <TD> </TD><TD>1100: オーバフロー</TD><TR>
+    <TD>1-0</TD><TD>システム予約</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="openth.htm">OpenTh</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

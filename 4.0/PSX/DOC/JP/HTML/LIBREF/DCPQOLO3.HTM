@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DpqColor3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DpqColor3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ３つの原色ベクトルとファーカラーとの内挿を行なう
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>DpqColor3 </B>(
+CVECTOR *<I>v0</I>,
+CVECTOR *<I>v1</I>,
+CVECTOR *<I>v2</I>,
+long <I>p</I>,
+CVECTOR *<I>v3</I>,
+CVECTOR *<I>v4</I>,
+CVECTOR *<I>v5</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0</I>,<I>v1</I>,<I>v2</I>	入力：原色ベクトル
+<I>p</I>		入力：内挿値
+<I>v3</I>,<I>v4</I>,<I>v5</I>	出力：カラーベクトル
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>v3</I> = (1-<I>p</I>)×<I>v0</I>+<I>p</I>×FC <BR>
+    <I>v4</I> = (1-<I>p</I>)×<I>v1</I>+<I>p</I>×FC <BR>
+    <I>v5</I> = (1-<I>p</I>)×<I>v2</I>+<I>p</I>×FC <BR>
+<BR>
+    引数フォーマット： <BR>
+    <I>v0</I>,<I>v1</I>,<I>v2</I>-&gt;r,g,b : (0,8,0) <BR>
+    <I>p</I> : (0,20,12) <BR>
+    <I>v3</I>,<I>v4</I>,<I>v5</I>-&gt;r,g,b : (0,8,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

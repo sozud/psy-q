@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    StGetBackloc
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libstr.htm">ストリーミング ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    StGetBackloc
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        コマ落ち防止のためアクセスを行う場合のロケーションを得る
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>StGetBackloc </B>(
+CdlLOC <I>*loc,</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>loc		アクセスポイント
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在リングバッファに貯められている最新のロケーション情報とフレームIDを返す。ここで得られるロケーション情報はリングバッファ溢れによるコマ飛ばしを抑制するためのアクセスを行う場合にアクセスのロケーションとして使用される。 <BR>
+    使用例は \psx\sample\cd\movie\tuto3.c <BR>
+<BR>
+    ただしStModeStream2モードの時のみ有効 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ストリーミング再開後にとるべき最初のフレームID <BR>
+    StModeStream2モードでない場合エラーとして－１が返る <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    アクセスによるコマ落ち防止はXAオーディオを使用していない場合のみ可能 <BR>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

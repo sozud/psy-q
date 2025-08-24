@@ -1,0 +1,129 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>pict2tim</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    MacintoshイメージデータをPlayStationの画像データファイルに変換します。<BR>
+    ここでは、1994/Oct/17付けのVersion3.1に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>pict2tim [options] <I>PICT-files</I> ...</B></H4>
+
+      <BLOCKQUOTE>
+      MacintoshのPICT2形式のイメージデータファイルを与えると、PlayStationのTIMファイル(*.TIM)を生成します。引数にワイルドカードが使用できます。複数のファイルを与え一度に変換することも可能です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは入力ファイルの拡張子を".tim"に変換したものを現在のディレクトリに生成します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-org <I>x y</I></B></H4>
+
+      <BLOCKQUOTE>
+      VRAM上でのイメージの原点を指定します。デフォルトは(0, 0)です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-plt <I>x y</I></B></H4>
+
+      <BLOCKQUOTE>
+      VRAM上でのカラーパレットの位置を指定します。デフォルトは(0, 480)です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-t</B></H4>
+
+      <BLOCKQUOTE>
+      (0 0 0)以外の色に対して、透明制御ビットをONにします。(0 0 0)以外の色が半透明色になります。デフォルトでは、すべての色は不透明になります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-b</B></H4>
+
+      <BLOCKQUOTE>
+      (0 0 0)に対して、透明制御ビットをOFFにします。 (0 0 0)は透明になります。デフォルトでは、(0 0 0)は黒として表示されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      変換に関する詳細な情報を表示します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>制約</B>
+</A>
+</H3>
+<blockquote>
+    現バージョンは以下の制約を持っています。<BR>
+<UL>
+         <LI> 変換可能なPICTデータはPixmapに限られます。
+         <LI> 32 ビット PICT は変換できません。
+</UL>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

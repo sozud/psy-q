@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSwapDispBuff
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSwapDispBuff
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ダブルバッファの切り替え
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSwapDispBuff</B> ( void )
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DefDispBuff()によって設定されたダブルバッファ情報により、表示バッファと描画バッファを入れ換える。通常は垂直帰線区間突入直後に実行する。 <BR>
+    また関数内では次の処理が実行される。 <BR>
+<BR>
+    (１)表示開始アドレスの設定 <BR>
+    (２)ブランキングの解除 <BR>
+    (３)ダブルバッファのインデックス設定 <BR>
+    (４)２次元クリッピングの切り替え <BR>
+    (５)libgte or libgpuのオフセットの設定 <BR>
+    (６)libgsのオフセットの設定 <BR>
+    (７)GsIncFrame()を呼ぶ <BR>
+<BR>
+    注）ダブルバッファはオフセットによって実現されている。 <BR>
+    libgte or libgpuどちらのオフセットを設定するかはGsInitGraph()の第３引数にGsOFSGPU or GsOFSGTEのマクロにて決定。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GPUが描画中の場合、この関数はうまく動作しないので <BR>
+    ResetGraph(1)で描画を打ち切ってから呼ぶ必要がある。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

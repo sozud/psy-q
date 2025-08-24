@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuFlush
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuFlush
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        キューに溜めたイベントをフラッシュする
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long <B>SpuFlush </B>(
+unsigned long <I>ev</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>ev</I>		フラッシュするイベント
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    キューに溜めたイベントをフラッシュする。 <BR>
+    <I>ev</I> に、下記のフラッシュしたいイベントのビット和を与えることで各イベントのみのフラッシュが可能。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_EVENT_KEY</TD><TD>キーオン/オフ</TD><TR>
+    <TD>SPU_EVENT_PITCHLFO</TD><TD>ピッチ LFO ボイス指定</TD><TR>
+    <TD>SPU_EVENT_NOISE</TD><TD>ノイズボイス指定</TD><TR>
+    <TD>SPU_EVENT_REVERB</TD><TD>リバーブボイス指定</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>ev</I> が SPU_EVENT_ALL の場合は全イベントをフラッシュする。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    フラッシュされたイベントのビット和 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssepuetv.htm">SpuSetEnv</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sskowapr.htm">SpuSetKeyOnWithAttr</a>(), <a href="ssplfove.htm">SpuSetPitchLFOVoice</a>(), <a href="ssnvpuee.htm">SpuSetNoiseVoice</a>(), <a href="ssrvpuee.htm">SpuSetReverbVoice</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

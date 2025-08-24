@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuGetVoiceEnvelopeAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuGetVoiceEnvelopeAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        現在のエンベロープ値とキーオン/キーオフの状態を取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuGetVoiceEnvelopeAttr</B> (
+int <I>voiceNum</I>,
+long *<I>keyStat</I>,
+short *<I>envx</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>voiceNum</I>	ボイス番号 (0 ～23)
+<I>keyStat</I>		キーオン/キーオフ/エンベロープの状態
+<I>envx</I>		現在のエンベロープ値
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ボイスのキーオン/キーオフ/エンベロープの状態、及び現在のエンベロープ値を取得する。 <BR>
+    キーオン/キーオフ/エンベロープの状態 <I>keyStat</I> の取り得る値に関しては SpuGetKeyStatus() を参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vgattr.htm">SpuGetVoiceAttr</a>(), <a href="sngvapur.htm">SpuNGetVoiceAttr</a>(), <a href="vgenvele.htm">SpuGetVoiceEnvelope</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sgakspus.htm">SpuGetAllKeysStatus</a>(), <a href="srgaksps.htm">SpuRGetAllKeysStatus</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

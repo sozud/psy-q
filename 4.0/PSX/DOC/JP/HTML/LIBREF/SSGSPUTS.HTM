@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuStGetStatus
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuStGetStatus
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SPU ストリーミングの状態の診断
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuStGetStatus </B>( void )
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SPU ストリーミングの状態の診断を行う <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">返り値</TD><TD ALIGN="center">意味</TD><TR>
+    <TD>SPU_ST_NOT_AVAILABLE<BR></TD><TD>SPU ストリーミングが使用不可の状態。<BR>すなわち SpuStInit() を呼んでない状態。</TD><TR>
+    <TD>SPU_ST_IDLE</TD><TD>サウンドバッファへデータ転送を行っていない状態。</TD><TR>
+    <TD>SPU_ST_PREPARE</TD><TD>最初の 1 バッファ分を転送している状態。</TD><TR>
+    <TD>SPU_ST_TRANSFER<BR></TD><TD>サウンドバッファへデータを転送している状態。<BR>この状態でSpuStTransfer (SPU_ST_PREPARE,)を行っても <BR>SPU_ST_PREPARE には遷移せずに処理される。</TD><TR>
+    <TD>SPU_ST_FINAL<BR></TD><TD>最後の 1 バッファを転送し終え、その再生の終了を待っている状態。<BR>この状態では SpuStTransfer() は受け付けられない</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssiputnt.htm">SpuStInit</a>(), <a href="sstputrr.htm">SpuStTransfer</a>(), <a href="ssgvspus.htm">SpuStGetVoiceStatus</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

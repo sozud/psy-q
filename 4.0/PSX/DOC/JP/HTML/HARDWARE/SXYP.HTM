@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SXYP
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SXYP
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	データ＃１５</B> <BR>
+<BR>
+    アクセス：	W <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                        16 15                             0
++-------------------------------+-------------------------------+
+|             SYP               |              SXP              |
++-------------------------------+-------------------------------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>SXP	(1.15.0)	SXY2へ転送する座標のＸ成分
+SYP	(1.15.0)	SXY2へ転送する座標のＹ成分
+</PRE>
+</blockquote>
+<BR>
+    内部動作： <BR>
+        <BLOCKQUOTE>
+    書き込みと同時に下記の動作が発生する。 <BR>
+<BR>
+        </BLOCKQUOTE>
+<blockquote> <PRE>SXY0 = SXY1;
+SXY1 = SXY2;
+SXY2 = SXYP;
+</PRE>
+</blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

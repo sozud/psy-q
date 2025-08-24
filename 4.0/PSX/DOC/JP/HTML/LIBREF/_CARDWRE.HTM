@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    _card_write
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcard.htm">メモリカード ライブラリ (libcard) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    _card_write
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        メモリカードの1ブロックへの書き込み
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>_card_write</B> (
+long <I>chan</I>,
+long <I>block</I>,
+unsigned char <I>*buf </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>chan		</I>ポート番号＊１６＋カード番号
+ 		ポート番号（Ａポート:０、Ｂポート:１）
+ 		カード番号（通常０）
+<I>block		</I>ターゲットブロック番号
+<I>buf		</I>128バイトのデータバッファへのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>chan </I>で指定したメモリカードの<I>block </I>番ブロックに<I>buf</I>がポイントする128バイトデータを書き込む。関数自体は非同期処理のため、直ちに終了する。同一のカード差し込み口への多重処理登録は行なえない。処理の完了はイベントで通知。 <BR>
+    ＊低レベルインタフェースです。テストなど特殊な用途にのみ使用します。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>原因ディスクリプタ / イベント種別</TD><TD>内容</TD><TR>
+    <TD>HwCARD / EvSpIOE</TD><TD>処理完了</TD><TR>
+    <TD>HwCARD / EvSpTIMOUT</TD><TD>カード未接続</TD><TR>
+    <TD>HwCARD / EvSpNEW</TD><TD>新規カード検出</TD><TR>
+    <TD>HwCARD / EvSpPERROR</TD><TD>通信エラー発生</TD><TR>
+    <TD>HwCARD / EvSpERROR</TD><TD>書き込みエラー発生</TD><TR>
+    <TD>HwCARD / EvSpUNKOWN</TD><TD>原因不明</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    処理登録に成功すると1を、以外は0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="_cardred.htm">_card_read</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

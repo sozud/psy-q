@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    TransRotPers
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    TransRotPers
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        RotTransPersの回転平行移動を逆順に行なう
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>TransRotPers </B>(
+SVECTOR *<I>v0</I>,
+long *<I>sxy</I>,
+long *<I>p</I>,
+long *<I>flag</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0		</I>入力：頂点座標ベクトル
+<I>sxy		</I>出力：スクリーン座標値
+<I>p		</I>出力：内挿値
+<I>flag		</I>出力：フラグ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    座標ベクトル <I>v0 </I>を回転マトリックスで平行移動したあと回転する。 <BR>
+    座標変換したあと透視変換を行ない、スクリーン座標sx,syを返す。 <BR>
+    またデプスキューイング用の内挿値を <I>p </I>に返す。 <BR>
+<BR>
+    引数フォーマット： <BR>
+    <I>v0</I>-&gt;vx,vy,vz : (1,15,0) <BR>
+    <I>sxy</I> : (1,15,0),(1,15,0) <BR>
+    <I>p</I> : (0,20,12) <BR>
+    <I>flag</I> : (0,32,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    sz/4 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,250 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> ガンライブラリ（libgun）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+ガンライブラリ（libgun）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PlayStationにガンを接続し、ガンがＴＶ画面上で向けられてる位置を検出するサービスを提供するためのライブラリです。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    <A HREF="#Heading4_1_1_3"> ボタンデータ</A><BR>
+    <A HREF="#Heading4_1_1_4"> 画面の水平方向および垂直方向の位置データ</A><BR>
+    <A HREF="#Heading4_1_1_5"> 画面の水平方向位置データの補正</A><BR>
+    <A HREF="#Heading4_1_1_6"> メモリカード</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    ガンライブラリのファイル名は「libgun.lib」です。<BR>
+    ガンを利用するには、専用ドライバであるlibgun.libをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    ガンライブラリを使うためにはヘッダファイル「libgun.h」が必要です。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libgun.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libgun.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_3">
+<A HREF="#Heading3_1_1"> 1. </A>3 <B>ボタンデータ</B>
+</A>
+</H3>
+<blockquote>
+    InitGUN(char *bufA, char *lenA, char *bufB, long lenB,  char *buf0, char *buf1, long len)関数で、定義されるバッファbufA,bufBの構造です。<BR>
+<CENTER>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">バイト</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>受信結果</TD><TR>
+    <TD ALIGN="center">1<BR></TD><TD>ID  上位４ビット：端末種別  下位４ビット：受信データバイト数/2<BR>    (ただし、0のときは、32バイトを意味する)</TD><TR>
+    <TD ALIGN="center">2,3</TD><TD>ボタンデータ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_1_3_1">
+(1) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ガンのＩＤは、0x31となっています（端末種別:3 、受信データバイト数:2）。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_1_3_2">
+(2) <B>ボタンデータ</B>
+</A>
+</H4>
+<PRE>                  ビット ７６５４３２１０
+        １バイト目       －－－－Ｓ－－－
+        ２バイト目       □×－－－－－－
+        
+                 Ｓ：スタートボタン
+                 □：ガンの引き金
+                 ×：ボタン
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_4">
+<A HREF="#Heading3_1_1"> 1. </A>4 <B>画面の水平方向および垂直方向の位置データ</B>
+</A>
+</H3>
+<blockquote>
+    InitGUN(char *bufA, char *lenA, char *bufB, long lenB,  char *buf0, char *buf1, long len)関数で、定義されるバッファbuf0,buf1の構造です。<BR>
+    <BR>
+    受信されるデータ数は、最大20個までとなっています。<BR>
+    ライブラリの4.0からは、ガンの精度を上げるためにガンの割り込み処理内部でDMAおよび割り込み処理をすべてブロックしています。割り込みの数を大きくするとオーバーヘッドがHsync単位で増加しますので、少なめに設定することを薦めます。<BR>
+<CENTER>
+        <H4><B>表 3</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">バイト</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>現在未使用</TD><TR>
+    <TD ALIGN="center">1</TD><TD>有効な水平および垂直方向カウンタ値の数</TD><TR>
+    <TD ALIGN="center">2,3</TD><TD>水平方向カウンタ値0</TD><TR>
+    <TD ALIGN="center">4,5</TD><TD>垂直方向カウンタ値0</TD><TR>
+    <TD ALIGN="center">6,7</TD><TD>水平方向カウンタ値1</TD><TR>
+    <TD ALIGN="center">8,9</TD><TD>垂直方向カウンタ値1</TD><TR>
+    <TD ALIGN="center">・<BR>・<BR>・</TD><TD>            ・<BR>            ・<BR>            ・</TD><TR>
+    <TD ALIGN="center">78,79</TD><TD>水平方向カウンタ値19</TD><TR>
+    <TD ALIGN="center">80,81</TD><TD>垂直方向カウンタ値19</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    (カウンタ値は、ハーフワードで与えられる)<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_5">
+<A HREF="#Heading3_1_1"> 1. </A>5 <B>画面の水平方向位置データの補正</B>
+</A>
+</H3>
+<blockquote>
+    水平方向の位置データは、現在、Hブランク毎にゼロクリアされるシステムクロックの値を返しています。<BR>
+    そのため、画面のモードおよび水平解像度に応じて補正をかける必要があります。システムクロックとピクセルクロックの対応は以下の表の様になっています。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 4 システムクロック-ピクセルクロック変換表</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">水平方向解像度</TD><TD ALIGN="center">係数</TD><TR>
+    <TD ALIGN="center">NTSC:</TD><TD ALIGN="center">256</TD><TD ALIGN="center">0.158532</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">320</TD><TD ALIGN="center">0.198166</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">384</TD><TD ALIGN="center">0.226475</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">512</TD><TD ALIGN="center">0.317065</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">640</TD><TD ALIGN="center">0.396332</TD><TR>
+    <TD ALIGN="center">PAL:</TD><TD ALIGN="center">256</TD><TD ALIGN="center">0.157086</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">320</TD><TD ALIGN="center">0.196358</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">384</TD><TD ALIGN="center">0.224409</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">512</TD><TD ALIGN="center">0.314173</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">640</TD><TD ALIGN="center">0.392717</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+     [ピクセル値] = [係数]×[システムクロック値]＋[オフセット]<BR>
+    <BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_6">
+<A HREF="#Heading3_1_1"> 1. </A>6 <B>メモリカード</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードを利用する場合には、かならずInitCARD(0)と、引数を'0'に指定するようにしてください。<BR>
+<PRE>        
+        InitGUN(bufA, lenA, bufB, lenB, buf1, buf2, len);
+        InitCARD(0);
+        StartCARD();
+        _bu_init();
+        StartGUN();
+        ChangeClearPAD(0);
+</PRE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

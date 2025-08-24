@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DecDCTvlcBuild
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libpress.htm">データ処理 ライブラリ (libpress) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DecDCTvlcBuild
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        VLCテーブルを生成する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>DecDCTvlcBuild</B> (
+DECDCTTAB <I>table</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		VLC バッファ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DecDCTvlc2() で使用する VLC テーブルを生成する。 <BR>
+    生成されるサイズは sizeof(DECDCTTAB) であらかじめ知ることができる。  <BR>
+    構造体DECDCTTABに関しては、libpress.hを参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    VLCテーブルは、圧縮された（4KB) 形式で保持され、ムービー再生時にのみこれをワーク領域に解いて (64KB)解凍に使用される。 <BR>
+    この場合は、ムービー再生時でのメモリ削減にはならないが、ムービー未使用時には不必要なテーブル領域を削減することができる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="dctvlc2.htm">DecDCTvlc2</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSetTodPacket2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSetTodPacket2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        １パケット分のTODデータ処理
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long * <B>GsSetTodPacket2 </B>(
+unsigned * <I>dp</I>，
+GsOBJTABLE2 * <I>tbl</I>，
+int * <I>tmd_id</I>，
+unsigned* <I>tmd</I>，
+int <I>mode </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>dp	</I>	実行中のTODデータへのポインタ
+<I>tbl	</I>	オブジェクトテーブル
+<I>tmd_id</I>		モデリングデータリスト
+<I>tmd	</I>	TMDデータへのポインタ
+<I>mode</I>		実行するパケットの種類を指定
+ 		GsTOD_CREATE：全てのパケットを実行
+ 		GsTOD_NOCREATE：オブジェクトの生成／削除は行なわない
+ 		GsTOD_COORDONLY：座標系の変化のみ実行
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TODデータから１パケット分のデータを処理。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    実行後のTODデータへのポインタを返す <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

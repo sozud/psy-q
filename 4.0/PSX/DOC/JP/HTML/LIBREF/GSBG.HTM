@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsBG
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsBG
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        BG（バックグラウンド面）ハンドラ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct GsBG {
+		unsigned long <I>attribute</I>;
+		short <I>x</I>, <I>y</I>;
+		short <I>w</I>, <I>h</I>;
+		short <I>scrollx</I>, <I>scrolly</I>;
+		unsigned char <I>r</I>, <I>g</I>, <I>b</I>;
+		GsMAP *<I>map</I>;
+		short <I>mx</I>, <I>my</I>;
+		short <I>scalex</I>, <I>scaley</I>;
+		long <I>rotate</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attribute</I>		属性
+<I>x</I>, <I>y</I>			左上点の表示位置
+<I>w</I>, <I>h</I>			BG の表示サイズ（ピクセル単位）
+<I>scrollx</I>, <I>scrolly</I>	<I>x,y</I> のスクロール値
+<I>r</I>, <I>g</I>, <I>b</I>			表示される時の輝度をRGB毎に設定します(128 のとき本来の輝度)
+<I>map</I>			マップデータへのポインタ
+<I>mx</I>, <I>my</I>			回転／拡大時の中心点座標
+<I>scalex</I>, <I>scaley</I>		<I>ｘ </I>方向／<I>ｙ </I>方向のスケール値
+<I>rotate</I>			回転角（単位は 4096 = 1°(degree））
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    BG（バックグラウンド）は、GsCELL データによって定義される小さな矩形を組み合わせた GsMAP データによって構成した、１枚の大きな矩形を描画する機能である。 <BR>
+    GsBG は BG ごとに存在し この GsBG を通じて BG を操作することができる。 <BR>
+    GsBG をオーダリングテーブルに登録するには、GsSortBg() 関数を使用する。 <BR>
+    <I>(x, y)</I> には、画面上の表示位置を指定する。 <BR>
+    <I>(w, h)</I> には、BG の表示サイズを指定する。単位はピクセルで セルサイズやマップの大きさに依存しない。 <BR>
+    また、マップの大きさよりも表示エリアの方が大きい場合は マップの内容が繰り返して表示される（タイリング機能）。 <BR>
+    <I>(scrollx, scrolly)</I> は マップ中の表示位置のオフセットで ドット単位で指定する。 <BR>
+    <I>(r, g, b)</I> には、<I>r, g, b</I> ごとに輝度を指定する。128 で元の色となり、255 では２倍の明るさとなる。 <BR>
+    <I>(map)</I> は、GsMAP フォーマットのマップデータへのポインタで これにはマップデータの先頭アドレスを指定する。 <BR>
+    <I>(mx, my)</I> には 回転拡大の中心座標を BG の左上の点を原点とする相対座標で与える。例えば BG の中央で回転させる場合は BG の幅 高さの１/２を設定する。 <BR>
+    <I>(scalex, scaley)</I> には <I>ｘ </I>方向 <I>ｙ </I>方向ごとに拡大縮小値を指定する。 <BR>
+    単位は 4096 が 1.0（元の大きさ）となっている。最大８倍まで 設定することが可能。 <BR>
+    <I>(rotate)</I> には、ｚ軸回りの回転角を指定する（4096 = １度）。 <BR>
+    <I>(attribute)</I> については GsSPRITE の項を参照のこと。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

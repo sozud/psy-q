@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    gteMIMefunc
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    gteMIMefunc
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        頂点データ配列に係数を掛けた差分データ配列を足す
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>gteMIMefunc </B>(
+SVECTOR *<I>otp</I>,
+SVECTOR *<I>dfp</I>,
+long <I>n</I>,
+long <I>p</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>otp		</I>頂点配列のポインタ
+<I>dfp		</I>差分配列のポインタ
+<I>n		</I>頂点(差分)データ数
+<I>p		</I>MIMeの重み(制御)係数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    多重内挿法(MIMe)演算の中で使用する頂点データ配列と差分データ配列を用いた内挿演算を実行するサブルーチン。<I>p</I> 小数部 12 bitの固定小数点データ。 <BR>
+<BR>
+    以下のプログラムと同様の作業を高速に実行する。 <BR>
+<PRE>
+void gteMIMefunc(otp,dfp,n,p)
+SVECTOR *otp,*dfp
+long n,p
+{
+int i
+for( i = 0 i &lt; <I>n</I> i++){
+	(<I>otp</I>+i)-&gt;x += ( (int)((<I>dfp</I>+i)-&gt;x) * <I>p</I> )&gt;&gt;12
+	(<I>otp</I>+i)-&gt;y += ( (int)((<I>dfp</I>+i)-&gt;y) * <I>p</I> )&gt;&gt;12
+	(<I>otp</I>+i)-&gt;z += ( (int)((<I>dfp</I>+i)-&gt;z) * <I>p</I> )&gt;&gt;12
+}
+}
+
+</PRE>
+    引数フォーマット： <BR>
+    <I>p</I> : (1,19,12) <BR>
+    <I>otp</I>,<I>dfp</I>は任意 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

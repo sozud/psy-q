@@ -1,0 +1,202 @@
+<HTML>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> CD-ROM ライブラリ (libcd)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm" TARGET="_top"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm" TARGET="_top"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2">
+<H1>
+CD-ROM ライブラリ (libcd) 関数一覧
+<HR>
+</H1>
+</A>
+<blockquote>
+
+<TABLE CELLPADDING=0>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>構造体</TD><TR>
+<TD></TD><TD>
+<A HREF="cdlatv.htm" _TARGET="main"> CdlATV </A><BR>
+</TD><TD> </TD>
+<TD>オーディオアッテネータ</TD><TR>
+<TD></TD><TD>
+<A HREF="cdlfile.htm" _TARGET="main"> CdlFILE </A><BR>
+</TD><TD> </TD>
+<TD>9660 ファイルディスクリプタ</TD><TR>
+<TD></TD><TD>
+<A HREF="cfiltedr.htm" _TARGET="main"> CdlFILTER </A><BR>
+</TD><TD> </TD>
+<TD>ADPCM チャンネル</TD><TR>
+<TD></TD><TD>
+<A HREF="cdlloc.htm" _TARGET="main"> CdlLOC </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM ロケーション</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>関数</TD><TR>
+<TD></TD><TD>
+<A HREF="cdcomstr.htm" _TARGET="main"> CdComstr </A><BR>
+</TD><TD> </TD>
+<TD>コマンドのコードに対応する文字列を得る（デバッグ用）</TD><TR>
+<TD></TD><TD>
+<A HREF="ccdontrl.htm" _TARGET="main"> CdControl </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMサブシステムにプリミティブコマンドを発行</TD><TR>
+<TD></TD><TD>
+<A HREF="ccdontrb.htm" _TARGET="main"> CdControlB </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMサブシステムにプリミティブコマンドを発行（ブロック型）</TD><TR>
+<TD></TD><TD>
+<A HREF="ccdontrf.htm" _TARGET="main"> CdControlF </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMサブシステムにプリミティブコマンドを発行（高速型）</TD><TR>
+<TD></TD><TD>
+<A HREF="cdcdatak.htm" _TARGET="main"> CdDataCallback </A><BR>
+</TD><TD> </TD>
+<TD>CdGetSector終了のコールバック関数を定義</TD><TR>
+<TD></TD><TD>
+<A HREF="cdsdatac.htm" _TARGET="main"> CdDataSync </A><BR>
+</TD><TD> </TD>
+<TD>CdGetSectorの終了を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="cdrdisky.htm" _TARGET="main"> CdDiskReady </A><BR>
+</TD><TD> </TD>
+<TD>Cdの状態をチェックする</TD><TR>
+<TD></TD><TD>
+<A HREF="cdflush.htm" _TARGET="main"> CdFlush </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMコマンドのフラッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="cgdtdete.htm" _TARGET="main"> CdGetDiskType </A><BR>
+</TD><TD> </TD>
+<TD>CD のフォーマットを得る</TD><TR>
+<TD></TD><TD>
+<A HREF="cgsdeter.htm" _TARGET="main"> CdGetSector </A><BR>
+</TD><TD> </TD>
+<TD>セクタバッファのデータをメインメモリへ転送する</TD><TR>
+<TD></TD><TD>
+<A HREF="cgsdete2.htm" _TARGET="main"> CdGetSector2 </A><BR>
+</TD><TD> </TD>
+<TD>セクタバッファのデータをメインメモリに転送する（ノンブロック型）</TD><TR>
+<TD></TD><TD>
+<A HREF="cdgettoc.htm" _TARGET="main"> CdGetToc </A><BR>
+</TD><TD> </TD>
+<TD>TOCリード</TD><TR>
+<TD></TD><TD>
+<A HREF="cdinit.htm" _TARGET="main"> CdInit </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMサブシステムの初期</TD><TR>
+<TD></TD><TD>
+<A HREF="cdintstr.htm" _TARGET="main"> CdIntstr </A><BR>
+</TD><TD> </TD>
+<TD>コマンドの処理状態に対応する文字列を得る（デバッグ用）</TD><TR>
+<TD></TD><TD>
+<A HREF="citpdnts.htm" _TARGET="main"> CdIntToPos </A><BR>
+</TD><TD> </TD>
+<TD>絶対セクタ番号から分・秒・セクタを得る</TD><TR>
+<TD></TD><TD>
+<A HREF="clcdastm.htm" _TARGET="main"> CdLastCom </A><BR>
+</TD><TD> </TD>
+<TD>最後に発行したコマンドコードを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="clpdasts.htm" _TARGET="main"> CdLastPos </A><BR>
+</TD><TD> </TD>
+<TD>最後にアクセスしたCD-ROMの位置を獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="cdmix.htm" _TARGET="main"> CdMix </A><BR>
+</TD><TD> </TD>
+<TD>アッテネータの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="cdmode.htm" _TARGET="main"> CdMode </A><BR>
+</TD><TD> </TD>
+<TD>直近のCD-ROMのモードを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="cdplay.htm" _TARGET="main"> CdPlay </A><BR>
+</TD><TD> </TD>
+<TD>CD-DAトラックを再生する</TD><TR>
+<TD></TD><TD>
+<A HREF="cptidost.htm" _TARGET="main"> CdPosToInt </A><BR>
+</TD><TD> </TD>
+<TD>分・秒・セクタから絶対セクタ番号を得る</TD><TR>
+<TD></TD><TD>
+<A HREF="cdread.htm" _TARGET="main"> CdRead </A><BR>
+</TD><TD> </TD>
+<TD>複数セクタリード</TD><TR>
+<TD></TD><TD>
+<A HREF="cdread2.htm" _TARGET="main"> CdRead2 </A><BR>
+</TD><TD> </TD>
+<TD>リード開始</TD><TR>
+<TD></TD><TD>
+<A HREF="crbdeadk.htm" _TARGET="main"> CdReadBreak </A><BR>
+</TD><TD> </TD>
+<TD>CdReadを中断する</TD><TR>
+<TD></TD><TD>
+<A HREF="crcdeadk.htm" _TARGET="main"> CdReadCallback </A><BR>
+</TD><TD> </TD>
+<TD>CdRead コールバック関数を定義</TD><TR>
+<TD></TD><TD>
+<A HREF="credeadc.htm" _TARGET="main"> CdReadExec </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM 上のファイル名から位置とサイズを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="crfdeade.htm" _TARGET="main"> CdReadFile </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM 上のファイルを読み込む</TD><TR>
+<TD></TD><TD>
+<A HREF="crsdeadc.htm" _TARGET="main"> CdReadSync </A><BR>
+</TD><TD> </TD>
+<TD>CdReadの終了を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="cdready.htm" _TARGET="main"> CdReady </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM からのデータが準備できるのをを待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="cryck.htm" _TARGET="main"> CdReadyCallback </A><BR>
+</TD><TD> </TD>
+<TD>CdReadyコールバック関数を定義</TD><TR>
+<TD></TD><TD>
+<A HREF="cdreset.htm" _TARGET="main"> CdReset </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMサブシステムの初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="csfdeare.htm" _TARGET="main"> CdSearchFile </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM 上のファイル名から位置とサイズを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="csddeteg.htm" _TARGET="main"> CdSetDebug </A><BR>
+</TD><TD> </TD>
+<TD>デバッグレベルを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="cdstatus.htm" _TARGET="main"> CdStatus </A><BR>
+</TD><TD> </TD>
+<TD>直近のCD-ROMのステータスを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="cdsync.htm" _TARGET="main"> CdSync </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブコマンドの終了を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="cscdynck.htm" _TARGET="main"> CdSyncCallback </A><BR>
+</TD><TD> </TD>
+<TD>CdSyncコールバック関数を定義</TD><TR>
+</TABLE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

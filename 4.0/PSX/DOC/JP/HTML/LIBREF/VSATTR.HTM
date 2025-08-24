@@ -1,0 +1,308 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetVoiceAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetVoiceAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        各ボイスの属性を設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetVoiceAttr</B> (
+SpuVoiceAttr *<I>attr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attr</I>		各ボイス属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    各ボイスの属性を設定する。 <BR>
+    <I>attr</I>.voice にはSPU_0CH,SPU_1CH,...,SPU_23CHのビット和で設定するボイスを明示的に設定する。 <BR>
+    <I>attr</I>.mask に、下記の設定したい属性のビット和を与えることで各属性のみの設定が可能。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_VOICE_VOLL</TD><TD>音量(左)</TD><TR>
+    <TD>SPU_VOICE_VOLR</TD><TD>音量(右)</TD><TR>
+    <TD>SPU_VOICE_VOLMODEL</TD><TD>音量モード(左)</TD><TR>
+    <TD>SPU_VOICE_VOLMODER</TD><TD>音量モード(右)</TD><TR>
+    <TD>SPU_VOICE_PITCH</TD><TD>音程(ピッチ指定)</TD><TR>
+    <TD>SPU_VOICE_NOTE</TD><TD>音程(ノート指定)</TD><TR>
+    <TD>SPU_VOICE_SAMPLE_NOTE</TD><TD>波形データサンプルノート</TD><TR>
+    <TD>SPU_VOICE_WDSA</TD><TD>波形データ先頭アドレス</TD><TR>
+    <TD>SPU_VOICE_ADSR_AMODE</TD><TD>ADSR Attack rateモード</TD><TR>
+    <TD>SPU_VOICE_ADSR_SMODE</TD><TD>ADSR Sustain rateモード</TD><TR>
+    <TD>SPU_VOICE_ADSR_RMODE</TD><TD>ADSR Release rateモード</TD><TR>
+    <TD>SPU_VOICE_ADSR_AR</TD><TD>ADSR Attack rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_DR</TD><TD>ADSR Decay rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_SR</TD><TD>ADSR Sustain rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_RR</TD><TD>ADSR Release rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_SL</TD><TD>ADSR Sustain level</TD><TR>
+    <TD>SPU_VOICE_ADSR_ADSR1</TD><TD>ADSR adsr1 for 'VagAtr'</TD><TR>
+    <TD>SPU_VOICE_ADSR_ADSR2</TD><TD>ADSR adsr2 for 'VagAtr'</TD><TR>
+    <TD>SPU_VOICE_LSAX</TD><TD>ループ開始アドレス</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>attr.</I>mask が0の場合は全属性を設定する。 <BR>
+    以下に個々の設定条件を説明する。 <BR>
+<BR>
+    (1) 音量と音量モード(表1) <BR>
+        <BLOCKQUOTE>
+    以下に各音量モードと、各音量モードにおいて設定できる音量の範囲を掲げる。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表1 音量モードと音量の設定範囲</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">SPU_VOICE_VOLMODEx</TD><TD ALIGN="center">SPU_VOICE_VOLx</TD><TR>
+    <TD>ダイレクトモード</TD><TD>SPU_VOICE_DIRECT</TD><TD>-0x4000～0x3fff</TD><TR>
+    <TD>リニア増加モード(正相)</TD><TD>SPU_VOICE_LINEARIncN</TD><TD>0x00～0x7f</TD><TR>
+    <TD>リニア増加モード(逆相)</TD><TD>SPU_VOICE_LINEARIncR</TD><TD>0x00～0x7f</TD><TR>
+    <TD>リニア減少モード(正相)</TD><TD>SPU_VOICE_LINEARDecN</TD><TD>0x00～0x7f</TD><TR>
+    <TD>リニア減少モード(逆相)</TD><TD>SPU_VOICE_LINEARDecR</TD><TD>0x00～0x7f</TD><TR>
+    <TD>指数増加モード(正相)</TD><TD>SPU_VOICE_EXPIncN</TD><TD>0x00～0x7f</TD><TR>
+    <TD>指数増加モード(逆相)</TD><TD>SPU_VOICE_EXPIncR</TD><TD>0x00～0x7f</TD><TR>
+    <TD>指数減少モード</TD><TD>SPU_VOICE_EXPDec</TD><TD>0x00～0x7f</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+      [ダイレクトモード] <BR>
+        <BLOCKQUOTE>
+    音量一定のモード。通常の使用にはこのモードで発音される。 <BR>
+    設定された音量が負の場合は位相が反転する。この位相が反転した状態で、以下の「逆相」モードが有効となる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [リニア増加モード(正相)] <BR>
+        <BLOCKQUOTE>
+    現在の音量が正の値で発音された状態でこのモードを指定すると、現在の音量から音量最大値まで、音量が直線的に増加する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [リニア増加モード(逆相)] <BR>
+        <BLOCKQUOTE>
+    現在の音量が負の値(位相が反転した状態)で発音された状態でこのモードを指定すると、現在の音量から音量最大値まで、位相が反転した状態で、音量が直線的に増加する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [リニア減少モード(正相)] <BR>
+        <BLOCKQUOTE>
+    現在の音量が正の値で発音された状態でこのモードを指定すると、現在の音量から音量最小値(ボリューム0)まで、音量が直線的に減少する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [リニア減少モード(逆相)] <BR>
+        <BLOCKQUOTE>
+    現在の音量が負の値(位相が反転した状態)で発音された状態でこのモードを指定すると、現在の音量から音量最小値(ボリューム0)まで、位相が反転した状態で、音量がリニアに減少する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [指数増加モード(正相)] <BR>
+        <BLOCKQUOTE>
+    現在の音量が正の値で発音された状態でこのモードを指定すると、現在の音量から音量最大値まで、音量が指数関数的に増加する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [指数増加モード(逆相)] <BR>
+        <BLOCKQUOTE>
+    現在の音量が負の値 (位相が反転した状態) で発音された状態でこのモードを指定すると、現在の音量から音量最大値まで、位相が反転した状態で、音量が指数関数的に増加する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [指数減少モード] <BR>
+        <BLOCKQUOTE>
+    このモードを指定すると、現在の音量の値が正/負に関わらず、現在の音量から音量最小値(ボリューム0)まで、音量が指数関数的に減少する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (2) 音程(ピッチ指定、ノート指定) <BR>
+        <BLOCKQUOTE>
+    音程を以下の2つの表現で指定出来る。 <BR>
+        </BLOCKQUOTE>
+<BR>
+      [ピッチ指定] <BR>
+        <BLOCKQUOTE>
+    音程を0x0000～0x3fffの範囲で <I>attr</I>.pitch に設定する。その値の意味は表2を参照。 <BR>
+    表中にはオクターブ単位の値しか掲げていないが、0x0000～0x3fffの範囲で任意に設定することが出来る。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表2 ピッチ指定の値と音程</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">設定値</TD><TD ALIGN="center">0x0200</TD><TD ALIGN="center">0x0400</TD><TD ALIGN="center">0x0800</TD><TD ALIGN="center">0x1000</TD><TD ALIGN="center">0x2000</TD><TD ALIGN="center">0x3fff</TD><TR>
+    <TD ALIGN="center">音程</TD><TD ALIGN="center">- 3 oct.</TD><TD ALIGN="center">- 2 oct.</TD><TD ALIGN="center">- 1 oct.</TD><TD ALIGN="center">原音</TD><TD ALIGN="center">+ 1 oct.</TD><TD ALIGN="center">+ 2 oct.</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+      [ノート指定] <BR>
+        <BLOCKQUOTE>
+    音程をノートとセント(ここでは半音を128分割した値)で16bitの値により <I>attr</I>.note に以下のように設定する。 <BR>
+    ただし、この指定は後述の 「波形データサンプルノート」が指定されていないと使用できない。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表3 ノート指定の値</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">ビット</TD><TD ALIGN="center">設定する値</TD><TR>
+    <TD ALIGN="center">上位 8 ビット</TD><TD ALIGN="center">MIDIノート番号</TD><TR>
+    <TD ALIGN="center">下位 8 ビット</TD><TD ALIGN="center">セント(半音を128に分割した値で表現)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+    (3) 波形データサンプルノート <BR>
+        <BLOCKQUOTE>
+    サンプリングされた時の音程をノートとセント(ここでは半音を128分割した値)で16bitの値により <I>attr</I>.sample_note に以下のように設定する。 <BR>
+    この値を設定することにより前述の 「音程/ノート指定」 の指定が可能になる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+<CENTER>
+        <H4><B>表4 波形データサンプルノート指定の値</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">ビット</TD><TD ALIGN="center">設定する値</TD><TR>
+    <TD ALIGN="center">上位 8 ビット</TD><TD ALIGN="center">MIDIノート番号</TD><TR>
+    <TD ALIGN="center">下位 8 ビット</TD><TD ALIGN="center">セント(半音を128に分割した値で表現)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+    (4) 波形データ先頭アドレス <BR>
+        <BLOCKQUOTE>
+    ボイスに発音させたい波形データのサウンドバッファ内の先頭アドレスを <I>attr</I>.addr に設定する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (5) ループ開始アドレス <BR>
+        <BLOCKQUOTE>
+    ループを指定して作成された波形データに対して、ボイスに発音させるためにその波形データが保存されているサウンドバッファ内のアドレスを上記 「波形データ先頭アドレス」 で設定すると、通常はループ開始アドレスは自動的に判別し設定されるので、明示的に設定する必要はない。 <BR>
+    しかし、実行時にループ開始アドレスを動的に設定したい場合にはサウンドバッファ内のループを設定するアドレスを <I>attr</I>.loop_addr に設定する。 <BR>
+    波形データの作成時にループ設定を行っていなかった場合は、SPU_VOICE_LSAXを指定して <I>attr</I>.loop_addr に設定しても、その設定は無効になる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (6) ADSR <BR>
+        <BLOCKQUOTE>
+    ADSRの概念図を以下に掲げる。 <BR>
+<P>
+<IMG SRC ="gif/lspuf1.gif">
+<P>
+<CENTER>
+        </BLOCKQUOTE>
+    <B>図 1 ADSRの概念図</B> <BR>
+</CENTER>
+        <BLOCKQUOTE>
+    ADSRのそれぞれの属性は以下の構造体メンバで設定する。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表5 パラメータと設定する構造体メンバ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD></TD><TD ALIGN="center">属性</TD><TD ALIGN="center">構造体メンバ</TD><TR>
+    <TD>Rate:<BR></TD><TD> Attack rate<BR> Decay rate<BR> Sustain rate<BR> Release rate</TD><TD> attr.ar, attr.a_mode<BR> attr.dr<BR> attr.sr, attr.s_mode<BR> attr.rr, attr.r_mode</TD><TR>
+    <TD>Level:</TD><TD> Sustain level</TD><TD> attr.sl</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+        <BLOCKQUOTE>
+    各属性はそれぞれ表6の範囲で設定を行う。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表6 rate, levelの設定範囲</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性</TD><TD ALIGN="center">構造体メンバ</TD><TD ALIGN="center">設定範囲</TD><TR>
+    <TD>Attack rate</TD><TD>attr.ar</TD><TD>0x00～0x7f</TD><TR>
+    <TD>Decay rate</TD><TD>attr.dr</TD><TD>0x0～0xf</TD><TR>
+    <TD>Sustain rate</TD><TD>attr.sr</TD><TD>0x00～0x7f</TD><TR>
+    <TD>Release rate</TD><TD>attr.rr</TD><TD>0x00～0x1f</TD><TR>
+    <TD>Sustain level</TD><TD>attr.sl</TD><TD>0x0～0xf</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+        <BLOCKQUOTE>
+    Attack, Sustain, Releaseそれぞれにrateのカーブの設定ができる(表7)。 <BR>
+    Decayについては指数関数減少のみとなっているため、設定できない。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表7 ADSR rateモード</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性</TD><TD ALIGN="center">attr.?_modeに設定できるモード</TD><TR>
+    <TD> Attack rate<BR></TD><TD> SPU_VOICE_LINEARIncN (リニア増加)<BR> SPU_VOICE_EXPIncN(指数関数増加)</TD><TR>
+    <TD> Decay rate</TD><TD> N/A</TD><TR>
+    <TD> Sustain rate<BR></TD><TD> SPU_VOICE_LINEARIncN (リニア増加)<BR> SPU_VOICE_LINEARDecN (リニア減少)<BR> SPU_VOICE_EXPIncN(指数関数増加)<BR> SPU_VOICE_EXPDecN(指数関数減少)</TD><TR>
+    <TD> Release rate<BR></TD><TD> SPU_VOICE_LINEARDecN (リニア減少)<BR> SPU_VOICE_EXPDecN(指数関数減少)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+        <BLOCKQUOTE>
+    また、構造体VagAtrのメンバadsr1,adsr2からのデータを <I>attr</I>.adsr1, <I>attr</I>.adsr2 に直接指定することもできる。この場合 <I>attr</I>.mask にはADSRの指定に関してSPU_VOICE_ADSR_ADSR1, SPU_VOICE_ADSR_ADSR2 のみ指定する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="srsvapur.htm">SpuRSetVoiceAttr</a>(), <a href="vgattr.htm">SpuGetVoiceAttr</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sskowapr.htm">SpuSetKeyOnWithAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

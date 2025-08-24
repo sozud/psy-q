@@ -1,0 +1,192 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>mkvab</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    aiff2vag.exe にて作成した VAG 形式の波形データ群と属性テーブルを作成する定義ファイルを元に音源バンク形式 VAB を構築します。<BR>
+    ここでは、1996/May/01付けの Version 2.0 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>mkvab [option] <I>vag-files</I>....</B></H4>
+
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-f <I>def_file</I></B></H4>
+
+      <BLOCKQUOTE>
+      属性テーブルを作成する定義ファイル def_file を指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-r <I>vab_file</I></B></H4>
+
+      <BLOCKQUOTE>
+      VAB ファイルを解析して、属性定義ファイルを出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-o<I> out_file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイルを指定します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>制約</B>
+</A>
+</H3>
+<blockquote>
+    現バージョンは以下の制約を持っています。<BR>
+    <BR>
+<UL>
+         <LI> VAB ファイルサイズおよび各 VAG のサイズは自動的に計算されますので、指定した数値は無視されます。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>属性定義ファイル</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>VabHdr (VAB 全体にわたる属性定義です。)</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ラベル</TD><TD>値</TD><TD>解説</TD><TR>
+    <TD>form</TD><TD>'VABp'</TD><TD>フォーマット識別子です。</TD><TR>
+    <TD>ver</TD><TD>7</TD><TD>フォーマットバージョン番号です。</TD><TR>
+    <TD>id</TD><TD>0</TD><TD>VAB id です。(常に 0) </TD><TR>
+    <TD>fsize</TD><TD>0</TD><TD>ファイルサイズです。(mkvab が自動計算します。)</TD><TR>
+    <TD>ps</TD><TD>0～128</TD><TD>VAB に含まれる全プログラム数です。</TD><TR>
+    <TD>ts</TD><TD>0～2048</TD><TD>VAB に含まれる全トーン数です。</TD><TR>
+    <TD>vs</TD><TD>0～254</TD><TD>VAB に含まれる全 VAG 数です。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+
+     <H4><B>ProgAtr (プログラム(楽器に相当)レベルの属性定義です。)</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ラベル</TD><TD>値</TD><TD>解説</TD><TR>
+    <TD>tones</TD><TD>4</TD><TD>プログラムに含まれるトーン数。</TD><TR>
+    <TD>mvol</TD><TD>0～127</TD><TD>プログラムのボリューム値です。</TD><TR>
+    <TD>mpan</TD><TD>0～127</TD><TD>プログラムのパンニング値です。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+
+     <H4><B>VagAtr (トーンレベルの属性定義です。)</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ラベル</TD><TD>値</TD><TD>解説</TD><TR>
+    <TD>prior</TD><TD>0～127</TD><TD>トーンの優先度です。大きい値ほど優先されます。</TD><TR>
+    <TD>mode</TD><TD>0,4</TD><TD>4 に設定するとリバーブの効果が得られます。※</TD><TR>
+    <TD>vol</TD><TD>0～127</TD><TD>トーンのボリューム値です。</TD><TR>
+    <TD>pan</TD><TD>0～127</TD><TD>トーンのパンニング値です。</TD><TR>
+    <TD>center</TD><TD>0～127</TD><TD>センターノート(半音単位)です。</TD><TR>
+    <TD>shift</TD><TD>0～127</TD><TD>センターノートのファインチューンです。</TD><TR>
+    <TD>min</TD><TD>0～127</TD><TD>ノートリミットの最小値です。</TD><TR>
+    <TD>max</TD><TD>0～127</TD><TD>ノートリミットの最大値です。</TD><TR>
+    <TD>pbmin</TD><TD>0～127</TD><TD>下方向のピッチベンドの最大値(半音単位)です。</TD><TR>
+    <TD>pbmax</TD><TD>0～127</TD><TD>上方向のピッチベンドの最大値(半音単位)です。</TD><TR>
+    <TD>ar</TD><TD>0～127</TD><TD>アタックレートです。</TD><TR>
+    <TD>dr</TD><TD>0～15</TD><TD>ディケイレートです。</TD><TR>
+    <TD>sr</TD><TD>0～127</TD><TD>サステインレートです。</TD><TR>
+    <TD>rr</TD><TD>0～31</TD><TD>リリースレートです。</TD><TR>
+    <TD>sl</TD><TD>0～15</TD><TD>サステインレベルです。</TD><TR>
+    <TD>prog</TD><TD>0～127</TD><TD>トーンが所属するプログラム番号です。</TD><TR>
+    <TD>vag</TD><TD>0～254</TD><TD>使用する VAG です。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      <BLOCKQUOTE>
+      ※リバーブ効果を得るには、別途サウンド関数にてリバーブの設定が必要です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+    ADSR(エンベロープ)、すなわち、アタック、ディケイ、サステイン、リリースに対して個別にレートが設定でき、その時間的変化には、リニアと指数関数的カーブとが指定できます。また、サステインについてはレベルも設定可能です。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/mkvabf1.gif">
+<P>
+    <B>図 1 ADSR概念図</B><BR>
+</CENTER>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

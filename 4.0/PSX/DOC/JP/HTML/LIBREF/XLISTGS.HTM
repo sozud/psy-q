@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    外部変数一覧
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    外部変数一覧
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        
+</DIV><P>
+<CENTER>
+<TABLE BORDER>
+    <TD>外部変数名</TD><TD>型</TD><TD>説明</TD><TR>
+    <TD>CLIP2<BR></TD><TD>RECT<BR></TD><TD>２次元クリッピングエリア。<BR>GsClip2Dによっても設定される</TD><TR>
+    <TD>PSDBASEX[2]<BR></TD><TD>short<BR></TD><TD>ダブルバッファの基点（X座標）<BR>GsDefDispbuff()でセットされる</TD><TR>
+    <TD>PSDBASEY[2]<BR></TD><TD>short<BR></TD><TD>ダブルバッファの基点（Y座標）<BR>GsDefDispbuff()でセットされる</TD><TR>
+    <TD>PSDIDX</TD><TD>short</TD><TD>ダブルバッファのインデックス</TD><TR>
+    <TD>PSDCNT<BR></TD><TD>u_long<BR></TD><TD>フレームのスイッチでインクリメント<BR>される番号</TD><TR>
+    <TD>POSITION</TD><TD>_GsPOSITION</TD><TD>２次元オフセット</TD><TR>
+    <TD>GsDRAWENV</TD><TD>DRAWENV</TD><TD>Gsの描画環境</TD><TR>
+    <TD>GsDISPENV</TD><TD>DISPENV</TD><TD>Gsの表示環境</TD><TR>
+    <TD>GsLSMATRIX<BR></TD><TD>MATRIX<BR></TD><TD>Gsのローカルスクリーンマトリックス<BR>GsSetLs()によってセットされる</TD><TR>
+    <TD>GsWSMATRIX<BR></TD><TD>MATRIX<BR></TD><TD>Gsのワールドスクリーンマトリックス<BR>GsSetRefView()などによってセット<BR>される</TD><TR>
+    <TD>GsLIGHT_MODE</TD><TD>int</TD><TD>デフォルトのライトモード</TD><TR>
+    <TD>HWD0</TD><TD>long</TD><TD>横解像度</TD><TR>
+    <TD>VWD0</TD><TD>long</TD><TD>縦解像度</TD><TR>
+    <TD>GsLIGHTWSMATRIX<BR></TD><TD>MATRIX<BR></TD><TD>Gsのライトマトリックス。<BR>GsSetFlatLight()によって設定され<BR>る</TD><TR>
+    <TD>GsIDMATRIX</TD><TD>MATRIX</TD><TD>単位行列</TD><TR>
+    <TD>GsIDMATRIX2</TD><TD>MATRIX</TD><TD>単位行列（アスペクト変換も含む）</TD><TR>
+    <TD>GsLIGHT_FUNC<BR></TD><TD>関数ポインタ<BR></TD><TD>GsDOBJ1,GsDOBJ2で使われるデフォ<BR>ルトの光源計算ルーチンの関数のポイン<BR>タ</TD><TR>
+    <TD>GsOUT_PACKET_P<BR></TD><TD>u_long<BR></TD><TD>パケットエリアの先頭を保持するポイン<BR>タ。GsSetWorkBase()で設定される</TD><TR>
+    <TD>GsMATE_C<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（減衰系数）</TD><TR>
+    <TD>GsLMODE<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（ライトモード）</TD><TR>
+    <TD>GsLIGNR<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（ライト無視）</TD><TR>
+    <TD>GsLIOFF<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（シェーディングなし）</TD><TR>
+    <TD>GsZOVER<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（nearZ）</TD><TR>
+    <TD>GsBACKC<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（両面ポリゴン）</TD><TR>
+    <TD>GsNDIV<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（分割数）</TD><TR>
+    <TD>GsTRATE<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（半透明レート）</TD><TR>
+    <TD>GsTON<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（半透明）</TD><TR>
+    <TD>GsDISPON<BR></TD><TD>u_long<BR></TD><TD>attributeをデコードした結果<BR>（表示ON/OFF）</TD><TR>
+    <TD>GsADIVH<BR></TD><TD>short<BR></TD><TD>能動的自動分割の条件 ： 縦の大きさ<BR>GsSetAzwh(z,w,h)でセットされる</TD><TR>
+    <TD>GsADIVW<BR></TD><TD>short<BR></TD><TD>能動的自動分割の条件 ： 横の大きさ<BR>GsSetAzwh(z,w,h)でセットされる</TD><TR>
+    <TD>GsADIVZ<BR></TD><TD>long<BR></TD><TD>能動的自動分割の条件 ： Ｚ値<BR>GsSetAzwh(z,w,h)でセットされる</TD><TR>
+    <TD>GsFCALL5</TD><TD>構造体</TD><TD>GsSortObject5J()の関数テーブル</TD><TR>
+    <TD>GsFCALL4</TD><TD>構造体</TD><TD>GsSortObject4J()の関数テーブル</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

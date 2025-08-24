@@ -1,0 +1,1145 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> psxcons</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+psxcons
+</H1>
+</A>
+
+</CENTER>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 はじめに</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> psxconsについて</A><BR>
+    <A HREF="#Heading4_1_1_2"> 表記上の約束について</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 インストール</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> ANSI.SYSの存在の確認</A><BR>
+    <A HREF="#Heading4_1_2_2"> psxcons のインストール</A><BR>
+    <A HREF="#Heading4_1_2_3"> ポートアドレス等の設定</A><BR>
+    <A HREF="#Heading4_1_2_4"> 注意</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 起動</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> 書式</A><BR>
+    <A HREF="#Heading4_1_3_2"> オプション</A><BR>
+    <A HREF="#Heading4_1_3_3"> バッチファイル名</A><BR>
+    <A HREF="#Heading4_1_3_4"> 環境変数</A><BR>
+    <A HREF="#Heading4_1_3_5"> 操作例</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_4"> 4 基本動作</A><BR>
+<P><A HREF="#Heading3_1_5"> 5 ローカルコマンド実行時のキー操作</A><BR>
+<P><A HREF="#Heading3_1_6"> 6 プログラムのダウンロード</A><BR>
+<P><A HREF="#Heading3_1_7"> 7 psxcons の終了の仕方</A><BR>
+<P><A HREF="#Heading3_1_8"> 8 自動実行</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_8_1"> 自動実行の概要</A><BR>
+    <A HREF="#Heading4_1_8_2"> バッチファイルのコマンド</A><BR>
+    <A HREF="#Heading4_1_8_3"> バッチファイルでのローカルコマンド</A><BR>
+    <A HREF="#Heading4_1_8_4"> バッチファイルの例</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_9"> 9 ROMモニタコマンド</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_9_1"> コマンド一覧表示</A><BR>
+    <A HREF="#Heading4_1_9_2"> モニタのリセット</A><BR>
+    <A HREF="#Heading4_1_9_3"> レジスタ操作</A><BR>
+    <A HREF="#Heading4_1_9_4"> プログラムの実行</A><BR>
+    <A HREF="#Heading4_1_9_5"> メモリ操作</A><BR>
+    <A HREF="#Heading4_1_9_6"> デバッグ</A><BR>
+    <A HREF="#Heading4_1_9_7"> ユーザー定義コマンド</A><BR>
+    <A HREF="#Heading4_1_9_8"> カーネルとブート</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_10"> 10 変更履歴</A><BR>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>はじめに</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>psxconsについて</B>
+</A>
+</H3>
+<blockquote>
+    psxcons は、IBM-PC/AT 互換機上で動作する、DTL-H2000 およびCOH-2000K の組み込みモニタプログラム操作用のユーザーインターフェースフロントエンドプログラムです。<BR>
+    動作環境は以下の通りです。<BR>
+
+     <H4><B>動作機種</B></H4>
+
+      <BLOCKQUOTE>
+      IBM-PC/AT 互換機<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>動作ボード</B></H4>
+
+      <BLOCKQUOTE>
+      DTL-H2000, COH-2000K<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>動作OS</B></H4>
+
+      <BLOCKQUOTE>
+      DOS-5/V, DOS-6/V<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>必要ドライバ</B></H4>
+
+      <BLOCKQUOTE>
+      ANSI.SYS<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>表記上の約束について</B>
+</A>
+</H3>
+<blockquote>
+    本説明書では、次のようにフォントを使用しています。<BR>
+    <BR>
+<UL>
+         <LI> ゴシック(等幅フォント) はスクリーンに表示されるテキストを示します。
+         <LI> <B>Bold</B> はシステムプロンプトで入力しなければならないテキストを示します。
+         <LI> <I>italic</I> は入力しなければならないテキストのうち特にユーザの選択によって変更が有り得る部分を示します。
+         <LI> (Return)はReturn key を押すことを示します。
+         <LI> (F1)～(F10)はキーボード上部のF1～F10 key を押すことを示します。
+         <LI> Ctrl-C はCtrl key を押しながらC key を押すことを示します。
+         <LI> Ctrl-Break はCtrl key を押しながらBREAK key を押すことを示します。
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>インストール</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>ANSI.SYSの存在の確認</B>
+</A>
+</H3>
+<blockquote>
+    MSDOS の起動ディスクのルートディレクトリにあるCONFIG.SYS ファイルに以下の行があることを確認してください。<BR>
+<PRE>        
+        DEVICE=C:"DOS"ANSI.SYS
+</PRE>
+    <BR>
+    無い場合には、CONFIG.SYS を編集して追加したのち、MSDOS を再起動してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>psxcons のインストール</B>
+</A>
+</H3>
+<blockquote>
+    実行PATH の通ったディレクトリにPSXCONS.EXE をコピーしてください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>ポートアドレス等の設定</B>
+</A>
+</H3>
+<blockquote>
+    ボードに設定したポートアドレス、割り込み(IRQ) レベルを、環境変数DEX2000 に設定します。<BR>
+    MSDOS の起動ディスクのルートディレクトリにあるAUTOEXEC.BAT ファイルに以下の様な行を追加します。<BR>
+<PRE>        
+        SET DEX2000=ポートアドレス等の設定値
+        
+</PRE>
+    環境変数DEX2000 の内容については次節で述べます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>注意</B>
+</A>
+</H3>
+<blockquote>
+    PSXCONS.EXEはDEXBIOS.COMとは共存できませんので、DEXBIOS.COMの常駐を解除してから使ってください。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>起動</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>書式</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>psxcons	[オプション] [バッチファイル名]</B></H4>
+
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+    現在有効なオプションは以下に示す一つだけです。<BR>
+    <BR>
+
+     <H4><B>-p ポートアドレス[, ＩＲＱレベル[, ＤＭＡチャネル]]</B></H4>
+
+      <BLOCKQUOTE>
+      DTL-H2000 ボードのI/O アドレスを指定します。<BR>
+      IRQ レベル、DMA チャネルの指定は省略可能で、省略した場合は割り込み機能、DMA 機能を使用しないことになります。-p オプションによる指定が無い場合は、環境変数DEX2000に設定された値が採用されます。環境変数DEX2000 が設定されていない場合は'0x1340,10'が採用されます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>バッチファイル名</B>
+</A>
+</H3>
+<blockquote>
+    バッチファイル名を指定すると、指定したバッチファイルの内容を読み込み自動実行を行ないます。<BR>
+    バッチファイルの詳細は、「8 自動実行」で述べます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>環境変数</B>
+</A>
+</H3>
+<blockquote>
+    参照する環境変数は以下の二つです。<BR>
+
+     <H4><B>DEX2000</B></H4>
+
+      <BLOCKQUOTE>
+      前述したようにDTL-H2000 ボードのI/O アドレス等を指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>PSXCONSHIS</B></H4>
+
+      <BLOCKQUOTE>
+      入力ヒストリを保存するファイル名を指定します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_5">
+<A HREF="#Heading3_1_3"> 3. </A>5 <B>操作例</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>例１</B></H4>
+
+<PRE>        C:\&gt;  <B>psxcons</B>  (Return) (F7) <B>2</B>  (Return) (F9)  (F10)
+        psxcons -- PlayStation debug system console program
+          $Date: 1995/08/24 08:30:05 $
+          type F1  ---&gt; display help
+          when hung up try type ctrl+BREAK
+        I/O addr = 0x1340, IRQ=10(vect=0x0072,8259=A0)
+        connect to COH-2000K
+        (Return)
+        PSX&gt;
+        
+</PRE>
+
+     <H4><B>例２</B></H4>
+
+<PRE>        C:\&gt;  <B>psxcons -p0x300</B>  (Return)  (F7) <B>2</B>  (Return)  (F9) (F10)
+        psxcons -- PlayStation debug system console program
+          $Date: 1995/08/24 08:30:05 $
+          type F1  ---&gt; display help
+          when hung up try type ctrl+BREAK
+        I/O addr = 0x300
+        connect to DTL-H2000
+        (Return)
+        PSX&gt;
+        
+</PRE>
+
+     <H4><B>例３</B></H4>
+
+<PRE>        C:\&gt;  <B>set DEX2000=0x340</B>  (Return)
+        C:\&gt;  <B>psxcons</B>  (Return)  (F7) <B>2</B>  (Return)  (F9) (F10)
+        psxcons -- PlayStation debug system console program
+          $Date: 1995/08/24 08:30:05 $
+          type F1  ---&gt; display help
+          when hung up try type ctrl+BREAK
+        I/O addr = 0x340
+        connect to DTL-H2000
+        (Return)
+        PSX&gt;
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>基本動作</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    psxcons は、通常のキー入力はモニタプログラムに渡し、モニタプログラムから渡された文字を画面に表示します。ただし、フアンクションキー、カーソル移動キーなどはモニタプログラムに渡すことなくローカルに処理します。特に  (F1) ～ (F8) 迄のキーは以下のようにローカルコマンドを起動します。<BR>
+
+     <H4><B>(F1)</B></H4>
+
+      <BLOCKQUOTE>
+      ヘルプメッセージを表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F2)</B></H4>
+
+      <BLOCKQUOTE>
+      DOS のコマンドを入力し、実行します<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F3)</B></H4>
+
+      <BLOCKQUOTE>
+      バッチファイル名を入力し、バッチファイルを実行します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F4)</B></H4>
+
+      <BLOCKQUOTE>
+      オブジェクトファイルのファイル名を入力し、ダウンロードします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F5)</B></H4>
+
+      <BLOCKQUOTE>
+      操作の記録ファイル名を入力し、操作の記録を開始します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F6)</B></H4>
+
+      <BLOCKQUOTE>
+      疑似LED の表示をします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F7)</B></H4>
+
+      <BLOCKQUOTE>
+      疑似DIPSW のデータを入力し、設定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F8)</B></H4>
+
+      <BLOCKQUOTE>
+      ローカルラインエディット機能のON/OFF をします。<BR>
+      <BR>
+      </BLOCKQUOTE>
+    また、(F9) は、続けて以下のようなファンクションキーを入力することでローカルコマンドを起動します。<BR>
+
+     <H4><B>(F9)  (F4)</B></H4>
+
+      <BLOCKQUOTE>
+      バイナリファイルのファイル名を入力し、ダウンロードします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F9)  (F5)</B></H4>
+
+      <BLOCKQUOTE>
+      操作の記録を停止します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F9)  (F9)</B></H4>
+
+      <BLOCKQUOTE>
+      DTL-H2000 ／COH-2000K のユーザ割り込みをかけます。（現状無効）<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(F9)  (F10)</B></H4>
+
+      <BLOCKQUOTE>
+      DTL-H2000 ／COH-2000K のリセットをかけます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+     また、(F10) は、続けて以下のようなファンクションキーを入力することでローカルコマンドを起動します。<BR>
+
+     <H4><B>(F10)  (F2)</B></H4>
+
+      <BLOCKQUOTE>
+      psxcons プログラムを終了させます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>ローカルコマンド実行時のキー操作</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    前章のファンクションキーによりローカルコマンドを実行すると、コマンドによってはファイル名などの入力が必要になります。この入力時には、以下のキーにより編集操作を行うことが出来ます。<BR>
+
+     <H4><B>左矢印</B></H4>
+
+      <BLOCKQUOTE>
+      カーソルを左に進めます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-s</B></H4>
+
+      <BLOCKQUOTE>
+      カーソルを左に進めます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>右矢印</B></H4>
+
+      <BLOCKQUOTE>
+      カーソルを右に進めます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-d</B></H4>
+
+      <BLOCKQUOTE>
+      カーソルを右に進めます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>上矢印</B></H4>
+
+      <BLOCKQUOTE>
+      ヒストリーバッファを遡ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-e</B></H4>
+
+      <BLOCKQUOTE>
+      ヒストリーバッファを遡ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>下矢印</B></H4>
+
+      <BLOCKQUOTE>
+      ヒストリーバッファを下ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-x</B></H4>
+
+      <BLOCKQUOTE>
+      ヒストリーバッファを下ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-g</B></H4>
+
+      <BLOCKQUOTE>
+      カーソル位置の文字に消去をします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-y</B></H4>
+
+      <BLOCKQUOTE>
+      一行消去、または、ヒストリーバッファから抜けます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-k</B></H4>
+
+      <BLOCKQUOTE>
+      カーソル位置から行末まで消去します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>TAB</B></H4>
+
+      <BLOCKQUOTE>
+      現在の入力行と先頭部分が一致するまでヒストリーを遡ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Ctrl-j</B></H4>
+
+      <BLOCKQUOTE>
+      現在の入力行と先頭部分が一致するまでヒストリーを下ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ESC</B></H4>
+
+      <BLOCKQUOTE>
+      現在の入力行を実行せずにヒストリーバッファにプッシュします。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>プログラムのダウンロード</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    (F4) キーによりローカルコマンドのdown2 コマンドを起動しS-format のオブジェクトデータ、PS-X EXE 形式のオブジェクトデータ、CPE 形式のオブジェクトデータ、COFF(a.out) 形式のオブジェクトデータのダウンロードができます。<BR>
+    <BR>
+<PRE>        PSX&gt;  (F4)
+        Down2[x]:  <I>filename</I>  (Return)
+        ld2
+        
+        S-format data load start
+        xxx line			← 転送中転送行数が時々表示されます。
+        "<I>filename</I>" send end
+        GP:a00xxxxxx PC:a00xxxxxx
+        PSX&gt;
+        
+</PRE>
+    あるいは<BR>
+<PRE>        
+        PSX&gt;  (F4)
+        Down2[x]:  <I>filename</I>  (Return)
+        
+        smon
+        filename  address=80010000-80010fff size:00001000  00001000:    3sec.
+        CCS Taregt mode
+        reg[32]=80010000
+        reg[29]=801ffff0
+        Exit from CCS Target mode
+        PSX&gt;
+        
+</PRE>
+    (F9)  (F4)キーによりローカルコマンドのbload コマンドを起動しバイナリデータをダウンロードすることもできます。bload コマンドの引数にはファイル名とアドレス（16 進数）のペアを複数指定することが出来ます。<BR>
+<PRE>        
+        PSX&gt;  (F9)  (F4)
+        Bload[x]:  <I>file1 address1 file2 address2</I>   (Return)
+        smon
+        CCS Taregt mode
+        <I>file1</I>  address:xxxxxxxx size:xxxxxx  xxxxxx: xxsec.
+        <I>file2</I>  address:xxxxxxxx size:xxxxxx  xxxxxx: xxsec.
+        Exit from CCS Target mode
+        PSX&gt;
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>psxcons の終了の仕方</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    (F10)  (F2) キーによりローカルコマンドのquit コマンドを起動します。<BR>
+<PRE>        
+        PSX&gt;  (F10)  (F2)
+        c:\&gt;
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>自動実行</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_1">
+<A HREF="#Heading3_1_8"> 8. </A>1 <B>自動実行の概要</B>
+</A>
+</H3>
+<blockquote>
+    psxcons.exe には、簡単な自動実行機能があります。キーボードから投入するコマンドを羅列したテキストファイルを作成しておき、 (F3) キーにより起動されるauto コマンドでそのファイル名を指定すると、モニタプログラムがプロンプトを表示するたびにファイルから一行ずつ読み込み実行します。<BR>
+<PRE>        
+        PSX&gt;  (F3)
+        Auto[x]:  <I>batchfile</I>   (Return)
+        バッチファイルの１行目
+        PSX&gt;バッチファイルの２行目
+        PSX&gt;バッチファイルの３行目
+        	:
+        PSX&gt;
+</PRE>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      このコマンドはバッチファイルの最初の一行を無条件で実行しますのでかならず、モニタプログラムのプロンプトが表示されている状態で起動して下さい。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_2">
+<A HREF="#Heading3_1_8"> 8. </A>2 <B>バッチファイルのコマンド</B>
+</A>
+</H3>
+<blockquote>
+    バッチファイル中には、モニタプログラムへ投入するコマンドをそのまま記述することができます。これらのコマンドは、モニタプログラムからのコマンドプロンプトが表示されるたびに１行づつDTL-H2000 ／COH-2000K に送り込まれます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_3">
+<A HREF="#Heading3_1_8"> 8. </A>3 <B>バッチファイルでのローカルコマンド</B>
+</A>
+</H3>
+<blockquote>
+    バッチファイル中で、psxcons.exe のローカルコマンドを実行するには、<BR>
+<PRE>        
+        <B>local  <I>local-command</I> <I>argument1</I> <I>argument2...</I></B>
+        
+</PRE>
+    という具合に、最初に'local' という語を前置して、次にコマンド名、そして引数を書きます。<BR>
+    使用できるローカルコマンドは以下の通りです。<BR>
+
+     <H4><B>help</B></H4>
+
+      <BLOCKQUOTE>
+      ヘルプメッセージを表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>dos</B></H4>
+
+      <BLOCKQUOTE>
+      引数に与えられたDOS のコマンドを実行します<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>auto</B></H4>
+
+      <BLOCKQUOTE>
+      引数に与えられたファイル名のバッチファイルを実行します。バッチファイルのネストは16 レベルまで許されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>bload</B></H4>
+
+      <BLOCKQUOTE>
+      引数でファイル名とアドレスのペアで指定し、バイナリファイルをダウンロードします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>down2</B></H4>
+
+      <BLOCKQUOTE>
+      引数に与えられたファイル名のS-format ファイルをダウンロードします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>log</B></H4>
+
+      <BLOCKQUOTE>
+      引数に操作の記録ファイル名が与えられた場合、操作の記録を開始します。引数がない場合、操作の記録を停止します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>led</B></H4>
+
+      <BLOCKQUOTE>
+      疑似LED の表示をします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>dipsw</B></H4>
+
+      <BLOCKQUOTE>
+      引数に与えられた１６進データを疑似DIPSW に設定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>reset</B></H4>
+
+      <BLOCKQUOTE>
+      DTL-H2000 ／COH-2000K のリセットをかけます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>beep</B></H4>
+
+      <BLOCKQUOTE>
+      ブザーを鳴らします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>pause</B></H4>
+
+      <BLOCKQUOTE>
+      キー入力待ちになります。適当なキーを打つと続行します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>echo</B></H4>
+
+      <BLOCKQUOTE>
+      引数で与えられた文字列を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>sleep</B></H4>
+
+      <BLOCKQUOTE>
+      引数で与えられた秒数だけ一時停止します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>auto-again</B></H4>
+
+      <BLOCKQUOTE>
+      現在実行中のバッチファイルを先頭から繰り返します。（このコマンドは暫定仕様です。なくなる可能性があります。）<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>quit</B></H4>
+
+      <BLOCKQUOTE>
+      psxcons プログラムを終了させます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_4">
+<A HREF="#Heading3_1_8"> 8. </A>4 <B>バッチファイルの例</B>
+</A>
+</H3>
+<blockquote>
+<PRE>        local dipsw 2
+        local reset
+        local sleep 1
+        local bload  program 80080000
+        local beep
+        sr sp 801ffff0
+        local echo type any key to execute program.
+        local pause
+        call  80080100
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>ROMモニタコマンド</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    開発機に搭載される<B>ROM</B>モニタでは、以下のコマンドを利用してデバッグを行うことができます。<BR>
+    表記凡例は次のとおりです。<BR>
+<CENTER>
+        <H4><B>表記凡例</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">表記</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>コマンド名<BR>コマンド名＜引数＞<BR>コマンド名 [＜引数＞]<BR></TD><TD>コマンドのみ、引数はありません。<BR>コマンドに続き、引数を指定します。<BR>コマンドに続き、引数を指定します。<BR>[ ] で括られた部分は省略可能です。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_1">
+<A HREF="#Heading3_1_9"> 9. </A>1 <B>コマンド一覧表示</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>help</B></H4>
+
+      <BLOCKQUOTE>
+      本付録で解説しているコマンドの一覧を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>help2</B></H4>
+
+      <BLOCKQUOTE>
+      ハードウェアテストのためのコマンドの一覧を表示します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_2">
+<A HREF="#Heading3_1_9"> 9. </A>2 <B>モニタのリセット</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>re</B></H4>
+
+
+     <H4><B>restart</B></H4>
+
+
+     <H4><B>exit</B></H4>
+
+
+     <H4><B>hot</B></H4>
+
+      <BLOCKQUOTE>
+      モニタをリセット（ホットスタート）します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>start</B></H4>
+
+
+     <H4><B>quit</B></H4>
+
+      <BLOCKQUOTE>
+      モニタをリセット（コールドスタート）します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_3">
+<A HREF="#Heading3_1_9"> 9. </A>3 <B>レジスタ操作</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>dr[＜<I>reg</I>＞]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>reg</I>＞レジスタの値を表示します。<BR>
+      ＜<I>reg</I>＞を省略した場合、全レジスタの値を表示します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>sr[＜<I>reg</I>＞]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>reg</I>＞レジスタに値をセットします。<BR>
+      ＜<I>reg</I>＞を省略した場合、レジスタ名を問い合わせてきます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ds</B></H4>
+
+      <BLOCKQUOTE>
+      R3000のステータス、原因両レジスタの内容を表示します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_4">
+<A HREF="#Heading3_1_9"> 9. </A>4 <B>プログラムの実行</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>ca[＜<I>adr</I>＞]</B></H4>
+
+
+     <H4><B>call[＜<I>adr</I>＞]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地からプログラムを実行し、実行終了後、モニタに制御が戻ります。＜<I>adr</I>＞を省略した場合、<BR>
+      EPCレジスタの現在値から実行を開始します。<BR>
+      なお、このコマンドでは、ブレークポイントは無視されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>go</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地からプログラムを実行します。＜<I>adr</I>＞を省略した場合、 EPCレジスタの現在値から実行を開始します。<BR>
+      このコマンドでは、ブレークポイントが設定されていれば、そこで処理が中断します。なお、実行終了後、<BR>
+      モニタに制御が戻ることはありません。<BR>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_5">
+<A HREF="#Heading3_1_9"> 9. </A>5 <B>メモリ操作</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>dw[＜<I>adr</I>＞[＜<I>count</I>＞]]</B></H4>
+
+
+     <H4><B>dh[＜<I>adr</I>＞[＜<I>count</I>＞]]</B></H4>
+
+
+     <H4><B>db[＜<I>adr</I>＞[＜<I>count</I>＞]]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地のメモリの内容を、＜<I>count</I>＞バイト毎に16進表示します。dwはワード単位、dhはハーフワード単位、dbはバイト単位で表示します。<BR>
+      ＜<I>adr</I>＞＜<I>count</I>＞は何れも省略可能です。＜<I>adr</I>＞を省略した場合、前回の続きの番地から表示します。<BR>
+      ＜<I>count</I>＞を省略した場合、64バイトをまとめて表示します<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>sw＜<I>adr</I>＞</B></H4>
+
+
+     <H4><B>sh＜<I>adr</I>＞</B></H4>
+
+
+     <H4><B>sb＜<I>adr</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地から順に値を設定します。swはワード単位、shはハーフワード単位、sbはバイト単位で入力します。終了はCTRL-Cです。<BR>
+      ＜<I>adr</I>＞を省略することはできません。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>fw＜<I>adr</I>＞[＜data＞[＜<I>count</I>＞]]</B></H4>
+
+
+     <H4><B>fh＜<I>adr</I>＞[＜data＞[＜<I>count</I>＞]]</B></H4>
+
+
+     <H4><B>fb＜<I>adr</I>＞[＜data＞[＜<I>count</I>＞]]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地から＜<I>count</I>＞バイト分を、値＜<I>data</I>＞でクリアします。fwはワード単位、fhはハーフワード単位、fbはバイト単位でクリアします。<BR>
+      ＜<I>data</I>＞、＜<I>count</I>＞は何れも省略可能です。＜<I>data</I>＞を省略した場合、0x00000000でクリアします。<BR>
+      ＜<I>count</I>＞を省略した場合、16バイト分をクリアします。<BR>
+      ＜<I>adr</I>＞を省略することはできません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_6">
+<A HREF="#Heading3_1_9"> 9. </A>6 <B>デバッグ</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>di[＜<I>adr</I>＞]</B></H4>
+
+
+     <H4><B>dis[＜<I>adr</I>＞]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地から逆アセンブルを行います。<BR>
+      ＜<I>adr</I>＞を省略した場合、前回の続きの番地から逆アセンブルします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ld2</B></H4>
+
+      <BLOCKQUOTE>
+      Ｓ-format形式のファイルをメモリにロードします。EPCおよびGPレジスタの値も受け取ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>smon[＜<I>key</I>＞]</B></H4>
+
+      <BLOCKQUOTE>
+      高速転送モードに切り替わり、ダウンロードを受け付けます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>bp[＜<I>adr</I>＞]</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>adr</I>＞番地にブレークポイントを設定します。ブレークポイントは最大10個まで設定できます。<BR>
+      ＜<I>adr</I>＞を省略した場合、設定済みのブレークポイントが番号付きで表示されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ub＜<I>num</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>num</I>＞番のブレークポイントを解除します。＜<I>num</I>＞を省略するとすべてのブレークポイントを解除します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>cont</B></H4>
+
+
+     <H4><B>c</B></H4>
+
+      <BLOCKQUOTE>
+      ブレークポイントにより中断したプログラム実行を再開します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>step</B></H4>
+
+
+     <H4><B>s</B></H4>
+
+      <BLOCKQUOTE>
+      機械語レベルでのシングルステップ動作を行います。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Step</B></H4>
+
+
+     <H4><B>S</B></H4>
+
+      <BLOCKQUOTE>
+      stepコマンドと同じです。ただし、サブルーチンコールを１ステップとみなします。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>qdebug</B></H4>
+
+      <BLOCKQUOTE>
+      ｢リモートデバッガ｣のためのデバッグスタブモードに入ります。一旦このモードに入ったら、モニタに復帰することはできません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_7">
+<A HREF="#Heading3_1_9"> 9. </A>7 <B>ユーザー定義コマンド</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>showcom</B></H4>
+
+      <BLOCKQUOTE>
+      ユーザー定義モニタコマンド（最大２０個）の内容を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>addcom＜<I>name</I>＞＜<I>adr</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      ユーザー定義モニタコマンドを登録します。＜<I>name</I>＞にコマンド名、＜<I>adr</I>＞に実行開始アドレスを指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>delcom＜<I>name</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      ユーザー定義モニタコマンド＜<I>name</I>＞の登録を解除します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_8">
+<A HREF="#Heading3_1_9"> 9. </A>8 <B>カーネルとブート</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>boot＜<I>drv</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      ドライブ＜<I>drv</I>＞からアプリケーションプログラムをブートします。<B>PlayStation</B>実機のブートシーケンスのうち、ローリングデモなどを除いたサブセットを実行します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>rc＜<I>ev</I>＞＜<I>tcb</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      EVENT=＜<I>ev</I>＞、TCB=＜<I>tcb</I>＞という内容のシステム設定ファイルと同様にカーネルコンフィギュレーションを再設定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>sc</B></H4>
+
+      <BLOCKQUOTE>
+      現在のカーネルコンフィギュレーションを表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>load＜<I>file</I>＞＜<I>sp</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      PS-X EVE形式ファイル＜<I>file</I>＞をメモリに読み込みます。初期値なしデータ領域をゼロクリアし、EPC、GPレジスタの値もファイル内のものに設定しますので、直ちにcaコマンドで実行することができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>loadexec＜<I>file</I>＞＜<I>sp</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      PS-X EVE形式ファイル＜<I>file</I>＞をメモリに読み込み、スタックポインタの初期値を＜<I>sp</I>＞に設定し、実行します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>mem＜<I>mbyte</I>＞</B></H4>
+
+      <BLOCKQUOTE>
+      ＜<I>mbyte</I>＞が、２･８･１６のいずれかの場合は有効メモリ容量をその値（メガバイト単位）に設定します。<BR>
+      ＜<I>mbyte</I>＞指定がない場合は、その時点の設定値を表示します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>変更履歴</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">変更内容</TD><TD ALIGN="center">日付</TD><TR>
+    <TD>第１版 新規作成</TD><TD>1994/5/23</TD><TR>
+    <TD>第２版 バイナリロード追加</TD><TD>1994/5/26</TD><TR>
+    <TD>第３版 操作方法変更、バッチモード追加</TD><TD>1994/6/2</TD><TR>
+    <TD>第４版 記述の間違い訂正</TD><TD>1994/6/7</TD><TR>
+    <TD>第５版 psxcons 6 月16 日版の追加機能の説明追加</TD><TD>1994/6/28</TD><TR>
+    <TD>第６版 p のデフォルト変更</TD><TD>1994/7/25</TD><TR>
+    <TD>第７版 a.out/psx-exe/cpe フォーマットファイルのload 機能追加</TD><TD>1995/2/16</TD><TR>
+    <TD>第８版 ヒストリーファイルの指定追加</TD><TD>1995/10/18</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

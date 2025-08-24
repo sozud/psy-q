@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsSepPlay
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsSepPlay
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SEPデータ読みとり（演奏）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SsSepPlay </B>(
+short <I>sep_access_num</I>,
+short <I>seq_num</I>,
+char <I>play_mode</I>, 
+short<I> l_count</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>sep_access_num</I>		SEPアクセスナンバー
+<I>seq_num</I>			SEPデータ内のSEQナンバー
+<I>play_mode</I>		演奏モード
+<I>l_count</I>			曲の繰り返し回数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>play_mode </I>の値によって、<I>sep_access_num </I>で指定されたSEPの、<I>seq_num </I>で指定されたSEQデータを即座に読みとり始める（演奏する）か、または曲の先頭でのpause状態にするかの選択を行うことが出来る。 <BR>
+    この時、<I>l_count </I>にこの曲の繰り返し回数を指定する。無限回演奏の場合SSPLAY_INFINITYを指定する。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">play_mode</TD><TD ALIGN="center">動作</TD><TR>
+    <TD>SSPLAY_PAUSE</TD><TD>pause状態にする</TD><TR>
+    <TD>SSPLAY_PLAY</TD><TD>即座に演奏する</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    サンプル： <BR>
+        <BLOCKQUOTE>
+    SEQデータを4つ持つSEPデータをオープン <BR>
+    <blockquote>
+    	sep1 = SsSepOpen (addr, vab_id, 4); <BR>
+    </blockquote>
+    オープンしたSEPデータの3番目のデータを即座に2回鳴らす <BR>
+    <blockquote>
+    	SsSepPlay (sep1, 2, SSPLAY_PLAY, 2); <BR>
+    </blockquote>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sssseptp.htm">SsSepStop</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

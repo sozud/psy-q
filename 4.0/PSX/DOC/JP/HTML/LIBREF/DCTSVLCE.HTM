@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DecDCTvlcSize
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libpress.htm">データ処理 ライブラリ (libpress) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DecDCTvlcSize
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        一回のVLCの解凍の最大サイズを設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DecDCTvlcSize</B> (
+int <I>size</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>size</I>		デコードされたランレベルの最大値（ロングワード）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ビットストリームを解凍する際の一回のデコードの最大値を与える。 <BR>
+    DecDCTvlc()は <I>size </I>ワードを越えて最初のブロックのランレベルをデコードするとデコードを中断する <I>size </I>に0を指定すると中断は発生しない。 <BR>
+    デフォルトの値は0。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    直前に設定されたランレベルの最大値 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ブロック関数。DecDCTin()を実行する前に必ずDecDCTvlc()で一旦ビットストリームをランレベルに変換しておく必要がある。 <BR>
+    将来DecDCTvlcSize2に置き換えられる｡ <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

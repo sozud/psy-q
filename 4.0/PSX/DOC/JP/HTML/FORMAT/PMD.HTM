@@ -1,0 +1,351 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation File Format</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>高速モデリングデータ（PMDフォーマット）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PMDフォーマットデータは拡張グラフィックスライブラリlibgsで扱うモデリングデータの一種で高速処理用のフォーマットです。TMDフォーマットに比べ、いくつかの機能が簡略化されていますが高速に処理することが可能です。PMDデータで扱うオブジェクトは次の通りです。<BR>
+    <BR>
+<UL>
+         <LI> 3角/4角ポリゴンに限定
+         <LI> パケット生成領域がデータ内に含まれている。
+         <LI> 同一属性のポリゴンをひとまとめにして扱う。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>座標値について</B>
+</A>
+</H3>
+<blockquote>
+    PMDファイル内での座標値はPSXシステムの3Dライブラリで扱う空間に従い、x軸の正方向が右、y軸が下、z軸が画面奥を表します。各オブジェクトが持つ空間の座標値は16bitの符号つき整数値で、それぞれの軸の座標値の取り得る値は-32768～+32767になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>フォーマット</B>
+</A>
+</H3>
+<blockquote>
+    PMDファイルは3Dオブジェクトのテーブルと、これを構成するPRIMITIVE、VERTEX(頂点)を持ちます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/pmdf1.gif">
+<P>
+        <H4><B>図 1 PMDファイル全体構造</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>OBJ TABLE</B>
+</A>
+</H3>
+<blockquote>
+    OBJ TABLE部は各オブジェクトの実体である Primitive Gp.に対するポインタ情報が並んだテーブルです。<BR>
+    単一のオブジェクトは複数のPrimitive Gp.の組合せ<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/pmdf2.gif">
+<P>
+    <B>図 2 OBJECT構造体</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>PRIMITIVE Group</B>
+</A>
+</H3>
+<blockquote>
+    PMDデータでは、同一の属性を持つポリゴンを人まとめにしてPRIMITIVE Gp部はオブジェクトの構成要素（プリミティブ）の描画パケットが並んだもので、１つのパケットで１個のプリミティブを表します。<BR>
+    PMDで定義されているプリミティブはlibgpuで扱う描画プリミティブとは異なります。libgsの関数によって透視変換の処理を行なうと共に描画プリミティブへ変換されます。<BR>
+    １つのPrimitive Groupは次のような構造になっています。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/pmdf3.gif">
+<P>
+    <B>図 3 PACKET Gp部の構造</B><BR>
+        <H4><B>表 1 TYPEのbit構成</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>bit No</TD><TD>0のとき</TD><TD>1のとき</TD><TR>
+    <TD>16</TD><TD>3角形</TD><TD>4角形</TD><TR>
+    <TD>17</TD><TD>Flat</TD><TD>Gouraud</TD><TR>
+    <TD>18</TD><TD>Texture-On</TD><TD>Texture-Off</TD><TR>
+    <TD>19</TD><TD>独立Vertex</TD><TD>共有Vertex</TD><TR>
+    <TD>20</TD><TD>光源計算OFF</TD><TD>光源計算ON</TD><TR>
+    <TD>21</TD><TD>Back clipあり</TD><TD>Back clipなし</TD><TR>
+    <TD>22～31</TD><TD>( Reserved )</TD><TD></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    Packet Dataの構成はTYPEの値によって変化します。TYPE別 Packet Data構成は次の通りです。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      （注１）構造体中のプリミティブ部(POLY_***)はダブルバッファ対応のために２セット用意されます。双方の内容はあらかじめ初期化されている必要があります。<BR>
+      （注２）bit20,21はPacket Dataの構成には影響しません。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_1">
+(1) <B>TYPE=00 (3角形/Flat/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft3 {
+        POLY_FT3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_2">
+(2) <B>TYPE=01 (4角形/Flat/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft4 {
+        POLY_FT4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_3">
+(3) <B>TYPE=02 (3角形/Gouraud/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt3 {
+        POLY_GT3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_4">
+(4) <B>TYPE=03 (4角形/Gouraud/Texture-On/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt4 {
+        POLY_GT4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_5">
+(5) <B>TYPE=04 (3角形/Flat/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f3 {
+        POLY_F3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_6">
+(6) <B>TYPE=05 (4角形/Flat/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f4 {
+        POLY_F4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_7">
+(7) <B>TYPE=06 (3角形/Gouraud/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g3 {
+        POLY_G3 pkt[2];
+        SVECTOR v1, v2, v3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_8">
+(8) <B>TYPE=07 (4角形/Gouraud/Texture-Off/独立頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g4 {
+        POLY_G4 pkt[2];
+        SVECTOR v1, v2, v3, v4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_9">
+(9) <B>TYPE=08 (3角形/Flat/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft3c {
+        POLY_FT3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_10">
+(10) <B>TYPE=09 (4角形/Flat/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_ft4c {
+        POLY_FT4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_11">
+(11) <B>TYPE=0a (3角形/Gouraud/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt3c {
+        POLY_GT3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_12">
+(12) <B>TYPE=0b (4角形/Gouraud/Texture-On/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_gt4c {
+        POLY_GT4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_13">
+(13) <B>TYPE=0c (3角形/Flat/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f3c {
+        POLY_F3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_14">
+(14) <B>TYPE=0d (4角形/Flat/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_f4c {
+        POLY_F4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_15">
+(15) <B>TYPE=0e (3角形/Gouraud/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g3c {
+        POLY_G3 pkt[2];
+        long vp1, vp2, vp3;
+        }
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_16">
+(16) <B>TYPE=0f (4角形/Gouraud/Texture-Off/共有頂点)</B>
+</A>
+</H4>
+<PRE>        struct _poly_g4c {
+        POLY_G4 pkt[2];
+        long vp1, vp2, vp3, vp4;
+        }
+</PRE>
+      <BLOCKQUOTE>
+      pkt[]は対応する描画プリミティブパケット<BR>
+      v1～v4の値は頂点座標値<BR>
+      vp1～vp4の値は共有頂点列の先頭からのオフセットです。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>VERTEX</B>
+</A>
+</H3>
+<blockquote>
+    VERTEX部は共有頂点を表すSVECTOR構造体の配列です。１つの構造体のフォーマットは次に示す通りです。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/pmdf4.gif">
+<P>
+    <B>図 4 VERTEX構造体</B><BR>
+</CENTER>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

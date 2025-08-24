@@ -1,0 +1,313 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE>  PlayStationライブラリの構成</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+ PlayStationライブラリの構成
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PlayStationライブラリには、&lt;PlayStation OS&gt;とのアプリケーションインターフェイス(API)を提供するカーネルライブラリを始めとし、さまざまなライブラリが用意されています。ここでは、これらのライブラリの構成形態について簡単にご紹介します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 PlayStationライブラリの構成</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> カーネルライブラリ（libapi）</A><BR>
+    <A HREF="#Heading4_1_1_2"> 周辺機器ライブラリ（libetc）</A><BR>
+    <A HREF="#Heading4_1_1_3"> CD-ROMライブラリ（libcd）</A><BR>
+    <A HREF="#Heading4_1_1_4"> 拡張CD-ROMライブラリ（libds）</A><BR>
+    <A HREF="#Heading4_1_1_5"> 基本グラフィックスライブラリ（libgpu）</A><BR>
+    <A HREF="#Heading4_1_1_6"> 基本ジオメトリライブラリ（libgte）</A><BR>
+    <A HREF="#Heading4_1_1_7"> 拡張グラフィックスライブラリ（libgs）</A><BR>
+    <A HREF="#Heading4_1_1_8"> 基本サウンドライブラリ（libspu）</A><BR>
+    <A HREF="#Heading4_1_1_9"> 拡張サウンドライブラリ（libsnd）</A><BR>
+    <A HREF="#Heading4_1_1_10"> データ処理ライブラリ（libpress）</A><BR>
+    <A HREF="#Heading4_1_1_11"> メモリカードライブラリ（libcard）</A><BR>
+    <A HREF="#Heading4_1_1_12"> メモリカードライブラリ（libmcrd）</A><BR>
+    <A HREF="#Heading4_1_1_13"> 対戦ケーブルライブラリ（libcomb）</A><BR>
+    <A HREF="#Heading4_1_1_14"> シリアル入出力ライブラリ（libsio）</A><BR>
+    <A HREF="#Heading4_1_1_15"> マルチタップライブラリ（libtap）</A><BR>
+    <A HREF="#Heading4_1_1_16"> ガンライブラリ（libgun）</A><BR>
+    <A HREF="#Heading4_1_1_17"> C標準ライブラリ（libc/libc2）</A><BR>
+    <A HREF="#Heading4_1_1_18"> 数学ライブラリ（libmath）</A><BR>
+    <A HREF="#Heading4_1_1_19"> GTEインラインマクロライブラリ（dmpsx）</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 データフォーマット</A><BR>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>PlayStationライブラリの構成</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationのライブラリには、&lt;PlayStation OS&gt;との関係を基準にして、低レベルライブラリ、高レベルライブラリの２種類があり、これが２層構造を形成しています。プログラマはどちらのレベルのライブラリでも目的に応じて使いわけることができ、また同時に２つのレベルのライブラリを使うこともできます。<BR>
+
+<CENTER>
+<P>
+<IMG SRC ="gif/libf1.gif">
+<P>
+        <H4><B>図 1 PlayStationライブラリの構造</B></H4>
+
+</CENTER>
+    以下、各ライブラリについて、その概要をご紹介いたします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>カーネルライブラリ（libapi）</B>
+</A>
+</H3>
+<blockquote>
+    アプリケーションと&lt;PlayStation OS&gt;とのインタフェース(API)を提供するライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>周辺機器ライブラリ（libetc）</B>
+</A>
+</H3>
+<blockquote>
+    コントローラなどの周辺機器や低レベルの割り込み処理のためのコールバックの制御を行なうためのライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_3">
+<A HREF="#Heading3_1_1"> 1. </A>3 <B>CD-ROMライブラリ（libcd）</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROMドライブから画像や音声データ、およびプログラムを読み出したり、DA（デジタルオーディオ）やXAサウンド再生などを行なうためのライブラリです。<BR>
+    ファイル名をキーとした高速なディスクアクセスや、データの読みだしと処理を同時に行なう「ストリーミング」技法を支援する関数も含まれています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_4">
+<A HREF="#Heading3_1_1"> 1. </A>4 <B>拡張CD-ROMライブラリ（libds）</B>
+</A>
+</H3>
+<blockquote>
+    CD-ROMライブラリのカーネルに新しいインターフェイスを構築するライブラリです。従来のライブラリに置き換わる形で用意されています。<BR>
+    これまでと同等の機能を実現し、さらにエラー時のリカバリーをシステムで行うなどCD-ROMの確実なコントロールに重点が置かれています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_5">
+<A HREF="#Heading3_1_1"> 1. </A>5 <B>基本グラフィックスライブラリ（libgpu）</B>
+</A>
+</H3>
+<blockquote>
+    描画エンジンへのコマンドを作成し、コマンドリストに登録するためのライブラリです。ここで扱われるデータはスプライト、ポリゴン、ラインなどの基本的なものです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_6">
+<A HREF="#Heading3_1_1"> 1. </A>6 <B>基本ジオメトリライブラリ（libgte）</B>
+</A>
+</H3>
+<blockquote>
+    GTE（ジオメトリ計算エンジン）の制御を行なうためのライブラリです。ここで扱われるデータは行列、頂点などの基本的なものです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_7">
+<A HREF="#Heading3_1_1"> 1. </A>7 <B>拡張グラフィックスライブラリ（libgs）</B>
+</A>
+</H3>
+<blockquote>
+    libgpu、libgteを使って３次元グラフィックスシステムを構築したものがlibgsです。ここで扱われるデータはオブジェクト、バックグラウンド面などのより大きな単位となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_8">
+<A HREF="#Heading3_1_1"> 1. </A>8 <B>基本サウンドライブラリ（libspu）</B>
+</A>
+</H3>
+<blockquote>
+    SPU（サウンド再生処理プロセッサ）を制御するためのライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_9">
+<A HREF="#Heading3_1_1"> 1. </A>9 <B>拡張サウンドライブラリ（libsnd）</B>
+</A>
+</H3>
+<blockquote>
+    あらかじめ譜面データとして記録しておいた発音シーケンスをバックグラウンド演奏するライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_10">
+<A HREF="#Heading3_1_1"> 1. </A>10 <B>データ処理ライブラリ（libpress）</B>
+</A>
+</H3>
+<blockquote>
+    画像及び音声データを圧縮（エンコード）、伸長（デコード）するためのライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_11">
+<A HREF="#Heading3_1_1"> 1. </A>11 <B>メモリカードライブラリ（libcard）</B>
+</A>
+</H3>
+<blockquote>
+    リセットやパワーオフ後もデータを保存するためのメモリカードを制御するライブラリです。メモリカードファイルシステムドライバも含んでいます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_12">
+<A HREF="#Heading3_1_1"> 1. </A>12 <B>メモリカード簡易レベルライブラリ（libmcrd）</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationに実装されたメモリカードを簡易なインターフェイスにより使用するためのものです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_13">
+<A HREF="#Heading3_1_1"> 1. </A>13 <B>対戦ケーブルライブラリ（libcomb）</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルによる&lt;PlayStation&gt;間の通信を行なうためのライブラリです。ブロックサイズ8バイトの通信ドライバを含んでいます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_14">
+<A HREF="#Heading3_1_1"> 1. </A>14 <B>シリアル入出力ライブラリ（libsio）</B>
+</A>
+</H3>
+<blockquote>
+    デバッギングステーション上で、標準入出力をSIO1に設定するためのライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_15">
+<A HREF="#Heading3_1_1"> 1. </A>15 <B>マルチタップライブラリ（libtap）</B>
+</A>
+</H3>
+<blockquote>
+    オプション周辺機器であるマルチタップを介して3～8組のコントローラ・メモリカードにアクセスするためのライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_16">
+<A HREF="#Heading3_1_1"> 1. </A>16 <B>ガンライブラリ（libgun）</B>
+</A>
+</H3>
+<blockquote>
+    コントローラコネクタに接続することが可能なライトペン型入力機器にアクセスするためのライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_17">
+<A HREF="#Heading3_1_1"> 1. </A>17 <B>C標準ライブラリ（libc/libc2）</B>
+</A>
+</H3>
+<blockquote>
+    C標準ライブラリのサブセットです。文字関数、メモリ操作関数、文字クラステスト、非局所ジャンプ、そしてユーティリティ関数の一部を含んでいます。<BR>
+    libcはROM中に本体プログラムを持つコンパクトなライブラリ、libc2はライブラリ内に本体プログラムを持つ高速ライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_18">
+<A HREF="#Heading3_1_1"> 1. </A>18 <B>数学ライブラリ（libmath）</B>
+</A>
+</H3>
+<blockquote>
+    ソフトウェアによる浮動小数点数演算パッケージを含むANSI/IEEE754準拠の数学関数ライブラリです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_19">
+<A HREF="#Heading3_1_1"> 1. </A>19 <B>GTEインラインマクロライブラリ（dmpsx）</B>
+</A>
+</H3>
+<blockquote>
+    GTEを高速に制御するためのマクロライブラリです。関数呼出しを使用しないため命令キャッシュのミスが少なくなり高速に動作します。使用にはdmpsxが必要です。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>データフォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ライブラリは、PlayStation専用グラフィックスアーティストツールならびにサウンドアーティストツールが供給する各種データフォーマットを解釈することができます。詳細については別章をご参照ください。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

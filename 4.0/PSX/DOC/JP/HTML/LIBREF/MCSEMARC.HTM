@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    MemCardSync
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libmcrd.htm">メモリカード簡易レベルライブラリ (libmcrd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    MemCardSync
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        非同期関数の終了を待つ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>MemCardSync</B> (
+long <I>mode</I>,
+unsigned long* <I>cmds</I>,
+unsigned long* <I>result</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		0: 非同期関数の終了を待つ
+		1: 現在の状態を調べて即座にリターンする
+<I>cmds</I>		終了した非同期関数
+<I>result</I>		非同期関数の実行結果
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MemCardAccept(), MemCardReadFile()などの非同期関数の終了を待つ。 <BR>
+    <I>cmds</I>には終了した非同期関数のコード番号が入る。 <BR>
+<BR>
+    <I>cmds</I>値 <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>マクロ</TD><TD>関数</TD><TR>
+    <TD>0x01</TD><TD>McFuncExist</TD><TD>MemCardExist</TD><TR>
+    <TD>0x02</TD><TD>McFuncAccept</TD><TD>MemCardAccept</TD><TR>
+    <TD>0x03</TD><TD>McFuncReadFile</TD><TD>MemCardReadFile</TD><TR>
+    <TD>0x04</TD><TD>McFuncWriteFile</TD><TD>MemCardWriteFile</TD><TR>
+    <TD>0x05</TD><TD>McFuncReadData</TD><TD>MemCardReadData</TD><TR>
+    <TD>0x06</TD><TD>McFuncWriteData</TD><TD>MemCardWriteData</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <I>result</I>値は各関数の項目を参照 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>返り値</TD><TD>内容</TD><TR>
+    <TD>0</TD><TD>処理中</TD><TR>
+    <TD>1</TD><TD>終了</TD><TR>
+    <TD>-1</TD><TD>登録処理なし</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    同期関数, <I>mode</I>が 1の場合は即時終了する、 0の場合は各非同期関数の所要時間に準ずる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="mcaemart.htm">MemCardAccept</a>(), <a href="mceemart.htm">MemCardExit</a>(), <a href="mcrfemae.htm">MemCardReadFile</a>(),<a href="mcwfemae.htm">MemCardWriteFile</a>(), <a href="mcrdemaa.htm">MemCardReadData</a>(), <a href="mcwdemaa.htm">MemCardWriteData</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    open
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libapi.htm">カーネル ライブラリ (libapi) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    open
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ファイルのオープン
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>open </B>( 
+char *<I>devname</I>,
+unsigned long <I>flag</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>devname		</I>ファイル名
+<I>flag</I>		オープンモード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    低水準入出力の為にデバイスをオープンして、そのディスクリプタを返す。 <BR>
+    <I>flag</I> は、デバイスに依存する。共通部分を以下に示す。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>マクロ</TD><TD>オープンモード</TD><TR>
+    <TD>O_RDONLY</TD><TD>読み出し専用</TD><TR>
+    <TD>O_WRONLY</TD><TD>書き込み専用</TD><TR>
+    <TD>O_RDWR</TD><TD>読み書き兼用</TD><TR>
+    <TD>O_CREAT</TD><TD>ファイル新規生成</TD><TR>
+    <TD>O_NOBUF</TD><TD>非バッファモード</TD><TR>
+    <TD>O_NOWAIT</TD><TD>非同期モード</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功するとファイルディスクリプタを、以外は-1を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="close.htm">close</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuNGetVoiceAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuNGetVoiceAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ボイス属性の取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuNGetVoiceAttr</B> (
+int <I>voiceNum</I>,
+SpuVoiceAttr *<I>attr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>voiceNum</I>	ボイス番号 (0 ～23)
+<I>attr</I>		ボイス属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ボイス属性を取得する。 <BR>
+    <I>voiceNum</I> に取得するボイス番号を明示的に設定する。 <BR>
+    <I>attr</I> の構造体メンバについては、mask 以外全ての属性が返る。それぞれの属性の詳細については、SpuSetVoiceAttr() を参照。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vgattr.htm">SpuGetVoiceAttr</a>(), <a href="vsattr.htm">SpuSetVoiceAttr</a>(), <a href="snsvapur.htm">SpuNSetVoiceAttr</a>(), <a href="srsvapur.htm">SpuRSetVoiceAttr</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sskowapr.htm">SpuSetKeyOnWithAttr</a>(), <a href="vgvolume.htm">SpuGetVoiceVolume</a>(), <a href="vgvaolur.htm">SpuGetVoiceVolumeAttr</a>(), <a href="vgvolumx.htm">SpuGetVoiceVolumeX</a>(), <a href="vgpitch.htm">SpuGetVoicePitch</a>(), <a href="vgnote.htm">SpuGetVoiceNote</a>(), <a href="vgsnampe.htm">SpuGetVoiceSampleNote</a>(), <a href="vgenvele.htm">SpuGetVoiceEnvelope</a>(), <a href="vgsatarr.htm">SpuGetVoiceStartAddr</a>(), <a href="vglsaoor.htm">SpuGetVoiceLoopStartAddr</a>(), <a href="vgar.htm">SpuGetVoiceAR</a>(), <a href="vgdr.htm">SpuGetVoiceDR</a>(), <a href="vgsr.htm">SpuGetVoiceSR</a>(), <a href="vgrr.htm">SpuGetVoiceRR</a>(), <a href="vgsl.htm">SpuGetVoiceSL</a>(), <a href="vgarattr.htm">SpuGetVoiceARAttr</a>(), <a href="vgsrattr.htm">SpuGetVoiceSRAttr</a>(), <a href="vgrrattr.htm">SpuGetVoiceRRAttr</a>(), <a href="vgadsr.htm">SpuGetVoiceADSR</a>(), <a href="vgadsrar.htm">SpuGetVoiceADSRAttr</a>(), <a href="vgeanver.htm">SpuGetVoiceEnvelopeAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

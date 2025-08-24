@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuGetVoiceADSR
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuGetVoiceADSR
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ADSR の取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuGetVoiceADSR </B>(
+int <I>voiceNum</I>,
+unsigned short *<I>AR</I>,
+unsigned short *<I>DR</I>,
+unsigned short *<I>SR</I>,
+unsigned short *<I>RR</I>,
+unsigned short *<I>SL</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>voiceNum</I>	ボイス番号 (0 ～23)
+<I>AR</I>		ADSR Attack Rate
+<I>DR</I>		ADSR Decay Rate
+<I>SR</I>		ADSR Sustain Rate
+<I>RR</I>		ADSR Release Rate
+<I>SL</I>		ADSR Sustain Level
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ボイスで使われる ADSR の個別の属性の取得を行う。 <BR>
+    SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ ar, dr, sr, rr, sl の値の取得に該当する処理を行う。 <BR>
+    Attack, Sustain Relase の各 Rate について、 Rate モードはそれぞれ以下の通りとなっている場合のみ得られた値は有効となる。他の各 Rate モードの場合は不定となる。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">Rate</TD><TD ALIGN="center">Rateモード</TD><TR>
+    <TD> Attack Rate</TD><TD> SPU_VOICE_LINEARIncN (リニア増加)</TD><TR>
+    <TD> Sustain Rate</TD><TD> SPU_VOICE_LINEARDecN (リニア減少)</TD><TR>
+    <TD> Release Rate</TD><TD> SPU_VOICE_LINEARDecN (リニア減少)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    各 Rate モードを同時に取得したい場合は SpuGetVoiceADSRAttr() を使用する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vgattr.htm">SpuGetVoiceAttr</a>(), <a href="sngvapur.htm">SpuNGetVoiceAttr</a>(), <a href="vgar.htm">SpuGetVoiceAR</a>(), <a href="vgdr.htm">SpuGetVoiceDR</a>(), <a href="vgsr.htm">SpuGetVoiceSR</a>(), <a href="vgrr.htm">SpuGetVoiceRR</a>(), <a href="vgsl.htm">SpuGetVoiceSL</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

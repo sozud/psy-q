@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdRead
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdRead
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        複数セクタリード
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int<B> CdRead </B>( 
+int <I>sectors</I>, 
+u_long *<I>buf</I>, 
+int <I>mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>sectors		</I>読み込むセクタ数
+<I>buf		</I>読み込みバッファ
+<I>mode		</I>CD-ROM モード（CdlSetmodeで与えるモード）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CD-ROMから<I>sectors</I>のデータを読み込み、メインメモリの<I>buf</I>以下に展開する。読み込み開始位置は最後にCdlSeekL/CdlSetlocを発行した際のターゲットポジション。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コマンド発行失敗の場合0を、成功の場合1を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ノンブロック関数であるため、実際の転送の終了はCdReadSync()で検出する必要がある。なお、CdSync()は、CdRead()が内部で発行するCdlReadNコマンドが終了した時点でCdlComplete を返す。CdReady()は、セクタデータがセクタバッファ上に用意された時点でCdlDataReadyを返す。 <BR>
+    サブシステムモードにCdlModeDAを指定することはできない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="crsdeadc.htm">CdReadSync</a>(),<a href="crcdeadk.htm">CdReadCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

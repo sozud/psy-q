@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsControlF
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsControlF
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CdControlFの互換関数
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsControlF</B> (
+u_char <I>com</I>,
+u_char* <I>param</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>com</I>		コマンドコード
+<I>param</I>		コマンドに対する引数（u_char[ 4 ]）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CdControlFとほぼ同じインターフェイスを提供する関数。実際のタイミング等は異なり、内部的にはコマンドキューにコマンドを登録するだけである。返り値がコマンドIDとなる点に注意。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コマンドの登録が成功した場合はコマンドID（&gt;0）を返す。失敗した場合は０。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CdControlFでは前のコマンドの実行の終了を待ってコマンドを発行するが、DsControlFでは前にコマンドが実行されている場合はコマンドキューにコマンドを登録する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="dssync.htm">DsSync</a>(),<a href="dscsynck.htm">DsSyncCallback</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

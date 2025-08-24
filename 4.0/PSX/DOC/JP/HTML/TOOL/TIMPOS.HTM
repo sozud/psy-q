@@ -1,0 +1,140 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>timpos</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationの画像データファイルであるTIMファイル中に記されたイメージやカラーテーブルのVRAMアドレスを変更します。<BR>
+    DOS版とSGI版があります。ここでは、1996/May/1付けの Version 1.1 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>timpos [options] <I>input-file image-x image-y [clut-x clut-y]</I></B></H4>
+
+      <BLOCKQUOTE>
+      引数で与えられたTIMファイルに対して、イメージおよびカラーテーブル(CLUT)がVRAM上のどのアドレスに配置されるかを設定します。与えるアドレスはイメージおよびCLUTそれぞれの左上の座標値です。なお、VRAM空間は横1024 x 縦512 です。<BR>
+      <BR>
+      CLUTアドレスのみを引数で与えることはできません。イメージアドレスも指定してください。イメージアドレスとして負の数を与えればそのアドレスは変更されません。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      例）<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        timpos test.tim -1 -1 0 500 (CLUTアドレスのみ変更)<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+      <BLOCKQUOTE>
+      また、CLUTアドレスとして負の数を与えると、CLUTなしのTIMファイルが生成されます。CLUTアドレスを変更しない場合は、イメージアドレスのみ指定してください。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      例）<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        timpos test.tim 640 0 （イメージアドレスのみ変更）<BR>
+        timpos test.tim 640 0 -1 0 （CLUTなしのTIMを生成）<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+      <BLOCKQUOTE>
+      引数のTIMファイル名の".tim"は省略可能です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトでは入力ファイルに上書きされます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      入力ファイルおよび変換に関する情報を標準出力に出力します。このオプションとともにTIMファイルのみを与えれば現在の配置情報を知ることができます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>前バージョン(ver.1.0)からの変更点</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> CLUTアドレスとして負の数を指定した場合に、CLUTなしのTIMファイルを生成するようになりました。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>注意</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> CLUTなしTIMファイルをCLUTありに変換することはできません。
+</UL>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

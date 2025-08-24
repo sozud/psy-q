@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuStSetPreparationFinishedCallback
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuStSetPreparationFinishedCallback
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SPU ストリーミングにおけるストリームの前準備で行われるデータ転送終了時の callback 関数の設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>SpuStCallbackProc <B>SpuStSetPreparationFinshedCallback</B> (
+SpuStCallbackProc <I>callback_proc</I>
+)
+ 
+SpuStCallbackProc <I>callback_proc</I> (
+unsigned long <I>voice_bit,</I>
+long <I>status</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>callback_proc</I>	ストリームの前準備で行われるデータ転送終了時に呼ばれる
+		callback 関数へのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SPU ストリーミングにおけるストリームの前準備で行われるデータ転送終了時に呼ばれる callback 関数を設定する <BR>
+<BR>
+    <I>callback_proc</I> が呼ばれた際の引数には、 <I>voice_bit</I> にストリームの前準備で行われるデータ転送が終了したストリームに割り当てられたボイスの値が SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で表現されて与えられる。 <I>status</I> には SPU ストリーミングライブラリの状態により以下の値が与えられる。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">状態</TD><TD ALIGN="center">status</TD><TR>
+    <TD> SPU_ST_PREPARE</TD><TD> SPU_ST_PREPARE</TD><TR>
+    <TD> SPU_ST_PLAY</TD><TD> SPU_ST_PLAY</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    以前設定されていた、ストリームの前準備で行われるデータ転送終了時の callback 関数へのポインタ。 <BR>
+    以前に設定されていなければ NULL を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sstputrr.htm">SpuStTransfer</a>(), <a href="ssstfcpk.htm">SpuStSetTransferFinishedCallback</a>(), <a href="ssssfcpk.htm">SpuStSetStreamFinishedCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

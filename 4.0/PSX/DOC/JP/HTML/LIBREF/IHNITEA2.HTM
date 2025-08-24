@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    InitHeap2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libapi.htm">カーネル ライブラリ (libapi) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    InitHeap2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ヒープ領域の初期化
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void<B> InitHeap2 </B>( 
+unsigned long *<I>head</I>,
+unsigned long<I> size </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>head		</I>ヒープ先頭アドレス
+<I>size		</I>ヒープサイズ（4の倍数、バイト単位）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    メモリ管理関数群を初期化する。 <BR>
+    以降、malloc2()などが使用可能となる。 <BR>
+    ただし、オーバヘッドがあるので<I>size </I>バイトすべてが利用可能とはならない。 <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    多重に実行するとそれまで保持していたメモリ管理情報が失われる。 <BR>
+    オンメモリ関数なのでプログラムのサイズは大きくなる。 <BR>
+    InitHeap(),InitHeap3()系との違いは overview\api.docの「10 メモリ管理関数について」を参照の事。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="initheap.htm">InitHeap</a>(), <a href="ihnitea3.htm">InitHeap3</a>(), <a href="malloc2.htm">malloc2</a>(), <a href="realloc2.htm">realloc2</a>(), <a href="calloc2.htm">calloc2</a>(), <a href="free2.htm">free2</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

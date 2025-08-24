@@ -1,0 +1,126 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>rsd2dxf</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    RSD フォーマットファイルを、DXF フォーマットに変換します。<BR>
+    DOS版とSGI版があります。ここでは、1994/Oct/17付けの Version 1.00 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>rsd2dxf [<I>options</I>] [<I>ARG-files</I> ...] <I>RSD-files</I> ...</B></H4>
+
+      <BLOCKQUOTE>
+      RSD フォーマットのファイル群を、DXF フォーマットに変換します。出力される DXF ファイルは、入力 RSD ファイルから拡張子を取り除いた名前に ".dxf" をつけたファイル名になります。<BR>
+      引数にワイルドカードが使用できます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは入力ファイルの拡張子を".dxf"に変換したものを現在のディレクトリに生成します。このオプションは、入力 RSDファイルが一つだけの場合にのみ使用できます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-r</B></H4>
+
+      <BLOCKQUOTE>
+      生成する DXF ファイルに含まれる全てのポリゴンの裏表を反転します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-h</B></H4>
+
+      <BLOCKQUOTE>
+      指定できるオプションの一覧と、簡単な使い方を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      変換に関する情報を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B><I>ARG-files</I></B></H4>
+
+      <BLOCKQUOTE>
+      rsd2dxf に対するオプションや入力ファイル名等を記述した 引数ファイルを指定します。ファイル名の拡張子が「.arg」の場合に、引数ファイルと解釈します。128 バイトを越えるコマンド引数が必要な場合にお使いください。「#」で始まる行はコメントとみなされ、rsd2dxf の実行に影響を与えません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>備考</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> 生成される DXF ファイルの座標系は、右方向が X、上が Z、奥が Z になります。これは、dxf2rsd が DXF ファイルの座標系として仮定するデフォルトと同じです。そのため、生成される DXF ファイルを、モデラーで読み込んで編集する場合、各モデラーの座標系に添うようにモデルを回転させる必要がある場合があります。
+         <LI> RSD ファイルに含まれる、法線、色、テクスチャの情報は捨てられます。
+         <LI> 出力ファイル名が既に存在する場合、その内容は上書きされます。警告などは出力しませんので、ご注意ください。
+         <LI> 引数ファイルの中に、引数ファイル名を書いても展開されません。
+         <LI> 引数ファイルの中ではワイルドカードは使用できません。
+</UL>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

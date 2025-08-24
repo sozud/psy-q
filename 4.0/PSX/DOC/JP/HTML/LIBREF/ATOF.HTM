@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    atof
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libmath.htm">数学 ライブラリ (libmath) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    atof
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        文字列を浮動小数点数に変換
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>double <B>atof </B>(
+const char *<I>s</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>s</I>		文字列
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    文字列を浮動小数点数（double型）に変換する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    入力値 <I>s </I>をdouble型に変換した結果を返す。正しい値が表現可能な範囲を越えた場合、符号に従って +HUGE_VAL(1.797693134862316e+308) か -HUGE_VAL のどちらかを返す。アンダーフローが発生した場合は0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    エラー処理は次の通り。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">条件</TD><TD ALIGN="center">返り値</TD><TD ALIGN="center">エラー</TD><TR>
+    <TD ALIGN="center">表現可能な範囲外</TD><TD ALIGN="center">+/- HUGE_VAL</TD><TD ALIGN="center">領域エラー</TD><TR>
+    <TD ALIGN="center">アンダーフロー発生</TD><TD ALIGN="center">0</TD><TD ALIGN="center">領域エラー</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="strtod.htm">strtod</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

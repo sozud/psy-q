@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsOBJTABLE2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsOBJTABLE2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        オブジェクトテーブル情報
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsDOBJTABLE2</B> {
+		GsDOBJ2 * <I>top</I>;
+		int <I>nobj</I>;
+		int <I>maxnobj</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>top</I>		オブジェクト配列へのポインタ
+<I>maxobj	</I>	オブジェクト配列の大きさ
+<I>nobj</I>		配列中の有効オブジェクト個数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ３次元アニメーション関数群を使用する場合は、オブジェクトの ID 番号による指定を実現するために３次元オブジェクトは配列になっていなければならない。この配列をオブジェクトテーブルと呼ぶ。 <BR>
+    GsOBJTABLE2 はオブジェクトテーブルに関する情報を持つ。 <BR>
+    <I>top</I> は GsDOBJ2 の配列へのポインタで、ID 管理される３次元オブジェクトはこの配列内に生成される。このため、オブジェクトテーブルを初期化する時点であらかじめ GsDOBJ2 の配列を確保しておかなければならない。 <BR>
+    <I>maxobj</I> は <I>top</I> の示す配列の大きさで、扱うオブジェクトの最大数以上の値でなければならない。 <BR>
+    <I>nobj</I> は配列内の有効オブジェクトの個数である。 <BR>
+    GsOBJTABLE2 の内容の初期化は GsInitObjTable2() で行なう。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

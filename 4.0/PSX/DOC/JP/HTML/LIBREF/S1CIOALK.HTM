@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    Sio1Callback
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsio.htm">シリアル入出力ライブラリ (libsio) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    Sio1Callback
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SIO割り込みコールバック関数を設定する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>Sio1Callback</B>( 
+void (* <I>func)()</I> 
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>func</I>		コールバック関数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    _sio_control(1, 1, param)で設定された割り込み要因(CR_DSRIEN, CR_RXIEN, CR_TXIEN)により割り込みが発生した場合に、関数funcが呼び出される。 <BR>
+    funcに 0を指定した場合は、コールバックは発生しない。  <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    割り込み発生時には、_sio_control(2,1,0)または_sio_control(1,1, CR_ERRRST)を用いて割り込みフラグをクリアする必要がある。割り込みフラグがクリアされていない状態では、次のSIO割り込みは発生しない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

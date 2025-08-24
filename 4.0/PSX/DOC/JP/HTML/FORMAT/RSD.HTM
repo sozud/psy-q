@@ -1,0 +1,1636 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation File Format</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>RSDフォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    RSDフォーマットはPlayStationアーティストツール群で取り扱うモデリングデータのフォーマットです。RSDフォーマットは４種類のファイルで１つのモデルを記述します。そのため、４つのファイルを合わせて、「RSD」または「RSDデータ」ということがあります。<BR>
+    <BR>
+<UL>
+         <LI> RSDファイル<BR>PLY/MAT/GRPファイル、テクスチャファイルおよび拡張ファイルの対応関係を記述
+         <LI> PLYファイル<BR>ポリゴンの頂点の位置情報を記述
+         <LI> MATファイル<BR>ポリゴンのマテリアル情報を記述
+         <LI> GRPファイル<BR>ポリゴンのグルーピング情報を記述
+</UL>
+    <BR>
+    また、今回のバージョンよりHMDに対応するために新たに4種類の拡張ファイルと1種類のサブ拡張ファイルが加えられました。<BR>
+    <BR>
+    拡張ファイル<BR>
+<UL>
+         <LI> MSHファイル<BR>ポリゴンの連結情報を記述
+         <LI> PVTファイル<BR>回転中心のオフセット情報を記述
+         <LI> CODファイル<BR>各VERTEXの持つCOORDINATE情報を記述
+         <LI> MOTファイル<BR>アニメーション情報を記述
+</UL>
+    <BR>
+    サブ拡張ファイル<BR>
+<UL>
+         <LI> OGPファイル<BR>VERTEXのグルーピング情報を記述
+</UL>
+    <BR>
+    すべてのファイルの関連情報はRSDファイル内に記述されているため、RSDファイルを指定するだけでオブジェクトを構成するファイルを知ることが可能です。(OGPファイルに関してはサブ拡張ファイルなので、<BR>
+    CODファイル中でのみ指定することが可能です。)<BR>
+    <BR>
+    各ファイルは同一ディレクトリに存在する場合はファイル名のみで指定することができます。異なるディレクトリに存在するものに関しては相対パス(あるいは絶対パス）を示す必要があります。(TIMファイルに関しても同様です。)<BR>
+    <BR>
+    RSDは全てテキストファイルであり、各データは改行文字(LFまたはCR/LF)で区切られた行単位で処理されます。任意の場所に#で始まるコメント行を挿入することができます。<BR>
+    なお、この解説書での記述は各ファイルの以下に示すバージョンに基づいています。<BR>
+    <BR>
+<UL>
+         <LI> RSD<BR>Version 3.0
+         <LI> PLY<BR>Version 3.0
+         <LI> MAT<BR>Version 3.0
+         <LI> GRP<BR>Version 3.0
+         <LI> MSH<BR>Version 1.0
+         <LI> PVT<BR>Version 1.0
+         <LI> COD<BR>Version 1.0
+         <LI> OGP<BR>Version 1.0
+         <LI> MOT<BR>Version 1.0
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>RSDファイル</B>
+</A>
+</H3>
+<blockquote>
+    RSDファイルはオブジェクトを構成するPLY/MAT/GRPの各ファイル、テクスチャファイルおよび拡張ファイルの組合せ情報を持ちます。今回のバージョンから拡張ファイルを使用することで１組のRSDファイルで複数のオブジェクトを記述できるようになり、キャラクター単位でのデータの扱いが可能となりました。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf1.gif">
+<P>
+        <H4><B>図 1 RSDファイルの全体構成</B></H4>
+
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      RSDファイルフォーマットのバージョンを表す文字列で"@RSDnnnnnn"(nnnnnnは番号)という形式になります。今回のバージョン3.0では"@RSD970401"です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_3">
+(3) <B>各ファイル指定</B>
+</A>
+</H4>
+<UL>
+         <LI> PLYファイルの指定<BR>PLY=PLYファイル名
+         <LI> MATファイルの指定<BR>MAT=MATファイル名
+         <LI> GRPファイルの指定<BR>GRP=GRPファイル名
+         <LI> MSHファイルの指定<BR>MSH=MSHファイル名
+         <LI> PVTファイルの指定<BR>PVT=PVTファイル名
+         <LI> CODファイルの指定<BR>COD=CODファイル名
+         <LI> MOTファイルの指定<BR>NMOT=MOTファイル数<BR>MOT[n]=n番目のMOTファイル名<BR>              :<BR>              :
+         <LI> TIM(テクスチャ)ファイルの指定<BR>NTEX=TIM(テクスチャ)ファイル数<BR>TEX[n]=n番目のTIM(テクスチャ)ファイル名<BR>              :<BR>              :
+</UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_4">
+(4) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      RSDファイルの簡単な例を示します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        @RSD970401
+        PLY=sample.ply
+        MAT=sample.mat
+        GRP=sample.grp
+        MSH=sample.msh
+        PVT=sample.pvt
+        COD=sample.cod
+        NMOT=1
+        MOT[0]=anim.mot
+        NTEX=3
+        TEX[0]=texture.tim
+        TEX[1]=texture2.tim
+        TEX[2]=texture3.tim
+<CENTER>
+</PRE>
+        <H4><B>図 2 RSDファイルの例</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>PLYファイル</B>
+</A>
+</H3>
+<blockquote>
+    PLYファイルはポリゴン等の頂点位置を記述したファイルです。PLYファイルで扱う座標系は拡張ファイルを使用しなければPlayStation拡張ライブラリ(libgs)での座標系と同一で、X軸の向き(増加方向)が画面右、同様にY軸が下、Z軸が画面奥を表します。拡張ファイル使用時はPVTファイル内に記述される回転移動量を考慮し、HMD変換時にCODファイルに記述される各頂点毎のPlayStation拡張ライブラリ(libgs)での座標系に書き換えられます。<BR>
+    また、ポリゴンが片面ポリゴンである場合、ポリゴンの向き(表裏)はPOLYGON記述子における各頂点の記述順によって決定されます。ポリゴンの各頂点の記述順序が、空間中で時計回り(CW)になる面をポリゴンの表面とします。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf3.gif">
+<P>
+    <B>図 3 PLYファイルの全体構成</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      PLYファイルフォーマットのバージョンを表す文字列で"@PLYnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン3.0では"@PLY970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_3">
+(3) <B>データ長レコード</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続の３つの各データブロックのデータ数(行数)が記述されます。各項目は空白またはタブで区切られます。(以下同様)<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf4.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 4 PLYファイルのデータ長レコード</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4">
+(4) <B>VERTEX記述子</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      頂点の座標を表す３個の浮動小数点値で構成されます。１行で１つの頂点を表します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf5.gif">
+<P>
+    <B>図 5 PLYファイルのVERTEX記述子</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_5">
+(5) <B>NORMAL記述子</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      法線ベクトルの成分を表す３個の浮動小数点値で構成されます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf6.gif">
+<P>
+    <B>図 6 PLYファイルのNORMAL記述子</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_6">
+(6) <B>POLYGON記述子</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ポリゴンの種類を表すフラグとポリゴンを構成する9個のパラメータ列から成ります。パラメータの意味はフラグ中のTYPEフィールドの値によって変化します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf7.gif">
+<P>
+    <B>図 7 PLYファイルのPOLYGON記述子</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      フラグはポリゴンのタイプを表す１６進の整数値でプレフィックス'0x'はつきません。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[ポリゴン(3角形/4角形)の場合]</B></H4>
+
+      <BLOCKQUOTE>
+      パラメータ部にはポリゴンの各頂点に対応する頂点(VERTEX)、法線(NORMAL)が記述されています。頂点(0-3)、法線(0-3)の値はそれぞれのデータ群の中の先頭から何番目のデータであるかを示す整数値です(先頭を0とする)。<BR>
+      ラットシェーディングを行なうポリゴンの場合、各頂点の法線が同じ値を持ち、第１頂点のものが採用されます。グーローシェーディングを行なうポリゴンの場合は異なる値を持ちます。<BR>
+      3角形ポリゴンの場合は第4頂点に対応するデータ(頂点3、法線3)の値は 0 に設定します。<BR>
+      4角形ポリゴンの場合の各頂点の記述順は最初の3頂点が1つの3角形を構成し、第2,3,4頂点でもう1つの3角形を構成するように記述します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf8.gif">
+<P>
+    <B>図 8ポリゴン(3角形/4角形)の場合のPOLYGON記述子</B><BR>
+</CENTER>
+
+     <H4><B>[直線の場合]</B></H4>
+
+      <BLOCKQUOTE>
+      パラメータ部には２つの端点のVERTEX番号が記述されています。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf9.gif">
+<P>
+    <B>図 9 直線の場合のPOLYGON記述子</B><BR>
+</CENTER>
+
+     <H4><B>[スプライトの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      モデリングデータ中のスプライトは3D空間に配置された矩形のイメージデータで、常に視点の方を向くテクスチャつきポリゴンと考えることが出来ます。<BR>
+      パラメータ部にはスプライト位置を表すVERTEXとイメージ(スプライトパターン)の幅/高さが記述されています。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf10.gif">
+<P>
+    <B>図 10 スプライトの場合のPOLYGON記述子
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_7">
+(7) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      PLYファイルの簡単な例を示します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        @PLY970401
+        # Number of Items
+        8 12 12
+        # Vertex
+        0   0   0
+        0   0 100
+        0 100   0
+        0 100 100
+        100   0   0
+        100   0 100
+        100 100   0
+        100 100 100
+        # Normal
+        0.000000E+00 0.000000E+00 -1.000000E+00
+        0.000000E+00 0.000000E+00 -1.000000E+00
+        1.000000E+00 0.000000E+00 -0.000000E+00
+        1.000000E+00 0.000000E+00 0.000000E+00
+        0.000000E+00 0.000000E+00 1.000000E+00
+        0.000000E+00 0.000000E+00 1.000000E+00
+        -1.000000E+00 -0.000000E+00 -0.000000E+00
+        -1.000000E+00 0.000000E+00 0.000000E+00
+        -0.000000E+00 1.000000E+00 0.000000E+00
+        0.000000E+00 1.000000E+00 0.000000E+00
+        0.000000E+00 -1.000000E+00 0.000000E+00
+        0.000000E+00 -1.000000E+00 0.000000E+00
+        # Polygon
+        0 6 2 0 0 0 0 0 0
+        0 6 0 4 0 1 1 1 0
+        0 7 6 4 0 2 2 2 0
+        0 7 4 5 0 3 3 3 0
+        0 3 7 5 0 4 4 4 0
+        0 3 5 1 0 5 5 5 0
+        0 2 3 1 0 6 6 6 0
+        0 2 1 0 0 7 7 7 0
+        0 7 3 2 0 8 8 8 0
+        0 7 2 6 0 9 9 9 0
+        0 4 0 1 0 10 10 10 0
+        0 4 1 5 0 11 11 11 0
+<CENTER>
+</PRE>
+        <H4><B>図 11 PLYファイルの例
+</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>MATファイル</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf12.gif">
+<P>
+    <B>図 12 MATファイルの全体構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      MATファイルフォーマットのバージョンを表す文字列で"@MATnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン3.0では"@MAT970401"です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_3">
+(3) <B>MATERIAL記述子個数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続のMATERIAL記述子の個数(行数)が記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_4">
+(4) <B>MATERIAL記述子</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ポリゴンの指定と、そのポリゴンの持つマテリアル情報を記述します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf13.gif">
+<P>
+    <B>図 13 MATファイルのMATERIAL記述子
+</B><BR>
+</CENTER>
+    <BR>
+
+     <H4><B>[ポリゴンNo.]</B></H4>
+
+      <BLOCKQUOTE>
+      PLYファイルのPOLYGON群の何番目のポリゴンかを表します。<BR>
+      レンジ指定を行なうと複数のポリゴンを１行で指定できます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">記述</TD><TD ALIGN="center">対象となるポリゴン</TD><TR>
+    <TD ALIGN="center">1</TD><TD ALIGN="center">1 のみ</TD><TR>
+    <TD ALIGN="center">0-5</TD><TD ALIGN="center">0 1 2 3 4 5</TD><TR>
+    <TD ALIGN="center">2,4,6</TD><TD ALIGN="center">2 4 6</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+     <H4><B>[フラグ]</B></H4>
+
+      <BLOCKQUOTE>
+      ポリゴンのマテリアル属性を表す１６進整数でプレフィックス '0x'はつきません。各bitの意味は次の通りです。<BR>
+      <BR>
+      bit0     光源計算モード<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        0：光源計算あり<BR>
+        1：固定色<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+        <BLOCKQUOTE><UL>
+        光源計算ありの場合は光源とポリゴンの向きによって描画色を決定しますが、固定色の場合は向きに関わらず一定の色になります。<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+      <BLOCKQUOTE>
+      bit1     Back face<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        0：片面ポリゴン<BR>
+        1：両面ポリゴン<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+      <BLOCKQUOTE>
+      bit2     半透明フラグ<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        0:半透明処理OFF<BR>
+        1:半透明処理ON<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+        <BLOCKQUOTE><UL>
+        半透明処理ONの場合、テクスチャなしポリゴンは常に半透明テクスチャつきポリゴンはテクスチャデータのSTPビットによって半透明/不透明/透明をコントロールします。<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+      <BLOCKQUOTE>
+      bit3～5     半透明レート<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        000:50% back +  50% polygon<BR>
+        001:100% back + 100% polygon<BR>
+        010:100% back - 100% polygon<BR>
+        011:100% back +  25% polygon<BR>
+        1XX:reserved<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+        <BLOCKQUOTE><UL>
+        現在のライブラリではポリゴン単位で半透明レートを変化させることはできません。<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+      <BLOCKQUOTE>
+      bit6     reserved (must be 0)<BR>
+      <BR>
+      bit7     プリセット型HMD作成スイッチ(HMD作成時のみ)<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        0:OFF<BR>
+        1:ON<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+
+     <H4><B>[シェーディング]</B></H4>
+
+      <BLOCKQUOTE>
+      シェーディングモードを表す１文字のキャラクタです。<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        "F"：フラット <BR>
+        "G"：グーロー(スムーズ)<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      フラットシェーディングが指定された場合、PLYファイルで指定された法線情報のうち第１頂点のものが採用されます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[マテリアル情報]</B></H4>
+
+      <BLOCKQUOTE>
+      マテリアルのタイプ(テクスチャの有無等)でフォーマットが異なります。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[テクスチャなし(カラードポリゴン/直線)の場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf14.gif">
+<P>
+      <B>図 14 テクスチャなし(カラードポリゴン/直線)の場合
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+     <H4><B>[テクスチャなし(グラデーションカラードポリゴン/直線)の場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf15.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 15 テクスチャなし(グーローカラードポリゴン/直線)の場合
+</B><BR>
+</CENTER>
+
+     <H4><B>[テクスチャつきポリゴン/スプライトの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf16.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 16 テクスチャつきポリゴン/スプライトの場合
+</B><BR>
+</CENTER>
+
+     <H4><B>[カラードテクスチャつきポリゴンの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf17.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 17 カラードテクスチャつきポリゴンの場合
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      ※ カラードテクスチャつきポリゴンは、光源計算をせずにポリゴン単位でテクスチャに明るさを与えるために使います。このタイプを使えば、光源計算を省略しても、テクスチャつきオブジェクトを立体的に描画できるようになります。 光源計算モードが固定色の時にのみ、このタイプは有効です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[グラデーションテクスチャつきポリゴンの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf18.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 18 グラデーションテクスチャつきポリゴンの場合
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      ※ グラデーションテクスチャつきポリゴンは、テクスチャーつきのグーロシェーディングと同じ効果を、光源計算をせずに実現するために使います。<BR>
+      光源計算モードが固定色の時にのみ、このタイプは有効です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[繰り返しテクスチャつきポリゴン/スプライトの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf19.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 19 繰り返しテクスチャつきポリゴンスプライトの場合
+</B><BR>
+</CENTER>
+
+     <H4><B>[繰り返しカラードテクスチャつきポリゴンの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf20.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 20 繰り返しカラードテクスチャつきポリゴンの場合
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      ※ 繰り返しカラードテクスチャつきポリゴンは、光源計算をせずにポリゴン単位でテクスチャに明るさを与えるために使います。このタイプを使えば、光源計算を省略しても、テクスチャつきオブジェクトを立体的に描画できるようになります。 光源計算モードが固定色の時にのみ、このタイプは有効です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[繰り返しグラデーションテクスチャつきポリゴンの場合]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf21.gif">
+<P>
+      <B>図 21 繰り返しグラデーションテクスチャつきポリゴンの場合
+</B><BR>
+</CENTER>
+      ※ グラデーションテクスチャつきポリゴンは、テクスチャーつきのグーロシェーディングと同じ効果を、光源計算をせずに実現するために使います。<BR>
+      光源計算モードが固定色の時にのみ、このタイプは有効です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_5">
+(5) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      MATファイルの簡単な例を示します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        @MAT970401
+        # Number of Items
+        10
+        # Materials
+        0-5     0 F C 255 255 255
+        6       0 G T 1 10 0 25 71 40 25 0 0
+        7       0 G T 1 10 30 20 75 40 25 0 0
+        8       0 G T 1 18 73 30 79 40 25 0 0
+        9       0 G T 1 12 23 29 77 40 25 0 0
+        10      0 F T 1 18 13 75 72 40 25 0 0
+        11      0 F T 0 22 10 24 74 40 25 0 0
+        12      0 F T 0 30 39 41 79 40 25 0 0
+        13      1 F D 0 116 47 118 77 69 46 69 77  30 187 187
+        14      1 F H 0 69 46 69 77 17 45 15 77  101 210 138 52 211 188 101 210 
+<CENTER>
+</PRE>
+        <H4><B>図 22 MATファイルの例
+</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>GRPファイル</B>
+</A>
+</H3>
+<blockquote>
+    PLYファイル中のポリゴンをひとまとめにして名称を付けることができます。<BR>
+    マテリアルエディタにおいて、グループ名を指定することで、複数のポリゴンを簡単に選択できるようになります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf23.gif">
+<P>
+    <B>図 23 GRPファイルの全体構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      GRPファイルフォーマットのバージョンを表す文字列で"@GRPnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン3.0では"@GRP970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_3">
+(3) <B>GROUP記述子個数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続のGROUP記述子の個数が記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_4">
+(4) <B>GROUP記述子</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      １つのグループの構成を定義します。複数行で構成されています。<BR>
+      </BLOCKQUOTE>
+    <BR>
+
+     <H4><B>[先頭行]</B></H4>
+
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf24.gif">
+<P>
+      <B>図 24 GRPファイルのGROUP記述子
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+     <H4><B>[後続行(ポリゴンNo.記述)]</B></H4>
+
+      <BLOCKQUOTE>
+      グループに属するポリゴンの番号を指定します。数値はPLYファイル中の何番目のポリゴンかを表します。レンジ指定を行なうと複数のポリゴンを１行で指定できます。<BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">記述</TD><TD ALIGN="center">対象となるポリゴン</TD><TR>
+    <TD ALIGN="center">1</TD><TD ALIGN="center">1 のみ</TD><TR>
+    <TD ALIGN="center">3-7</TD><TD ALIGN="center">3 4 5 6 7</TD><TR>
+    <TD ALIGN="center">2,4,6</TD><TD ALIGN="center">2 4 6</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_5">
+(5) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      GRPファイルの簡単な例を示します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        @GRP970401
+        # Number of Group
+        2
+        # Group list
+        upper_part 2 5
+        10-13
+        25
+        lower_part 3 3
+        3
+        5
+        7
+<CENTER>
+</PRE>
+        <H4><B>図 25 GRPファイルの例
+</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>MSHファイル</B>
+</A>
+</H3>
+<blockquote>
+    RSD拡張ファイルで、連結情報をRSDファイルに付加します。これにより連結情報を含むHMDデータをRSDフォーマットより生成することが可能となります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf26.gif">
+<P>
+        <H4><B>図 26 MSHファイルの全体構成
+</B></H4>
+
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      MSHファイルフォーマットのバージョンを表す文字列で"@MSHnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン1.0では"@MSH970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_3">
+(3) <B>連結ポリゴン体数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続の連結ポリゴン体の個数が記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4">
+(4) <B>連結情報</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      連結ポリゴン体の連結数・連結順序を定義します。連結順序はPLYファイル中で指定されるポリゴンインデックスを連結順に並べることで定義されます。改行はしてもしなくても構いません。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn1.gif">
+<P>
+</CENTER>
+      </BLOCKQUOTE>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_5">
+(5) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下にMSHファイルの簡単なサンプルを示します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        #ID
+        @MSH970401
+        #Number of Mesh Grupe
+        5
+        #Mesh Information
+        5       0 1 2 3 4
+        10      5 6 7 8 9 10 11 12 13 14
+        5       15 16 17 18 19
+        1       20
+        1       21
+<CENTER>
+</PRE>
+        <H4><B>図 27 MSHファイルの例
+</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7">
+<A HREF="#Top">↑</A>7 <B>PVTファイル</B>
+</A>
+</H3>
+<blockquote>
+    RSD拡張ファイルで、各VERTEXの値をPlayStation拡張ライブラリ(libgs)での座標系を基準とした値に書き換えるための回転中心のオフセット情報が記述されます。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf28.gif">
+<P>
+      </BLOCKQUOTE>
+        <H4><B>図 28 PVTファイルの全体構成
+</B></H4>
+
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      PVTファイルフォーマットのバージョンを表す文字列で"@PVTnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン1.0では"@PVT970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_3">
+(3) <B>要素数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続のCOORDINATE INDEX & オフセットの個数が記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_4">
+(4) <B>COORDINATE INDEX & オフセット</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      指定されるCOORDINATEインデックスへのオフセット値が記述されます。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn2.gif">
+<P>
+</CENTER>
+      </BLOCKQUOTE>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_5">
+(5) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下にPVTファイルの簡単なサンプルを示します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        #ID
+        @PVT970401
+        #Number of Items
+        5
+        #Pivot Information
+        0     100  -100  100
+        1     50  50  50
+        3     0  0  -100
+        4     200  1000  -1000
+        5     100  100  100
+<CENTER>
+</PRE>
+        <H4><B>図 29 PVTファイルの例
+</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8">
+<A HREF="#Top">↑</A>8 <B>CODファイル</B>
+</A>
+</H3>
+<blockquote>
+    RSD拡張ファイルで、PLYファイル中のVERTEXにCOORDINATEの属性をつけることができます。これにより、複数MATRIXをもつHMDデータをRSDフォーマットより生成できるようになります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf30.gif">
+<P>
+        <H4><B>図 30 CODファイルの全体構成
+</B></H4>
+
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      CODファイルフォーマットのバージョンを表す文字列で"@CODnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン1.0では"@COD970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_3">
+(3) <B>OGPファイル名</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      OGPファイルの名前を表し、OGP=OGPファイル名と記述されます。OGPファイルを使用しない場合はOGP=NULLと記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_4">
+(4) <B>COORDINATE数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続のCOORDINATEの個数が記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_5">
+(5) <B>COORDINATE</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      COORDINATEの構成を定義します。複数行で構成されています。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[1～3行]</B></H4>
+
+      <BLOCKQUOTE>
+      マトリックス係数値を指定します。数値は10進数で記述されます。<BR>
+      <BR>
+<CENTER>
+      m[0][0]   m[0][1]   m[0][2]<BR>
+      m[1][0]   m[1][1]   m[1][2]<BR>
+      m[2][0]   m[2][1]   m[2][2]<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+     <H4><B>[4行]</B></H4>
+
+      <BLOCKQUOTE>
+      平行移動量を指定します。数値は10進数で記述されます。<BR>
+      <BR>
+<CENTER>
+      t[0]   t[1]   t[2]<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+     <H4><B>[5行]</B></H4>
+
+      <BLOCKQUOTE>
+      マトリックス係数値を生成した回転ベクトル成分を指定します。10進数で記述されます。<BR>
+      <BR>
+<CENTER>
+      vx   vy   vz<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+     <H4><B>[6行]</B></H4>
+
+      <BLOCKQUOTE>
+      親COORDINATEのインデックスを指定します。インデックスは記入順に0から始まります。親がワールド座標系の場合は自分自身のインデックスを記述します。<BR>
+      <BR>
+<CENTER>
+      super<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_6">
+(6) <B>COORDINATEに属するVERTEX又は、オブジェクトグループ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      オブジェクト名のところでOGPファイルを指定した場合はCOORDINATEに属するオブジェクトグループが指定され、OGPファイルを指定しなかった場合はCOORDINATEに属するVERTEXが指定されます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+
+     <H4><B>オブジェクトグループを指定する場合</B></H4>
+
+      <BLOCKQUOTE>
+      オブジェクトグループはOGPファイル内で指定されるオブジェクトグループ名で表されます。オブジェクトグループはオブジェクトグループ数で指定した数分、横に続けて指定されます。改行はしてもしなくても構いません。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn3.gif">
+<P>
+</CENTER>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>VERTEXを指定する場合</B></H4>
+
+      <BLOCKQUOTE>
+      VERTEXはPLYファイル内で指定されるVERTEXのインデックスで表されます。VERTEXはVERTEX数で指定した数分、横に続けて指定されます。改行はしてもしなくても構いません。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn4.gif">
+<P>
+</CENTER>
+      <BR>
+      (注)同一CODファイル内で上記の2つの指定法が混在することはありません。OGPファイルを指定した場合はすべてオブジェクトグループで指定し、そうでない場合はすべてVERTEXにより指定されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_7">
+(7) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下にCODファイルの簡単なサンプルを示します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>[オブジェクトファイル指定時]</B></H4>
+
+<PRE>        #ID
+        @COD970401
+        #OGP File
+        OGP=test.ogp
+        #Number of COORDINATE
+        2
+        #COORDINATE
+        4096 0 0
+        0 4096 0
+        0 0 4096
+        0 0 0
+        0 0 0
+        0
+        -4096 0 0
+        0 -4096 0
+        0 0 -4096
+        0 0 0
+        0 0 0
+        0
+        #COOORDINATE of Object Grupe
+        0 1     body
+        1 2     hand head
+</PRE>
+
+     <H4><B> [オブジェクトファイル非指定時]</B></H4>
+
+<PRE>        #ID
+        @COD970401
+        #OGP File
+        OGP=NULL
+        #Number of COORDINATE
+        2
+        #COORDINATE
+        4096 0 0
+        0 4096 0
+        0 0 4096
+        0 0 0
+        0 0 0
+        0
+        -4096 0 0
+        0 -4096 0
+        0 0 -4096
+        0 0 0
+        0 0 0
+        0
+        #COOORDINATE of Object Grupe
+        0 5     0 1 2 3 4
+        1 5     5-9
+<CENTER>
+</PRE>
+        <H4><B>図 31 CODファイルの例
+</B></H4>
+
+</CENTER>
+    区切りにはスペース、または - が用いられます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9">
+<A HREF="#Top">↑</A>9 <B>OGPファイル</B>
+</A>
+</H3>
+<blockquote>
+    RSDサブ拡張ファイルで、VERTEXの集合を一つのオブジェクトグループとして定義することができます。これにより、オブジェクトグループ毎の属性の管理が容易になります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf32.gif">
+<P>
+        <H4><B>図 32 OGPファイルの全体構成
+</B></H4>
+
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      OGPファイルフォーマットのバージョンを表す文字列で"@OGPnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン1.0では"@OGP970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_3">
+(3) <B>オブジェクトグループ数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      後続のオブジェクトグループの個数が記述されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_4">
+(4) <B>オブジェクトグループ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      オブジェクトグループの構成を定義します。属するVERTEXはPLYファイル中で指定されるインデックスで表され、VERTEX数で指定した数分横に続けて指定されます。改行はしてもしなくても構いません。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn5.gif">
+<P>
+</CENTER>
+      </BLOCKQUOTE>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_5">
+(5) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下にOGPファイルの簡単なサンプルを示します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        #ID
+        @OGP970401
+        #Number of Object Grupe
+        2
+        #Object Grupe
+        head 10   0 1 2 3 4 5 6 7 8 9
+        body 10   10-19
+<CENTER>
+</PRE>
+        <H4><B>図 33 OGPファイルの例
+</B></H4>
+
+</CENTER>
+      <BLOCKQUOTE>
+      区切りにはスペース、または - が用いられます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10">
+<A HREF="#Top">↑</A>10 <B>MOTファイル</B>
+</A>
+</H3>
+<blockquote>
+    RSD拡張ファイルで、アニメーション情報が記述されます。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_1">
+(1) <B>全体構成</B>
+</A>
+</H4>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdf34.gif">
+<P>
+        <H4><B>図 34 MOTファイルの全体構成
+</B></H4>
+
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_2">
+(2) <B>ID</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      MOTファイルフォーマットのバージョンを表す文字列で"@MOTnnnnnn"(nnnnnnは番号)という形式です。現在のバージョン1.0では"@MOT970401" です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3">
+(3) <B>アニメーションタイプ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      アニメーションの方法が記述されます。現状で対応しているものはCOORDINATEを変化させるタイプのみです。<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        (COORDINATEの場合)<BR>
+<CENTER>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      COORDINATE<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4">
+(4) <B> INDEX数</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下に記述される、INDEX & シーケンス数 & WORK TOPとシーケンスヘッダ情報を1組とした要素数が記述されます。以下、ここで指定された数分、(5)(6)の並びが繰り返されます。<BR>
+      <BR>
+<CENTER>
+      INDEX数<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5">
+(5) <B>INDEX & シーケンス数 & WORK TOP</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      変化させる元データのインデックスと、シーケンスグループの数及び、WORKシーケンスのTOPポイント名が記述されます。元データのインデックスとは、例えば、アニメーションタイプがCOORDINATEならばCODファイル中で指定されるCOORDINATEのインデックスのことです。シーケンスグループの数とは以下に記述される、アニメーションパターンの数のことです。WORKシーケンスが存在しない場合、WORK TOPにはシーケンスのポイント名に使われていない適当な文字列が記述されます。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn6.gif">
+<P>
+</CENTER>
+      <BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_6">
+(6) <B>シーケンスヘッダ情報</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下に示されるアニメーションパターンのヘッダ情報が記述されます。以下、予約語毎に記述方法を示します。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn7.gif">
+<P>
+</CENTER>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        START   アニメーションシーケンスのスタートポイントを示す予約語です。<BR>
+        スタートポイント名   シーケンスコントロール情報部に示されるスタートポイント名が記述されます。スタートポイント名は256文字以内の文字列で表現されます。<BR>
+        ストリームID   16進数で記述されます。必ず0x??(7bit分)という形で記述して下さい。他のシーケンス因子とのストリームIDの一致を認識するためのビットパターンです。<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn8.gif">
+<P>
+</CENTER>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        KEY2   キーフレームのトップポイントを示す予約語です。2つまで指定することが可能です。<BR>
+        SEQ TOP1,2   シーケンスコントロール情報部に示されるキーフレームのトップポイント名が記述されます。TOP1に記述されたものはHMD変換時にシーケンスヘッダ情報として、下位16bitに記述され、TOP2に記述されたものは上位16bitに記述されます。指定すべきポイントが存在しない場合は、ポイント名として使用されていない適当な文字列が記述されます。ポイント名は256文字以内の文字列で表現されます。<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_7">
+(7) <B>シーケンスコントロール情報</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      アニメーションの実際の動きが記述されます。構成は予約語の種類により異なります。また、位置情報として、任意の256文字以内のスタートポイントを間に挿入することができます。スタートポイントは挿入された次の行のアニメーション位置を示すことになります。以下に予約語毎に記述方法を示します。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn9.gif">
+<P>
+</CENTER>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        SEQ   予約語。これを用いることでシーケンスを表現しす。<BR>
+        フレーム数   このキーフレームまでのフレーム数。<BR>
+        アニメーションパケットタイプ   アニメーションの補完タイプ。(詳しくはパラメータ情報で説明)<BR>
+        アニメーションパケットタイプインデックス   アニメーションパケット部で示されるアニメーシ ョンパケットのインデックス。<BR>
+        <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn10.gif">
+<P>
+</CENTER>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        GOTO   予約語。これを用いることでシーケンスの流れをジャンプさせることができます。<BR>
+        ジャンプポイント名   ジャンプするシーケンス位置を256文字以内の文字列により示します。<BR>
+        ストリームID   16進数で表記され、必ず0x??（7bit分）という形になります。他のシーケンス因子とのストリームIDの一致を認識するためのビットパターンです。<BR>
+        <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/rsdn11.gif">
+<P>
+</CENTER>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        END   予約語。これを用いることでシーケンスの流れを止めることができます。<BR>
+        ストリームID   16進数で表記され、必ず0x?? （7bit分）という形になります。他のシーケンス因子とのストリームIDの一致を認識するためのビットパターンです。<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_8">
+(8) <B>パラメータ情報</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      移動量などのパラメータ値が記述されます。パラメータのパケットタイプはHMD内で定められているものと同じです。パケットタイプはTYPEという予約語の後に続けて記述されます。パケットタイプの記述例を以下に示します。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+    TYPE ps0r0t0<BR>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        p   パラメータの意。現在はこのタイプ以外ありません。<BR>
+        s?r?t?    ?の値によりパラメータのパケットタイプが異なります。0がくる場合はその部分のパラメータが存在しないことになります。<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        現在パケットタイプは12種類がサポートされています。以下にそのパケットタイプと記述方法を示します。<BR>
+        Scale     比:1 = 4096<BR>
+        Rotation   単位:Degree, 360°= 4096<BR>
+        <BR>
+        (ps0r0t0) Dumy Matrix<BR>
+<CENTER>
+        Dx     Dy<BR>
+</CENTER>
+        <BR>
+        (ps0r0t1) Translation Linear<BR>
+<CENTER>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      Tx     Ty     Tz<BR>
+</CENTER>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        <BR>
+        (ps0r0t9) Translation(short) Linear<BR>
+<CENTER>
+        Tx     Ty     Tz<BR>
+</CENTER>
+        <BR>
+        (ps9r0t9) Scale(one) Translation(short) Linear<BR>
+<CENTER>
+        Tx     Ty     Tz     Scale<BR>
+</CENTER>
+        <BR>
+        (ps1r0t0) Scale Linear<BR>
+<CENTER>
+        Sx     Sy     Sz<BR>
+</CENTER>
+        <BR>
+        (ps0r1t0) Rotation linear<BR>
+<CENTER>
+        Rx     Ry     Rz<BR>
+</CENTER>
+        <BR>
+        (ps9r1t0) Scale(one) Rotation Linear<BR>
+<CENTER>
+        Rx     Ry     Rz     Scale<BR>
+</CENTER>
+        <BR>
+        (ps0r1t1) Rotation Translation Linear<BR>
+<CENTER>
+        Tx     Ty     Tz     Rx     Ry     Rz<BR>
+</CENTER>
+        <BR>
+        (ps9r1t1) Scale(one) Rotaion Translation Linear<BR>
+<CENTER>
+        Tx     Ty     Tz     Rx     Ry     Rz     Scale<BR>
+</CENTER>
+        <BR>
+        (ps1r1t1) Scale Rotation Translation Linear<BR>
+<CENTER>
+        Tx     Ty     Tz     Rx     Ry     Rz     Sx     Sy     Sz<BR>
+</CENTER>
+        <BR>
+        (ps0r1t9) Rotation Translation(short) Linear<BR>
+<CENTER>
+        Tx     Ty     Tz     Rx     Ry     Rz<BR>
+</CENTER>
+        <BR>
+        (ps1r1t9) Scale Rotation Translation(short) Linear<BR>
+<CENTER>
+        Tx     Ty     Tz     Rx     Ry     Rz     Sx     Sy     Sz<BR>
+</CENTER>
+        <BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_9">
+(9) <B>サンプル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以下にMOTファイルの簡単なサンプルを示します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        #ID
+        @MOT970401
+        #Animation Type
+        COORDINATE
+        #Number of Index
+        2
+        #Index, Number of Sequence
+        0 4 WORK
+        #Sequence Header
+        START TOP11 0x01
+        KEY2 TOP11A TOP11B
+        START TOP12 0x01
+        START TOP13 0x01
+        #Index, Number of Sequence
+        0 3 DUMY
+        #Sequence Header
+        START TOP21 0x01
+        START TOP22 0x01
+        START TOP23 0x01
+        #Sequence
+        WORK
+        SEQ 0 ps0r0t0 0
+        SEQ 0 ps0r0t0 1
+        TOP11
+        SEQ 250 ps0r0t1 0
+        TOP11A
+        SEQ 250 ps0r0t1 1
+        TOP11B
+        GOTO TOP11 0x02 0x01
+        END 0x02
+        TOP12
+        SEQ 250 ps0r0t1 2
+        SEQ 250 ps0r0t1 3
+        GOTO TOP12 0x02 0x01
+        END 0x02
+        TOP13
+        SEQ 250 ps0r0t1 4
+        SEQ 250 ps0r0t1 5
+        GOTO TOP13 0x02 0x01
+        END 0x02
+        TOP21
+        SEQ 250 ps0r1t0 0
+        SEQ 250 ps0r1t0 1
+        GOTO TOP21 0x02 0x01
+        END 0x02
+        TOP22
+        SEQ 250 ps0r1t0 2
+        SEQ 250 ps0r1t0 3
+        GOTO TOP22 0x02 0x01
+        END 0x02
+        TOP23
+        SEQ 250 ps0r1t0 4
+        SEQ 250 ps0r1t0 5
+        GOTO TOP23 0x02 0x01
+        END 0x02
+        #Animation Packet Type
+        TYPE ps0r0t0
+        0 0
+        0 0
+        TYPE ps0r0t1
+        -400 -400 2000
+        400 400 2000
+        -50 -50 1500
+        50 50 1500
+        100 100 1000
+        -100 -100 1000
+        TYPE ps0r1t0
+        0 0 0
+        4096 0 0
+        0 0 0
+        0 4096 0
+        0 0 0
+        0 0 4096
+<CENTER>
+</PRE>
+        <H4><B>図 35 MOTファイルの例
+</B></H4>
+
+</CENTER>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

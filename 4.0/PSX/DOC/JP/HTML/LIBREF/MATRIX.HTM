@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    MATRIX
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    MATRIX
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        マトリックス
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		short <I>m</I>[3][3];
+		long <I>t</I>[3];
+} <B>MATRIX</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>m</I>		3x3 マトリクス係数値
+<I>t</I>		並行移動量
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MATRIX の <I>m </I>[i][j] でマトリクスの各成分を指定する。 <BR>
+    MATRIX の <I>t </I>[i] で変換後の移動量を指定する。 <BR>
+    <I>m</I> と <I>t</I> では語長が異なることに注意。 <BR>
+<BR>
+    GTE は、MATRIX 構造体から基本的に以下の積和演算を行なう。 <BR>
+<BR>
+    (a) RotTrans 系関数（透視変換を行なわない関数群） <BR>
+<BR>
+        <BLOCKQUOTE>
+    単純な行列演算およびベクトルの加算のみを行なう。 <BR>
+        </BLOCKQUOTE>
+<BR>
+<P>
+<IMG SRC ="gif/lgten1.gif">
+<P>
+        <BLOCKQUOTE>
+<BR>
+        </BLOCKQUOTE>
+    (b) RotTransPers 系関数（透視変換を行なう関数群） <BR>
+<BR>
+        <BLOCKQUOTE>
+    (a) の計算に加えて透視変換（z による割算）を同時に行なう。 <BR>
+        </BLOCKQUOTE>
+<BR>
+<P>
+<IMG SRC ="gif/lgten2.gif">
+<P>
+        <BLOCKQUOTE>
+<BR>
+        </BLOCKQUOTE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsUNIT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsUNIT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ３次元オブジェクトハンドラGsSortUnit用
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		GsCOORDUNIT	<I>*coord;</I>
+		unsigned long	<I>*primtop; </I>
+} <B>GsUNIT</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>coord		</I>ローカル座標系へのポインタ
+<I>primtop</I>		プリミティブブロックの先頭へのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsUNITはHMDデータのプリミティブブロックごとに存在し、このGsUNIT構造体を通じて３次元モデルを操作することができる。 <BR>
+    GsUNITをオーダリングテーブルに登録するには<B>GsSortUnit</B>()を用いる。 <BR>
+    <I>coord</I>はそのプリミティブブロック固有の座標系へのポインタである。オブジェクトの位置、傾き、大きさは <I>coord</I>でポイントされる座標系にマトリックスを設定することで反映される。 <BR>
+    <I>primtop</I>には、プリミティブブロックの先頭アドレスが渡される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsusortt.htm">GsSortUnit</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

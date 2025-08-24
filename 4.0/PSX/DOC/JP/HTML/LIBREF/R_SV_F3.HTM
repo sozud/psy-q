@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotRMD_SV_F3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotRMD_SV_F3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        共有頂点型フラット三角形用ＲＭＤ関数
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>RotRMD_SV_F3</B> (
+long *<I>pa</I>,
+long *<I>va</I>,
+u_long *<I>ot</I>,
+int <I>otlen</I>,
+int <I>id</I>,
+int <I>sclip</I>,
+int <I>hclip</I>,
+int <I>vclip,</I>
+int <I>nclipmode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pa		</I>PRIMITIVE Gpの先頭アドレス
+<I>va		</I>VERTEX Gpの先頭アドレス
+<I>ot		</I>OTの先頭アドレス
+<I>otlen		</I>OTの長さ（ビット数）
+<I>id		</I>ダブルバッファのID
+<I>sclip		</I>スクリーンクリップON/OFF(ON=1)
+<I>hclip		</I>Ｈ方向クリップ領域（[0,<I>hclip</I>]=表示）
+<I>vclip		</I>Ｖ方向クリップ領域（[0,<I>vclip</I>]=表示）
+<I>nclipmode	</I>nearZ clipモード(0=0,SCRZ/2=1) 
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    共有頂点型タイプのPRIMITIVE Gpにふくまれる三角形のすべてについて座標変換、透視変換を行ない、ＧＰＵパケットを完成しＯＴにリンクする。 <BR>
+<BR>
+    <I>sclip</I>=0のときは <BR>
+        <BLOCKQUOTE>
+    スクリーン上の位置に関係なくリンクされる。 <BR>
+        </BLOCKQUOTE>
+    <I>sclip</I>=1のときは <BR>
+        <BLOCKQUOTE>
+    ３つまたは４つの頂点のうち少なくともひとつが[0,<I>hclip</I>],[0,<I>vclip</I>]の矩形のなかに含まれているときのみリンクされる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    <I>nclipmode</I>=0のときは <BR>
+        <BLOCKQUOTE>
+    SZ値が[0,2^16)の間に含まれるポリゴンのみリンクされる。 <BR>
+        </BLOCKQUOTE>
+    <I>nclipmode</I>=1のときは <BR>
+        <BLOCKQUOTE>
+    SZ値が[h/2,2^16)の間に含まれるポリゴンのみリンクされる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    必ずbackface clipされない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

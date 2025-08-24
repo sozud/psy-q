@@ -1,0 +1,1610 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 拡張グラフィクスライブラリ(libgs)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+拡張グラフィクスライブラリ(libgs)
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+拡張グラフィックスライブラリ(libgs)は、基本グラフィックス、基本ジオメトリの両ライブラリを使って３次元グラフィックスシステムを構築したものです。ここで扱われるデータはオブジェクト、バックグラウンド面など、より大きな単位となります。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    <A HREF="#Heading4_1_1_3"> libgsの機能</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 座標系</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> 座標系の初期化</A><BR>
+    <A HREF="#Heading4_1_2_2"> 回転／平行移動の順番</A><BR>
+    <A HREF="#Heading4_1_2_3"> フラグのクリア</A><BR>
+    <A HREF="#Heading4_1_2_4"> 座標系設定のサンプル</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 オブジェクト</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> オブジェクトの初期化</A><BR>
+    <A HREF="#Heading4_1_3_2"> オブジェクトの位置の制御</A><BR>
+    <A HREF="#Heading4_1_3_3"> オブジェクトの動きの階層構造</A><BR>
+    <A HREF="#Heading4_1_3_4"> オブジェクトのattribute制御</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_4"> 4 視点</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_4_1"> 視点の設定</A><BR>
+    <A HREF="#Heading4_1_4_2"> スクリーンの設定</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_5"> 5 光源</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_5_1"> 光源の設定</A><BR>
+    <A HREF="#Heading4_1_5_2"> アンビエント</A><BR>
+    <A HREF="#Heading4_1_5_3"> デプスキューイング</A><BR>
+    <A HREF="#Heading4_1_5_4"> マテリアルライティング</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_6"> 6 描画の優先順位（オーダリングテーブル）</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_6_1"> GsOT</A><BR>
+    <A HREF="#Heading4_1_6_2"> GsOT_TAG</A><BR>
+    <A HREF="#Heading4_1_6_3"> OTの初期化</A><BR>
+    <A HREF="#Heading4_1_6_4"> 複数OT</A><BR>
+    <A HREF="#Heading4_1_6_5"> OTの圧縮</A><BR>
+    <A HREF="#Heading4_1_6_6"> Zソート問題</A><BR>
+    <A HREF="#Heading4_1_6_7"> OTのダブルバッファ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_7"> 7 表示のダブルバッファ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_7_1"> ダブルバッファの実現</A><BR>
+    <A HREF="#Heading4_1_7_2"> インターレース時のダブルバッファ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_8"> 8 クリッピング</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_8_1"> ２Dクリッピング</A><BR>
+    <A HREF="#Heading4_1_8_2"> ３Dクリッピング</A><BR>
+    <A HREF="#Heading4_1_8_3"> ニアクリップ問題</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_9"> 9 パケット作成関数群</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_9_1"> パケットバッファ</A><BR>
+    <A HREF="#Heading4_1_9_2"> プリセットパケット</A><BR>
+    <A HREF="#Heading4_1_9_3"> TMDのソート</A><BR>
+    <A HREF="#Heading4_1_9_4"> パケット作成関数</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_10"> 10 パケット領域</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_10_1"> パケットのダブルバッファ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_11"> 11 描画について</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_11_1"> 処理の流れの概要</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_12"> 12 Gsライブラリでのスクラッチパッド使用量</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_12_1"> スクラッチパッドを消費する状況</A><BR>
+    <A HREF="#Heading4_1_12_2"> スクラッチパッドの消費量</A><BR>
+    <A HREF="#Heading4_1_12_3"> ユーザプログラムとライブラリでスクラッチパッドを共用する方法</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_13"> 13 ｍｉｐ－ｍａｐライブラリ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_13_1"> 使用方法</A><BR>
+    <A HREF="#Heading4_1_13_2"> テクスチャの配置</A><BR>
+    <A HREF="#Heading4_1_13_3"> ポリゴンの頂点</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_14"> 14 ＨＭＤ用ライブラリ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_14_1"> HMDのコンセプト</A><BR>
+    <A HREF="#Heading4_1_14_2"> HMDで新たにサポートされる機能</A><BR>
+    <A HREF="#Heading4_1_14_3"> ＴＭＤからＨＭＤへの移行</A><BR>
+    <A HREF="#Heading4_1_14_4"> プリミティブドライバ</A><BR>
+    <A HREF="#Heading4_1_14_5"> プリミティブドライバの呼び出し環境</A><BR>
+    <A HREF="#Heading4_1_14_6"> 共有ポリゴン</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_15"> 15 ＨＭＤライブラリ（アニメーション用）</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_15_1"> アニメーションの定義</A><BR>
+    <A HREF="#Heading4_1_15_2"> アニメーションの再生</A><BR>
+    <A HREF="#Heading4_1_15_3"> Realtime Motion Switch</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgsは拡張グラフィックライブラリと呼ばれlibgpu/libgte上に構築された3Dグラフィックス(ポリゴン等)と2Dグラフィックス(スプライト/BG（背景面）等)を統合的に扱うことのできるグラフィックスライブラリです。<BR>
+    libgsで扱うモデルフォーマットはTMDフォーマットと呼ばれるもので複数オブジェクト、スケール情報、テクスチャアドレス情報などがlibgsでデコードするための最適な状態で格納されています。<BR>
+    libgsで扱う画像データフォーマットはTIMフォーマットと呼ばれるもので画像の解像度、色数、カラールックアップテーブル情報などがピクセルデータと共に格納されています。<BR>
+    TMDフォーマット及びTIMフォーマットはPlayStationオーサリングツールの標準フォーマットであるためオーサリングツールで作られたデータはそのままlibgsで利用することができます。<BR>
+    libgpu/libgteがポリゴンレベルのデータを処理するライブラリであるのに対しlibgsはオブジェクトという複数のポリゴンをまとめた単位でデータを処理するため簡単に３次元のプログラムをプロトタイピングできます。<BR>
+    そしてオブジェクトに付加されたアトリビュートを用いていろいろな特殊効果を作り出すことができます。<BR>
+    ただしlibgsは扱う入力フォーマットを限定しているためlibgpu／libgteで最適化されたプログラムに比べるとオーバヘッドはあります。<BR>
+    そのため実際のゲーム製作では、一部分をlibgpu／libgteのレベルで作成する必要もあります。<BR>
+    しかし、libgsはオープンなアーキテクチャであり、低レベルライブラリを用いて開発された、ユーザのモジュール単位を追加して拡張することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    拡張グラフィックスライブラリのファイル名は「libgs.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    拡張グラフィックスライブラリのインクルードヘッダは「libgs.h」です。各種のデータ構造、マクロはすべてこのファイルで定義されています。各サービスを呼び出すプログラムは、必ずこれをインクルードする必要があります。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libgs.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libgs.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_3">
+<A HREF="#Heading3_1_1"> 1. </A>3 <B>libgsの機能</B>
+</A>
+</H3>
+<blockquote>
+    libgsで実現されている機能には、以下のものがあります。<BR>
+<UL>
+         <LI> 階層座標系
+         <LI> 光源計算（３光源デプスキューイングアンビエント）
+         <LI> オブジェクトの自動分割 半透明処理
+         <LI> 視点制御
+         <LI> Zソート処理
+         <LI> OTの初期化階層化圧縮
+         <LI> フレームダブルバッファ
+         <LI> アスペクト比の自動調整
+         <LI> ２Dクリッピングオフセット処理
+         <LI> スプライト／BG／ライン
+         <LI> libgpu,libgteとの共存
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>座標系</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgsの座標はGsCOORDINATE２と呼ばれています。<BR>
+    座標系はワールド座標系を最上位とする階層があり下の階層から上の階層へとワールド座標系に到達するまで積算されます。<BR>
+    GsCOORDINATE2は 座標系を記述するためのパラメータと座標計算を高速化するためのワークエリアからなります。<BR>
+    座標系はMATRIX型のパラメータにより記述されます。<BR>
+    MATRIXパラメータはその座標系の親の座標系からその座標系への変換パラメータとなります。<BR>
+    座標系の空間の大きさはXYZともに符合つき３２ビットです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>座標系の初期化</B>
+</A>
+</H3>
+<blockquote>
+    座標系の初期化にはGsInitCoordinate2()を使います。<BR>
+    GsInitCoordinate2()はGsCOORDINATE2の各パラメータを初期化するだけなのでプログラマがGsInitCoordinate2()を使わずに初期化しても構いません。<BR>
+    パラメータは書き換えられた瞬間から有効になり計算に使われます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>回転／平行移動の順番</B>
+</A>
+</H3>
+<blockquote>
+    座標系に設定されるパラメータの回転と平行移動の順番は<BR>
+      <BLOCKQUOTE>
+      	回転 → 平行移動<BR>
+      </BLOCKQUOTE>
+    になります。<BR>
+    またRotMatrix()を使って回転マトリックスを生成しそれをGsCOORDINATE2に設定した時は回転順は<BR>
+      <BLOCKQUOTE>
+      	Z → Y → X<BR>
+      </BLOCKQUOTE>
+    の順になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>フラグのクリア</B>
+</A>
+</H3>
+<blockquote>
+    階層座標系からローカルワールドマトリックスを求めるに際して高速化を行なっています。<BR>
+    計算済みの座標系には構造体GsCOORDINATE2のメンバのflagに１を設定し結果をworkmに格納しています。そのためGsCOORDINATE2のパラメータを書き換えた時はflagを０にクリアしないと再計算が行なわれずworkmの内容が使われてしまうので必ずクリアする必要があります。<BR>
+    ただし親座標の変更はその親座標にリンクしている子座標には自動的に伝搬されるため子座標のフラグまでクリアする必要はありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>座標系設定のサンプル</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>平行移動</B></H4>
+
+<PRE>        GsCOORDINATE2	sample_coord;	/* 平行移動を設定する座標系 */
+        int x,y,z;			/* 平行移動量 */
+        
+        sample_coord.coord.t[0] = x;
+        sample_coord.coord.t[1] = y;
+        sample_coord.coord.t[2] = z;
+</PRE>
+
+     <H4><B>回転</B></H4>
+
+<PRE>        GsCOORDINATE2	sample_coord;	/* 回転を設定する座標系   */
+        SVECTOR		rot;		/* 設定する回転角 (x,y,z) */
+        MATRIX		tmp1;		/* 求める回転マトリックス */
+        
+        RotMatrix(&rot,&tmp1);		/* 回転ベクトル→回転マトリックス変換
+        				 RotMatrix()を使うと回転順はzyxとなる */
+        sample_coord.coord = tmp1;
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>オブジェクト</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgsでは３DオブジェクトハンドラとしてGsDOBJ2 GsDOBJ3 GsDOBJ5の３種類のタイプを用意しています。<BR>
+    ここでは基本的なオブジェクトタイプであるGsDOBJ2を取り上げて説明します。<BR>
+    オブジェクトを操作するためにはGsDOBJ2のメンバのcoord2およびアトリビュート(attribute)を使います。<BR>
+    coord2は座標系（GsCOORDINATE2へのポインタでありオブジェクトの位置を制御する時にポイントされる座標系のパラメータを設定します。<BR>
+    attributeはオブジェクトの属性をあたえます。<BR>
+    属性には表示／非表示などの一般的なものから光源計算の方法の切替えなどの特殊効果などがあります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>オブジェクトの初期化</B>
+</A>
+</H3>
+<blockquote>
+    GsDOBJ２でオブジェクトをハンドルするためには 読み込まれたTMDデータとハンドラとをリンクする必要があります。<BR>
+    TMDデータとのリンクはGsLinkObject4()を用います。GsLinkObject4()はTMDデータの何番目のオブジェクトとGsDOBJ２とをリンクするのかを設定します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>オブジェクトの位置の制御</B>
+</A>
+</H3>
+<blockquote>
+    オブジェクトの位置を制御するには構造体GsDOBJ２のメンバのなかのcoord2でポイントされる座標系GsCOORDINATE2のパラメータを設定します。<BR>
+    GsCOORDINATE2のsupterがWORLDの時はその座標系はワールド座標系と等価なため 設定された位置パラメータはワールド座標系の位置になり回転パラメータはワールド座標系の原点を中心とする回転となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>オブジェクトの動きの階層構造</B>
+</A>
+</H3>
+<blockquote>
+    オブジェクトの動きに階層構造を定義したい場合は、GsDOBJ２のメンバのcoord2がポイントする座標系の階層を定義することで可能です。<BR>
+    例えばobject1がcoordinate1をポイントしobject2がcoordinate2をポイントしている時、object1をobject2の親にするためにはcoordinate2のsuperにcoordinate1を設定します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf1.gif">
+<P>
+    <B>図 1 階層構造化</B><BR>
+</CENTER>
+    このように定義すれば、object2の動きはobject1に連動します。<BR>
+    object1の動きはobject2に連動しません。<BR>
+    objcet1,object2を動す時はcoordinate1に位置を設定します。<BR>
+    object2だけを動かす時はcoordinate2に設定します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>オブジェクトのattribute制御</B>
+</A>
+</H3>
+<blockquote>
+    GsDOBJ2にはattributeのフィールドがありそのビットを操作することで<BR>
+    様々な効果をオブジェクトに与えることができます。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_1">
+(1) <B>マテリアル減衰</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      光源計算を行なう際に、方線の傾きと輝度の減衰の関係を設定します。<BR>
+      ０～３迄の値をとり３がもっとも減衰がきつくなります。<BR>
+      このパラメータによってオブジェクトの材質感を変えることができます。<BR>
+      減衰の値を大きくすると計算時間はそれだけかかります。<BR>
+      光源計算でmaterial lightingを有効にしないとこのパラメータは無視されます。<BR>
+      ただし現在のバージョンではまだサポートされていません。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_2">
+(2) <B>光源モード</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      光源計算の方式を決定します。<BR>
+      デフォルトの方式はGsSetLightMode()によって設定されます。<BR>
+      このアトリビュートはオブジェクト毎に光源計算の方式を制御したい時に設定します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_3">
+(3) <B>光源計算OFF</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      光源計算を強制的にキャンセルするためのビットです。<BR>
+      光源計算の有りのTMDもこのビットをたてると光源計算をキャンセルでき高速になります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_4">
+(4) <B>ニアクリップ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ポリゴンの端点が非常に接近した場合、（Z&lt;h/2ただしhはプロジェクション）透視変換時にオーバフローを起こしたポリゴンを単純にクリップせず、形をゆがめてでも強引に表示したい場合に設定します。<BR>
+      ただし現在のバージョンではまだサポートされていません。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_5">
+(5) <B>バッククリップ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ポリゴンは頂点の順番によって表裏があります。<BR>
+      凸物体の場合は裏を表示する必要がないため、デフォルトでは裏向きポリゴンはクリップされますが、このアトリビュートによって裏向きポリゴンも表示させることができます。ただし現在のバージョンではまだサポートされていません。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_6">
+(6) <B>半透明レート</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      半透明には通常の半透明の他に３種類のモードがあります。１００％加算、減算２５％加算です。それらのモードを制御します。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 2 半透明レート</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>背景輝度値</TD><TD>プリミティブ輝度値</TD><TR>
+    <TD>0</TD><TD>0.5</TD><TD>0.5</TD><TR>
+    <TD>1</TD><TD>1.0</TD><TD>1.0</TD><TR>
+    <TD>2</TD><TD>1.0</TD><TD>-1.0</TD><TR>
+    <TD>3</TD><TD>1.0</TD><TD>0.25</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      テクスチャマッピングされたポリゴンを半透明にするにはテクスチャの色のフィールド（ダイレクトカラーの時はテクスチャパターン、インデクスカラーの時はCLUTのフィールド）の最上位ビット（STPビット）をたてる必要があります。<BR>
+      STPビットを利用して ピクセル単位の半透明の処理が可能です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_7">
+(7) <B>表示制御</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      その物体を表示するか、表示しないかを制御します。<BR>
+      表示しない場合は、計算対象からも外され負荷は軽くなります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4_8">
+(8) <B>自動分割</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      実行時にオブジェクト単位でそのオブジェクトに含まれる全てのポリゴンを分割する機能です。分割数は2x2 4x4 8x8 16x16 32x32 64x64のうちから選べます。<BR>
+      この機能を使うことで１次変換にともなうテクスチャの歪みの問題およびニアクリップ(near clip)問題を解消することができます。<BR>
+      ただし分割数を多くしすぎると速度およびメモリ使用量が増大しますので注意が必要です。<BR>
+      自動分割機能を備えたパケット作成関数はGsSortObject4()及びGsSortObject5()です。<BR>
+      自動分割機能を使う場合はパケット作成関数の最後の引数にワークとして使用するスクラッチパッドのアドレスを渡す必要があります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>視点</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ３Dグラフィックスでは画面に映し出される画像は視点の前に設定されたスクリーンへの投影となります。<BR>
+    そのため画面に画像を映し出すには視点及びスクリーンを設定する必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>視点の設定</B>
+</A>
+</H3>
+<blockquote>
+    視点の設定はGsRVIEW2もしくはGsVIEW2の構造体に値を代入してGsSetRefView2(),GsSetView2()で設定します。<BR>
+    GsRVIEW2とGsVIEW2の違いは、視点の設定方法にあります。<BR>
+    GsRVIEW2は視点と参照点の座標を設定することで、視点を設定します。<BR>
+    GsVIEW2は視点座標系への変換マトリックスを直接設定することで視点を設定します。<BR>
+    GsVIEW2,GsRVIEW2ともに構造体のsuperに設定する座標系を書くことができます。<BR>
+    ワールド座標に設定すれば通常の客観視カメラになりそれぞれの物体のローカル座標系に設定すればその物体の主観視カメラになります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>スクリーンの設定</B>
+</A>
+</H3>
+<blockquote>
+    視点の前方にはスクリーンが設定されます。<BR>
+    視点とスクリーンとの距離をプロジェクション（h）と言い、GsSetProjection()で設定します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf2.gif">
+<P>
+    <B>図 2 視点とスクリーン</B><BR>
+</CENTER>
+    スクリーンの縦、横は画面の解像度になります。<BR>
+    例えば６４０x４８０の解像度であれば、スクリーンの横は６４０、縦は４８０になります。<BR>
+    画面の解像度が、正方ドットでない場合（つまり画面の解像度の横縦の比が４対３でない場合）縦が調整されます。<BR>
+    例えば６４０x２４０ドットの場合は、物体の縦が１／２に縮小されて表示され見かけ上は正方ドットのアスペクト比と同じになります。<BR>
+    GsInit3D()をコールすると、スクリーンの中央がスクリーン座標の原点となります。<BR>
+    libgsの３D部分を使う場合必ずGsInit3D()を一度呼ぶ必要があります。<BR>
+    プロジェクションは、画角を調整します。<BR>
+    プロジェクションが大きければ画角が狭まり平行投影に近くなります。<BR>
+    プロジェクションが小さければ画角が広がりより遠近感の強調された画像になります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>光源</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationでは平行光源を３つまで同時にあてることができます。<BR>
+    平行光源とは、光源とポリゴンの角度のみで明るさが決まる光源のことです。<BR>
+    光源は光源の向きと色とで設定します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_1">
+<A HREF="#Heading3_1_5"> 5. </A>1 <B>光源の設定</B>
+</A>
+</H3>
+<blockquote>
+    光源は、GsF_LIGHT構造体のパラメータを設定してGsSetFlatLight()でlibgsに設定します。<BR>
+    平行光源は３つまで設定可能なためGsSetFlatLight()の引数のIDは0～２までを指定します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_2">
+<A HREF="#Heading3_1_5"> 5. </A>2 <B>アンビエント</B>
+</A>
+</H3>
+<blockquote>
+    アンビエントとは周囲光のことです。光があたっていなくても周囲光によりものの形は見ることができます。アンビエントはこのような現象を実現するために用意されています。<BR>
+    アンビエントの設定は以下のように設定します。光のあたっているところを１とした時に光のあたっていない部分を0.5とするとアンビエントはGsSetAmbient（ONE/2,ONE/2,ONE/2)に設定します。ここでONEとは固定小数点で１のことです。<BR>
+    パラメータが３つあるのはRGB独立にアンビエントを指定できるからです。<BR>
+    一般にアンビエントを上げると暖かいイメージになり、下げるとつめたいイメージになります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_3">
+<A HREF="#Heading3_1_5"> 5. </A>3 <B>デプスキューイング</B>
+</A>
+</H3>
+<blockquote>
+    視点からの距離（Z）に応じて物体の明るさを変化させると遠くのものを霞ませることができます。この効果をデプスキューイングと呼びます。<BR>
+    libgsではテクスチャつきでないすべてのポリゴンに対してデプスキューイングを行なうことができます。<BR>
+    デプスキューイングを行なうには、GsSetLightMode(1)もしくはGsSetLightMode(3)をコールしてデプスキューイングの光源計算を指示します。<BR>
+    そして、GsFOGPARMのrfc,gfc,bfcにバックグラウンドカラーを設定し<BR>
+    GsSetFogParam()でlibgsに設定します。<BR>
+    バックグラウンドカラーが白っぽくするとFOG効果となります。<BR>
+    テクスチャマップされたポリゴンに対してはバックグラウンドカラーが黒の時のみこの方法でデプスキューイングが可能です。<BR>
+    これはダンジョンなど遠くを暗くして見えなくする時などに有効です。<BR>
+    テクスチャマップされたポリゴンをどんな場合でもデプスキューイングさせるにはCLUTを奥行きによって切り替えることで実現できます。この方法は現在libgsではサポートされていません。<BR>
+    なお、バックグラウンドカラーと周辺光（アンビエントカラー）は一般には異なるので注意が必要です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_4">
+<A HREF="#Heading3_1_5"> 5. </A>4 <B>マテリアルライティング</B>
+</A>
+</H3>
+<blockquote>
+    ポリゴンと光源の角度で光の強さが決定されると説明しましたが、その光の減衰カーブをより急峻にすることで物質の質感を金属質に変えることができます。これをマテリアルライティングと呼びます。<BR>
+    マテリアルライティングを行なうにはGsSetLightMode(2) or GsSetLightMode(3)をコールしてマテリアルライティングを指示します。<BR>
+    減衰の制御はオブジェクト毎にattributeで行ないます。attributeのマテリアル減衰のところで０から３の値を設定します。設定した値が大きい程減衰がきつくなり、金属的な質感が増します。ただし、現在のバージョンではまだ対応しておりません。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>描画の優先順位（オーダリングテーブル）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationでは、陰面消去をポリゴン描き順（Zソート）によって実現しています。<BR>
+    そして高速なZソートを実現するためにオーダリングテーブル(OT）という概念を導入しています。<BR>
+    OTとはメモリ上にとられたZの「物差し」の様なもので物差しのそれぞれの「目盛」がいくつでもポリゴンを持つことができます。<BR>
+    ソーティングは、ポリゴンのZ値に応じて、そのZ値と等しい目盛へポリゴンを「置いて」いくことで行ないます。ポリゴンを最後まで置いていくと、物差しにはすべてのポリゴンがZ値に応じてぶら下がっていることになります。<BR>
+    これを目盛の順に描画装置へ転送し描画していくことで、陰面消去を実現できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>GsOT</B>
+</A>
+</H3>
+<blockquote>
+    GsOTは、オーダリングテーブルハンドラと呼ばれる構造体です。libgsではOTをGsOTでハンドルしす。この構造体にはOTの実体へのポインタとそのOTの属性を示すパラメータが格納されています。メンバorgがOTの実体へのポインタです。<BR>
+    OTにはZの目盛の解像度を２の１乗から１４乗までの１４段階の設定をすることができます。この情報をメンバlengthに保持します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_2">
+<A HREF="#Heading3_1_6"> 6. </A>2 <B>GsOT_TAG</B>
+</A>
+</H3>
+<blockquote>
+    GsOT_TAGは、OTの実体を構成する最小単位です。GsOT_TAGは先ほどの物差しのたとえでいうと物差し一目盛のことです。<BR>
+    GsOT_TAGの配列としてOTの実体が定義されます。例えばlengthが４であった場合、２の４乗すなわち１６のOT_TAGの配列がOTの実体になるということです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_3">
+<A HREF="#Heading3_1_6"> 6. </A>3 <B>OTの初期化</B>
+</A>
+</H3>
+<blockquote>
+    OTの初期化はGsClearOt()によって行ないます。GsClearOt()はoffset,point,otpの3つの引き数をとります。otpはOTハンドラへのポインタです。offset,pointについては後述します。<BR>
+    OTは初期化されるとポリゴンを全くかかえていない状態となり、ソート可能となります。<BR>
+    ソートをする前に必ず初期化を行なう必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_4">
+<A HREF="#Heading3_1_6"> 6. </A>4 <B>複数OT</B>
+</A>
+</H3>
+<blockquote>
+    libgsではOTを複数持つことが許されています。複数のOTはGsSortOt()によってOT同士をソートすることができます。この時にOTの代表値Zとして参照される値が構造体GsOTのメンバにあるpointです。<BR>
+    複数のOTを用いることにより、ソートの順番を制御することが可能となります。<BR>
+    例えば、オブジェクト毎にローカルOTを用意し、最後にローカルOTをソートしてまとめれば、オブジェクト単位のソートが可能です。<BR>
+    これは、道路の上を自動車が走っているところをヘリコプターで上から見下ろしている時などの、前後関係が既にわかっている場合などに有効です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_5">
+<A HREF="#Heading3_1_6"> 6. </A>5 <B>OTの圧縮</B>
+</A>
+</H3>
+<blockquote>
+    OTを用いることで、ソートのスピードは高速化されますが、そのかわりOTはメモリを消費します。OTでメモリをあまり消費しないようにするには、OTのlengthを少なくしてOTの解像度を下げる方法があります。ところが、OTの解像度を下げるとソートの際の解像度も下がってしまい前後関係の間違いにるポリゴンがちらつく現象（Zソート問題）が起こりやすくなってしまいます。<BR>
+    解像度を落さずにOTのメモリ使用量を減らす方法としてオフセットを使うという方法があります。これは、ソートされるポリゴンのZ値がある値よりも大きいことがわかっている場合に使用できます。その値をoffsetとしてGsClearOt()に渡せばOTはoffsetまでの部分をメモリにとりません。これによりメモリ使用量を減らすことができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_6">
+<A HREF="#Heading3_1_6"> 6. </A>6 <B>Zソート問題</B>
+</A>
+</H3>
+<blockquote>
+    Zソート問題とは、Zソートにより陰面消去をする際に優先順位を取り違えてポリゴンがちらつく現象を指します。<BR>
+    これは優先順位を決定する際に参照されるZがポリゴン１つにつき１つであることが原因です。とくに奥に長いポリゴンはZの値が、一つのポリゴンで大きく広がっているにもかかわらず、ただ一つの代表値Zでしかソーティングされません。<BR>
+    libgsではポリゴンの重心のZをソーティングの際に参照しています。<BR>
+    Zソート問題を解消するには、ポリゴンを細かく分けるという方法が１つあります。<BR>
+    しかしポリゴン数の増大は避けられません。<BR>
+    もう一つの回避策としてオブジェクト単位のソーティングがあります。オブジェクト毎の前後関係が明らかな場合はこの条件を反映させてソーティングすることでオブジェクト同士で干渉することのないソーティングが可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_7">
+<A HREF="#Heading3_1_6"> 6. </A>7 <B>OTのダブルバッファ</B>
+</A>
+</H3>
+<blockquote>
+    ポリゴンを割り付けられたOTはそのOTが描画されている間にはアクセスできません。<BR>
+    そのため、バックグラウンドで描画をする場合は、OTを二つ用意し描画に使われていないOTをソーティングに使わなくてはいけません。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>表示のダブルバッファ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStation２次元のフレームバッファをもち 画面に表示されるイメージは、フレームバッファに書き込まれたものが、そのまま再現されます。<BR>
+    表示は垂直基線同期（Vブランク）の間に切替えると画面が乱れずに切替ができます。<BR>
+    切替えられた画面は、その画面がテレビの画面が表示 されている間にアクセスされると画面が乱れてしまいます。<BR>
+    そのために表示されている面と、書き換えられている面の二つの面が必要です。<BR>
+    これを表示のダブルバッファと呼びます。<BR>
+    libgsではGsDefDispBuffer()によってダブルバッファを定義しています。<BR>
+    この定義されたダブルバッファは、GsSwapDispBuff()によって切替が起こります。<BR>
+    現在ダブルバッファのどちらに描画しているのかはGsGetActiveBuff()によって得ることができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>ダブルバッファの実現</B>
+</A>
+</H3>
+<blockquote>
+    ダブルバッファは内部ではフレームバッファの表示位置を変えることで実現しています。<BR>
+    画面上のに表示領域の左上点（原点）は、必ずしもフレームバッファの左上点にある必要はありません。<BR>
+    この時は、フレームバッファへオフセットつきで描画をする必要があります。<BR>
+    このオフセットをつける段階をlibgsでは二通りから選ぶことができます。<BR>
+    ひとつはlibgteレベルでオフセットをつける方法です。<BR>
+    この方法を選択するとパケットを計算して作る段階でダブルバッファのオフセットが付けられます。<BR>
+    もうひとつはlibgpuレベルでオフセットをつける方法です。<BR>
+    この方法を選択すると、ダブルバッファのオフセットはパケットにはつかず、フレームバッファに描画する段階でオフセットが付けられます。<BR>
+    このどちらの方法をとるかGsInitGraphの第３引数で選択できますが、libgpu関数との併用を予定している場合は後者の方法を選択することをお勧めします。<BR>
+    現在前者の方法を用いるメリットは以前のバージョンとの互換性を保つ以外はありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_2">
+<A HREF="#Heading3_1_7"> 7. </A>2 <B>インターレース時のダブルバッファ</B>
+</A>
+</H3>
+<blockquote>
+    インターレースの時は縦解像度として４８０の倍解像度を指定することが できます。<BR>
+    この時のダブルバッファはフィールドの偶数・奇数で自動的に行なわれるため、GsDefDispBuff()でのダブルバッファの設定は同じバッファを指定する必要があります。<BR>
+    インターレース時に縦解像度を２４０とする場合はノンインターと同じように違うバッファを設定する必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>クリッピング</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgsではクリッピングは２Dのクリッピングと３Dのクリッピングの二つにわけられます。<BR>
+    ２Dのクリッピングはスクリーン座標系に変換した後にクリッピングすることです。<BR>
+    ３Dのクリッピングは視点からの距離に応じてクリッピングするものです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_1">
+<A HREF="#Heading3_1_8"> 8. </A>1 <B>２Dクリッピング</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationにはフレームバッファの任意の矩形をクリッピング領域として指定できる機能があります。<BR>
+    GsSetClip2D()によりlibgsの内部変数にクリッピング領域を登録します。<BR>
+    GsSetDrawBuffClip()はその変数の内容を設定し有効にします。<BR>
+    表示のダブルバッファの切替えは、クリッピング領域も切替えてはみ出したポリゴンが、別のバッファを壊さないようにしています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_2">
+<A HREF="#Heading3_1_8"> 8. </A>2 <B>３Dクリッピング</B>
+</A>
+</H3>
+<blockquote>
+    libgsでは、３Dのクリッピングはアプリケーションレベルで行なうことを前提として設計されており、ライブラリレベルでの３Dクリッピングはデフォルト値以外は、サポートされていません。<BR>
+    デフォルトの３Dクリップ値には、以下のものがあります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2_1">
+(1) <B>遠方クリップ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      スクリーン座標系のZ値は符合なし１６ビットなのでZが６５５３６以上の時にクリップされます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2_2">
+(2) <B>近方クリップ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      プロジェクションをhとしてスクリーン座標系のZ値がh/2以下の時にクリップされます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_3">
+<A HREF="#Heading3_1_8"> 8. </A>3 <B>ニアクリップ問題</B>
+</A>
+</H3>
+<blockquote>
+    「ニアクリップ(near clip)問題」とは、レーシングゲームの路面などポリゴンが視点に限りなく接近してかつポリゴン自体が視点に近付いているため巨大になる場合に起こるさまざまの問題を言います。<BR>
+    ポリゴン単位でクリップした場合視点近くの路面に大きな穴があいてしまい、非常に見にくくなってしまいます。libgsではこの問題の解決策としてポリゴンの自動分割をサポートしてます。<BR>
+    オブジェクトが接近した場合attributeの自動分割を設定することによりニアクリップを円滑に行なえます。<BR>
+    ただし自動分割は負荷が重いので本当に必要な時の使用に限定してください。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>パケット作成関数群</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libgsはGsSortObject3()GsSortObject4()GsSortObject5()の３つのパケット作成関数を状況に応じて選択可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_1">
+<A HREF="#Heading3_1_9"> 9. </A>1 <B>パケットバッファ</B>
+</A>
+</H3>
+<blockquote>
+    パケットバッファには以下の二つの種類があります。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      (1) プリセットパケットバッファ<BR>
+      (2) ランタイムパケットバッファ<BR>
+      </BLOCKQUOTE>
+    <BR>
+    (1)のプリセットパケットバッファはプリセットパケットのオブジェクトを使う時に必要です。<BR>
+    プリセットパケットを使うオブジェクトタイプはGsDOBJ5を使うGsSortObject5()関数です。<BR>
+    プリセットパケットのサイズはモデルにより固定です。<BR>
+    GsPresetObject()の返り値によってどこまでバッファがプリセットされたか知ることができます。<BR>
+    プリセットは最初に１回必要です。<BR>
+    プリセットパケットはプリセットバッファの領域にパケットを作るのでランタイムパケットバッファを消費しません。<BR>
+    ただしGsDOBJ5のattributeで自動分割をONにした時はランタイムパケットバッファにパケットを作るのでランタイムパケットバッファを消費します。<BR>
+    (2)のランタイムパケットバッファは実行時にパケットを作るためのバッファです。<BR>
+    これを使うのはGsSortObject4(),GsSortSpriteなどです。<BR>
+    バッファの先頭はGsSetWorkBase()により指定されGsSortObjet4()が呼ばれる度にその領域にパケットを作っていき、カレントのパケット領域のポインタはGsGetWorkBase()により取り出せます。<BR>
+    バッファのサイズは１フレームに同時に表示されるために計算されるポリゴンの数により増減します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_2">
+<A HREF="#Heading3_1_9"> 9. </A>2 <B>プリセットパケット</B>
+</A>
+</H3>
+<blockquote>
+    プリセットパケットとはパケットをあらかじめ作っておくということです。<BR>
+    そうすれば毎フレーム書き換えなくてもいい項目、例えばテクスチャのu,vなどは、メモリにライトしなくてもいいため高速化されます。<BR>
+    PMDフォーマットはプリセットパケット専用のモデリングフォーマットです。<BR>
+    GsSortObject5()はプリセットパケットのパケット作成関数です。<BR>
+    プリセットパケットを作るにはGsPrsetObject()を用います。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf3.gif">
+<P>
+        <H4><B>図 3 プリセットパケットのフォーマット</B></H4>
+
+</CENTER>
+    パケットは、libgpu.hのPOLY_FT4などの構造体（プリミティブ）の集まりです。<BR>
+    プリミティブの種類はタイプを見れば判別できます。<BR>
+    tpageをセットしたければ、POLY_FT4などの構造体のtpageをセットすることで行なうことができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_3">
+<A HREF="#Heading3_1_9"> 9. </A>3 <B>TMDのソート</B>
+</A>
+</H3>
+<blockquote>
+    TMDフォーマットのモデリングデータは、さまざまなポリゴンの種類がランダムに並べてある状態も許容しています。しかし、実際にリアルタイムでTMDデータからパケットを作成するにあたって、ランダムなポリゴンタイプの出現は、その切替の度に、デコードルーチンが切り替えられインストラクションキャッシュの威力を十分発揮できません。<BR>
+    そのためにTMDデータ中のポリゴンタイプをまとめておくという高速化の手法があります。これがTMDソートです。<BR>
+    TMDをソートはオーサリングレベルで行ないます。変換のためのコマンドは、TMDSORT.EXEです。このコマンドの解説はオーサリングツールの方の解説を参考にして下さい。<BR>
+    GsSortObject4(),GsSortObject5()どちらのパケット作成関数もソートされたTMDデータを使用すれば高速化の効果があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_4">
+<A HREF="#Heading3_1_9"> 9. </A>4 <B>パケット作成関数</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_4_1">
+(1) <B>GsSortObject3()</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      GsSortObject3()は、PMDフォーマットのパケット作成を行ないます。<BR>
+      オブジェクトハンドラはGsDOBJ3を使います。<BR>
+      PMDデータをGsDOBJ3でハンドルするにはGsLinkObject3()を一度呼んで TMDデータとハンドラとを関連付ける必要があります。<BR>
+      PMDフォーマットというのはモデリングデータとプリセットパケットが、一体となったフォーマットです。TMDからPMDへのコンバートはオーサリングレベルで行ないます。<BR>
+      変換のためのツールはTMD2PMD.EXEです。詳細はオーサリングツールの解説を参考にして下さい。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_4_2">
+(2) <B>GsSortObject4()</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      GsSortObject4は最も汎用的なオブジェクト計算ルーチンです。高速化のためにソートされたTMDフォーマットのデータを使用します。TMDデータのソートはtmdsort.exeコマンドで行ないます。オブジェクトハンドラとしてはGsDOBJ2をもちいます。<BR>
+      TMDデータをGsDOBJ4でハンドルするにはGsLinkObject4()を一度呼んでTMDデータとハンドラとを関連付ける必要があります。<BR>
+      あらかじめセットされたローカル／スクリーンマトリックスとローカル／スクリーンライトマトリックスを参照してオブジェクトをローカルスクリーン変換しソーティングしてOTに割り付けます。<BR>
+      ローカル／スクリーンマトリックスのセットはGsSetLsMatrix()により行ないます。ローカル／スクリーンライトマトリックスのセットはGsSetLightMatrix()により行ないます。<BR>
+      OTに割り付けられたポリゴンはGsDrawOt()によって描画されます。この描画関数はすぐリターンし、描画はバックグラウンドで行なわれます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_4_3">
+(3) <B>GsSortObejct5()</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      GsSortObject5はプリセットパケットを用いたパケット作成関数です。高速化のために、ソートされたTMDフォーマットのデータを使用します。TMDデータのソートはtmdsort.exeコマンドで行ないます。オブジェクトハンドラとしてはGsDOBJ5を使用します。<BR>
+      TMDデータをGsDOBJ5でハンドルするにはGsLinkObject5()を一度呼んでTMDデータとハンドラを関連づける必要があります。<BR>
+      プリセットパケットを作成するにはGsPresetObject()を用います。<BR>
+      GsSortObject5()でパケットを作成するためにはGsPresetObject()をイニシャライズで一度呼び、プリセットパケットを作成しておく必要があります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_9_4_4">
+(4) <B>機能比較</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      これらの関数の特徴を以下に示します。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 3 パケット作成関数の機能比較その１</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD></TD><TD>A</TD><TD>B</TD><TD>C</TD><TD>D</TD><TD>E</TD><TD>F</TD><TD>G</TD><TD>H</TD><TD>I</TD><TR>
+    <TD>GsSortObject3</TD><TD>GsDOBJ3</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>250K</TD><TR>
+    <TD>GsSortObject4</TD><TD>GsDOBJ2</TD><TD>×</TD><TD>○</TD><TD>○</TD><TD>×</TD><TD>×</TD><TD>○</TD><TD>○</TD><TD>?</TD><TR>
+    <TD>GsSortObject5</TD><TD>GsDOBJ5</TD><TD>×</TD><TD>○</TD><TD>○</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>○</TD><TD>220K</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      A) OBJTYPE		使用するオブジェクトハンドラ<BR>
+      B) マテリアル減衰		attributeを参照のこと<BR>
+      C）FOG			同上<BR>
+      D）光源計算OFF		同上<BR>
+      E）ニアクリップ		同上<BR>
+      F) バッククリップ		同上<BR>
+      G) 半透明レート		同上<BR>
+      H) 自動分割		同上<BR>
+      I) 性能			10x10 フラット三角形 実測値<BR>
+      GsSortObject4の性能はSortObject2以上SortObject5以下です。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 4 パケット作成関数の機能比較その２</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD></TD><TD>presort</TD><TD>preset</TD><TD>preshade</TD><TD>workbase</TD><TD>tools</TD><TR>
+    <TD>GsSortObject3</TD><TD>OK</TD><TD>OK</TD><TD>OK</TD><TD>NG</TD><TD>Tmd2pdm</TD><TR>
+    <TD>GsSortObject4</TD><TD>OK</TD><TD>NG</TD><TD>OK/NG</TD><TD>OK</TD><TD>rsdlink,tmdsort</TD><TR>
+    <TD>GsSortObject5</TD><TD>OK</TD><TD>OK</TD><TD>OK/NG</TD><TD>NG(標準),OK(自動分割)</TD><TD>rsdlink, tmdsort</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>パケット領域</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    GsSortObject4()は、パケットを作成しオーダリングテーブルに割り付けます。<BR>
+    パケットが作られる領域は、GsSetWorkBase()によってlibgsに設定します。<BR>
+    パケットはポリゴンの種類（フラット／グーロー、テクスチャあり／なし）や数によって増減するためパケット領域をどれくらいとればいいかは大体にしか見積もれません。<BR>
+    ただし、パケット領域が実際に作成されるパケットより小さい場合は、パケット領域の後ろにある領域は壊されるので注意が必要です。<BR>
+    現在、パケット領域がどのくらいまで使われているかを返す関数がGsGetWorkBase()です。<BR>
+    この関数によって、プログラマはオーバフローの危険性を予知できます。<BR>
+    GsSortObject5()を使った場合はプリセットパケットのエリアにパケット領域が予めとられているためGsSetWorkBase()を使用して、新たにパケット領域を確保する必要はありません。<BR>
+    ただし、自動分割の機能を使う場合は、分割して増えた分のパケットはGsSetWorkBase()で設定したパケット領域に作られるのでGsSetWorkBase()によるパケット領域の設定が必要です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_1">
+<A HREF="#Heading3_1_10"> 10. </A>1 <B>パケットのダブルバッファ</B>
+</A>
+</H3>
+<blockquote>
+    描画をバックグラウンドで行なうため、描画中のパケットは壊すことができません。そのためパケット領域を二つとりダブルバッファにする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_11">
+<H2>
+<A HREF="#Top">↑</A> 11 <B>描画について</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    描画はGsDrawOt()によりスタートします。描画面はGsSwapDispBuff()がコールされるたびに切り替わります。描画はバックグラウンドで行なわれるため、描画に十分時間をかけることができます。<BR>
+    描画のプロセスはまず、描画面に残っている２フレーム前のイメージを消してからGsSortObject...()で作成されたパケットを描画していくことで行なわれます。<BR>
+    画面をクリアするためのパケットを、OTに登録する関数がGsSortClear()です。<BR>
+    引数により、任意の色にクリアできます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_1">
+<A HREF="#Heading3_1_11"> 11. </A>1 <B>処理の流れの概要</B>
+</A>
+</H3>
+<blockquote>
+    各フレーム毎に必要な3D処理の典型的な手順を以下に示します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf4.gif">
+<P>
+        <H4><B>図 4 ３次元処理の手順</B></H4>
+
+</CENTER>
+    詳細はサンプルプログラムを参考にして下さい。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_12">
+<H2>
+<A HREF="#Top">↑</A> 12 <B>Gsライブラリでのスクラッチパッド使用量</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    Gsライブラリでは、GsSortObject4,GsSortObject4J,GsSortObject5,GsSortObject5Jでスクラッチパッドのアドレスを引数で渡します。これは、ポリゴン分割の際に、スクラッチパッドを使用することでスピードを向上させるためです。ここでは、Gsライブラリがどんな状況でどの程度スクラッチパッド領域を使用するのかを説明します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_1">
+<A HREF="#Heading3_1_12"> 12. </A>1 <B>スクラッチパッドを消費する状況</B>
+</A>
+</H3>
+<blockquote>
+    スクラッチパッドを使用する状況は、以下の関数および、attributeを使用した場合です。<BR>
+<CENTER>
+        <H4><B>表 5 スクラッチパッドを消費する状況</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>関数名<BR></TD><TD>GsSortObject4()<BR>GsSortObject4J()<BR>GsSortObject5()<BR>GsSortObject5J()</TD><TR>
+    <TD>attribute</TD><TD>GsDIV1,GsDIV2,GsDIV3,GsDIV4,GsDIV5</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    自動分割を行わない場合は、スクラッチパッド領域は消費しません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_2">
+<A HREF="#Heading3_1_12"> 12. </A>2 <B>スクラッチパッドの消費量</B>
+</A>
+</H3>
+<blockquote>
+    スクラッチパッドの消費量は、以下の通りです。(単位byte)<BR>
+<CENTER>
+        <H4><B>表 6 スクラッチパッドの使用量</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD></TD><TD>GsDIV1</TD><TD>GsDIV2</TD><TD>GsDIV3</TD><TD>GsDIV4</TD><TD>GsDIV5</TD><TR>
+    <TD>3角形ポリゴンの場合</TD><TD>184</TD><TD>272</TD><TD>360</TD><TD>448</TD><TD>536</TD><TR>
+    <TD>4角形ポリゴンの場合</TD><TD>260</TD><TD>400</TD><TD>540</TD><TD>680</TD><TD>820</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_3">
+<A HREF="#Heading3_1_12"> 12. </A>3 <B>ユーザプログラムとライブラリでスクラッチパッドを共用する方法</B>
+</A>
+</H3>
+<blockquote>
+    GsSortObject...()の引数で与えるスクラッチパッドのベースアドレスを下位にずらし、上位をユーザプログラムで使用します。ライブラリの使用するスクラッチパッド領域は、アドレス的には下に伸びます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_13">
+<H2>
+<A HREF="#Top">↑</A> 13 <B>ｍｉｐ－ｍａｐライブラリ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    Gsライブラリでは、mip-mapをサポートしています。<BR>
+    mip-mapとは、TMDデータに含まれるテクスチャ4角形ポリゴンに対して、ポリゴンのサイズに応じてテクスチャを切り替えることをいいます。これにより、テクスチャキャッシュにヒットしやすくなり、描画時間が短縮されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_1">
+<A HREF="#Heading3_1_13"> 13. </A>1 <B>使用方法</B>
+</A>
+</H3>
+<blockquote>
+    mip-mapをサポートしているGsSortObject4J()の下位関数として、以下のような関数があります。<BR>
+<CENTER>
+        <H4><B>表 7 mip-map下位関数群</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>GsTMDfastTF4LM</TD><TD>フラットテクスチャ4角形（光源計算）</TD><TR>
+    <TD>GsTMDfastTF4LFGM</TD><TD>フラットテクスチャ4角形（光源計算＋FOG）</TD><TR>
+    <TD>GsTMDfastTF4NLM</TD><TD>フラットテクスチャ4角形（光源計算なし）</TD><TR>
+    <TD>GsTMDfastTNF4M</TD><TD>フラットテクスチャ4角形（光源計算なし）</TD><TR>
+    <TD>GsTMDfastTG4LM</TD><TD>グーローテクスチャ4角形（光源計算）</TD><TR>
+    <TD>GsTMDfastTG4LFGM</TD><TD>グーローテクスチャ4角形（光源計算＋FOG）</TD><TR>
+    <TD>GsTMDfastTG4NLM</TD><TD>グーローテクスチャ4角形（光源計算なし）</TD><TR>
+    <TD>GsTMDfastTNG4M</TD><TD>グーローテクスチャ4角形（光源計算なし）</TD><TR>
+    <TD>GsTMDdivTF4LM</TD><TD>フラットテクスチャ4角形（固定分割＋光源計算）</TD><TR>
+    <TD>GsTMDdivTF4LFGM</TD><TD>フラットテクスチャ4角形（固定分割＋光源計算＋FOG）</TD><TR>
+    <TD>GsTMDdivTF4NLM</TD><TD>フラットテクスチャ4角形（固定分割＋光源計算なし）</TD><TR>
+    <TD>GsTMDdivTNF4M</TD><TD>フラットテクスチャ4角形（固定分割＋光源計算なし）</TD><TR>
+    <TD>GsTMDdivTG4LM</TD><TD>グーローテクスチャ4角形（固定分割＋光源計算）</TD><TR>
+    <TD>GsTMDdivTG4LFGM</TD><TD>グーローテクスチャ4角形（固定分割＋光源計算＋FOG）</TD><TR>
+    <TD>GsTMDdivTG4NLM</TD><TD>グーローテクスチャ4角形（固定分割＋光源計算なし）</TD><TR>
+    <TD>GsTMDdivTNG4M</TD><TD>グーローテクスチャ4角形（固定分割＋光源計算なし）</TD><TR>
+    <TD>GsA4divTF4LM</TD><TD>フラットテクスチャ4角形（自動分割＋光源計算）</TD><TR>
+    <TD>GsA4divTF4LFGM</TD><TD>フラットテクスチャ4角形（自動分割＋光源計算＋FOG）</TD><TR>
+    <TD>GsA4divTF4NLM</TD><TD>フラットテクスチャ4角形（自動分割＋光源計算なし）</TD><TR>
+    <TD>GsA4divTNF4M</TD><TD>フラットテクスチャ4角形（自動分割＋光源計算なし）</TD><TR>
+    <TD>GsA4divTG4LM</TD><TD>グーローテクスチャ4角形（自動分割＋光源計算）</TD><TR>
+    <TD>GsA4divTG4LFGM</TD><TD>グーローテクスチャ4角形（自動分割＋光源計算＋FOG）</TD><TR>
+    <TD>GsA4divTNG4M</TD><TD>グーローテクスチャ4角形（自動分割＋光源計算なし）</TD><TR>
+    <TD>GsA4divTNG4M</TD><TD>グーローテクスチャ4角形（自動分割＋光源計算なし）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_2">
+<A HREF="#Heading3_1_13"> 13. </A>2 <B>テクスチャの配置</B>
+</A>
+</H3>
+<blockquote>
+    mip-mapを使用する場合、テクスチャは以下のように配置してください。<BR>
+<CENTER>
+    <BR>
+<P>
+<IMG SRC ="gif/gsf5.gif">
+<P>
+    <B>図 5 テクスチャの配置</B><BR>
+</CENTER>
+    テクスチャのサイズは1,1/4,1/16,1/64の4段階です。どのテクスチャを使用するかは、そのポリゴンの外積値を用いて割り出します。以上の4つのテクスチャは同じtpage内にある必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_3">
+<A HREF="#Heading3_1_13"> 13. </A>3 <B>ポリゴンの頂点</B>
+</A>
+</H3>
+<blockquote>
+    ポリゴンの頂点の順番は、以下のような順番である必要があります。<BR>
+<CENTER>
+    <BR>
+<P>
+<IMG SRC ="gif/gsf6.gif">
+<P>
+    <B>図 6 ポリゴンの頂点の順番</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_14">
+<H2>
+<A HREF="#Top">↑</A> 14 <B>ＨＭＤ用ライブラリ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    HMDとは、Hierarchical Model Dataの略称で、Ver4.0のgsライブラリで新たに導入されたフォーマットです。HMDはモデルデータからイメージデータ、アニメーションデータなどの広範なカテゴリのデータをカバーします。また拡張性があるため新たなデータフォーマットを付け加えていくことが可能です。<BR>
+    <BR>
+    HMDを利用するためにはVer4.0以降のプレイステーションライブラリが必要です。データ作成のツールとしてはRSD2HMD.EXEを利用できます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_1">
+<A HREF="#Heading3_1_14"> 14. </A>1 <B>HMDのコンセプト</B>
+</A>
+</H3>
+<blockquote>
+    従来のlibgsでは多種多様なポリゴンフォーマットに対応するためジャンプテーブルという機能を導入してきました。HMDはこの考え方を推し進め、データの中にそのデータを処理するためのライブラリ関数の先頭アドレスを埋め込みます。埋め込まれるライブラリ関数をプリミティブドライバと呼びます。多種多様なデータを統一的に管理するため３２ビットのtypeと呼ばれる識別子を導入し、どのプリミティブドライバをどのtypeのデータに埋め込むかを統一的なルールで管理します。<BR>
+    <BR>
+    データの拡張性を向上させるためtypeを加えることで新たなフォーマットを追加できるような枠組みにしています。またプリミティブドライバに関しても、ライブラリとして供給される他ユーザ定義も可能にするため呼び出しのシーケンスを標準化しています。これによりユーザはHMDの枠組みの中で独自のフォーマットを追加することが可能であるばかりでなく既存のtypeに関しても独自のプリミティブドライバを書くことが可能となっております。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_2">
+<A HREF="#Heading3_1_14"> 14. </A>2 <B>HMDで新たにサポートされる機能</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> モデルデータにテクスチャイメージデータを含ませることが可能になりました。
+         <LI> モデルデータに座標系の情報を持たせることができるようになりました。これにより座標系の異なるオブジェクトを一つの論理オブジェクトとして定義でき座標系同士の結合情報やオブジェクトの配置情報もＨＭＤの中に入れることができるようになりました。
+         <LI> 複数の座標系にまたがるポリゴン（共有ポリゴン&lt;SHARED POLYGON&gt;と呼ぶ）を定義し表示することが可能になりました。この技術によりONE SKIN MODELと呼ばれる滑らかな関節を持つモデルが表示可能になりました。
+         <LI> モデルデータにそのモデルのアニメーションの情報を定義することができるようになりました。アニメーションのアルゴリズムとしてはキーフレーム補完　および　MIMeが可能です。ただしMIMeに関してはVer4.1で正式サポートの予定です。
+         <LI> 連結ポリゴンがサポートされました。これでモデルをより少ない頂点データで表現でき計算も高速化されます。自動的に連結情報を検索するツールMESHCONV.EXEを提供します。
+</UL>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_3">
+<A HREF="#Heading3_1_14"> 14. </A>3 <B>ＴＭＤからＨＭＤへの移行</B>
+</A>
+</H3>
+<blockquote>
+    <OL>
+         <LI VALUE= 1> 計算関数の変更
+         <LI VALUE= 2> GsSortObject3,4,5からGsSortUnit()へ変更します。
+         
+         <LI VALUE= 4> オブジェクトハンドラの変更<BR>オブジェクトハンドラをGsDOBJ3,4,5からGsUNITに変更します。GsDOBJ3,4,5に存在したattributeはGsUNITでは削除されました。HMDではプリミティブドライバの振る舞いをattributeで制御するのではなくプリミティブドライバを切り替えることにより行います。<BR><BR>GsUNITには二つのメンバがあります。coordは座標系へのポインタを保持します。primtopはプリミティブブロックの先頭を保持します。<BR>GsSortUnit()を呼び出す前にcoordからローカルワールドマトリックスを計算しGTEにセットすることは今までと同じです。<BR>primtopはGsSortUnit()に渡します。<BR>
+         <LI VALUE= 5> 初期化手順の変更<BR>GsMapUnit()でＨＭＤで基本的に定義されているポインタを実アドレスに変換します。<BR>GsScanUnit()でプリミティブドライバへのポインタを埋め込むためのアドレスとtypeを取得します。typeのビットを見てどのプリミティブドライバを結合させるべきか判断し取得したアドレスに設定します。typeフィールドのiniビットが立っている場合はローカルで定義されている部分を初期化するための関数（例えばコーディネートのマップ（GsMapCoordUnit）など）を呼び出します。
+    </OL>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_4">
+<A HREF="#Heading3_1_14"> 14. </A>4 <B>プリミティブドライバ</B>
+</A>
+</H3>
+<blockquote>
+      <BLOCKQUOTE>
+      プリミティブドライバはタイプにより識別されます。名称はGsU_XXXXXXXX() です。<BR>
+      XXXXXXXXにはそのプリミティブドライバにより処理されるデータのタイプが入ります。<BR>
+      例）GsU_00000008() など<BR>
+      <BR>
+      タイプフィールドは３２ビットあり４つのビット列にカテゴライズされています。上位の８ビットはすべてのカテゴリで共通の情報です。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf7.gif">
+<P>
+      <B>図 7 プリミティブダイプ</B><BR>
+</CENTER>
+      developper idはそのタイプを定義したデベロッパーのIDが入ります。SCEIで定義されるtypeはすべて０が入ります。ユーザ定義のIDは0xFを指定するようにしてください。。<BR>
+      <BR>
+      CATEGORYはデータのモデルデータやイメージデータなどのカテゴリ情報を示します。<BR>
+      <BR>
+      DRIVERはプリミティブドライバの振る舞いを定義します。分割のON/OFFや光源計算の方法などです。<BR>
+      <BR>
+      PRIMITIVE TYPEはデータのフォーマットを示します。一般にDRIVERのビットが異なっていてもPRIMITIVE TYPEのビットが同一であればプリミティブドライバは交換可能です。たとえば分割を途中から行う場合は最初は分割をしないプリミティブドライバをセットしておき　後から分割するドライバに切り替えることでポリゴン処理の振る舞いを切り替えます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_5">
+<A HREF="#Heading3_1_14"> 14. </A>5 <B>プリミティブドライバの呼び出し環境</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブドライバの呼び出し環境は所定のメモリ領域にいくつかの変数がコピーされた状態で行われます。このメモリ領域を引数領域とよび、GsSortUnit()の引数でそのアドレスを設定します。高速化のため通常はスクラッチパッドメモリに指定します。<BR>
+    <BR>
+    下に引数受け渡し領域を図示します。ここで色のついた部分は呼び出しの際必ず引き渡される引数です。色のついていない部分についてはプリミティブヘッダの内容がコピーされます。プリミティブヘッダはプリミティブブロックによって異なるため常に同じ要素が入るとは限りません。<BR>
+    <BR>
+    プリミティブヘッダは基本的にマップされたポインタ情報です。ただし最上位ビットに０を指定することでマップしない変数の受け渡しも可能です。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf8.gif">
+<P>
+    <B>図 8 引数受け渡し領域</B><BR>
+</CENTER>
+    たとえば独立ポリゴンのプリミティブドライバが呼び出される場合プリミティブヘッダには以下の内容がコピーされます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf9.gif">
+<P>
+    <B>図 9 独立プリミティブヘッダ</B><BR>
+</CENTER>
+    プリミティブドライバはこれらの情報から処理するデータの先頭や処理したデータの書き出しアドレスを知ることができます。ユーザがプリミティブドライバを新たに定義する場合もこの引数領域を利用します。<BR>
+    <BR>
+    このように引数受け渡し領域にそのプリミティブドライバで処理すべきすべての情報をカプセル化して受け渡すことでプリミティブドライバの独立性をあげユーザ定義を可能にしています。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14_6">
+<A HREF="#Heading3_1_14"> 14. </A>6 <B>共有ポリゴン</B>
+</A>
+</H3>
+<blockquote>
+    共有ポリゴンとは、複数の座標系にまたがるポリゴンのことをいいます。あらかじめ、それぞれの座標系で透視変換を行っておき、変換された2次元の座標を用意された領域にコピーし、最後にそれを結合してポリゴンを生成します。<BR>
+    共有ポリゴンのプリミティブヘッダは以下のようになっています。<BR>
+<CENTER>
+    <BR>
+<P>
+<IMG SRC ="gif/gsf10.gif">
+<P>
+    <B>図 10 共有プリミティブヘッダ
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    この共有Vertexセクションおよび共有NORMALセクションは、独立Vertexセクションおよび独立NORMALセクションのサブセットになっています。一般的に、共有ポリゴンのVertexおよびNORMALは、独立ポリゴンのVertexおよびNORMALと共用します。そのため、独立ポリゴンのVertexおよびNORMALの中から、共有ポリゴンで使用されるVertexおよびNORMALだけを取り出し、一つのセクションにまとめます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsf11.gif">
+<P>
+    <B>図 11 VertexおよびNORMALセクション
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      独立Vertexセクションと共有Vertexセクションおよび、独立NORMALセクションと共有NORMALセクションは連続した領域にある必要があります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_15">
+<H2>
+<A HREF="#Top">↑</A> 15 <B>ＨＭＤライブラリ（アニメーション用）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ＨＭＤ用のライブラリはアニメーションの処理もサポートしています。ＨＭＤがコーディネート情報を持っているので階層化されたモデルのモーションの記述が可能です。<BR>
+    <BR>
+    ＨＭＤのアニメーションの特徴は、Realtime Motion Switchによるインターラクティブなアニメーションシーケンスの制御があげられます。この技術はあらかじめ定義しておいた複数のモーションのシーケンスパターン間を任意のタイミングで移動するものです。これにより見栄えのするモーションを作成するというオーサリングレベルのチューニングを可能としながらゲームに不可欠なインターラクティブ性を実現しています。<BR>
+    <BR>
+    ＨＭＤアニメーションデータのメモリ使用量はシーケンスを使いまわすことを可能にすることで極小に押さえてあります。実体を表すデータは一つしか存在せず他はすべてインデックスやポインタで参照されています。<BR>
+    <BR>
+    ＨＭＤアニメーションのキーフレーム補完の方法は、ＨＭＤのTypeにより管理されるため様々な補完方法を提供することが可能です。またTypeを追加することで新たな補完方法を定義すること可能です。<BR>
+    補完を行うPrimitive Driverとして、マトリックスの回転および平行移動をリニア補完するライブラリが提供されています。ベジェカーブによる補完関数はVer4.1で提供される予定です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_15_1">
+<A HREF="#Heading3_1_15"> 15. </A>1 <B>アニメーションの定義</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>シーケンスコントロール記述子</B></H4>
+
+    一つのアニメーションシーケンスは、シーケンスコントロール記述子（SC）の羅列により定義します。SCは16bitのデータです。SCには二つの種類があり、一つはキーフレーム記述用のＳＣ(SCK)、もう片方はジャンプ記述用のＳＣ(SCJ)です。<BR>
+    <BR>
+    SCKはキーフレームの実体を表すメモリエリアへのインデックスが保持されます。SCJは飛び先のＳＣＫのインデックスを保持します。SCKはキーフレームの実体へのインデックスの他、次のキーフレームまでの時間的距離（TFRAME）、および補完のための関数のインデックス(Type Idx)を保持します。<BR>
+    <BR>
+    全てのシーケンスはストリームID(SID)という７ビットのIDを一つ保持します。SCJはSRCストリームID(<BR>
+    SSID)とDSTストリームID(DSID)の二つを保持します。SCJによりジャンプが行われるのはSSIDがそのシーケンスの持つSIDと一致した場合に限られます。一致しなかった場合はそのまま直後のSCへポインタが移ります。DSIDはジャンプが起こった場合飛び先でのSIDを決定します。ただしSID＝０の場合は特別なIDです。このIDはすべてのSIDと無条件にマッチします。<BR>
+    <BR>
+
+     <H4><B>シーケンスヘッダ</B></H4>
+
+      <BLOCKQUOTE>
+      シーケンスヘッダは個々のシーケンス情報を一元管理します。シーケンスヘッダは<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        1．シーケンスポインタ<BR>
+        2．シーケンス情報<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      の2つの部分から構成されます。<BR>
+      <BR>
+      シーケンスポインタはアニメーションの再生のコントロールを指示します。これについては後述します。<BR>
+      <BR>
+      シーケンス情報は個々のシーケンスの情報を保持しシーケンスの数だけリストされます。一つのシーケンス情報は、シーケンスの先頭インデックス、ストリームIDの二つの情報を保持します。シーケンスの先頭インデックスはSCの羅列される領域のそのシーケンスが開始されるインデックスを保持します。ストリームIDはそのシーケンスを再生する時点でのSIDを指示します。<BR>
+      これらの情報は全てユーザプログラムにより参照されユーザプログラムによりシーケンスポインタを通してライブラリに通知することでシーケンスをコントロールします。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsn1.gif">
+<P>
+      <BR>
+</CENTER>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_15_2">
+<A HREF="#Heading3_1_15"> 15. </A>2 <B>アニメーションの再生</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>フレームアップデートドライバ</B></H4>
+
+      <BLOCKQUOTE>
+      フレームアップデートドライバとはシーケンスを時系列で解釈し、補完のための適切な補完関数を呼び出す働きをするドライバです。<BR>
+      <BR>
+      フレームアップデートドライバはHMDのプリミティブドライバと同じ枠組みで組み込まれます。Ver4.0のLibgsで提供されているフレームアップデートドライバGsU_03000000()は、Realtime Motion Switch, 正逆再生、1/16までのスロー再生、8倍までの高速再生が可能です。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>補完ドライバ</B></H4>
+
+      <BLOCKQUOTE>
+      キーフレームの補完を行うための関数です。フレームアップデートドライバと同じようにTypeにより識別されますがＨＭＤの標準のプリミティブドライバの枠組みではインプリメントされていません。 よってSCANに関しては標準のSCAN関数GsScanUnit()ではなく専用のSCAN関数GsScanAnim()を用います。<BR>
+      SCANが終わると補完ドライバへのポインタは専用の領域（補完関数テーブルセクション）に羅列されることになります。<BR>
+      SCKはType Idxによりどの補完ドライバを呼び出せばよいかをキーフレーム毎にインデックス指定します。これにより一つのシーケンス内でキーフレームの補完方法を切り替えることができます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+
+     <H4><B>シーケンスポインタ</B></H4>
+
+      <BLOCKQUOTE>
+      シーケンスポインタはアニメーションの再生ポイントの情報を保持します。このポインタを通じてアニメーションの再生をコントロールすることが可能です。<BR>
+      <BR>
+      シーケンスポインタには以下の要素が保持されます。<BR>
+      </BLOCKQUOTE>
+    <OL>
+         <LI VALUE= 1> Rewrite IDX	アニメーションによりどこを更新していくのかを指示します。
+         <LI VALUE= 2> NUM	そのシーケンスポインタに代入可能なシーケンスの個数を保持します。
+         <LI VALUE= 3> INTR IDX	現在のパラメータを保持するための領域を指示するSCKのインデックス
+         <LI VALUE= 4> AFRAME	シーケンスの絶対フレーム番号を管理します。
+         <LI VALUE= 5> SRC INTRIDX INTR IDXに指定するべきパラメータ保持領域を保持します。
+         <LI VALUE= 6> SPEED	再生スピード
+         <LI VALUE= 7> TFRAME	キーフレーム間の時間的距離
+         <LI VALUE= 8> RFRAME	キーフレームからの時間的距離（デクリメントされる）
+         <LI VALUE= 9> Stream ID	シーケンスのID番号
+         <LI VALUE= 10> TCTR IDX	ターゲットのキーフレームを保持するSCへのインデックス
+         <LI VALUE= 11> CTR IDX	元のキーフレームを保持するＳＣへのインデックス
+         <LI VALUE= 12> START IDX	シーケンスの開始インデックスを保持します。
+         <LI VALUE= 13> START SID	シーケンスの開始時のSIDを保持します。
+         <LI VALUE= 14> TRAVELING	キーフレームの変わり目で０にリセットされる変数です。自由に使用可能です。
+         
+    </OL>
+      <BLOCKQUOTE>
+      これらのパラメータはプログラマによってのみセットされるものとフレームアップデートドライバによって更新されるものがあります。詳細はGsSEQ構造体のリファレンスを参照してください。<BR>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_15_3">
+<A HREF="#Heading3_1_15"> 15. </A>3 <B>Realtime Motion Switch</B>
+</A>
+</H3>
+<blockquote>
+    この機能はインターラクティブアニメーション実現するための機能です。ＨＭＤのフレームアップデートドライバおよび補完ドライバにインプリメントされています。Realtime Motion SwitchはSIDによるキーフレーム単位でのシーケンスの切り替えと補完途中からの即時切り替えの二つの機能に分けられます。<BR>
+    <BR>
+
+     <H4><B>SIDを用いたシーケンスの切り替え</B></H4>
+
+      <BLOCKQUOTE>
+      通常のシーケンス<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        ジャンプのないシーケンス<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsn2.gif">
+<P>
+</CENTER>
+      <BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        ジャンプのあるシーケンス<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsn3.gif">
+<P>
+</CENTER>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      これはSCK1-2の後にSCJ1記述子を書いておくことで、もしSidが１であった場合SCK2-1へ分岐します。SCJ1の記述子にはジャンプ後のSidを0にするという情報を書いておけばジャンプ後はSidは０にセットされます。もちろんSCJ記述子は複数直列に並べることも可能ですのでいろいろなSidに対して個別のジャンプ先を指定することも可能になります。<BR>
+      <BR>
+      SCJ1の記述子をシーケンスポインタが通る前にSidを０から１へ書き換えることで実行時にシーケンスの分岐を制御することが可能です。<BR>
+      <BR>
+      ループのシーケンス<BR>
+<P>
+<IMG SRC ="gif/gsn4.gif">
+<P>
+      <BR>
+      ループのシーケンスはジャンプ記述子で前方にジャンプすることで実現します。SIDが２の間このループは回り続けSIDを１にすることでループをぬけます。SIDを実行時に書き換えることでループの制御をインターラクティブに行うことができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>シーケンスの即時切替</B></H4>
+
+      <BLOCKQUOTE>
+      SIDによるシーケンスの切り替えはキーフレームの切り替わりの時のみシーケンスの切り替えが行われます。これはSIDの変更を前倒しで発行できる点、および意図したところでのみシーケンスが切り替わるため完全に制御可能であるという長所があります。反面、キーフレームまで到達しないと反応が現れないので反応性の面で問題になる場合があります。これを解消するためシーケンスの即時切り替えの機能があります。下図に即時切替のシーケンス図を示します。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsn5.gif">
+<P>
+</CENTER>
+      キーフレームSCK1-1とキーフレームSCK1-2との間を補完中にいつでもキーフレームSCK2-1にシーケンスを変更することが可能です。この場合、分岐の点に新たに仮想的なキーフレームSCK2-0を定義します。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gsn6.gif">
+<P>
+</CENTER>
+      <BR>
+      この機能を実現するためシーケンスポインタをどのように設定するかを述べます。あらかじめ現状のパラメータを保持するためのエリアをDUMMYのキーフレームをいれることで作っておきます。これをSCK2-0と定義します。そしてシーケンスをスイッチしたそのフレームでINTR IDXにSCK2-0を入れます。次のフレームでINTR IDXに0xffffをいれます。0xffffはパラメータのアップデートを禁止します。これでSCK2-0が指すキーフレームの実体に現在地のパラメータが入ります。<BR>
+      <BR>
+      SCK2-0を捕獲できた段階でTCTR IDXにSCK2-1のインデックスをCTR IDXにSCK2-0のインデックスを入れます。またTFRAMEとRFRAMEにはSCK2-0からSCK2-1の時間的距離を入れます。SIDには次のSIDを入れます。<BR>
+      <BR>
+      これにより即時のシーケンスの切り替えを実現しています。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

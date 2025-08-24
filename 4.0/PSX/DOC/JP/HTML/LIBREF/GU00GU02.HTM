@@ -1,0 +1,212 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsU_00......,GsU_01......,GsU_02......
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsU_00......,GsU_01......,GsU_02......
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        GsSortUnit()のプリミティブドライバ群（Polygon,Shared Polygon,Image）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long * <B>GsU_00......</B> (
+GsARGUNIT	<I>*ap;</I>
+)
+unsigned long * <B>GsU_01......</B> (
+GsARGUNIT	<I>*ap;</I>
+)
+unsigned long * <B>GsU_02......</B> (
+GsARGUNIT	<I>*ap;</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>ap</I>		引数受け渡し領域の先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsSortUnit()のプリミティブドライバ群。名称の先頭２文字目がカテゴリとなる。 <BR>
+    GsU_00......()は通常のポリゴンプリミティブドライバ。GsU_01......()は共有ポリゴンプリミティブドライバ。GsU_02......()はイメージプリミティブドライバである。 <BR>
+    使用するためにはＨＭＤデータを初期化する際、GsScanUnit()で返されるGsTYPE構造体のtypeを調べ、そのポインタにこのプリミティブドライバのアドレスを埋め込む必要がある。 <BR>
+    現在libgsでサポートされているカテゴリ00,01,02のプリミティブドライバは以下の通り。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ドライバ名</TD><TD>タイプ名マクロ</TD><TD>解説</TD><TR>
+    <TD>GsU_00000008</TD><TD>GsUF3</TD><TD>フラット三角形（光源計算）</TD><TR>
+    <TD>GsU_00000009</TD><TD>GsUFT3</TD><TD>フラットテクスチャ三角形（光源計算）</TD><TR>
+    <TD>GsU_0000000c</TD><TD>GsUG3</TD><TD>グーロー三角形（光源計算）</TD><TR>
+    <TD>GsU_0000000d</TD><TD>GsUGT3</TD><TD>グーローテクスチャ三角形（光源計算）</TD><TR>
+    <TD>GsU_00000010</TD><TD>GsUF4</TD><TD>フラット四角形（光源計算）</TD><TR>
+    <TD>GsU_00000011</TD><TD>GsUFT4</TD><TD>フラットテクスチャ四角形（光源計算）</TD><TR>
+    <TD>GsU_00000014</TD><TD>GsUG4</TD><TD>グーロー四角形（光源計算）</TD><TR>
+    <TD>GsU_00000015</TD><TD>GsUGT4</TD><TD>グーローテクスチャ四角形（光源計算）</TD><TR>
+    <TD>GsU_00020008</TD><TD>GsUFF3</TD><TD>フラット三角形（光源計算＋FOG）</TD><TR>
+    <TD>GsU_00020009<BR></TD><TD>GsUFFT3<BR></TD><TD>フラットテクスチャ三角形<BR>（光源計算＋FOG）</TD><TR>
+    <TD>GsU_0002000c<BR></TD><TD>GsUFG3<BR></TD><TD>グーロー三角形<BR>（光源計算＋FOG）</TD><TR>
+    <TD>GsU_0002000d<BR></TD><TD>GsUFGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋FOG）</TD><TR>
+    <TD>GsU_00020010</TD><TD>GsUFF4</TD><TD>フラット四角形（光源計算＋FOG）</TD><TR>
+    <TD>GsU_00020011<BR></TD><TD>GsUFFT4<BR></TD><TD>フラットテクスチャ四角形<BR>（光源計算＋FOG）</TD><TR>
+    <TD>GsU_00020014</TD><TD>GsUFG4</TD><TD>グーロー四角形（光源計算＋FOG）</TD><TR>
+    <TD>GsU_00020015<BR></TD><TD>GsUFGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋FOG）</TD><TR>
+    <TD>GsU_0000000a</TD><TD>GsUCF3</TD><TD>フラット三角形（光源計算＋カラード）</TD><TR>
+    <TD>GsU_0000000b<BR></TD><TD>GsUCFT3<BR></TD><TD>フラットテクスチャ三角形<BR>（光源計算＋カラード）</TD><TR>
+    <TD>GsU_0000000e</TD><TD>GsUCG3</TD><TD>グーロー三角形（光源計算＋カラード）</TD><TR>
+    <TD>GsU_0000000f<BR></TD><TD>GsUCGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋カラード）</TD><TR>
+    <TD>GsU_00000012</TD><TD>GsUCF4</TD><TD>フラット四角形（光源計算＋カラード）</TD><TR>
+    <TD>GsU_00000013<BR></TD><TD>GsUCFT4<BR></TD><TD>フラットテクスチャ四角形<BR>（光源計算＋カラード）</TD><TR>
+    <TD>GsU_00000016</TD><TD>GsUCG4</TD><TD>グーロー四角形（光源計算＋カラード）</TD><TR>
+    <TD>GsU_00000017<BR></TD><TD>GsUCGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋カラード）</TD><TR>
+    <TD>GsU_00040048</TD><TD>GsUNF3</TD><TD>フラット三角形</TD><TR>
+    <TD>GsU_00040049</TD><TD>GsUNFT3</TD><TD>フラットテクスチャ三角形</TD><TR>
+    <TD>GsU_0004004c</TD><TD>GsUNG3</TD><TD>グーロー三角形</TD><TR>
+    <TD>GsU_0004004d</TD><TD>GsUNGT3</TD><TD>グーローテクスチャ三角形</TD><TR>
+    <TD>GsU_00040050</TD><TD>GsUNF4</TD><TD>フラット四角形</TD><TR>
+    <TD>GsU_00040051</TD><TD>GsUNFT4</TD><TD>フラットテクスチャ四角形</TD><TR>
+    <TD>GsU_00040054</TD><TD>GsUNG4</TD><TD>グーロー四角形</TD><TR>
+    <TD>GsU_00040055</TD><TD>GsUNGT4</TD><TD>グーローテクスチャ四角形</TD><TR>
+    <TD>GsU_00010008</TD><TD>GsUDF3</TD><TD>フラット三角形（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_00010009<BR></TD><TD>GsUDFT3<BR></TD><TD>フラットテクスチャ三角形<BR>（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_0001000c</TD><TD>GsUDG3</TD><TD>グーロー三角形（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_0001000d<BR></TD><TD>GsUDGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_00010010</TD><TD>GsUDF4</TD><TD>フラット四角形（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_00010011<BR></TD><TD>GsUDFT4<BR></TD><TD>フラットテクスチャ四角形<BR>（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_00010014</TD><TD>GsUDG4</TD><TD>グーロー四角形（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_00010015<BR></TD><TD>GsUDGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋固定分割）</TD><TR>
+    <TD>GsU_00030008<BR></TD><TD>GsUDFF3<BR></TD><TD>フラット三角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_00030009<BR></TD><TD>GsUDFFT3<BR></TD><TD>フラットテクスチャ三角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_0003000c<BR></TD><TD>GsUDFG3<BR></TD><TD>グーロー三角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_0003000d<BR></TD><TD>GsUDFGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_00030010<BR></TD><TD>GsUDFF4<BR></TD><TD>フラット四角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_00030011<BR></TD><TD>GsUDFFT4<BR></TD><TD>フラットテクスチャ四角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_00030014<BR></TD><TD>GsUDFG4<BR></TD><TD>グーロー四角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_00030015<BR></TD><TD>GsUDFGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋固定分割＋FOG）</TD><TR>
+    <TD>GsU_00050048</TD><TD>GsUDNF3</TD><TD>フラット三角形（固定分割）</TD><TR>
+    <TD>GsU_00050049</TD><TD>GsUDNFT3</TD><TD>フラットテクスチャ三角形（固定分割）</TD><TR>
+    <TD>GsU_0005004c</TD><TD>GsUDNG3</TD><TD>グーロー三角形（固定分割）</TD><TR>
+    <TD>GsU_0005004d</TD><TD>GsUDNGT3</TD><TD>グーローテクスチャ三角形（固定分割）</TD><TR>
+    <TD>GsU_00050050</TD><TD>GsUDNF4</TD><TD>フラット四角形（固定分割）</TD><TR>
+    <TD>GsU_00050051</TD><TD>GsUDNFT4</TD><TD>フラットテクスチャ四角形（固定分割）</TD><TR>
+    <TD>GsU_00050054</TD><TD>GsUDNG4</TD><TD>グーロー四角形（固定分割）</TD><TR>
+    <TD>GsU_00050055</TD><TD>GsUDNGT4</TD><TD>グーローテクスチャ四角形（固定分割）</TD><TR>
+    <TD>GsU_01000000</TD><TD>GsUSCAL</TD><TD>共有頂点計算</TD><TR>
+    <TD>GsU_0100000c</TD><TD>GsUSG3</TD><TD>グーロー三角形（光源計算＋共有）</TD><TR>
+    <TD>GsU_0100000d<BR></TD><TD>GsUSGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋共有）</TD><TR>
+    <TD>GsU_01000014</TD><TD>GsUSG4</TD><TD>グーロー四角形（光源計算＋共有）</TD><TR>
+    <TD>GsU_01000015<BR></TD><TD>GsUSGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋共有）</TD><TR>
+    <TD>GsU_0102000c</TD><TD>GsUSFG3</TD><TD>グーロー三角形（光源計算＋共有＋FOG）</TD><TR>
+    <TD>GsU_0102000d<BR></TD><TD>GsUSFGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋共有＋FOG）</TD><TR>
+    <TD>GsU_01020014</TD><TD>GsUSFG4</TD><TD>グーロー四角形（光源計算＋共有＋FOG）</TD><TR>
+    <TD>GsU_01020015<BR></TD><TD>GsUSFGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋共有＋FOG）</TD><TR>
+    <TD>GsU_01040048</TD><TD>GsUSNF3</TD><TD>フラット三角形（共有）</TD><TR>
+    <TD>GsU_01040049</TD><TD>GsUSNFT3</TD><TD>フラットテクスチャ三角形（共有）</TD><TR>
+    <TD>GsU_0104004c</TD><TD>GsUSNG3</TD><TD>グーロー三角形（共有）</TD><TR>
+    <TD>GsU_0104004d</TD><TD>GsUSNGT3</TD><TD>グーローテクスチャ三角形（共有）</TD><TR>
+    <TD>GsU_01040050</TD><TD>GsUSNF4</TD><TD>フラット四角形（共有）</TD><TR>
+    <TD>GsU_01040051</TD><TD>GsUSNFT4</TD><TD>フラットテクスチャ四角形（共有）</TD><TR>
+    <TD>GsU_01040054</TD><TD>GsUSNG4</TD><TD>グーロー四角形（共有）</TD><TR>
+    <TD>GsU_01040055</TD><TD>GsUSNGT4</TD><TD>グーローテクスチャ四角形（共有）</TD><TR>
+    <TD>GsU_00000018</TD><TD>GsUMF3</TD><TD>フラット三角形（光源計算＋メッシュ）</TD><TR>
+    <TD>GsU_00000019<BR></TD><TD>GsUMFT3<BR></TD><TD>フラットテクスチャ三角形<BR>（光源計算＋メッシュ）</TD><TR>
+    <TD>GsU_0000001c</TD><TD>GsUMG3</TD><TD>グーロー三角形（光源計算＋メッシュ）</TD><TR>
+    <TD>GsU_0000001d<BR></TD><TD>GsUMGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋メッシュ）</TD><TR>
+    <TD>GsU_00040058</TD><TD>GsUMNF3</TD><TD>フラット三角形（メッシュ）</TD><TR>
+    <TD>GsU_00040059</TD><TD>GsUMNFT3</TD><TD>フラットテクスチャ三角形（メッシュ）</TD><TR>
+    <TD>GsU_0004005c</TD><TD>GsUMNG3</TD><TD>グーロー三角形（メッシュ）</TD><TR>
+    <TD>GsU_0004005d</TD><TD>GsUMNGT3</TD><TD>グーローテクスチャ三角形（メッシュ）</TD><TR>
+    <TD>GsU_00000209<BR></TD><TD>GsUTFT3<BR></TD><TD>フラットテクスチャ三角形<BR>（光源計算＋繰り返し）</TD><TR>
+    <TD>GsU_0000020d<BR></TD><TD>GsUTGT3<BR></TD><TD>グーローテクスチャ三角形<BR>（光源計算＋繰り返し）</TD><TR>
+    <TD>GsU_00000211<BR></TD><TD>GsUTFT4<BR></TD><TD>フラットテクスチャ四角形<BR>（光源計算＋繰り返し）</TD><TR>
+    <TD>GsU_00000215<BR></TD><TD>GsUTGT4<BR></TD><TD>グーローテクスチャ四角形<BR>（光源計算＋繰り返し）</TD><TR>
+    <TD>GsU_00040148</TD><TD>GsUPNF3</TD><TD>フラット三角形（プリセット）</TD><TR>
+    <TD>GsU_00040149</TD><TD>GsUPNFT3</TD><TD>フラットテクスチャ三角形（プリセット）</TD><TR>
+    <TD>GsU_0004014c</TD><TD>GsUPNG3</TD><TD>グーロー三角形（プリセット）</TD><TR>
+    <TD>GsU_0004014d</TD><TD>GsUPNGT3</TD><TD>グーローテクスチャ三角形（プリセット）</TD><TR>
+    <TD>GsU_00040150</TD><TD>GsUPNF4</TD><TD>フラット四角形（プリセット）</TD><TR>
+    <TD>GsU_00040151</TD><TD>GsUPNFT4</TD><TD>フラットテクスチャ四角形（プリセット）</TD><TR>
+    <TD>GsU_00040154</TD><TD>GsUPNG4</TD><TD>グーロー四角形（プリセット）</TD><TR>
+    <TD>GsU_00040155</TD><TD>GsUPNGT4</TD><TD>グーローテクスチャ四角形（プリセット）</TD><TR>
+    <TD>GsU_02000000</TD><TD>GsUIMG0</TD><TD>テクスチャイメージ（クラットなし）</TD><TR>
+    <TD>GsU_02000001</TD><TD>GsUIMG1</TD><TD>テクスチャイメージ（クラットあり）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次のプリミティブドライバの先頭アドレス <BR>
+    サンプルプログラム参照のこと（PS-X/sample/grapihcs/hmd/pdriver/GsU_00000008.c） <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    固定分割を行うプリミティブドライバを使用する場合、分割数を以下のように、プリミティブインデックスが格納されている領域の上位8bitに指定する必要がある。 <BR>
+<BR>
+<P>
+<IMG SRC ="gif/lgsn3.gif">
+<P>
+    また、分割数を指定するため、以下のようなマクロがlibgs.hに用意されている。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>マクロ</TD><TD>分割数</TD><TR>
+    <TD>GsUNIT_DIV1</TD><TD>2x2分割</TD><TR>
+    <TD>GsUNIT_DIV2</TD><TD>4x4分割</TD><TR>
+    <TD>GsUNIT_DIV3</TD><TD>8x8分割</TD><TR>
+    <TD>GsUNIT_DIV4</TD><TD>16x16分割</TD><TR>
+    <TD>GsUNIT_DIV5</TD><TD>32x32分割</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsusortt.htm">GsSortUnit</a>(),<a href="gsuscant.htm">GsScanUnit</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetReverbDepth
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetReverbDepth
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        リバーブの深さパラメータを設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuSetReverbDepth</B> (
+SpuReverbAttr *<I>attr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attr	</I>	リバーブ属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リバーブの深さのパラメータの属性を設定する。 <BR>
+    <I>attr</I>.mask に、下記の設定したい属性のビット和を与えることで各属性のみの設定が可能。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_REV_DEPTHL</TD><TD>リバーブの深さ(左)</TD><TR>
+    <TD>SPU_REV_DEPTHR</TD><TD>リバーブの深さ(右)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>attr</I>.mask が0の場合は左右の属性を同時に設定する。 <BR>
+<BR>
+    リバーブの深さ <BR>
+    リバーブの深さを -0x8000～ 0x7fffの範囲で <I>attr</I>.depth に、左右独立に設定する。 <BR>
+    設定された値が負の場合はリバーブ音(wet)の位相が反転する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    常に0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssrmppum.htm">SpuSetReverbModeParam</a>(), <a href="sgrmppum.htm">SpuGetReverbModeParam</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

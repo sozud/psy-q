@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsGetLs
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsGetLs
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ローカルスクリーンマトリックスを計算
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsGetLs</B> (
+GsCOORDINATE2 * <I>coord</I>，
+MATRIX * <I>m </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>cooord		</I>ローカル座標
+<I>m		</I>マトリックス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    引数で指定されたマトリックス型座標系GsCOORDINATE2の <I>coord </I>からローカルスクリーンの透視変換マトリックスを計算しMATRIX型構造体 <I>m </I>に結果を格納する。 <BR>
+    また高速化のために階層座標系の各ノードでの計算結果を保持する。 <BR>
+    次の GsGetLs() 関数が呼ばれると 変更されてないノードまでの計算が省略される。 <BR>
+    これはGsCOORDINATE2のflagによって制御される。 <BR>
+    libgsは計算済みのGsCOORDINATE2のflagに１を代入する。 <BR>
+    計算省略のアルゴリズムは親のノードの内容が変更された場合の子の影響はlibgsで面倒を見るため変更したノードの子のノード全てのフラグをクリアする必要はない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

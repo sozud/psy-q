@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotMeshPrimR_GT3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotMeshPrimR_GT3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ラウンドメッシュ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>RotMeshPrimR_GT3 </B>(
+TMESH *<I>msh</I>,
+POLY_GT3 *<I>prim</I>,
+u_long *<I>ot</I>,
+u_long <I>otlen</I>,
+long <I>dpq</I>,
+unsigned long <I>backc</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>msh		</I>メッシュ型データへのポインタ
+<I>prim		</I>生成すべきGPUパケットへのポインタ
+<I>ot		</I>オーダリングテーブルのポインタ
+<I>otlen		</I>オーダリングテーブルの長さ
+<I>dpq		</I>デプスキューイングをするかしないか
+<I>backc		</I>バッククリップをするかしないか
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    下記のようなラウンド型メッシュ(rmesh)データの座標変換、透視変換、ＯＴへのリンクを行なう。 <BR>
+<BR>
+<P>
+<IMG SRC ="gif/lgten17.gif">
+<P>
+<BR>
+    頂点色でグーローシェーディングしたものとテクスチャを掛け合わせる（光源計算する） <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

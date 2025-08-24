@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsInitGraph
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsInitGraph
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        グラフィックスシステムの初期化
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsInitGraph</B>（
+unsigned short <I>x_res</I>，
+unsigned short <I>y_res</I>，
+unsigned short <I>intl</I>，
+unsigned short <I>dither</I>，
+unsigned short <I>vram</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>x_res		</I>水平解像度(256/320/384/512/640)
+<I>y_res		</I>垂直解像度(240/480)
+<I>intl		</I>インタレーレース表示フラグ(bit 0)
+ 			0:ノンインタレース
+ 			1:インタレース
+ 		ダブルバッファのオフセットモード(bit 2)
+ 			0:GTEオフセット
+ 			1:GPUオフセット
+		ＧＰＵのリセットモード（bit 4）
+			0: ResetGraph(0)でGPUを初期化
+			3: ResetGraph(3)でＧＰＵを初期化
+<I>dither		</I>描画時にディザをかけるかどうかを初期化0:OFF、1:ON
+<I>vram		</I>VRAM モード0:16bit、1:24bit
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    libgpuをリセットしlibgsのグラフィックスシステムを初期化する。 <BR>
+    libgpuの設定は、グローバル変数GsDISPENV,GsDRAWENVによって通知されるのでプログラマはそれを参照することでlibgpuの設定を確認及び変更が可能。 <BR>
+    縦 480ラインのノンインタレースは、VGAモニタ接続時のみ有効。 <BR>
+    縦 240ラインの時でも上下８ラインは家庭用のテレビではほとんどの場合見えないので注意が必要。 <BR>
+    パルモードの時は表示位置を24ライン下にずらす。 <BR>
+    ダブルバッファのオフセットモードとはダブルバッファのオフセットをGTE／GPUどちらで実現するのかを決定する。GPUで実現すればパケットにはダブルバッファのオフセット値は足し込まれないので扱いやすい。 <BR>
+    24bitモードではメモリイメージ表示のみが可能でありポリゴン描画などはできない。 <BR>
+    グラフィックスシステムの初期化はGsIDMATRIX,GsIDMATRIX2の初期化も含むため全てのGsライブラリ関数はGsInitGraph()を呼んだ後でなければ正常に動作しない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

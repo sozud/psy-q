@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    MemCardDeleteFile
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libmcrd.htm">メモリカード簡易レベルライブラリ (libmcrd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    MemCardDeleteFile
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        メモリカード上のファイルを削除する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>MemCardDeleteFile </B>(
+long <I>chan</I>,
+char* <I>file</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>chan</I>		ポート番号 + カード番号
+		ポート番号(Ａポート:0x00、Ｂポート:0x10)
+		カード番号(通常 0)
+<I>file</I>		ファイル名
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    メモリカード上のファイルを削除する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>マクロ</TD><TD>状態</TD><TR>
+    <TD>0x00</TD><TD>McErrNone</TD><TD>正常終了</TD><TR>
+    <TD>0x01</TD><TD>McErrCardNotExist</TD><TD>カードが接続されていない</TD><TR>
+    <TD>0x02</TD><TD>McErrCardInvalid</TD><TD>通信エラー発生</TD><TR>
+    <TD>0x04</TD><TD>McErrNotFormat</TD><TD>フォーマットされていない</TD><TR>
+    <TD>0x05</TD><TD>McErrFileNotExist</TD><TD>ファイルが見つからない</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    同期関数 <BR>
+    ブロッキング時間: 正常終了のときは1～4VSYNC、それ以外は4～76VSYNC。 <BR>
+    クリティカルセクションには入らない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

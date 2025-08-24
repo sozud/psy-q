@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuStTransfer
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuStTransfer
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SPU ストリーミングにおけるストリームの前準備、および開始
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuStTransfer</B> (
+long <I>flag,</I>
+unsigned long <I>voice_bit,</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>flag</I>		SPU_ST_PREPARE（ストリーム前準備の指定）または
+ 		SPU_ST_PLAY（ストリーム開始の指定）
+<I>voice_bit</I>	ストリームを行うボイス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SPU ストリーミングにおけるストリームの前準備、および開始の指示を行う。 <BR>
+    <I>voice_bit</I> には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和でストリームを行うボイスを明示的に設定する。 <BR>
+<BR>
+    [前準備: SPU_ST_PREPARE] <BR>
+        <BLOCKQUOTE>
+    本関数が <I>flag</I> == SPU_ST_PREPARE で呼ばれた場合、SpuStInit で返された SpuStEnv 構造体の属性に従い、ストリームの前準備を行う。 <BR>
+    前準備の終了は SpuStSetPreparationFinishedCallback で設定された callback 関数により判断される。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    [開始: SPU_ST_PLAY] <BR>
+        <BLOCKQUOTE>
+    本関数が <I>flag</I> == SPU_ST_PLAY で呼ばれた場合、SpuStInit で返された SpuStEnv 構造体の属性に従い、ストリームの開始を行う。 <BR>
+    SPU ストリーミングの状態が SPU_ST_PREPARE の場合、本関数が呼ばれた時点で、引数 <I>voice_bit</I> の妥当性の解析の後、 <I>voice_bit</I>で指定されたボイスに対して即座に発音 (Key on) を行う。 <BR>
+    SPU ストリーミングの状態が SPU_ST_TRANSFER の場合、本関数が呼ばれた時点から次にストリームバッファの後半部分に転送の対象が移るまで処理が待たされ、ストリームバッファの後半部分に転送の対象が移った際に他のストリームの処理と同等に転送が行われる。 <BR>
+    全てのストリームに対するストリームバッファへの 1 回の転送が終了すると SpuStSetTransferFinishedCallback で設定されたcallback 関数が呼ばれ、各ストリームの次回転送の属性を設定する。 <BR>
+    ストリームが終了すると SpuStSetStreamFinishedCallback で設定された callback 関数がストリームの再生が終了した時点 (他のストリームが処理されている場合は、 厳密には次回の転送が始まる前) で呼ばれる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>返り値</TD><TD>意味</TD><TR>
+    <TD>SPU_ST_NOT_AVAILABLE<BR></TD><TD>SPU ストリーミングが使用不可<BR>すなわち SpuStInit が呼ばれていない</TD><TR>
+    <TD>SPU_ST_INVALID_ARGUMENT</TD><TD>仕様にあっていない値の引数が設定された</TD><TR>
+    <TD>SPU_ST_WRONG_STATUS</TD><TD>SpuStTransfer が受け入れられない状態にある</TD><TR>
+    <TD>SPU_ST_ACCEPT</TD><TD>処理を受け付けた</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    受け入れられない状態は以下の通り。 <BR>
+<BR>
+<UL>
+         <LI> <I>flag</I> に依らず、現在の状態が SPU_ST_FINAL
+         <LI> <I>flag</I> == SPU_ST_PREPARE で、かつ、現在の状態が SPU_ST_PREPARE
+         <LI> <I>flag</I> == SPU_ST_PLAY で、かつ、現在の状態が SPU_ST_IDLE
+</UL>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssiputnt.htm">SpuStInit</a>(), <a href="ssspfcpk.htm">SpuStSetPreparationFinishedCallback</a>(), <a href="ssstfcpk.htm">SpuStSetTransferFinishedCallback</a>(), <a href="ssssfcpk.htm">SpuStSetStreamFinishedCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

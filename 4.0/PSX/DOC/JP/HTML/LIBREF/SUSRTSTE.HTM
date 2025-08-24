@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsUtSetReverbType
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsUtSetReverbType
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        リバーブタイプを設定する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>short <B>SsUtSetReverbType </B>(
+short <I>type</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>type		</I>リバーブタイプ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リバーブタイプを設定する。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">type</TD><TD ALIGN="center">モード</TD><TD ALIGN="center">Delay time</TD><TD ALIGN="center">Feedback</TD><TR>
+    <TD>SS_REV_TYPE_OFF</TD><TD>off</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_ROOM</TD><TD>ルーム</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_STUDIO_A</TD><TD>スタジオ(小)</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_STUDIO_B</TD><TD>スタジオ(中)</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_STUDIO_C</TD><TD>スタジオ(大)</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_HALL</TD><TD>ホール</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_SPACE</TD><TD>スペースエコー</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+    <TD>SS_REV_TYPE_ECHO</TD><TD>エコー</TD><TD ALIGN="center">○</TD><TD ALIGN="center">○</TD><TR>
+    <TD>SS_REV_TYPE_DELAY</TD><TD>ディレイ</TD><TD ALIGN="center">○</TD><TD ALIGN="center">○</TD><TR>
+    <TD>SS_REV_TYPE_PIPE</TD><TD>パイプエコー</TD><TD ALIGN="center">×</TD><TD ALIGN="center">×</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    リバーブタイプを設定すると、リバーブデプスは自動的に0に設定される。 <BR>
+    リバーブワークエリアにデータが残っていると、デプスを設定した途端にノイズが出るので、下記手順で利用のこと。 <BR>
+<BR>
+    SsUtSetReverbType(SS_REV...); <BR>
+    SsUtReverbOn(); <BR>
+<BR>
+    数秒待つ <BR>
+<BR>
+    SsUtSetReverbDepth(64,64); <BR>
+<BR>
+    番号とタイプの対応は上記の通り。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    設定が正しく行なわれた場合は、その設定したType番号を返す。 <BR>
+    設定が正しく行なわれなかった場合は-1を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sugrtste.htm">SsUtGetReverbType</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

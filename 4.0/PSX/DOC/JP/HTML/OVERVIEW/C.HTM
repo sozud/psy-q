@@ -1,0 +1,118 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> C標準ライブラリ（libc/c2）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+C標準ライブラリ（libc/c2）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+文字関数やメモリ操作関数など、標準的なC言語で使われる関数群のサブセットです。カーネルROMのコードをコールするlibcと、アプリケーションにリンクされるlibc2によって提供されています。ここでは、その概要を解説します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    C標準ライブラリ(libc/c2)は、文字関数やメモリ操作関数など、Ｋ＆ＲをベースにしたＣ言語の標準ライブラリのサブセットです。<BR>
+    libcはカーネルＲＯＭ中のコードをコールするもので、サイズを重視したサービスを提供しています。<BR>
+    libc2はアプリケーションにリンクされるもので、速度を重視したサービスを提供しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    Ｃ標準ライブラリのファイル名は「libc.lib」と「libc2.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    Ｃ標準ライブラリを使うためには次のようなインクルードヘッダが必要です。各関数とヘッダの関係についてはＣ言語の参考書をご参照下さい。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ヘッダ<BR></TD><TD ALIGN="center">abs.h<BR>assert.h<BR>convert.h<BR>ctype.h<BR>malloc.h<BR>memory.h<BR>rand.h<BR>setjmp.h<BR>stdarg.h<BR>stddef.h<BR>stdlib.h<BR>strings.h<BR>qsort.h<BR>sys/types.h</TD><TR>
+    <TD ALIGN="center">ライブラリ<BR></TD><TD ALIGN="center">libc.lib<BR>libc2.lib</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

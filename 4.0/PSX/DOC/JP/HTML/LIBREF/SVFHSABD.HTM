@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsVabFakeHead
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsVabFakeHead
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        音源ヘッダリストを認識する(再度認識)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>short <B>SsVabFakeHead </B>(
+unsigned char *<I>addr</I>,
+short <I>vabid</I>,
+unsigned long <I>sbaddr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>addr</I>		VHの先頭アドレス
+<I>vabid</I>		希望するVAB ID. -1の場合ライブラリが割り当てる
+<I>sbaddr</I>		VBが転送されているサウンドバッファ内のアドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    メインメモリ上の音源ヘッダリストを認識し、以前読み込んだVHデータをライブラリで再度利用可能な状態にする。 <BR>
+    VAB IDを指定してオープンする。VAB IDが-1の場合、空いているVAB ID (0～16)を探し、割り付ける。転送されているサウンドバッファ内の領域は、先頭アドレスをユーザ側で <I>sbaddr </I>に指定する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    VAB識別番号 <BR>
+    失敗したら-1を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="svfbsaby.htm">SsVabFakeBody</a>(),<a href="sugvbisb.htm">SsUtGetVBaddrInSB</a>(),<a href="svohsabd.htm">SsVabOpenHead</a>(),<a href="svohssay.htm">SsVabOpenHeadSticky</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

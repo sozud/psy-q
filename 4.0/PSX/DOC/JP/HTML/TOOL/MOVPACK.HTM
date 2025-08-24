@@ -1,0 +1,175 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>MovPack</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    MovPack は、MovConv で作成した複数のストリーミングデータやCD-ROM XA の音声データを１つにまとめる（パックする）ツールです。MovPack は次のような場面で使用します。<BR>
+    <BR>
+<UL>
+         <LI> マルチチャネルストリーミングのためのデータの作成
+         <LI> CD-ROM XA 音声データを CD-ROM に焼く
+</UL>
+    <BR>
+    マルチチャネルストリーミングについて詳しくは、「ムービーコンバータ チュートリアル」を参照してください。<BR>
+    <BR>
+    ここではバージョン1.5に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+    MovPackの具体的な事例に添った操作の仕方に関しては、「ムービーコンバータ チュートリアル」を参照してください。ここでは、MovPackのダイアログボックスの設定方法について解説します。<BR>
+    <BR>
+
+     <H4><B>MovPackメインウィンドウ</B></H4>
+
+      <BLOCKQUOTE>
+      MovPackメインウィンドウはMovPackを起動すると開きます。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/movpaf1.gif">
+<P>
+      <B>図 1 MovPack</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_1">
+(1) <B>総チャネル数を設定する</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      Total Channels のコンボボックスで総チャネル数を設定します。インターリーブするのがXA音声データの場合、総チャネル数には次の表に示した値を指定します。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 1 XA音声データの総チャネル数の設定</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>再生速度</TD><TD>サンプリング周波数</TD><TD>ステレオ/モノラル</TD><TD>総チャネル数</TD><TR>
+    <TD>倍速</TD><TD>37.8KHz</TD><TD>ステレオ</TD><TD>8 </TD><TR>
+    <TD>倍速</TD><TD>37.8KHz</TD><TD>モノラル</TD><TD>16</TD><TR>
+    <TD>倍速</TD><TD>18.9KHz</TD><TD>ステレオ</TD><TD>16</TD><TR>
+    <TD>倍速</TD><TD>18.9KHz</TD><TD>モノラル</TD><TD>32</TD><TR>
+    <TD>標準速</TD><TD>37.8KHz</TD><TD>ステレオ</TD><TD>4</TD><TR>
+    <TD>標準速</TD><TD>37.8KHz</TD><TD>モノラル</TD><TD>8</TD><TR>
+    <TD>標準速</TD><TD>18.9KHz</TD><TD>ステレオ</TD><TD>8</TD><TR>
+    <TD>標準速</TD><TD>18.9KHz</TD><TD>モノラル</TD><TD>16 </TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+      <BLOCKQUOTE>
+      MovConvの出力するXAデータは、そのままCD-ROM に焼くと正しく再生されません。正しく再生するためには表のチャネル数でインターリーブされる必要があります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_2">
+(2) <B>入力データファイル名を設定する</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各チャネル毎に、入力ファイル名を指定します。チャネルのボタンをクリックし、ファイルオープンのダイアログボックスを開きます。ここで入力ファイルを設定し、[OK]ボタンをクリックします。また、テキストボックスに直接ファイル名を入力することもできます。インターリーブするファイル数が総チャネル数に足りない場合は、足りない分は空欄のままで構いません。指定されないチャネルは空チャネルとなります。マルチチャネルストリーミングデータの場合は入力ファイルにSTR(MDEC)を指定し、音声データの場合は入力ファイルにXAを指定します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_3">
+(3) <B>入力データサブヘッダフラグを設定する</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ファイルを指定したチャネルについて、サブヘッダフラグを設定します。入力データが音付きのストリーミングデータや音声データの場合、Sub Header チェックボックスをチェックします。映像のみのストリーミングデータの場合クリアします。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_4">
+(4) <B>終端データを設定する</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各チャネルデータの後ろにつける終端データを指定します。通常はNo dataを選択します。Video sectorを指定するとチャネルデータの後ろに空のVideo sectorを付加します。これは、たとえば音声データのパッキングの際に必要があれば指定します。音声データの終端にVideo sectorを付加した場合、再生の際にVideo sectorの読み込みを検査して音声データの終了を検知することができます。また、Null sectorを指定すると、チャネルデータの後ろにNull sectorを付加します。これは、何らかの目的で意図的に終端に空白を入れたい場合に指定します。終端データにVideo sectorやNull sectorを指定した場合は、その長さをセクタ単位で指定します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_5">
+(5) <B>出力ファイル名を設定する</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      [output]ボタンをクリックし、ファイル保存のダイアログボックスを開きます。ここで出力ファイル名を設定し、[OK]ボタンをクリックします。また、テキストボックスに直接ファイル名を入力することもできます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_6">
+(6) <B>出力データサブヘッダフラグを設定する</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      出力データが音つきストリーミングデータか音声データの場合、Sub Header チェックボックスをチェックします。映像のみのストリーミングデータの場合クリアします。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_2_7">
+(7) <B>インターリーブする</B>
+</A>
+</H4>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

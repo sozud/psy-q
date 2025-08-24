@@ -1,0 +1,181 @@
+/* $PSLibId: Run-time Library Release 4.0$ */
+#if defined(APD_SAVE) || defined(APD_LOAD)
+	static char	*progname="ds/tuto/tuto7.cpe";
+#endif
+/*
+ *			tuto7: simple DsRead
+ *
+ *	Copyright(C) 1994 1997  Sony Computer Entertainment Inc.,
+ *	All rights Reserved.
+ *
+ *		 Version	Date		Design
+ *		-----------------------------------------
+ *		1.00		Aug.05,1994	suzu
+ *		1.10		Dec,27,1994	suzu
+ *		1.20		Mar,12,1995	suzu
+ *		1.30		Feg,12,1996	suzu
+ *		2.00		Apr.24,1997	makoto
+ *
+ *				DsRead
+ *	This program reads the data recorded in DTL-S2310 CD-ROM disc.
+ *	The program reads the same data 2 times, and verifis.
+ *
+ :	DTL-S2310 のディスクに格納されている PSX.EXE を２回読みだして
+ *	データを比較する。
+ *	耐久テストを兼ねて無限回くりかえす。
+ */
+
+#include <sys/types.h>
+#include <libetc.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libds.h>
+
+void sndInit( void );
+void sndMute( int mode );
+void sndEnd( void );
+
+static void read_test( char* file );
+static void notfound( char* file );
+static void cbvsync( void );
+
+void main( void )
+{
+	/* initialize graphics and controller */
+	ResetGraph( 0 );
+	PadInit( 0 );
+#if defined (APD_SAVE)
+	APDSaveInit(0,progname);
+#elif defined (APD_LOAD)
+	if ( APDLoadInit(0,progname) ) return;
+#endif
+	FntLoad( 960, 256 );
+	SetDumpFnt( FntOpen( 16, 64, 0, 0, 1, 512 ) );
+
+	/* initialize CD subsytem: CD サブシステムを初期化 */
+	DsInit();
+	DsSetDebug( 0 );
+
+	/* initialize sound : サウンドドライバを初期化 */
+	sndInit();
+
+	/* start display */
+	SetDispMask( 1 );
+
+	/* test loop */
+#if defined(APD_SAVE)
+	while( ( APDSave(PadRead( 1 )) & PADselect ) == 0 )
+#elif defined(APD_LOAD)
+	while( ( APDLoad( 1 ) & PADselect ) == 0 )
+#else
+	while( ( PadRead( 1 ) & PADselect ) == 0 )
+#endif
+		read_test( "\\DATA\\MOV.STR;1" );
+
+	/* ending */
+	sndEnd();
+	DsClose();
+	PadStop();
+#if defined (APD_SAVE)
+	APDSaveStop();
+#elif defined(APD_LOAD)
+	APDLoadStop(VSync(-1));
+#endif
+	StopCallback();
+	return;
+}
+
+/* maximus mector size: 読み出すセクタサイズ */
+#define MAXSECTOR	256
+
+static void read_test( char* file )
+{
+	static u_long sectbuf[ 2 ][ MAXSECTOR * 2048 / 4 ];
+	static int n_trial = 0, n_err = 0, n_fatal = 0;
+	int i, cnt;
+	DslFILE fp;
+	int nsector;
+	unsigned char com;
+
+	/* update trial counter */
+	n_trial++;
+
+	/* clear reading buffer: リードバッファを一旦クリア */
+	for( i = 0; i < sizeof( sectbuf[ 0 ] ) / 4; i++ ) {
+		sectbuf[ 0 ][ i ] = 0;
+		sectbuf[ 1 ][ i ] = -1;
+	}
+
+	/* start reading: バックグラウンドリード */
+	for( i = 0; i < 2; i++ ) {
+		if( DsSearchFile( &fp, file ) == 0 ) {
+			notfound( file );
+			return;
+		}
+
+		/* get file position: ファイルの位置を確定 */
+		if( ( nsector = ( fp.size + 2047 ) / 2048 ) > MAXSECTOR )
+			nsector = MAXSECTOR;
+		nsector = MAXSECTOR;	/* for debug */
+
+		/* start reading: リード開始 */
+		DsRead( &fp.pos, nsector, sectbuf[ i ], DslModeSpeed );
+
+		/* Since DsRead() runs in background. the program can
+		 * do another task in foreground.  The current reading
+		 * status can be monitored in DsReadSync().
+		 * In this sample, VSync(0) is simply called in foreground.
+		 : リードの裏で通常の処理は実行できる。
+		 * ここでは、Read が終了するまで残りのセクタ数を監視する
+		 */
+		while( ( cnt = DsReadSync( 0 ) ) > 0 ) {
+#ifdef APD_LOAD
+			APDSetCnt(VSync( 0 ));
+#else
+			VSync( 0 );
+#endif
+			FntPrint( "\t\t SIMPLE DSREAD\n\n" );
+			FntPrint( "Use DTL-S2320 DISC FOR THIS TEST\n\n" );
+			FntPrint( "file name %s\n", file );
+			FntPrint( "trial count %d\n", n_trial );
+			FntPrint( "read  error %d\n", n_err );
+			FntPrint( "fatal error %d\n\n", n_fatal );
+			FntPrint( "reading(%d) ...%d Sectors\n", i, cnt );
+
+			balls();
+			FntFlush( -1 );
+		}
+
+		/* check retur value: 返り値が非零の場合はエラー */
+		if( cnt != 0 ) {
+			FntPrint( "Read ERROR in %d\n\n", i );
+			n_err++;
+			return;
+		}
+	}
+
+	/* compare: 二つのデータを比較する */
+	for( i = 0; i < sizeof( sectbuf[ 0 ] ) / 4; i++ ) {
+		if( sectbuf[ 0 ][ i ] != sectbuf[ 1 ][ i ]) {
+			printf( "verify ERROR at (%08x:%08x)\n\n",
+			  &sectbuf[ 0 ][ i ], &sectbuf[ 1 ][ i ] );
+			n_fatal++;
+			return;
+		}
+	}
+}
+
+static void notfound( char* file )
+{
+	int n = 60 * 4;
+	while( n-- ) {
+		FntPrint( "\n\n%s: not found\n", file );
+		FntFlush( -1 );
+#ifdef APD_LOAD
+		APDSetCnt(VSync( 0 ));
+#else
+		VSync( 0 );
+#endif
+	}
+	printf( "%s: not found\n", file );
+}

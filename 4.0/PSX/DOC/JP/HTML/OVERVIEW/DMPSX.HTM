@@ -1,0 +1,1641 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> GTEインラインマクロライブラリ(dmpsx)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+GTEインラインマクロライブラリ(dmpsx)
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+GTEインラインマクロライブラリは、関数呼出しを使用せずにGTEを制御するためのサービスを提供しています。この章では、まずライブラリを利用するのに必要なプログラム環境DMPSXについて説明し、GTEインラインマクロライブラリを使用したプログラム方法を説明します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 DMPSX version 2.xからの変更点</A><BR>
+<P><A HREF="#Heading3_1_2"> 2 DMPSX とは</A><BR>
+<P><A HREF="#Heading3_1_3"> 3 ファイル構成</A><BR>
+<P><A HREF="#Heading3_1_4"> 4 書式</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_4_1"> 書式</A><BR>
+    <A HREF="#Heading4_1_4_2"> オプション</A><BR>
+    <A HREF="#Heading4_1_4_3"> 使用例</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_5"> 5 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_5_1"> インライン関数</A><BR>
+    <A HREF="#Heading4_1_5_2"> 置き換え可能な関数への変更</A><BR>
+    <A HREF="#Heading4_1_5_3"> 基本関数によるインラインプログラミング</A><BR>
+    <A HREF="#Heading4_1_5_4"> アセンブラでの使用方法</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_6"> 6 環境設定</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_6_1"> ファイル</A><BR>
+    <A HREF="#Heading4_1_6_2"> インストール方法</A><BR>
+    <A HREF="#Heading4_1_6_3"> コンパイル方法</A><BR>
+    <A HREF="#Heading4_1_6_4"> nop付き／nopなしタイプ２命令</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_7"> 7 各インクルードファイルの説明</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_7_1"> inline_o.h</A><BR>
+    <A HREF="#Heading4_1_7_2"> inline_c.h</A><BR>
+    <A HREF="#Heading4_1_7_3"> inline_a.h</A><BR>
+    <A HREF="#Heading4_1_7_4"> gtereg.h</A><BR>
+    <A HREF="#Heading4_1_7_5"> gtemac.h</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_8"> 8 アセンブラプログラム用ヘッダファイルinline_a.hについて</A><BR>
+<P><A HREF="#Heading3_1_9"> 9 タイプ２命令マクロの新旧対応</A><BR>
+<P><A HREF="#Heading3_1_10"> 10 DMPSXインライン関数一覧表</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_10_1"> 概要</A><BR>
+    <A HREF="#Heading4_1_10_2"> ＧＴＥレジスタ</A><BR>
+    <A HREF="#Heading4_1_10_3"> ロード命令</A><BR>
+    <A HREF="#Heading4_1_10_4"> ＧＴＥ命令</A><BR>
+    <A HREF="#Heading4_1_10_5"> ストア命令</A><BR>
+    <A HREF="#Heading4_1_10_6"> ムーブ命令</A><BR>
+    <A HREF="#Heading4_1_10_7"> その他</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>DMPSX version 2.xからの変更点</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+<UL>
+         <LI> GTEレジスタのロード／ストア命令を公開しました。
+         <LI> ３つのヘッダファイルを用意しました。
+         <LI> アセンブラプログラムに対応しました。
+         <LI> "inline.tbl"を廃止しました。
+</UL>
+    <BR>
+    "DMPSX version 3.0"およびヘッダファイルは、旧DMPSXに使用することはできません。また、旧"inline.h"を"DMPSX version 3.0"で使用することもできません。<BR>
+    旧DMPSXで作成されたプログラムを"DMPSX version 3.0"に使用するためには、以下の"inline_o.h"もしくは"inline_c.h"を"inline.h"の代わりにインクルードするように変更してください。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>DMPSX とは</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    DMPSXとは、GTEの処理に関するプログラムの実行速度を向上させることを目的とするプログラミング環境です。<BR>
+    専用のヘッダファイルをプログラムにインクルードし、ヘッダファイルに記述されているインライン関数（マクロ）を使用してGTEをコントロールすることで、関数呼出しのオーバーヘッドを除去することができます。<BR>
+    また、関数呼出しを使用しないことで、インストラクションキャッシュのコントロールが容易になり、高速に実行されるルーチンを開発することができます。<BR>
+    DMPSXで作成されたプログラムは、コンパイル方法が通常のプログラムと異なります。コンパイルをオブジェクト（*.obj）まで行い、このファイルを"dmpsx.exe"で処理したあと、他のオブジェクトファイルとリンクします。詳しくは後述の”コンパイル方法”をご参照ください。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>ファイル構成</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+<UL>
+         <LI> dmpsx.exe<BR>実行ファイルです。コンパイルされたオブジェクトファイルを処理します。
+         <LI> inline_o.h<BR>旧DMPSXと同じコードを生成するためのヘッダファイルです。
+         <LI> inline_c.h<BR>"inline_o.h"のレジスタロード／ストア命令を、inline asmの機能を使用して最適化したヘッダファイルです。
+         <LI> inline_a.h<BR>"inline_c.h"をアセンブラプログラム用に書き換えたヘッダファイルです。
+         <LI> gtereg.h<BR>アセンブラ用にGTEのレジスタのマクロ定義が行われています。
+         <LI> gtemac.h<BR>"libgte.lib"の関数と同じ機能を、DMPSXのインライン関数で実現するためのヘッダファイルです。
+</UL>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>書式</B>
+</A>
+</H3>
+<blockquote>
+<PRE>        DMPSX  object-file [ -o output-file ] [ -b ] 
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o</B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定する。<BR>
+      省略時は、入力ファイルに上書きされる。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-b</B></H4>
+
+      <BLOCKQUOTE>
+      .bakファイル（バックアップファイル）の生成を抑制する。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_3">
+<A HREF="#Heading3_1_4"> 4. </A>3 <B>使用例</B>
+</A>
+</H3>
+<blockquote>
+    DOS&gt; dmpsx main.obj<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    このプログラムは、以下に述べるGTEのインライン関数を実現します。ソースプログラム中に指定のヘッダファイルをインクルードし、コンパイル時にこのプログラムをオブジェクトファイルに使用することで、GTEコードがオブジェクトファイルに展開されます。これにより、通常の関数と同等のインターフェイスをもつインライン関数を使用することが可能になります。<BR>
+    （注）ここでいうインライン関数とは、C言語の'inline'関数とは効果は同じですが、違うものです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_1">
+<A HREF="#Heading3_1_5"> 5. </A>1 <B>インライン関数</B>
+</A>
+</H3>
+<blockquote>
+    libgteの低レベル関数（RotTransPersなど）を使ってプログラムを書くと、インストラクションキャッシュミスを起こすことがあります。このような場合、インライン関数を使えばこれを避けることができ高速になります。（もとのプログラムがキャッシュミスを起こしていない場合には逆に遅くなる場合もあります。）<BR>
+    GTEインライン関数は次のような形式の名前を持っています。<BR>
+    <BR>
+<PRE>        gte_******
+</PRE>
+    <BR>
+    GTEインライン関数は大きく分けて２種類のタイプがあります。一つは GTEを使うための基本関数でもう一つはlibgteの低レベル関数をそのまま置き換え可能な関数です。"gte_"に続く最初の文字が小文字の関数は基本関数で大文字の場合置き換え可能な関数です。<BR>
+    <BR>
+<PRE>        gte_rtps		基本関数
+        gte_RotTransPers	置き換え可能な関数
+</PRE>
+    <BR>
+    すべての基本関数といくつかの置き換え可能な関数はコンパイル時に直接オブジェクトコードになります。また、そのほかのほとんどの置き換え可能な関数は"gtemac.h"のなかで基本関数のマクロとして定義されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_2">
+<A HREF="#Heading3_1_5"> 5. </A>2 <B>置き換え可能な関数への変更</B>
+</A>
+</H3>
+<blockquote>
+    通常の関数コールで書かれたプログラムをインライン化するためには以下の作業を行なってください。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_1">
+(1) <B>次のヘッダファイルをインクルードする。</B>
+</A>
+</H4>
+<PRE>        "inline_o.h"もしくは"inline_c.h"
+        "gtemac.h"
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_2">
+(2) <B>インライン化したい関数が置き換え可能な関数のなかにあるか探す<BR>（関数名はリファレンスを参照してください）。</B>
+</A>
+</H4>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_3">
+(3) <B>もしあれば、</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      １．関数名に"gte_"を付けてインライン関数名にする<BR>
+      </BLOCKQUOTE>
+<PRE>        （例）RotTransPers() -&gt; gte_RotTransPers()
+</PRE>
+      <BLOCKQUOTE>
+      ２．その関数が返り値を持っている場合は返り値のポインタを引き数の最後に付け加える<BR>
+      </BLOCKQUOTE>
+<PRE>        （例） otz=RotTransPers(...) -&gt; gte_RotTransPers(...,&otz)
+</PRE>
+      <BLOCKQUOTE>
+      ３．置き換えたインライン関数がGTEの内部定数、たとえばRotation Matrix, Transfer vector...	をこわす場合、それらの定数をセーブ、ロードする<BR>
+      </BLOCKQUOTE>
+<PRE>        （例）	OuterProduct12()	-&gt;	gte_ReadRotMatrix(&m)
+        					gte_OuterProduct12()
+        					gte_SetRotMatrix(&m)
+        
+        	CompMatrix()		-&gt;	gte_ReadRotMatrix(&m)
+        					gte_CompMatrix()
+        					gte_SetTransMatrix(&m)
+        	破壊する定数がlibgte版と異なるのはこの２つだけです。
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_4">
+(4) <B>無い場合、</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      １．インライン関数を使って直接プログラム中に書く<BR>
+      </BLOCKQUOTE>
+<PRE>        （例）	RotTransPers4()		-&gt;	gte_RotTransPers3()
+        					gte_RotTransPers()
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_3">
+<A HREF="#Heading3_1_5"> 5. </A>3 <B>基本関数によるインラインプログラミング</B>
+</A>
+</H3>
+<blockquote>
+    置き換え可能な関数が見つからない場合や、より最適化したい場合には基本関数を使って直接プログラミングしてください。<BR>
+    GTEは通常つぎの３つのステップで動作します。<BR>
+<UL>
+         <LI> 入力データのロード	... CPUメモリ/レジスタ -&gt; GTEレジスタ
+         <LI> 実行			... GTE functionの実行
+         <LI> 出力データのストア	... GTEレジスタ -&gt; CPUメモリ/レジスタ
+</UL>
+    リファレンスのなかで<BR>
+      <BLOCKQUOTE>
+      “レジスタロード関数”は入力データのロード、<BR>
+      “GTEコマンド”は実行、<BR>
+      “レジスタストア関数”出力データのストア<BR>
+      </BLOCKQUOTE>
+    です。<BR>
+    例えばgte_RotTransPersは"gtemac.h"の中で次のように書かれています。<BR>
+    <BR>
+<PRE>        gte_ldv0(r1);		/* type1:load 3D coordinate */
+        gte_rtps();		/* type2:Rotate,Transfer,Perspect */
+        gte_stsxy(r2);		/* type3:store 2D coordinate */
+        gte_stdp(r3);		/* type3:store depth queue p */
+        gte_stflg(r4);		/* type3:store flag */
+        gte_stszotz(r5);	/* type3:store sz/4 as otz */
+</PRE>
+    <BR>
+    もし”デプスキューイング用p”と”フラグ”が不要であれば次のように短縮することができます。<BR>
+    <BR>
+<PRE>        gte_ldv0(r1);		/* type1:load 3D coordinate */
+        gte_rtps();		/* type2:Rotate,Transfer,Perspect */
+        gte_stsxy(r2);		/* type3:store 2D coordinate */
+        gte_stszotz(r5);	/* type3:store sz/4 as otz */
+</PRE>
+    <BR>
+    さらに、GTEコマンドとストア関数の間でCPUプロセスを実行すれば、これらのGTEプロセスとCPUプロセスはどちらかが終了するまで同時に実行されることになります。<BR>
+    <BR>
+<PRE>        gte_ldv0(r1);		/* type1:load 3D coordinate */
+        gte_rtps();		/* type2:Rotate,Transfer,Perspect */
+        CPU process;		/* CPU process */
+        gte_stsxy(r2);		/* type3:store 2D coordinate */
+        gte_stszotz(r5);	/* type3:store sz/4 as otz */
+</PRE>
+    <BR>
+    ただし、GTEコマンドの実行時間はそれほど長くありませんのであまり多くのCPUプロセスを挟みこむことはプログラムを読みにくくするだけで無意味です。<BR>
+    <BR>
+    （注意）<BR>
+    基本関数は以下の３タイプで構成されています。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      タイプ１：“レジスタロード関数”<BR>
+      タイプ２：“GTEコマンド”<BR>
+      タイプ３：“レジスタストア関数”<BR>
+      </BLOCKQUOTE>
+    <BR>
+    以下のようにタイプ２とタイプ３の間にタイプ１の関数を使用すると動作を保証できませんので使用しないでください。<BR>
+    <BR>
+    間違った使用例：<BR>
+<PRE>        gte_rtps();		/* type2:Rotate,Transfer,Perspect */
+        gte_ldv0(r1);		/* type1:load 3D coordinate */
+        gte_stsxy(r2);		/* type3:store 2D coordinate */
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_4">
+<A HREF="#Heading3_1_5"> 5. </A>4 <B>アセンブラでの使用方法</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラプログラムでDMPSXを使用する場合は、inline_a.hをヘッダファイルとして使用してください。inline_a.hには、タイプ２命令のみ定義されています。GTEのレジスタへのアクセスは、GTEの仕様書を参照して、直接アクセスしてください。GTEレジスタのマクロ定義は、gtereg.hで行われています。<BR>
+    <BR>
+    inline_a.hの中のタイプ２命令のうち、以下の命令は引数を必要とします。<BR>
+    <BR>
+<PRE>        MVMVA	sf,mx,v,cv,lm
+        SQR	sf
+        OP	sf
+        GPF	sf
+        GPL	sf
+</PRE>
+    <BR>
+    引数には整数を使用してください。それぞれのコマンドおよび引数の詳細は、GTEの仕様書を参照してください。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>環境設定</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>ファイル</B>
+</A>
+</H3>
+<blockquote>
+<PRE>        dmpsx.exe
+        inline_o.h
+        inline_c.h
+        inline_a.h
+        gtereg.h
+        gtemac.h
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_2">
+<A HREF="#Heading3_1_6"> 6. </A>2 <B>インストール方法</B>
+</A>
+</H3>
+<blockquote>
+    <OL>
+         <LI VALUE= 1> "dmpsx.exe" を "\psx\bin" など path が設定してあるディレクトリにコピーします。
+         <LI VALUE= 2> "inline_o.h"、"inline_c.h"、"inline_a.h"、"gtereg.h"と"gtemac.h"はコンパイラのインクルードディレクトリ（\psx\include など）にコピーします。
+    </OL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_3">
+<A HREF="#Heading3_1_6"> 6. </A>3 <B>コンパイル方法</B>
+</A>
+</H3>
+<blockquote>
+    コンパイル時には、DMPSXを使用しているファイルのコンパイルを "-c"オプションを使用して一旦オブジェクトまででストップし、"dmpsx.exe"で処理します。その後、他のファイルといっしょにリンクします。<BR>
+    例えば、<BR>
+    <BR>
+<PRE>        ccpsx -O -Xo$80010000 use1.c use2.c a1.c a2.c -omain.cpe
+</PRE>
+    <BR>
+    というようにコンパイルされるプログラムの場合は（ use1.c use2.cがDMPSXを使用しているとして）、<BR>
+    <BR>
+<PRE>        ccpsx -c -O use1.c -ouse1.obj
+        dmpsx use1.obj
+        ccpsx -c -O use2.c -ouse2.obj
+        dmpsx use2.obj
+        ccpsx -O -Xo$80010000 use1.obj use2.obj a1.c a2.c -omain.cpe
+</PRE>
+    <BR>
+    のように"makefile.mak"の内容を書き換えてください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_4">
+<A HREF="#Heading3_1_6"> 6. </A>4 <B>nop付き／nopなしタイプ２命令</B>
+</A>
+</H3>
+<blockquote>
+    ヘッダファイルにマクロ定義されているタイプ２命令（演算）には、同じ機能でnop付きとnopなしの２種類が用意されています。GTEの仕様として、演算命令の前２スロットにはcop2命令を置くことは出来ません。よって、標準では、タイプ２命令のマクロはnopを２つ伴っています。もしプログラムの高速化が必要になり、nopを削除したい場合はnopなしのマクロを使用してください。その場合、タイプ２命令の前２スロットには、必ずCPU命令が入るようにプログラムを行ってください。<BR>
+    <BR>
+    それぞれのヘッダファイルで宣言されているタイプ２命令のマクロは、nopの有無の区別を以下のように行っています。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_1">
+(1) <B>inline_c.hの場合</B>
+</A>
+</H4>
+    nopなしマクロは、マクロ名の終りに"_b"が付いています。<BR>
+<PRE>        （例）	nop 付き	gte_rtps()
+        	nop なし	gte_rtps_b()
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_2">
+(2) <B>inline_a.h の場合</B>
+</A>
+</H4>
+    nop付きマクロは、マクロ名が'n'で始まります。<BR>
+<PRE>        （例）	nop 付き	nRTPS
+        	nop なし	RTPS
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4_3">
+(3) <B>inline_o.h の場合</B>
+</A>
+</H4>
+    nopなしマクロは用意されていません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>各インクルードファイルの説明</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>inline_o.h</B>
+</A>
+</H3>
+<blockquote>
+    "inline_o.h"は、旧"inline.h"のタイプ１および３命令の内容を公開したヘッダファイルです。旧バージョンとの互換性を保つために用意されています。<BR>
+    "inline_o.h"では、旧"inline.h"と同じコードが生成されます。よって、旧"inline.h"と同じ冗長性を持っています。<BR>
+    特に、CプログラムのデータをDMPSXに渡す際に、各インライン関数に１～４ワードの冗長な命令が含まれます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_2">
+<A HREF="#Heading3_1_7"> 7. </A>2 <B>inline_c.h</B>
+</A>
+</H3>
+<blockquote>
+    上記 "inline_o.h" の冗長性を削除したヘッダファイルです。通常のプログラム開発には、このファイルを使用してください。ヘッダファイルに含まれるインライン関数のうち、タイプ１命令（GTE レジスタロード命令）とタイプ３命令（GTEレジスタストア命令）は、今回のバージョンよりDMPSXとは無関係になります。よって、DMPSXを使用しないプログラムでも使用することができます。<BR>
+    タイプ２命令（GTEコマンド）は"dmpsx.exe" で変換してから実行する必要があります。"inline_c.h"は"inline_o.h"と比較して、関数名および機能は同じですが、より効率の良いコードを生成します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_3">
+<A HREF="#Heading3_1_7"> 7. </A>3 <B>inline_a.h</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラプログラム用ヘッダファイルです。タイプ２命令（GTEコマンド）のみ定義されています。GTEレジスタの仕様および各命令については、GTEの資料を参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_4">
+<A HREF="#Heading3_1_7"> 7. </A>4 <B>gtereg.h</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラプログラム用に、GTEレジスタのマクロ定義が行われています。各レジスタのマクロ名は、レジスタ名の先頭に"C2_"が付けられたものとなっています。各レジスタの機能は、GTEの資料を参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_5">
+<A HREF="#Heading3_1_7"> 7. </A>5 <B>gtemac.h</B>
+</A>
+</H3>
+<blockquote>
+    このヘッダファイルは、他のファイルと異なり、DMPSXに必ずしも必要というわけではありません。ここには、"libgte.lib"で提供されている関数と同じ機能を持つマクロ関数が、DMPSXの基本関数の組合せの形で定義されています。よって、libgteで作成されたプログラムをDMPSXを使用して高速化する場合の第一歩として使用してください。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>アセンブラプログラム用ヘッダファイルinline_a.hについて</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    inline_a.hは、アセンブラプログラムでGTEをコントロールするためのヘッダファイルです。inline_a.hにはタイプ２命令のみマクロ定義されています。タイプ１命令およびタイプ３命令については定義されていません。<BR>
+    <BR>
+    inline_a.hでマクロ定義されているタイプ２命令には、GTEの仕様上必要なnopを付けたものと、ないものの２種類があります。GTEでは、タイプ２命令の前の２スロットにcop2命令をおくことは出来ません。inline_a.hで提供されるタイプ２命令のうち、名前の先頭に'n'がつくものは、この GTEの仕様にそって命令コードの前にnopが付けられています。<BR>
+    名前の先頭に'n'がつかない命令はnopが付けられていません。この命令を無造作に使用すると、誤動作を起こすコードを生成する可能性があります。そのため、dmpsx.exeでは命令コードの前２スロットにcop2命令が確認されるとエラーを出力し、処理を中断します。dmpsxでエラーが出力される場合は、対象の命令を'n'付きのものに置き換えるか、cop2以外の命令（CPU命令）が少なくとも２つGTEコードの前に入るようなプログラムを行ってください。<BR>
+    <BR>
+    また、inline_a.hの一部のタイプ２命令は引数を使用します。これらの命令は引数でその動作をコントロールします。以下に、引数を使用する	命令を示します。引数の詳細および命令の動作についてはGTEの仕様書を参照してください。<BR>
+    <BR>
+<PRE>        MVMVA	sf, mx, v, cv, lm
+        SQR	sf
+        OP	sf
+        GPF	sf
+        GPL	sf
+</PRE>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>タイプ２命令マクロの新旧対応</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    inline_a.hでは、以前のinline.h、または現在リリースされているC用ヘッダファイルinline_c.h、inline_o.hとはタイプ２命令マクロの仕様が異なります。以下に、各タイプ２命令の対応を示します。<BR>
+    なお、アセンブラマクロの一部は、引数によって動作を制御します。引数の詳細はGTEの仕様書を参照してください。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>C 用マクロ<BR></TD><TD>asm 用マクロ<BR></TD><TD>引数（必要なもの）<BR>sf, mx, v, cv, lm</TD><TR>
+    <TD>gte_rtps()</TD><TD>RTPS</TD><TD></TD><TR>
+    <TD>gte_rtpt()</TD><TD>RTPT</TD><TD></TD><TR>
+    <TD>gte_rt()</TD><TD>MVMVA</TD><TD>1,0,0,0,0</TD><TR>
+    <TD>gte_rtv0()</TD><TD>MVMVA</TD><TD>1,0,0,3,0</TD><TR>
+    <TD>gte_rtv1()</TD><TD>MVMVA</TD><TD>1,0,1,3,0</TD><TR>
+    <TD>gte_rtv2()</TD><TD>MVMVA</TD><TD>1,0,2,3,0</TD><TR>
+    <TD>gte_rtir()</TD><TD>MVMVA</TD><TD>1,0,3,3,0</TD><TR>
+    <TD>gte_rtir_sf0()</TD><TD>MVMVA</TD><TD>0,0,3,3,0</TD><TR>
+    <TD>gte_rtv0tr()</TD><TD>MVMVA</TD><TD>1,0,0,0,0</TD><TR>
+    <TD>gte_rtv1tr()</TD><TD>MVMVA</TD><TD>1,0,1,0,0</TD><TR>
+    <TD>gte_rtv2tr()</TD><TD>MVMVA</TD><TD>1,0,2,0,0</TD><TR>
+    <TD>gte_rtirtr()</TD><TD>MVMVA</TD><TD>1,0,3,0,0</TD><TR>
+    <TD>gte_rtv0bk()</TD><TD>MVMVA</TD><TD>1,0,0,1,0</TD><TR>
+    <TD>gte_rtv1bk()</TD><TD>MVMVA</TD><TD>1,0,1,1,0</TD><TR>
+    <TD>gte_rtv2bk()</TD><TD>MVMVA</TD><TD>1,0,2,1,0</TD><TR>
+    <TD>gte_rtirbk()</TD><TD>MVMVA</TD><TD>1,0,3,1,0</TD><TR>
+    <TD>gte_ll()</TD><TD>MVMVA</TD><TD>1,1,0,3,1</TD><TR>
+    <TD>gte_llv0()</TD><TD>MVMVA</TD><TD>1,1,0,3,0</TD><TR>
+    <TD>gte_llv1()</TD><TD>MVMVA</TD><TD>1,1,1,3,0</TD><TR>
+    <TD>gte_llv2()</TD><TD>MVMVA</TD><TD>1,1,2,3,0</TD><TR>
+    <TD>gte_llir()</TD><TD>MVMVA</TD><TD>1,1,3,3,0</TD><TR>
+    <TD>gte_llv0tr()</TD><TD>MVMVA</TD><TD>1,1,0,0,0</TD><TR>
+    <TD>gte_llv1tr()</TD><TD>MVMVA</TD><TD>1,1,1,0,0</TD><TR>
+    <TD>gte_llv2tr()</TD><TD>MVMVA</TD><TD>1,1,2,0,0</TD><TR>
+    <TD>gte_llirtr()</TD><TD>MVMVA</TD><TD>1,1,3,0,0</TD><TR>
+    <TD>gte_llv0bk()</TD><TD>MVMVA</TD><TD>1,1,0,1,0</TD><TR>
+    <TD>gte_llv1bk()</TD><TD>MVMVA</TD><TD>1,1,1,1,0</TD><TR>
+    <TD>gte_llv2bk()</TD><TD>MVMVA</TD><TD>1,1,2,1,0</TD><TR>
+    <TD>gte_llirbk()</TD><TD>MVMVA</TD><TD>1,1,3,1,0</TD><TR>
+    <TD>gte_lc()</TD><TD>MVMVA</TD><TD>1,2,3,1,1</TD><TR>
+    <TD>gte_lcv0()</TD><TD>MVMVA</TD><TD>1,2,0,3,0</TD><TR>
+    <TD>gte_lcv1()</TD><TD>MVMVA</TD><TD>1,2,1,3,0</TD><TR>
+    <TD>gte_lcv2()</TD><TD>MVMVA</TD><TD>1,2,2,3,0</TD><TR>
+    <TD>gte_lcir()</TD><TD>MVMVA</TD><TD>1,2,3,3,0</TD><TR>
+    <TD>gte_lcv0tr()</TD><TD>MVMVA</TD><TD>1,2,0,0,0</TD><TR>
+    <TD>gte_lcv1tr()</TD><TD>MVMVA</TD><TD>1,2,1,0,0</TD><TR>
+    <TD>gte_lcv2tr()</TD><TD>MVMVA</TD><TD>1,2,2,0,0</TD><TR>
+    <TD>gte_lcirtr()</TD><TD>MVMVA</TD><TD>1,2,3,0,0</TD><TR>
+    <TD>gte_lcv0bk()</TD><TD>MVMVA</TD><TD>1,2,0,1,0</TD><TR>
+    <TD>gte_lcv1bk()</TD><TD>MVMVA</TD><TD>1,2,1,1,0</TD><TR>
+    <TD>gte_lcv2bk()</TD><TD>MVMVA</TD><TD>1,2,2,1,0</TD><TR>
+    <TD>gte_lcirbk()</TD><TD>MVMVA</TD><TD>1,2,3,1,0</TD><TR>
+    <TD>gte_dpcl()</TD><TD>DCPL</TD><TD></TD><TR>
+    <TD>gte_dpcs()</TD><TD>DPCS</TD><TD></TD><TR>
+    <TD>gte_dpct()</TD><TD>DPCT</TD><TD></TD><TR>
+    <TD>gte_intpl()</TD><TD>INTPL</TD><TD></TD><TR>
+    <TD>gte_sqr12()</TD><TD>SQR</TD><TD>1</TD><TR>
+    <TD>gte_sqr0()</TD><TD>SQR</TD><TD>0</TD><TR>
+    <TD>gte_ncs()</TD><TD>NCS</TD><TD></TD><TR>
+    <TD>gte_nct()</TD><TD>NCT</TD><TD></TD><TR>
+    <TD>gte_ncds()</TD><TD>NCDS</TD><TD></TD><TR>
+    <TD>gte_ncdt()</TD><TD>NCDT</TD><TD></TD><TR>
+    <TD>gte_nccs()</TD><TD>NCCS</TD><TD></TD><TR>
+    <TD>gte_ncct()</TD><TD>NCCT</TD><TD></TD><TR>
+    <TD>gte_cdp()</TD><TD>CDP</TD><TD></TD><TR>
+    <TD>gte_cc()</TD><TD>CC</TD><TD></TD><TR>
+    <TD>gte_nclip()</TD><TD>NCLIP</TD><TD></TD><TR>
+    <TD>gte_avsz3()</TD><TD>AVSZ3</TD><TD></TD><TR>
+    <TD>gte_avsz4()</TD><TD>AVSZ4</TD><TD></TD><TR>
+    <TD>gte_op12()</TD><TD>OP</TD><TD>1</TD><TR>
+    <TD>gte_op0()</TD><TD>OP</TD><TD>0</TD><TR>
+    <TD>gte_gpf12()</TD><TD>GPF</TD><TD>1</TD><TR>
+    <TD>gte_gpf0()</TD><TD>GPF</TD><TD>0</TD><TR>
+    <TD>gte_gpl12()</TD><TD>GPL</TD><TD>1</TD><TR>
+    <TD>gte_gpl0()</TD><TD>GPL</TD><TD>0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>DMPSXインライン関数一覧表</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_1">
+<A HREF="#Heading3_1_10"> 10. </A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    この一覧表は<BR>
+<UL>
+         <LI> ＧＴＥがどのようなレジスタを持っているか
+         <LI> インライン関数はどのように分類できるか
+</UL>
+    を説明します。ここの関数の形式についてはリファレンスを参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_2">
+<A HREF="#Heading3_1_10"> 10. </A>2 <B>ＧＴＥレジスタ</B>
+</A>
+</H3>
+<blockquote>
+    DMPSXマクロ名やこのドキュメントではつぎのような記号でＧＴＥのレジスタを表します。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">記号</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>v0</TD><TD>頂点座標、法線ベクトル用３次元ショートベクトル０</TD><TR>
+    <TD>v1</TD><TD>頂点座標、法線ベクトル用３次元ショートベクトル１</TD><TR>
+    <TD>v2</TD><TD>頂点座標、法線ベクトル用３次元ショートベクトル２</TD><TR>
+    <TD>RGBcd(=rgb)</TD><TD>R,G,BとGPUコード入力用４次元キャラクタベクトル</TD><TR>
+    <TD>sv(=ir)</TD><TD>汎用３次元ショートベクトル</TD><TR>
+    <TD>lv</TD><TD>汎用３次元ロングベクトル</TD><TR>
+    <TD>dp</TD><TD>デプスキューイング（内挿）用ショートスカラ</TD><TR>
+    <TD>sxy0<BR></TD><TD>スクリーンXY座標用２次元ショートベクトル ０<BR>３段FIFOの最終段</TD><TR>
+    <TD>sxy1<BR></TD><TD>スクリーンXY座標用２次元ショートベクトル １<BR>３段FIFOの第２段</TD><TR>
+    <TD>sxy2<BR></TD><TD>スクリーンXY座標用２次元ショートベクトル ２<BR>３段FIFOの第１段</TD><TR>
+    <TD>sz0</TD><TD>スクリーンZ座標用ショートスカラ ０</TD><TR>
+    <TD>sz1<BR></TD><TD>スクリーンZ座標用ショートスカラ １<BR>４段FIFOの第３段</TD><TR>
+    <TD>sz2<BR></TD><TD>スクリーンZ座標用ショートスカラ ２<BR>４段FIFOの第２段</TD><TR>
+    <TD>sz3<BR></TD><TD>スクリーンZ座標用ショートスカラ ３<BR>４段FIFOの第１段</TD><TR>
+    <TD>otz</TD><TD>OTZ用ショートスカラ</TD><TR>
+    <TD>opz</TD><TD>外積値用ロングスカラ</TD><TR>
+    <TD>rgb3<BR></TD><TD>R,G,BとGPUコード用４次元キャラクタベクトル３段FIFO<BR>( rgb0, rgb1, rgb2 )</TD><TR>
+    <TD>lzc</TD><TD>Leading Zero Counter用ロングスカラ</TD><TR>
+    <TD>BackColor(=bk)</TD><TD>back color用３次元ロングベクトル</TD><TR>
+    <TD>FarColor(=fc)</TD><TD>far color用３次元ロングベクトル</TD><TR>
+    <TD>Offset</TD><TD>スクリーンオフセット用２次元ロングベクトル</TD><TR>
+    <TD>Screen</TD><TD>視点／スクリーン距離用ロングスカラ</TD><TR>
+    <TD>RotMatrix(=rt)</TD><TD>３×３回転マトリクス</TD><TR>
+    <TD>LightMatrix(=ll)</TD><TD>３×３光源方向マトリクス</TD><TR>
+    <TD>ColorMatrix(=lc)</TD><TD>３×３光源色マトリクス</TD><TR>
+    <TD>Trans(=tr)</TD><TD>平行移動３次元ロングベクトル</TD><TR>
+    <TD>flg</TD><TD>フラグ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_3">
+<A HREF="#Heading3_1_10"> 10. </A>3 <B>ロード命令</B>
+</A>
+</H3>
+<blockquote>
+    GTEに値をロードする命令です。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_1">
+(1) <B>頂点座標、法線ベクトルなどのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldv0</TD><TD>ベクトルv0にSVECTORをロードする。</TD><TR>
+    <TD>gte_ldv1</TD><TD>ベクトルv1にSVECTORをロードする。</TD><TR>
+    <TD>gte_ldv2</TD><TD>ベクトルv2にSVECTORをロードする。</TD><TR>
+    <TD>gte_ldv3<BR></TD><TD>ベクトルv0,v1,v2にSVECTORをバラバラの場所から<BR>ロードする。</TD><TR>
+    <TD>gte_ldv3c<BR></TD><TD>ベクトルv0,v1,v2にSVECTORを連続する場所から<BR>ロードする。</TD><TR>
+    <TD>gte_ldv3c_vertc <BR></TD><TD>ベクトルv0,v1,v2にSVECTORをlibgs.hで定義される<BR>構造体VERTCの頂点座標領域からロードする。</TD><TR>
+    <TD>gte_ldv01</TD><TD>ベクトルv0,v1にSVECTORをバラバラの場所からロードする。</TD><TR>
+    <TD>gte_ldv01c</TD><TD>ベクトルv0,v1にSVECTORを連続する場所からロードする。</TD><TR>
+    <TD>gte_ldlv0</TD><TD>ベクトルv0にVECTORの下位１６bitをロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_2">
+(2) <B>RGB,GPUコードのロード命令</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldrgb<BR></TD><TD>ベクトルrgbにCVECTORをロードする<BR>（GPUコードも書き換える）。</TD><TR>
+    <TD>gte_ldrgb3<BR></TD><TD>FIFO rgb0,rgb1,rgb2にCVECTORをバラバラの場所からロードする。<BR>ベクトルrgbにはrgb2と同じものがロードされる<BR>（GPUコードの設定のため）。</TD><TR>
+    <TD>gte_ldrgb3c<BR></TD><TD>FIFO rgb0,rgb1,rgb2にCVECTORを連続する場所からロードする。<BR>ベクトルrgbにはrgb2と同じものがロードされる<BR>（GPUコードの設定のため）。</TD><TR>
+    <TD>gte_SetRGBcd<BR></TD><TD>=gte_ldrgb<BR>ベクトルrgbにCVECTORをロードする<BR>（GPUコードも書き換える）。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_3">
+(3) <B>汎用ベクトルのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldlvl</TD><TD>汎用ショートベクトルにVECTORの下位１６bitをロードする。</TD><TR>
+    <TD>gte_ldsv</TD><TD>汎用ショートベクトルにSVECTORをロードする。</TD><TR>
+    <TD>gte_ldbv<BR></TD><TD>汎用ショートベクトルの第1､2成分に2次元Byteベクトルをロード<BR>する。</TD><TR>
+    <TD>gte_ldcv<BR></TD><TD>汎用ショートベクトルにCVECTORのR,G,Bをロードする。<BR>GPUコード部はどこへもロードしない。</TD><TR>
+    <TD>gte_ldclmv</TD><TD>汎用ショートベクトルにMATRIXの第１カラムをロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<PRE>        
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_4">
+(4) <B>デプスキューイング用スカラ値のロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_lddp</TD><TD>デプスキューイング用スカラ値をロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_5">
+(5) <B>スクリーン座標のロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldsxy0</TD><TD>１番目の頂点のスクリーン座標XYをロードする。</TD><TR>
+    <TD>gte_ldsxy1</TD><TD>２番目の頂点のスクリーン座標XYをロードする。</TD><TR>
+    <TD>gte_ldsxy2</TD><TD>３番目の頂点のスクリーン座標XYをロードする。</TD><TR>
+    <TD>gte_ldsxy3</TD><TD>３つの頂点のスクリーン座標XYを値でロードする。</TD><TR>
+    <TD>gte_ldsxy3c<BR></TD><TD>連続する３つのアドレスに置かれたスクリーン座標XYをポインタ<BR>でロードする。</TD><TR>
+    <TD>gte_ldsz3</TD><TD>３つの頂点のスクリーン座標Zを値でロードする。</TD><TR>
+    <TD>gte_ldsz4</TD><TD>４つの頂点のスクリーン座標Zを値でロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_6">
+(6) <B>外積をとるためのベクトルのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldopv1<BR></TD><TD>外積をとるための第１ベクトルをロードする。<BR>３×３回転マトリクスを破壊する。</TD><TR>
+    <TD>gte_ldopv2<BR></TD><TD>外積をとるための第２ベクトルをロードする。<BR>汎用ショートベクトルを破壊する。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_7">
+(7) <B>LZCをとるための値のロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldlzc<BR></TD><TD>LZC（Leading Zero Counter）をとるための値をロードする。<BR>ロードされた値のMSBからいくつ０または１が続くかを計算される。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_8">
+(8) <B>バックカラーベクトルのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldbkdir</TD><TD>ロングベクトルをバックカラーベクトルに値でロードする。</TD><TR>
+    <TD>gte_SetBackColor<BR></TD><TD>（RBK,GBK,BBK）をバックカラーベクトルに値でロードする。<BR>それぞれの値は１６倍されてロードされる。<BR>２５６が４０９６になる。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_9">
+(9) <B>ファーカラーベクトルのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldfcdir</TD><TD>ロングベクトルをファーカラーベクトルに値でロードする。</TD><TR>
+    <TD>gte_SetFarColor<BR></TD><TD>（RFC,GFC,BFC）をファーカラーベクトルに値でロードする。<BR>それぞれの値は１６倍されてロードされる。<BR>２５６が４０９６になる。</TD><TR>
+    <TD>gte_ldfc<BR></TD><TD>ロングベクトルをファーカラーベクトルにポインタでロード<BR>する。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_10">
+(10) <B>オフセット値のロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_SetGeomOffset</TD><TD>オフセット値をロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_11">
+(11) <B>スクリーン位置のロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_SetGeomScreen</TD><TD>スクリーン位置をロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_12">
+(12) <B>回転マトリクスのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldsvrtrow0<BR></TD><TD>SVECTORを回転マトリクスの１行目にロードする。<BR>回転マトリクスの２行１列目の成分m[1][0]を破壊する。</TD><TR>
+    <TD>gte_SetRotMatrix<BR></TD><TD>MATRIX構造体のうち３×３行列部を回転マトリクスにロ<BR>ードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_13">
+(13) <B>光源方向マトリクスのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldsvllrow0<BR></TD><TD>SVECTORを光源方向マトリクスの１行目にロードする。<BR>光源方向マトリクスの２行１列目の成分m[1][0]を破壊す<BR>る。</TD><TR>
+    <TD>gte_SetLightMatrix<BR></TD><TD>MATRIX構造体のうち３×３行列部を光源方向マトリクス<BR>にロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_14">
+(14) <B>光源色マトリクスのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ldsvlcrow0<BR></TD><TD>SVECTORを光源色マトリクスの１行目にロードする。<BR>光源色マトリクスの２行１列目の成分m[1][0]を破壊<BR>する。</TD><TR>
+    <TD>gte_SetColorMatrix<BR></TD><TD>MATRIX構造体のうち３×３行列部を光源色マトリクス<BR>にロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_15">
+(15) <B>平行移動ベクトルのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_SetTransMatrix<BR></TD><TD>MATRIX構造体のうちベクトル部を平行移動ベクトル<BR>にロードする。</TD><TR>
+    <TD>gte_ldtr</TD><TD>ロングベクトルを値で平行移動ベクトルにロードする。</TD><TR>
+    <TD>gte_SetTransVector<BR></TD><TD>ロングベクトルをポインタで平行移動ベクトルに<BR>ロードする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_3_16">
+(16) <B>内挿のためのベクトルのロード命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ld_intpol_uv0<BR></TD><TD>内挿をするための第１ベクトルをロードする。<BR>２次元バイトベクトル。<BR>ファーカラーが破壊される。</TD><TR>
+    <TD>gte_ld_intpol_uv1<BR></TD><TD>内挿をするための第２ベクトルをロードする。<BR>２次元バイトベクトル。<BR>汎用ショートベクトルが破壊される</TD><TR>
+    <TD>gte_ld_intpol_bv0<BR></TD><TD>内挿をするための第１ベクトルをロードする。<BR>２次元バイトベクトル。<BR>ファーカラーが破壊される。</TD><TR>
+    <TD>gte_ld_intpol_bv1<BR></TD><TD>内挿をするための第２ベクトルをロードする。<BR>２次元バイトベクトル。<BR>汎用ショートベクトルが破壊される。</TD><TR>
+    <TD>gte_ld_intpol_sv0<BR></TD><TD>内挿をするための第１ベクトルをロードする。<BR>３次元ショートベクトル。<BR>ファーカラーが破壊される。</TD><TR>
+    <TD>gte_ld_intpol_sv1<BR></TD><TD>内挿をするための第２ベクトルをロードする。<BR>３次元ショートベクトル。<BR>汎用ショートベクトルが破壊される。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_4">
+<A HREF="#Heading3_1_10"> 10. </A>4 <B>ＧＴＥ命令</B>
+</A>
+</H3>
+<blockquote>
+    ＧＴＥに計算を行なわせる命令です。<BR>
+    この説明では<BR>
+<UL>
+         <LI> [ ]はマトリクスまたはベクトル
+         <LI> [ ]*[ ]はマトリクスとマトリクスの積またはマトリクスとベクトルの積
+         <LI> dp[fc]はスカラー倍
+         <LI> [rgb*sv]は項別積
+</UL>
+    を表します。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_1">
+(1) <B>座標変換＆透視変換命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_rtps</TD><TD>pers( ( [rt] * [v0] ) &gt;&gt; 12 + [tr] ) -&gt; sxy2</TD><TR>
+    <TD>gte_rtpt<BR></TD><TD>pers( ( [rt] * [v0] ) &gt;&gt; 12 + [tr] ) -&gt; sxy0<BR>pers( ( [rt] * [v1] ) &gt;&gt; 12 + [tr] ) -&gt; sxy1<BR>pers( ( [rt] * [v2] ) &gt;&gt; 12 + [tr] ) -&gt; sxy2</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_2">
+(2) <B>行列演算命令</B>
+</A>
+</H4>
+
+     <H4><B>座標変換、光源計算命令</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_rt</TD><TD>( [rt] * [v0] ) &gt;&gt; 12 + [tr] -&gt; lv</TD><TR>
+    <TD>gte_ll</TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; lv, sv</TD><TR>
+    <TD>gte_lc</TD><TD>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtir_sf0</TD><TD>[rt] * [sv] -&gt; lv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+     <H4><B>汎用行列演算命令</B></H4>
+
+    つぎような汎用行列演算命令である。<BR>
+    <BR>
+<PRE>        出力ベクトル = 係数行列 * 入力ベクトル + 定数ベクトル
+</PRE>
+    <BR>
+    係数行列は(1,3,12)すなわち小数点以下１２bitの固定小数点数とし、（係数行列 * 入力ベクトル）のあとには１２bit右シフトがはいる。<BR>
+    <BR>
+    行列、ベクトル使はつぎのような選択枝をもつ。どれを使っても結果は同じである。<BR>
+    <BR>
+<PRE>        係数行列	: [rt]	回転マトリクス
+        		: [ll]	光源方向マトリクス
+        		: [lc]	光源色マトリクス
+        入力ベクトル	: [v0]	頂点座標ベクトル　０
+        		: [v1]	頂点座標ベクトル　１
+        		: [v2]	頂点座標ベクトル　２
+        		: [sv]	汎用ショートベクトル
+        定数ベクトル	: [tr]  平行移動ベクトル
+        		: [bk]	バックカラーベクトル
+        出力ベクトル	: [lv]	汎用ロングベクトル
+        		: [sv]	汎用ショートベクトル
+</PRE>
+    <BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_rtv0</TD><TD>( [rt] * [v0] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv1</TD><TD>( [rt] * [v1] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv2</TD><TD>( [rt] * [v2] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_rtir</TD><TD>( [rt] * [sv] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv0tr</TD><TD>( [rt] * [v0] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv1tr</TD><TD>( [rt] * [v1] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv2tr</TD><TD>( [rt] * [v2] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtirtr</TD><TD>( [rt] * [sv] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv0bk</TD><TD>( [rt] * [v0] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv1bk</TD><TD>( [rt] * [v1] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtv2bk</TD><TD>( [rt] * [v2] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_rtirbk</TD><TD>( [rt] * [sv] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_llv0</TD><TD>( [ll] * [v0] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_llv1</TD><TD>( [ll] * [v1] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_llv2</TD><TD>( [ll] * [v2] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_llir</TD><TD>( [ll] * [sv] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_llv0tr</TD><TD>( [ll] * [v0] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_llv1tr</TD><TD>( [ll] * [v1] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_llv2tr</TD><TD>( [ll] * [v2] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_llirtr</TD><TD>( [ll] * [sv] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_llv0bk</TD><TD>( [ll] * [v0] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_llv1bk</TD><TD>( [ll] * [v1] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_llv2bk</TD><TD>( [ll] * [v2] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_llirbk</TD><TD>( [ll] * [sv] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv0</TD><TD>( [lc] * [v0] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv1</TD><TD>( [lc] * [v1] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv2</TD><TD>( [lc] * [v2] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_lcir</TD><TD>( [lc] * [sv] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv0tr</TD><TD>( [lc] * [v0] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv1tr</TD><TD>( [lc] * [v1] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv2tr</TD><TD>( [lc] * [v2] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcirtr</TD><TD>( [lc] * [sv] ) &gt;&gt; 12 + [tr] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv0bk</TD><TD>( [lc] * [v0] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv1bk</TD><TD>( [lc] * [v1] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcv2bk</TD><TD>( [lc] * [v2] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+    <TD>gte_lcirbk</TD><TD>( [lc] * [sv] ) &gt;&gt; 12 + [bk] -&gt; lv, sv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_3">
+(3) <B>デプスキューイング命令</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_dpcl</TD><TD>( 1 - dp )[rgb*sv] + dp[fc] -&gt; rgb, lv, sv </TD><TR>
+    <TD>gte_dpcs</TD><TD>( 1 - dp )[rgb] + dp[fc] -&gt; rgb, lv, sv</TD><TR>
+    <TD>gte_dpct<BR></TD><TD>( 1 - dp )[rgb0] + dp[fc] -&gt; rgb0, lv, sv<BR>( 1 - dp )[rgb1] + dp[fc] -&gt; rgb1, lv, sv<BR>( 1 - dp )[rgb2] + dp[fc] -&gt; rgb2, lv, sv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_4">
+(4) <B>内挿命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_intpl</TD><TD>( 1 - dp )[sv] + dp[fc] -&gt; rgb2, lv, sv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_5">
+(5) <B>ベクトル２乗命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_sqr12</TD><TD>((sv.vx^2)&gt;&gt;12,(sv.vy^2)&gt;&gt;12,(sv.vz^2)&gt;&gt;12)-&gt;lv,sv</TD><TR>
+    <TD>gte_sqr0</TD><TD>(sv.vx^2,sv.vy^2,sv.vz^2)-&gt;lv,sv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_6">
+(6) <B>光源計算命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ncs<BR></TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; rgb2</TD><TR>
+    <TD>gte_nct<BR></TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; rgb0<BR>limit( ( [ll] * [v1] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; rgb1<BR>limit( ( [ll] * [v2] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; rgb2</TD><TR>
+    <TD>gte_ncds<BR></TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>( 1 - dp )[rgb*sv] + dp[fc] -&gt; rgb2</TD><TR>
+    <TD>gte_ncdt<BR></TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>( 1 - dp )[rgb*sv] + dp[fc] -&gt; rgb0<BR>limit( ( [ll] * [v1] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12) + [bk] -&gt; sv<BR>( 1 - dp )[rgb*sv] + dp[fc] -&gt; rgb1<BR>limit( ( [ll] * [v1] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>( 1 - dp )[rgb*sv] + dp[fc] -&gt; rgb2</TD><TR>
+    <TD>gte_nccs<BR></TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>[rgb * sv] -&gt; rgb2</TD><TR>
+    <TD>gte_ncct<BR></TD><TD>limit( ( [ll] * [v0] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>[rgb*sv] -&gt; rgb0<BR>limit( ( [ll] * [v1] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>[rgb*sv] -&gt; rgb1<BR>limit( ( [ll] * [v2] ) &gt;&gt; 12 ) -&gt; sv<BR>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>[rgb*sv] -&gt; rgb2</TD><TR>
+    <TD>gte_cdp<BR></TD><TD>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>( 1 - dp )[rgb*sv] + dp[fc] -&gt; rgb2</TD><TR>
+    <TD>gte_cc<BR></TD><TD>limit( ( [lc] * [sv] ) &gt;&gt; 12 ) + [bk] -&gt; sv<BR>[rgb*sv] -&gt; rgb2</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_7">
+(7) <B>法線クリップ命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_nclip<BR></TD><TD>sx0*sy1+sx1*sy2+sx2*sy0-sx0*sy2-sx1*sy0-sx2*sy1<BR>= | sx1-sx0,sy1-sy0 | -&gt; opz<BR>   | sx2-sx0,sy2-sy0 |</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_8">
+(8) <B>Z平均命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_avsz3</TD><TD>( sz0 + sz1 + sz2 ) / 3 / 4 -&gt; otz</TD><TR>
+    <TD>gte_avsz4</TD><TD>( sz0 + sz1 + sz2 + sz3 ) / 4 / 4 -&gt; otz</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_9">
+(9) <B>外積命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_op12</TD><TD>OuterProduct12( vect1,vect2 ) -&gt; lv, sv</TD><TR>
+    <TD>gte_op0</TD><TD>OuterProduct0( vect1, vect2 ) -&gt; lv, sv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_4_10">
+(10) <B>汎用内挿命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_gpf12</TD><TD>( dp[sv] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_gpf0</TD><TD>dp[sv] -&gt; lv, sv</TD><TR>
+    <TD>gte_gpl12</TD><TD>[lv] + ( dp[sv] ) &gt;&gt; 12 -&gt; lv, sv</TD><TR>
+    <TD>gte_gpl0</TD><TD>[lv] + dp[sv] -&gt; lv, sv</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_5">
+<A HREF="#Heading3_1_10"> 10. </A>5 <B>ストア命令</B>
+</A>
+</H3>
+<blockquote>
+    GTEから値をストアする命令<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_1">
+(1) <B>スクリーン座標ＸＹのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stsxy</TD><TD>１つのスクリーン座標をストアする。</TD><TR>
+    <TD>gte_stsxy3</TD><TD>３つのスクリーン座標をバラバラのアドレスへストアする。</TD><TR>
+    <TD>gte_stsxy3c</TD><TD>３つのスクリーン座標を連続するアドレスへストアする。</TD><TR>
+    <TD>gte_stsxy0</TD><TD>スクリーン座標０をストアする。</TD><TR>
+    <TD>gte_stsxy1</TD><TD>スクリーン座標１をストアする。</TD><TR>
+    <TD>gte_stsxy2</TD><TD>スクリーン座標２をストアする。</TD><TR>
+    <TD>gte_stsxy01</TD><TD>スクリーン座標０と１をバラバラのアドレスへストアする。</TD><TR>
+    <TD>gte_stsxy01c</TD><TD>スクリーン座標０と１を連続するアドレスへストアする。</TD><TR>
+    <TD>gte_stsxy3_f3<BR></TD><TD>３つのスクリーン座標をPOLY_F3のスクリーン座標領域へ<BR>ストアする。</TD><TR>
+    <TD>gte_stsxy3_g3<BR></TD><TD>３つのスクリーン座標をPOLY_G3のスクリーン座標領域へ<BR>ストアする。</TD><TR>
+    <TD>gte_stsxy3_ft3<BR></TD><TD>３つのスクリーン座標をPOLY_FT3のスクリーン座標領域へ<BR>ストアする。</TD><TR>
+    <TD>gte_stsxy3_gt3<BR></TD><TD>３つのスクリーン座標をPOLY_GT3のスクリーン座標領域<BR>へストアする。</TD><TR>
+    <TD>gte_stsxy3_f4<BR></TD><TD>３つのスクリーン座標をPOLY_F4のスクリーン座標領域の<BR>先頭の３つにストアする。</TD><TR>
+    <TD>gte_stsxy3_g4<BR></TD><TD>３つのスクリーン座標をPOLY_G4のスクリーン座標領域の<BR>先頭の３つにストアする。</TD><TR>
+    <TD>gte_stsxy3_ft4<BR></TD><TD>３つのスクリーン座標をPOLY_FT4のスクリーン座標領域の<BR>先頭の３つにストアする。</TD><TR>
+    <TD>gte_stsxy3_gt4<BR></TD><TD>３つのスクリーン座標をPOLY_GT4のスクリーン座標領域<BR>の先頭の３つにストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_2">
+(2) <B>デプスキューイング値のストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stdp</TD><TD>デプスキューイング値をストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_3">
+(3) <B>フラグのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stflg</TD><TD>フラグをストアする。</TD><TR>
+    <TD>gte_stflg_4</TD><TD>フラグ&0x00040000をストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_4">
+(4) <B>スクリーン座標Zのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stsz</TD><TD>１つのスクリーン座標をストアする。</TD><TR>
+    <TD>gte_stsz3</TD><TD>３つのスクリーン座標をバラバラのアドレスへストアする。</TD><TR>
+    <TD>gte_stsz4</TD><TD>４つのスクリーン座標をバラバラのアドレスへストアする。</TD><TR>
+    <TD>gte_stsz3c</TD><TD>３つのスクリーン座標を連続するアドレスへストアする。</TD><TR>
+    <TD>gte_stsz4c</TD><TD>４つのスクリーン座標を連続するアドレスへストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_5">
+(5) <B>OTZのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stszotz<BR></TD><TD>スクリーン座標Z/4をストアする<BR>（スクリーン座標ZをOTZの代わりに使う）。</TD><TR>
+    <TD>gte_stotz</TD><TD>OTZをストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_6">
+(6) <B>OPZのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stopz</TD><TD>OPZをストアする</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_7">
+(7) <B>汎用ショートベクトルのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stlvl</TD><TD>汎用ショートベクトルをVECTOR構造体にストアする。</TD><TR>
+    <TD>gte_stsv</TD><TD>汎用ショートベクトルをSVECTOR構造体にストアする。</TD><TR>
+    <TD>gte_stclmv<BR></TD><TD>汎用ショートベクトルをMATRIX構造体の第１カラムに<BR>ストアする。</TD><TR>
+    <TD>gte_stbv<BR></TD><TD>汎用ショートベクトルの第１成分、第２成分をバイトベクトル<BR>にストアする。</TD><TR>
+    <TD>gte_stcv<BR></TD><TD>汎用ショートベクトルの第１成分、第２成分、第３成分を<BR>CVECTOR構造体にストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_8">
+(8) <B>汎用ロングベクトルのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stlvnl</TD><TD>汎用ロングベクトルをVECTOR構造体にストアする。</TD><TR>
+    <TD>gte_stlvnl0</TD><TD>汎用ロングベクトルの第１成分だけをストアする。</TD><TR>
+    <TD>gte_stlvnl1</TD><TD>汎用ロングベクトルの第２成分だけをストアする。</TD><TR>
+    <TD>gte_stlvnl2</TD><TD>汎用ロングベクトルの第３成分だけをストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_9">
+(9) <B>RGB FIFOのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_strgb</TD><TD>RGB FIFOの第１段をストアする。</TD><TR>
+    <TD>gte_strgb3<BR></TD><TD>RGB FIFOの第１段、第２段、第３段をバラバラのアドレス<BR>にストアする。</TD><TR>
+    <TD>gte_strgb3_g3<BR></TD><TD>RGB FIFOの第１段、第２段、第３段をPOLY_G3のRGB値<BR>領域にストアする。</TD><TR>
+    <TD>gte_strgb3_gt3<BR></TD><TD>RGB FIFOの第１段、第２段、第３段をPOLY_GT3のRGB<BR>値領域にストアする。</TD><TR>
+    <TD>gte_strgb3_g4<BR></TD><TD>RGB FIFOの第１段、第２段、第３段をPOLY_G4のRGB値<BR>領域の先頭にストアする。</TD><TR>
+    <TD>gte_strgb3_gt4<BR></TD><TD>RGB FIFOの第１段、第２段、第３段をPOLY_G4のRGB値<BR>領域の先頭にストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_10">
+(10) <B>オフセット値のストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ReadGeomOffset</TD><TD>オフセット値をストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_11">
+(11) <B>スクリーン位置のストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ReadGeomScreen</TD><TD>スクリーン位置をストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_12">
+(12) <B>回転マトリクスのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ReadRotMatrix<BR></TD><TD>回転マトリクスと平行移動ベクトルをMATRIX構造体に<BR>ストアする。</TD><TR>
+    <TD>gte_sttr</TD><TD>平行移動ベクトルをVECTOR構造体にストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_13">
+(13) <B>光源方向マトリクスのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ReadLightMatrix<BR></TD><TD>光源方向マトリクスとバックカラーベクトルを<BR>MATRIX構造体にストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_14">
+(14) <B>光源色マトリクスのストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_ReadColorMatrix<BR></TD><TD>光源色マトリクスとファーカラーベクトルをMATRIX<BR>構造体にストアする。</TD><TR>
+    <TD>gte_stfc</TD><TD>ファーカラーベクトルをVECTOR構造体にストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_5_15">
+(15) <B>LZC値のストア命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_stlzc</TD><TD>LZC値をストアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_6">
+<A HREF="#Heading3_1_10"> 10. </A>6 <B>ムーブ命令</B>
+</A>
+</H3>
+<blockquote>
+    GTEからGTEへ値をムーブする命令<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_6_1">
+(1) <B>ロングベクトルから平行移動ベクトルへのムーブ命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_mvlvtr</TD><TD>ロングベクトルを平行移動ベクトルへムーブ命令する。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_7">
+<A HREF="#Heading3_1_10"> 10. </A>7 <B>その他</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_7_1">
+(1) <B>NOP</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_nop</TD><TD>なにもしない</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_7_2">
+(2) <B>ベクトル演算命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_subdvl</TD><TD>DVECTOR - DVECTOR -&gt; VECTOR</TD><TR>
+    <TD>gte_subdvd</TD><TD>DVECTOR - DVECTOR -&gt; DECTOR</TD><TR>
+    <TD>gte_adddvl</TD><TD>DVECTOR + DVECTOR -&gt; VECTOR</TD><TR>
+    <TD>gte_adddvd</TD><TD>DVECTOR + DVECTOR -&gt; DECTOR</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_7_3">
+(3) <B>回転マトリクスFlip命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_FlipRotMatrixX</TD><TD>回転マトリクスのX行を反転。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_10_7_4">
+(4) <B>平行移動ベクトルFlip命令</B>
+</A>
+</H4>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マクロ名</TD><TD ALIGN="center">説明</TD><TR>
+    <TD>gte_FlipTRX</TD><TD>平行移動ベクトルのXを反転。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

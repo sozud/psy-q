@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuWrite0
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuWrite0
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        サウンドバッファのクリア
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long <B>SpuWrite0</B> (
+unsigned long <I>size</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>size</I>		クリアする領域のサイズ(バイト単位)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サウンドバッファの領域に0を書き込む。 <BR>
+    この書き込みはDMA転送で行われるが、同期的に起動される。 <BR>
+    書き込まれる領域は先頭アドレスがSpuSetTransferStartAddrで、サイズが<I>size</I>で指定される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    0が書き込まれた領域のサイズ <BR>
+    設定したデータサイズが512KBより大きければ、実際に書き込まれたサイズが返る。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="spuwrite.htm">SpuWrite</a>(), <a href="swppuriy.htm">SpuWritePartly</a>(), <a href="spuread.htm">SpuRead</a>(), <a href="sstmpuee.htm">SpuSetTransferMode</a>(), <a href="sgtmpuee.htm">SpuGetTransferMode</a>(), <a href="sstsapur.htm">SpuSetTransferStartAddr</a>(), <a href="sgtsapur.htm">SpuGetTransferStartAddr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

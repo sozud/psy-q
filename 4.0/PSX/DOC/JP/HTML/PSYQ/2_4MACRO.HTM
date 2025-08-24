@@ -1,0 +1,593 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> マクロ</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+マクロ
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+ASMPSX は、広範なマクロ機能を提供しています。マクロにより、一連のコードに名前を指定することができます。マクロは、既存のディテクティブと同様に使用することができます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>マクロの定義</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    マクロを定義するためのディレクティブとして下記のものがあります。<BR>
+    <BR>
+
+<H1>
+    MACRO, ENDM, MEXIT
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;Label&gt;	MACRO	[symbol][,symbol]...<BR>
+    	...<BR>
+    	MEXIT<BR>
+    	...<BR>
+    	ENDM<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    マクロは、MACRO～ENDM 間のソース及び引数のプレースマーカから成っています。Label フィールドは、そのマクロのシンボル名です。オペランド symbol で、引数のデータ名の文字列を指定することができます。<BR>
+    アセンブラが、Label 及び任意の引数からなる命令を検出すると、ソースラインはメインプログラムに読み込まれ、プレースマーカが呼び出し引数に置換され、展開されます。マクロの展開は、アセンブラが MEXIT を検出すると停止されます。<BR>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MACROS<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    マクロのサイズは、呼び出し時にマクロ名に続いて"."（ドット）を付けて指定します。これには、".b"、".h"、".w"だけでなく、テキストを指定することもできます。<BR>
+    マクロ内の制御構造は、マクロ内で完結していなければなりません。マクロでスタートする構造は、ENDM の前で終わらなければなりません。同様に、マクロの外でスタートした構造は、マクロ内で終了してはなりません。別のアセンブラから簡単な制御構造を模造するには、ショートマクロが便利です。詳しくは MACROS の項を参照してください。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>remove	macro
+	dh	-2,0,0
+	endm
+Form	macro
+	if	strcmp('\1','0)
+	dh	0
+	else
+	dh	\1-FormBase
+	endif
+	endm
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>マクロパラメータ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    マクロパラメータは、下記のルールに従っています。<BR>
+    <BR>
+<UL>
+         <LI> マクロディレクティブ行にリストされているパラメータは、MACRO～ENDM ステートメント間のコードであれば、任意の位置で使用できます。各パラメータは、"\"（バックスラッシュ）付きで表わされます。ただし、これらが、EQUS で指定したテキストと混同される可能性があるときは、パラメータの後にもバックスラッシュを付けてください。
+         <LI> パラメータは、32 個まで使用することができ、"\0"～"\31"で表わされます。"\0"は特殊パラメータで、マクロディレクティブが呼び出されたときの、その size フィールドの内容、つまり、"."（ドット）の後のテキストを表わします。これには、"b"、"h"、"w"だけでなく、テキストも含まれています。
+</UL>
+    <BR>
+    例えば、次の例では NOP 命令が生成されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        zed	macro
+        	\0
+        	endm
+        	...
+        	zed.nop
+</PRE>
+<UL>
+         <LI> パラメータを示すものとして、"\0"～"\31"といった形式の代わりに、MACRO ディレクティブのオペランドで指定したシンボル名を用いることもできます。必ずしも名前の前にバックスラッシュを付ける必要はありませんが、周囲のテキストと混同される可能性がある場合には、シンボル名の前に（必要に応じて後ろにも）、バックスラッシュを付け、式が正確に展開されるようにしてください
+</UL>
+    <BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        Position	macro	A,B,C,Pos,Time
+        		dh	\Time*(\A*\Pos,\B*\Pos,\C*\Pos)
+        		endm
+</PRE>
+<UL>
+         <LI> 呼び出し時にパラメータを"&lt;"（大なり記号）及び"&gt;"（小なり記号）で囲むことにより、パラメータ内でコンマ及びスペースを使うことができます。但し、これは角カッコをアドレスモード指定子として使っているアセンブラには適用されません。このような場合には、バッククォートを使ってください。
+</UL>
+    <BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        Credits	macro
+        	dh	\1,\2
+        	db	\3
+        	db	0
+        	even
+        	endm
+        	...
+        	Credits	11,10,&lt;Psy-Q, by Psygnosis&gt;
+</PRE>
+<UL>
+         <LI> マクロを呼び出すとき、パラメータリストが長くなり過ぎることがあります。これはどの命令ステートメントにも当てはまりますが、行末に"&"（アンパサンド）を付けることにより、行を分割することができます。
+</UL>
+    <BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        chstr		macro
+        		rept	narg
+        		db	k_\1
+        		shift
+        		endr
+        		db	0
+        		even
+        		endm
+        		...
+        cheatstring	chstr	i,c,a,n,b,a,r,e,l,y,&
+        			s,t,a,n,d,i,t
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>特殊パラメータ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    マクロには、多種の特殊パラメータフォーマットが使用できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>整数をテキストに変換するには</B>
+</A>
+</H3>
+<blockquote>
+    "\#"及び"\$"パラメータは、これに続くシンボルを、これが示す 10 進または 16 進数の数値文字列で置き換えます。これは一般的に、実行時の日付と時刻を表わすのに利用されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        	org	$1006
+        RunTime	db	"\#_hours:\#_minutes:\#_seconds"
+</PRE>
+    <BR>
+    上の例は、hh:mm:ss のフォームに展開されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        RunTime	db	 "21:08:49"
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>ユニークなラベルを生成するには</B>
+</A>
+</H3>
+<blockquote>
+    "\@"パラメータを、マクロのラベル名の最後の文字として使うことができます。マクロが呼び出されると、これは、下線と 10 進数の組み合わせに展開されます。この数字は、呼び出しがある度に増加するので、ユニークなラベルとなります。<BR>
+    例えば下の例では、Slots マクロが使われる度に、next_001 及び dun_001 といった形式の新たなラベルが生成されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        Slots	macro
+        	add	r1,r0,r0
+        	lw	r1,\1
+        	beq	r1,r0,dun\@
+        next\@	addiu	r3,r0,1
+        	bge	r3,r0,next\@
+        dun\@
+        	endm
+        	...
+        	Slots 	freeob1\w,numslot1\w
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>全パラメータ</B>
+</A>
+</H3>
+<blockquote>
+    マクロ呼び出しステートメントで指定されている全引数を表わす特殊パラメータとして、"\_"があります。例えば次の例では、"\_"が"1,2,3,4"に展開されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        All     macro
+        	db	\_
+        	endm
+        	All	1,2,3,4
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>コントロールキャラクタ</B>
+</A>
+</H3>
+<blockquote>
+    "\^&lt;x&gt;"（バックスラッシュとサーカムフレックスに続き、コントロールキャラクタｘを指定）により、コントロールキャラクタを生成することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_5">
+<A HREF="#Heading3_1_3"> 3. </A>5 <B>マクロラベルを使うには</B>
+</A>
+</H3>
+<blockquote>
+    呼び出し行の行頭にあるラベルをマクロ内で使用するには、MACRO ディテクティブの最初のシンボルを"*"（アスタリスク）にし、ラベル自身を"\*"で置き換える必要があります。しかし、その結果生成されるラベルは、現在のプログラム位置では定義されていません。従って、プログラマがこれに値を代入しない限り、ラベルは未定義のままとなってしまいます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_6">
+<A HREF="#Heading3_1_3"> 3. </A>6 <B>拡張パラメータ</B>
+</A>
+</H3>
+<blockquote>
+    ASMPSX は、"{}"（カーリーブラケット）で囲まれている要素のセットを、マクロパラメータに引き渡すものとして受け付けます。NARG 機能及び SHIFT 命令は、そのリストを処理するために使用できます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        cmd	macro
+        cc	equs	{\1}
+        	rept	narg(cc)
+        	\cc
+        	shift	cc
+        	endr
+        	endm
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>パラメータの制御</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    <BR>
+
+<H1>
+    SHIFT,  NARG
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;directive&gt;	NARG<BR>
+    ...<BR>
+    SHIFT<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    これらの命令は、そのオペランドとして変数パラメータリストをもつマクロの要求に応えます。<BR>
+    NARG は、マクロ呼び出し行の引数の数です。SHIFT は、すべての引数を左にシフトし、一番左の引数を上書きします。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    拡張パラメータ<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>routes	macro
+	rept	narg
+	if	strcmp('\1','0')
+	dh	0
+	else
+	dh	\1-routebase
+	endif
+	shift
+	endr
+	endm
+	...
+	routes	0,gosouth_1
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>その他のディレクティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    <BR>
+
+<H1>
+    MACROS
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;Label&gt;	MACROS	[symbol][,symbol]...<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    １行のコードを、ENDM 命令なしでマクロ定義することができます（ショートマクロ）。<BR>
+    MACROS 命令は、複雑なコードの代役としても使用できます。ショートマクロにより、プログラマはしばしば、別のアセンブラから命令を合成することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MACRO<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ASMPSX の"/k"オプションにより、外部の命令をエミュレートする幾つかのマクロを生成することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>	if	0
+boom	macros   
+	jal	boom\1
+	else
+boom	macros
+	lw	r1,blowup-tactbase&
+		slot_tatoc(\1)
+	endif
+</PRE>
+</blockquote>
+
+<H1>
+    PUSHP, POPP
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PUSHP	&lt;string&gt;<BR>
+    POPP	&lt;string&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    文字列変数にテキストをプッシュ、あるいはポップします。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PUSHP に対応する POPP 命令は、同じマクロに存在しなくても構いません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>ifhid	macro
+	dh	ibvis
+	dh	\1
+	pushp	"\@"
+	dh	\@-2-*
+	endm
+	...
+ifnot	macro
+	popp	lab
+	goto	\@
+	pushp	"\@"
+\lab
+	endm
+</PRE>
+</blockquote>
+
+<H1>
+    PURGE
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PURGE	&lt;macroname&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PURGE 命令は、展開したマクロ macroname を内部テーブルから削除し、これが占有していたメモリを解放します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    マクロの再定義が必要な場合でも、これを消去する必要はありません。既存マクロが再定義されている場合は、オリジナルのマクロはアセンブラにより消去されます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>HugeM	macro
+	dh	\1
+	dh	\2
+	...
+	dh	\31
+	endm
+	HugeM	para1,103,faultlevel,&
+	...
+		40,50,para31
+	purge	HugeM
+</PRE>
+</blockquote>
+
+<H1>
+    TYPE
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TYPE(symbol)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TYPE は、シンボルについての情報を提供する機能です。マクロと一緒に、そのパラメータの性質を決定するために頻繁に使われます。値はワードとして返されます。ビット設定の意味は下記の通りです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>意味</TD><TR>
+    <TD>Bit 0</TD><TD>シンボルには絶対値があります。</TD><TR>
+    <TD>Bit 1</TD><TD>シンボルは、セクションの始めに関連しています。</TD><TR>
+    <TD>Bit 2</TD><TD>シンボルは、SET を使って定義されています。</TD><TR>
+    <TD>Bit 3</TD><TD>シンボルは、マクロです。</TD><TR>
+    <TD>Bit 4</TD><TD>シンボルは、String Equate(EQUS) です。</TD><TR>
+    <TD>Bit 5</TD><TD>シンボルは、EQU を使って定義されています。</TD><TR>
+    <TD>Bit 6</TD><TD>シンボルは、XREF ステートメントにあります。</TD><TR>
+    <TD>Bit 7</TD><TD>シンボルは、XDEF ステートメントにあります。</TD><TR>
+    <TD>Bit 8</TD><TD>シンボルは、関数です。</TD><TR>
+    <TD>Bit 9</TD><TD>シンボルは、グループ名です。</TD><TR>
+    <TD>Bit 10</TD><TD>シンボルは、マクロパラメータです。</TD><TR>
+    <TD>Bit 11</TD><TD>シンボルは、ショートマクロ (MACROS) です。</TD><TR>
+    <TD>Bit 12</TD><TD>シンボルは、セクション名です。</TD><TR>
+    <TD>Bit 14</TD><TD>シンボルは、Register Equate(EQUR) です。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

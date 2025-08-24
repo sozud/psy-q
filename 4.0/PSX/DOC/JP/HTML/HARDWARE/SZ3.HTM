@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SZ3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SZ3
+<HR SIZE="5">
+</H1>
+    <B>レジスタ番号：	データ＃１９</B> <BR>
+<BR>
+    アクセス：	Ｒ/W <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                        16 15                             0
++-------------------------------+-------------------------------+
+|              0                |              SZ3              |
++-------------------------------+-------------------------------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>SZ3	(0.16.0)	スクリーン座標のＺ成分。ただし１回前の演算で得られた値。
+</PRE>
+</blockquote>
+<BR>
+    内部動作： <BR>
+        <BLOCKQUOTE>
+    いくつかのＧＴＥ命令において以下の順に代入が実行される。 <BR>
+<BR>
+        </BLOCKQUOTE>
+<blockquote> <PRE>SZ0 = SZ1;
+SZ1 = SZ2;
+SZ2 = SZ3;
+SZ3 = 演算により求められた座標のＺ成分;
+</PRE>
+</blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    ClearImage
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    ClearImage
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        フレームバッファ高速塗りつぶし
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>ClearImage</B> (
+RECT *<I>rect</I>,
+u_char <I>r</I>,
+u_char <I>g</I>,
+u_char <I>b</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>rect		</I>塗りつぶす矩形領域
+<I>r</I>, <I>g</I>, <I>b		</I>塗りつぶすピクセル値
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>rect </I>で指定されたフレームバッファの矩形領域を( <I>r,g,b </I>)の輝度値で塗りつぶす。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    キューの数 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ノンブロック関数であるため、実際の転送の終了はDrawSync()で検出する必要がある。 <BR>
+    描画領域は、描画環境（クリップ／オフセット）の影響を受けない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsARGUNIT_RstVNMIMe
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsARGUNIT_RstVNMIMe
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        頂点法線マイムリセットプリミティブドライバの引数領域
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+	unsigned long	<I>*primp;</I>
+<I>	</I>GsOT		<I>*tagp;</I>
+	int		<I>shift;</I>
+	int		<I>offset;</I>
+	PACKET		<I>*out_packetp; </I>
+} <B>GsARGUNIT_RstVNMIMe</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>primp		</I>プリミティブの先頭アドレス
+<I>tagp</I>		現在の先頭の GsOT_TAG へのポインタ
+<I>shift		</I>OTにソートする際の shift するbit数
+<I>offset	</I>	OT のスクリーン座標系におけるＺ軸上のオフセット
+<I>out_packetp</I>	未使用のパケットエリアへのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <B>GsSortUnit()</B>からコールされる頂点法線マイムプリミティブドライバへ渡される引数領域。 <BR>
+    <B>GsARGUNIT </B>と同じ構成をとる。 <BR>
+    通常高速化のため、スクラッチパッドを使用する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gargunit.htm">GsARGUNIT</a>, <a href="gsusortt.htm">GsSortUnit</a>(), <a href="gsu_.htm">GsU_</a>........(), <a href="gsu_04.htm">GsU_04</a>......()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

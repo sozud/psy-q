@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuCommonAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuCommonAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        共通属性
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		unsigned long	<I>mask</I>;
+		SpuVolume	<I>mvol</I>;
+		SpuVolume	<I>mvolmode</I>;
+		SpuVolume	<I>mvolx</I>;
+		SpuExtAttr	<I>cd</I>;
+		SpuExtAttr	<I>ext</I>;
+} <B>SpuCommonAttr</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mask</I>			設定マスク
+<I>mvol</I>			マスタ音量
+<I>mvolmode	</I>	マスタ音量モード
+<I>mvolx</I>			現在のマスタ音量
+<I>cd</I>			CD 入力属性
+<I>ext</I>			外部デジタル入力属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    共通属性について設定/診断する際に用いられる。設定時に必要なメンバを <I>mask</I> にビット値で設定する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="svpuolue.htm">SpuVolume</a>, <a href="seapuxtr.htm">SpuExtAttr</a>, <a href="sscapuer.htm">SpuSetCommonAttr</a>(), <a href="sgcapuer.htm">SpuGetCommonAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

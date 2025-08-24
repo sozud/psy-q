@@ -1,0 +1,108 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.0$
+                                                                 97.May.
+
+                                          PlayStation(R) Programmer Tool
+                                            Run-time Library Release 4.0
+
+                          Release 3.7 からのサンプルの変更，新規追加情報
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                      Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+────────────────────────────────────
+
+##サンプル自動実行システム
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+・今回より、パッドデータの自動読み込みによる、サンプルの自動実行システ
+  ムを導入しました(sample/autopad)。
+
+使い方の詳細は、sample/autopad/readme_j.txt を参照下さい。
+
+##追加
+~~~~~~
+・libgs で利用される新規データフォーマット HMD を用いたサンプルプログ
+  ラム(HMD の詳細については、ドキュメントを御覧下さい)
+
+	sample/graphics/hmd
+
+・libsio を用いたサンプルプログラム
+
+	sample/etc/sio
+
+・libgpu において 30fps でも interlace mode が使用出来るサンプルプログラム
+
+	sample/graphics/misc/getode
+
+・libds 用サンプルプログラム
+
+	sample/ds/tuto
+
+・サウンドデータ(mid, seq, vab, vag など)
+
+	sample/sound/data
+
+
+##変更および修正
+~~~~~~~~~~~~~~~~
+・以下のサンプルから、GsSetNearClip(), GsSetFarClip() を削除しました。
+
+        sample/cd/str3d/tuto0.c
+        sample/graphics/tmdview/lowlevel/tuto0.c
+        sample/graphics/tmdview/lowlevel/tuto1.c
+        sample/graphics/tmdview/lowlevel/tuto2.c
+        sample/graphics/tmdview/lowlevel/tuto3.c
+        sample/graphics/clutfog/tuto0.c
+        sample/graphics/clutfog/tuto1.c
+        sample/graphics/clutfog/tuto2.c
+        sample/graphics/clutfog/tuto3.c
+        sample/graphics/divide/clip/tuto0.c
+        sample/graphics/gsgpu/tuto0.c
+        sample/graphics/gsgpu/tuto1.c
+        sample/graphics/mime/vjmime/main.c
+        sample/graphics/misc/60frame/main.c
+        sample/graphics/rotate/arot/main.c
+        sample/graphics/rotate/axesmime/main.c
+        sample/graphics/rotate/intrpol/main.c
+        sample/graphics/rotate/mat2rot/tuto0.c
+        sample/graphics/tod/janken/main.c
+        sample/graphics/tod/todview/main.c
+        sample/graphics/walk/walk.c
+
+・以下のサンプルをディレクトリ移動し、名称を変更しました。なおサンプル
+  自体の内容に変更はありません。
+
+	sample/graphics/rotate/axesmime → sample/graphics/mime/joint 
+        sample/graphics/tmdview/mime    → sample/graphics/mime/vertex 
+
+・sample/cd/tuto/tuto5
+
+	1)動作モードに CdlModeSF を追加しました。CdlModeSF を設定しな
+	  いと CdlSetfilter が働きません。
+
+	2)メニュー Forward/Backward を削除しました。XA 再生中に上記の
+	  コマンドを使用することはできません。
+
+・サンプル graphics/rotate/intrpol において、従来「オイラー角」と読ん
+  でいたものが、正確にはオイラー角ではなく「ロール・ピッチ・ヨー角」で
+  したので、言葉の変更を行ないました。ドキュメント、ソース内の用語の変
+  更のほか、関数名 euler_*() を rpy_*() に変更しました。なお、動作に変
+  更はありません。
+
+・sample/module の各 readme ファイル
+
+        psx/sample/module/readme_j.txt
+        psx/sample/module/readme_e.txt
+        psx/sample/module/execmenu/readme_j.txt
+        psx/sample/module/execmenu/readme_e.txt
+        psx/sample/module/overmenu/readme_j.txt
+        psx/sample/module/overmenu/readme_e.txt
+
+  を修正しました。古い内容のままで現状に合っていなかったためです。
+  なお、サンプル自体の内容には変化ありません。
+
+
+・sample/etc/card と sample/etc/cman を以下のディレクトリに移動しまし
+  た。今回のライブラリからこれらのサンプル動作保証はありませんのでご注
+  意下さい。
+
+        sample/etc/card → sample/old/etc/card
+        sample/etc/cman → sample/old/etc/cman

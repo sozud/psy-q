@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsFOGPARAM
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsFOGPARAM
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        フォグ（デプスキュー）情報
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsFOGPARAM</B> {
+		short <I>dqa</I>;
+		long  <I>dqb</I>;
+		unsigned char <I>rfc</I>, <I>gfc</I>, <I>bfc</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>dqa</I>		奥行きによる融け込みの度合のパラメータ
+<I>dqb</I>		奥行きによる融け込みの度合のパラメータ
+ 		意味については、基本ジオメトリライブラリの FOG の項参照
+<I>rfc</I>, <I>gfc</I>, <I>bfc</I>	バックグラウンドカラー
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>dqa</I> と <I>dqb</I> は、バックグラウンドカラーへの減衰係数である。 <BR>
+    <I>dqa</I> と <I>dqb</I> は、以下の計算式によって導くことが可能。 <BR>
+<BR>
+        <BLOCKQUOTE>
+    DQA = - df * 4096/64/h <BR>
+    DQB = 1.25 * 4096 * 4096 <BR>
+        </BLOCKQUOTE>
+<BR>
+    <I>df</I> は、減衰係数が１となるところ、つまり遠方でバックグラウンドカラーへ完全に解け込んでしまう地点の視点からの距離である。 <BR>
+    ｈ は視点からスクリーンまでの距離、つまりプロジェクションを表わす。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

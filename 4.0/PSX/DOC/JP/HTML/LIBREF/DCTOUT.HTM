@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DecDCTout
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libpress.htm">データ処理 ライブラリ (libpress) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DecDCTout
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        画像処理サブシステムからデコードデータを受けとる
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>DecDCTout</B> (
+u_long *<I>buf</I>, 
+int<I> size</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>buf		</I>解凍後画像データ
+<I>size		</I>受信するデータサイズ（ロングワード）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ランレベルを解凍し <I>size</I> ワード分の結果を <I>buf </I>以下に格納する。 <BR>
+    解凍データのフォーマットは、DecDCTin()の引数によって24bit/16bitいずれかになる。 <BR>
+    サイズ <I>size </I>は全解凍データサイズと等しいか小さい値を指定する。 <BR>
+    全解凍データより小さい値を指定した場合は、送受信のデッドロックを防止するために、続くDecDCToutで残りのデータをすべて読み出す必要がある。 <BR>
+    解凍画像は、マクロブロック（16x16矩形領域）単位で出力される。 <BR>
+    データサイズはマクロブロックサイズ（16bitモードならば16x16x2 = 512byte = 128 word, 24bitモードならば、16x16x3 = 768 byte = 192 word)単位で指定する必要がある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DecDCTout()はノンブロック関数であるため、実際の転送の終了はDecDCToutSync()で検出する必要がある。DecDCTout()の終了をまたずに、次のDecDCTout()を実行すると２回目の送信は１回目の送信が終了するまでブロックされる。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

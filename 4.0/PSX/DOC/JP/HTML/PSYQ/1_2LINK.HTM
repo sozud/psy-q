@@ -1,0 +1,423 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 高速リンカ PSYLINK</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+高速リンカ PSYLINK
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PSYLINK は、完全な機能をもったリンカです。複雑なプログラムを、別々の扱いやすいサブプログラムへ簡単に分割し、分割したサブプログラムを PSYLINK により再び結合して、最終的に１つのアプリケーションにすることができます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PSYLINK を実行するには、MS-DOS のプロンプトから次のように入力します。<BR>
+    <BR>
+<PRE>        psylink [/option] &lt;source file&gt;,[output file],[symbol file],[map file],
+        [libraries]
+</PRE>
+    <BR>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションに続き、入出力ファイルを指定します。ファイル名は","（コンマ）で区切り連続して指定します。ファイル名は一部を除き省略することができます。但し、一連の途中のファイル名を省略する場合は、コンマを必ず指定してください。<BR>
+    以下、オプション及び各種ファイルについて解説していきます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションには次のものがあります。<BR>
+
+     <H4><B>・大文字／小文字の区別(/c)</B></H4>
+
+      <BLOCKQUOTE>
+      "/c"を指定すると、大文字と小文字を区別してリンクします。このオプションを指定しない場合、すべてのシンボルは大文字に変換されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /c test.obj,test.cpe
+</PRE>
+
+     <H4><B>・デバッグモードの指定(/d)</B></H4>
+
+      <BLOCKQUOTE>
+      "/d"を指定するとデバッグモードとなり、リンクのみを行ないます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /d test.obj,test.cpe
+</PRE>
+
+     <H4><B>・マクロ定義(/e &lt;symbol=value&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/e"に続き、定義したいマクロ symbol とその値 value を"="（イコール）で結んで指定します。"/e"と symbol との間はスペースで区切ります。また、&lt;symbol=value&gt; を";"（セミコロン）で区切り、複数指定することもできます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /e DEBUG=1 test.obj,test.cpe
+</PRE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /e DEBUG=1;TEST=0 test.obj,test.cpe
+</PRE>
+
+     <H4><B>・詳細情報の表示(/i)</B></H4>
+
+      <BLOCKQUOTE>
+      "/i"を指定すると、リンクの詳細な情報をウィンドウ表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /i test.obj,test.cpe
+</PRE>
+
+     <H4><B>・マップファイルの生成(/m)</B></H4>
+
+      <BLOCKQUOTE>
+      "/m"を指定すると、すべての外部シンボルをマップファイルに出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /m test.obj,test.cpe
+</PRE>
+
+     <H4><B>・ORG アドレスの指定(/o $&lt;address&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/o"に続き、ORG アドレス address を 16 進数で指定します。address の先頭には"$"（ドルマーク）を付加します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /o$80040000 test.obj,test.cpe
+</PRE>
+
+     <H4><B>・バイナリコード出力(/p)</B></H4>
+
+      <BLOCKQUOTE>
+      "/p"を指定すると、実行ファイルをバイナリコードで出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /p test.obj,test.cpe
+</PRE>
+
+     <H4><B>・実行開始アドレスの指定(/x $&lt;address&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/x"に続き、実行開始アドレス address を 16 進数で指定します。address の先頭には"$"を付加します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /x$80000000 test.obj,test.cpe
+</PRE>
+
+     <H4><B>・オーバレイ情報付きSYMファイルの出力(/v)</B></H4>
+
+      <BLOCKQUOTE>
+      DBUGPSXでのオーバレイサポート機能を使用する場合はこのオプションが必要です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /v /o$80010000 test.obj,test.cpe,test.sym
+</PRE>
+
+     <H4><B>・リンクモジュール数の最大数(/n[num])</B></H4>
+
+      <BLOCKQUOTE>
+      デフォルトはnum=256になっています。リンク時に「Too many modules to link」のエラーが発生した時は、/n オプションで、リンク出来るモジュールの最大個数を増やして下さい。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /n2048 /o$80010000 test.obj,test.cpe,test.sym
+</PRE>
+
+     <H4><B>・同名変数に関するワーニング(/wm)</B></H4>
+
+      <BLOCKQUOTE>
+      リンクモジュール群の中で同名の変数が複数回定義されていた場合、<BR>
+      ワーニングメッセージを出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink /wm /o$80010000 test.obj,test.cpe,test.sym
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>入出力ファイル</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    入出力ファイルは、オプションに続き、","(コンマ)で区切って連続して指定します。指定順は以下の通りです。<BR>
+    <BR>
+<PRE>        &lt;source file&gt;,[output file],[symbol file],[map file],[libraries]
+</PRE>
+    <BR>
+    ファイル名は一部を除き省略することができます。但し、一連の途中のファイル名を省略する場合は、コンマを必ず指定してください。<BR>
+
+     <H4><B>例 すべて指定</B></H4>
+
+<PRE>        psylink test.obj,test.cpe,test.sym,test.map,mylib.lib
+</PRE>
+
+     <H4><B>例 シンボルファイル以降を省略した場合</B></H4>
+
+<PRE>        psylink test.obj,test.cpe
+</PRE>
+
+     <H4><B>例 マップファイルのみを省略した場合</B></H4>
+
+<PRE>        psylink test.obj,test.cpe,test.sym,,mylib.lib
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>ソースファイル</B>
+</A>
+</H3>
+<blockquote>
+    ASMPSX アセンブラによって出力されたオブジェクトファイル（.OBJ ファイル）を指定します。ソースファイル名は省略することはできません。<BR>
+    ファイルは複数指定することができ、この場合、スペースまたは"+"（プラス）によって区切ります。<BR>
+
+     <H4><B>例 ファイルが１つ</B></H4>
+
+<PRE>        psylink test.obj,test.cpe
+</PRE>
+
+     <H4><B>例 ファイルが複数</B></H4>
+
+<PRE>        psylink test1.obj test2.obj,test.cpe （スペースで区切る）
+        psylink test1.obj+test2.obj,test.cpe （"+" で区切る）
+</PRE>
+    また、ファイル名の先頭に"@"（アットマーク）を付加することにより、「コマンドファイル」の機能を利用することができます。コマンドファイルについては「４コマンドファイルの利用」の項を参照してください。<BR>
+
+     <H4><B>例 コマンドファイル"test.cmd"を利用</B></H4>
+
+<PRE>        psylink @test.cmd,test.cpe
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>出力ファイル</B>
+</A>
+</H3>
+<blockquote>
+    オブジェクトコードを出力するファイル（実行ファイル）を指定します。省略可能ですが、この場合、オブジェクトコードは作成されません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>シンボルファイル</B>
+</A>
+</H3>
+<blockquote>
+    デバッガが使用するシンボルファイルの名前を指定します。省略可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>マップファイル</B>
+</A>
+</H3>
+<blockquote>
+    マップファイル名を指定します。省略可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_5">
+<A HREF="#Heading3_1_3"> 3. </A>5 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    使用するライブラリファイル名を指定します。省略可能です。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>コマンドファイルの利用</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ソースファイルが多い場合、DOS の制限により、コマンド行にこれが入り切らなくなる場合があります。この場合、「コマンドファイル」を作成し、これをソースファイルの代わりに指定することにより、この制限を回避することができます。<BR>
+    コマンドファイルを利用するには、次のように、ファイル名の先頭に"@"（アットマーク）を指定します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylink @test.cmd,test.cpe
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>コマンドファイルの記述</B>
+</A>
+</H3>
+<blockquote>
+    コマンドファイルには、ソースファイルの情報、及びソースファイルの構成方法などを、各種のコマンドを用いて記述します。これはアセンブラの文法に似ており、以下のコマンドを利用することができます。<BR>
+    各コマンドとその引数の間はスペースで区切ります。引数としてファイル名を指定する場合は、必ずダブルクォーテーションで囲みます。<BR>
+    なお、表中、コマンドあるいは引数を大文字で記述していますが、実際には小文字で指定しても構いません。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>コマンド・引数</TD><TD>内容</TD><TR>
+    <TD>INCLUDE &lt;filename&gt;<BR></TD><TD>読み込むオブジェクトファイルを指定します。<BR>ファイルを複数指定する場合は、１行ずつ記述<BR>します。<BR>例: INCLUDE "test.obj"</TD><TR>
+    <TD>INCLIB &lt;filename&gt;<BR></TD><TD>使用するライブラリファイルを指定します。<BR>ファイルを複数指定する場合は、１行ずつ記述<BR>します。<BR>例: INCLIB "test.lib"</TD><TR>
+    <TD>ORG &lt;address&gt;<BR></TD><TD>出力時の ORG アドレスを指定します。<BR>例: ORG $80040000</TD><TR>
+    <TD>WORKSPACE &lt;address&gt;<BR></TD><TD>新しいターゲットのワークスペースアドレスを<BR>指定します。<BR>例: WORKSPACE $80000000</TD><TR>
+    <TD>&lt;name&gt; EQU &lt;value&gt;<BR></TD><TD>name に value を代入します。<BR>例: debug EQU 1</TD><TR>
+    <TD>REGS pc=&lt;address&gt;<BR></TD><TD>pc の初期値を address に設定します。<BR>例: REGS pc=__SN_ENTRY_POINT</TD><TR>
+    <TD>&lt;name&gt; GROUP &lt;attrib&gt;<BR></TD><TD>属性 attrib のグループ name を宣言します。<BR>例: BSS GROUP BSS</TD><TR>
+    <TD>&lt;name&gt; SECTION &lt;attrib&gt;<BR></TD><TD>属性 attrib のセクション name を宣言します。<BR>例: BSS SECTION BSS</TD><TR>
+    <TD>SECTION &lt;name&gt;[,&lt;group&gt;]<BR></TD><TD>セクション name を宣言し、オプションでその<BR>グループを指定します。<BR>例: SECTION text</TD><TR>
+    <TD>&lt;name&gt; ALIAS &lt;oldname&gt;<BR></TD><TD>シンボル oldname に別名 name を定義します。<BR>例: mura ALIAS village</TD><TR>
+    <TD>UNIT &lt;number&gt;<BR></TD><TD>目的のユニット番号 number を指定します。<BR>例: UNIT 1</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+    また、グループの属性 attrib には以下のものが指定できます。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>属性</TD><TD>内容</TD><TR>
+    <TD>BSS</TD><TD>グループを初期化されていないデータとします。</TD><TR>
+    <TD>ORG(&lt;address&gt;)</TD><TD>グループの ORG アドレスを address に設定します。</TD><TR>
+    <TD>OBJ(&lt;address&gt;)</TD><TD>グループのオブジェクトアドレスを address に設定します。</TD><TR>
+    <TD>OBJ()<BR></TD><TD>グループのオブジェクトアドレスを、直前のオブジェクト<BR>アドレスに続くアドレスに設定します。</TD><TR>
+    <TD>FILE(&lt;filename&gt;)<BR></TD><TD>グループの内容を filename に出力します。<BR>例: BSS GROUP FILE("bss.txt")</TD><TR>
+    <TD>SIZE(&lt;maxsize&gt;)</TD><TD>最大サイズを maxsize に設定します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>コマンドファイル記述上の注意</B>
+</A>
+</H3>
+<blockquote>
+    コマンドファイルの記述に際しては、以下の点に注意してください。<BR>
+<UL>
+         <LI> グループ内のセクションは、コマンドファイルまたはオブジェクト／ライブラリファイルで、セクション定義がなされた順番になっています。
+         <LI> 指定したグループに置かれていないセクションは、出力開始時に、いっしょにグルーピングされます。
+         <LI> グループは、コマンドファイルで宣言された順番、またはオブジェクトファイル及びライブラリファイルにある順番で、出力されます。
+         <LI> 属性付きで宣言されたセクション、つまり、グループ内になく、オブジェクトファイルまたはライブラリファイル内にあるセクションは、コマンドファイルで適切に宣言することにより、指定したグループに入れられます。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_3">
+<A HREF="#Heading3_1_4"> 4. </A>3 <B>コマンドファイルの例</B>
+</A>
+</H3>
+<blockquote>
+    この例では３つのオブジェクトファイルを読み込んでいます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        org	$80010000
+        comdata	group
+        code	group
+        bssdata	group	bss
+        
+        section	data1,comdata
+        section	data2,comdata
+        section	code1,code
+        section	code2,code
+        section	tables,bssdata
+        section	buffers,bssdata
+        
+        include	"inp.obj"
+        include	"sort.obj"
+        include	"out.obj"
+        
+        regs	pc=progstart
+</PRE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

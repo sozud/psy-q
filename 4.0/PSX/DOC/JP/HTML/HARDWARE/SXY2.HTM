@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SXY2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SXY2
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	データ＃１４</B> <BR>
+<BR>
+    アクセス：	Ｒ/W <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                        16 15                             0
++-------------------------------+-------------------------------+
+|             SY2               |              SX2              |
++-------------------------------+-------------------------------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>SX2	(1.15.0)	２次元スクリーン座標または透視変換後の２次元
+			座標のＸ成分。ただし１回前の演算で得られた値。
+SY2	(1.15.0)	２次元スクリーン座標または透視変換後の２次元
+			座標のＸ成分。ただし１回前の演算で得られた値。
+</PRE>
+</blockquote>
+<BR>
+    内部動作： <BR>
+        <BLOCKQUOTE>
+    いくつかのＧＴＥ命令において以下の順に代入が実行される。 <BR>
+<BR>
+        </BLOCKQUOTE>
+<blockquote> <PRE>SXY0 = SXY1;
+SXY1 = SXY2;
+SXY2 = 演算により求められた座標のＸＹ成分;
+
+</PRE>
+</blockquote>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

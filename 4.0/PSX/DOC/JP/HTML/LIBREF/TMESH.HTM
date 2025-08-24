@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    TMESH
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    TMESH
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        三角形メッシュ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		SVECTOR *<I>v</I>;
+		SVECTOR *<I>n</I>;
+		SVECTOR *<I>u</I>;
+		CVECTOR *<I>c</I>;
+		u_long <I>len</I>;
+} <B>TMESH</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v</I>		共有頂点座標列へのポインタ
+<I>n</I>		共有法線列へのポインタ
+<I>u</I>		共有テクスチャ座標列へのポインタ
+<I>c</I>		共有色情報列へのポインタ
+<I>len</I>		頂点の長さ
+</PRE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

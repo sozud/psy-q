@@ -1,0 +1,210 @@
+<HTML>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 拡張CD-ROMライブラリ（libds）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm" TARGET="_top"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm" TARGET="_top"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2">
+<H1>
+拡張CD-ROMライブラリ（libds） 関数一覧
+<HR>
+</H1>
+</A>
+<blockquote>
+
+<TABLE CELLPADDING=0>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>構造体</TD><TR>
+<TD></TD><TD>
+<A HREF="dslatv.htm" _TARGET="main"> DslATV </A><BR>
+</TD><TD> </TD>
+<TD>オーディオアッテネータ</TD><TR>
+<TD></TD><TD>
+<A HREF="dslfile.htm" _TARGET="main"> DslFILE </A><BR>
+</TD><TD> </TD>
+<TD>9660ファイルディスクリプタ</TD><TR>
+<TD></TD><TD>
+<A HREF="dfiltesr.htm" _TARGET="main"> DslFILTER </A><BR>
+</TD><TD> </TD>
+<TD>ADPCMチャンネル</TD><TR>
+<TD></TD><TD>
+<A HREF="dslloc.htm" _TARGET="main"> DslLOC </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROMロケーション</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>関数</TD><TR>
+<TD></TD><TD>
+<A HREF="dsclose.htm" _TARGET="main"> DsClose </A><BR>
+</TD><TD> </TD>
+<TD>システムを終了する</TD><TR>
+<TD></TD><TD>
+<A HREF="dcsommad.htm" _TARGET="main"> DsCommand </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブコマンドをコマンドキューに登録する</TD><TR>
+<TD></TD><TD>
+<A HREF="dcsontrl.htm" _TARGET="main"> DsControl </A><BR>
+</TD><TD> </TD>
+<TD>CdControlの互換関数</TD><TR>
+<TD></TD><TD>
+<A HREF="dcsontrb.htm" _TARGET="main"> DsControlB </A><BR>
+</TD><TD> </TD>
+<TD>CdControlBの互換関数</TD><TR>
+<TD></TD><TD>
+<A HREF="dcsontrf.htm" _TARGET="main"> DsControlF </A><BR>
+</TD><TD> </TD>
+<TD>CdControlFの互換関数</TD><TR>
+<TD></TD><TD>
+<A HREF="ddcsatak.htm" _TARGET="main"> DsDataCallback </A><BR>
+</TD><TD> </TD>
+<TD>DsGetSector()の終了時コールバック関数を設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="ddssatac.htm" _TARGET="main"> DsDataSync </A><BR>
+</TD><TD> </TD>
+<TD>DsGetSectorの終了を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="derssndm.htm" _TARGET="main"> DsEndReadySystem </A><BR>
+</TD><TD> </TD>
+<TD>簡易コールバックシステムを終了する</TD><TR>
+<TD></TD><TD>
+<A HREF="dsflush.htm" _TARGET="main"> DsFlush </A><BR>
+</TD><TD> </TD>
+<TD>コマンドキューをフラッシュする</TD><TR>
+<TD></TD><TD>
+<A HREF="dgdtsete.htm" _TARGET="main"> DsGetDiskType </A><BR>
+</TD><TD> </TD>
+<TD>CDの種類を得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dgsseter.htm" _TARGET="main"> DsGetSector </A><BR>
+</TD><TD> </TD>
+<TD>セクタバッファのデータをメインメモリへ転送する</TD><TR>
+<TD></TD><TD>
+<A HREF="dgssete2.htm" _TARGET="main"> DsGetSector2 </A><BR>
+</TD><TD> </TD>
+<TD>セクタバッファのデータをメインメモリに転送する（ノンブロック型）</TD><TR>
+<TD></TD><TD>
+<A HREF="dsinit.htm" _TARGET="main"> DsInit </A><BR>
+</TD><TD> </TD>
+<TD>システムの初期化を行う</TD><TR>
+<TD></TD><TD>
+<A HREF="ditpsnts.htm" _TARGET="main"> DsIntToPos </A><BR>
+</TD><TD> </TD>
+<TD>絶対セクタ番号から分・秒・セクタを得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dlpsasts.htm" _TARGET="main"> DsLastPos </A><BR>
+</TD><TD> </TD>
+<TD>最後にsetlocされたポジションを得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dsmix.htm" _TARGET="main"> DsMix </A><BR>
+</TD><TD> </TD>
+<TD>アッテネータの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="dspacket.htm" _TARGET="main"> DsPacket </A><BR>
+</TD><TD> </TD>
+<TD>一連のコマンド列をキューに登録する</TD><TR>
+<TD></TD><TD>
+<A HREF="dsplay.htm" _TARGET="main"> DsPlay </A><BR>
+</TD><TD> </TD>
+<TD>CD-DAトラックを再生する</TD><TR>
+<TD></TD><TD>
+<A HREF="dptisost.htm" _TARGET="main"> DsPosToInt </A><BR>
+</TD><TD> </TD>
+<TD>分・秒・セクタから絶対セクタ番号を得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dqlsueun.htm" _TARGET="main"> DsQueueLen </A><BR>
+</TD><TD> </TD>
+<TD>コマンドキューに登録されているコマンドの数を得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dsread.htm" _TARGET="main"> DsRead </A><BR>
+</TD><TD> </TD>
+<TD>データを読み込む</TD><TR>
+<TD></TD><TD>
+<A HREF="dsread2.htm" _TARGET="main"> DsRead2 </A><BR>
+</TD><TD> </TD>
+<TD>ムービーの再生を開始する</TD><TR>
+<TD></TD><TD>
+<A HREF="drbseadk.htm" _TARGET="main"> DsReadBreak </A><BR>
+</TD><TD> </TD>
+<TD>DsRead()の処理を中断する</TD><TR>
+<TD></TD><TD>
+<A HREF="drcseadk.htm" _TARGET="main"> DsReadCallback </A><BR>
+</TD><TD> </TD>
+<TD>DsRead()終了時に呼び出されるコールバック関数の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="dreseadc.htm" _TARGET="main"> DsReadExec </A><BR>
+</TD><TD> </TD>
+<TD>実行可能ファイルを読み込む</TD><TR>
+<TD></TD><TD>
+<A HREF="drfseade.htm" _TARGET="main"> DsReadFile </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM上のファイルを読み込む</TD><TR>
+<TD></TD><TD>
+<A HREF="drsseadc.htm" _TARGET="main"> DsReadSync </A><BR>
+</TD><TD> </TD>
+<TD>DsRead()の終了を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="dsready.htm" _TARGET="main"> DsReady </A><BR>
+</TD><TD> </TD>
+<TD>データの到着を確認する</TD><TR>
+<TD></TD><TD>
+<A HREF="drcseayk.htm" _TARGET="main"> DsReadyCallback </A><BR>
+</TD><TD> </TD>
+<TD>Readyコールバック関数を設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="dsreset.htm" _TARGET="main"> DsReset </A><BR>
+</TD><TD> </TD>
+<TD>システムをリセットする</TD><TR>
+<TD></TD><TD>
+<A HREF="dsfseare.htm" _TARGET="main"> DsSearchFile </A><BR>
+</TD><TD> </TD>
+<TD>CD-ROM上のファイル名から位置とサイズを獲得</TD><TR>
+<TD></TD><TD>
+<A HREF="dsdseteg.htm" _TARGET="main"> DsSetDebug </A><BR>
+</TD><TD> </TD>
+<TD>デバッグレベルを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="dsosheln.htm" _TARGET="main"> DsShellOpen </A><BR>
+</TD><TD> </TD>
+<TD>カバーが開けられた回数を得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dsrsstam.htm" _TARGET="main"> DsStartReadySystem </A><BR>
+</TD><TD> </TD>
+<TD>簡易レディシステムを開始する</TD><TR>
+<TD></TD><TD>
+<A HREF="dsstatus.htm" _TARGET="main"> DsStatus </A><BR>
+</TD><TD> </TD>
+<TD>CDサブシステムのステータスを得る</TD><TR>
+<TD></TD><TD>
+<A HREF="dssync.htm" _TARGET="main"> DsSync </A><BR>
+</TD><TD> </TD>
+<TD>プリミティブコマンドの終了を監視する</TD><TR>
+<TD></TD><TD>
+<A HREF="dscsynck.htm" _TARGET="main"> DsSyncCallback </A><BR>
+</TD><TD> </TD>
+<TD>Syncコールバック関数を設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="dsssysts.htm" _TARGET="main"> DsSystemStatus </A><BR>
+</TD><TD> </TD>
+<TD>キューの状態を得る</TD><TR>
+</TABLE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

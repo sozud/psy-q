@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetReverb
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetReverb
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        リバーブのオン/オフ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuSetReverb</B> (
+long <I>on_off</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>on_off</I>		SPU_ON（リバーブオン設定）またはSPU_OFF（リバーブオフ設定）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リバーブのオン/オフを設定する。 <BR>
+    SpuReserveReverbWorkAreaによってリバーブワークエリアが予約されていなかった場合、<I>on_off </I>= SPU_ONが指定されると、SpuMalloc / SpuMallocWithStartAddrによってワークエリアとして使う領域が他の領域として使われているかどうかを診断し、使われている場合はリバーブオンは設定されず、オフとなり、SPU_OFFを返す。使われていなければリバーブオンが設定され、SPU_ONが返る。リバーブワークエリアが予約されていれば、<I>on_off </I>= SPU_ONはリバーブオンが設定され、SPU_ONを返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    設定された値 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">返り値</TD><TD ALIGN="center">意味</TD><TR>
+    <TD>SPU_ON</TD><TD>リバーブオン</TD><TR>
+    <TD>SPU_OFF</TD><TD>リバーブオフ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sgrpuetb.htm">SpuGetReverb</a>(), <a href="ssrmppum.htm">SpuSetReverbModeParam</a>(), <a href="srrwapua.htm">SpuReserveReverbWorkArea</a>(), <a href="smpuallc.htm">SpuMalloc</a>(), <a href="smwsapur.htm">SpuMallocWithStartAddr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

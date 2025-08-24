@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsCommand
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsCommand
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        プリミティブコマンドをコマンドキューに登録する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsCommand </B>(
+u_char <I>com</I>,
+u_char* <I>param</I>,
+DslCB <I>cbsync</I>,
+int count
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>com</I>		コマンドコード
+<I>param</I>		コマンドに対する引数（u_char[ 4 ]）
+<I>cbsync</I>		コールバック関数のポインタ
+<I>count</I>		リトライ回数（0：リトライなし、-1：無限リトライ）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    プリミティブコマンドをコマンドキューに登録する。登録されたコマンドは、実行可能であれば即座に実行されるが、既に他のコマンドが実行されている場合は登録のみ行われる。コマンドは全てバックグラウンドで実行される。 <BR>
+    コマンドの実行が失敗した場合は<I>count</I>の回数だけリトライされ、<I>count</I>回リトライしても成功しなかった場合はエラーとなる。<I>count</I>=0はリトライなしで、<I>count</I>=-1は無限回リトライである。 <BR>
+    コールバック関数は各コマンド毎に設定が可能で、コマンドが終了した（エラーになった）場合にキックされる。また、DsSync()によってコマンドの実行状況を獲得することができる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コマンドの発行が成功した場合はコマンドID（&gt;0）が返される。失敗した場合は０。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="dssync.htm">DsSync</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

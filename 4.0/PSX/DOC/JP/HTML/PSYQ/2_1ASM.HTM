@@ -1,0 +1,400 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> ASMPSX アセンブラ</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+ASMPSX アセンブラ
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+ASMPSX アセンブラは、１分間に 100 万行以上の R3000 のソースコードをアセンブルすることができます。実行イメージまたはバイナリオブジェクトコードは、アセンブラ自身によりダウンロードされ、RUN ユーティリティを使い、ターゲットボードで実行することができます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>起動と中断</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    通常、ASMPSX は以下のような形（タイミング）で起動されます。<BR>
+
+     <H4><B>(a)単独で実行する</B></H4>
+
+
+     <H4><B>(b)Brief のような編集環境から起動する</B></H4>
+
+
+     <H4><B>(c)MAKE ユーティリティの一部として起動する</B></H4>
+
+    また、アセンブラの実行は、次のキー操作により中断させることが可能です。<BR>
+<UL>
+         <LI> CTRL-C を押す
+         <LI> CTRL-Break を押す（DOS を経由しないので、より素早く認識されます）
+         <LI> "/i"オプション指定時は、ESC を押す（CTRL-C/CTRL-Break 操作により問題が発生する Brief の一部のバージョンで特に有効です）
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>環境変数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX アセンブラは、環境変数 ASMPSX をチェックします。<BR>
+    これには、オプション、ファイル名など、コマンドラインをそのまま記述することが可能ですので、デフォルトのオプション指定に利用することができます。<BR>
+    また、環境変数による指定は、コマンド実行時の指定により上書き（すなわち、打ち消し）することができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX を単独で実行するには、MS-DOS のプロンプトに対して、次のように入力してください。<BR>
+    <BR>
+<PRE>        asmpsx [/option] &lt;source file&gt;,[object file],[symbol file],[listing file],[tempdata file]
+</PRE>
+    <BR>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションに続き、入出力ファイルを指定します。ファイル名は","（コンマ）で区切り連続して指定します。ファイル名は一部を除き省略することができます。ただし、一連の途中のファイル名を省略する場合は、コンマを必ず指定してください。<BR>
+    以下、オプション及び各種ファイルについて解説していきます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションには次のものがあります。<BR>
+
+     <H4><B>異常時のリスト作成(/c)</B></H4>
+
+      <BLOCKQUOTE>
+      "/c"を指定すると、条件判断異常時のコードリストを作成することができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>デバッグモード(/d)</B></H4>
+
+      <BLOCKQUOTE>
+      "/d"を指定すると、デバッグモードとなります。オブジェクトコードがターゲットボードに送信されている場合、これをスタートしないでください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>代入(/e &lt;n=x&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/e"に続き、シンボルｎに割り当てたい値ｘを"="（イコール）で結んで指定します。"/"と"n"の間はスペースで区切ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>非グローバルシンボルを出力(/g)</B></H4>
+
+      <BLOCKQUOTE>
+      "/g"を指定すると、非グローバルシンボルが、直接リンカオブジェクトファイルに出力されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>情報表示(/i)</B></H4>
+
+      <BLOCKQUOTE>
+      "/i"を指定すると、アセンブル中に、情報をウィンドウ表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>INCLUDE 検索パス指定(/j &lt;pathname&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/j"に続き、INCLUDE で指示したファイルを検索するパス pathname を指定します。"/j"と pathname の間はスペースで区切ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>条件付き外部オプションの許可(/k)</B></H4>
+
+      <BLOCKQUOTE>
+      "/k"を指定すると、IFND のような、事前に定義された外部の条件付きオプションの使用を許可します。MACROS の項も参照してください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>リンカ用ファイル出力(/l)</B></H4>
+
+      <BLOCKQUOTE>
+      "/l"を指定すると、PSYLINK リンカ用のファイルを出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>展開したマクロのリスト(/m)</B></H4>
+
+      <BLOCKQUOTE>
+      "/m"を指定すると、すべてのマクロを展開し、リストすることができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>アセンブラオプションの指定(/o &lt;option&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/o"に続き、アセンブラオプション option を指定します。"/o"と option の間はスペースで区切ります。例えば次の例では、自動偶数配置を許可し、また、警告メッセージを抑制しています。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        asmpsx /o ae+,w- scode.s,scode.cpe,scode.sym
+</PRE>
+    利用可能なオプションについては、「オプション、リスティング及びエラー」の章の「１オプション」の項を参照してください。<BR>
+
+     <H4><B>バイナリコード出力(/p)</B></H4>
+
+      <BLOCKQUOTE>
+      "/p"を指定すると、.CPE 形式の実行可能イメージではなく、バイナリ形式のオブジェクトコードを出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>EQUATE ステートメント出力(/w)</B></H4>
+
+      <BLOCKQUOTE>
+      "/w"を指定すると、PSYLINK ファイルに EQUATE ステートメントを出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>行番号出力(/z)</B></H4>
+
+      <BLOCKQUOTE>
+      "/z"を指定すると、PSYLINK ファイルに行番号を出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>デバック情報生成(/zd)</B></H4>
+
+      <BLOCKQUOTE>
+      "/zd"を指定すると、ソースレベルデバッグ情報を生成します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        asmpsx /zd scode.s,scode.cpe,scode.sym
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>入出力ファイル</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    入出力ファイルは、オプションに続き、","(コンマ)で区切って連続して指定します。指定順は以下の通りです。<BR>
+    <BR>
+<PRE>        &lt;source file&gt;,[object file],[symbol file],[listing file],[tempdata file]
+</PRE>
+    <BR>
+    ファイル名は一部を除き省略することができます。但し、一連の途中のファイル名を省略する場合は、コンマを必ず指定してください。<BR>
+
+     <H4><B>例すべて指定</B></H4>
+
+<PRE>        asmpsx test.s,test.cpe,test.sym,test.lst,tmpdata.tmp
+</PRE>
+
+     <H4><B>例シンボルファイル以降を省略した場合</B></H4>
+
+<PRE>        asmpsx test.s,test.cpe
+</PRE>
+
+     <H4><B>例リスティングファイルのみを省略した場合</B></H4>
+
+<PRE>        asmpsx test.s,test.cpe,test.sym,,tmpdata.tmp
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_1">
+<A HREF="#Heading3_1_5"> 5. </A>1 <B>ソースファイル</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラのソースファイル（.Ｓファイル）を指定します。拡張子が省略された場合、".S"が指定されます。<BR>
+    省略可能ですが、この場合、ASMPSX はヘルプメッセージを表示して終了します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_2">
+<A HREF="#Heading3_1_5"> 5. </A>2 <B>オブジェクトファイル</B>
+</A>
+</H3>
+<blockquote>
+    オブジェクトコードを出力するファイルを指定します。省略可能ですが、この場合、オブジェクトコードは作成されません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_3">
+<A HREF="#Heading3_1_5"> 5. </A>3 <B>シンボルファイル</B>
+</A>
+</H3>
+<blockquote>
+    デバッガが使用するシンボルファイルの名前を指定します。省略可能で、この場合、ファイルは作成されません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_4">
+<A HREF="#Heading3_1_5"> 5. </A>4 <B>リスティングファイル</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラにより生成されたリスティングを出力するファイルを指定します。省略可能で、この場合、ファイルは作成されません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_5">
+<A HREF="#Heading3_1_5"> 5. </A>5 <B>テンポラリデータ</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラが作業用に用いるテンポラリファイルを指定します。RAM ディスク上に作成するように指定すると、処理を高速化することができます。省略可能で、この場合、デフォルトの ASM.TMP が用いられます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>コマンドファイルの利用</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ソースファイルやオプションの指定が多い場合、DOS の制限により、コマンド行にこれが入り切らなくなる場合があります。この場合、コマンドラインをそのまま記述した「コマンドファイル」を作成し、これを ASMPSX の引数に指定することにより、この制限を回避することができます。<BR>
+    コマンドファイルを利用するには、次のように、ファイル名の先頭に"@"（アットマーク）を指定します。<BR>
+<PRE>        asmpsx @&lt;filename&gt;
+</PRE>
+    例えば、コマンドファイルとして test.cnf を作成し、これを用いる場合は次のようになります。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        asmpsx @test.cnf
+</PRE>
+    これにより、test.cnf からコマンドラインを読み出し、これに従ってアセンブルを行なうことができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>Brief で実行するには</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ほとんどのプログラマが、プログラムを、ひとつの環境の中で開発したいと考えています。Psy-Q の将来のバージョンは、アセンブラ及びサブシステムのデバッグの要件に合わせたエディタを組み込んだ、自己完結型のスーパーストラクチャを提供することになるでしょう。<BR>
+    しかし、現時点では、このような機能を求めているプログラマ諸氏には、Borland の Brief エディタを利用されることをお勧めします。このエディタは、すでに Psy-Q によりサポートされています。<BR>
+    Brief への組み込みは次の手順で行なってください。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_1">
+(1) <B>Brief マクロである PSYQ.CM を、\BRIEF\MACROS ディレクトリにコピーするか、または PSYQ.CB からマクロファイルを作成してください。</B>
+</A>
+</H4>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_2">
+(2) <B>BCxxx 環境変数を設定してください</B>
+</A>
+</H4>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_3">
+(3) <B>BFLAGS 環境変数に"-mpsyq"を追加し、スタートアップ時に Psy-Q マクロファイルが読み込まれるようにします。</B>
+</A>
+</H4>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_7_4">
+(4) <B>アセンブラまたは Brief を実行すると、セットアップダイアログが出力され、出力先、オプションのデフォルトを指定することができます。</B>
+</A>
+</H4>
+    <BR>
+    また、Brief の一部のバージョンには、CTRL-C または CTRL-Break の操作により問題を引き起こすものがあるので、ASMPSX を"/i"オプション付きで起動することをお勧めします。これにより、情報ボックスが使用可能となり、アセンブルを中断させるのに、ESC キーを使うことができるようになります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>エラー</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    アセンブル中に、以下のようなエラーが発生することがあります。エラーメッセージについては、付録を参照してください。<BR>
+    <BR>
+<UL>
+         <LI> アセンブラ自身が、ソースコードでエラー状態を検出する場合
+         <LI> オブジェクトコードのダウンロード中の失敗による場合
+</UL>
+    <BR>
+    また、ダウンロード中にエラーが発生した場合、通常、次のようなエラーメッセージが表示され、続いて、"Abort, Retry, or Bus Reset"プロンプトが表示されますので、処理を選択してください。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>メッセージ</TD><TD>意味</TD><TR>
+    <TD>Target not Available</TD><TD>ターゲットは使用できません。</TD><TR>
+    <TD>Bus not Available</TD><TD>バスは使用できません。</TD><TR>
+    <TD>Abort, Retry, or Bus Reset</TD><TD>アボート、再試行、またはバスリセット。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

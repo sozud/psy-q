@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetEnv
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetEnv
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        基本サウンドライブラリの環境設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetEnv </B>(
+SpuEnv  *<I>env</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>env</I>		基本サウンドライブラリ環境属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    基本サウンドライブラリの環境を設定する。 <BR>
+    <I>env</I>.mask に、下記の設定したい属性のビット和を与えることで各属性のみの設定が可能 (現在 1 つの属性のみ設定可能なのでその値を指定する)。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_ENV_EVENT_QUEUEING</TD><TD>イベントをキューに溜める</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>env</I>.mask が 0 の場合は全属性を設定する。 <BR>
+    以下に個々の設定条件を説明する。 <BR>
+<BR>
+    (1) イベントをキューに溜める <BR>
+        <BLOCKQUOTE>
+    <I>env</I>.queueing に下記の値を指定することにより、キーオン/オフ、ピッチ LFO ボイス設定、ノイズボイス設定、およびリバーブボイス設定のそれぞれのイベントをキューに溜めるかを設定する。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">指定値</TD><TD ALIGN="center">内容</TD><TR>
+    <TD> SPU_ON</TD><TD>イベントをキューに溜める</TD><TR>
+    <TD> SPU_OFF</TD><TD>イベントをキューに溜ない (既定値)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    既定値はキューに溜めずに即座に設定を行う。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="spuenv.htm">SpuEnv</a>, <a href="spuflush.htm">SpuFlush</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sskowapr.htm">SpuSetKeyOnWithAttr</a>(), <a href="ssplfove.htm">SpuSetPitchLFOVoice</a>(), <a href="ssnvpuee.htm">SpuSetNoiseVoice</a>(), <a href="ssrvpuee.htm">SpuSetReverbVoice</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

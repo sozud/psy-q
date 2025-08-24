@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    TMD_STRUCT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    TMD_STRUCT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        TMDデータのオブジェクトヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		unsigned long	<I>*vertop;</I>
+		unsigned long	<I>vern;</I>
+		unsigned long	<I>*nortop;</I>
+		unsigned long	<I>norn<B>;</I></B>
+		unsigned long	<I>*primtop;</I>
+		unsigned long	<I>primn;</I>
+		unsigned long 	<I>scale;</I>
+} <B>TMD_STRUCT</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>vertop</I>		VERTEX先頭アドレス
+<I>vern</I>		VERTEX個数
+<I>nortop</I>		NORMAL先頭アドレス
+<I>norn</I>		NORMAL個数
+<I>primtop</I>		PRIMITIVE先頭アドレス
+<I>primn</I>		PRIMITIVE個数
+<I>scale</I>		スケーリングファクタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TMDデータ内にあるOBJ TABLE部の構造体。各オブジェクトの実体がどこに格納されているかを示すポインタ情報を持っている。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+    
+<BR>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

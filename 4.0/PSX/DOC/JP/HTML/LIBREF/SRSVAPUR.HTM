@@ -1,0 +1,110 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuRSetVoiceAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuRSetVoiceAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        指定した範囲の各ボイスの属性を設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuRSetVoiceAttr</B> (
+long <I>min</I>,
+long<I> max</I>,
+SpuVoiceAttr *<I>attr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>min	</I>	診断するボイス番号の下限
+<I>max	</I>	診断するボイス番号の上限
+<I>attr	</I>	各ボイス属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>min, max </I>で指定した範囲のボイスに対して各ボイスの属性を設定する。 <BR>
+    <I>attr</I>.voice には<I>min, max</I>で指定した範囲のボイスのなかで、SPU_0CH,  SPU_1CH, ..., SPU_23CH のビット和で設定するボイスを明示的に設定する。 <I>min,  max </I>で指定した範囲を外れている場合は無視される。 <BR>
+<BR>
+    <I>attr</I>.mask に、下記の設定したい属性のビット和を与えることで各属性のみの設定が可能。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_VOICE_VOLL</TD><TD>音量(左)</TD><TR>
+    <TD>SPU_VOICE_VOLR</TD><TD>音量(右)</TD><TR>
+    <TD>SPU_VOICE_VOLMODEL</TD><TD>音量モード(左)</TD><TR>
+    <TD>SPU_VOICE_VOLMODER</TD><TD>音量モード(右)</TD><TR>
+    <TD>SPU_VOICE_PITCH</TD><TD>音程(ピッチ指定)</TD><TR>
+    <TD>SPU_VOICE_NOTE</TD><TD>音程(ノート指定)</TD><TR>
+    <TD>SPU_VOICE_SAMPLE_NOTE</TD><TD>波形データサンプルノート</TD><TR>
+    <TD>SPU_VOICE_WDSA</TD><TD>波形データ先頭アドレス</TD><TR>
+    <TD>SPU_VOICE_ADSR_AMODE</TD><TD>ADSR Attack rateモード</TD><TR>
+    <TD>SPU_VOICE_ADSR_SMODE</TD><TD>ADSR Sustain rateモード</TD><TR>
+    <TD>SPU_VOICE_ADSR_RMODE</TD><TD>ADSR Release rateモード</TD><TR>
+    <TD>SPU_VOICE_ADSR_AR</TD><TD>ADSR Attack rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_DR</TD><TD>ADSR Decay rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_SR</TD><TD>ADSR Sustain rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_RR</TD><TD>ADSR Release rate</TD><TR>
+    <TD>SPU_VOICE_ADSR_SL</TD><TD>ADSR Sustain level</TD><TR>
+    <TD>SPU_VOICE_ADSR_ADSR1</TD><TD>ADSR adsr1 for 'VagAtr'</TD><TR>
+    <TD>SPU_VOICE_ADSR_ADSR2</TD><TD>ADSR adsr2 for 'VagAtr'</TD><TR>
+    <TD>SPU_VOICE_LSAX</TD><TD>ループ開始アドレス</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>attr</I>.mask が0の場合は全属性を設定する。 <BR>
+    それぞれの属性の詳細については、SpuSetVoiceAttrを参照。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vsattr.htm">SpuSetVoiceAttr</a>(), <a href="vgattr.htm">SpuGetVoiceAttr</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sskowapr.htm">SpuSetKeyOnWithAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

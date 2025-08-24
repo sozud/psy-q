@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsScaleScreen
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsScaleScreen
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        スクリーン座標系をスケーリングする
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void<B> GsScaleScreen</B> (
+SVECTOR * <I>scale </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>scale		</I>スケールファクター（12bit固定小数点フォーマット）
+		常にGsSetView2(),GsSetRefView2()で設定したオリジナルの
+		スクリーン座標系に対してファクターを設定する。
+		vx,vy,vzともにONEをいれることでオリジナルに戻る。
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsScaleScreen() は、スクリーン座標系をワールド座標系に対してスケーリングします。 <BR>
+    ワールド座標系は３２ビット空間を持つのに対しスクリーン座標系は１６ビットしかありません。よってFarClipが近いなどの問題が生じます。 <BR>
+    これを解決するためスクリーン座標をスケーリングしワールドに対してより広い領域をカバーするようにするために GsScaleScreen() があります。 <BR>
+    例えばvx,vy,vzにONE/2を指定するとscreen座標系は17bit相当の大きさに拡張されます。ただし精度は16bitなので下１ビットは無効になります。 <BR>
+    ここで注意しなければならないのはスケールの違うスクリーン座標系を同じスケールでOTに登録してはならないということです。 <BR>
+    例えばスクリーン座標系のスケールを1/2にしたオブジェクトを登録したOTにノーマルのスケーリングのスクリーン座標系で計算したオブジェクトを登録するには1bit余計にshiftして登録しななればなりません。 <BR>
+    外部変数GsWSMATRIXに GsScaleScreen() でスケーリングするマトリックス、外部変数GsWSMATRIX_ORGにGsSetView2,GsSetRevView2でスクリーン座標系を定義した時のWSMATRIXを保持する <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

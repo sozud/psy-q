@@ -1,0 +1,621 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation File Format</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>3Dモデルデータ（TMDフォーマット）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    TMDフォーマットはPlayStationの3Dライブラリlibgsで扱うモデルデータのフォーマットで、メモリ上へダウンロードしてそのままlibgsの関数の引数として扱うことができます。<BR>
+    3Dグラフィックスツール等、アーティストツールの段階ではより抽象度の高いRSDファイルを使用し、プログラム作成時にrsdlinkによって本フォーマットへ変換されます。<BR>
+    TMDデータが記述するデータはオブジェクトを構成するポリゴンや直線等のプリミティブの集合体です。１つのTMDファイルで複数のオブジェクトを持つことができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>座標値について</B>
+</A>
+</H3>
+<blockquote>
+    TMDファイル内での座標値はPlayStationの3Dライブラリで扱う空間に従い、x軸の正方向が右、y軸が下、z軸が画面奥を表します。各オブジェクトが持つ空間の座標値は16bitの符号つき整数値で、それぞれの軸の座標値の取り得る値は-32768～+32767になります。<BR>
+    デザインの段階、つまりRSDフォーマットではVERTEXの値は浮動小数点であるため、RSDからTMDへの変換時には拡大／縮小を行なってスケールを合わせる必要があります。このときのスケール調整値が参考値として後述のオブジェクト構造体に含まれています。<BR>
+    この値は world座標に対してどのようなスケールでマッピングされるべきであるかの指標値になります。現在libgsではこのスケール値は無視します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>ファイルフォーマット</B>
+</A>
+</H3>
+<blockquote>
+    TMDファイルは3Dオブジェクトのテーブルと、これを構成するPRIMITIVE、VERTEX(頂点)、NORMAL(法線)の３種類のデータの実体を持ち、４つのブロックで構成されています。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf1.gif">
+<P>
+    <B>図 1 TMDファイルフォーマット</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1">
+(1) <B>HEADER部</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      HEADER部はデータの構造に関する情報を持った3ワード（12Byte)のデータです。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf2.gif">
+<P>
+        <H4><B>図 2 HEADERの構造</B></H4>
+
+</CENTER>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>ID</B>
+</H4></BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        32bit長（1ワード）のデータでTMDファイルのバージョンを表します。現在のバージョンでは0x00000041です。<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>FLAGS</B>
+</H4></BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        32bit長（1ワード）のデータでTMDデータの構成情報を持ちます。最下位ビット(LSB)がFIXPビットで、残りのビットはリザーブされており、値はすべて0です。<BR>
+        FIXPビットは後述のOBJECT構造体が持つポインタ値が実アドレスかどうかを表します。値が1の時は実アドレス、0の時は先頭からのオフセットです。<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>NOBJ</B>
+</H4></BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        オブジェクトの個数を表す整数値です。<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2">
+(2) <B>OBJ TABLE</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      OBJ TABLE部は各オブジェクトの実体がどこに格納されているかを示すポインタ情報を持った構造体が並んだテーブルです。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf3.gif">
+<P>
+      <B>図 3 OBJ TABLEの構造</B><BR>
+</CENTER>
+      １個のオブジェクト構造体は次のような構成になっています。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        	struct object {
+        		u_long *vert_top;
+        		u_long n_vert;
+        		u_long *normal top;
+        		u_long n_normal;
+        		u_long *primitive top;
+        		u_long n_primitive;
+        		long scale;
+        	};
+        
+        メンバの解説
+        	vert_top:	VERTEX先頭アドレス
+        	n_vert:		VERTEX個数
+        	normal_top:	NORMAL先頭アドレス
+        	n_normal:	NORMAL個数
+        	primitive_top:	PRIMITIVE先頭アドレス
+        	n_primitive:	PRIMITIVE個数
+        	scale:		Scaling factor
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      構造体のメンバーの内、ポインタ値はHEADER部のFIXPビットの値によって意味が変化します。FIXP=1の場合は実アドレスですがFIXP=0の場合はOBJECT部の先頭を0番地とする相対アドレスを表します。<BR>
+      Scaling factorは符号つきのlong型で、その2のべき乗値がスケール値になります。すなわち上記構造体のscaleの値が0のときが等倍、2の時はスケール値は4、-1のときはスケール値は1/2になります。この値を用いて、デザイン時のスケールに戻すことが可能です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_3">
+(3) <B>PRIMITIVE部</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      PRIMITIVE部は、オブジェクトの構成要素（プリミティブ）の描画パケットが並んだもので、１つのパケットで１個のプリミティブを表します。<BR>
+      TMDで定義されているプリミティブはlibgpuで扱う描画プリミティブとは異なります。libgsの関数によって透視変換の処理を行なうと共に描画プリミティブへ変換されます。<BR>
+      各パケットは可変長で、その大きさ／構造はプリミティブのタイプ毎に異なります。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf4.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 4 描画パケットの一般構造</B><BR>
+</CENTER>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode </B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf5.gif">
+<P>
+        <H4><B>図 5 mode</B></H4>
+
+</CENTER>
+<UL><UL>
+            <LI> CODE：構成要素の種類を表す3bitのコード
+</UL></UL>
+        <BLOCKQUOTE><UL>
+        	001=ポリゴン（3角／4角）<BR>
+        	010=直線<BR>
+        	011=スプライト（矩形）<BR>
+        </BLOCKQUOTE></UL>
+<UL><UL>
+            <LI> OPTION ：オプションのbit、CODEの値によって変化する（後述のPacket data構成一覧に併記）
+</UL></UL>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>flag</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf6.gif">
+<P>
+    <B>図 6 flag</B><BR>
+</CENTER>
+<UL><UL>
+            <LI> GRD:(光源計算ありTextureなしポリゴンのみ有効)
+</UL></UL>
+        <BLOCKQUOTE><UL>
+        	1のときグラデーションポリゴン<BR>
+        	0のとき単色ポリゴン<BR>
+        </BLOCKQUOTE></UL>
+<UL><UL>
+            <LI> FCE:(CODEの値がポリゴンの時のみ有効)
+</UL></UL>
+        <BLOCKQUOTE><UL>
+        	1のとき両面ポリゴン<BR>
+        	0のとき片面ポリゴン<BR>
+        </BLOCKQUOTE></UL>
+<UL><UL>
+            <LI> LGT:
+</UL></UL>
+        <BLOCKQUOTE><UL>
+        	1のとき光源計算なし<BR>
+        	0のとき光源計算あり<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>ilen</B>
+</H4></BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        Packet data部のワード長(8bit)<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>olen</B>
+</H4></BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        中間処理で生成する描画プリミティブのワード長(8bit)<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>Packet data</B>
+</H4></BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        頂点／法線等の各種パラメータPRIMITIVEのタイプによって異なります。<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_4">
+(4) <B>VERTEX部</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      VERTEX部は頂点を表す構造体の列です。１つの構造体のフォーマットを次に示します。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf7.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 7 VERTEX構造体</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_5">
+(5) <B>NORMAL部</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      NORMAL部は法線を表す構造体の列です。１つの構造体のフォーマットを次に示します。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf8.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 8 NORMAL構造体</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      NX,NY,NZのそれぞれの値は 4096を1.0として扱う符号つき16bit固定小数点です。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf9.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 9 固定小数点フォーマット</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>Packet data構成一覧</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブの種類別に各Packet data構成の一覧を示します。<BR>
+    <BR>
+    Packet data部に含まれるパラメータには以下のようなものがあります。<BR>
+
+     <H4><B>Vertex(n)</B></H4>
+
+      <BLOCKQUOTE>
+      VERTEXをポイントする16bit長のインデックス値で、そのポリゴンが属するオブジェクトのVERTEX部先頭から何番めの要素であるかを表します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Normal(n)</B></H4>
+
+      <BLOCKQUOTE>
+      NORMALをポイントする16bit長のインデックス値で、Vertexと同様。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Un,Vn</B></H4>
+
+      <BLOCKQUOTE>
+      各頂点のテクスチャソース空間上でのx,y座標値。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>Rn,Gn,Bn</B></H4>
+
+      <BLOCKQUOTE>
+      ポリゴンの色を表すRGB値で、8bit符号なし整数値。光源計算なしの場合、あらかじめ計算された輝度値をいれておく。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>TSB</B></H4>
+
+      <BLOCKQUOTE>
+      テクスチャ／スプライトパターンに関する情報を持ちます。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf10.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 10 TSB
+</B><BR>
+</CENTER>
+<UL>
+         <LI> TPAGE:テクスチャページ番号（0～31）
+         <LI> ABR:	半透明レート（混合比率）ABEが1の時のみ有効です。
+</UL>
+      <BLOCKQUOTE>
+      	00   50%back  +  50%polygon<BR>
+      	01  100%back  + 100%polygon<BR>
+      	10  100%back  - 100%polygon<BR>
+      	11  100%back  +  25%polygon<BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> TPF:	色モード
+</UL>
+      <BLOCKQUOTE>
+      	00   4 bit<BR>
+      	01   8 bit<BR>
+      	10  15 bit<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>CBA</B></H4>
+
+      <BLOCKQUOTE>
+      CLUTのVRAM内での格納位置を示します。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf11.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 11 CBA
+</B><BR>
+</CENTER>
+<UL>
+         <LI> CLX: VRAM上のCLUTのX座標値10bitの上位6bit
+         <LI> CLY: VRAM上のCLUTのY座標値9bit
+</UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_1">
+(1) <B>３角ポリゴン：光源計算ありの場合</B>
+</A>
+</H4>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode値のbit構成</B>
+</H4></BLOCKQUOTE>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf12.gif">
+<P>
+      <B>図 12 「三角ポリゴン・光源計算あり」のmode値
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>パケット構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdn1.gif">
+<P>
+<P>
+<IMG SRC ="gif/tmdn2.gif">
+<P>
+<P>
+<IMG SRC ="gif/tmdf13.gif">
+<P>
+    <B>図 13 「三角ポリゴン・光源計算あり」のパケット構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_2">
+(2) <B>４角ポリゴン：光源計算ありの場合</B>
+</A>
+</H4>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode値のbit構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf14.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 14 「４角ポリゴン・光源計算あり」のmode値
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>パケット構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdn3.gif">
+<P>
+<P>
+<IMG SRC ="gif/tmdn4.gif">
+<P>
+<P>
+<IMG SRC ="gif/tmdf15.gif">
+<P>
+    <B>図 15 「４角ポリゴン・光源計算あり」のパケット構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_3">
+(3) <B>３角ポリゴン：光源計算なしの場合</B>
+</A>
+</H4>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode値のbit構成</B>
+</H4></BLOCKQUOTE>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf16.gif">
+<P>
+      <B>図 16 「３角ポリゴン・光源計算なし」のmode値
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>パケット構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdn5.gif">
+<P>
+</CENTER>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf17.gif">
+<P>
+    <B>図 17 「３角ポリゴン・光源計算なし」のパケット構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_4">
+(4) <B>４角ポリゴン：光源計算なしの場合</B>
+</A>
+</H4>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode値のbit構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf18.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 18「３角ポリゴン・光源計算なし」のmode値
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>パケット構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdn6.gif">
+<P>
+    <BR>
+<P>
+<IMG SRC ="gif/tmdf19.gif">
+<P>
+    <B>図 19 「４角ポリゴン・光源計算なし」のパケット構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_5">
+(5) <B>直線</B>
+</A>
+</H4>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode値のbit構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf20.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 20 「直線」のmode値
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>パケット構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf21.gif">
+<P>
+    <B>図 21 「直線」のパゲット構成
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_4_6">
+(6) <B>３Ｄスプライト</B>
+</A>
+</H4>
+    ３Ｄの座標値を持つスプライトで、描画内容は通常のスプライトと同じです。<BR>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>mode値のbit構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdf22.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 22 「3Dスプライト」mode値
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+
+<!-- 見出し 6 -->
+<BLOCKQUOTE><H4>
+  <B>パケット構成</B>
+</H4></BLOCKQUOTE>
+<CENTER>
+<P>
+<IMG SRC ="gif/tmdn7.gif">
+<P>
+<P>
+<IMG SRC ="gif/tmdf23.gif">
+<P>
+    <B>図 23 「3Dスプライト」のパケット構成
+</B><BR>
+</CENTER>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

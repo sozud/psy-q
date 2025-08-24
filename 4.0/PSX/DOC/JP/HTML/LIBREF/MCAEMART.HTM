@@ -1,0 +1,105 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    MemCardAccept
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libmcrd.htm">メモリカード簡易レベルライブラリ (libmcrd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    MemCardAccept
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        カードの状態を取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>MemCardAccept</B> (
+long <I>chan</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>chan</I>	ポート番号 + カード番号
+	ポート番号(Ａポート:0x00、Ｂポート:0x10)
+	カード番号(通常 0)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>chan</I>で指定したメモリカードの接続をテストし、接続されている場合はさらに詳細な情報を取得する。 <BR>
+    新規カードの場合は _card_clear(), _card_load()を実行し、以降のファイルアクセス関数を使用可能にする。 <BR>
+    MemCardOpen() などファイルアクセス関数の使用に先立って実行する必要がある。カードが入れ替わらない限り反復して実行する必要はない。 <BR>
+    関数自体は非同期処理のため直ちに終了する。多重の処理登録は行なえない。 <BR>
+    処理の完了はMemCardSync() または完了コールバックにより確認する。 <BR>
+    所用時間は最大 76VSYNC。カードが存在しない場合は約4VSYNC。 <BR>
+    取得結果はMemCardSync() または完了コールバックの result 値として通知される。 <BR>
+    新規カード(McErrNewCard)の検出は１回のみで、２回目以降はMcErrNone が返る。 <BR>
+<BR>
+    result値 <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>マクロ</TD><TD>状態</TD><TR>
+    <TD>0x00</TD><TD>McErrNone</TD><TD>接続されている</TD><TR>
+    <TD>0x01</TD><TD>McErrCardNotExist</TD><TD>接続されていない</TD><TR>
+    <TD>0x02</TD><TD>McErrCardInvalid</TD><TD>不良カード</TD><TR>
+    <TD>0x03</TD><TD>McErrNewCard</TD><TD>新規カード（カードが交換された）</TD><TR>
+    <TD>0x04</TD><TD>McErrNotFormat</TD><TD>フォーマットされていない</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    処理登録に成功すると 1を、以外は 0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    非同期関数, 所要時間 4～76VSYNC <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="mcoemarn.htm">MemCardOpen</a>(), <a href="mcrfemae.htm">MemCardReadFile</a>(), <a href="mcwfemae.htm">MemCardWriteFile</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

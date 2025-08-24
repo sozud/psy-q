@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    POLY_GT3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    POLY_GT3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        グーローテクスチャマップ３角形プリミティブ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>tag</I>;
+		u_char	<I>r0</I>, <I>g0</I>, <I>b0</I>, <I>code</I>;
+		short	<I>x0</I>,  <I>y0</I>;
+		u_char	<I>u0</I>, <I>v0</I>;
+		u_short	<I>clu</I>t;
+		u_char	<I>r1</I>, <I>g1</I>, <I>b1</I>, <I>p1</I>;
+		short	<I>x1</I>, <I>y1</I>;
+		u_char	<I>u1</I>, <I>v1</I>;
+		u_short	<I>tpage</I>;
+		u_char	<I>r2,</I> <I>g2</I>, <I>b2</I>, <I>p2</I>;
+		short	<I>x2</I>, <I>y2</I>;
+		u_char	<I>u2</I>, <I>v2</I>;
+		u_short	<I>pad2</I>;
+} <B>POLY_GT3</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tag</I>			次のプリミティブへのフック（予約）
+<I>code</I>			プリミティブ ID
+<I>r0</I>,<I>g0</I>,<I>b0</I>,....<I>r2</I>,<I>g2</I>,<I>b2	</I>プリミティブの各頂点に対応する輝度値
+<I>x0</I>,<I>y0</I>,<I>x1</I>,<I>y1</I>..<I>x2</I>,<I>y2</I>	プリミティブの各頂点座標
+<I>u0</I>,<I>v0</I>,<I>y1</I>,<I>v1</I>..<I>u2</I>,<I>v2</I>	各頂点に対応するテクスチャ座標
+<I>tpage</I>			テクスチャページ ID
+<I>clut</I>			CLUT ID (4bit/8bit モード時のみ）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    POLY_GT3 は テクスチャマッピングとグーローシェーディング同時に行ないながら３角形を描画する。 <BR>
+    実際の輝度値は、テクスチャパターンより得られる輝度値に、グーローシェーディングによって計算された輝度値が乗算されたものが、輝度値として描画される。 <BR>
+    描画される輝度値は、対応するテクスチャパターンのピクセル値Ｔと対応する輝度値Ｌから、以下のように計算される。 <BR>
+<BR>
+        <BLOCKQUOTE>
+    R = (T*r0)/128 <BR>
+    G = (T*g0)/128 <BR>
+    B = (T*b0)/128 <BR>
+        </BLOCKQUOTE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

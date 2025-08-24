@@ -1,0 +1,424 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> MAKE ユーティリティ PSYMAKE</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+MAKE ユーティリティ PSYMAKE
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PSYMAKE は、コンピュータプログラムの構築及び再構築を自動化する MS-DOS 用汎用MAKE ユーティリティです。PSYMAKE は PSYMAKE は、プログラムの構築手順、依存関係を記述した「MAKE ファイル」に基づき、再構築が必要なシステムの要素のみを再構築します。プログラムが再構築を必要とするかどうかは、ターゲットファイルのタイムスタンプ、及びプログラムが依存するソースファイルによって定義されます。一般に、ソースファイルが１つでもターゲットファイルよりも新しい場合、ターゲットファイルは再構築されます。PSYMAKE を利用することにより、複雑な DOS コマンドをいちいち入力する必要がなく、プログラム開発をスムースに進行させることが可能となります。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PSYMAKE を実行するには、MS-DOS のプロンプトから次のように入力します。<BR>
+    <BR>
+<PRE>        psymake [/option] [target]
+</PRE>
+    <BR>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションに続き、ターゲットを指定します。ターゲットが指定されていない場合、MAKE ファイル中の最初のターゲットが構築されます。<BR>
+    MAKE ファイル名はデフォルトでは"MAKEFILE.MAK"となっています。MAKE ファイルは、"/f"オプションで指定することができます。<BR>
+    以下、オプション及び各種ファイルについて解説していきます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+    オプションには次のものがあります。<BR>
+
+     <H4><B>・すべてをビルド(/b)</B></H4>
+
+      <BLOCKQUOTE>
+      "/b"を指定すると、ファイルのタイムスタンプを無視して、すべてを構築します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psymake /b all
+</PRE>
+
+     <H4><B>・マクロ定義(/d &lt;name=string&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/d"に続きシンボル name とその文字列 string を"="（イコール）で結んで指定します。"/d"と name の間はスペースで区切ります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psymake /d Creator=Me all
+</PRE>
+
+     <H4><B>・MAKE ファイル名指定(/f &lt;filename&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "/f"に続き、MAKE ファイル名 filename をスペースで区切って指定します。<BR>
+      デフォルトの MAKE ファイルは"MAKEFILE.MAK"です。また、filename に拡張子が指定されていない場合、拡張子は".MAK"であるとみなします。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psymake /f test.mak all
+</PRE>
+
+     <H4><B>・エラー無視(/i)</B></H4>
+
+      <BLOCKQUOTE>
+      "/i"を指定すると、常にエラー状態を無視します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psymake /i all
+</PRE>
+
+     <H4><B>・クワイエットモード(/q)</B></H4>
+
+      <BLOCKQUOTE>
+      "/q"を指定すると、クワイエットモードとなり、コマンド実行前にコマンドを表示しません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psymake /q all
+</PRE>
+
+     <H4><B>・コマンドを実行しない(/x)</B></H4>
+
+      <BLOCKQUOTE>
+      "/x"を指定すると、コマンドを実行せず、表示のみを行ないます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psymake /x all
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>MAKE ファイル</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    MAKE ファイルは一連のコマンドから成り、「依存」として知られている明白な規則、及び「暗黙の規則」により制御されます。<BR>
+    ターゲットファイルを構築する必要がある場合、PSYMAKE は、まずそのファイルの依存規則を検索します。依存規則が見つからない場合は、PSYMAKE は、暗黙の規則を使ってターゲットファイルを構築します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>依存</B>
+</A>
+</H3>
+<blockquote>
+    依存関係は次のように記述します。<BR>
+<PRE>        targetfile: [sourcefiles]
+        	[command
+        	...
+        	command]
+</PRE>
+    ターゲットファイル targetfile は行頭から記述し、最後に":"（コロン）を付加し、その後ろにソースファイル sourcefiles を記述します。ソースファイルはスペースで区切って複数指定することができます。<BR>
+    続いてターゲットを構築するために実行するコマンド command を記述します。コマンドはすべて、行頭にスペースまたはタブを入れ、実行順に１行ずつ記述します。<BR>
+    各フィールドの関係と、動作は次のようになっています。<BR>
+<UL>
+         <LI> １行目で、targetfile のファイルが、sourcefile として指定されたファイルに依存することを表わしています。
+         <LI> ソースファイルが１つでもターゲットファイルより新しかったり、ターゲットファイルが存在しない場合は、PSYMAKE は、ターゲットファイルを再構築するために続くコマンド command を実行します。
+         <LI> ソースファイルが指定されていない場合は、ターゲットファイルが常に再構築されます。
+         <LI> ソースファイルが１つも存在しない場合は、PSYMAKE は、現在のターゲットファイルを構築するコマンドを実行する前に、まずソースファイルを構築しようとします。
+         <LI> ただし、PSYMAKE が必要なファイルを構築する方法を定義する規則を見つけられない場合、動作は中止され、エラーが報告されます。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>依存の例</B>
+</A>
+</H3>
+<blockquote>
+    例えば、次のように記述します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        main.cpe:main.s inc1.h inc2.h
+        	asmpsx main,main
+</PRE>
+    この例では、main.cpe が、ファイル main.s、inc1.h 及び inc2.h に依存することを表わしています。これらのファイルのいずれかが、main.cpe より新しかったり、あるいは main.cpe が存在しない場合は、main.cpe を作成または更新するために、コマンド"asmpsx main,main"が実行されます。<BR>
+    また、次の例では main.cpe を構築するために、２つのコマンドが実行されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        main.cpe:main.s inc1.h inc2.h
+        	asmpsx /l main,main,main
+        	psylink main,main
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>暗黙の規則</B>
+</A>
+</H3>
+<blockquote>
+    ターゲットファイルを構築するコマンドが指定されていない場合、PSYMAKE は、ターゲットファイルの構築方法を定義する、暗黙の規則を検索します。<BR>
+    暗黙の規則は、ある種類のファイルを別の種類から作成する方法、たとえば、.ASM ファイルを.EXE ファイルに変換する方法を定義した一般規則です。<BR>
+    暗黙の規則は以下のような形式をとります。<BR>
+<PRE>        .&lt;target extension&gt;.&lt;source extension&gt;:
+        	command
+        	[...
+        	command]
+</PRE>
+    target extension に、ターゲットファイルの拡張子を、source extension にそのファイルの元となるファイルの拡張子を指定します。<BR>
+    続いて、その下の行に、ターゲットとなる拡張子を持つファイルを構築するために実行されるコマンドを、少なくとも１つ指定します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        .bin.s:
+        	asmpsx /p $*,$*
+</PRE>
+    この例では、拡張子.Ｓのファイルから、拡張子.BIN のファイルを、asmpsx コマンドで作成します。なお、コマンド行にある代用文字"$*"については、後述の「定義済みマクロ」の項を参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>コマンドの実行</B>
+</A>
+</H3>
+<blockquote>
+    PSYMAKE は以下の順でコマンドを検索し、実行します。<BR>
+
+     <H4><B>(1)カレントディレクトリ</B></H4>
+
+
+     <H4><B>(2)PATH で指定されたディレクトリ</B></H4>
+
+    指定されたコマンドが EXE または COM ファイルでない場合や、BAT ファイルの場合、PSYMAKE は、そのコマンド／バッチファイルを実行するために COMMAND.COM を呼び出します。これにより、CD 及び DEL といったコマンドを使用することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_5">
+<A HREF="#Heading3_1_3"> 3. </A>5 <B>コマンドプリフィックス</B>
+</A>
+</H3>
+<blockquote>
+    依存、または暗黙の規則で指定するコマンドには、以下のプリフィックスを使用することもできます。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>プリフィックス</TD><TD>機能</TD><TR>
+    <TD>@<BR></TD><TD>コマンドを表示しません。<BR>例: @psylink test.obj,test.cpe</TD><TR>
+    <TD>-number<BR></TD><TD>終了ステータスが number で指定した数を超えると<BR>PSYMAKE はアボートします。<BR>例: -10psylink test.obj,test.cpe</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    通常、"/q"オプションが指定されていなければ、PSYMAKE は、実行するコマンドを表示します。これを抑制したい場合は、実行するコマンドの先頭に"@"を付加してください。<BR>
+    また、実行するコマンドに"-"または"-number"のれも指定されておらず、"/i"オプションが指定されていない場合、コマンドが０以外のエラーコードを返すと PSYMAKE はアボートします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_6">
+<A HREF="#Heading3_1_3"> 3. </A>6 <B>マクロ</B>
+</A>
+</H3>
+<blockquote>
+    マクロは、１つのテキストと等価なシンボルです。マクロは使用時に割り当てられたテキストの内容に展開されます。<BR>
+    マクロは以下の形式をとります。<BR>
+<PRE>        name=text
+</PRE>
+    マクロ名 name と、その内容を示す text を"="（イコール）で結びます。"="の前後にスペースを入れることはできません。大文字・小文字は区別されます。<BR>
+    マクロは、任意の時点で再定義することができます。マクロ定義が他のマクロを参照している場合は、使用時に展開されます。<BR>
+    また、規則で使われているマクロは、すぐに展開されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        FLAGS=/p/s
+        ...
+        .bin.s:
+        	asmpsx $(FLAGS) /p $*,$*
+</PRE>
+    この例では、asmpsx コマンド行にある"$(FLAGS)"は、"/p/s"に置き換えられます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_7">
+<A HREF="#Heading3_1_3"> 3. </A>7 <B>定義済みマクロ</B>
+</A>
+</H3>
+<blockquote>
+    定義済みマクロはすべて"$"（ドルマーク）で始まり、依存及び暗黙の規則のコマンド行で、ファイル名に代えて使用することができます。<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>マクロ</TD><TD>内容</TD><TR>
+    <TD>$d<BR></TD><TD>定義済みテストマクロ。<BR>例: !if $d(MODEL) <BR># MODEL が定義されている場合</TD><TR>
+    <TD>$*</TD><TD>パスの付いたベースファイル名（例: C:\PSYQ\TEST）を示す。</TD><TR>
+    <TD>$&lt;</TD><TD>パスの付いたファイル名（例: \PSYQ\TEST.s）を示す。</TD><TR>
+    <TD>$:</TD><TD>パスのみ（例: \PSYQ）を示す。</TD><TR>
+    <TD>$.</TD><TD>パスのないファイル名（例: TEST.s）を示す。</TD><TR>
+    <TD>$&</TD><TD>パスのないベースファイル名（例: TEST）を示す。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_8">
+<A HREF="#Heading3_1_3"> 3. </A>8 <B>ディレクティブ</B>
+</A>
+</H3>
+<blockquote>
+    以下のディレクティブが使用できます。<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ディレクティブ</TD><TD>内容</TD><TR>
+    <TD>!if &lt;expression&gt;<BR>!elseif &lt;expression&gt;<BR>!else<BR>!endif<BR></TD><TD>if、elseif、else、及びendif の間で、条件付き<BR>処理を行なうことができます。<BR>式 expression がゼロでない場合は真、ゼロの場合に<BR>偽となります。<BR>例: !if DEBUG<BR>    ....<BR>    !else<BR>    .....<BR>    !endif</TD><TR>
+    <TD>!error &lt;message&gt;</TD><TD>メッセージ message を表示し、中断します。</TD><TR>
+    <TD>!undef &lt;macro&gt;</TD><TD>マクロ名 macro の定義を取り消します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_9">
+<A HREF="#Heading3_1_3"> 3. </A>9 <B>式</B>
+</A>
+</H3>
+<blockquote>
+    式は 32 ビットまで評価され、以下の要素から成っています。<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>要素</TD><TD>内容</TD><TR>
+    <TD>10 進の定数</TD><TD>10 進数の定数、例えば１、10、1234 など</TD><TR>
+    <TD>16 進数</TD><TD>16 進数、例えば $FF00、$123abc など</TD><TR>
+    <TD>単項</TD><TD>-、~、!</TD><TR>
+    <TD>２項(※)<BR></TD><TD>+、-、*、／、%、&gt;、&lt;、&、｜、^、&&、∥、&gt;、&lt;、&gt;=、&lt;=、<BR>==（または=）、!=（または &lt;&gt;）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    ※これらの演算子は、Ｃ言語の場合と同じ意味をもっていますが、"="及び"&lt;&gt;"は、より便利にするために追加されました。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_10">
+<A HREF="#Heading3_1_3"> 3. </A>10 <B>値の割り当て</B>
+</A>
+</H3>
+<blockquote>
+    マクロ名には、計算された値を割り当てることができます。これを行なうには、マクロ名と内容を"=="（イコール２つ）で結びます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        NUMFILES==$(NUMFILES)+1
+</PRE>
+    これにより、まず右辺を評価して 10 進のアスキー文字列に変換し、その結果が左辺（マクロ名）に割り当てられます。<BR>
+    上の例で、NUMFILES が"42"であるとすると、割り当てられる値は"43"になります。<BR>
+    また、定義されていないマクロ名は、式中では"0"に、他の場所では null 文字列に変換されます。<BR>
+    なお、マクロと内容を"="（イコール１つ）で結んだ場合は、計算は行なわれませんので注意してください。次の例では、NUMFILE の値は"42+1"という文字列になります。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        NUMFILE=$(NUMFILES)+1
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_11">
+<A HREF="#Heading3_1_3"> 3. </A>11 <B>コメント</B>
+</A>
+</H3>
+<blockquote>
+    コメントは、"#"（ハッシュマーク）に続いて記述します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        main.exe: main.asm	# main.exe only depends
+        # on main.asm
+        # whole line comment
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_12">
+<A HREF="#Heading3_1_3"> 3. </A>12 <B>行の分割</B>
+</A>
+</H3>
+<blockquote>
+    コマンドが長すぎて１行に収まらない場合、行末に"\"を付加することにより、複数行に分けて記述することができます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        main.exe: main.asm i1.h i2.h \
+        	  i3.h i4.h
+</PRE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

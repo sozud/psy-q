@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotMeshPrimQ_T
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotMeshPrimQ_T
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ２次元メッシュ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>RotMeshPrimQ_T </B>(
+QMESH *<I>msh</I>,
+POLY_FT4 *<I>prim</I>,
+u_long *<I>ot</I>,
+u_long <I>otlen</I>,
+long <I>dpq</I>,
+long <I>backc</I>,
+SCLIP *<I>sclip</I>,
+LINE_BUF *<I>line_sxy</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>msh		</I>メッシュ型データへのポインタ
+<I>prim		</I>生成すべきGPUパケットへのポインタ
+<I>ot		</I>オーダリングテーブルのポインタ
+<I>otlen		</I>オーダリングテーブルの長さ
+<I>dpq		</I>デプスキューイングをするかしないか
+<I>backc		</I>バッククリップをするかしないか
+<I>sclip</I>		スクリーンクリップ領域
+<I>line_sxy</I>	内部処理のための１ライン分のバッファ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    下記のような２次元メッシュ(qmesh)データの座標変換、透視変換、法線クリップ、スクリーン座標によるクリッピング(X,Y,Z)、ＯＴへのリンクを行なう。 <BR>
+    Ｈ方向の頂点の数は３の倍数でなければならない。( <I>msh</I>-&gt;lenh = 3 * n ) <BR>
+<BR>
+<P>
+<IMG SRC ="gif/lgten9.gif">
+<P>
+<BR>
+    テクスチャをそのまま書き込む（フォグはかかるが光源計算しない）。 <BR>
+    テクスチャ座標は設定されているものとする。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    以下の構造体を使う。ラインバッファは(１Ｈ＋３頂点)以上確保する。 <BR>
+    ラインバッファとしてスクラッチパッドを使うと高速である。 <BR>
+<BR>
+    typedef struct { <BR>
+    long sminX <BR>
+    long smaxX <BR>
+    long sminY <BR>
+    long smaxY <BR>
+    long sminZ <BR>
+    long smaxZ <BR>
+    } SCLIP; <BR>
+<BR>
+    typedef struct { <BR>
+    long sxy <BR>
+    long code <BR>
+    } LINE_BUF; <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

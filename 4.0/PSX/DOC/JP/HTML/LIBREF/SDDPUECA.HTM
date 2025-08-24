@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuDecodedData
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuDecodedData
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        デコード・データ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>#define SPU_DECODEDDATA_SIZE 0x200
+typedef struct {
+		short	<I>cd_left</I> [SPU_DECODEDDATA_SIZE];
+		short	<I>cd_right</I> [SPU_DECODEDDATA_SIZE];
+		short	<I>voice1</I> [SPU_DECODEDDATA_SIZE];
+		short	<I>voice3</I> [SPU_DECODEDDATA_SIZE];
+} <B>SpuDecodedData</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>cd_left</I>		SPU でデコードされた CD L チャンネルのデータ
+<I>cd_right</I>	SPU でデコードされた CD R チャンネルのデータ
+<I>voice1</I>		SPU でデコードされたボイス 1 のデータ
+<I>voice3</I>		SPU でデコードされたボイス 3 のデータ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SPU でデコードされた CD 及びボイス 1, ボイス 3 のデータを取得する際に用いられる。 <BR>
+<BR>
+    実際にデータとして利用できるのは各メンバの前半 0x100 データか後半 0x100 データである。これは関数 SpuReadDecodedData の返り値により判定される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="srddpuea.htm">SpuReadDecodedData</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

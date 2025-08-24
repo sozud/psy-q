@@ -1,0 +1,140 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>meshconv</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    RSD拡張ファイルであるMSHファイルを作成します。このファイルをRSDファイルに付加することによりポリゴンの連結情報を持つことが可能となります。また、作成されるMSHファイルは連結情報を含むHMDデータを作成する場合必要となります。<BR>
+    ここでは、Version 1.0に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>meshconv [<I>options</I>] <I>RSD-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      RSDフォーマットのファイルより、MSHファイルを作成します。出力されるMSHファイルは、デフォルトでは入力RSDファイルから拡張子を取り除いた名前に ".msh" をつけたファイル名になります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは入力ファイルの拡張子を".msh"に変換したものを現在のディレクトリに生成します。また、RSDファイル中にMSHファイルが指定されていた場合、そちらの方が有効になります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-min X</B></H4>
+
+      <BLOCKQUOTE>
+      最小連結数を指定します。デフォルトは2です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-max X</B></H4>
+
+      <BLOCKQUOTE>
+      最大連結数を指定します。デフォルトは∞です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-help, -?</B></H4>
+
+      <BLOCKQUOTE>
+      指定できるオプションの一覧と、簡単な使い方を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-ns</B></H4>
+
+      <BLOCKQUOTE>
+      共有ポリゴンの連結を防ぎます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>備考</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> 使用される関係ファイルは同一ディレクトリに存在しなくてはなりません。別ディレクトリに存在する場合は、その相対パスあるいは絶対パスを指定して下さい。
+         <LI> 出力されるMSHファイルはRSDファイル中に示される情報を考慮しMSHファイルを作成します。連結は複数のマトリックスにまたがるものについてはHMDで表現できませんので、MSHファイル作成時は必ずCODファイルをインクルードしてください。CODファイルを指定しなかった場合、そのオブジェクトは1つのマトリックスのみ持つと認識されます。
+         <LI> 出力ファイル名が既に存在する場合、その内容は上書きされます。警告などは出力しませんので、ご注意ください。
+         <LI> 本プログラムはRSDフォーマットの以下のバージョンに対応しています。その他のバージョンのRSDファイルは使用することができませんので、あらかじめご了承下さい。
+</UL>
+        <BLOCKQUOTE><UL>
+        <BR>
+              RSDファイル      version 3.0<BR>
+              PLYファイル      version 3.0<BR>
+              MATファイル      version 3.0<BR>
+              GRPファイル      version 3.0<BR>
+              MSHファイル      version 1.0      (出力ファイル)<BR>
+              PVTファイル      version 1.0<BR>
+              CODファイル      version 1.0<BR>
+              OGPファイル      version 1.0<BR>
+              MOTファイル      version 1.0<BR>
+        <BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      ※meshconv (version 1.0)では、RSD、PLY、MAT、COD、OGPの５つのファイルを読み込みの対象としています。従って、これらの５つのファイル以外は現時点ではバージョンを問いませんが、将来読み込みの対象になる可能性も考えられますので、基本的に全てのバージョンを最新のものにするようにしてください。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

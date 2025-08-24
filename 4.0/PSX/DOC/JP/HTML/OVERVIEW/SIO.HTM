@@ -1,0 +1,329 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> シリアル入出力ライブラリ（libsio）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+シリアル入出力ライブラリ（libsio）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PlayStationとＰＣを接続し、その間での標準入出力のサービスを提供します。デバッグ情報をＰＣに出力することでデバッグの支援を行えます。細かい通信処理も可能です。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 ドライバとBIOS</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> シリアル入出力ドライバ</A><BR>
+    <A HREF="#Heading4_1_2_2"> 組み込みと削除</A><BR>
+    <A HREF="#Heading4_1_2_3"> BIOS</A><BR>
+    <A HREF="#Heading4_1_2_4"> 通信仕様</A><BR>
+    <A HREF="#Heading4_1_2_5"> デフォルト設定</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    「シリアル入出力ライブラリ」は、 PlayStationの通信コネクタとＰＣのRS232Cポートを通信ケーブルDTL-H3050で接続して標準入出力の機能を提供します。<BR>
+    <BR>
+    通常デバッキングステーションの標準出力は、NULLとなっているため、デバッグのための情報を得ることができません。本ライブラリを用いることで、標準出力をＰＳの通信ポートに割り当てることができるようになり、そこに通信ケーブルDTL-H3050を接続することで、RS232cの入出力が可能となります。<BR>
+    また、BIOSを利用することにより、さらに細かい通信処理も可能となります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    標準入出力ライブラリのファイル名は「libsio.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    シリアル入出力ライブラリを使うためにはヘッダファイル「libsio.h」が必要です。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">インクルードヘッダ</TD><TD ALIGN="center">libsio.h</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libsio.lib</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ドライバとBIOS</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    シリアル入出力ライブラリは「シリアル入出力ドライバ」と「シリアル入出力BIOS」から構成されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>シリアル入出力ドライバ</B>
+</A>
+</H3>
+<blockquote>
+    シリアル入出力ドライバはC言語標準の手順による標準入出力を提供します。<BR>
+    ドライバを組み込むだけで容易に通信ポートに標準入出力を割り当てることができます。<BR>
+    ＰＣおよびモデム等との複雑な通信を行う場合には、BIOSを利用します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>組み込みと削除</B>
+</A>
+</H3>
+<blockquote>
+    シリアル入出力ドライバの組み込みはAddSIO()にて行ないます。同じく削除はDelSIO()で行ないます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>BIOS</B>
+</A>
+</H3>
+<blockquote>
+    シリアル入出力BIOSはC言語標準の関数仕様ではカバーできない詳細なドライバの制御と情報取得機能を提供します。インタフェース関数	は_sio_control()です。通常、標準入出力にはライブラリ等からデバッグデータが出力されていますので、ＰＣとのデータ通信等を行おうとした場合に予期せぬデータが出力されます。<BR>
+    それを回避するためには、ドライバを組み込まずに標準入出力をNULLにしたたままBIOSを用いて通信を<BR>
+    行うことが必要となります。<BR>
+    なお、BIOSはシリアル入出力ドライバを組み込まない状態で稼働します。<BR>
+    _sio_control()が提供する機能を次に示します。<BR>
+    <BR>
+<PRE>        形式	long _sio_control(cmd, arg, param)
+        		unsigned long cmd;
+        		unsigned long arg;
+        		unsigned long param;
+        
+        引数	cmd	コマンド
+        		arg	サブコマンド
+        		param	引数
+</PRE>
+    <BR>
+<CENTER>
+        <H4><B>表 2 コマンド一覧</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">cmd</TD><TD ALIGN="center">arg</TD><TD ALIGN="center">機能</TD><TR>
+    <TD ALIGN="center">0</TD><TD ALIGN="center">0</TD><TD>ステータスレジスタの値を返す。</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">1</TD><TD>コントロールレジスタの値を返す。</TD><TR>
+    <TD ALIGN="center">2</TD><TD>モードレジスタの値を返す。</TD><TR>
+    <TD ALIGN="center">3</TD><TD>通信速度（bps単位）を返す。</TD><TR>
+    <TD ALIGN="center">4</TD><TD>１バイト読み込む</TD><TR>
+    <TD ALIGN="center" ROWSPAN= 5>1</TD><TD ALIGN="center">0</TD><TD>システム予約</TD><TR>
+    <TD ALIGN="center">1</TD><TD>paramの値をコントロールレジスタに設定する。</TD><TR>
+    <TD ALIGN="center">2</TD><TD>paramの値をモードレジスタに設定する。</TD><TR>
+    <TD ALIGN="center">3</TD><TD>paramの値を通信速度（bps単位）として設定する。</TD><TR>
+    <TD ALIGN="center">4</TD><TD>１バイト書き込む</TD><TR>
+    <TD ALIGN="center">2</TD><TD ALIGN="center">0</TD><TD>ドライバをリセットする。</TD><TR>
+    <TD ALIGN="center"></TD><TD ALIGN="center">1</TD><TD>ドライバステータスエラー関連ビットをクリアする。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+<CENTER>
+        <H4><B>表 3 ステータスレジスタ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center"></TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31-10</TD><TD></TD><TD>不定</TD><TR>
+    <TD ALIGN="center">9</TD><TD>SR_IRQ</TD><TD>1:割り込みon</TD><TR>
+    <TD ALIGN="center">8</TD><TD>SR_CTS</TD><TD>1:CTSがon</TD><TR>
+    <TD ALIGN="center">7</TD><TD>SR_DSR</TD><TD>1:DSRがon</TD><TR>
+    <TD ALIGN="center">6</TD><TD></TD><TD>不定</TD><TR>
+    <TD ALIGN="center">5</TD><TD>SR_FE</TD><TD>1:フレームエラー発生</TD><TR>
+    <TD ALIGN="center">4</TD><TD>SR_OE</TD><TD>1:オーバーランエラー発生</TD><TR>
+    <TD ALIGN="center">3</TD><TD>SR_PERROR</TD><TD>1:パリティエラー発生</TD><TR>
+    <TD ALIGN="center">2</TD><TD>SR_TXU</TD><TD>1:送信データなし</TD><TR>
+    <TD ALIGN="center">1</TD><TD>SR_RXRDY</TD><TD>1:受信データ読みとり可能</TD><TR>
+    <TD ALIGN="center">0</TD><TD>SR_TXRDY</TD><TD>1:送信データ書き込み可能</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+<CENTER>
+        <H4><B>表 4コントロールレジスタ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center"></TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31-13</TD><TD></TD><TD>不定</TD><TR>
+    <TD ALIGN="center">12</TD><TD>CR_DSRIEN</TD><TD>1:DSR割り込み許可</TD><TR>
+    <TD ALIGN="center">11</TD><TD>CR_RXIEN</TD><TD>1:受信割り込み許可</TD><TR>
+    <TD ALIGN="center">10</TD><TD>CR_TXIEN</TD><TD>1:送信割り込み許可</TD><TR>
+    <TD ALIGN="center">9,8</TD><TD></TD><TD>0固定</TD><TR>
+    <TD ALIGN="center">7</TD><TD></TD><TD>不定</TD><TR>
+    <TD ALIGN="center">6</TD><TD>CR_INTRST</TD><TD>1:SIO1リセット</TD><TR>
+    <TD ALIGN="center">5</TD><TD>CR_RTS</TD><TD>1:RTSがon</TD><TR>
+    <TD ALIGN="center">4</TD><TD>CR_ERRRST</TD><TD>1:割り込みとエラーフラグのクリア</TD><TR>
+    <TD ALIGN="center">3</TD><TD></TD><TD>不定</TD><TR>
+    <TD ALIGN="center">2</TD><TD>CR_RXEN</TD><TD>1:受信を許可</TD><TR>
+    <TD ALIGN="center">1</TD><TD>CR_DTR</TD><TD>1:DTRがon</TD><TR>
+    <TD ALIGN="center">0</TD><TD>CR_TXEN</TD><TD>1:送信を許可</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+<CENTER>
+        <H4><B>表 5 モードレジスタ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center"></TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31-8</TD><TD></TD><TD>不定</TD><TR>
+    <TD ALIGN="center">7,6</TD><TD></TD><TD>ストップビット長</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_SB_01</TD><TD>01：1</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_SB_10</TD><TD>10：1.5</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_SB_11</TD><TD>11：2</TD><TR>
+    <TD ALIGN="center">5</TD><TD>MR_P_EVEN</TD><TD>パリテェ２  1：奇 0：偶</TD><TR>
+    <TD ALIGN="center">4</TD><TD>MR_PEN</TD><TD>パリティ１  1：あり</TD><TR>
+    <TD ALIGN="center">3,2</TD><TD></TD><TD>キャラクタ長</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_CHLEN_5</TD><TD>00：5ビット</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_CHLEN_&</TD><TD>01：6</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_CHLEN_7</TD><TD>10：7</TD><TR>
+    <TD ALIGN="center"></TD><TD>MR_CHLEN_8</TD><TD>11：8</TD><TR>
+    <TD ALIGN="center">1</TD><TD></TD><TD>常に1</TD><TR>
+    <TD ALIGN="center">0</TD><TD></TD><TD>常に0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>通信仕様</B>
+</A>
+</H3>
+<blockquote>
+    通信仕様は次に示す設定から任意に選択することができます。<BR>
+<CENTER>
+        <H4><B>表 6 通信仕様</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">設定値</TD><TR>
+    <TD>キャラクタ長</TD><TD>5,6,7,8ビット</TD><TR>
+    <TD>ストップビット</TD><TD>0,1,1.5,2ビット</TD><TR>
+    <TD>パリティチェック</TD><TD>なし、偶、奇</TD><TR>
+    <TD>通信速度</TD><TD>1～2073600bps（2073600の約数のみ）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_5">
+<A HREF="#Heading3_1_2"> 2. </A>5 <B>デフォルト設定</B>
+</A>
+</H3>
+<blockquote>
+    シリアル入出力ドライバの組み込み過程で行なわれる初期設定を次に示します。<BR>
+<CENTER>
+        <H4><B>表 7 デフォルト設定</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">設定値</TD><TR>
+    <TD>キャラクタ長</TD><TD>8ビット</TD><TR>
+    <TD>ストップビット</TD><TD>1ビット</TD><TR>
+    <TD>パリティチェック</TD><TD>なし</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

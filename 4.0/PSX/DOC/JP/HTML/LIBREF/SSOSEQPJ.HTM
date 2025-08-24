@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsSeqOpenJ
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsSeqOpenJ
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SEQ データをオープンする(関数 Table 版)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>short <B>SsSeqOpenJ</B> (
+unsigned long* addr,
+short vab_id
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>addr</I>		SEQ データの主記憶内の先頭アドレス
+<I>vab_id		</I>VAB id
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    全ての下位関数を登録した場合の機能は SsSeqOpen() と同等。加えてテーブルに登録する関数をプログラマが制御できるため、不必要な下位関数を呼ばないようにしてコード効率をあげることができる。 <BR>
+    SsFCALL の登録しないスロットには 取り敢えず dmy を先頭につけた関数名を書いておけば、万が一その下位関数が呼ばれたとしても BUS ERRORを起こすことはなく、最初にその関数が呼ばれた時、関数名をプリントアウトするので、dmy をとって登録すれば良い。 <BR>
+    この関数で指定するVABデータIDのVBデータが SsVabTransCompleted() にて、転送が終了 <BR>
+    したことが確認されてから行なうこと。 <BR>
+<BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SEQアクセスナンバー: SEQ データアクセス関数中で使用するための番号で、内部で持つSEQデータ管理テーブルの番号。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssoseqpn.htm">SsSeqOpen</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

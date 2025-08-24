@@ -1,0 +1,258 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> ローカルラベル</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+ローカルラベル
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+プログラムが進歩するにつれ、ユニークで、かつ明示的なラベル名を探すことがますます困難になってきています。ローカルラベルを用いれば、意味のあるラベル名を再使用することができますので、このような状態を緩和することが可能です。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>文法及び適応範囲（スコープ）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>言語オプション文法</B>
+</A>
+</H3>
+<blockquote>
+    ローカルラベルには、ローカルラベル開始記号が付いています。デフォルトの開始記号は"@"です。が、OPT ディレクティブで l オプションを使うか、ASMPSX で"/l&lt;c&gt;"オプションを指定することにより、他の文字を開始記号とすることも可能です。<BR>
+    ローカルラベル名は、一般のラベル規則に従って設定する必要があります。また、ローカルラベルは、マクロの展開によりスコープが解除されることはありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>適応範囲（スコープ）</B>
+</A>
+</H3>
+<blockquote>
+    ローカルラベルが有効となるコード領域を「スコープ」と呼びます。この領域の外であれば、同じラベル名を再度使用することができます。ローカルラベルのスコープを定義するには、次の３つの方法があります<BR>
+    <BR>
+    <OL TYPE="a">
+         <LI VALUE= 1> ２つの非ローカルラベルの間が、暗黙のスコープとなります。OPT ディレクティブあるいは ASMPSX のオプションでｄオプションが指定されている場合を除き、変数を設定したり、代入を行なったり、RS 値を定義したりすることにより、現在のローカルラベルのスコープが解除されることはありません。
+         <LI VALUE= 2> スコープは、一般に、MODULE 及び MODEND により定義することができます。
+         <LI VALUE= 3> マクロ内にローカルなラベル（あるいは他のシンボルタイプ）を定義するには、LOCAL ディレクティブが使用できます。
+    </OL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    次の例は、ローカルラベルの、自己完結型のサブルーチン内での「プレースマーカ」としての典型的な使用法を示したものです。スコープは、非ローカルラベル Plot2 及び Plot3 で定義されています。SET ステートメントがルーチンのスコープを解除することはありません。ラベル@chk1 及び@ret は再使用可能です。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        plot2	lb	r3,loc(a0)
+        	...
+        	subiu	r3,r0,-83
+        	bge	r3,@chk1
+        	addiu	r3,r0,168
+        	j	@ret
+        	subiu	r3,r0,83
+        	...
+        	jal	lcolour
+        	addu	r2,r0,r3
+        SetX	set	x+1
+        @ret	jr	ra
+        	...
+        	jr	ra
+</PRE>
+    また、次の例では、最後の分岐が@chk1 のスコープ外にあるため、エラーを引き起こします。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        plot2	...
+        	bge	r3,@chk1
+        	...
+        	bra	setplot
+        @chk1	...
+        	...
+        setplot	set	x+1
+        	j	@chk1
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ディレクティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    <BR>
+
+<H1>
+    MODULE、MODEND
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MODULE<BR>
+    ...<BR>
+    ...<BR>
+    MODEND<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MODULE ステートメントの次から、MODEND ステートメントまで（MODEND を含む）のコードを、ひとつのモジュールとみなします。モジュール内で定義されたローカルラベルは再使用することができますが、モジュールのスコープ外から参照することはできません。また、他の場所で定義されたローカルラベルを、現在のモジュール内から参照することもできません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    LOCAL<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    モジュールは入れ子にすることができます。<BR>
+    MODULE ステートメント自身は非ローカルラベルであり、現在アクティブなデフォルトスコープを解除します。<BR>
+    マクロにモジュールを入れることができます。また、マクロをモジュールに入れることもできます。モジュールにあるローカルラベルは、そのモジュール内の任意の場所に存在するマクロから参照することができます。マクロ内にあるモジュールは、そのマクロにおいてローカルなラベルを提供します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Strat	module
+	add	r1,r0,r0
+	j	@lab1
+	...
+@Lab1	addi	r4,r0,-1
+	beq	r4,r0,@SetTact
+	...
+	jr	ra
+@SetTact	Module
+	lw	r5,Tatic2(a0)
+	...
+@lab1	lw	r6,8(a0)
+	...
+	beq	r5,r0,@lab1
+	jr	ra	
+	modend
+	modend
+</PRE>
+</blockquote>
+
+<H1>
+    LOCAL
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    LOCAL 	&lt;symbol&gt;[,symbol]...<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    symbol で指定されたシンボルをそのマクロ内でのみ有効なローカルラベルとします。symbol は複数指定することができ、この場合、コンマで区切ります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    MODULE<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    LOCAL 命令は、そのオペランドを構成するシンボルの型を特定しません。従ってシンボルは、代入、文字列代入、または他のタイプとして、またはラベルとして使用することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>doorpos	macro
+	local	m_door1,m_door2,doorw
+	jal	doorw
+	jal	doorw
+m_door1		equ	door_start*\1
+m_door2		equ	door_fin*\2
+doorw	...
+	endm
+</PRE>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

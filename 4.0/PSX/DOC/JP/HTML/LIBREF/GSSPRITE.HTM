@@ -1,0 +1,149 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSPRITE
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSPRITE
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        スプライトハンドラ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsSPRITE</B> {
+		unsigned long <I>attribute</I>;
+		short <I>x</I>, <I>y</I>;
+		unsigned short <I>w</I>, <I>h</I>;
+		unsigned short <I>tpage</I>;
+		unsigned char <I>u</I>, <I>v</I>;
+		short <I>cx</I>, <I>cy</I>;
+		unsigned char <I>r</I>, <I>g</I>, <I>b</I>;
+		short <I>mx</I>, <I>my</I>;
+		short <I>scalex</I>, <I>scale</I>y;
+		long <I>rotate</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attribute</I>	32 ビット長の属性
+<I>x</I>, <I>y</I>		左上点の表示位置
+<I>w</I>, <I>h</I>		スプライトの縦及び横幅（<I>w,h</I> どちらかが0の時は表示せず）
+<I>tpage</I>		スプライトパターンのテクスチャページ番号
+<I>u</I>, <I>v</I>		スプライトパターンのページ内オフセット
+<I>cx</I>, <I>cy</I>		スプライトの CLUT アドレス
+<I>r</I>, <I>g</I>, <I>b</I>		表示される時の輝度をRGB毎に設定（128 のとき本来の輝度）
+<I>mx</I>, <I>my</I>		回転／拡大時の中心点座標
+<I>scalex</I>, <I>scaley</I>	ｘ方向／ｙ方向のスケール値
+<I>rotate</I>		回転角（単位は 4096 = 1°(degree)）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsSPRITE はスプライトを表示するための情報を持つ構造体で、表示するスプライトに１つずつ用意し、そのパラメータを通じてスプライトを操作することが可能。 <BR>
+    GsSPRITE をオーダリングテーブルに登録するには、GsSortSprite() またはGsSortFastSprite() 関数を用いる。 <BR>
+    <I>x, y</I> には、画面上の表示位置を指定する。 GsSortSprite() 関数では、スプライトパターン中の <I>mx, my</I> で指定された点が指定した位置に、また GsSortFastSprite() 関数ではスプライトの左上点が指定した位置になる。 <BR>
+    <I>w, h</I> には、スプライトの縦と横の長さをピクセル単位で指定する。 <BR>
+    <I>tpage</I> には、スプライトパターンの存在するテクスチャページ番号を指定(0～31)。 <BR>
+    <I>u, v</I> には、スプライトパターンの左上の点をページ内オフセットで指定する。指定可能範囲は (0,0)～(255,255)。 <BR>
+    <I>cx, cy</I> には、CLUT（カラーパレット）の先頭位置を VRAM のアドレスで指定する（4bit/8bit 時のみ有効）。 <BR>
+    <I>r, g, b</I> には、RGB ごとに輝度を指定。0～255 までの値が指定可能で128 のときに元のパターンの明るさに、255 では２倍の明るさになる。 <BR>
+    <I>mx, my</I> には 回転拡大の中心座標を スプライトの左上の点を原点とする相対座標で与える。例えばスプライトの中央で回転させる場合は、幅、高さの1/2を指定する。 <BR>
+    <I>scalex, scaley</I> には、ｘ方向、ｙ方向ごとに拡大縮小値を与える。 <BR>
+    単位は 4096 で 1.0（元の大きさ）となっている。最大で８倍まで設定することが可能。 <BR>
+    <I>rotate</I> は、ｚ軸回りの回転を、4096 を１度とする固定小数点フォーマットで設定する。 <BR>
+    <I>attribute</I> は 32 ビットで、ここで表示のためのさまざまな属性を設定する。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>意味</TD><TR>
+    <TD>6<BR></TD><TD>輝度調整<BR>0: ON、1: OFF</TD><TR>
+    <TD>22<BR></TD><TD>垂直反転<BR>0: OFF、1: ON</TD><TR>
+    <TD>23<BR></TD><TD>水平反転<BR>0: OFF、1: ON</TD><TR>
+    <TD>24-25<BR></TD><TD>スプライトパターンビットモード<BR>0:4bitCLUT<BR>1:8bitCLUT<BR>2:15bitDirect</TD><TR>
+    <TD>26<BR></TD><TD>透視変換<BR>0:OFF、1:ON</TD><TR>
+    <TD>27<BR></TD><TD>回転拡大縮小機能<BR>0:ON、1:OFF</TD><TR>
+    <TD>28-29<BR></TD><TD>半透明レート<BR>0：0.5 x Back + 0.5 x Forward<BR>1：1.0 x Back + 1.0 x Forward<BR>2：1.0 x Back - 1.0 x Forward<BR>3：1.0 x Back + 0.25 x Forward</TD><TR>
+    <TD>30<BR></TD><TD>半透明 ON/OFF<BR>0: OFF、 1: ON</TD><TR>
+    <TD>31<BR></TD><TD>表示 ON/OFF<BR>0: 表示、 1: 非表示</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    以下、各ビットについて解説する。 <BR>
+<BR>
+    (a)輝度調整 ON/OFF スイッチ (bit 6) <BR>
+        <BLOCKQUOTE>
+    スプライトパターンのピクセル色を、<I>(r, g, b)</I> 値によって輝度調整して描画するかどうかの設定。 <BR>
+    １の場合 輝度調整は行なわれず、<I>(r, g, b)</I> 値は無視される。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (b)ビットモード (bit 24-25) <BR>
+        <BLOCKQUOTE>
+    スプライトパターンには色テーブルを使った4bit モード／8bit モードと、ダイレクトに色を表す 15bit モードがある。ここではこれを指定する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (c)透視変換 (bit 26) <BR>
+        <BLOCKQUOTE>
+    透視変換を行なうかどうかを設定する。現在サポートされていない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (d)回転拡大縮小機能 (bit 27) <BR>
+        <BLOCKQUOTE>
+    スプライトの拡張機能を ON/OFF する。スプライトを回転拡大しない場合はOFF にすると処理が高速化される。また GsSortFastSprite() 関数ではこのビットは無視し 常に拡張機能をOFF にする。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (e)半透明レート (bit28-29) <BR>
+        <BLOCKQUOTE>
+    bit30 で半透明を ON にした場合に ピクセルをブレンディングする方式を設定する。 <BR>
+    ０のときは通常の半透明処理、１のときはピクセル加算、２のときはピクセル減算、３のときは25%加算となる。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (f)半透明 ON/OFF(bit30) <BR>
+        <BLOCKQUOTE>
+    半透明を ON/OFF する。 <BR>
+    但し 半透明にするには、このビットを立てると共に、テクスチャの色のフィールド（ダイレクトの時はテクスチャパターン、indexed の時は CLUTの色のフィールド）の最上位ビット（STP ビット）を立てる必要がある。またこの STP ビットを利用し、ピクセル単位の半透明／不透明の制御が可能。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (g)表示 ON/OFF(bit31) <BR>
+        <BLOCKQUOTE>
+    表示を ON/OFF する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (h)反転表示モード(bit22,23) <BR>
+        <BLOCKQUOTE>
+    スプライトパターンの反転表示をON/OFFする。bit22は垂直、bit23は水平反転を行う。この機能はGsSortFastSprite()では無視される。スプライトパターンがテクスチャページの端の１ピクセルを含む場合は正しく反転されない。 <BR>
+        </BLOCKQUOTE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

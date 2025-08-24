@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSortObject4
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSortObject4
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        objectをオーダリングテーブルに割り付け
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSortObject4</B> (
+GsDOBJ2 * <I>objp</I>，
+GsOT * <I>otp</I>，
+int <I>shift</I>，
+unsigned long * <I>scratch</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>objp		</I>オブジェクトへのポインタ
+<I>otp		</I>OTへのポインタ
+<I>shift		</I>OTへの割り付け時にＺの値を何ビット右にシフトさせるかを設定
+<I>scratch		</I>スクラッチパッドのアドレスを指定
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsDOBJ2でハンドルされる３次元オブジェクトに対して透視変換及び光源計算を行ない描画コマンドをGsSetWorkBase()で指定されるパケットエリアに生成する。 <BR>
+    続いて、生成された描画コマンドをＺソートし<I>otp</I>で示されるOTに割り付ける。 <BR>
+    またＺの精度は <I>shift </I>の値によって調整可能。オーダリングテーブルの大きさ（解像度）の最大値は14ビットだが、これを例えば12ビットにした場合は、<I>shift </I>の値を2（＝14－12）としオーダリングテーブルの領域をオーバーしないようにしなければならない。 <BR>
+    <I>scratch </I>は、自動分割を行なう時にワークとして使用される領域の先頭アドレスを指定する。自動分割を使用しない場合はscratch領域は使われない。分割を有効にするにはattributeにlibgs.hのマクロGsDIV1～GsDIV5をORすればよい。GsDIV1の時は１ポリゴンを2x2の４分割に、GsDIV5の時は32x32の1024分割になる。スクラッチパッドとはキャッシュメモリのことで0x1f800000から２５６ワードが実装されている。scratchで指定されたアドレスから下位アドレスをワークとして使用する。使用量は以下の通り。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>種類</TD><TD>scratchエリアの使用量（単位Byte）</TD><TR>
+    <TD>３角形ポリゴン</TD><TD>96+88*N</TD><TR>
+    <TD>４角形ポリゴン</TD><TD>120+140*N</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    Ｎは分割パラメータGsDIV1 N=1,GsDIV2 N=2,GsDIV3 N=3 ...GsDIV5 N=5 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

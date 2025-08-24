@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsMIMePrimHeader
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsMIMePrimHeader
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        GsMap....MIMe() 関数の返り型
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+	u_long		<I>*mimepr</I>;
+	u_long		<I>mimenum</I>;
+	u_short		<I>mimeid</I>;
+	unsigned	<I>internal:1, mapped:1, r:14</I>;
+}	<B>GsMIMePrimHeader</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mimepr</I>		マイム係数領域へのポインタ
+<I>mimenum</I>		マイムキーの数
+<I>mimeid</I>		当該プリミティブの ID (ユーザー使用領域)
+<I>internal</I>	マイム係数領域が HMD 内部にありライブラリがmimeprの値を書き込む場合 1
+		マイム係数領域が HMD 外にあり、プログラマがmimeprの値を書き込む場合 0
+<I>mapped</I>		mimepr に実アドレスがマップされている場合 1
+		mimepr に実アドレスがマップされていない場合 0
+<I>r</I>		0 reserved
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <B>GsMap....MIMe() </B>関数が返すポインタの型。このポインタが示す実体はプリミティブヘッダセクション内の当該データである。 <BR>
+    ユーザはこの構造体の要素 <I>internal </I>及び <I>mapped</I> を検査して、必要であれば<I>mimepr </I>にプログラムで確保したマイム係数領域の実アドレスを指定し、<I>mapped </I>フラグ を 1 にする。 <BR>
+    <I>mimeid </I>は、ユーザが自由に使用できる領域である。たとえば一つの HMD で複数のマイム係数領域を使い分ける場合の判別に使う。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    HMD フォーマット仕様書を参照のこと <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsuscant.htm">GsScanUnit</a>(), <a href="gsmap.htm">GsMap</a>....<a href="mime.htm">MIMe</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

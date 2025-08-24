@@ -1,0 +1,32 @@
+                                                   PlayStation Data Converter
+
+tim2bmp
+--------
+
+
+ 1 概要
+
+    PlayStationのテクスチャデータファイルをWindowsイメージデータに変換します。
+    ここでは、Version 1.1 に関する内容を記述しています。
+
+ 2 使い方
+
+
+    tim2bmp [option] input-file ...
+
+      PlayStationのTIMファイル(*.TIM)を与えると、Windows3.0のBMP形式のイメー
+      ジデータファイルを生成します。
+
+ 3 オプション
+
+
+    -c
+
+      入力データが16bitモードで白黒二値の場合に、このオプションを指定すると、
+      8bitインデックス形式のビットマップファイルを出力します。
+
+ 4 制約
+
+    BMP圧縮形式には対応していません。
+    16bitモードの入力データは、24bitのビットマップファイルに変換されます。
+    input-fileの指定にはMS-DOSのワイルドカードが使用できます。

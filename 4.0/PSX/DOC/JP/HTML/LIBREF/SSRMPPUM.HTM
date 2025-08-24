@@ -1,0 +1,172 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetReverbModeParam
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetReverbModeParam
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        リバーブのモード、及びパラメータを設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long
+<B>SpuSetReverbModeParam</B> (
+SpuReverbAttr *<I>attr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attr	</I>	リバーブ属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リバーブのモード、及びパラメータの属性を設定する。 <BR>
+    <I>attr</I>.mask に、下記の設定したい属性のビット和を与えることで各属性のみの設定が可能。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_REV_MODE</TD><TD>モード設定</TD><TR>
+    <TD>SPU_REV_DEPTHL</TD><TD>リバーブの深さ(左)</TD><TR>
+    <TD>SPU_REV_DEPTHR</TD><TD>リバーブの深さ(右)</TD><TR>
+    <TD>SPU_REV_DELAYTIME</TD><TD>ディレイタイム(ECHO, DELAY のみ)</TD><TR>
+    <TD>SPU_REV_FEEDBACK</TD><TD>フィードバック(ECHO のみ)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>attr</I>.mask が0の場合は全属性を設定する。 <BR>
+    以下に個々の設定条件を説明する。 <BR>
+<BR>
+    (1) リバーブモード <BR>
+        <BLOCKQUOTE>
+    リバーブのモードを設定する。リバーブのモードにより 「Depth (リバーブの深さ)」以外の属性の設定の有無が異なる。 <BR>
+        </BLOCKQUOTE>
+      <BR>
+<CENTER>
+        <H4><B>表 1 リバーブモードと他の属性</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">attr.mode</TD><TD ALIGN="center">モード</TD><TD ALIGN="center">Delay time</TD><TD ALIGN="center">Feedback</TD><TR>
+    <TD> SPU_REV_MODE_OFF</TD><TD ALIGN="center">off</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_ROOM</TD><TD ALIGN="center">ルーム</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_STUDIO_A</TD><TD ALIGN="center">スタジオ(小)</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_STUDIO_B</TD><TD ALIGN="center">スタジオ(中)</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_STUDIO_C</TD><TD ALIGN="center">スタジオ(大)</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_HALL</TD><TD ALIGN="center">ホール</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_SPACE</TD><TD ALIGN="center">スペースエコー</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+    <TD> SPU_REV_MODE_ECHO</TD><TD ALIGN="center">エコー</TD><TD ALIGN="center">設定可能</TD><TD ALIGN="center">設定可能</TD><TR>
+    <TD> SPU_REV_MODE_DELAY</TD><TD ALIGN="center">ディレイ</TD><TD ALIGN="center">設定可能</TD><TD ALIGN="center">設定可能</TD><TR>
+    <TD> SPU_REV_MODE_PIPE</TD><TD ALIGN="center">パイプエコー</TD><TD ALIGN="center"></TD><TD ALIGN="center"></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+        <BLOCKQUOTE>
+    リバーブモードが変更された場合(初期値はSPU_REV_MODE_OFFのため、最初に設定する場合においても)には、事前にSpuSetReverbModeParamにてDepthが設定されていても内部的にリバーブDepthの値を0にする。 <BR>
+    これはモード変更時にワークエリアのサイズが変更になるため、ワークエリア上の不定なデータがノイズとして発生するからである。このため、リバーブモードを変更した場合は、その後に再度SpuSetReverbModeParamかSpuSetReverbDepthにてDepthを設定する必要がある。 <BR>
+    モードを設定し、Depthを0以外に設定するタイミングについては、実際に必要になる直前にモードを設定するのではなく、リバーブの性格上、ワークエリアの1回のスキャンが終る時間を見積もってモード/Depthを設定するか、あるいは、モード設定後、強制的にワークエリアのデータを消去してからDepthを設定する(後述)。 <BR>
+    リバーブのモードによって、ワークエリアがサウンドバッファを占有する容量を表2に示す。ただし、この領域はSpuMallocなどのメモリ管理機構によって管理される。詳細はSpuMallocを参照。 <BR>
+<CENTER>
+        </BLOCKQUOTE>
+        <H4><B>表 2 リバーブモードとサウンドバッファ内で占有される容量</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">attr.mode</TD><TD ALIGN="center">モード</TD><TD ALIGN="center">16進</TD><TD ALIGN="center">10進</TD><TR>
+    <TD> SPU_REV_MODE_OFF</TD><TD ALIGN="center">off</TD><TD ALIGN="center">0/80 (*)</TD><TD ALIGN="center">0/128 (*)</TD><TR>
+    <TD> SPU_REV_MODE_ROOM</TD><TD ALIGN="center">ルーム</TD><TD ALIGN="center">26c0</TD><TD ALIGN="center">9920</TD><TR>
+    <TD> SPU_REV_MODE_STUDIO_A</TD><TD ALIGN="center">スタジオ(小)</TD><TD ALIGN="center">1f40</TD><TD ALIGN="center">8000</TD><TR>
+    <TD> SPU_REV_MODE_STUDIO_B</TD><TD ALIGN="center">スタジオ(中)</TD><TD ALIGN="center">4840</TD><TD ALIGN="center">18496</TD><TR>
+    <TD> SPU_REV_MODE_STUDIO_C</TD><TD ALIGN="center">スタジオ(大)</TD><TD ALIGN="center">6fe0</TD><TD ALIGN="center">28640</TD><TR>
+    <TD> SPU_REV_MODE_HALL</TD><TD ALIGN="center">ホール</TD><TD ALIGN="center">ade0</TD><TD ALIGN="center">44512</TD><TR>
+    <TD> SPU_REV_MODE_SPACE</TD><TD ALIGN="center">スペースエコー</TD><TD ALIGN="center">f6c0</TD><TD ALIGN="center">63168</TD><TR>
+    <TD> SPU_REV_MODE_ECHO</TD><TD ALIGN="center">エコー</TD><TD ALIGN="center">18040</TD><TD ALIGN="center">98368</TD><TR>
+    <TD> SPU_REV_MODE_DELAY</TD><TD ALIGN="center">ディレイ</TD><TD ALIGN="center">18040</TD><TD ALIGN="center">98368</TD><TR>
+    <TD> SPU_REV_MODE_PIPE</TD><TD ALIGN="center">パイプエコー</TD><TD ALIGN="center">3c00</TD><TD ALIGN="center">15360</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<BR>
+        <BLOCKQUOTE>
+    (*)アドレスの設定上、モードがoffとなっていても、SpuReserveReverbWorkArea(SPU_ON)となっていた場合、128bytes消費する。SpuReserveReverbWorkArea(SPU_OFF)の場合は消費量は0となる。 <BR>
+<BR>
+    モードが変更された時に、新しいモードのワークエリアとして使う領域がSpuMalloc / SpuMallocWithStartAddr によって他の領域として使われているかどうかを診断し、使われている場合は指定されたリバーブ属性の全ては設定されず、SPU_ERRORを返す。使われていなければ指定されたリバーブ属性が設定され、0が返る。 <BR>
+    <I>attr</I>.mode にSPU_REV_MODE_CLEAR_WAをビット和で指定すると、リバーブモード設定時に指定されたリバーブモードで必要とする領域をクリアする。 <BR>
+    これはモード変更時のノイズ対策である。しかし、DMA転送でサウンドバッファをクリアしているが、同期的に処理しているため、この処理を行っている間は他の処理 (描画、発音を含め)は行えず、リバーブの種類によっては若干の待ち時間を要する。 <BR>
+    任意のタイミングでリバーブモード設定時に指定されたリバーブモードで必要とする領域を強制的にクリアするためには、SpuClearReverbWorkAreaを使用する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (2) リバーブの深さ <BR>
+        <BLOCKQUOTE>
+    リバーブの深さを -0x8000 ～ 0x7fff の範囲で <I>attr</I>.depth に、左右独立に設定する。 <BR>
+    設定された値が負の場合はリバーブ音 (wet) の位相が反転する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (3) ディレイタイム <BR>
+        <BLOCKQUOTE>
+    モードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の時のみ有効。 <BR>
+    ディレイタイムの値を 0 ～ 127 の範囲で<I> attr</I>.delay に設定する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (4) フィードバック <BR>
+        <BLOCKQUOTE>
+    モードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の時のみ有効。 <BR>
+    フィードバックの値を 0 ～127の範囲で <I>attr</I>.feedback に設定する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    モード変更の場合、リバーブのワークエリアがSpuMalloc/SpuMallocWithStartAddrによって他の領域として使われている場合はSPU_ERRORを返し指定されたリバーブ属性は全て設定されない。 <BR>
+    他の領域として使われていなければ、指定されたリバーブ属性が設定され、0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sgrmppum.htm">SpuGetReverbModeParam</a>(), <a href="smpuallc.htm">SpuMalloc</a>(), <a href="smwsapur.htm">SpuMallocWithStartAddr</a>(), <a href="srrwapua.htm">SpuReserveReverbWorkArea</a>(), <a href="scrwapua.htm">SpuClearReverbWorkArea</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

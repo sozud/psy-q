@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsGetLsUnit
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsGetLsUnit
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ローカルスクリーンマトリックスを計算
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsGetLsUnit </B>(
+GsCOORDUNIT	<I>*coord，</I>
+MATRIX		<I>*m </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>cooord</I>		ローカル座標
+<I>m</I>		マトリックス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    引数で指定されたマトリックス型座標系 GsCOORUNIT の <I>coord </I>からローカルスクリーンの透視変換マトリックスを計算し MATRIX型 構造体 m に結果を格納する。また高速化のために階層座標系の各ノードでの計算結果を保持する。次の <B>GsGetLsUnit</B>() 関数が呼ばれると、変更されてないノードまでの計算が省略される。これは GsCOORDUNIT の <I>flag</I> によって制御される。libgs は計算済みの GsCOORDUNIT の <I>flag</I> に 1 を代入する。計算省略のアルゴリズムは親のノードの内容が変更された場合の子の影響はlibgs で面倒を見るため変更したノードの子のノード全てのフラグをクリアする必要はない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

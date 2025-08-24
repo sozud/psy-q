@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SXY0
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SXY0
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	データ＃１２</B> <BR>
+<BR>
+    アクセス：	Ｒ/W <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                        16 15                             0
++-------------------------------+-------------------------------+
+|             SY0               |              SX0              |
++-------------------------------+-------------------------------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>SX0	(1.15.0)	２次元スクリーン座標または透視変換後の２次元
+			座標のＸ成分。ただし３回前の演算で得られた値。
+SY0	(1.15.0)	２次元スクリーン座標または透視変換後の２次元
+			座標のＹ成分。ただし３回前の演算で得られた値。
+</PRE>
+</blockquote>
+<BR>
+    内部動作： <BR>
+        <BLOCKQUOTE>
+    データ＃１４：SXY2、データ＃１５：SXYP 参照。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

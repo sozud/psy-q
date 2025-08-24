@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    LoadAverage0
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    LoadAverage0
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ２つのベクトルの荷重平均を求める
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>LoadAverage0 </B>(
+VECTOR *<I>v0</I>,
+VECTOR *<I>v1</I>,
+long <I>p0</I>,
+long <I>p1</I>,
+VECTOR *<I>v2</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0</I>,<I>v1		</I>入力：ベクトル
+<I>p0</I>,<I>p1		</I>入力：重み
+<I>v2		</I>出力：ベクトル
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ２つのベクトル <I>v0</I>,<I>v1 </I>の重み <I>p0</I>,<I>p1 </I>による荷重平均を <I>v2 </I>に返す。 <BR>
+<BR>
+    引数フォーマット： <BR>
+    <I>v0</I>,<I>v1</I>-&gt;vx,vy,vz : (1,31,0) <BR>
+    <I>p0</I>,<I>p1</I> : (1,15,0) <BR>
+    <I>v2</I>-&gt;vx,vy,vz : (1,46,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

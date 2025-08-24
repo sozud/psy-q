@@ -1,0 +1,109 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsU_04......
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsU_04......
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMD 用マイムドライバ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long * <B>GsU_04......</B> (
+GsARGUNIT	<I>*ap;</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>ap</I>		引数受け渡し領域の先頭アドレス
+		通常は高速化のためスクラッチパッドを使用する
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    HMD のライブラリによるマイムアニメーションのためのドライバ群。 <BR>
+    マイムカテゴリのドライバを使用する際には、あらかじめそれぞれの初期化関数によってデータの初期化をおこなう。(各初期化関数の項目参照) <BR>
+    引数 <I>sp</I> の型は GsARGUNIT だが、内部では異なる型として扱われる。 <BR>
+    現在 libgs でサポートされているマイムカテゴリのドライバは以下の通り。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ドライバ名</TD><TD>タイプ名マクロ</TD><TD>sp の処理型</TD><TD>初期化関数</TD><TD>説明</TD><TR>
+    <TD>GsU_04010010<BR></TD><TD>GsJntAxesMIMe<BR></TD><TD>GsARGUNIT_JntMIMe<BR></TD><TD>GsMapJntAxesMIMe<BR></TD><TD>軸内挿関節<BR>マイム</TD><TR>
+    <TD>GsU_04010011<BR></TD><TD>GsRstJntAxesMIMe<BR></TD><TD>GsARGUNIT_RstJntMIMe<BR></TD><TD>GsMapRstJntAxesMIMe<BR></TD><TD>軸内挿関節<BR>マイムの<BR>リセット</TD><TR>
+    <TD>GsU_04010018<BR></TD><TD>GsJntRPYMIMe<BR></TD><TD>GsARGUNIT_JntMIMe<BR></TD><TD>GsMapJntRPYMIMe<BR></TD><TD>RPY 値内挿<BR>関節マイム</TD><TR>
+    <TD>GsU_04010019<BR></TD><TD>GsRstJntRPYMIMe<BR></TD><TD>GsARGUNIT_RstJntMIMe<BR></TD><TD>GsMapRstJntRPYMIMe<BR></TD><TD>RPY 値内挿<BR>関節マイムの<BR>リセット</TD><TR>
+    <TD>GsU_04010020</TD><TD>GsVtxMIMe</TD><TD>GsARGUNIT_VNMIMe</TD><TD>GsMapVtxMIMe</TD><TD>頂点マイム</TD><TR>
+    <TD>GsU_04010021<BR></TD><TD>GsNrmMIMe<BR></TD><TD>GsARGUNIT_VNMIMe<BR></TD><TD>GsMapNrmMIMe<BR></TD><TD>頂点マイム<BR>のリセット</TD><TR>
+    <TD>GsU_04010028</TD><TD>GsRstVtxMIMe</TD><TD>GsARGUNIT_RstVNMIMe</TD><TD>GsMapRstVtxMIMe</TD><TD>法線マイム</TD><TR>
+    <TD>GsU_04010029<BR></TD><TD>GsRstNrmMIMe<BR></TD><TD>GsARGUNIT_RstVNMIMe<BR></TD><TD>GsMapRstNrmMIMe<BR></TD><TD>法線マイム<BR>のリセット</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ＨＭＤフォーマット仕様書 <BR>
+    サンプル sample/graphics/hmd/mime/ <BR>
+    を参照のこと <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次のプリミティブドライバの先頭アドレス <BR>
+    サンプルプログラム参照のこと（PS-X/sample/grapihcs/hmd/pdriver/GsU_00000008.c） <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gargjmie.htm">GsARGUNIT_JntMIMe</a>, <a href="gargrjme.htm">GsARGUNIT_RstJntMIMe</a>,<a href="gargvnme.htm">GsARGUNIT_VNMIMe</a>,
+    <a href="gargrvne.htm">GsARGUNIT_RstVNMIMe</a>,<a href="gsmaprst.htm">GsMapRst</a>....<a href="mime.htm">MIMe</a>(), <a href="gsmap.htm">GsMap</a>....<a href="mime.htm">MIMe</a>()
+    
+<BR>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

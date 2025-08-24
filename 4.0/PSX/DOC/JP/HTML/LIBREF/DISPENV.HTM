@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DISPENV
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DISPENV
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        表示環境
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		RECT	<I>disp</I>;
+		RECT	<I>screen</I>;
+		u_char	<I>isinter</I>;
+		u_char	<I>isrgb24</I>;
+		u_char	<I>pad0</I>, <I>pad1</I>;
+} <B>DISPENV</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>disp</I>		フレームバッファ内の表示エリア
+ 		エリアの幅は、256,320,360,512,640のいずれかを指定。
+ 		エリアの高さは、240,480 のいずれかを指定。
+<I>screen</I>		出力画面上の表示エリア
+ 		画面エリアは、disp の値に関わらず標準的なモニタ画面の左上端点を
+		(0,0)、右下端点を (256,240) として計算される。
+<I>isinter</I>		インターレースモードフラグ
+		0 ノンインターレース
+		1 インターレース
+<I>isrgb24</I>		24bit モードフラグ
+		0  16 bitモード
+		1  24 bitモード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    画面表示モード・フレームバッファ表示位置などの表示に関するパラメータを指定する。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

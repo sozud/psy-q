@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>tmdsort (tmdinfo)</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    ３Ｄモデリングデータファイル(TMDファイル)をパケットタイプでソートします。パケットタイプによる分岐を最小限にし、表示を高速化するために用います。<BR>
+    DOS版とSGI版があります。 ここでは、1996/Apr/1付けの Version 1.25 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>tmdsort [options] <I>TMD-file</I></B></H4>
+
+
+     <H4><B>tmdinfo [-v|-l]   <I>TMD-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      引数として指定したTMDファイル中の各オブジェクトに対して、オブジェクト内でパケットをソートし、その結果を新しいTMDファイルとして生成します。また、パケットタイプ毎の総数を標準出力に出力します。".tmd"は省略可能です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o<I> file-name</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは"a.tmd"です。ただし、入力ファイルを上書きすることはできません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-n</B></H4>
+
+      <BLOCKQUOTE>
+      ソートを行なわず、入力TMDの情報を標準出力に出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v または -l</B></H4>
+
+      <BLOCKQUOTE>
+      全パケットに対して、その種類や頂点座標値、テクスチャ情報などの非常に詳細な情報を標準出力に出力します。表示内容はrsdlink -infoの出力に準じます。rsdlinkのドキュメントを参照してください。<BR>
+      <BR>
+      </BLOCKQUOTE>
+    当ツールをコピーし、tmdinfo.exe(SGI版の場合はtmdinfo)という名前に変更すれば、デフォルトで<B>-n</B>オプションが指定された状態になります。さらに頂点や法線の総数なども出力するようになります。ソートは行ないませんが、TMDファイルの内容の確認に便利です。<B>-v</B>(または<B>-l</B>)オプションのみ指定できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>制約</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> <B>-v</B>オプション使用時には、１オブジェクトあたりの頂点数(および法線数)は8189以下でなければなりません（DOS版のみ）。<B>-v</B>を使用しなければこの制約はありません。
+         <LI> ソートはTMD内の各オブジェクト毎に行なわれます。同じTMD内でもオブジェクトが異なれば、ソートされません。
+</UL>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

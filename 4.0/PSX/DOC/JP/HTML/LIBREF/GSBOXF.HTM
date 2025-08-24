@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsBOXF
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsBOXF
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        矩形ハンドラ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsBOXF</B> {
+		unsigned long <I>attribute</I>;
+		short <I>x</I>, <I>y</I>;
+		unsigned short <I>w</I>, <I>h</I>;
+		unsigned char <I>r</I>, <I>g</I>, <I>b</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attribute</I>	属性 (GsLINE参照)
+<I>x</I>, <I>y</I>		表示位置（左上点）
+<I>w</I>, <I>h</I>		矩形のサイズ（横幅、高さ）
+<I>r</I>, <I>g</I>, <I>b</I>		描画色
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsBOXF は、単一色で塗りつぶされた矩形の描画に必要な情報を持つ構造体である。GsBOXF をオーダリングテーブルに登録するには、GsSortBoxFill()関数を使用する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsline.htm">GsLINE</a>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

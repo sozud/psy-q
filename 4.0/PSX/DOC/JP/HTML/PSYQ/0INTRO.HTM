@@ -1,0 +1,698 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 導入部</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+導入部
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>Psy-Q とは</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    Psy-Q は、Psygnois および SN Systems が、その長年の経験を活かし開発した、PC/AT 互換機上で動作する、PlayStation アプリケーションのための強力な開発システムです。<BR>
+    PlayStation 開発環境の特長は、ハードウェアのほとんどの機能を網羅した充実したライブラリ群、Ｃ言語による開発にあります。Psy-Q は、PlayStation ライブラリと、開発ホストである PC/AT 及びターゲットボード（弊社製 PlayStation ボード DTL-H2000,DTL-H2500,DTL-H2700）との連携を図るとともに、開発に欠かせない環境を提供しています。<BR>
+    なお、DTL-H2500をご使用の場合は、本ドキュメントに併せて、PlayStationライブラリCD-ROMの \PSYQ\FLASH25\README.TXTをお読み下さい。DTL-H2700をご使用の場合は、本ドキュメントに併せて、DTL-H2700付属のユーティリティディスクを御参照下さい。<BR>
+
+     <H4><B>統合コンパイラを提供</B></H4>
+
+    GNU C、GNU C++をベースとした統合コンパイラ CCPSX を提供。プリプロセス、コンパイル、アセンブル、リンクを自動的に実行。<BR>
+
+     <H4><B>高速リンカ、ライブラリアン</B></H4>
+
+    非常に高速なリンカ、ライブラリアンを提供。オブジェクト生成までの待ち時間は少なく、ストレスを感じさせません。また、作成したオブジェクトをライブラリ化することにより、プログラミングの効率がグンとアップします。<BR>
+
+     <H4><B>強力なソースレベルデバッガ</B></H4>
+
+    ホップアップメニュー、マウスでの操作も可能な使いやすいインターフェイスを採用した強力なデバッガを提供。そのソースレベルデバッグ機能により、プログラマは、Ｃまたはアセンブラのソースコードを元に、トレース、ブレークポイントの設定等を行なうことができます。<BR>
+
+     <H4><B>高速 R3000 アセンブラ</B></H4>
+
+    付属の R3000 アセンブラは、１分間に 100 万行以上をアセンブルする能力があり、ターゲットマシンと直接通信することができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>システムの構成</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>Psy-Qシステム</B>
+</A>
+</H3>
+<blockquote>
+    Psy-Q は、以下のハードウェア、ソフトウェアから構成されています。インストールを開始する前に、パッケージを確認してください。なお、パッケージ内容は本書編集時点で以下のようになっています。また、最新のPsy-Qは、PlayStationライブラリディスク及びBBSにて配布されます。<BR>
+    <BR>
+
+     <H4><B>a) Psy-Q ディスク</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ファイル名</TD><TD>説明</TD><TR>
+    <TD>ASMPSX.EXE</TD><TD>R3000 アセンブラ（Psy-Q シンタックス）</TD><TR>
+    <TD>ASPSX.EXE</TD><TD>R3000 アセンブラ（MIPS 互換アセンブラ）</TD><TR>
+    <TD>BV.EXE</TD><TD>VGAユーテリィティ</TD><TR>
+    <TD>CCPSX.EXE</TD><TD>Ｃコンパイラ</TD><TR>
+    <TD>DBUGPSX.EXE</TD><TD>R3000 デバッガ</TD><TR>
+    <TD>DEBUGDOC.TXT</TD><TD>デバッガマニュアル（英語）</TD><TR>
+    <TD>DELAY.COM</TD><TD>ディレイユーテリィティ</TD><TR>
+    <TD>DEXBIOS.COM</TD><TD>PC-AT 用 Psy-Q TSR BIOS</TD><TR>
+    <TD>LIBSN.ZIP</TD><TD>LIBSN ソース</TD><TR>
+    <TD>MAIN.C</TD><TD>メッセージ出力サンプルプログラム（ソース）</TD><TR>
+    <TD>MAIN.CPE</TD><TD>メッセージ出力サンプルプログラム（実行ファイル）</TD><TR>
+    <TD>MESS1.COM</TD><TD>メッセージハンドラ（H2000用）</TD><TR>
+    <TD>MESS3.COM</TD><TD>メッセージハンドラ（シリアルポート用）</TD><TR>
+    <TD>PQALOAD.COM</TD><TD>COFF形式の実行ファイルローダー</TD><TR>
+    <TD>PQBLOAD.COM</TD><TD>バイナリ形式ファイルローダー</TD><TR>
+    <TD>PQGOPSX.COM</TD><TD>実行ユーテリィティ（指定番地から実行）</TD><TR>
+    <TD>PSYBIOS.COM</TD><TD>シリアルポート用 Psy-Q TSR BIOS</TD><TR>
+    <TD>PSYLIB.EXE</TD><TD>Psy-Q ライブラリアン</TD><TR>
+    <TD>PSYLINK.EXE</TD><TD>Psy-Q リンカ</TD><TR>
+    <TD>PSYMAKE.COM</TD><TD>Psy-Q Make ユーティリティ</TD><TR>
+    <TD>PSYQ.CB</TD><TD>Brief マクロ（ソース）</TD><TR>
+    <TD>PSYQ.CM</TD><TD>Brief マクロ（コンパイル済）</TD><TR>
+    <TD>PSYQ.INI</TD><TD>定義ファイルのサンプル</TD><TR>
+    <TD>README.TXT</TD><TD>Psy-Q解説</TD><TR>
+    <TD>README2.TXT</TD><TD>Psy-Q解説（補足）</TD><TR>
+    <TD>RESETPS.EXE</TD><TD>ターゲットボードブートプログラム</TD><TR>
+    <TD>RUN.EXE</TD><TD>実行ファイルローダー</TD><TR>
+    <TD>SNPATCH.CPE</TD><TD>H2000用 パッチモジュール（SNSystems版）</TD><TR>
+    <TD>SNPATCH.DOC</TD><TD>H2000用 パッチモジュール ドキュメント（英語）</TD><TR>
+    <TD>TESTMESS.COM</TD><TD>PCのstdoutからメッセージを出力するユーティリティ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+     <H4><B>b) GNU Ｃディスク</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ファイル名</TD><TD>説明</TD><TR>
+    <TD>CC1PSX.EXE</TD><TD>GNU Cコンパイラ</TD><TR>
+    <TD>CPPPSX.EXE</TD><TD>GNU Cプリプロセッサ</TD><TR>
+    <TD>CC1PLPSX.EXE</TD><TD>GNU C++ コンパイラ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+
+     <H4><B>c) GNU Ｃコンパイラ ドキュメントディスク</B></H4>
+
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>PlayStation ライブラリ</B>
+</A>
+</H3>
+<blockquote>
+    PlayStation ライブラリは、別途、CD-ROM で供給されます。CD-ROM には、以下のファイルが含まれています。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      PSX.LZH		各種ライブラリ（LHA のアーカイブファイル）<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>システムのインストール</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    Psy-Q システムは、以下の環境で動作します。インストールを開始する前に、PC の環境をご確認ください。<BR>
+
+     <H4><B>なお、PlayStationライブラリディスク Ver.4.0 より、コンパイラ、アセンブラ、リンカが32bit版に変更されています。詳しくは本節末尾の「32bit版ツールについて」を参照下さい。</B></H4>
+
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>システム</TD><TD>環境</TD><TR>
+    <TD>本体<BR></TD><TD>CPU として i486SX 以上（DX2/66MHz 以上を推奨）を搭載<BR>したIBM PC-AT 互換機。ターゲットボードがインストールさ<BR>れていること</TD><TR>
+    <TD>OS</TD><TD>Windows95又はMS-DOS(PC-DOS) 3.1以上</TD><TR>
+    <TD>メモリ</TD><TD>8MB以上</TD><TR>
+    <TD>ハードディスク</TD><TD>マスターディスク作成時には720MB以上の空き容量必要</TD><TR>
+    <TD>CD-ROMドライブ</TD><TD>PlayStation ライブラリのインストールに必要</TD><TR>
+    <TD>マウス</TD><TD>推奨</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>ハードウェアのセットアップ</B>
+</A>
+</H3>
+<blockquote>
+    まず、各種のハードウェアを PC に装着します。なお、作業に際しては、必ず PC 本体の電源を落としておくようにしてください。その他詳細はターゲットボードの取扱説明書をご参照ください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>ソフトウェアのセットアップ</B>
+</A>
+</H3>
+<blockquote>
+    セキュリティドンクル（D-Sub25ピン型のコネクタ）を、PCのパラレルポート（プリンターポート）に差し込んでください。<BR>
+    ハードウェアの装着が終了したら、続いてソフトウェアをインストールします。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_1">
+(1) <B>ディレクトリの作成</B>
+</A>
+</H4>
+    ハードディスクに、Psy-Q の各種ツールを格納するためのディレクトリを作成します。ここでは、各ディスクの内容に従って、以下のように作成することにします。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>対象ディスク</TD><TD>ディレクトリ</TD><TD>実行例</TD><TR>
+    <TD>Psy-Q</TD><TD>\PSYQ</TD><TD>C:&gt;MD \PSYQ</TD><TR>
+    <TD>GNU C</TD><TD>\COMPILER</TD><TD>C:&gt;MD \COMPILER</TD><TR>
+    <TD>GNU C++</TD><TD>\COMPILER</TD><TD>     同上</TD><TR>
+    <TD>Ｃドキュメント</TD><TD>\COMPILER\DOC</TD><TD>C:&gt;MD \COMPILER\DOC (※)</TD><TR>
+    <TD>作業用ディレクトリ</TD><TD>\TMP</TD><TD>C:&gt;MD \TMP</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    ※"\COMPILER\DOC"は、"\COMPILER"のサブディレクトリですので、"\COMPILER"がない状態で作成できません。必ず、"\COMPILER"作成後に実行してください。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_2">
+(2) <B>ファイルのコピー</B>
+</A>
+</H4>
+    新たに作成したディレクトリに移動し、ここに、各ディスクの内容を DOS の"XCOPY"コマンド等ですべてコピーします。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>対象ディスク</TD><TD>対象ディレクトリ</TD><TD>実行例</TD><TR>
+    <TD>Psy-Q</TD><TD>\PSYQ</TD><TD>C:&gt;CD \PSYQ C:&gt;XCOPY A:\*.* ／S</TD><TR>
+    <TD>GNU C</TD><TD>\COMPILER</TD><TD>C:&gt;CD \COMPILERC:&gt;XCOPY A:\*.* ／S</TD><TR>
+    <TD>GNU C++</TD><TD>\COMPILER</TD><TD>同上</TD><TR>
+    <TD>Ｃドキュメント<BR></TD><TD>\COMPILER\DOC<BR></TD><TD>C:&gt;CD \COMPILER\DOC<BR>C:&gt;XCOPY A:\*.* ／S</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    ※ディスクがAドライブにあるものとしています。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_3">
+(3) <B>PATH の設定</B>
+</A>
+</H4>
+    AUTOEXEC.BAT を編集し、Psy-Q ソフトウェアを格納したディレクトリを PATH に追加します。なお、Ｃドキュメントディスクには実行ファイルが含まれていませんので、これを追加する必要はありません。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        PATH=C:\DOS;C:\BIN;<U>C:\PSYQ;C:\COMPILER;</U>
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_4">
+(4) <B>システムドライバの登録</B>
+</A>
+</H4>
+    AUTOEXEC.BAT に次の行を追加し、PC の起動時にシステムドライバが自動的にロードされるようにします。なお、ここに記述したものは工場出荷時の設定に基づいた指定です。ボードの設定を変更した場合は、11ページを参考に、オプションを変更してください。<BR>
+    <BR>
+<PRE>        DEXBIOS /a1340
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_5">
+(5) <B>環境変数の登録</B>
+</A>
+</H4>
+    AUTOEXEC.BAT に次の行を追加し、PC の起動時に"PSYQ"環境変数が設定されるようにします。環境変数の値としては、ソフトウェアを格納したディレクトリ名を指定します。<BR>
+    <BR>
+<PRE>        SET PSYQ=C:\PSYQ
+</PRE>
+    さらに、コンパイラを正しく動作させるために、以下の環境変数を設定します。なお、ここに記述したのはあくまで一例ですので、お使いのディレクトリ構成に合わせて指定してください。また、パスの区切り文字は"\"ではなく、"/"で指定してください。詳細については 18ページを参照してください。<BR>
+<PRE>        SET COMPILER_PATH=c:/compiler
+        SET PSYQ_PATH=c:/psyq
+        SET C_INCLUDE_PATH=c:/psx/include
+        SET LIBRARY_PATH=c:/psx/lib
+        SET TMPDIR=c:/tmp
+        SET GO32TMP=c:/tmp
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_6">
+(6) <B>AUTOEXEC.BAT の確認</B>
+</A>
+</H4>
+    AUTOEXEC.BAT の編集が終了したら、その内容を確認した上で、MS-DOS に戻ってください。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        @ECHO OFF
+        PROMPT=$p$g
+        PATH=C:\DOS;C:\BIN;C:\PSYQ;C:\COMPILER;C:\;
+        SET PSYQ=C:\PSYQ
+        SET COMPILER_PATH=c:/compiler
+        SET PSYQ_PATH=c:/psyq
+        SET C_INCLUDE_PATH=c:/psx/include
+        SET LIBRARY_PATH=c:/psx/lib
+        SET TMPDIR=c:/tmp
+        SET GO32TMP=c:/tmp
+        DEXBIOS ／a1340
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_2_7">
+(7) <B>PlayStation ライブラリのインストール</B>
+</A>
+</H4>
+    以上の作業が終了したら、続いて PlayStation ライブラリをインストールします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>	32bit版ツールについて</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationライブラリディスク Ver.4.0 より、以下のツールが32bit版に変更されています。Windows95のDOS窓上で使用できます。<BR>
+<PRE>        PSYQ\ASMPSX.EXE
+        PSYQ\ASPSX.EXE
+        PSYQ\CCPSX.EXE
+        PSYQ\PSYLIB.EXE
+        PSYQ\PSYLINK.EXE
+        COMPILER\CPPPSX.EXE
+        COMPILER\CC1PSX.EXE
+        COMPILER\CC1PLPSX.EXE
+</PRE>
+    また、16bit版は以下のように別ディレクトリに置いています。DOS環境で開発されている方はこちらを御使用下さい。GNU以外のツールはファイル名が変更されていますのでご注意下さい。<BR>
+<PRE>        PSYQ\DOS\ASMPSXD.EXE
+        PSYQ\DOS\ASPSXD.EXE
+        PSYQ\DOS\CCPSXD.EXE
+        PSYQ\DOS\PSYLIBD.EXE
+        PSYQ\DOS\PSYLINKD.EXE
+        COMPILER\DOS\CPPPSX.EXE
+        COMPILER\DOS\CC1PSX.EXE
+        COMPILER\DOS\CC1PLPSX.EXE
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>PlayStation ライブラリのインストール</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    Psy-Q システムのインストールが終了したら、続いて PlayStation ライブラリをインストールします。<BR>
+    PlayStation ライブラリは、別途、CD-ROM で提供されています。インストールに際しては、まず、PC-AT 本体に CD-ROM ドライブが接続され、MS-DOS から操作可能になっているかどうかを確認してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>インストール方法</B>
+</A>
+</H3>
+<blockquote>
+    インストール手順については、ライブラリCD-ROMのREADME_J.TXTを参照して下さい。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>インストール状況の確認</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    Psy-Q、PlayStation ライブラリのインストール作業が終了したら、システムが正しく動作しているかどうか、ファイルが正しくインストールされているかどうかを確認します。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1">
+(1) <B>PC のリブート</B>
+</A>
+</H4>
+    インストール作業が終了したら、PC をリブートし、DEXBIOS.COM が正しくロードされているかどうか、RESETPS.EXE が正しくターゲットボードをデバッグモードに移行させたかどうか、さらに、環境変数が正しく設定されているかどうかなどを確認してください。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2">
+(2) <B>ハードウェアの動作確認</B>
+</A>
+</H4>
+    RUN.EXE を引数なしで実行し、ハードウェアが正しく動作しているかどうかを確認してください。ターゲットボードが認識されると、次のようなメッセージが表示されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        C:\&gt;RUN
+        RUN.EXE Executable/Binary file downloader version 2.23
+        Copyright (c) 1992,93 S N Systems Ltd.
+        Target 0 is R3000 - SONY_PSX4.00
+        No file to proceed.
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>システムドライバ DEXBIOS.COM</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    DEXBIOS.COM は、PC に装着したターゲットボードと、PC/AT 本体、そして Psy-Q システムとの間を取り持つ常駐プログラムです。Psy-Qを利用するには、必ず、これを常駐させておく必要があります。<BR>
+    通常、AUTOEXEC.BAT 内で実行し、PC の起動時に自動的にロードされるようにします。<BR>
+
+     <H4><B>DEXBIOS.COMは、DTL-H2000及びH2700用のドライバです。H2500では、DEXBIOS.COMではなく専用のドライバH25BIOS.COM を使用する必要があります。詳しくは \PSYQ\FLASH25\README.TXTを御参照下さい。</B></H4>
+
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>書式</B>
+</A>
+</H3>
+<blockquote>
+    DEXBIOS を起動するには、MS-DOS のプロンプトに対し、次のように入力します。<BR>
+    <BR>
+<PRE>        DEXBIOS [/option]
+</PRE>
+    <BR>
+    オプションは"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_2">
+<A HREF="#Heading3_1_6"> 6. </A>2 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+    DEXBIOS.COM には、以下のオプションを指定することができます。"/"（スラッシュ）に続けて指定します。複数指定する場合はスペースで区切ります。特に指定しなかったものについては、デフォルト値が用いられます。<BR>
+    ターゲットボードは、工場出荷時の状態で、他のボードやインターフェイスと最大限衝突しないように設定されていますので、通常、次のように指定します。<BR>
+
+     <H4><B>例 工場出荷時の設定に基づく指定</B></H4>
+
+<PRE>        DEXBIOS /a1340
+        
+</PRE>
+    が、ボードの設定を変更し、PC に装着した場合は、以下を参考に AUTOEXEC.BAT に追加した行のオプションを書き換えるようにしてください。<BR>
+
+     <H4><B>カードアドレス(/a)</B></H4>
+
+      <BLOCKQUOTE>
+      "/a"に続き、カードアドレスを16進数で指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        DEXBIOS /a308
+</PRE>
+
+     <H4><B>ファイル転送バッファサイズ(/b)</B></H4>
+
+      <BLOCKQUOTE>
+      "/b"に続き、ファイル転送バッファサイズを10進数指定してください。指定できるサイズは２～32（単位は KB）です。<BR>
+      このオプションは、PC 上のファイルにターゲットボードがアクセスするときに用いる転送バッファの大きさを指定するものです。サイズを大きくすると、アクセスがより速くなりますが、その分、メモリ消費量は増加します。通常は特に指定する必要はありません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        DEXBIOS /b2
+</PRE>
+
+     <H4><B>IRQ 番号(/i)</B></H4>
+
+      <BLOCKQUOTE>
+      "/i"に続き、IRQ 番号を指定してください。IRQ 番号としては、10、11、12、15 が指定できます。なお、０を指定すると OFF となり、IRQ を使用せずに動作します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        DEXBIOS /i15
+</PRE>
+
+     <H4><B>備考</B></H4>
+
+      <BLOCKQUOTE>
+      DEXBIOS をオプションなしで再度実行すると、常駐イメージが一旦メモリから削除されます（常駐解除されます）。これにより、PC をリブートすることなく、オプションを変更することができます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>ターゲットボードブートプログラム RESETPS</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ターゲットボードは、PC/AT に電源を投入（あるいはリセット）すると、PlayStation 実機モードで立ち上がります。これは、CD-ROM ドライブからのブートシーケンスを実行するモードで、デモンストレーション等に便利な設計となっています。<BR>
+    ただし、開発に際しては、ターゲットボードをデバッグに適した状態に変更する必要があります。そこで Psy-Q では、これをサポートするプログラム RESETPS.EXE を用意しています。これにより、ディップスイッチなどのハードウェアを触ることなく、MS-DOS 上から簡単にモードを変更することができます。<BR>
+    なお、RESETPS を実行するには、DEXBIOS が常駐している必要があります。AUTOEXEC.BAT に記述する際は、必ず DEXBIOS の行の後に記述してください。<BR>
+    <BR>
+
+     <H4><B>注意：</B></H4>
+
+      <BLOCKQUOTE>
+      DEXBIOS は"RESETPS 1/"と同じリセットをかけます。よってRESETPS の使用は、暴走もしくは、起動したソフトを止める場合に限られます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>書式</B>
+</A>
+</H3>
+<blockquote>
+    RESETPS を実行するには、MS-DOS のプロンプトに対して次のように入力してください。また、RESETPS を実行するには、DEXBIOS が常駐している必要があります。<BR>
+    <BR>
+<PRE>        RESETPS &lt;mode number&gt; [/a&lt;address&gt;]
+</PRE>
+    <BR>
+    コマンド名に続き、実行モード番号を指定します。指定できる値とその内容は次の通りです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>モード番号</TD><TD>動作</TD><TR>
+    <TD>0<BR></TD><TD>PlayStation 実機モード<BR>CD-ROM からのブートシーケンスを実行します。</TD><TR>
+    <TD>1<BR></TD><TD>デバッグモード<BR>開発に際してはこのモードを指定してください。</TD><TR>
+    <TD>2<BR></TD><TD>デバッグモニタモードが利用できるようになります。<BR>(Psy-Q環境では特に使用しません)</TD><TR>
+    <TD>3<BR></TD><TD>カラーバー表示モード<BR>ビデオ画面にカラーバーを表示します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+    また、実行モード番号に続き、オプションとして、ターゲットボードのアドレス番号を指定することもできます。指定方法は DEXBIOS の"/a"オプションと同様です。<BR>
+    ただし、これは DEXBIOS が常駐していない場合にのみ指定する、特殊なオプションですので、通常は指定する必要はありません。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>スタートアップルーチンについて</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    通常、実行プログラムにはスタートアップルーチンが組み込まれます。プログラムはスタートアップルーチンから実行され、様々な初期設定を行ってからmain関数へとジャンプします。<BR>
+    ここでは、LIBSN.LIB に含まれるスタートアップルーチンの動作と、PSX\LIBに含まれる各代替OBJ<BR>
+<PRE>        noheap.obj, 2mbyte.obj, 8mbyte.obj, none2.obj, none3.obj
+</PRE>
+    の説明を行ないます。<BR>
+    <BR>
+    ライブラリ Ver.3.1以前の LIBSN.LIB には一部問題があり、スタートアップルーチンの代わりにリンクする代替OBJが必要でした。それが 2mbyte.obj, 8mbyte.obj です。Ver.3.1以降では 2mbyte.obj, 8mbyte.obj は特に必要でありません。Ver.3.1以降では、２つの変数 _ramsize と _stacksize をプログラム中で以下のように定義することによって、SP初期値や起動時のヒープ領域を設定できます。ただし、２変数を定義する場合は、必ず２つとも定義して下さい。どちらか片方のみの定義だとリンク時にエラーが発生します。<BR>
+    <BR>
+<PRE>            int _ramsize = 0x00200000;      /* RAM SIZE */
+            int _stacksize = 0x00008000;    /* STACK SIZE */
+</PRE>
+    <BR>
+    上の定義では、<BR>
+    <BR>
+<PRE>            SP初期値      0x801ffff8
+            ヒープ領域    bssセクションの直後から 0x801f8000 までを確保
+</PRE>
+    <BR>
+    となります。<BR>
+    なお、スタートアップルーチン内でヒープ領域を設定する必要がない場合は、noheap.objを御使用ください。プログラム中で明示的にInitHeap()を行っていたり、もしくはmalloc()等のメモリ管理関数を全く使用していない場合などがこれにあたります。<BR>
+    また、Exec() や LoadExec() で起動する子プログラム用のスタートアップルーチンとして、none2.obj, none3.obj を配布しています。子プログラム用のスタートアップルーチンは、SPの設定を行ないません。<BR>
+    これは、子プログラムのSP初期値を、親プログラム側から LoadExec() の引数等によって設定できるようにする為です。none2.obj は、sbss,bss領域のクリアを行なわない為、ライブラリVer.3.7で削除されました。none3.objの方をお使い下さい。<BR>
+    以下、スタートアップルーチンのデフォルト動作と、各代替OBJをリンクした場合の動作を説明します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_1">
+<A HREF="#Heading3_1_8"> 8. </A>1 <B>デフォルトの動作</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_1_1">
+(1) <B>sbss, bss 領域をゼロクリアする。</B>
+</A>
+</H4>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_1_2">
+(2) <B>SP初期値をセットする。</B>
+</A>
+</H4>
+    ( ( _ramsize - 8 ) | 0x80000000 )  の値がセットされる。プログラム中で _ramsize を定義していない場合は、_ramsize としてデフォルト値 0x00800000 が使用されるので、SP初期値は 0x807ffff8 となる。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_1_3">
+(3) <B>グローバルポインタ（GP）をセットする。</B>
+</A>
+</H4>
+    .sdata領域の最初のアドレスがセットされる。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_1_4">
+(4) <B>InitHeap()をする。</B>
+</A>
+</H4>
+    bss領域の直後のアドレスから、( _ramsize - _stacksize ) のアドレスまでを、ヒープ領域に設定する。<BR>
+    （この時、ヒープ領域の一部にメモリ管理情報が書き込まれます）尚、プログラム中で _stacksize を定義していない場合は、_stacksizeとしてデフォルト値 0x00008000 が使用される。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_1_5">
+(5) <B>main関数にジャンプする。</B>
+</A>
+</H4>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_2">
+<A HREF="#Heading3_1_8"> 8. </A>2 <B>noheap.obj をリンクした場合の動作</B>
+</A>
+</H3>
+<blockquote>
+    １のデフォルト動作とほぼ同じだが、(4)の InitHeap() を行なわない。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_3">
+<A HREF="#Heading3_1_8"> 8. </A>3 <B>2mbyte.obj をリンクした場合の動作</B>
+</A>
+</H3>
+<blockquote>
+    sbss, bss 領域をゼロクリアする。<BR>
+    SP初期値をセットする。_ramsize は 0x00200000 に固定。<BR>
+    GPをセットする。sdataセクションの最初のアドレスがセットされる。<BR>
+    InitHeap()をする。_stacksize は 0x00008000 に固定。<BR>
+    main関数にジャンプする。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_4">
+<A HREF="#Heading3_1_8"> 8. </A>4 <B>8mbyte.obj をリンクした場合の動作</B>
+</A>
+</H3>
+<blockquote>
+    sbss, bss 領域をゼロクリアする。<BR>
+    SP初期値をセットする。_ramsize は 0x00800000 に固定。<BR>
+    GPをセットする。sdataセクションの最初のアドレスがセットされる。<BR>
+    InitHeap()をする。_stacksize は 0x00008000 に固定。<BR>
+    main関数にジャンプする。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_5">
+<A HREF="#Heading3_1_8"> 8. </A>5 <B>none2.obj をリンクした場合の動作</B>
+</A>
+</H3>
+<blockquote>
+    GPをセットする。sdataセクションの最初のアドレスがセットされる。<BR>
+    main関数にジャンプする。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_6">
+<A HREF="#Heading3_1_8"> 8. </A>6 <B>none3.obj をリンクした場合の動作</B>
+</A>
+</H3>
+<blockquote>
+    sbss, bss 領域をゼロクリアする。<BR>
+    GPをセットする。sdataセクションの最初のアドレスがセットされる。<BR>
+    main関数にジャンプする。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

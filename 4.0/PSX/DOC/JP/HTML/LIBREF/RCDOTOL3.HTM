@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotColorDpq3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotColorDpq3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ３点の座標変換と透視変換とデプスキューイングを行なう
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>RotColorDpq3 </B>(
+SVECTOR *<I>v0</I>,
+SVECTOR *<I>v1</I>,
+SVECTOR *<I>v2</I>
+SVECTOR *<I>v3</I>,
+SVECTOR *<I>v4</I>,
+SVECTOR *<I>v5</I>,
+CVECTOR *<I>v6</I>,
+long *<I>sxy0</I>,
+long *<I>sxy1</I>,
+long *<I>sxy2</I>,
+CVECTOR *<I>v7</I>,
+CVECTOR *<I>v8</I>,
+CVECTOR *<I>v9</I>,
+long *<I>flag</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0</I>,<I>v1</I>,<I>v2		</I>入力：ベクトル
+<I>v3</I>,<I>v4</I>,<I>v5		</I>入力：法線ベクトル
+<I>v6			</I>入力：原色ベクトル
+<I>sxy0</I>,<I>sxy1</I>,<I>sxy2		</I>出力：座標値
+<I>v7</I>,<I>v8</I>,<I>v9		</I>出力：色ベクトル
+<I>flag			</I>出力：フラグ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ３点 <I>v0</I>,<I>v1</I>,<I>v2 </I>を回転マトリックスで座標変換したあと透視変換を行ない、スクリーン座標を <I>sxy0</I>,<I>sxy1</I>,<I>sxy2 </I>に返す。またこのとき求められるデプスキューイング用内挿値 p を以下の計算で使う。 <BR>
+<BR>
+    (LLV0 LLV1 LLV2) = LLM×(<I>v3 v4 v5</I>) <BR>
+    (LC0 LC1 LC2) = BK+LCM × (LLV0 LLV1 LLV2) <BR>
+    (<I>v7 v8 v9</I>) = (1-p)×<I>v6</I>×(LC0 LC1 LC2)+p×FC <BR>
+<BR>
+    引数フォーマット： <BR>
+    <I>v0</I>,<I>v1</I>,<I>v2</I>-&gt;vx,vy,vz : (1,15,0) <BR>
+    <I>v3</I>,<I>v4</I>,<I>v5</I>-&gt;vx,vy,vz : (1,3,12) <BR>
+    <I>v6</I>-&gt;r,g,b : (0,8,0) <BR>
+    <I>sxy0</I>,<I>sxy1</I>,<I>sxy2</I> : (1,15,0),(1,15,0) <BR>
+    <I>v7</I>,<I>v8</I>,<I>v9</I>-&gt;r,g,b : (0,8,0) <BR>
+    <I>flag</I> : (0,32,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    sz/4 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

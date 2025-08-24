@@ -1,0 +1,182 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> マルチタップライブラリ（libtap）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+マルチタップライブラリ（libtap）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+PlayStationにマルチタップを接続し、複数のコントローラおよびメモリカードとの通信サービスを提供するためのライブラリです。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    マルチタップを利用することで、ひとつのポートで最大４つまでのコントローラおよびメモリカードを利用することが可能になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    マルチタップライブラリのファイル名は「libtap.lib」です。<BR>
+    マルチタップを利用するには、専用ドライバであるlibtap.libをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    マルチタップライブラリには独自のインクルードヘッダはありません。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libtap.lib</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    マルチタップは少なくともひとつのコントローラが接続されている状態であれば通信を行うことができます。ひとつも接続されていない場合は、通信エラーとなります。<BR>
+    <BR>
+    libtap.libを使用していないソフトでは、マルチタップのポートＡとの通信のみが可能になります。この場合は直接コントローラを実機に接続した場合と同じで、マルチタップは通信データをスルーします。<BR>
+    <BR>
+    マルチタップおよびマルチタップに接続されているコントローラは途中での抜き差しを自由に行えます。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 2受信パケットフォーマット</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">バイト</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>受信結果</TD><TR>
+    <TD ALIGN="center">1</TD><TD>ID (0x80)</TD><TR>
+    <TD ALIGN="center">2</TD><TD>Controler_A 受信結果</TD><TR>
+    <TD ALIGN="center">3</TD><TD>Controller_A ID</TD><TR>
+    <TD ALIGN="center">4-9</TD><TD>Controller_A 受信データ</TD><TR>
+    <TD ALIGN="center">10</TD><TD>Controller_B 受信結果</TD><TR>
+    <TD ALIGN="center">11</TD><TD>Controller_B ID</TD><TR>
+    <TD ALIGN="center">12-17</TD><TD>Controller_B 受信データ</TD><TR>
+    <TD ALIGN="center">18</TD><TD>Controller_C 受信結果</TD><TR>
+    <TD ALIGN="center">19</TD><TD>Controller_C ID</TD><TR>
+    <TD ALIGN="center">20-25</TD><TD>Controller_C 受信データ</TD><TR>
+    <TD ALIGN="center">26</TD><TD>Controller_D 受信結果</TD><TR>
+    <TD ALIGN="center">27</TD><TD>Controller_D ID</TD><TR>
+    <TD ALIGN="center">28-33</TD><TD>Controller_D 受信データ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    メモリカードのアクセス方法は、通常の使用方法と同じです。<BR>
+    チャネルを指定するところで、ポート番号＊16＋カード番号と指定しますが、ここのカード番号を0～3にすることで、各スロットにアクセスすることが可能となります。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 3メモリーカード</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center"></TD><TD ALIGN="center">ポート１</TD><TD ALIGN="center">ポート２</TD><TR>
+    <TD ALIGN="center">A</TD><TD ALIGN="center">0x00</TD><TD ALIGN="center">0x10</TD><TR>
+    <TD ALIGN="center">B</TD><TD ALIGN="center">0x01</TD><TD ALIGN="center">0x11</TD><TR>
+    <TD ALIGN="center">C</TD><TD ALIGN="center">0x02</TD><TD ALIGN="center">0x12</TD><TR>
+    <TD ALIGN="center">D</TD><TD ALIGN="center">0x03</TD><TD ALIGN="center">0x13</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      メモリーカードを使用する場合、InitCARDの引数は、必ず'0'にしてください。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        InitTAP(bufA, lenA, bufB, lenB);
+        InitCARD(0);
+        StartCARD();
+        _bu_init();
+        StartTAP();
+        ChangeClearPAD(0);
+        
+</PRE>
+      <BLOCKQUOTE>
+      マルチタップのＡポートにコントローラを差さない状態では、マルチタップが認識されないことがあります。マルチタップのＡポートには必ずコントローラを差した状態でお使いください。また、取り扱い説明書にもその旨を記述してくださるようお願いいたします。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

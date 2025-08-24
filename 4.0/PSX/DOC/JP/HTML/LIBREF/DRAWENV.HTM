@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DRAWENV
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DRAWENV
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        描画環境
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		RECT	<I>clip</I>;
+		short	<I>ofs </I>[2];
+		RECT	<I>tw</I>;
+		u_short	<I>tpage</I>;
+		u_char	<I>dtd</I>;
+		u_char	<I>dfe</I>;
+		u_char	<I>isbg</I>;
+		u_char	<I>r0</I>, <I>g0</I>, <I>b0</I>;
+		DR_ENV	<I>dr_env</I>;
+} <B>DRAWENV</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>clip</I>		描画領域。
+		描画は、<I>clip</I> で指定される矩形領域内に制限される。
+		クリッピング領域外には描画は行なわれない。
+<I>ofs</I>		オフセット。
+		全ての描画命令は(<I>ofs</I>[0],<I>ofs</I>[1]) の値が加算された値をアドレスとして,
+		フレームバッファに描画される。
+<I>tw</I>		テクスチャウィンドウ。テクスチャページ内の <I>tw</I> で制限される矩形領域内の
+		テクスチャパターンが繰り返して使用される。
+<I>tpage</I>		テクスチャページ初期値
+<I>dtd</I>		ディザ処理フラグ（0:OFF 1: ON）
+<I>dfe</I>		表示エリアへの描画フラグ
+		0 表示中の領域への描画はブロックされる。
+		1 表示中の領域への描画を許可する。
+<I>isbg</I>		描画領域クリアフラグ（0:OFF 1: ON）
+ 		0 描画環境設定時に描画領域をクリアしない
+ 		1 描画環境設定時にクリップエリア全体を輝度値(<I>r0</I>,<I>g0</I>,<I>b0</I>)で塗りつぶす。
+<I>r0</I>,<I>g0</I>,<I>b0</I>	背景色。<I>isbg</I> が 1 のときのみ有効
+<I>dr_env</I>		システム予約
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    描画オフセット・描画クリップエリアなど、描画に関する基本的なパラメータを設定。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    描画空間のうち、実際に描画が可能なのは、(0, 0)-(1023, 511)の領域。 <BR>
+<BR>
+    オフセット値および、オフセットが加算された後のアドレスは(-1024, -1024)-(1023, 1023) でラップラウンドする。 <BR>
+<BR>
+    テクスチャウィンドウとして指定できる値は以下の組合せに限られる。 <BR>
+<BR>
+    <I>tw</I>.w, <I>tw</I>.x <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>tw.w</TD><TD>0(=256)</TD><TD>16</TD><TD>32</TD><TD>64</TD><TD>128</TD><TR>
+    <TD>tw.x</TD><TD>0</TD><TD>16の倍数</TD><TD>32の倍数</TD><TD>64の倍数</TD><TD>128の倍数</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>tw</I>.h, <I>tw</I>.y <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>tw.h</TD><TD>0(=256)</TD><TD>16</TD><TD>32</TD><TD>64</TD><TD>128</TD><TR>
+    <TD>tw.y</TD><TD>0</TD><TD>16の倍数</TD><TD>32の倍数</TD><TD>64の倍数</TD><TD>128の倍数</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

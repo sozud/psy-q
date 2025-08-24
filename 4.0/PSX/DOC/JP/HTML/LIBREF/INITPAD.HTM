@@ -1,0 +1,138 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    InitPAD
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libapi.htm">カーネル ライブラリ (libapi) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    InitPAD
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        コントローラの初期化
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long<B> InitPAD </B>(
+char *<I>bufA</I>,
+long <I>lenA, </I>
+char *<I>bugB</I>,
+long <I>lenB</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>bufA, bufB</I>	受信データバッファ
+<I>lenA, lenB</I>	受信データバッファ長（バイト単位）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コントローラの受信データバッファを登録する。内部でChangeClearPAD()は実行しない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    常に１ <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    受信バッファ長は、予期せぬコントローラを接続された場合に、不具合が起きる可能性がありますので、必ず34バイト確保しておいて下さい。 <BR>
+    受信バッファに格納されるデータ形式は以下の通りです。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>バイト</TD><TD>内容</TD><TR>
+    <TD>0</TD><TD>受信結果  0x00:成功、0xff:失敗</TD><TR>
+    <TD>1<BR></TD><TD>上位4ビット：端末種別<BR> 0x1:マウス<BR> 0x2:16ボタンアナログ<BR> 0x3:ガンコントローラ<BR> 0x4:16ボタン<BR> 0x5:アナログジョイスティック<BR> 0x7:アナログコントローラ<BR> 0x8:マルチタップ<BR>下位4ビット：受信データバイト数／２</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <blockquote>
+    	マウス <BR>
+    </blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>3<BR></TD><TD>ボタン状態  1:リリース、0:プッシュ<BR>第2ビット：右、  第3ビット：左</TD><TR>
+    <TD>4</TD><TD>移動量  X方向 (-128～127)</TD><TR>
+    <TD>5</TD><TD>移動量  Y方向 (-128～127)</TD><TR>
+    <TD>6</TD><TD>移動量  Z方向 (-128～127)</TD><TR>
+    <TD>7,8, -</TD><TD>移動量  ?方向 (-128～127)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <blockquote>
+    	16ボタンアナログ、アナログジョイスティック、アナログコントローラ <BR>
+    </blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>2,3</TD><TD>ボタン状態  1:リリース、0:プッシュ</TD><TR>
+    <TD>4,5,6,7,-</TD><TD>アナログチャネル値</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <blockquote>
+    	ガンコントローラ、16ボタン <BR>
+    </blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>2,3</TD><TD>ボタン状態  1:リリース、0:プッシュ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    バッファの第1バイトの上位4ビットは端末種別、下位4ビットは端末からの受信データ（バッファの第3バイト以降に格納される。）のバイト数の半分の値、となります。ボタンやチャネルなどの物理的な配置や対応は各端末のドキュメントを参照してください。 <BR>
+<BR>
+    *既存端末の型 <BR>
+    標準コントローラは16ボタン型端末です。 <BR>
+    弊社から商品化されているマウスは、XとYの２方向だけをサポートするマウス型端末。また株式会社ナムコ様の「ネジコン」は、4チャネル、つまりバッファ第1バイトの下位4ビットが3（（ボタン分2バイト＋4チャネル分4バイト）÷２ ）、の16ボタンアナログ型端末です。 <BR>
+    マルチタップ をご利用の際は、InitTAP()を、ガンコントローラをご利用の際は、InitGUN()をお使いください。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="startpad.htm">StartPAD</a>(), <a href="stoppad.htm">StopPAD</a>(), <a href="ccpahand.htm">ChangeClearPAD</a>(),<a href="inittap.htm">InitTAP</a>(),<a href="initgun.htm">InitGUN</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,104 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.0$
+						 	       May, '97
+
+				         PlayStation(R) Programmer Tool
+                                           Run-time Library Release 4.0
+
+                      Changes and Additions on Samples from Release 3.7
+
+                      Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+------------------------------------------------------------------------
+
+##Sample Automatic Execution System
+
+- The automatic sample execution system, which automatically reads the 
+  pad data, has been implemented(sample/autopad)
+
+  Please refer to sample/autopad/readme_e.txt for detail usage.	
+
+##Additions
+
+- The sample program using a new data format called HMD, used with libgs 
+  (please refer to the document for details concerning HMD).
+
+		sample/graphics/hmd
+
+- The sample program using libsio.
+
+		sample/etc/sio
+
+- The sample program which can use the interlace mode even with 30 fps 
+  for libgpu.
+
+		sample/graphics/misc/getode
+
+- Sample program for libds
+
+		sample/ds/tuto
+
+- Sound data (mid, seq, vab, vag and the like)
+
+		sample/sound/data
+
+
+##Changes and Modifications
+
+- GsSetNearClip() and GsSetFarClip() have been deleted from the following 
+  files:
+
+	sample/cd/str3d/tuto0.c
+	sample/graphics/tmdview/lowlevel/tuto0.c
+	sample/graphics/tmdview/lowlevel/tuto1.c
+	sample/graphics/tmdview/lowlevel/tuto2.c
+	sample/graphics/tmdview/lowlevel/tuto3.c
+	sample/graphics/clutfog/tuto0.c
+	sample/graphics/clutfog/tuto1.c
+	sample/graphics/clutfog/tuto2.c
+	sample/graphics/clutfog/tuto3.c
+	sample/graphics/divide/clip/tuto0.c
+	sample/graphics/gsgpu/tuto0.c
+	sample/graphics/gsgpu/tuto1.c
+	sample/graphics/mime/vjmime/main.c
+	sample/graphics/misc/60frame/main.c
+	sample/graphics/rotate/arot/main.c
+	sample/graphics/rotate/axesmime/main.c
+	sample/graphics/rotate/intrpol/main.c
+	sample/graphics/rotate/mat2rot/tuto0.c
+	sample/graphics/tod/janken/main.c
+	sample/graphics/tod/todview/main.c
+	sample/graphics/walk/walk.c
+
+- The following samples have been moved to different directory, 
+  and the names have also been changed. The contents of the samples, 
+  however, have not been changed.
+
+	sample/graphics/rotate/axesmime -> sample/graphics/mime/joint 
+	sample/graphics/tmdview/mime -> sample/graphics/mime/vertex 
+
+- sample/cd/tuto/tuto5
+
+	1) CdlModeSF has been added to the operation mode. 
+	   CdlSetfilter does not work unless you set CdlModeSF.
+
+	2) The Menu Forward/Backward has been deleted. 
+	   This command can no longer be used while XA is being played.
+
+- What had been called "euler angles" in graphics/rotate/intrpol are 
+  actually not euler angles, but "roll/pitch/yaw angles," so the 
+  expression has been changed. Other than the changes in the vocabulary 
+  of the source, function name euler-*() has been changed to rpy_*(). 
+  There are no changes in the operation.
+
+- Respective readme files of sample/module
+
+	sample/module/readme_j.txt
+	sample/module/readme_e.txt
+	sample/module/execmenu/readme_j.txt
+	sample/module/execmenu/readme_e.txt
+	sample/module/overmenu/readme_j.txt
+	sample/module/overmenu/readme_e.txt
+
+  have been modified. The contents of these files have not been modified 
+  in the past, and they did not match the current conditions. There are 
+  no changes with the sample contents.

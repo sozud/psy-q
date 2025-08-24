@@ -1,0 +1,435 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>dxf2rsd</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    DXFファイルをPlayStationの3Dモデルデータファイルに変換します。<BR>
+    DOS版とSGI版があります。ここでは、1996/Apr/25付けの Version 2.81 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>dxf2rsd [options] <I>DXF-files</I> ...</B></H4>
+
+      <BLOCKQUOTE>
+      DXFファイル名を引数として与えると、以下の４つのファイルを生成します。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> RSDファイル(*.rsd)
+         <LI> ポリゴンファイル(*.ply)
+         <LI> マテリアルファイル(*.mat)
+         <LI> グループファイル(*.grp)
+</UL>
+      <BLOCKQUOTE>
+      <BR>
+      引数にワイルドカードが使用できます。複数のファイルを与え一度に変換することも可能です。ファイル名の".dxf"は省略可能です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力RSD名を指定します。拡張子は取り除かれます。デフォルトは入力ファイル名の拡張子を除いたものです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-col <I>r g b</I></B></H4>
+
+      <BLOCKQUOTE>
+      モデル全体の色をRGB(それぞれ0-255)で指定します。デフォルトではグレイ(200 200 200)に設定されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-cf <I>color-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      カラーテーブルファイルを指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-cl</B></H4>
+
+      <BLOCKQUOTE>
+      未定義カラーのリストを標準出力に出力します。また同色のポリゴンを整理してMATファイルに出力します。デフォルトはOFFです。(例2参照)<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-info</B></H4>
+
+      <BLOCKQUOTE>
+      入力DXFファイルの情報を表示します。おおよその大きさやポリゴン数を知ることができます。変換は行いません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-max<I> n-poly</I></B></H4>
+
+      <BLOCKQUOTE>
+      変換できる最大のポリゴン数を設定します。デフォルトは10000です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-quad または -quad1</B></H4>
+
+      <BLOCKQUOTE>
+      4頂点3DFACEに対して、三角分割を行いません。これにより、モデル全体のポリゴン数を減少させることが可能です。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-quad2 (<I>threshold</I>)</B></H4>
+
+      <BLOCKQUOTE>
+      隣接する2つの三角形を１つの四角形に合成します。引数を指定すると、2つの三角形の向き(法線ベクトル)のぶれを角度で設定でき、その角度以下の三角形同士を合成します。<BR>
+      引数が0.0のとき正確に同じ法線ベクトルを持つ場合のみ合成され、10.0のとき10度の差まで許されることになります。0.0から90.0の間の小数を指定してください。デフォルトは1.0です。(例4参照)<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-quad3</B></H4>
+
+      <BLOCKQUOTE>
+      三角形に対して、第3頂点と第4頂点が等しい四角形として生成します。これによりすべて四角形にすることができます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-s または -g</B></H4>
+
+      <BLOCKQUOTE>
+      スムーズ(グーロー)シェーディングを行ないます。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-e <I>distance</I></B></H4>
+
+      <BLOCKQUOTE>
+      引数で与えられた距離を半径とする球内に存在するすべての頂点を同じとみなします。これにより、頂点数、ポリゴン数を削減することが可能です。なお、距離の計算は、<B>-sc</B>で拡大縮小されたあとに行なわれます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-r</B></H4>
+
+      <BLOCKQUOTE>
+      同じ法線ベクトルを生成しないようにして、法線数を削減します。フラットシェーディングの場合に有効です。デフォルトはOFFです。(例3参照)<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-n</B></H4>
+
+      <BLOCKQUOTE>
+      法線を作成しません。光源計算を行なわない場合に指定します。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-sc <I>factor</I></B></H4>
+
+      <BLOCKQUOTE>
+      モデルの拡大縮小を行ないます。引数で倍率を指定します。デフォルトは1.0です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-t <I>x y z</I></B></H4>
+
+      <BLOCKQUOTE>
+      モデルを移動させます。引数で移動量を指定します。デフォルトは(0.0, 0.0, 0.0)です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-auto</B></H4>
+
+      <BLOCKQUOTE>
+      モデルを原点付近に移動し適当な大きさ（１辺1000の立方体に収まるよう）に拡大縮小します。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-back</B></H4>
+
+      <BLOCKQUOTE>
+      全ポリゴンの法線の向きを逆にします。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-both</B></H4>
+
+      <BLOCKQUOTE>
+      全ポリゴンを両面ポリゴンとして生成します。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-dup</B></H4>
+
+      <BLOCKQUOTE>
+      全ポリゴンに対して表裏それぞれにポリゴンを生成します。ポリゴン数は2倍になります。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-nopl</B></H4>
+
+      <BLOCKQUOTE>
+      POLYLINEを無視し3DFACEのみ変換します。デフォルトはOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-Y-Z, -Y+Z, +Y-Z, +Y+Z, -Z-Y, -Z+Y, +Z-Y, +Z+Y</B></H4>
+
+      <BLOCKQUOTE>
+      座標系の変換方法を指定します。モデラの座標系を正面から見た場合の、手前と上の座標軸とその向きを指定します。例えば"<B>-Y+Z</B>"は、手前がＹ軸の負、上がＺ軸の正であることを示します。ここで座標系とはDXFのものであって、必ずしもモデラの画面とは一致しません。デフォルトは"<B>-Y+Z</B>"です。<B>dxf2rsd</B>はこれをPlayStationの座標系(<B>-Z-Y</B>)に変換します。 (PSの座標系は、手前がＺ軸の負、上がＹ軸の負です。)<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      変換に関する詳細な情報を標準出力に出力します。(例1参照)<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>前バージョン(ver.2.8)からの主な変更点</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> メモリ関連のバグを除きました(DOS版)。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>制約</B>
+</A>
+</H3>
+<blockquote>
+    現バージョンは以下の制約を持っています。<BR>
+    <BR>
+<UL>
+         <LI> ASCII形式のDXFファイルにのみ対応しています。
+         <LI> DXFエンティティのうち、3DFACEおよびPOLYLINEにのみ対応しています。
+         <LI> 大きなPOLYLINEは変換できない場合があります。できるだけモデラで3DFACE (三角形または四角形)に変換した上でDXFファイルを生成してください。
+         <LI> ４頂点が同一平面上にない四角形に対しては正しく表示されない場合があります。
+         <LI> 変換可能な最大ポリゴン数は、生成する頂点数、法線数の影響を受けます。目安として、DOS版の場合で5000ポリゴン程度とお考え下さい。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> 3DFACE、POLYLINEは、ともにDXFのポリゴン表現の形式です。3DFACEは４つの頂点でひとつのポリゴン(三角形また四角形)を表現します。一方、POLYLINEは連結線分で複数のポリゴンを表します。3DFACEはデータが大きくなりがちですが、互換性に優れています。これに対し、POLYLINEはデータは小さくなりますが、表現の自由度が大きく、異なるモデラ間でのデータ交換がうまくできないことがあります。
+         <LI> 3DFACEはRSDに直接変換できますが、POLYLINEはまず三角分割を行なわなくてはなりません。この分割は一般に高価で、うまくいかない場合があります("Fail to triangulate!"のエラーメッセージが出ます)。さらに三角分割が無事終了した場合でも、POLYLINEでは、一部ポリゴンの向きが反転してしまうことがあります。
+         <LI> ただし、3D Studioなどが生成するPOLYLINEはPOLYFACE MESHと呼ばれるもので、これは3DFACEと等価な表現方法のため、変換に問題はありません。
+         <LI> 実機上で１つのオブジェクトとして動かすための現実的な数は最大2000ポリゴン程度です。これを目安にモデルデータを作成してください。
+         <LI> ポリゴン数が多くて、フラットシェーディングでは変換できない場合でも、グーローを指定すれば変換できる場合があります。
+         <LI> Y-Z座標軸を交換したり、各軸の正負を入れ替えると、そのたびにポリゴンの表裏が反転します。
+         <LI> モデラによっては、3DFACEで出力しても、ポリゴンの表裏が反転していることがあります。全体が反転している場合は座標系を変える(<B>+Y+Z</B>など)か、<B>-back</B>オプションを御使用ください。一部だけ表裏が逆になっている場合、モデラでその面を反転させる必要があります。
+         <LI> 市販の3Dモデラの出力するDXFが、<B>dxf2rsd</B>で「変換可能である」ための十分条件は、そのモデラが、すべて3DFACEのDXFを出力でき、かつ、ポリゴン毎に表裏の反転ができることです。これらの条件を満たしていなくても変換可能なものもあります。また、他のモデラで一度DXFを読み、保存することで、直接は変換できないものでも、変換可能になることがあります。
+         <LI> データが大きく、すべての法線を生成できない場合、<B>-n</B>オプションが生成されたものとして法線なしのRSDを生成します。
+         <LI> <B>-r</B>オプションは、グーローシェーディングを行なう場合は無効です。また、<B>-r</B>オプションを指定すると、法線数や順序が変わるため、法線MIMeを行なう場合には使用できません。
+         <LI> <B>-quad2</B>で2つの三角形を四角形に合成すると、Zソートが起こる場合があります。
+         <LI> <B>-quad2</B>を指定して合成される２つの三角形は、モデラで互いに違う色を指定してDXFとして出力すると、その部分だけ<B>-quad2</B>を無効にすることができます。その場合は、<B>dxf2rsd -quad2 -cl</B> のように、<B>-cl</B>オプションも同時に指定してください。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7">
+<A HREF="#Top">↑</A>7 <B>使用例</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>例1 -vオプション使用時の出力例を示します。</B></H4>
+
+<PRE>        C:\&gt; dxf2rsd -v -auto +Z+Y -quad -s foo
+        =================================================
+          Input DXF file: foo.dxf			入力 DXF ファイル名
+        
+          [DXF] SIZE    : 40230 lines			DXF ファイルの行数
+                VERTEX  : 4320				DXF 中の頂点の数
+                POLYGON : 1468 (estimate)		推定ポリゴン数
+                          3-poly     :1376		 (内訳) 3角形   1376個
+                          4-poly     :  32		        4角形     32個
+                          (9&lt;)-poly  :   2		       10角形以上  2個
+                          polylines  :   2 (max size=32) ポリライン2個(32頂点ある)
+                RANGE  x: -1.015 ... +0.785		各軸の最小値 ... 最大値
+                       y: -2.533 ... +0.768		(Y,Ｚ軸は必要に応じてPS
+                       z: -1.161 ... +0.625		のものに変換されている)
+                SCALE   :  302.870			倍率
+                MOVE    : (dx,dy,dz)=(34.788, 267.255, 81.207)	移動量
+                MATERIAL:    0				色付けされたポリゴンの数
+        
+          [RSD] VERTEX  :  796				変換後の頂点数
+                POLYGON : 1468				変換後のポリゴン数
+                          triangles  : 1436		 (内訳) 3角形   1436個
+                          quadrangles:   32		        4角形     32個
+                RANGE  x: -272.477 ... +272.477		リサイズ,移動後の各軸の
+                       y: -500.000 ... +500.000		   最小値 ... 最大値
+                       z: -270.510 ... +270.510
+                MATERIAL:    0				マテリアル付きポリゴン数
+                NORMAL  :  796				法線数
+        
+          Output files  : foo.[rsd, ply, mat, grp]  	出力ファイル名
+</PRE>
+
+     <H4><B>例2（-clオプション）</B></H4>
+
+      <BLOCKQUOTE>
+      モデラで行った着色情報をRSDに反映させることができます。これには「<B>-cl</B>」オプションを用います。これにより、ポリゴンが「適当に」色付けされます。「適当に」とは、モデラ上での色とは異なるものの、同じ色であった部分には同じ色を割り当てることを示しています。これはDXFにはRGB値ではなく「色番号」しか保持されないためです。その後、MATファイルをテキストエディタで編集するか、次のようにカラーテーブルファイルを作って、色を指定することが可能です。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        C:\&gt; dxf2rsd -cl foo &gt; foo.cl		カラーテーブルファイルの生成
+        C:\&gt; type foo.cl			生成された色番号ファイルを見る
+        	183
+        	40
+        	253
+        	0
+        	8
+        
+</PRE>
+      <BLOCKQUOTE>
+      ここで、各色番号に割り当てたい色を、テキストエディタを用いて、色番号に続けてRGB値（各０～255）で記入します。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        C:\&gt; vz foo.cl				ファイルを編集
+        C:\&gt; type foo.cl			編集後のファイルを表示
+        	183	100 100 200
+        	40	 58  20  43
+        	253	 10 100  10
+        	0	212  20 100
+        	8	  0 128 126
+        
+</PRE>
+      <BLOCKQUOTE>
+      続いて、<B>-cf</B> オプションを指定して再び<B>dxf2rsd</B>を起動します。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        C:\&gt; dxf2rsd -cf foo.cl foo		dxf2rsd を起動
+        
+</PRE>
+      <BLOCKQUOTE>
+      新たに生成されたRSDは、カラーテーブルファイル通りに色が割り当てられたものになります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例3 大きなデータの変換</B></H4>
+
+      <BLOCKQUOTE>
+      詳細過ぎるデータがあるとき、「<B>-e</B>」オプションを用いて、いくつかの頂点をひとつにすることができます。下の例は、距離が100以下の２頂点を同一とみなすことで、頂点数ならびにポリゴン数、法線数を削減しています（拡大を行なった後のスケールを基に距離が計算されることに注意）。<BR>
+      データにも依存しますが、適当な距離を設定することにより、ほとんど形を変えずにデータ量を減らすことができます。<BR>
+      さらに、「<B>-r</B>」オプションを指定すれば、法線数も削減できます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        C:\&gt; dxf2rsd -v -e 100 -sc 1000 big.dxf
+        =================================================
+        Input DXF file:big.dxf
+        
+          [DXF] SIZE    : 134628 lines
+                VERTEX  : 18982
+                POLYGON : 8618 (estimate)
+                          3-poly     : 1746
+                          4-poly     : 3436
+                RANGE  x: -1.644 ... +1.545
+                       y: -2.352 ... +0.000		スケールが小さいので
+                       z: -3.649 ... +3.993
+                SCALE   : 1000.000			1000倍する
+                MATERIAL:    0
+        
+          [RSD] VERTEX  : 1208
+                POLYGON : 2708 (68% reduced)		ポリゴン数は約3割に
+                          triangles  : 2708
+                RANGE  x: -1643.811 ... +1545.072
+                       y: -2352.365 ... +0.000
+                       z: -3649.154 ... +3992.687
+                MATERIAL:    0
+                NORMAL  : 2708
+        
+          Output files  : big.[rsd, ply, mat, grp]
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      さらに、<B>-r</B>オプションを指定すれば、法線数も削減できます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例4 四角形の合成</B></H4>
+
+      <BLOCKQUOTE>
+      <B>-quad2</B>オプションを指定すると、隣接する二つの三角形を四角形に合成することができます。次の例では、二つの三角形の間の角度が5度以下のものを四角形に変換することによって、ポリゴン数を半分近くまで削減しています。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        C:\&gt; dxf2rsd -v -quad2 5.0 earth
+        =================================================
+        <I>  </I>Input DXF file : earth.dxf
+        
+          [DXF] SIZE    : 88158 lines
+                VERTEX  : 8811
+                POLYGON : 2937 (estimate)
+                          3-poly     : 2937		もとは3角形2937個
+                RANGE  x: -4.000 ... +3.986
+                       y: -3.997 ... +3.997
+                       z: -4.000 ... +4.000
+                MATERIAL:    0
+        
+          [RSD] VERTEX  : 2231
+                POLYGON : 1686				全部で1686ポリゴン
+                          triangles  :   43		2502個の3角形が合成され
+                          quadrangles: 1251		1251個の4角形になった
+                MATERIAL:    0
+                NORMAL  : 1686 (quad2 &lt; 4.9870)
+        
+          Output files  : earth.[rsd, ply, mat, grp]
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      図中<BR>
+      </BLOCKQUOTE>
+<PRE>                NORMAL  : 1686 (quad2 &lt; 4.9870)
+        
+</PRE>
+      <BLOCKQUOTE>
+      の「4.9870」は、許容角度(この場合5.0)のうちで、実際に変換された最も大きな角度を示しています。従って、「<B>-quad2</B> 4.986」などを指定して再び実行すると、合成される四角形の数は若干少なくなります。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

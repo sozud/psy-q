@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SetDefDispEnv
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SetDefDispEnv
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        標準の表示環境を設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>DISPENV *<B>SetDefDispEnv </B>(
+DISPENV *<I>nev</I>,
+int <I>x</I>,
+int <I>y</I>,
+int <I>w</I>,
+int <I>h </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>disp		</I>表示環境
+<I>x, y		</I>表示領域の左上端点
+<I>w, h		</I>表示領域の幅と高さ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    描画領域の左上点・幅・高さから描画環境構造体のメンバを設定する。 <BR>
+    設定されるデフォルトの値は以下の通り。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>メンバ名</TD><TD>内容</TD><TD>値</TD><TR>
+    <TD>disp</TD><TD>表示領域</TD><TD>(x, y, w, h)</TD><TR>
+    <TD>screen</TD><TD>画面表示領域</TD><TD>(0, 0)-(256,240)</TD><TR>
+    <TD>ininter</TD><TD>インターレースフラグ</TD><TD>0</TD><TR>
+    <TD>isrgb24</TD><TD>24bitモードフラグ</TD><TD>0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    設定された表示環境の先頭ポインタ。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SetDefDispEnv() はDRAWENV構造体に値を設定するだけでグラフィックシステムの内部状態は変更しない。ここでのパラメータが有効になるのは、PutDispEnv()をコールした時点となる。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

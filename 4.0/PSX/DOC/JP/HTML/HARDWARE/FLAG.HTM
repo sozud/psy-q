@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    FLAG
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    FLAG
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	制御＃３１</B> <BR>
+<BR>
+    アクセス：	Ｒ <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                                12 11                     0
++---------------------------------------+-----------------------+
+|                FLAG                   |        未使用         |
++---------------------------------------+-----------------------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>FLAG	以下の表の通り。
+</PRE>
+</blockquote>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット番号</TD><TD>内容</TD><TR>
+    <TD><B>31</B></TD><TD><B>第30～23ビット、第18～13ビットの論理和</B></TD><TR>
+    <TD><B>30</B></TD><TD><B>1:演算テスト結果＃１オーバーフロー(2^43以上)発生</B></TD><TR>
+    <TD><B>29</B></TD><TD><B>1:演算テスト結果＃２オーバーフロー(2^43以上)発生</B></TD><TR>
+    <TD><B>28</B></TD><TD><B>1:演算テスト結果＃３オーバーフロー(2^43以上)発生</B></TD><TR>
+    <TD><B>27</B></TD><TD><B>1:演算テスト結果＃１アンダーフロー(-2^43未満)発生</B></TD><TR>
+    <TD><B>26</B></TD><TD><B>1:演算テスト結果＃２アンダーフロー(-2^43未満)発生</B></TD><TR>
+    <TD><B>25</B></TD><TD><B>1:演算テスト結果＃３アンダーフロー(-2^43未満)発生</B></TD><TR>
+    <TD><B>24</B></TD><TD><B>1:リミッタA1範囲外検出(0もしくは-2^15未満または2^15以上)</B></TD><TR>
+    <TD><B>23</B></TD><TD><B>1:リミッタA2範囲外検出(0もしくは-2^15未満または2^15以上)</B></TD><TR>
+    <TD><B>22</B></TD><TD><B>1:リミッタA3範囲外検出 (-0もしくは2^15未満または2^15以上)</B></TD><TR>
+    <TD><B>21</B></TD><TD><B>1:リミッタB1範囲外検出(0未満または2^8以上)</B></TD><TR>
+    <TD><B>20</B></TD><TD><B>1:リミッタB2範囲外検出(0未満または2^8以上)</B></TD><TR>
+    <TD><B>19</B></TD><TD><B>1:リミッタB3範囲外検出(0未満または2^8以上)</B></TD><TR>
+    <TD><B>18</B></TD><TD><B>1:リミッタC範囲外検出(0未満または2^16以上)</B></TD><TR>
+    <TD><B>17</B></TD><TD><B>1:除算時オーバーフロー発生(商が2.0以上)</B></TD><TR>
+    <TD><B>16</B></TD><TD><B>1:演算テスト結果＃４オーバーフロー(2^31以上)発生</B></TD><TR>
+    <TD><B>15</B></TD><TD><B>1:演算テスト結果＃４アンダーフロー(-2^31未満)発生</B></TD><TR>
+    <TD><B>14</B></TD><TD><B>1:リミッタD1範囲外検出(-2^10未満または2^10以上)</B></TD><TR>
+    <TD><B>13</B></TD><TD><B>1:リミッタD2範囲外検出(-2^10未満または2^10以上)</B></TD><TR>
+    <TD><B>12</B></TD><TD><B>1:limE範囲外検出(0未満または2^12以上)</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

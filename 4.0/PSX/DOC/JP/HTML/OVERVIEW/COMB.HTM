@@ -1,0 +1,594 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 対戦ケーブルライブラリ（libcomb）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+対戦ケーブルライブラリ（libcomb）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+2台のPlayStationを接続し、連携動作させるためのサービスを提供するためのライブラリです。データを高速に交換する通信機能によって、各種の対戦ゲームを実現できます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    <A HREF="#Heading4_1_1_3"> 3.6からの変更点</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 ドライバとBIOS</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> 対戦ケーブルドライバ</A><BR>
+    <A HREF="#Heading4_1_2_2"> イベント</A><BR>
+    <A HREF="#Heading4_1_2_3"> 組み込みと削除</A><BR>
+    <A HREF="#Heading4_1_2_4"> ウエイトコールバック</A><BR>
+    <A HREF="#Heading4_1_2_5"> 同期入出力の終了条件</A><BR>
+    <A HREF="#Heading4_1_2_6"> 割り込みとread/write関数</A><BR>
+    <A HREF="#Heading4_1_2_7"> 受信単位文字数</A><BR>
+    <A HREF="#Heading4_1_2_8"> エラー処理</A><BR>
+    <A HREF="#Heading4_1_2_9"> BIOS</A><BR>
+    <A HREF="#Heading4_1_2_10"> シリアルコントローラ</A><BR>
+    <A HREF="#Heading4_1_2_11"> バッファ</A><BR>
+    <A HREF="#Heading4_1_2_12"> 制御線</A><BR>
+    <A HREF="#Heading4_1_2_13"> 通信仕様</A><BR>
+    <A HREF="#Heading4_1_2_14"> デフォルト設定</A><BR>
+    <A HREF="#Heading4_1_2_15"> 制御線遷移</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 プログラミングのヒント</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> 相手局接続の検出（１）</A><BR>
+    <A HREF="#Heading4_1_3_2"> 相手局接続の検出（２）</A><BR>
+    <A HREF="#Heading4_1_3_3"> リングバッファによるバックグラウンド受信</A><BR>
+    <A HREF="#Heading4_1_3_4"> 非同期writeは遅い</A><BR>
+    <A HREF="#Heading4_1_3_5"> 最もオーバヘッドが軽い送信</A><BR>
+    <A HREF="#Heading4_1_3_6"> １文字以外の受信文字数</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    「対戦ケーブルライブラリ」は2台のPlayStationの拡張SIOコネクタ間を「対戦ケーブル」で接続し通信を行なう機能を提供します。<BR>
+    送受信はread()およびwrite()関数で行ないます。いずれも処理が完了するとイベントが発生する非同期モードと、通信が完了すると関数が終了する同期モードをサポートします。最大通信レートは2M((2073600)bps。通信形態は非同期シリアル通信です。通信レートの変更は_comb_control()で行ないます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルライブラリのファイル名は「libcomb.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルライブラリを使うためにはヘッダファイル「libcomb.h」が必要です。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">インクルードヘッダ</TD><TD ALIGN="center">libcomb.h</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libcomb.lib</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_3">
+<A HREF="#Heading3_1_1"> 1. </A>3 <B>3.6からの変更点</B>
+</A>
+</H3>
+<blockquote>
+    <OL>
+         <LI VALUE= 1> 取りこぼしによる受信エラーを避けるため、DSR/DTR信号による受信文字数単位のハンドシェイクを行うようにしました。
+         <LI VALUE= 2> 非同期送信に使用する割り込み信号を従来のDSRから、TXIENによる割り込みに変更しました。
+         <LI VALUE= 3> DTR/RTSの制御に使用していた、_comb_control( 3,0,* )を、RTSのみの制御にしました。
+         <LI VALUE= 4> DSR/CTSの取得に使用していた、_comb_control( 3,1,* )を、CTSのみの取得にしました。
+         <LI VALUE= 5> 通信プロトコルを、キャラクタ長8ビット、ストップビット 1、パリティ無しに固定しました。
+         <LI VALUE= 6> 相手局と垂直同期を合わせるための、垂直同期reset機能 _comb_control(5,0,0)を追加しました。
+    </OL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ドライバとBIOS</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    対戦ケーブルライブラリは「対戦ケーブルドライバ」と「対戦ケーブルBIOS」から構成されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>対戦ケーブルドライバ</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルドライバはC言語標準の手順による入出力を提供します。<BR>
+<CENTER>
+        <H4><B>表 2：対戦ケーブルドライバ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>デバイス名</TD><TD>sio</TD><TR>
+    <TD>ブロックサイズ<BR></TD><TD>1,2,4,8バイト<BR>非同期writeは1バイト単位</TD><TR>
+    <TD>非同期モード</TD><TD>オープン時にO_NOWAITマクロで指定</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>イベント</B>
+</A>
+</H3>
+<blockquote>
+    次のイベントがドライバによる入出力に伴って発生します。<BR>
+    EvSpIOEWとEvSpIOERは非同期入出力要求発行後に発生します。EvSpERRORは同期および非同期read時に発生します。<BR>
+<CENTER>
+        <H4><B>表 3</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">原因ディスクリプタ</TD><TD ALIGN="center">イベント種別</TD><TD ALIGN="center">通知内容</TD><TR>
+    <TD>HwSIO</TD><TD>EvSpIOEW</TD><TD>非同期writeの完了</TD><TR>
+    <TD></TD><TD>EvSpIOER</TD><TD>非同期readの完了</TD><TR>
+    <TD></TD><TD>EvSpERROR</TD><TD>受信関連エラーの発生（非同期のみ）</TD><TR>
+    <TD></TD><TD>EvSpTIMOUT</TD><TD>同期read/writeでのタイムアウト</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>組み込みと削除</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルドライバの組み込みはAddCOMB()にて行ないます。同じく削除はDelCOMB()で行ないます。<BR>
+    ドライバを組み込まない状態でのデバイスsioへのオープン操作はエラーとなります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>ウエイトコールバック</B>
+</A>
+</H3>
+<blockquote>
+    同期read/write中で、先行データの処理をシリアルコントローラの状態をテストするソフトウェアループが実行されます。ウエイトコールバック関数はこのループ中で呼び出される関数です。<BR>
+    デフォルト状態ではコールバック関数は未登録です。_comb_control(4,0,func)により、関数funcをコールバック関数とすることができます。この関数は次の仕様を満たさなくてはなりません。また_comb_control(4,0,NULL)によりコールバック関数の登録を解除できます。<BR>
+    <BR>
+<PRE>        形式	long func( void )
+        引数	なし
+        返り値	ウエイトループをタイムアウト終了させる場合は0、
+        	ウエイトを継続する場合は1を返す。
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_5">
+<A HREF="#Heading3_1_2"> 2. </A>5 <B>同期入出力の終了条件</B>
+</A>
+</H3>
+<blockquote>
+    同期readは指定文字数が受信できると終了します。また、パリティ・オーバーラン・フレームの各受信エラーのいずれかが検出されるか、ウェイトコールバック関数が所定の値を返した場合に途中終了します。いずれも受信文字数を返します。<BR>
+    同期writeは指定文字数を送信できると終了します。また、ウェイトコールバック関数が所定の値を返した場合に途中終了します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_6">
+<A HREF="#Heading3_1_2"> 2. </A>6 <B>割り込みとread/write関数</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルライブラリの殆どの関数は、クリティカルセクションに入ることのないように設計されており、イベントハンドラ中での呼び出しが可能となっています。しかし、シングルスレッドでの運用が前提とされているため、マルチスレッド環境下では完全な動作は保証されません。<BR>
+    現行のPlayStationライブラリをシングルスレッドで運用される場合は全く問題ありませんが、オリジナルのスレッド管理を行われている場合、当ライブラリ・ドライバの動作は保証できません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_7">
+<A HREF="#Heading3_1_2"> 2. </A>7 <B>受信単位文字数</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationは8バイトの受信バッファを備えており、非同期read実装時においては、受信割り込みの発生を1,2,4または8バイト単位に設定することができます。<BR>
+    また、同期通信時には、DSR/DTRによるハンドシェイクを行う単位数として使用されます。<BR>
+    ただし、非同期writeを実装する場合は、送信割り込みの性質上、1バイト単位での動作が前提となるため、このパラメータは必ず1に設定する必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_8">
+<A HREF="#Heading3_1_2"> 2. </A>8 <B>エラー処理</B>
+</A>
+</H3>
+<blockquote>
+    非同期入出力中にオーバーラン・パリティ・フレームの各受信エラーを検出すると、ドライバは次の関数呼び出しにより非同期read要求をキャンセルし、続いてEvSpERRORイベントをデリバリします。この関数はシリアルコントローラのエラーフラグをクリアします<BR>
+    <BR>
+      <BLOCKQUOTE>
+      _comb_control(2,3,0);	/* 非同期read要求のキャンセル */<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_9">
+<A HREF="#Heading3_1_2"> 2. </A>9 <B>BIOS</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルBIOSはC言語標準の関数仕様ではカバーできない詳細なドライバの制御と情報取得機能を提供します。インタフェース関数は_comb_control()です。<BR>
+    なお、BIOSは対戦ケーブルドライバを組み込まない状態でも稼働します。<BR>
+    _comb_control()が提供する機能を次に示します。<BR>
+    <BR>
+<PRE>        形式	long _comb_control(cmd, arg, param)
+        	unsigned long cmd;
+        	unsigned long arg;
+        	unsigned long param;
+        
+        引数	cmd	コマンド
+        	arg	サブコマンド
+        	param	引数
+        
+<CENTER>
+</PRE>
+        <H4><B>表 4：コマンド一覧</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">cmd</TD><TD ALIGN="center">arg</TD><TD ALIGN="center">機能</TD><TR>
+    <TD ALIGN="center" ROWSPAN= 7>0</TD><TD ALIGN="center">0</TD><TD>シリアルコントローラステータス（＊１）を返す。</TD><TR>
+    <TD ALIGN="center">1</TD><TD>制御ラインステータス（＊２）を返す。</TD><TR>
+    <TD ALIGN="center">2</TD><TD>通信モード（＊３）を返す。</TD><TR>
+    <TD ALIGN="center">3</TD><TD>通信速度（bps単位）を返す。</TD><TR>
+    <TD ALIGN="center">4</TD><TD>受信単位文字数を返す。</TD><TR>
+    <TD ALIGN="center">5<BR></TD><TD>処理中の非同期入出力の残りデータ数（バイト）を返す。 <BR>paramが0ならば非同期write、1ならば非同期read</TD><TR>
+    <TD ALIGN="center">6<BR></TD><TD>非同期入出力要求が登録されているかどうかを返す。 <BR>登録されていれば1を、それ以外は0を返す。<BR>paramが0ならば非同期write、1ならば非同期read</TD><TR>
+    <TD ALIGN="center" ROWSPAN= 5>1</TD><TD ALIGN="center">0</TD><TD>システム予約</TD><TR>
+    <TD ALIGN="center">1</TD><TD>paramの値を制御ラインステータス（＊２）として設定する。</TD><TR>
+    <TD ALIGN="center">2</TD><TD>（リザーブ）</TD><TR>
+    <TD ALIGN="center">3</TD><TD>paramの値を通信速度（bps単位）として設定する。</TD><TR>
+    <TD ALIGN="center">4</TD><TD>paramの値を受信単位文字数として設定する。</TD><TR>
+    <TD ALIGN="center" ROWSPAN= 4>2<BR></TD><TD ALIGN="center">0<BR></TD><TD>シリアルコントローラをリセットする。<BR>コントローラステータス・通信モード・通信速度は保存される。</TD><TR>
+    <TD ALIGN="center">1<BR></TD><TD>ドライバステータスエラー関連ビットをクリアする。<BR>ドライバに割り込み処理終了を通知する機能も兼ねる。</TD><TR>
+    <TD ALIGN="center">2</TD><TD>非同期writeキャンセル</TD><TR>
+    <TD ALIGN="center">3</TD><TD>非同期readキャンセル</TD><TR>
+    <TD ALIGN="center" ROWSPAN= 2>3<BR></TD><TD ALIGN="center">0<BR></TD><TD>paramが1の場合、RTSを1にする。<BR>paramが0の場合は、RTSを0とする。</TD><TR>
+    <TD ALIGN="center">1</TD><TD>CTS==1ならば1、それ以外は0を返す。</TD><TR>
+    <TD ALIGN="center">4<BR></TD><TD ALIGN="center">0<BR></TD><TD>paramの値を関数へのポインタとみなし、ウエイトコールバック<BR>関数へのポインタとして登録する。<BR>それまでのコールバック関数ポインタの値を返す。</TD><TR>
+    <TD ALIGN="center">5</TD><TD ALIGN="center">0</TD><TD>垂直同期信号をリセットする</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+        <H4><B>表 5：ドライバステータス</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31-10</TD><TD>不定</TD><TR>
+    <TD ALIGN="center">9</TD><TD>1:割り込みon</TD><TR>
+    <TD ALIGN="center">8</TD><TD>1:CTSがon</TD><TR>
+    <TD ALIGN="center">7</TD><TD>1:DSRがon</TD><TR>
+    <TD ALIGN="center">6</TD><TD>不定</TD><TR>
+    <TD ALIGN="center">5</TD><TD>1:フレームエラー発生</TD><TR>
+    <TD ALIGN="center">4</TD><TD>1:オーバーランエラー発生</TD><TR>
+    <TD ALIGN="center">3</TD><TD>1:パリティエラー発生</TD><TR>
+    <TD ALIGN="center">2</TD><TD>1:送信データなし</TD><TR>
+    <TD ALIGN="center">1</TD><TD>1:受信データ読みとり可能</TD><TR>
+    <TD ALIGN="center">0</TD><TD>1:送信データ書き込み可能</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+        <H4><B>表 6：制御ラインステータス</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31-2</TD><TD>不定</TD><TR>
+    <TD ALIGN="center">1</TD><TD>1：RTSがon</TD><TR>
+    <TD ALIGN="center">0</TD><TD>1：DTRがon</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+        <H4><B>表 7：通信モード</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">31-8</TD><TD>不定</TD><TR>
+    <TD ALIGN="center">7,6<BR></TD><TD>ストップビット長<BR>01：1<BR>10：1.5<BR>11：2</TD><TR>
+    <TD ALIGN="center">5</TD><TD>パリテェ２  1：奇 0：偶</TD><TR>
+    <TD ALIGN="center">4</TD><TD>パリティ１  1：あり</TD><TR>
+    <TD ALIGN="center">3,2<BR></TD><TD>キャラクタ長<BR>00：5ビット<BR>01：6<BR>10：7<BR>11：8</TD><TR>
+    <TD ALIGN="center">1</TD><TD>常に1</TD><TR>
+    <TD ALIGN="center">0</TD><TD>常に0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_10">
+<A HREF="#Heading3_1_2"> 2. </A>10 <B>シリアルコントローラ</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルコネクタを駆動するデバイスは、非同期通信をサポートするシリアルコントローラ（以下、単にシリアルコントローラ）です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_11">
+<A HREF="#Heading3_1_2"> 2. </A>11 <B>バッファ</B>
+</A>
+</H3>
+<blockquote>
+    シリアルコントローラには1バイトの送信バッファと8バイトの受信バッファが用意されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_12">
+<A HREF="#Heading3_1_2"> 2. </A>12 <B>制御線</B>
+</A>
+</H3>
+<blockquote>
+    シリアルコントローラにはDTR/DSRとRTS/CTSの2組の制御線が用意されています。双方ともread() / write()時の同期用に使用されます。<BR>
+<CENTER>
+        <H4><B>表 8：制御線</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>送信側名称</TD><TD>受信側名称</TD><TD>受信側機能</TD><TD>受信側割り込み</TD><TR>
+    <TD>DTR</TD><TD>DSR</TD><TD>通信時での使用不可</TD><TD>なし</TD><TR>
+    <TD>RTS</TD><TD>CTS</TD><TD>OFFの場合は受信機能自動停止</TD><TD>なし</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_13">
+<A HREF="#Heading3_1_2"> 2. </A>13 <B>通信仕様</B>
+</A>
+</H3>
+<blockquote>
+    通信仕様は次に示す設定から任意に選択することができます。<BR>
+<CENTER>
+        <H4><B>表 9：通信仕様</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">設定値</TD><TR>
+    <TD>キャラクタ長</TD><TD>8ビット</TD><TR>
+    <TD>ストップビット</TD><TD>1ビット</TD><TR>
+    <TD>パリティチェック</TD><TD>なし</TD><TR>
+    <TD>通信速度</TD><TD>1～2073600bps（2073600の約数のみ）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_14">
+<A HREF="#Heading3_1_2"> 2. </A>14 <B>デフォルト設定</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルドライバの組み込み過程で行なわれる初期設定を次に示します。<BR>
+<CENTER>
+        <H4><B>表 10：デフォルト設定
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">設定値</TD><TR>
+    <TD>キャラクタ長</TD><TD>8ビット</TD><TR>
+    <TD>ストップビット</TD><TD>1ビット</TD><TR>
+    <TD>パリティチェック</TD><TD>なし</TD><TR>
+    <TD>通信速度</TD><TD>9600bps</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_15">
+<A HREF="#Heading3_1_2"> 2. </A>15 <B>制御線遷移</B>
+</A>
+</H3>
+<blockquote>
+    ドライバは次のようにDTR（受信側はDSR）とRTS（受信側はCTS）を操作します。<BR>
+<CENTER>
+        <H4><B>表 11：制御線遷移
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">ドライバ操作</TD><TD ALIGN="center">DTR  RTS</TD><TR>
+    <TD>パワーオン（相手局なしor相手局電源オフ）<BR>         （相手局あり、ドライバ未＋－初期化）</TD><TD>  1    1<BR>  0    0</TD><TR>
+    <TD>ドライバ初期化<BR>         AddCOMB();</TD><TD><BR>  0    0</TD><TR>
+    <TD>同期write<BR>         open("sio",O_WRONLY) ;<BR>         write(...);<BR>         write完了<BR>         close();</TD><TD><BR>  -    -<BR>  -    -<BR>  -    -<BR>  -    -</TD><TR>
+    <TD>同期read<BR>         open("sio",O_RDONLY);<BR>         read(...);<BR>         read完了<BR>         close();</TD><TD><BR>  -    -<BR>  -    1<BR>  -    0<BR>  -    -</TD><TR>
+    <TD>非同期write<BR>         open("sio",O_WRONLY|O_NOWAIT);<BR>         write(...);<BR>         送信割り込み発生 <BR>         送信割り込み完了<BR>         write完了<BR>         close();</TD><TD><BR>  -    -<BR>  -    -<BR>  -    - <BR>  -    -<BR>  -    -<BR>  -    -</TD><TR>
+    <TD>非同期read<BR>         open("sio",O_RDONLY|O_NOWAIT); <BR>         read(...);<BR>         受信割り込み発生<BR>         受信割り込み完了<BR>         read完了<BR>         close();</TD><TD><BR>  -    -<BR>  -    1<BR>  -    1 <BR>  -    1 <BR>  -    0<BR>  -    -</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>プログラミングのヒント</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>相手局接続の検出（１）</B>
+</A>
+</H3>
+<blockquote>
+    対戦ケーブルが接続されていない場合、または接続されていても相手局の電源が入っていない場合は、DSR/CTSともに1となっています。これに対し、対戦ケーブルが接続され、かつ相手局の電源が入っていれば、DSR/CTSともに0となり、この状態はAddCOMBによるドライバの組込み後も変化しません。<BR>
+    当ライブラリにおいてDSR/CTS信号はread関数を発行しない限り内部での操作は行われないため、<BR>
+    AddCOMB実行直後の初期化プロセスにおいて、暫定的にDTRかRTSのどちらかを1にすることで、相手局に通信準備の整ったことを通知するという方法があります。相手局にも同様の処理をさせることで、双方で通信準備が整ったことを確認しあうことができます。ただし、RTSを使った場合は、その後のread/write関数への影響を防ぐため、0に戻す必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>相手局接続の検出（２）</B>
+</A>
+</H3>
+<blockquote>
+    通信中に対戦ケーブルが外れた場合、または相手局の電源がオフになるなど、相手局の状態に異常が発生した場合の検出については、基本的に時間制約を設けた検出アルゴリズムが必要となります。<BR>
+    より簡便な検出方法として、ウェイトコールバックを利用し、相手局のレスポンスを常に監視し、そのレスポンスの有無はまた速度によって相手局の状態を推測するという方法があります。<BR>
+    しかし、これだけでは相手局の異常な状態が、非結線によるものなのか通信エラーによるものかのどちらかまでは判断できません。より詳細な状態を検出するには、さらに再送信を行うなどの通信エラー対策を尽くした上で、それでも状態が改善されないならば、非結線と判断するという手段が必要となります。<BR>
+    どちらにしても、相手局との接続を検出する決定的な手段はなく、時間制約ベースでの検出アルゴリズムが必要となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>リングバッファによるバックグラウンド受信</B>
+</A>
+</H3>
+<blockquote>
+    read関数はクリティカルセクション中で実行できます。よって、EvSpIOERイベントハンドラ中でread関数を呼び出すことにより、次の非同期受信要求をドライバに登録できます。read関数に与える受信バッファポインタを操作することにより、簡単にリングバッファへのバックグラウンド受信を実現できます。<BR>
+    write関数もクリティカルセクション中で実行できますので、受信データ内容をテストすることによる再送要求発行などの処理を上記のリングバッファ操作コードの「手前」に実装することも可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>非同期writeは遅い</B>
+</A>
+</H3>
+<blockquote>
+    非同期送信は当ライブラリ・ドライバの運用形態の中で最もCPU負荷の高い動作です。<BR>
+    これは送信よりも受信が優先されないとオーバーランなどの受信エラーが発生し、トータルで性能が低下することに起因しています。また非同期通信の効率が同期通信のそれに比べて低いことも原理上避けられません。<BR>
+    以上から、同期・非同期のread・writeの4つの組み合わせのうち、非同期writeが最もCPUに負担をかける運用形態となります。<BR>
+    また、非同期writeはより低いボーレートでパフォーマンスが発揮される性質上、実際の運用において、57600bpsを超える通信では正常な動作は期待できません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_5">
+<A HREF="#Heading3_1_3"> 3. </A>5 <B>最もオーバヘッドが軽い送信</B>
+</A>
+</H3>
+<blockquote>
+    送信すべきデータを受信バッファサイズである8文字長のパケットに分割し、コード中に適宜分散して配置した同期writeで送信する。これが最もCPU負荷の小さな送信形態となります。もちろん各write関数は一定時間内に終了すべきでしょうから、全write関数にタイムアウトコールバック関数による最大待ち時間を設定し、制限時間が来たならば送信を中断します。中断時点での送信済み文字数はwrite関数の返り値として得<BR>
+    られますので、次のwrite関数に与える送信データを示すポインタをこの値を元に修正します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_6">
+<A HREF="#Heading3_1_3"> 3. </A>6 <B>１文字以外の受信文字数</B>
+</A>
+</H3>
+<blockquote>
+    1文字以外の値を受信文字数として非同期read要求を発行した場合、その文字数に満たないデータが受信された状態をドライバが検出できません。この状態は送信側の動作次第でデッドロックにつながりますので、アプリケーションレベルでタイムアウト処理を実装する必要が生じます。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,112 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsPacket
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsPacket
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        一連のコマンド列をキューに登録する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsPacket </B>(
+u_char <I>mode</I>,
+DslLOC* <I>pos</I>,
+u_char <I>com</I>,
+DslCB* <I>cbsync</I>,
+int <I>count</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		動作モード
+<I>pos</I>		ターゲットポジション
+<I>com</I>		最後に実行されるコマンド
+<I>cbsync</I>		コマンドがすべて終了したときにキックされるコールバック関数
+<I>count</I>		リトライ回数（0：リトライなし、-1：無限リトライ）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    データリード（再生）に関する一連のコマンドをキューに登録する。キューに登録されるコマンドは以下の通り。 <BR>
+<BR>
+    DslPause <BR>
+    DslSetmode		<I>mode</I> <BR>
+    DslSetloc		<I>pos</I> <BR>
+    <I>com</I>で指定されたコマンド <BR>
+<BR>
+    <I>com</I>には以下のコマンドを指定することができる。 <BR>
+<BR>
+<UL>
+         <LI> DslPlay
+         <LI> DslReadN
+         <LI> DslReadS
+         <LI> DslSeekP
+         <LI> DslSeekL
+</UL>
+<BR>
+    DslPlay、DslReadN、DslReadSを指定した場合はデータリード（再生）まで実行される。 <BR>
+    DslSeekP、DslSeekLを指定した場合は、シーク実行後にポーズ状態で終了する。 <BR>
+<BR>
+    一連のコマンドのいずれかがエラーになった場合は、先頭のコマンドからリトライされる。リトライする回数は<I>count</I>で指定する。<I>count</I>=0の場合はリトライなし、<I>count</I>=-1の場合は無限回リトライされる。<I>count</I>回リトライしても成功しなかった場合はエラーとなる。 <BR>
+    一連のコマンドが全て成功するかエラーとなった場合は、<I>cbsync</I>で指定されたコールバック関数がキックされる。また、DsSync()によって実行状況を獲得することができる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    登録した場合はコマンドID（&gt;0）が返される。失敗した場合は０。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    キューに一連のコマンドを登録するだけの空きがない場合はエラーとなる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="dcsommad.htm">DsCommand</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

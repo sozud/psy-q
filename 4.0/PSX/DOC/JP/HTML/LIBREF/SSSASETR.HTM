@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsSetSerialAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsSetSerialAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        Serial属性設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SsSetSerialAttr</B> (
+char<I> s_num</I>,
+char <I>attr</I>,
+char<I> mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>s_num</I>		Serial番号
+<I>attr		</I>属性値
+<I>mode</I>		設定モード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    Serialに関する属性の設定を行う。 <BR>
+<BR>
+        <BLOCKQUOTE>
+    <I>s_num</I> = SS_SERIAL_A(SS_CD)…Serial A（CD入力） <BR>
+    <I>s_num</I> = SS_SERIAL_B(SS_EXT)…Serial B（外部デジタル入力） <BR>
+    <I>attr</I> = SS_MIX…ミキシング <BR>
+    <I>attr </I>= SS_REV…リバーブ <BR>
+    <I>mode</I> = SS_SON…<I>attr</I> on <BR>
+    <I>mode</I> = SS_SOFF…<I>attr</I> off <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sgsasetr.htm">SsGetSerialAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

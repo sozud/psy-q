@@ -1,0 +1,183 @@
+                                                   PlayStation Data Converter
+
+mktod
+------
+
+
+ 1 概要
+
+    プロジェクト情報(PRJファイル)と階層定義情報(HRCファイル)を読み込み、レイ
+    アウトファイル(TODファイル)を生成します。
+    DOS版とSGI版があります。ここでは、1996/May/1付けの Version 1.4 に関する内
+    容を記述しています。
+
+ 2 使い方
+
+
+    mktod [options] hrc-file ...
+
+      mktodはプロジェクトディレクトリにおいて実行され、プロジェクトファイル
+      (model.prjおよびobject.prj)と、引数で与えられたHRCファイルを読み込み、
+      todディレクトリにTODファイルを生成します。現在のディレクトリにtodディレ
+      クトリがない場合、TODファイルは現在のディレクトリに生成されます。いずれ
+      の場合もプロジェクトファイルは現在のディレクトリに存在していなければな
+      りません。
+      また、引数であるHRCファイルは、明示的にパスが指定されない場合、現在のデ
+      ィレクトリ(.\)または.\hrcに存在しなければなりません。mktodはこの順にHRC
+      ファイルを探します。拡張子の".hrc"は省略可能です。
+
+ 3 オプション
+
+
+    -o output-file
+
+      出力TODファイル名を指定します。デフォルトでは引数のHRCファイル名の拡張
+      子を".tod"に置き換えたものになります。
+
+    -tree
+
+      オブジェクト間の階層構造を標準出力に出力します。
+
+    -v
+
+      変換中の情報を標準出力に出力します。
+
+ 4 前バージョン(ver.1.3)からの主な変更点
+
+         ・一部オリジンが正しく出力されない場合がありましたが、これを修正しま
+           した。
+
+ 5 制約
+
+    現バージョンは以下の制約を持っています。
+    
+         ・HRCファイル中のシーケンスブロックは読み飛ばします。したがって、
+           mktodで生成されるTODファイルは常に１フレーム分です。
+
+ 6 注意
+
+    レイアウト/アニメーションツールおよびmktodが出力するTODファイルを利用した
+    プログラムを作成する場合、rsdlinkで平行移動(-t)や拡大縮小(-s)オプションは
+    使用しないで下さい。TODファイルにはRSDオブジェクトに対する移動量や倍率が
+    格納されているため、RSDからTMDに変換する際に移動や拡大縮小を行なうと、整
+    合がとれなくなります。前もって、rsdformを利用して、RSDデータのまま移動や
+    拡大縮小を行なうようにしてください。
+
+ 7 使用例
+
+
+    例1 -v オプションの表示例
+
+      通常、mktodは以下のようなサブディレクトリを持つディレクトリ(プロジェク
+      トディレクトリ)において起動されます。このディレクトリ構造およびプロジェ
+      クトファイルはレイアウト/アニメーションツールが生成します。
+        
+        > cd \home\proj1
+        > dir /w
+        [.]        [..]        [ACT]        [CAM]        [HRC]
+        [LHT]      [ORG]       [RSD]        MODEL.PRJ    OBJECT.PRJ
+        [TIM]      [TMD]       [TOD]
+        
+        > mktod -v test.hrc
+        Input file   : C:\HOME\PROJ1\HRC\test.hrc
+        Output file  : C:\HOME\PROJ1\TOD\test.tod
+        Reading ... C:\HOME\PROJ1\model.prj
+        Reading ... C:\HOME\PROJ1\object.prj
+        Reading ... C:\HOME\PROJ1\HRC\test.hrc
+        Number of Frames  : 1
+        Number of Objects : 21
+        Number of Packets : 72
+        Output file size  : 1096 bytes
+      
+      -vオプションにより、入出力ファイル名と、生成されたTODファイルのフレーム
+      数、オブジェクト数、パケット数およびファイルサイズが表示されます。
+
+    例2 -tree オプションの表示例
+
+      以下は-treeオプションを指定してオブジェクト間の親子関係を表示させた例で
+      す。HRCファイル中の階層構造記述部に書かれた全オブジェクトの名前とID番号
+      (#...)が表示されますが、その際、子オブジェクトは親オブジェクトより一段
+      インデントされます。
+        
+        > mktod -tree hand.hrc
+        = world(#999)
+        	+- joint1(#1001)
+        		+- obj1(#101)
+        		+- joint2(#1002)
+        			+- obj2(#102)
+        	+- joint3(#1003)
+        		+- obj3(#103)
+        		+- joint4(#1004)
+        			+- obj4(#104)
+        	+- joint5(#1005)
+        		+- obj5(#105)
+        		+- joint6(#1006)
+        			+- obj6(#106)
+        	+- joint7(#1007)
+        		+- obj7(#107)
+        		+- joint8(#1008)
+        			+- obj8(#108)
+        	+- joint9(#1009)
+        		+- obj9(#109)
+        		+- joint10(#1010)
+        		+- obj10(#110)
+        
+      上は次のようなHRCファイルを入力した場合の例です。IDはobject.prjファイル
+      より得られます(ここでは省略)。
+        
+        > type HRC\hand.hrc
+        @HRC940401
+        # オブジェクト数
+        21
+        # インスタンス記述部
+        world	null
+        obj1	cube1.rsd
+        obj2	cube1.rsd
+        obj3	cube1.rsd
+        obj4	cube1.rsd
+        obj5	cube1.rsd
+        obj6	cube1.rsd
+        obj7	cube1.rsd
+        obj8	cube1.rsd
+        obj9	cube1.rsd
+        obj10	cube1.rsd
+        joint1	null
+        joint2	null
+        joint3	null
+        joint4	null
+        joint5	null
+        joint6	null
+        joint7	null
+        joint8	null
+        joint9	null
+        joint10	null
+        # マトリックス(回転角、倍率、平行移動量）の初期化部
+        world	0
+        	0 0 0 1.0 1.0 1.0 0 0 8000
+        obj1	0
+        	0 0 0 4.5 4.0 1.0 0 -200 0
+        < ... 途中省略 ... >
+        joint9	0
+        	0 0 0 1.0 1.0 1.0 -500 -950 0
+        joint10	0
+        	0 0 0 1.0 1.0 1.0 0 -650 0
+        # ACTファイル記述部(シーケンスブロック)
+        0
+        # 階層構造記述部
+        
+        world joint1
+        joint1 joint2 joint3 joint5 joint7 joint9
+        joint3 joint4
+        joint5 joint6
+        joint7 joint8
+        joint9 joint10
+        joint1 obj1
+        joint2 obj2
+        joint3 obj3
+        joint4 obj4
+        joint5 obj5
+        joint6 obj6
+        joint7 obj7
+        joint8 obj8
+        joint9 obj9
+        joint10 obj10

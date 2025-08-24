@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsRead
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsRead
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        データを読み込む
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsRead</B> (
+DslLOC* <I>pos</I>,
+int <I>sectors</I>,
+u_long* <I>buf</I>,
+int <I>mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pos</I>		データの開始位置
+<I>sectors</I>		読み込むセクタ数
+<I>buf</I>		データを格納するバッファの先頭アドレス
+<I>mode</I>		データを読み込む際の動作モード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CDのデータをメインメモリに読み込む。読み込みはセクタ単位で行われるため、<I>buf</I>の大きさは１セクタ＝２０４８バイト（５１２ワード）の倍数でなければならない。 <BR>
+    データの読み込み処理は関数の実行終了後バックグラウンドで行われる。関数の実行の成功がデータの読み出しの成功ではないことに注意。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    0：	関数の実行失敗 <BR>
+    1：	関数の実行成功 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CdRead()とは引数が異なることに注意。DsRead()ではデータの開始位置を指定する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="drbseadk.htm">DsReadBreak</a>(),<a href="drcseadk.htm">DsReadCallback</a>(),<a href="drsseadc.htm">DsReadSync</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

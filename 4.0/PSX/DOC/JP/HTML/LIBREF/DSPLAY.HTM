@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsPlay
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsPlay
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CD-DAトラックを再生する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsPlay </B>(
+int <I>mode</I>,
+int* <I>tracks</I>,
+int <I>offset</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		モード
+<I>tracks</I>		演奏するトラックを指定した配列。０で終端していること
+<I>offset</I>		演奏を開始する<I>tracks</I>のインデックス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    配列<I>tracks</I>で指定された複数のトラックをバックグラウンドに順に演奏する。配列の最後のトラックまで演奏したらモードに応じて繰り返し演奏するか、演奏を終了する。 <BR>
+    <I>mode</I>に指定できる値は次の通り。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">mode</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">0</TD><TD>演奏を停止する。</TD><TR>
+    <TD ALIGN="center">1<BR></TD><TD>tracksで指定されたトラックを順に演奏し、指定されたトラックを<BR>すべて演奏したら、演奏を停止する。</TD><TR>
+    <TD ALIGN="center">2<BR></TD><TD>tracksで指定されたトラックを順に演奏し、指定されたトラックを<BR>すべて演奏したら、最初に戻って繰り返し演奏する。</TD><TR>
+    <TD ALIGN="center">3</TD><TD>現在の演奏中のトラックに対応するtracksのインデックスを返す。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在演奏中のトラック。これはトラック番号ではなく配列<I>tracks</I>のインデックスが返される。-1が返された場合は、演奏は終了していることを表す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    演奏はトラック単位で行われ、トラックの途中からの演奏や停止はできない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

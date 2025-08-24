@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetCommonAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetCommonAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        全ボイス共通属性を設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetCommonAttr</B> (
+SpuCommonAttr *<I>attr</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attr</I>		全ボイス共通属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    全ボイス共通属性を設定する。 <BR>
+    <I>attr</I>.mask に、下記の設定したい属性のビット和を与えることで各属性のみの設定が可能。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">属性ビット</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPU_COMMON_MVOLL</TD><TD>マスタ音量(左)</TD><TR>
+    <TD>SPU_COMMON_MVOLR</TD><TD>マスタ音量(右)</TD><TR>
+    <TD>SPU_COMMON_MVOLMODEL</TD><TD>マスタ音量モード(左)</TD><TR>
+    <TD>SPU_COMMON_MVOLMODER</TD><TD>マスタ音量モード(右)</TD><TR>
+    <TD>SPU_COMMON_CDVOLLCD</TD><TD>入力音量(左)</TD><TR>
+    <TD>SPU_COMMON_CDVOLRCD</TD><TD>入力音量(右)</TD><TR>
+    <TD>SPU_COMMON_CDREVCD</TD><TD>入力リバーブオン/オフ</TD><TR>
+    <TD>SPU_COMMON_CDMIXCD</TD><TD>入力オン/オフ</TD><TR>
+    <TD>SPU_COMMON_EXTVOLL</TD><TD>外部デジタル入力音量(左)</TD><TR>
+    <TD>SPU_COMMON_EXTVOLR</TD><TD>外部デジタル入力音量(右)</TD><TR>
+    <TD>SPU_COMMON_EXTREV</TD><TD>外部デジタル入力リバーブオン/オフ</TD><TR>
+    <TD>SPU_COMMON_EXTMIX</TD><TD>外部デジタル入力オン/オフ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>attr</I>.mask が0の場合は全属性を設定する。 <BR>
+    以下に個々の設定条件を説明する。 <BR>
+<BR>
+    (1) マスタ音量とマスタ音量モード <BR>
+        <BLOCKQUOTE>
+    マスタ音量を <I>attr</I>.mvol に、マスタ音量モードを <I>attr</I>.mvolmode に、左右独立に指定する。 <BR>
+    音量のとり得る範囲と各種モードについては、ボイスにおける設定と同様なのでSpuSetVoiceAttrの説明、及び表1を参照。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (2) CD 入力音量 <BR>
+        <BLOCKQUOTE>
+    CD入力の音量を -0x8000～ 0x7fffの範囲で <I>attr</I>.cd.volume に、左右独立に設定する。設定された音量が負の場合は位相が反転する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (3) CD入力リバーブオン/オフ <BR>
+        <BLOCKQUOTE>
+    CD入力にリバーブをかける/かけないを <I>attr</I>.cd.reverb に設定する。 <BR>
+    <I>attr.</I>cd.reverb:	= SPU_ON	... リバーブオン設定 <BR>
+    <blockquote>
+    		= SPU_OFF	... リバーブオフ設定 <BR>
+    </blockquote>
+        </BLOCKQUOTE>
+<BR>
+    (4) CD 入力オン/オフ <BR>
+        <BLOCKQUOTE>
+    CD入力のミキシングのオン/オフを <I>attr</I>.cd.mix に設定する。 <BR>
+    <I>attr</I>.cd.mix:	= SPU_ON	... ミキシングオン設定 <BR>
+     		= SPU_OFF	... ミキシングオフ設定 <BR>
+    この値をオンにしない限り、CD入力は出力されない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (5) 外部デジタル入力音量 <BR>
+        <BLOCKQUOTE>
+    外部デジタル入力の音量を-0x8000 ～ 0x7fffの範囲で <I>attr</I>.ext.volume に、左右独立に設定する。設定された音量が負の場合は位相が反転する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    (6) 外部デジタル入力リバーブオン/オフ <BR>
+        <BLOCKQUOTE>
+    外部デジタル入力にリバーブをかける/かけないを <I>attr.</I>ext.reverb に設定する。 <BR>
+    <I>attr</I>.ext.reverb:= SPU_ON	... リバーブオン設定 <BR>
+    <blockquote>
+    		= SPU_OFF	... リバーブオフ設定 <BR>
+    </blockquote>
+        </BLOCKQUOTE>
+<BR>
+    (7) 外部デジタル入力オン/オフ <BR>
+        <BLOCKQUOTE>
+    外部デジタル入力のミキシングのオン/オフを <I>attr</I>.cd.mix に設定する。 <BR>
+    <I>attr</I>.ext.mix:	= SPU_ON	... ミキシングオン設定 <BR>
+     		= SPU_OFF	... ミキシングオフ設定 <BR>
+    この値をオンにしない限り、外部デジタル入力は出力されない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sgcapuer.htm">SpuGetCommonAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

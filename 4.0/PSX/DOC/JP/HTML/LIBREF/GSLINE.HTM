@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsLINE
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsLINE
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        直線ハンドラ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsLINE</B> {
+		unsigned long <I>attribute</I>;
+		short <I>x0</I>, <I>y0</I>;
+		short <I>x1</I>, <I>y1</I>;
+		unsigned char <I>r</I>, <I>g</I>, <I>b</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>attribute</I>	属性
+<I>x0</I>, <I>y0</I>		描画開始点の位置
+<I>x1</I>, <I>y1</I>		描画終了点の位置
+<I>r</I>, <I>g</I>, <I>b</I>		描画色
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsLINE は、直線を描画するために必要な情報を持つ構造体である。 <BR>
+    GsLINE をオーダリングテーブルに登録するには、GsSortLine() 関数を使用する。 <BR>
+    <I>attribute</I> は 32 ビットで、ここで表示のためのさまざまな属性を設定する。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ビット</TD><TD>意味</TD><TR>
+    <TD>28-29<BR></TD><TD>半透明レート<BR>0：0.5 x Back + 0.5 x Forward<BR>1：1.0 x Back + 1.0 x Forward<BR>2：1.0 x Back - 1.0 x Forward<BR>3：1.0 x Back + 0.25 x Forward</TD><TR>
+    <TD>30<BR></TD><TD>半透明 ON/OFF<BR>0: 半透明 OFF<BR>1: 半透明 ON</TD><TR>
+    <TD>31<BR></TD><TD>表示 ON/OFF <BR>0: 表示 <BR>1: 非表示</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    bit30 で半透明を ON にした場合に、ピクセルをブレンディングする方式を設定する。 <BR>
+    ０のときは通常の半透明処理 １のときはピクセル加算、２のときはピクセル減算、３のときは25%加算となる。 <BR>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

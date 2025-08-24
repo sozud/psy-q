@@ -1,0 +1,152 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>rgb2tim</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    RGBイメージデータをPlayStationの画像データファイルに変換します。<BR>
+    DOS版とSGI版があります。ここでは、1996/Apr/1付けのVersion 2.1に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>rgb2tim<I> </I>-size<I> w h</I> [options] <I>input-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      RGB形式のイメージデータファイルを与えると、PlayStationのTIMファイルを生成します。<B>-size</B>で入力イメージの幅と高さをピクセル数で指定します。幅のみ正しく指定し、高さに0以下の値を与えると、高さを自動的に計算します。高さのみを正しく指定した場合も同様です。<BR>
+      入力は24ビットinterleave型のRGBデータです。引数にワイルドカードが使えます。複数のRGBデータを一括変換できますが、サイズやビットモードなどのオプションは共通になり、個々の出力ファイル名は指定できません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは入力ファイル名の拡張子を".tim"に変換したものを現在のディレクトリに生成します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-org <I>x y</I></B></H4>
+
+      <BLOCKQUOTE>
+      VRAM上でのイメージの原点を指定します。デフォルトは(0, 0)です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-plt <I>x y</I></B></H4>
+
+      <BLOCKQUOTE>
+      VRAM上でのカラーパレットの位置を指定します。<B><I>x</B>, <B>y</I></B>どちらかに負の数を指定すると、4または8bitのTIMであってもCLUTを生成しません。デフォルトは(0, 480)です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-mode <I>4|8|16|24</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力するTIMデータの１ピクセルの大きさを指定します。デフォルトでは16ビットモードになります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-t</B></H4>
+
+      <BLOCKQUOTE>
+      (0 0 0)以外の色に対して、透明制御ビットをONにします。(0 0 0)以外の色が半透明色になります。デフォルトでは、すべての色は不透明になります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-b</B></H4>
+
+      <BLOCKQUOTE>
+      (0 0 0)に対して、透明制御ビットをOFFにします。(0 0 0)は透明になります。デフォルトでは、(0 0 0)は黒として表示されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-skip <I>n</I></B></H4>
+
+      <BLOCKQUOTE>
+      入力ファイルの先頭から読み飛ばすバイト数を指定します。デフォルトは 0 です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      変換に関する詳細な情報を表示します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>前バージョンからの主な変更点</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> CLUTなしのTIMファイルを生成できるようになりました(<B>-plt</B>オプション参照)。
+         <LI> <B>-size</B>オプションで幅のみ正しく指定し、高さに0以下の値を与えると、高さを自動的に計算します。高さのみを正しく指定した場合も同様です。
+         <LI> 複数のRGBデータを一括変換できるようになりました。ただし、オプションは共通のものが適用されます。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+    入力RGBデータの色数が多い場合、4および8ビットには変換できないことがあります("Color overflow!!"というエラーメッセージが出力されます)。この場合、あらかじめPhotoshopなどで色数を落としてください。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

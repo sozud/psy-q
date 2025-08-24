@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsF_LIGHT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsF_LIGHT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        平行光源
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsF_LIGHT</B> {
+		long <I>vx</I>, <I>vy</I>, <I>vz</I>;
+		unsigned char <I>r</I>, <I>g</I>, <I>b</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>vx</I>, <I>vy</I>, <I>vz</I>	光源の方向ベクトル
+<I>r</I>, <I>g</I>, <I>b</I>		light の色
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsF_LIGHT は平行光源の情報を保持し、GsSetFlatLight() 関数によってシステムに設定される。 <BR>
+    平行光源は同時に３つまで設定することが可能。 <BR>
+    <I>vx, vy, vz</I> には 光源の方向ベクトルを設定する。正規化はlibgsが行なうので、プログラマが正規化をする必要はない。 <BR>
+    このベクトルと逆の方向を持つ方線ベクトルのポリゴンに最も強く光が当たる。 <BR>
+    <I>r, g, b</I> には、光源の色を8bitで設定する。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

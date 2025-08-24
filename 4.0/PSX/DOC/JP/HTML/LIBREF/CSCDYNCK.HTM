@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdSyncCallback
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdSyncCallback
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        CdSyncコールバック関数を定義
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>CdlCB <B>CdSyncCallback </B>(
+CdlCB <I>func</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>func		</I>コールバック関数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コマンド終了時に呼ばれるコールバックを定義する。コマンドが終了した時に<I>func</I>が呼び出される。<I>func</I>に0を指定した場合は、コールバックは発生しない。 <BR>
+    CdlCBは以下のコールバック関数の型を表す。 <BR>
+<PRE>typedef void ( *CdlCB )( u_char, u_char* )
+</PRE>
+    第一引数にはCD-ROMサブシステムのステータスが渡される。 <BR>
+    ステータスには以下のものがある。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>CdlAcknowledge</TD><TD>コマンドが受けつけられた</TD><TR>
+    <TD>CdlComplete</TD><TD>コマンドの実行が終了した</TD><TR>
+    <TD>CdlDiskError</TD><TD>コマンドが受けつけられなかったorコマンドが異常終了した</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    第二引数はCD-ROMサブシステムからのresult配列のポインタが渡される。resultは8byteである。 <BR>
+<PRE>char result[ 8 ];
+</PRE>
+    resultの先頭にはステータスが入り，それ以降は発行したコマンドによって内容が異なる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    以前に設定されたコールバックのアドレス <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>func</I>内では以降の描画終了割り込みはマスクされる。従って<I>func</I>は必要な処理を終了したらすみやかにリターンする必要がある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="cdsync.htm">CdSync</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,1814 @@
+<HTML>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 基本ジオメトリ ライブラリ (libgte)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm" TARGET="_top"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm" TARGET="_top"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2">
+<H1>
+基本ジオメトリ ライブラリ (libgte) 関数一覧
+<HR>
+</H1>
+</A>
+<blockquote>
+
+<TABLE CELLPADDING=0>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>構造体</TD><TR>
+<TD></TD><TD>
+<A HREF="crvecto3.htm" _TARGET="main"> CRVECTOR3 </A><BR>
+</TD><TD> </TD>
+<TD>３角形用再帰ベクトル情報</TD><TR>
+<TD></TD><TD>
+<A HREF="crvecto4.htm" _TARGET="main"> CRVECTOR4 </A><BR>
+</TD><TD> </TD>
+<TD>４角形用再帰ベクトル情報</TD><TR>
+<TD></TD><TD>
+<A HREF="cvector.htm" _TARGET="main"> CVECTOR </A><BR>
+</TD><TD> </TD>
+<TD>8bit３次元ベクトル（カラーベクトル）</TD><TR>
+<TD></TD><TD>
+<A HREF="divpoly3.htm" _TARGET="main"> DIVPOLYGON3 </A><BR>
+</TD><TD> </TD>
+<TD>３角形用分割バッファ</TD><TR>
+<TD></TD><TD>
+<A HREF="divpoly4.htm" _TARGET="main"> DIVPOLYGON4 </A><BR>
+</TD><TD> </TD>
+<TD>４角形用分割バッファ　</TD><TR>
+<TD></TD><TD>
+<A HREF="dvector.htm" _TARGET="main"> DVECTOR </A><BR>
+</TD><TD> </TD>
+<TD>２次元ベクトル</TD><TR>
+<TD></TD><TD>
+<A HREF="evector.htm" _TARGET="main"> EVECTOR </A><BR>
+</TD><TD> </TD>
+<TD>クリップベクトル情報</TD><TR>
+<TD></TD><TD>
+<A HREF="matrix.htm" _TARGET="main"> MATRIX </A><BR>
+</TD><TD> </TD>
+<TD>マトリックス</TD><TR>
+<TD></TD><TD>
+<A HREF="pol3.htm" _TARGET="main"> POL3 </A><BR>
+</TD><TD> </TD>
+<TD>三角形ポリゴン</TD><TR>
+<TD></TD><TD>
+<A HREF="pol4.htm" _TARGET="main"> POL4 </A><BR>
+</TD><TD> </TD>
+<TD>四角形ポリゴン</TD><TR>
+<TD></TD><TD>
+<A HREF="rvector.htm" _TARGET="main"> RVECTOR </A><BR>
+</TD><TD> </TD>
+<TD>分割頂点ベクトル情報</TD><TR>
+<TD></TD><TD>
+<A HREF="spol.htm" _TARGET="main"> SPOL </A><BR>
+</TD><TD> </TD>
+<TD>頂点情報</TD><TR>
+<TD></TD><TD>
+<A HREF="svector.htm" _TARGET="main"> SVECTOR </A><BR>
+</TD><TD> </TD>
+<TD>１６bit３次元ベクトル</TD><TR>
+<TD></TD><TD>
+<A HREF="tmesh.htm" _TARGET="main"> TMESH </A><BR>
+</TD><TD> </TD>
+<TD>三角形メッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="vector.htm" _TARGET="main"> VECTOR </A><BR>
+</TD><TD> </TD>
+<TD>32bit３次元ベクトル</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>関数</TD><TR>
+<TD></TD><TD>
+<A HREF="ampplyax.htm" _TARGET="main"> ApplyMatrix </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルにマトリックスを乗算する</TD><TR>
+<TD></TD><TD>
+<A HREF="amlpplyv.htm" _TARGET="main"> ApplyMatrixLV </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルにマトリックスを乗算する</TD><TR>
+<TD></TD><TD>
+<A HREF="amspplyv.htm" _TARGET="main"> ApplyMatrixSV </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルにマトリクスを乗算する</TD><TR>
+<TD></TD><TD>
+<A HREF="armpplyx.htm" _TARGET="main"> ApplyRotMatrix </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルに定数回転マトリックスを乗算する</TD><TR>
+<TD></TD><TD>
+<A HREF="armlpplv.htm" _TARGET="main"> ApplyRotMatrixLV </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルに定数回転マトリックスを乗算する</TD><TR>
+<TD></TD><TD>
+<A HREF="atmlpplv.htm" _TARGET="main"> ApplyTransposeMatrixLV </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルにマトリクスを乗算する</TD><TR>
+<TD></TD><TD>
+<A HREF="azverag3.htm" _TARGET="main"> AverageZ3 </A><BR>
+</TD><TD> </TD>
+<TD>３つの値の平均値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="azverag4.htm" _TARGET="main"> AverageZ4 </A><BR>
+</TD><TD> </TD>
+<TD>４つの値の平均値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="catan.htm" _TARGET="main"> catan </A><BR>
+</TD><TD> </TD>
+<TD>逆正接をもとめる(１引数、小テーブル使用、中速)</TD><TR>
+<TD></TD><TD>
+<A HREF="ccos.htm" _TARGET="main"> ccos </A><BR>
+</TD><TD> </TD>
+<TD>余弦</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3f.htm" _TARGET="main"> Clip3F </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3fp.htm" _TARGET="main"> Clip3FP </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3ft.htm" _TARGET="main"> Clip3FT </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3ftp.htm" _TARGET="main"> Clip3FTP </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3g.htm" _TARGET="main"> Clip3G </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3gp.htm" _TARGET="main"> Clip3GP </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3gt.htm" _TARGET="main"> Clip3GT </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip3gtp.htm" _TARGET="main"> Clip3GTP </A><BR>
+</TD><TD> </TD>
+<TD>３頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4f.htm" _TARGET="main"> Clip4F </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4fp.htm" _TARGET="main"> Clip4FP </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4ft.htm" _TARGET="main"> Clip4FT </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4ftp.htm" _TARGET="main"> Clip4FTP </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4g.htm" _TARGET="main"> Clip4G </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4gp.htm" _TARGET="main"> Clip4GP </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4gt.htm" _TARGET="main"> Clip4GT </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換なし）</TD><TR>
+<TD></TD><TD>
+<A HREF="clip4gtp.htm" _TARGET="main"> Clip4GTP </A><BR>
+</TD><TD> </TD>
+<TD>４頂点のクリッピング（透視変換あり）</TD><TR>
+<TD></TD><TD>
+<A HREF="cln.htm" _TARGET="main"> cln </A><BR>
+</TD><TD> </TD>
+<TD>自然対数</TD><TR>
+<TD></TD><TD>
+<A HREF="colorcol.htm" _TARGET="main"> ColorCol </A><BR>
+</TD><TD> </TD>
+<TD>ローカルライトベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="colordpq.htm" _TARGET="main"> ColorDpq </A><BR>
+</TD><TD> </TD>
+<TD>ローカルライトベクトルからローカルカラーを求めさらにデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="cmcolorl.htm" _TARGET="main"> ColorMatCol </A><BR>
+</TD><TD> </TD>
+<TD>カラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="cmdolorq.htm" _TARGET="main"> ColorMatDpq </A><BR>
+</TD><TD> </TD>
+<TD>デプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="cmompatx.htm" _TARGET="main"> CompMatrix </A><BR>
+</TD><TD> </TD>
+<TD>座標変換の合成を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="cmlompav.htm" _TARGET="main"> CompMatrixLV </A><BR>
+</TD><TD> </TD>
+<TD>座標変換の合成を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="csin.htm" _TARGET="main"> csin </A><BR>
+</TD><TD> </TD>
+<TD>正弦</TD><TR>
+<TD></TD><TD>
+<A HREF="csqrt.htm" _TARGET="main"> csqrt </A><BR>
+</TD><TD> </TD>
+<TD>平方根</TD><TR>
+<TD></TD><TD>
+<A HREF="dividef3.htm" _TARGET="main"> DivideF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="dividef4.htm" _TARGET="main"> DivideF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="dftivid3.htm" _TARGET="main"> DivideFT3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="dftivid4.htm" _TARGET="main"> DivideFT4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="divideg3.htm" _TARGET="main"> DivideG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="divideg4.htm" _TARGET="main"> DivideG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="dgtivid3.htm" _TARGET="main"> DivideGT3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="dgtivid4.htm" _TARGET="main"> DivideGT4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="dpqcolor.htm" _TARGET="main"> DpqColor </A><BR>
+</TD><TD> </TD>
+<TD>原色ベクトルとファーカラーとの内挿を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="dcpqolo3.htm" _TARGET="main"> DpqColor3 </A><BR>
+</TD><TD> </TD>
+<TD>３つの原色ベクトルとファーカラーとの内挿を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="dclpqolt.htm" _TARGET="main"> DpqColorLight </A><BR>
+</TD><TD> </TD>
+<TD>ローカルカラーベクトルと原色ベクトルの積とファーカラーとの内挿を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="gpf3srsl.htm" _TARGET="main"> GsPrstF3L </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpf3lfsg.htm" _TARGET="main"> GsPrstF3LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpf3nsrl.htm" _TARGET="main"> GsPrstF3NL </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpf4srsl.htm" _TARGET="main"> GsPrstF4L </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpf4lfsg.htm" _TARGET="main"> GsPrstF4LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpf4nsrl.htm" _TARGET="main"> GsPrstF4NL </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpg3srsl.htm" _TARGET="main"> GsPrstG3L </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpg3lfsg.htm" _TARGET="main"> GsPrstG3LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpg3nsrl.htm" _TARGET="main"> GsPrstG3NL </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpg4srsl.htm" _TARGET="main"> GsPrstG4L </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpg4lfsg.htm" _TARGET="main"> GsPrstG4LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpg4nsrl.htm" _TARGET="main"> GsPrstG4NL </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpnfsrs3.htm" _TARGET="main"> GsPrstNF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpnfsrs4.htm" _TARGET="main"> GsPrstNF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpngsrs3.htm" _TARGET="main"> GsPrstNG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gpngsrs4.htm" _TARGET="main"> GsPrstNG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptf3srl.htm" _TARGET="main"> GsPrstTF3L </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptf3lfg.htm" _TARGET="main"> GsPrstTF3LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptf3nsl.htm" _TARGET="main"> GsPrstTF3NL </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptf4srl.htm" _TARGET="main"> GsPrstTF4L </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptf4lfg.htm" _TARGET="main"> GsPrstTF4LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptf4nsl.htm" _TARGET="main"> GsPrstTF4NL </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptg3srl.htm" _TARGET="main"> GsPrstTG3L </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptg3lfg.htm" _TARGET="main"> GsPrstTG3LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptg3nsl.htm" _TARGET="main"> GsPrstTG3NL </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptg4srl.htm" _TARGET="main"> GsPrstTG4L </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptg4lfg.htm" _TARGET="main"> GsPrstTG4LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptg4nsl.htm" _TARGET="main"> GsPrstTG4NL </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptnfsr3.htm" _TARGET="main"> GsPrstTNF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptnfsr4.htm" _TARGET="main"> GsPrstTNF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptngsr3.htm" _TARGET="main"> GsPrstTNG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="gptngsr4.htm" _TARGET="main"> GsPrstTNG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="df3l.htm" _TARGET="main"> GsTMDdivF3L </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="df3lb.htm" _TARGET="main"> GsTMDdivF3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="df3lfg.htm" _TARGET="main"> GsTMDdivF3LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="df3lfgb.htm" _TARGET="main"> GsTMDdivF3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="df3nl.htm" _TARGET="main"> GsTMDdivF3NL </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="df3nlb.htm" _TARGET="main"> GsTMDdivF3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="df4l.htm" _TARGET="main"> GsTMDdivF4L </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="df4lb.htm" _TARGET="main"> GsTMDdivF4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="df4lfg.htm" _TARGET="main"> GsTMDdivF4LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="df4lfgb.htm" _TARGET="main"> GsTMDdivF4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="df4nl.htm" _TARGET="main"> GsTMDdivF4NL </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="df4nlb.htm" _TARGET="main"> GsTMDdivF4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg3l.htm" _TARGET="main"> GsTMDdivG3L </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg3lb.htm" _TARGET="main"> GsTMDdivG3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg3lfg.htm" _TARGET="main"> GsTMDdivG3LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg3lfgb.htm" _TARGET="main"> GsTMDdivG3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg3nl.htm" _TARGET="main"> GsTMDdivG3NL </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg3nlb.htm" _TARGET="main"> GsTMDdivG3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg4l.htm" _TARGET="main"> GsTMDdivG4L </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg4lb.htm" _TARGET="main"> GsTMDdivG4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg4lfg.htm" _TARGET="main"> GsTMDdivG4LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg4lfgb.htm" _TARGET="main"> GsTMDdivG4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg4nl.htm" _TARGET="main"> GsTMDdivG4NL </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dg4nlb.htm" _TARGET="main"> GsTMDdivG4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dnf3.htm" _TARGET="main"> GsTMDdivNF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dnf3b.htm" _TARGET="main"> GsTMDdivNF3B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dnf4.htm" _TARGET="main"> GsTMDdivNF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dnf4b.htm" _TARGET="main"> GsTMDdivNF4B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dng3.htm" _TARGET="main"> GsTMDdivNG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dng3b.htm" _TARGET="main"> GsTMDdivNG3B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dng4.htm" _TARGET="main"> GsTMDdivNG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dng4b.htm" _TARGET="main"> GsTMDdivNG4B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf3l.htm" _TARGET="main"> GsTMDdivTF3L </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf3lb.htm" _TARGET="main"> GsTMDdivTF3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf3lfg.htm" _TARGET="main"> GsTMDdivTF3LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf3lfgb.htm" _TARGET="main"> GsTMDdivTF3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf3nl.htm" _TARGET="main"> GsTMDdivTF3NL </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf3nlb.htm" _TARGET="main"> GsTMDdivTF3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4l.htm" _TARGET="main"> GsTMDdivTF4L </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4lb.htm" _TARGET="main"> GsTMDdivTF4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4lfg.htm" _TARGET="main"> GsTMDdivTF4LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4lfgb.htm" _TARGET="main"> GsTMDdivTF4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4lfgm.htm" _TARGET="main"> GsTMDdivTF4LFGM </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算＋FOG+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4lm.htm" _TARGET="main"> GsTMDdivTF4LM </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4nl.htm" _TARGET="main"> GsTMDdivTF4NL </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4nlb.htm" _TARGET="main"> GsTMDdivTF4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtf4nlm.htm" _TARGET="main"> GsTMDdivTF4NLM </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg3l.htm" _TARGET="main"> GsTMDdivTG3L </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg3lb.htm" _TARGET="main"> GsTMDdivTG3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg3lfg.htm" _TARGET="main"> GsTMDdivTG3LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg3lfgb.htm" _TARGET="main"> GsTMDdivTG3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg3nl.htm" _TARGET="main"> GsTMDdivTG3NL </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg3nlb.htm" _TARGET="main"> GsTMDdivTG3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4l.htm" _TARGET="main"> GsTMDdivTG4L </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4lb.htm" _TARGET="main"> GsTMDdivTG4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4lfg.htm" _TARGET="main"> GsTMDdivTG4LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4lfgb.htm" _TARGET="main"> GsTMDdivTG4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4lfgm.htm" _TARGET="main"> GsTMDdivTG4LFGM </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算＋FOG+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4lm.htm" _TARGET="main"> GsTMDdivTG4LM </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4nl.htm" _TARGET="main"> GsTMDdivTG4NL </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4nlb.htm" _TARGET="main"> GsTMDdivTG4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtg4nlm.htm" _TARGET="main"> GsTMDdivTG4NLM </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtnf3.htm" _TARGET="main"> GsTMDdivTNF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtnf3b.htm" _TARGET="main"> GsTMDdivTNF3B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtnf4.htm" _TARGET="main"> GsTMDdivTNF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtnf4b.htm" _TARGET="main"> GsTMDdivTNF4B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtnf4m.htm" _TARGET="main"> GsTMDdivTNF4M </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形 (光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtng3.htm" _TARGET="main"> GsTMDdivTNG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtng3b.htm" _TARGET="main"> GsTMDdivTNG3B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtng4.htm" _TARGET="main"> GsTMDdivTNG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtng4b.htm" _TARGET="main"> GsTMDdivTNG4B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="dtng4m.htm" _TARGET="main"> GsTMDdivTNG4M </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff3l.htm" _TARGET="main"> GsTMDfastF3L </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff3lb.htm" _TARGET="main"> GsTMDfastF3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff3lfg.htm" _TARGET="main"> GsTMDfastF3LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff3lfgb.htm" _TARGET="main"> GsTMDfastF3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff3nl.htm" _TARGET="main"> GsTMDfastF3NL </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff3nlb.htm" _TARGET="main"> GsTMDfastF3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff4l.htm" _TARGET="main"> GsTMDfastF4L </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff4lb.htm" _TARGET="main"> GsTMDfastF4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff4lfg.htm" _TARGET="main"> GsTMDfastF4LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff4lfgb.htm" _TARGET="main"> GsTMDfastF4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff4nl.htm" _TARGET="main"> GsTMDfastF4NL </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ff4nlb.htm" _TARGET="main"> GsTMDfastF4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg3l.htm" _TARGET="main"> GsTMDfastG3L </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg3lb.htm" _TARGET="main"> GsTMDfastG3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg3lfg.htm" _TARGET="main"> GsTMDfastG3LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg3lfgb.htm" _TARGET="main"> GsTMDfastG3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg3nl.htm" _TARGET="main"> GsTMDfastG3NL </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg3nlb.htm" _TARGET="main"> GsTMDfastG3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg4l.htm" _TARGET="main"> GsTMDfastG4L </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg4lb.htm" _TARGET="main"> GsTMDfastG4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg4lfg.htm" _TARGET="main"> GsTMDfastG4LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg4lfgb.htm" _TARGET="main"> GsTMDfastG4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg4nl.htm" _TARGET="main"> GsTMDfastG4NL </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fg4nlb.htm" _TARGET="main"> GsTMDfastG4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fnf3.htm" _TARGET="main"> GsTMDfastNF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fnf3b.htm" _TARGET="main"> GsTMDfastNF3B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fnf4.htm" _TARGET="main"> GsTMDfastNF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fnf4b.htm" _TARGET="main"> GsTMDfastNF4B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラット４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fng3.htm" _TARGET="main"> GsTMDfastNG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fng3b.htm" _TARGET="main"> GsTMDfastNG3B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fng4.htm" _TARGET="main"> GsTMDfastNG4 </A><BR>
+</TD><TD> </TD>
+<TD>4グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="fng4b.htm" _TARGET="main"> GsTMDfastNG4B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーロー４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf3l.htm" _TARGET="main"> GsTMDfastTF3L </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf3lb.htm" _TARGET="main"> GsTMDfastTF3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf3lfg.htm" _TARGET="main"> GsTMDfastTF3LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf3lfgb.htm" _TARGET="main"> GsTMDfastTF3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf3nl.htm" _TARGET="main"> GsTMDfastTF3NL </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf3nlb.htm" _TARGET="main"> GsTMDfastTF3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4l.htm" _TARGET="main"> GsTMDfastTF4L </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4lb.htm" _TARGET="main"> GsTMDfastTF4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形(光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4lfg.htm" _TARGET="main"> GsTMDfastTF4LFG </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4lfgb.htm" _TARGET="main"> GsTMDfastTF4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形(光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4lfgm.htm" _TARGET="main"> GsTMDfastTF4LFGM </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算＋FOG+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4lm.htm" _TARGET="main"> GsTMDfastTF4LM </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4nl.htm" _TARGET="main"> GsTMDfastTF4NL </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4nlb.htm" _TARGET="main"> GsTMDfastTF4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftf4nlm.htm" _TARGET="main"> GsTMDfastTF4NLM </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3l.htm" _TARGET="main"> GsTMDfastTG3L </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3lflp.htm" _TARGET="main"> GsTMDfastTG3L_FLIP </A><BR>
+</TD><TD> </TD>
+<TD>FLIPグーローテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3lb.htm" _TARGET="main"> GsTMDfastTG3LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3lfg.htm" _TARGET="main"> GsTMDfastTG3LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3lfgp.htm" _TARGET="main"> GsTMDfastTG3LFG_FLIP </A><BR>
+</TD><TD> </TD>
+<TD>FLIPグーローテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3lfgb.htm" _TARGET="main"> GsTMDfastTG3LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3nl.htm" _TARGET="main"> GsTMDfastTG3NL </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3nlfp.htm" _TARGET="main"> GsTMDfastTG3NL_FLIP </A><BR>
+</TD><TD> </TD>
+<TD>FLIPグーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg3nlb.htm" _TARGET="main"> GsTMDfastTG3NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4l.htm" _TARGET="main"> GsTMDfastTG4L </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4lb.htm" _TARGET="main"> GsTMDfastTG4LB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4lfg.htm" _TARGET="main"> GsTMDfastTG4LFG </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4lfgb.htm" _TARGET="main"> GsTMDfastTG4LFGB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算＋FOG)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4lfgm.htm" _TARGET="main"> GsTMDfastTG4LFGM </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算＋FOG+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4lm.htm" _TARGET="main"> GsTMDfastTG4LM </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4nl.htm" _TARGET="main"> GsTMDfastTG4NL </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4nlb.htm" _TARGET="main"> GsTMDfastTG4NLB </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftg4nlm.htm" _TARGET="main"> GsTMDfastTG4NLM </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftnf3.htm" _TARGET="main"> GsTMDfastTNF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftnf3b.htm" _TARGET="main"> GsTMDfastTNF3B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ３角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftnf4.htm" _TARGET="main"> GsTMDfastTNF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftnf4b.htm" _TARGET="main"> GsTMDfastTNF4B </A><BR>
+</TD><TD> </TD>
+<TD>両面フラットテクスチャ４角形(光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftnf4m.htm" _TARGET="main"> GsTMDfastTNF4M </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ４角形(光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftng3.htm" _TARGET="main"> GsTMDfastTNG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftng3flp.htm" _TARGET="main"> GsTMDfastTNG3_FLIP </A><BR>
+</TD><TD> </TD>
+<TD>FLIPグーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftng3b.htm" _TARGET="main"> GsTMDfastTNG3B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ３角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftng4.htm" _TARGET="main"> GsTMDfastTNG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftng4b.htm" _TARGET="main"> GsTMDfastTNG4B </A><BR>
+</TD><TD> </TD>
+<TD>両面グーローテクスチャ４角形 (光源計算なし)</TD><TR>
+<TD></TD><TD>
+<A HREF="ftng4m.htm" _TARGET="main"> GsTMDfastTNG4M </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形 (光源計算なし+mip-map)</TD><TR>
+<TD></TD><TD>
+<A HREF="gmimteec.htm" _TARGET="main"> gteMIMefunc </A><BR>
+</TD><TD> </TD>
+<TD>頂点データ配列に係数を掛けた差分データ配列を足す</TD><TR>
+<TD></TD><TD>
+<A HREF="initclip.htm" _TARGET="main"> InitClip </A><BR>
+</TD><TD> </TD>
+<TD>クリップパラメータの初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="initgeom.htm" _TARGET="main"> InitGeom </A><BR>
+</TD><TD> </TD>
+<TD>GTEの初期化を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="intpl.htm" _TARGET="main"> Intpl </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルとファーカラーの内挿を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="isrnvqut.htm" _TARGET="main"> InvSquareRoot </A><BR>
+</TD><TD> </TD>
+<TD>１／平方根を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="lcightor.htm" _TARGET="main"> LightColor </A><BR>
+</TD><TD> </TD>
+<TD>ローカルカラーマトリックスで座標変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="laoadve0.htm" _TARGET="main"> LoadAverage0 </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの荷重平均を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="la1oadv2.htm" _TARGET="main"> LoadAverage12 </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの荷重平均を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="laboadve.htm" _TARGET="main"> LoadAverageByte </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの荷重平均を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="lacoadvl.htm" _TARGET="main"> LoadAverageCol </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの荷重平均を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="lasoadv0.htm" _TARGET="main"> LoadAverageShort0 </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの荷重平均を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="las1oad2.htm" _TARGET="main"> LoadAverageShort12 </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの荷重平均を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="llocalit.htm" _TARGET="main"> LocalLight </A><BR>
+</TD><TD> </TD>
+<TD>ローカルライトマトリックスで座標変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="lzc.htm" _TARGET="main"> Lzc </A><BR>
+</TD><TD> </TD>
+<TD>Leading Zero Count値を返す</TD><TR>
+<TD></TD><TD>
+<A HREF="mnatrixl.htm" _TARGET="main"> MatrixNormal </A><BR>
+</TD><TD> </TD>
+<TD>マトリックスの正規化を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="mnatrix0.htm" _TARGET="main"> MatrixNormal_0 </A><BR>
+</TD><TD> </TD>
+<TD>マトリックスの正規化を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="mnatrix1.htm" _TARGET="main"> MatrixNormal_1 </A><BR>
+</TD><TD> </TD>
+<TD>マトリックスの正規化を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="mnatrix2.htm" _TARGET="main"> MatrixNormal_2 </A><BR>
+</TD><TD> </TD>
+<TD>マトリックスの正規化を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="mmulatrx.htm" _TARGET="main"> MulMatrix </A><BR>
+</TD><TD> </TD>
+<TD>２つのマトリックスの積をとる</TD><TR>
+<TD></TD><TD>
+<A HREF="mmulatr0.htm" _TARGET="main"> MulMatrix0 </A><BR>
+</TD><TD> </TD>
+<TD>２つのマトリックスの積をとる</TD><TR>
+<TD></TD><TD>
+<A HREF="mmulatr2.htm" _TARGET="main"> MulMatrix2 </A><BR>
+</TD><TD> </TD>
+<TD>２つのマトリックスの積をとる</TD><TR>
+<TD></TD><TD>
+<A HREF="mrmulotx.htm" _TARGET="main"> MulRotMatrix </A><BR>
+</TD><TD> </TD>
+<TD>定数回転マトリックスとマトリックスの積をとる</TD><TR>
+<TD></TD><TD>
+<A HREF="mrmulot0.htm" _TARGET="main"> MulRotMatrix0 </A><BR>
+</TD><TD> </TD>
+<TD>定数回転マトリクスとマトリックスの積をとる</TD><TR>
+<TD></TD><TD>
+<A HREF="ncormalp.htm" _TARGET="main"> NormalClip </A><BR>
+</TD><TD> </TD>
+<TD>３点の外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ncormalr.htm" _TARGET="main"> NormalColor </A><BR>
+</TD><TD> </TD>
+<TD>法線ベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ncormalm.htm" _TARGET="main"> NormalColor_nom </A><BR>
+</TD><TD> </TD>
+<TD>法線ベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ncormal3.htm" _TARGET="main"> NormalColor3 </A><BR>
+</TD><TD> </TD>
+<TD>３つの法線ベクトルから３つのローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="nc3ormam.htm" _TARGET="main"> NormalColor3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３つの法線ベクトルから３つのローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="nccormal.htm" _TARGET="main"> NormalColorCol </A><BR>
+</TD><TD> </TD>
+<TD>法線ベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="nccormam.htm" _TARGET="main"> NormalColorCol_nom </A><BR>
+</TD><TD> </TD>
+<TD>法線ベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="nccorma3.htm" _TARGET="main"> NormalColorCol3 </A><BR>
+</TD><TD> </TD>
+<TD>３つの法線ベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ncc3ormm.htm" _TARGET="main"> NormalColorCol3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３つの法線ベクトルからローカルカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ncdormaq.htm" _TARGET="main"> NormalColorDpq </A><BR>
+</TD><TD> </TD>
+<TD>法線ベクトルからローカルカラーを求めさらにデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="ncdormam.htm" _TARGET="main"> NormalColorDpq_nom </A><BR>
+</TD><TD> </TD>
+<TD>法線ベクトルからローカルカラーを求めさらにデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="ncdorma3.htm" _TARGET="main"> NormalColorDpq3 </A><BR>
+</TD><TD> </TD>
+<TD>３つの法線ベクトルからローカルカラーを求めさらにデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="ncd3ormm.htm" _TARGET="main"> NormalColorDpq3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３つの法線ベクトルからローカルカラーを求めさらにデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="otz2p.htm" _TARGET="main"> otz2p </A><BR>
+</TD><TD> </TD>
+<TD>OTZ値からデプスキューイング用の内挿値pを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="oputerr0.htm" _TARGET="main"> OuterProduct0 </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの外積ベクトルを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="op1uter2.htm" _TARGET="main"> OuterProduct12 </A><BR>
+</TD><TD> </TD>
+<TD>２つのベクトルの外積ベクトルを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="p2otz.htm" _TARGET="main"> p2otz </A><BR>
+</TD><TD> </TD>
+<TD>デプスキューイング用の内挿値pからotzを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="pers_map.htm" _TARGET="main"> pers_map </A><BR>
+</TD><TD> </TD>
+<TD>透視変換テクスチャマッピング</TD><TR>
+<TD></TD><TD>
+<A HREF="plhongie.htm" _TARGET="main"> PhongLine </A><BR>
+</TD><TD> </TD>
+<TD>フォンシェーディング</TD><TR>
+<TD></TD><TD>
+<A HREF="pmopatrx.htm" _TARGET="main"> PopMatrix </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスをスタックから再設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="pmushatx.htm" _TARGET="main"> PushMatrix </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスをスタックに退避する</TD><TR>
+<TD></TD><TD>
+<A HREF="ratan2.htm" _TARGET="main"> ratan2 </A><BR>
+</TD><TD> </TD>
+<TD>逆正接をもとめる(２引数、大テーブル使用、高速)</TD><TR>
+<TD></TD><TD>
+<A HREF="rcos.htm" _TARGET="main"> rcos </A><BR>
+</TD><TD> </TD>
+<TD>余弦</TD><TR>
+<TD></TD><TD>
+<A HREF="rcpolyf3.htm" _TARGET="main"> RCpolyF3 </A><BR>
+</TD><TD> </TD>
+<TD>フラット３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcpolyf4.htm" _TARGET="main"> RCpolyF4 </A><BR>
+</TD><TD> </TD>
+<TD>フラット４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcftpol3.htm" _TARGET="main"> RCpolyFT3 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcftpol4.htm" _TARGET="main"> RCpolyFT4 </A><BR>
+</TD><TD> </TD>
+<TD>フラットテクスチャ4角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcpolyg3.htm" _TARGET="main"> RCpolyG3 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcpolyg4.htm" _TARGET="main"> RCpolyG4 </A><BR>
+</TD><TD> </TD>
+<TD>グーロー４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcgtpol3.htm" _TARGET="main"> RCpolyGT3 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ３角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcgtpol4.htm" _TARGET="main"> RCpolyGT4 </A><BR>
+</TD><TD> </TD>
+<TD>グーローテクスチャ４角形の分割</TD><TR>
+<TD></TD><TD>
+<A HREF="rcmeadox.htm" _TARGET="main"> ReadColorMatrix </A><BR>
+</TD><TD> </TD>
+<TD>ローカルカラーマトリックスを読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rgoeadet.htm" _TARGET="main"> ReadGeomOffset </A><BR>
+</TD><TD> </TD>
+<TD>ＧＴＥオフセット値を読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rgseaden.htm" _TARGET="main"> ReadGeomScreen </A><BR>
+</TD><TD> </TD>
+<TD>視点からスクリーンまでの距離を読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rlmeadix.htm" _TARGET="main"> ReadLightMatrix </A><BR>
+</TD><TD> </TD>
+<TD>ローカルライトマトリックスを読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rrgbeado.htm" _TARGET="main"> ReadRGBfifo </A><BR>
+</TD><TD> </TD>
+<TD>RGBcd値を読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rrmeadox.htm" _TARGET="main"> ReadRotMatrix </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスを読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rsxsyeao.htm" _TARGET="main"> ReadSXSYfifo </A><BR>
+</TD><TD> </TD>
+<TD>ＳＸＳＹ値を読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rszeadf3.htm" _TARGET="main"> ReadSZfifo3 </A><BR>
+</TD><TD> </TD>
+<TD>ＳＺ値を読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="rszeadf4.htm" _TARGET="main"> ReadSZfifo4 </A><BR>
+</TD><TD> </TD>
+<TD>ＳＺ値を読み出す</TD><TR>
+<TD></TD><TD>
+<A HREF="raotver3.htm" _TARGET="main"> RotAverage3 </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ないデプスキューイング用の内挿値とＺ値の平均値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ra3otvem.htm" _TARGET="main"> RotAverage3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ないデプスキューイング用の内挿値とＺ値の平均値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="raotver4.htm" _TARGET="main"> RotAverage4 </A><BR>
+</TD><TD> </TD>
+<TD>４点の座標変換と透視変換を行ないデプスキューイング用の内挿値とＺ値の平均値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ranotve3.htm" _TARGET="main"> RotAverageNclip3 </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ない内挿値とＺ値の平均値と外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ran3otvm.htm" _TARGET="main"> RotAverageNclip3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ない内挿値とＺ値の平均値と外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ranotve4.htm" _TARGET="main"> RotAverageNclip4 </A><BR>
+</TD><TD> </TD>
+<TD>４点の座標変換と透視変換を行ない内挿値とＺ値の平均値と外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ranccot3.htm" _TARGET="main"> RotAverageNclipColorCol3 </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ないカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rancc3om.htm" _TARGET="main"> RotAverageNclipColorCol3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ないカラーを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rancdot3.htm" _TARGET="main"> RotAverageNclipColorDpq3 </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rancd3om.htm" _TARGET="main"> RotAverageNclipColorDpq3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rcdotolq.htm" _TARGET="main"> RotColorDpq </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rcdotolm.htm" _TARGET="main"> RotColorDpq_nom </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rcdotol3.htm" _TARGET="main"> RotColorDpq3 </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rcd3otom.htm" _TARGET="main"> RotColorDpq3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rcmdotoq.htm" _TARGET="main"> RotColorMatDpq </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換とデプスキューイングを行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rm.htm" _TARGET="main"> RotMatrix </A><BR>
+</TD><TD> </TD>
+<TD>回転角から回転マトリックスを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rmotatrc.htm" _TARGET="main"> RotMatrixC </A><BR>
+</TD><TD> </TD>
+<TD>RotMatrixと同じ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmotatrx.htm" _TARGET="main"> RotMatrixX </A><BR>
+</TD><TD> </TD>
+<TD>Ｘ軸まわりの回転マトリックスを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rmotatry.htm" _TARGET="main"> RotMatrixY </A><BR>
+</TD><TD> </TD>
+<TD>Ｙ軸まわりの回転マトリックスを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rmyxotaz.htm" _TARGET="main"> RotMatrixYXZ </A><BR>
+</TD><TD> </TD>
+<TD>回転角から回転マトリックスを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rmotatrz.htm" _TARGET="main"> RotMatrixZ </A><BR>
+</TD><TD> </TD>
+<TD>Ｚ軸まわりの回転マトリックスを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rmzyotax.htm" _TARGET="main"> RotMatrixZYX </A><BR>
+</TD><TD> </TD>
+<TD>回転角から回転マトリックスを求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rotmeshh.htm" _TARGET="main"> RotMeshH </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpqotet.htm" _TARGET="main"> RotMeshPrimQ_T </A><BR>
+</TD><TD> </TD>
+<TD>２次元メッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprfot3.htm" _TARGET="main"> RotMeshPrimR_F3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprfco3.htm" _TARGET="main"> RotMeshPrimR_FC3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprfct3.htm" _TARGET="main"> RotMeshPrimR_FCT3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprfto3.htm" _TARGET="main"> RotMeshPrimR_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprgot3.htm" _TARGET="main"> RotMeshPrimR_G3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprgco3.htm" _TARGET="main"> RotMeshPrimR_GC3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprgct3.htm" _TARGET="main"> RotMeshPrimR_GCT3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprgto3.htm" _TARGET="main"> RotMeshPrimR_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmprtot3.htm" _TARGET="main"> RotMeshPrimR_T3 </A><BR>
+</TD><TD> </TD>
+<TD>ラウンドメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsfot3.htm" _TARGET="main"> RotMeshPrimS_F3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsfco3.htm" _TARGET="main"> RotMeshPrimS_FC3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsfct3.htm" _TARGET="main"> RotMeshPrimS_FCT3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsfto3.htm" _TARGET="main"> RotMeshPrimS_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsgot3.htm" _TARGET="main"> RotMeshPrimS_G3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsgco3.htm" _TARGET="main"> RotMeshPrimS_GC3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsgct3.htm" _TARGET="main"> RotMeshPrimS_GCT3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpsgto3.htm" _TARGET="main"> RotMeshPrimS_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rmpstot3.htm" _TARGET="main"> RotMeshPrimS_T3 </A><BR>
+</TD><TD> </TD>
+<TD>ストリップメッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="rnotcli3.htm" _TARGET="main"> RotNclip3 </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ないデプスキューイング用の内挿値と外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rn3otclm.htm" _TARGET="main"> RotNclip3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３点の座標変換と透視変換を行ないデプスキューイング用の内挿値と外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="rnotcli4.htm" _TARGET="main"> RotNclip4 </A><BR>
+</TD><TD> </TD>
+<TD>４点の座標変換と透視変換を行ないデプスキューイング用の内挿値と外積値を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="p_f3.htm" _TARGET="main"> RotPMD_F3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラット三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_f4.htm" _TARGET="main"> RotPMD_F4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラット四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_ft3.htm" _TARGET="main"> RotPMD_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラットテクスチャ三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_ft4.htm" _TARGET="main"> RotPMD_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラットテクスチャ四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_g3.htm" _TARGET="main"> RotPMD_G3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーロー三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_g4.htm" _TARGET="main"> RotPMD_G4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーロー四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_gt3.htm" _TARGET="main"> RotPMD_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーローテクスチャ三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_gt4.htm" _TARGET="main"> RotPMD_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーローテクスチャ四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_f3.htm" _TARGET="main"> RotPMD_SV_F3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラット三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_f4.htm" _TARGET="main"> RotPMD_SV_F4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラット四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_ft3.htm" _TARGET="main"> RotPMD_SV_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラットテクスチャ三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_ft4.htm" _TARGET="main"> RotPMD_SV_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラットテクスチャ四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_g3.htm" _TARGET="main"> RotPMD_SV_G3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーロー三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_g4.htm" _TARGET="main"> RotPMD_SV_G4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーロー四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_gt3.htm" _TARGET="main"> RotPMD_SV_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーローテクスチャ三角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="p_sv_gt4.htm" _TARGET="main"> RotPMD_SV_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーローテクスチャ四角形用ＰＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_f3.htm" _TARGET="main"> RotRMD_F3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラット三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_f4.htm" _TARGET="main"> RotRMD_F4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラット四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_ft3.htm" _TARGET="main"> RotRMD_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラットテクスチャ三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_ft4.htm" _TARGET="main"> RotRMD_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラットテクスチャ四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_g3.htm" _TARGET="main"> RotRMD_G3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーロー三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_g4.htm" _TARGET="main"> RotRMD_G4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーロー四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_gt3.htm" _TARGET="main"> RotRMD_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーローテクスチャ三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_gt4.htm" _TARGET="main"> RotRMD_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーローテクスチャ四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_f3.htm" _TARGET="main"> RotRMD_SV_F3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラット三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_f4.htm" _TARGET="main"> RotRMD_SV_F4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラット四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_ft3.htm" _TARGET="main"> RotRMD_SV_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラットテクスチャ三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_ft4.htm" _TARGET="main"> RotRMD_SV_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラットテクスチャ四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_g3.htm" _TARGET="main"> RotRMD_SV_G3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーロー三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_g4.htm" _TARGET="main"> RotRMD_SV_G4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーロー四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_gt3.htm" _TARGET="main"> RotRMD_SV_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーローテクスチャ三角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="r_sv_gt4.htm" _TARGET="main"> RotRMD_SV_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーローテクスチャ四角形用ＲＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_f3.htm" _TARGET="main"> RotSMD_F3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラット三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_f4.htm" _TARGET="main"> RotSMD_F4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラット四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_ft3.htm" _TARGET="main"> RotSMD_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラットテクスチャ三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_ft4.htm" _TARGET="main"> RotSMD_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型フラットテクスチャ四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_g3.htm" _TARGET="main"> RotSMD_G3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーロー三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_g4.htm" _TARGET="main"> RotSMD_G4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーロー四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_gt3.htm" _TARGET="main"> RotSMD_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーローテクスチャ三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_gt4.htm" _TARGET="main"> RotSMD_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>独立頂点型グーローテクスチャ四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_f3.htm" _TARGET="main"> RotSMD_SV_F3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラット三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_f4.htm" _TARGET="main"> RotSMD_SV_F4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラット四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_ft3.htm" _TARGET="main"> RotSMD_SV_FT3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラットテクスチャ三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_ft4.htm" _TARGET="main"> RotSMD_SV_FT4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型フラットテクスチャ四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_g3.htm" _TARGET="main"> RotSMD_SV_G3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーロー三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_g4.htm" _TARGET="main"> RotSMD_SV_G4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーロー四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_gt3.htm" _TARGET="main"> RotSMD_SV_GT3 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーローテクスチャ三角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="s_sv_gt4.htm" _TARGET="main"> RotSMD_SV_GT4 </A><BR>
+</TD><TD> </TD>
+<TD>共有頂点型グーローテクスチャ四角形用ＳＭＤ関数</TD><TR>
+<TD></TD><TD>
+<A HREF="rottrans.htm" _TARGET="main"> RotTrans </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスで座標変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtotranm.htm" _TARGET="main"> RotTrans_nom </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスで座標変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtpotras.htm" _TARGET="main"> RotTransPers </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtpotram.htm" _TARGET="main"> RotTransPers_nom </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtpotra3.htm" _TARGET="main"> RotTransPers3 </A><BR>
+</TD><TD> </TD>
+<TD>３頂点の座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtp3otrm.htm" _TARGET="main"> RotTransPers3_nom </A><BR>
+</TD><TD> </TD>
+<TD>３頂点の座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtp3otrn.htm" _TARGET="main"> RotTransPers3N </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtpotra4.htm" _TARGET="main"> RotTransPers4 </A><BR>
+</TD><TD> </TD>
+<TD>４頂点の座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtp4otrm.htm" _TARGET="main"> RotTransPers4_nom </A><BR>
+</TD><TD> </TD>
+<TD>４頂点の座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtpotran.htm" _TARGET="main"> RotTransPersN </A><BR>
+</TD><TD> </TD>
+<TD>座標変換と透視変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rtsotrav.htm" _TARGET="main"> RotTransSV </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスで座標変換を行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="rsin.htm" _TARGET="main"> rsin </A><BR>
+</TD><TD> </TD>
+<TD>正弦</TD><TR>
+<TD></TD><TD>
+<A HREF="smcaleax.htm" _TARGET="main"> ScaleMatrix </A><BR>
+</TD><TD> </TD>
+<TD>拡大率を与える</TD><TR>
+<TD></TD><TD>
+<A HREF="smcaleal.htm" _TARGET="main"> ScaleMatrixL </A><BR>
+</TD><TD> </TD>
+<TD>拡大率を与える</TD><TR>
+<TD></TD><TD>
+<A HREF="sbcetacr.htm" _TARGET="main"> SetBackColor </A><BR>
+</TD><TD> </TD>
+<TD>バックカラーベクトルを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="scmetolx.htm" _TARGET="main"> SetColorMatrix </A><BR>
+</TD><TD> </TD>
+<TD>ローカルカラーマトリックスを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="sfcetarr.htm" _TARGET="main"> SetFarColor </A><BR>
+</TD><TD> </TD>
+<TD>ファーカラーベクトルを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="sffetogr.htm" _TARGET="main"> SetFogFar </A><BR>
+</TD><TD> </TD>
+<TD>フォグパラメータを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="sfnetogr.htm" _TARGET="main"> SetFogNear </A><BR>
+</TD><TD> </TD>
+<TD>フォグパラメータを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="sfnfetor.htm" _TARGET="main"> SetFogNearFar </A><BR>
+</TD><TD> </TD>
+<TD>フォグパラメータを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="sgoeteot.htm" _TARGET="main"> SetGeomOffset </A><BR>
+</TD><TD> </TD>
+<TD>オフセット値を設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="sgseteon.htm" _TARGET="main"> SetGeomScreen </A><BR>
+</TD><TD> </TD>
+<TD>視点からスクリーンまでの距離を設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="slmetigx.htm" _TARGET="main"> SetLightMatrix </A><BR>
+</TD><TD> </TD>
+<TD>ローカルライトマトリックスを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="smmetulx.htm" _TARGET="main"> SetMulMatrix </A><BR>
+</TD><TD> </TD>
+<TD>２つのマトリクスの積をとり定数回転マトリクスに設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="smrmetux.htm" _TARGET="main"> SetMulRotMatrix </A><BR>
+</TD><TD> </TD>
+<TD>定数回転マトリックスとマトリックスの積をとり定数回転マトリクスに設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="setrgbcd.htm" _TARGET="main"> SetRGBcd </A><BR>
+</TD><TD> </TD>
+<TD>原色ベクトルとＧＰＵコードを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="srmetotx.htm" _TARGET="main"> SetRotMatrix </A><BR>
+</TD><TD> </TD>
+<TD>回転マトリックスを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="stmetrax.htm" _TARGET="main"> SetTransMatrix </A><BR>
+</TD><TD> </TD>
+<TD>平行移動ベクトルを設定する</TD><TR>
+<TD></TD><TD>
+<A HREF="square0.htm" _TARGET="main"> Square0 </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルの２乗を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="square12.htm" _TARGET="main"> Square12 </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルの２乗を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="srquare0.htm" _TARGET="main"> SquareRoot0 </A><BR>
+</TD><TD> </TD>
+<TD>平方根を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="sr1quar2.htm" _TARGET="main"> SquareRoot12 </A><BR>
+</TD><TD> </TD>
+<TD>平方根を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="sslquar0.htm" _TARGET="main"> SquareSL0 </A><BR>
+</TD><TD> </TD>
+<TD>ショートベクトルの２乗を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="ssl1qua2.htm" _TARGET="main"> SquareSL12 </A><BR>
+</TD><TD> </TD>
+<TD>ショートベクトルの２乗を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="sssquar0.htm" _TARGET="main"> SquareSS0 </A><BR>
+</TD><TD> </TD>
+<TD>ショートベクトルの２乗を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="sss1qua2.htm" _TARGET="main"> SquareSS12 </A><BR>
+</TD><TD> </TD>
+<TD>ショートベクトルの２乗を求める</TD><TR>
+<TD></TD><TD>
+<A HREF="subpol3.htm" _TARGET="main"> SubPol3 </A><BR>
+</TD><TD> </TD>
+<TD>３頂点ポリゴンを細分割する</TD><TR>
+<TD></TD><TD>
+<A HREF="subpol4.htm" _TARGET="main"> SubPol4 </A><BR>
+</TD><TD> </TD>
+<TD>４頂点ポリゴンを細分割する</TD><TR>
+<TD></TD><TD>
+<A HREF="tmransax.htm" _TARGET="main"> TransMatrix </A><BR>
+</TD><TD> </TD>
+<TD>平行移動量を与える</TD><TR>
+<TD></TD><TD>
+<A HREF="tmranspx.htm" _TARGET="main"> TransposeMatrix </A><BR>
+</TD><TD> </TD>
+<TD>転置行列を与える</TD><TR>
+<TD></TD><TD>
+<A HREF="tr3rans2.htm" _TARGET="main"> TransRot_32 </A><BR>
+</TD><TD> </TD>
+<TD>RotTransの回転平行移動を逆順に行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="trpranss.htm" _TARGET="main"> TransRotPers </A><BR>
+</TD><TD> </TD>
+<TD>RotTransPersの回転平行移動を逆順に行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="trprans3.htm" _TARGET="main"> TransRotPers3 </A><BR>
+</TD><TD> </TD>
+<TD>RotTransPers3の回転平行移動を逆順に行なう</TD><TR>
+<TD></TD><TD>
+<A HREF="vnectorl.htm" _TARGET="main"> VectorNormal </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルを正規化する</TD><TR>
+<TD></TD><TD>
+<A HREF="vnectors.htm" _TARGET="main"> VectorNormalS </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルを正規化する</TD><TR>
+<TD></TD><TD>
+<A HREF="vnsectos.htm" _TARGET="main"> VectorNormalSS </A><BR>
+</TD><TD> </TD>
+<TD>ベクトルを正規化する</TD><TR>
+</TABLE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

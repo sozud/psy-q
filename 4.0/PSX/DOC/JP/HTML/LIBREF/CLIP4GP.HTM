@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    Clip4GP
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    Clip4GP
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ４頂点のクリッピング（透視変換あり）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>Clip4GP </B>(
+SVECTOR *<I>v0</I>,
+SVECTOR <I>v1</I>,
+SVECTOR *<I>v2</I>,
+SVECTOR *<I>v3</I>,
+CVECTOR *<I>rgb0</I>,
+CVECTOR *<I>rgb1</I>,
+CVECTOR *<I>rgb2</I>,
+CVECTOR *<I>rgb3</I>,
+EVECTOR **<I>evmx</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0</I>,<I>v1</I>,<I>v2</I>,<I>v3		</I>入力：頂点座標ベクトル
+<I>rgb0</I>,<I>rgb1</I>,<I>rgb2</I>,<I>rgb3	</I>入力：頂点色情報
+<I>evmx			</I>出力：クリップベクトル情報のポインタ配列（20個）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>v0</I>,<I>v1</I>,<I>v2</I>,<I>v3 </I>で表される４角形（連結３角形）をInitClipで定義される６面でクリップし、クリップ後の多角形情報をクリップベクトル情報のポインタ配列と頂点数で出力する。 <BR>
+<BR>
+    有効な出力クリップベクトル情報： <BR>
+<BR>
+    <I>evmx</I>[i]-&gt;v		Object(Local) 3D Vertex <BR>
+    <I>evmx</I>[i]-&gt;sxyz		Screen 3D Vertex <BR>
+    <I>evmx</I>[i]-&gt;sxyz.pad	FOG効果用内挿値(p) <BR>
+    <I>evmx</I>[i]-&gt;sxy		Screen 2D Vertex <BR>
+    <I>evmx</I>[i]-&gt;rgb		Vertex Color Data  <BR>
+    <I>evmx</I>[i]-&gt;chx 		chx = vz * ( hw / 2 ) / h <BR>
+    <I>evmx</I>[i]-&gt;chy 		chy = vz * ( vw / 2 ) / h <BR>
+<BR>
+    * ポインタ配列はワークエリアを含めて（20個＝80byte）確保する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    n: 出力頂点数 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

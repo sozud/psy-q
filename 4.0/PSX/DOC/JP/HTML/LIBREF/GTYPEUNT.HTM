@@ -1,0 +1,141 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsTYPEUNIT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsTYPEUNIT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        タイプ格納領域
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+	unsigned long	<I>type;</I>
+	unsigned long	<I>*ptr; </I>
+} <B>GsTYPEUNIT</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>type		</I>プリミティブのタイプ
+<I>ptr</I>		タイプが格納されている領域のアドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsTYPEUNIT は、GsScanUnit() 関数において、そのタイプとタイプが格納されている領域を格納する。 <BR>
+    ユーザはその情報を見て、そのタイプに対応した下位関数を ptr に代入することにより、type が下位関数へのポインタに上書きされる。GsSortUnit() は、その下位関数をコールする。 <BR>
+<BR>
+    タイプは以下の通り。 <BR>
+<BR>
+<P>
+<IMG SRC ="gif/lgsn2.gif">
+<P>
+<BR>
+    <blockquote>
+    	DEV ID <BR>
+    </blockquote>
+     		DEV ID(Developper ID) <BR>
+     				0000: SCE Reserved <BR>
+      <BR>
+     	CATEGORY <BR>
+     		CATEGOR(Category)  <BR>
+     				0000: ポリゴンドライバ <BR>
+     				0001: Shared Primitive データ <BR>
+     				0010: イメージデータ <BR>
+     				0011: アニメーション <BR>
+      <BR>
+     	DRIVER <BR>
+    <blockquote>
+    		INI(init)	0: なし <BR>
+    </blockquote>
+    <blockquote>
+    				1: COORDINATE 初期化が必要 <BR>
+    </blockquote>
+    <blockquote>
+    		CLP(clip)	0: クリップなし	 <BR>
+    </blockquote>
+    <blockquote>
+    				1: 画面左と上のクリップなし	 <BR>
+    </blockquote>
+     		STP(Semi-trans) 0: 不透明 <BR>
+     				1: 半透明 <BR>
+     		BOT(both-side)	0: 片面ポリゴン <BR>
+     				1: 両面ポリゴン	 <BR>
+     		BCL(back-clip)	0: バッククリップ 正論理 <BR>
+     				1: バッククリップ 負論理 <BR>
+     		LGT(light)	0: 光源計算あり <BR>
+     				1: 光源計算なし <BR>
+     		FOG(fog)	0: FOG off <BR>
+     				1: FOG on <BR>
+     		DIV(divide)	0: 分割なし <BR>
+     				1: 分割あり <BR>
+      <BR>
+     	PRIMITIVE TYPE <BR>
+    <blockquote>
+    		MIM(MIMe)	0: Built-in MIMe なし <BR>
+    </blockquote>
+    <blockquote>
+    				1: Built-in MIMe あり <BR>
+    </blockquote>
+    <blockquote>
+    		TILE		0: 繰り返しテクスチャのための情報なし <BR>
+    </blockquote>
+    <blockquote>
+    				1: 繰り返しテクスチャのための情報あり	 <BR>
+    </blockquote>
+    <blockquote>
+    		PST(preset)	0: プリセットなし <BR>
+    </blockquote>
+    <blockquote>
+    				1: プリセットあり	 <BR>
+    </blockquote>
+     		MIP(mip-map)	0: mip-map なし <BR>
+     				1: mip-map あり <BR>
+     		LMD(light-mode)	0: 法線あり <BR>
+     				1: 法線なし <BR>
+     		CODE		000: 直線 <BR>
+     				001: 三角形 <BR>
+     				010: 四角形 <BR>
+     				011: strip mesh <BR>
+     				100: スプライト <BR>
+     		IIP		0: フラット <BR>
+     				1: グーロー <BR>
+     		COL(colored)	0: 同一ポリゴン内で 1 材質カラー <BR>
+     				1: 頂点ごとにカラーがある <BR>
+     		TME		0: テクスチャマッピング OFF <BR>
+     				1: テクスチャマッピング ON <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

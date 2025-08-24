@@ -1,0 +1,2131 @@
+                                                     Psy-Q Programmer's Guide
+
+ 1 付録
+========
+
+
+ 1 エラーメッセージ一覧
+------------------------
+
+    ここでは、ASMPSX、PSYLINK、PSYLIB が出力するエラーメッセージの一覧をアル
+    ファベット順に掲載しています。
+    エラーメッセージに続いて、そのメッセージの意味、もしあればそのメッセージ
+    に関する補足説明、そしてそのメッセージを出力するプログラム名を記述してい
+    ます。
+    また、メッセージ中の"%"で始まる文字は、変数を表しています。
+    
+    +----+----------------------------------------------------------+
+    |表記 意味                                                      |
+    |%s   文字列に置き換えられます。                                |
+    |%c   １つの文字に置き換えられます。                            |
+    |%d   16 ビットの 10 進数に置き換えられます。                   |
+    |%l   32 ビットの 10 進数に置き換えられます。                   |
+    |%h   16 ビットの 16 進数に置き換えられます。                   |
+    |%n   記号名に置き換えられます。                                |
+    |%t   たとえばセクション、記号、またはグループなどの、シンボルに|
+    |     置き換えられます。                                        |
+    +----+----------------------------------------------------------+
+    
+=============================================================================
+%t                                                     [エラーメッセージ一覧]
+=============================================================================
+
+  1.1 %t %n redefiend as section
+
+        意味　　　: %t %ｎはセクションとして再定義されます。
+        補足説明  : 以前に定義されたシンボルの新しい定義です。
+        プログラム: PSYLINK 
+
+  1.2 %t '%n' redefined as XDEF symbol
+
+        意味　　　: %t '%n'は XDEF シンボルとして再定義されます。
+        補足説明  : 以前に定義されたシンボルの新しい定義です。
+        プログラム: PSYLINK 
+
+  1.3 %t '%n' redefined as group
+
+        意味　　　: %t '%n'はグループとして再定義されます。
+        補足説明  : 以前に定義されたシンボルの新しい定義です。
+        プログラム: PSYLINK 
+
+=============================================================================
+'%n'                                                   [エラーメッセージ一覧]
+=============================================================================
+
+  1.4 '%n' can not be used in an expression
+
+        意味　　　: '%n'は式で使用できません。
+        補足説明  : %ｎは、マクロやレジスタなどの名前と思われます。
+        プログラム: ASMPSX 
+
+  1.5 '%n' is not a group
+
+        意味　　　: '%n'はグループではありません。
+        補足説明  : グループ名が必要です。
+        プログラム: ASMPSX 
+
+  1.6 '%n' is not a section
+
+        意味　　　: '%n'はセクションではありません。
+        補足説明  : セクション名が求められていますが、名前%ｎが見つかりました。
+        プログラム: ASMPSX 
+
+=============================================================================
+A                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.7 Alignment cannot be guaranteed
+
+        意味: アラインメントは保証できません。
+        補足説明: 現在のセクションのベースアラインメントのため、保証できない
+        アラインを行なおうとしたことへの警告です。
+        プログラム: ASMPSX 
+
+  1.8 Alignment's parameter must be a defined name
+
+        意味　　　: alignment のパラメータは定義された名前でなければなりませ
+        ん。
+        補足説明  : alignment() 関数へのコールにおいて発せられます。
+        プログラム: ASMPSX 
+
+  1.9 Assembly failed
+
+        意味　　　: アセンブルに失敗しました。
+        補足説明  : FAIL ステートメントのテキストです。
+        プログラム: ASMPSX 
+
+  1.10 Attempt to switch section to %t '%n'
+
+        意味　　　: セクションを%t '%n'に切り替えようとしています。
+        補足説明  : 非セクションタイプのシンボルがセクションスイッチで参照さ
+        れました。
+        プログラム: PSYLINK 
+
+  1.11 Attempt to use %t '%n' as a section in expression
+
+        意味　　　: 式でセクションとして%t '%n'を使おうとしています。
+        補足説明  : セクションタイプシンボルが必要です。
+        プログラム: PSYLINK 
+
+=============================================================================
+B                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.12 Branch (%l bytes) is out of range
+
+        意味　　　: 分岐（%ｌバイト）が範囲外です。
+        補足説明  : 分岐が遠すぎます。
+        プログラム: ASMPSX 
+
+  1.13 Branch to odd address
+
+        意味　　　: 奇数のアドレスへの分岐です。
+        補足説明  : 奇数のアドレスへの分岐であることに対する警告です。
+        プログラム: ASMPSX 
+
+=============================================================================
+C                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.14 COFF file has incorrect format
+
+        意味　　　: COFF ファイルのフォーマットが間違っています。
+        補足説明  : COFF フォーマットのファイルは、GNU Ｃクロスコンパイラなど
+        によって作成されたものです。
+        プログラム: PSYLINK 
+
+  1.15 Cannot POPP to a local label
+
+        意味　　　: ローカルラベルへ POPP することはできません。
+        補足説明  : たとえば、POPP @ｘは間違いです。
+        プログラム: ASMPSX 
+
+  1.16 Cannot add moduel : it already exists
+
+        意味　　　: モジュールを追加することはできません：すでに存在していま
+        す。
+        補足説明  : 同じモジュールはライブラリに１度しか追加できません。
+        プログラム: PSYLIB 
+
+  1.17 Cannot purge - name was never defined
+
+        意味　　　: 消去できません -- 名前が定義されていません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.18 Case choice expression cannot be evaluated
+
+        意味　　　: case 選択式を評価できません。
+        補足説明  : case ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.19 Code generated before firse section directive
+
+        意味　　　: 最初のセクションディレクティブの前にコードが生成されまし
+        た。
+        補足説明  : コード生成ステートメントが、最初のセクションディレクティ
+        ブの前に現れました。
+        プログラム: ASMPSX 
+
+  1.20 Code in BSS section '%n'
+
+        意味　　　: BSS セクション'%n'にコードがあります。
+        補足説明  : BSS タイプのセクションは、初期化されたデータを含んではな
+        りません。
+        プログラム: PSYLINK 
+
+  1.21 Could not create object file
+
+        意味　　　: オブジェクトファイルを作成できませんでした。
+        補足説明  : 抽出時にオブジェクトファイルを作成する際のエラーです。
+        プログラム: PSYLIB 
+
+  1.22 Could not create temporary file
+
+        意味　　　: テンポラリファイルを作成できませんでした。
+        補足説明  : テンポラリファイル作成時のエラーです。
+        プログラム: PSYLIB 
+
+  1.23 Could not evaluate XDEF'd symbol
+
+        意味　　　: XDEF されたシンボルを評価できませんでした。
+        補足説明  : XDEF されたシンボルは、評価できないものと同等と思われます。
+        プログラム: ASMPSX 
+
+  1.24 Could not open file '%s'
+
+        意味　　　: ファイル'%s'を開けませんでした。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.25 Could not open/create
+
+        意味　　　: オープン／作成ができませんでした。
+        補足説明  : ファイルを開く際の DOS のエラーです。
+        プログラム: PSYLIB 
+
+=============================================================================
+D                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.26 DEF's parameter must be a name
+
+        意味　　　: DEF のパラメータは名前でなければなりません。
+        補足説明  : DEF() 関数の参照においてエラーが発せられました。
+        プログラム: ASMPSX 
+
+  1.27 Datasize has not been specified
+
+        意味　　　: データサイズが指定されていません。
+        補足説明  : DATA ステートメントの前には DATASIZE がなければなりません。
+        プログラム: ASMPSX 
+
+  1.28 Datasize value must be in range 1 to 256
+
+        意味　　　: データサイズの値は、１から 256 の範囲でなければなりません。
+        補足説明  : DETASIZE ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.29 Decimal number illegal in this radix
+
+        意味　　　: この基数では 10 進数は不当です。
+        補足説明  : 指定された 10 進数字は現在の基数に適していません。
+        プログラム: ASMPSX 
+
+  1.30 Destination must be a register
+
+        意味　　　: 対象はレジスタでなければなりません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.31 Different processor type specified
+
+        意味　　　: 指定されたプロセッサの種類が異なっています。
+        補足説明  : 異なったプロセッサの種類のオブジェクトコードであるか、異
+        なったプロセッサの種類のコードをリンクしようとしました。
+        プログラム: PSYLINK 
+
+  1.32 Division by zero
+
+        意味　　　: ゼロ除算しました。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.33 Division by zero
+
+        意味　　　: ゼロ除算しました。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+=============================================================================
+E                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.34 ENDM is illegal outside a macro definition
+
+        意味　　　: ENDM はマクロ定義の外側では不当です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.35 End of file reached without completion of %s construct
+
+        意味　　　: %ｓの構成を完成せずにファイルの終端に達しました。
+        補足説明  : たとえば、ENDR のない REPT がこれにあたります。
+        プログラム: ASMPSX 
+
+  1.36 Error closing file
+
+        意味　　　: ファイルを閉じる際のエラーです。
+        補足説明  : DOS close file コールがエラー状態を返しました。
+        プログラム: PSYLINK 
+
+  1.37 Error closing file
+
+        意味　　　: ファイルを閉じる際のエラーです。
+        補足説明  : DOS の close file コールがエラー状態を返しました。
+        プログラム: ASMPSX 
+
+  1.38 Error creating output file
+
+        意味　　　: 出力ファイル作成時のエラーです。
+        補足説明  : 出力ファイルを開くことができませんでした。
+        プログラム: ASMPSX 
+
+  1.39 Error creating temporary file
+
+        意味　　　: テンポラリファイル作成時のエラーです。
+        補足説明  : 指定したテンポラリファイルを作成することができませんでし
+        た。
+        プログラム: ASMPSX 
+
+  1.40 Error in ／e option
+
+        意味　　　: ／ｅオプションでエラーが起こりました。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: PSYLINK 
+
+  1.41 Error in ／o option
+
+        意味　　　: ／ｏオプションでエラーが起こりました。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: PSYLINK 
+
+  1.42 Error in ／x option
+
+        意味　　　: ／ｘオプションでエラーが起こりました。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: PSYLINK 
+
+  1.43 Error in Linker options
+
+        意味　　　: リンカオプションでエラーが起こりました。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: PSYLINK 
+
+  1.44 Error in REGS expression
+
+        意味　　　: REGS 式にエラーがあります。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.45 Error in assembler option
+
+        意味　　　: アセンブラオプション中のエラーです。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.46 Error in command file
+
+        意味　　　: コマンドファイルでエラーが起こりました。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.47 Error in expression
+
+        意味　　　: 式中のエラーです。
+        補足説明  : 文法エラーとほぼ同じです。
+        プログラム: ASMPSX 
+
+  1.48 Error in floating point number
+
+        意味　　　: 浮動小数点数内のエラーです。
+        補足説明  : IEEE32/IEEE64 ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.49 Error in register list
+
+        意味　　　: レジスタリスト中のエラーです。
+        補足説明  : MOVEM/REG のレジスタリストの指定にエラーがありました。
+        プログラム: ASMPSX 
+
+  1.50 Error opening list file
+
+        意味　　　: リストファイルを開く際のエラーです。
+        補足説明  : DOS open がエラー状態を返しました。
+        プログラム: ASMPSX 
+
+  1.51 Error reading file %f
+
+        意味　　　: ファイル%ｆを読み取る際のエラーです。
+        補足説明  : DOS の read file コールがエラー状態を返しました。
+        プログラム: PSYLINK 
+
+  1.52 Error reading file
+
+        意味　　　: ファイル読み取り時のエラーです。
+        補足説明  : DOS の read コールがエラー状態を返しました。
+        プログラム: ASMPSX 
+
+  1.53 Error reading library file
+
+        意味　　　: ライブラリファイル読み取り時のエラーです。
+        補足説明  : ファイルを読み取る際の DOS のエラーです。
+        プログラム: PSYLIB 
+
+  1.54 Error writing library file
+
+        意味　　　: ライブラリファイル書き込み時のエラーです。
+        補足説明  : ファイルを書き込む際の DOS のエラーです。ディスクがいっぱ
+        いと思われます。
+        プログラム: PSYLIB 
+
+  1.55 Error writing list file
+
+        意味　　　: リストファイル書き込み時のエラーです。
+        補足説明  : DOS write がエラー状態を返したか、ディスクがいっぱいです。
+        プログラム: ASMPSX 
+
+  1.56 Error writing object file
+
+        意味　　　: オブジェクトファイルを書き込む際のエラーです。
+        補足説明  : DOS の write file コールがエラー状態を返しました。ディス
+        クがいっぱいだと思われます。
+        プログラム: PSYLINK 
+
+  1.57 Error writing object file
+
+        意味　　　: オブジェクトファイル書き込み時のエラーです。
+        補足説明  : DOS の write file コールがエラー状態を返しました。ディス
+        クがいっぱいだと思われます。
+        プログラム: ASMPSX 
+
+  1.58 Error writing temporary file
+
+        意味　　　: テンポラリファイル書き込み時のエラーです。
+        補足説明  : ディスクの書き込みエラー、おそらくディスクがいっぱいだと
+        思われます。
+        プログラム: ASMPSX 
+
+  1.59 Errors during pass 1 - pass 2 aborted
+
+        意味　　　: パス１でエラーが発生しました。パス２はアボートされました。
+        補足説明  : パス１にエラーがあると、パス２は行なわれません。
+        プログラム: PSYLINK 
+
+  1.60 Errors during pass 1 - pass 2 aborted
+
+        意味　　　: パス１でエラーが発生しました。パス２はアボートされました。
+        補足説明  : パス１にエラーがあると、パス２は実行されません。
+        プログラム: ASMPSX、PSYLINK
+
+  1.61 Expanded input line too long
+
+        意味　　　: 拡張された入力行が長すぎます。
+        補足説明  : 文字列置換後などに発せられます。１行は、1024 文字以下でな
+        ければなりません。
+        プログラム: ASMPSX 
+
+  1.62 Expected comma after operand
+
+        意味　　　: オペランドの後にコンマを入れてください。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.63 Expected comma after< >
+
+        意味　　　: < >の後にコンマを入れてください。
+        補足説明  : MACRO コールパラメータリストの <...> で囲まれたパラメータ
+        に対して発せられます。
+        プログラム: ASMPSX 
+
+  1.64 Expected comma between operands
+
+        意味　　　: オペランド間にコンマを入れてください。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.65 Expected comma between options
+
+        意味　　　: オプション間にコンマを入れてください。
+        補足説明  : OPT ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.66 Expecting '%s' at this point
+
+        意味　　　: この位置には'%s'にあたるものを入れてください。
+        補足説明  : ENDIF/ENDCASE などの１つが必要ですが、別のディレクティブ
+        が見つけられました。
+        プログラム: ASMPSX 
+
+  1.67 Expecting '+' or '-' after list command
+
+        意味　　　: リストコマンドの後に'+'または'-'を入れてください。
+        補足説明  : LIST ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.68 Expecting '+' or '-' after option
+
+        意味　　　: オプションの後に'+'または'-'を入れてください。
+        補足説明  : OPT ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.69 Expecting ON or OFF after directive
+
+        意味　　　: ディレクティブの後に ON または OFF を入れてください。
+        補足説明  : PUBLIC ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.70 Expecting a decimal or hex number
+
+        意味　　　: 10 進数または 16 進数を入れてください。
+        補足説明  : コマンドライン上の／ｏオプションで発せられます。
+        プログラム: PSYLINK 
+
+  1.71 Expecting a number after ／b option
+
+        意味　　　: ／ｂオプションの後に数を入れてください。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: ASMPSX 
+
+  1.72 Expecting comma between operands in INSTR
+
+        意味　　　: INSTR 中のオペランド間にコンマを入れてください。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.73 Expecting comma between operands in SUBSTR
+
+        意味　　　: SUBSTR 中のオペランド間にコンマを入れてください。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.74 Expecting comma or end of line after list
+
+        意味　　　: リストの後にコンマまたは行の終端を入れてください。
+        補足説明  : {...}リストで発せられます。
+        プログラム: ASMPSX 
+
+  1.75 Expecting options after ／O
+
+        意味　　　: ／Ｏの後にオプションを入れてください。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: ASMPSX 
+
+  1.76 Expecting quoted string as operand
+
+        意味　　　: オペランドとして引用された文字列を入れてください。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.77 Expression must evaluate
+
+        意味　　　: 式を評価しなければなりません。
+        補足説明  : パス２ではなく、今、式を評価しなければなりません。
+        プログラム: ASMPSX 
+
+=============================================================================
+F                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.78 Fatal error - stack underflow - PANIC
+
+        意味　　　: 致命的エラー -- スタックアンダーフローです。パニック状態
+        に陥りました。
+        補足説明  : アセンブラの内部エラーです。二度と起こらないようにしてく
+        ださい。
+        プログラム: ASMPSX 
+
+  1.79 Fatal error -- macro exited with unterminated %s loop
+
+        意味　　　: 致命的エラーです。%ｓループを終了せずにマクロが終了しまし
+        た。
+        補足説明  : WHILE/REPT/DO ループを終了しないでマクロが終了してしまい
+        ました。アセンブラの性格により、これは致命的エラーとして扱われます。
+        プログラム: ASMPSX 
+
+  1.80 File %f is in out-of-date format
+
+        意味　　　: ファイル%ｆは古いフォーマットです。
+        補足説明  : ファイルを再構築して再アセンブルしなければなりません。
+        プログラム: PSYLINK 
+
+  1.81 File %f is not a valid library file
+
+        意味　　　: ファイル%ｆは有効なライブラリファイルではありません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.82 File %f is not in PsyLink file format
+
+        意味　　　: ファイル%ｆは PsyLink ファイルフォーマットにはありません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.83 File name must be quoted
+
+        意味　　　: ファイル名を引用符でくくらなければなりません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.84 Files may only be specified when producing CPE or pure binary output
+
+        意味　　　: ファイルは CPE またはバイナリ出力作成時にのみ指定してくだ
+        さい。
+        補足説明  : グループの FILE 属性で発せられます。
+        プログラム: ASMPSX 
+
+  1.85 Forward reference to redefinable symbol
+
+        意味　　　: 再定義可能なシンボルへの前方参照です。
+        補足説明  : SET または=ステートメントで値を与えられたシンボルに対して、
+        前方参照が行われたことへの警告です。前方参照で使われた値は、シンボル
+        に設定された最後の値でした。
+        プログラム: ASMPSX 
+
+  1.86 Function only available when using sections
+
+        意味　　　: セクション使用時に使用できるのは関数のみです。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+=============================================================================
+G                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.87 GROUP's parameter must be a defined name
+
+        意味　　　: GROUP のパラメータは定義された名前でなければなりません。
+        補足説明  : GROUP() 関数コールで発せられます。
+        プログラム: ASMPSX 
+
+  1.88 GROUPEND's parameter must be a group name
+
+        意味　　　: GROUPEND のパラメータはグループ名でなければなりません。
+        補足説明  : GROUPEND() 関数へのコールにおけるエラーです。
+        プログラム: ASMPSX 
+
+  1.89 GROUPORG's parameter must be a group
+
+        意味　　　: GROUPORG のパラメータはグループでなければなりません。
+        補足説明  : GROUPORG() 関数へのコールで発せられます。
+        プログラム: ASMPSX 
+
+  1.90 GROUSIZE's parameter must be a group name
+
+        意味　　　: GROUPSIZE パラメータはグループ名でなければなりません。
+        補足説明  : GROUPSIZE() 関数へのコールにおけるエラーです。
+        プログラム: ASMPSX 
+
+  1.91 Group '%n' is too large (%l bytes)
+
+        意味　　　: グループ'%n'が大きすぎます（%ｌバイト）。
+        補足説明  : グループが SIZE 属性の値を超えています。
+        プログラム: ASMPSX 
+
+  1.92 Group '%n' is too large (%l bytes)
+
+        意味　　　: グループ'%n'は大きすぎます（%ｌバイト）。
+        補足説明  : 許可された SIZE 属性よりも大きいグループです。
+        プログラム: PSYLINK 
+
+  1.93 Group '%n' specified with different attributes
+
+        意味　　　: グループ'%n'は異なった属性で指定されています。
+        補足説明  : 異なった種類のグループで、異なった属性を指定しています。
+        プログラム: PSYLINK 
+
+=============================================================================
+I                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.94 IF does not have matching ENDIF/ENDC
+
+        意味　　　: IF に対応する ENDIF/ENDC がありません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.95 Illegal XREF reference to %t '%n'
+
+        意味　　　: %t '%n'への不当な XREF 参照です。
+        補足説明  : オブジェクトファイルが、XREF できないシンボル、たとえばセ
+        クション名に XREF を定義しています。
+        プログラム: PSYLINK 
+
+  1.96 Illegal addressing mode
+
+        意味　　　: 不当なアドレスモードです。
+        補足説明  : 現在のオペコードに適していないアドレスモードです。
+        プログラム: ASMPSX 
+
+  1.97 Illegal character '%c' (%d) in input
+
+        意味　　　: 入力に不当な文字'%c'(%d) があります。
+        補足説明  : 入力ファイルにおかしな（たとえばコントロール）文字があり
+        ます。
+        プログラム: ASMPSX 
+
+  1.98 Illegal character '%c' in opcode field
+
+        意味　　　: オペコードフィールドに不当な文字'%c'があります。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.99 Illegal digit in suffexed hexadecimal number
+
+        意味　　　: 末尾番号付きの 16 進数に不当な数字があります。
+        補足説明  : 代替数字形式 1abh で発せられます。
+        プログラム: ASMPSX 
+
+  1.100 Illegal digit in suffixed binary number
+
+        意味　　　: 末尾番号付きの２進数に不当な数字があります。
+        補足説明  : 代替数字形式 101b で発せられます。
+        プログラム: ASMPSX 
+
+  1.101 Illegal digit in suffixed decimal number
+
+        意味　　　: 末尾番号付きの 10 進数に不当な数字があります。
+        補足説明  : 代替数字形式 123d で発せられます。
+        プログラム: ASMPSX 
+
+  1.102 Illegal group name
+
+        意味　　　: 不当なグループ名です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.103 Illegal index value in SUBSTR
+
+        意味　　　: SUBSTR に不当なインデックス値があります。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.104 Illegal label
+
+        意味　　　: 不当なラベルです。
+        補足説明  : 左側の列のラベルが不当な文字で始まっています。
+        プログラム: ASMPSX 
+
+  1.105 Illegal name for macro parameter
+
+        意味　　　: マクロパラメータの名前が不当です。
+        補足説明  : マクロ定義で発せられます。
+        プログラム: ASMPSX 
+
+  1.106 Illegal name in XDEF/XREF list
+
+        意味　　　: XDEF/XREF リストに不当な名前があります。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.107 Illegal name in command
+
+        意味　　　: コマンドに不当な名前があります。
+        補足説明  : ALIAS ステートメントのターゲット名が不当です。
+        プログラム: ASMPSX 
+
+  1.108 Illegal name in locals list
+
+        意味　　　: ローカルリストに不当な名前があります。
+        補足説明  : LOCAL ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.109 Illegal parameter number
+
+        意味　　　: パラメータ数が不当です。
+        補足説明  : パラメータは最高 32 個までです。
+        プログラム: ASMPSX 
+
+  1.110 Illegal register
+
+        意味　　　: レジスタ名が抜けているか間違っています。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.111 Illegal section name
+
+        意味　　　: セクション名が不当です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.112 Illegal start position/length in INCBIN
+
+        意味　　　: INCBIN のスタート位置／長さが不当です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.113 Illegal use of register equate
+
+        意味　　　: レジスタ代入の使用が不当です。
+        補足説明  : たとえば、式でレジスタ代入を使おうとしました。
+        プログラム: ASMPSX 
+
+  1.114 Illegal value (%l) for boundary in CNOP
+
+        意味　　　: CNOP の境界が不当な値(%l) です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.115 Illegal value (%l) for offset in CNOP
+
+        意味　　　: CNOP のオフセットが不当な値(%l) です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.116 Illegal value (%l)
+
+        意味　　　: 不当な値(%l) です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.117 Illegal value for base in INSTR
+
+        意味　　　: INSTR の基数が不当な値です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.118 Illegal zero length short branch
+
+        意味　　　: 短分岐の長さが０で不当です。
+        補足説明  : R3000 の短分岐のオフセットは０であってはなりません。
+        プログラム: PSYLINK 
+
+  1.119 Incorrect format in object file
+
+        意味　　　: オブジェクトファイルに間違ったフォーマットがあります。
+        補足説明  : オブジェクトファイルのフォーマットのエラーです。再構築し
+        てください。
+        プログラム: PSYLIB 
+
+  1.120 Initialised data in BSS section
+
+        意味　　　: BSS セクションに初期化されたデータがあります。
+        補足説明  : BSS セクションは初期化されていないデータで構成されなけれ
+        ばなりません。
+        プログラム: ASMPSX 
+
+  1.121 Instruction moved to even address
+
+        意味　　　: 偶数のアドレスに移動した命令があります。
+        補足説明  : パディングバイトが挿入されていることへの警告です。
+        プログラム: ASMPSX 
+
+=============================================================================
+L                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.122 LOCAL can only be used inside a macro
+
+        意味　　　: LOCAL はマクロの内側でしか使えません。
+        補足説明  : LOCAL ステートメントがマクロの外側で見つけられました。
+        プログラム: ASMPSX 
+
+  1.123 Label '%n' multiply defined
+
+        意味　　　: ラベル'%n'は複数定義されています。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.124 Local labels may not be strings
+
+        意味　　　: ローカルラベルが文字列ではないようです。
+        補足説明  : @x EXUS...は不当です。
+        プログラム: ASMPSX 
+
+  1.125 Local symbols cannot be XDEF'd/XREF'd
+
+        意味　　　: ローカルシンボルは XDEF/XREF することはきません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+=============================================================================
+M                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.126 MEXIT illegal outside of macros
+
+        意味　　　: マクロの外側の MEXIT は不当です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.127 MODULE has no corresponding MODEND
+
+        意味　　　: MODULE に対応する MODEND がありません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.128 Missing '(' in function call
+
+        意味　　　: 関数コールで'('が抜けています。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.129 Missing ')' after file name
+
+        意味　　　: ファイル名の後の')'が抜けています。
+        補足説明  : FILE 属性で発せられます。
+        プログラム: ASMPSX 
+
+  1.130 Missing ')' after function parameter(s)
+
+        意味　　　: 関数パラメータの後の')'が抜けています。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.131 Missing closing bracket in expression
+
+        意味　　　: 式の閉じカッコが抜けています。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.132 Missing comma in XDEF/XREF list
+
+        意味　　　: XDEF/XREF リストでコンマが抜けています。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.133 Missing comma in list of case options
+
+        意味　　　: case オプションのリストでコンマが抜けています。
+        補足説明  : =...case セレクタで発せられます。
+        プログラム: ASMPSX 
+
+  1.134 Missing or misplaced ")" in operand address
+
+        意味　　　: オペランドアドレスの中に ")" が抜けているか、誤った場所に
+        置かれています。
+        補足説明  : ')' がソースラインから抜けています。
+        プログラム: PSYLINK 
+
+  1.135 Module may not end until macro/loop expansion is complete
+
+        意味　　　: マクロ／ループ展開が完了するまでは、モジュールは終了しま
+        せん。
+        補足説明  : ループ／マクロコールがモジュールの内側でスタートした場合、
+        ループ／マクロコールが終了するまでは、MODEND があってはなりません。
+        プログラム: ASMPSX 
+
+  1.136 Module must end before end of macro/loop expansion - MODEND inserted
+
+        意味　　　: モジュールは、マクロ／ループ展開の終了前に、終了しなけれ
+        ばなりません。が、MODEND が挿入されています。
+        補足説明  : ループ／マクロコールの内側でスタートしたモジュールは、ル
+        ープ／マクロコールよりも前に終了しなければなりません。
+        プログラム: ASMPSX 
+
+  1.137 More than one label specified
+
+        意味　　　: 複数のラベルが指定されました。
+        補足説明  : １行に１つのラベルしか指定できません（２番目のラベルが行
+        頭で開始されていないものの、':'で終わっている場合に発生）。
+        プログラム: ASMPSX 
+
+  1.138 Multiple run addresses specified
+
+        意味　　　: 複数の実行アドレスが指定されています。
+        補足説明  :
+        プログラム: PSYLINK 
+
+=============================================================================
+N                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.139 NARG can only be used inside a macro
+
+        意味　　　: NARG はマクロの内側でのみ使うことができます。
+        補足説明  : マクロの外側で NARG を使うと発せられます。
+        プログラム: ASMPSX 
+
+  1.140 NARG's parameter must be a number or macro parameter name
+
+        意味　　　: NARG のパラメータは、数またはマクロパラメータ名でなければ
+        なりません。
+        補足説明  : NARG() 関数に不当なオペランドがあります。
+        プログラム: ASMPSX 
+
+  1.141 Names declared with local must not start with '%c'
+
+        意味　　　: ローカル宣言された名前は、'%c'でスタートしてはなりません。
+        補足説明  : LOCAL ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.142 No closing quote on string
+
+        意味　　　: 文字列に閉じる引用はありません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.143 No correspoinding DO
+
+        意味　　　: 対応する DO がありません。
+        補足説明  : DO のない UNTIL があります。
+        プログラム: ASMPSX 
+
+  1.144 No corresponding IF
+
+        意味　　　: 対応する IF がありません。
+        補足説明  : IF のない ENDIF/ELSE があります。
+        プログラム: ASMPSX 
+
+  1.145 No corresponding REPT
+
+        意味　　　: 対応する REPT がありません。
+        補足説明  : REPT のない ENDR があります。
+        プログラム: ASMPSX 
+
+  1.146 No corresponding WHILE
+
+        意味　　　: 対応する WHILE がありません。
+        補足説明  : WHILE のない ENDW があります。
+        プログラム: ASMPSX 
+
+  1.147 No file matching
+
+        意味　　　: 一致するファイルがありません。
+        補足説明  : 指定のファイルが見つけられませんでした。
+        プログラム: PSYLIB 
+
+  1.148 No library file specified
+
+        意味　　　:ライブラリファイルが指定されていません。
+        補足説明  : 
+        プログラム: PSYLIB 
+
+  1.149 No matching CASE stgatement for ENDCASE
+
+        意味　　　: ENDCASE に一致する CASE ステートメントがありません。
+        補足説明  : CASE のない ENDCASE があります。
+        プログラム: ASMPSX 
+
+  1.150 No object files specified
+
+        意味　　　:オブジェクトファイルが指定されてません。
+        補足説明  : 
+        プログラム: PSYLIB 
+
+  1.151 No option specified
+
+        意味　　　:オプションが指定されていません。
+        補足説明  : オプションは必ず指定しなければなりません。
+        プログラム: PSYLIB 
+
+  1.152 No source file specified
+
+        意味　　　:ソースファイルが指定されてません。
+        補足説明  : コマンドラインでソースファイルが指定されていません。
+        プログラム: ASMPSX 
+
+  1.153 No source files specified
+
+        意味　　　: ソースファイルが指定されていません。
+        補足説明  : コマンドラインにソースファイルがありません。
+        プログラム: PSYLINK 
+
+  1.154 Non-binary character following %
+
+        意味　　　: %に続く文字が２進ではありません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.155 Non-hexadecimal character '%c' encountered
+
+        意味　　　: '%c'に対する文字が 16 進ではありません。
+        補足説明  : HEX ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.156 Non-hexadecimal character starting number
+
+        意味　　　: 16 進でない文字で数が開始されています。
+        補足説明  : $の後に０から９またはＡからＦを入れてください。
+        プログラム: ASMPSX 
+
+  1.157 Non-numeric value in DATA statement
+
+        意味　　　: DATA ステートメントにある値が数値ではありません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+=============================================================================
+O                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.158 OBJ cannot be specified when producing linkable output
+
+        意味　　　: リンク可能な出力の作成時には、OBJ を指定することはできま
+        せん。
+        補足説明  : グループの OBJ 属性に対して発せられます。
+        プログラム: ASMPSX 
+
+  1.159 OFFSET's parameter must be a defined name
+
+        意味　　　: OFFSET のパラメータは定義された名前でなければなりません。
+        補足説明  : OFFSET() 関数コールにおけるエラーです。
+        プログラム: ASMPSX 
+
+  1.160 ORG ? can only be used when downloading output
+
+        意味　　　: ORG ?は出力をダウンロードする時のみに使うことができます。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.161 ORG address cannot be specified when producing linkable output
+
+        意味　　　: リンク可能な出力作成時には、ORG アドレスを指定することは
+        できません。
+        補足説明  : リンク可能な出力作成時には、ORG グループ属性は指定できま
+        せん。
+        プログラム: ASMPSX 
+
+  1.162 ORG cannot be used after SECTION directive
+
+        意味　　　: ORG は SECTION ディレクティブの後に使うことはできません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.163 ORG cannot be used when producing linkable output
+
+        意味　　　: リンク可能な出力作成時には、ORG を使用することはできませ
+        ん。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.164 ORG must be specified before first section directive
+
+        意味　　　: ORG はセクションディレクティブの前に指定しなければなりま
+        せん。
+        補足説明  : セクション使用時に記述できる ORG は、（グループ属性以外の）
+        すべてのセクションステートメントの前に１つのみです。
+        プログラム: ASMPSX 
+
+  1.165 Object file made with out-of-date assembler
+
+        意味　　　: 古いアセンブラで作成されたオブジェクトファイルです。
+        補足説明  : 再アセンブルする前にファイルを再構築しなければなりません。
+        プログラム: PSYLINK 
+
+  1.166 Odd number of nibbled specified
+
+        意味　　　: 指定されたニブルは奇数です。
+        補足説明  : HEX ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.167 Old version of %n cannot be purged
+
+        意味　　　: %ｎの旧いバージョンは消去できません。
+        補足説明  : マクロのみが消去できます。
+        プログラム: ASMPSX 
+
+  1.168 One string equate can only be euated to another
+
+        意味　　　: 文字列には他の文字列しか代入できません。
+        補足説明  : 式などを代入しようとしました。
+        プログラム: ASMPSX 
+
+  1.169 Only built in groups can be used when making relocatable output
+
+        意味　　　: リロケータブルな出力の作成時は、内蔵グループしか使えませ
+        ん。
+        補足説明  : ／ｒコマンドラインオプションが指定されている場合は、内蔵
+        グループしか使えません。つまり、新しいグループは定義できません。
+        プログラム: PSYLINK 
+
+  1.170 Only one ORG may be specified before SECTION directive
+
+        意味　　　: SECTION ディレクティブの前に指定できる ORG は１つのみです。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.171 Only one of ／p and ／l may be specified
+
+        意味　　　: ／ｐと／ｌのうちいずれか１つのみを指定してください。
+        補足説明  : コマンドライン上で発せられます。
+        プログラム: ASMPSX 
+
+  1.172 Op-code not recognised
+
+        意味　　　: オペコードが認識されていません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.173 Option ／p not available when downloading to target
+
+        意味　　　: ターゲットへのダウンロード時に、オプション／ｐを使うこと
+        はできません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.174 Option stack is empty
+
+        意味　　　: オプションスタックが空です。
+        補足説明  : PUSHO のない POPO があります。
+        プログラム: ASMPSX 
+
+  1.175 Options ／l and ／p not available when downloading to target
+
+        意味　　　: ターゲットへのダウンロード時には、オプション／ｌおよび／
+        ｐは使うことができません。
+        補足説明  : コマンドライン上で発せられます。
+        プログラム: ASMPSX 
+
+  1.176 Options /p and /r cannot be used together
+
+        意味　　　: オプション/ｐおよび/ｒを一緒に使うことはできません。
+        補足説明  : コマンドライン上で発せられます。
+        プログラム: PSYLINK 
+
+  1.177 Out of memory, Assembler aborting
+
+        意味　　　: メモリが足りません。アセンブラがアボートします。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.178 Out of memory, Linker aborting
+
+        意味　　　: メモリが足りません。リンカはアボートします。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.179 Out of stack space, possibly due to recursive eqates
+
+        意味　　　: スタック空間がありません。再帰代入のためと思われます。
+        補足説明  : アセンブラのスタックがいっぱいです。原因は、たとえばｘ 
+        equ y+1、y equ x*２などの再帰代入と思われます。
+        プログラム: ASMPSX 
+
+  1.180 Overflow in DATA value
+
+        意味　　　: DATA 値にオーバフローが見られます。
+        補足説明  : DATA 値が大きすぎます。
+        プログラム: ASMPSX 
+
+  1.181 Overlay cannot be specified when producing linkable output
+
+        意味　　　: リンク可能な出力作成時には、オーバレイは作成できません。
+        補足説明  : リンク可能な出力作成時には、OVER グループ属性は指定できま
+        せん。
+        プログラム: ASMPSX 
+
+  1.182 Overlay must specify a previously defined group name
+
+        意味　　　: オーバレイは以前に定義されたグループ名を指定しなければな
+        りません。
+        補足説明  : OVER グループ属性にエラーがあります。
+        プログラム: ASMPSX 
+
+=============================================================================
+P                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.183 POPP must specify a string or undefined name
+
+        意味　　　: POPP は文字列か定義されていない名前を指定しなければなりま
+        せん。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.184 Parameter stack is empty
+
+        意味　　　: パラメータスタックが空です。
+        補足説明  : POPP はありますが、ポップするものがありません。
+        プログラム: ASMPSX 
+
+  1.185 Possible infinite loop in string substitution
+
+        意味　　　: 文字列の置換に無限ループがある可能性があります。
+        補足説明  : たとえば、ｘがｘ equs x+１と定義されているｘへの参照がこ
+        れにあたります。
+        プログラム: ASMPSX 
+
+  1.186 Previous group was not OBJ'd
+
+        意味　　　: 直前のグループが OBJ されていません。
+        補足説明  : 直前のグループに OBJ 属性がない場合、OBJ() 属性を指定でき
+        ません。
+        プログラム: ASMPSX、PSYLINK 
+
+  1.187 Psy-Q needs DOS version 3.1 or later
+
+        意味　　　: Psy-Q はバージョン 3.1 以降 DOS が必要です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.188 Purge must specify a macro name
+
+        意味　　　: PURGE はマクロ名を指定しなければなりません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+=============================================================================
+R                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.189 REF's parameter must be a name
+
+        意味　　　: REF のパラメータは名前でなければなりません。
+        補足説明  : REF() 関数の参照にエラーがあります。
+        プログラム: ASMPSX 
+
+  1.190 Radix must be in range 2 to 16
+
+        意味　　　: 基数は２から 16 の間でなければなりません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.191 Reference to %t '%n' in expression
+
+        意味　　　: 式中の%t '%n'への参照です。
+        補足説明  : たとえば、式中のセクション名を使う際に発せられます。
+        プログラム: PSYLINK 
+
+  1.192 Reference to undefined symbol #%h
+
+        意味　　　: 定義されていないシンボル#%ｈへの参照です。
+        補足説明  : オブジェクトファイルの内部エラーです。
+        プログラム: PSYLINK 
+
+  1.193 Register not recognized
+
+        意味　　　: レジスタが認識されません。
+        補足説明  : レジスタ名があるものと期待しましたが、認識されませんでし
+        た。
+        プログラム: ASMPSX 
+
+  1.194 Relocatable output cannot be ORG'd
+
+        意味　　　: 再配置可能な出力は ORG できません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.195 Remainder by zero
+
+        意味　　　: ゼロ除算した余りです。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.196 Remainder by zero
+
+        意味　　　: ゼロ除算の余りです。
+        補足説明  :
+        プログラム: ASMPSX、PSYLINK
+
+  1.197 Repeat count must not be negative
+
+        意味　　　: 繰り返しの回数は負であってはなりません。
+        補足説明  : REPT ステートメントのエラーです。
+        プログラム: ASMPSX 
+
+  1.198 Replicated text too big
+
+        意味　　　: 複製されたテキストが大きすぎます。
+        補足説明  : ループで複製されるテキストはメモリにバッファされなければ
+        なりませんが、このループは大きすぎてテキストに合いません。
+        プログラム: ASMPSX 
+
+  1.199 Resident SCSI drivers not present
+
+        意味　　　: 常駐 SCSI ドライバが存在しません。
+        補足説明  : PSYBIOS が読み込まれていないようです。
+        プログラム: ASMPSX 
+
+  1.200 Run-time patch to odd address
+
+        意味　　　: 奇数アドレスへのランタイムのパッチです。
+        補足説明  : 奇数アドレスへのランタイムロングワードパッチが、Amiga シ
+        ステムではクラッシュを起こす可能性があることへの警告です。
+        プログラム: PSYLINK 
+
+=============================================================================
+S                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.201 SCSI card not present - assembly aborted
+
+        意味　　　: SCSI カードが存在しません。アセンブルがアボートされました。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.202 SCSI card not present - linking aborted
+
+        意味　　　: SCSI カードが存在しません。リンクがアボートします。
+        補足説明  :
+        プログラム: PSYLINK 
+
+  1.203 SCSI drivers not loaded
+
+        意味　　　: SCSI ドライバは読み込まれていません。
+        補足説明  : PSYBIOS は存在していないと思われます。
+        プログラム: PSYLINK 
+
+  1.204 SECT's parameter must be a defined name
+
+        意味　　　: SECT のパラメータは定義された名前でなければなりません。
+        補足説明  : SECT() 関数コールにエラーがあります。
+        プログラム: ASMPSX 
+
+  1.205 SECTEND's parameter must be a defined name
+
+        意味　　　: SECTEND パラメータは定義された名前でなければなりません。
+        補足説明  : SECTEND() 関数へのコールにエラーがあります。
+        プログラム: ASMPSX 
+
+  1.206 SECTSIZE's parameter must be a section name
+
+        意味　　　: SECTSIZE のパラメータは、セクション名でなければなりません。
+        補足説明  : SECTSIZE() 関数へのコールにエラーがあります。
+        プログラム: ASMPSX 
+
+  1.207 SHIFT can only be used inside a macro
+
+        意味　　　: SHIFT はマクロの内側でしか使えません。
+        補足説明  : SHIFT ステートメントがマクロの外側にあります。
+        プログラム: ASMPSX 
+
+  1.208 STRCMP requires constant strings as parameters
+
+        意味　　　: STRCMP はパラメータとして定数文字列が必要です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.209 STRLEN's operand must be a quoted string
+
+        意味　　　: STRLEN のオペランドは引用された文字列でなければなりません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.210 Section '%n' must be in one of group code, data or BSS
+
+        意味　　　: セクション'%n'はグループ CODE、DATA、または BSS になけれ
+        ばなりません。
+        補足説明  : Amiga フォーマットコード作成時に発せられます。
+        プログラム: PSYLINK 
+
+  1.211 Section '%n' must be in one of groups text, data or BSS
+
+        意味　　　: セクション'%n'はグループ TEXT、DATA、または BSS のいずれ
+        かになければなりません。
+        補足説明  : ST フォーマットコード作成時に発せられます。
+        プログラム: PSYLINK 
+
+  1.212 Section '%n' placed in non-group symbol #%h
+
+        意味　　　: セクション'%n'が非グループシンボル#%ｈに置かれています。
+        補足説明  : オブジェクトファイルで内部エラーがありました。
+        プログラム: PSYLINK 
+
+  1.213 Section '%n' placed in non-group symbol '%n'
+
+        意味　　　: セクション'%n'が非グループシンボル'%n'に置かれています。
+        補足説明  : セクションを非グループタイプシンボルに置こうとしました。
+        プログラム: PSYLINK 
+
+  1.214 Section '%n' placed in two different groups
+
+        意味　　　: セクション'%n'が２つの異なったグループに置かれています。
+        補足説明  : セクションが異なったグループに置かれています。
+        プログラム: PSYLINK 
+
+  1.215 Section '%n' placed in unknown group symbol #%h
+
+        意味　　　: セクション'%n'が未知のグループシンボル#%ｈに置かれていま
+        す。
+        補足説明  : オブジェクトファイルに内部エラーがあります。
+        プログラム: PSYLINK 
+
+  1.216 Section stack is empty
+
+        意味　　　: セクションスタックが空です。
+        補足説明  : PUSHS のない POPS があります。
+        プログラム: ASMPSX 
+
+  1.217 Section was previously in a different group
+
+        意味　　　: セクションは以前違うグループにありました。
+        補足説明  : ２度目の呼び出しで、セクションは違うグループに割り当てら
+        れました。
+        プログラム: ASMPSX 
+
+  1.218 Seek in output file failed
+
+        意味　　　: 出力ファイルのシークに失敗しました。
+        補足説明  : DOS seek コールがエラー状態を返しました。
+        プログラム: ASMPSX 
+
+  1.219 Severity value must be in range 0 to 3
+
+        意味　　　: Severity 値は０から３の範囲でなければなりません。
+        補足説明  : INFORM ステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.220 Short macro calls in loops/macros must be defined before loop/macro
+
+        意味　　　: ループ／マクロのショートマクロコールは、ループ／マクロの
+        前に定義しなければなりません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.221 Short macro may not contain labels
+
+        意味　　　: ショートマクロにはラベルを含まないでください。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.222 Size cannot be sepcified when producing linkable output
+
+        意味　　　: リンク可能な出力作成時には、サイズを指定することはできま
+        せん。
+        補足説明  : グループ上の SIZE 属性で発せられます。
+        プログラム: ASMPSX 
+
+  1.223 Size specified in /b option must be in range 2 to 64
+
+        意味　　　: /ｂオプションで指定するサイズは、２から 64 の範囲でなけれ
+        ばなりません。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: ASMPSX 
+
+  1.224 Source must be a register
+
+        意味　　　: ソースオペランドはレジスタでなければなりません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.225 Source operand must be an immediate value
+
+        意味　　　: ソースオペランドは即値でなければなりません
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.226 Specified patch cannot be reprented in target's relocation format
+
+        意味　　　: 指定されたパッチは、ターゲットの再配置フォーマットで表す
+        ことはできません。
+        補足説明  : リロケータブルなコード作成時には、ターゲットの出力ファイ
+        ルフォーマットに従って、特定の実行時の再配置が許可されます。必要なパ
+        ッチの種類が出力ファイルフォーマットで表されていないと、このエラーが
+        起こります。たとえば、ロングワードのみを許可する ST ファイルフォーマ
+        ットでのバイトのパッチが、これにあたります。
+        プログラム: PSYLINK 
+
+  1.227 Square root of negative number
+
+        意味　　　: 負の数の平方根です。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.228 Statement must have a label
+
+        意味　　　: ステートメントにはラベルがなければなりません。
+        補足説明  : たとえば、EQU 演算にはラベルがありません。
+        プログラム: ASMPSX 
+
+  1.229 String '%n' cannot be shifted
+
+        意味　　　: 文字列'%n'はシフトできません。
+        補足説明  : SHIFT ステートメントに指定された文字列は、複数要素文字列
+        （たとえば{...}で囲まれたもの）ではないので、シフトできません。
+        プログラム: ASMPSX 
+
+  1.230 Symbol '%n' cannot be XDEF'd/XRED'd
+
+        意味　　　: シンボル'%n'は XDEF または XREF することはできません。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.231 Symbol '%n' is already XDEF'd/XRED'd
+
+        意味　　　: シンボル'%n'はすでに XDEF または XREF されています。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.232 Symbol '%n' is not defined in this module
+
+        意味　　　: シンボル'%n'はこのモジュールでは定義されていません。
+        補足説明  : 定義されていない名前がありました。
+        プログラム: ASMPSX 
+
+  1.233 Symbol '%n' not defined
+
+        意味　　　: シンボル'%n'が定義されていません。
+        補足説明  : シンボルが定義されていません。
+        プログラム: PSYLINK 
+
+  1.234 Symbol '%n' placed in non-section symbol #%h
+
+        意味　　　: シンボル'%n'が非セクションシンボル#%ｈに置かれています。
+        補足説明  : オブジェクトファイルに内部エラーがありました。
+        プログラム: PSYLINK 
+
+  1.235 Symbol '%n' placed in unknown section symbol #%h
+
+        意味　　　: シンボル'%n'が未知のセクションシンボル#%ｈに置かれていま
+        す。
+        補足説明  : オブジェクトファイルに内部エラーがありました。
+        プログラム: PSYLINK 
+
+  1.236 Symbol in COFF format file has unrecognised class
+
+        意味　　　: COFF ファイルフォーマットのシンボルに認識不能なクラスがあ
+        ります。
+        補足説明  : COFF フォーマットのファイルは、Sierra Ｃクロスコンパイラ
+        などによって作成されたものです。
+        プログラム: PSYLINK 
+
+  1.237 Symbot '%n' multiply defined
+
+        意味　　　: シンボル'%n'が複数定義されています。
+        補足説明  : 以前に定義されたシンボルの新しい定義です。
+        プログラム: PSYLINK 
+
+  1.238 Syntax eror in expression
+
+        意味　　　: 式に文法エラーがあります。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+=============================================================================
+T                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.239 TYPE's parameter must be a name
+
+        意味　　　: TYPE のパラメータは名前でなければなりません。
+        補足説明  : TYPE() 関数のコールで発せられます。
+        プログラム: ASMPSX 
+
+  1.240 Timed out sending data to target
+
+        意味　　　: ターゲットへのデータ送信がタイムアウトしました。
+        補足説明  : ターゲットが応答しないかオフラインです。
+        プログラム: PSYLINK 
+
+  1.241 Timed out sending data to target
+
+        意味　　　:ターゲットへのデータ送信がタイムアウトしました。
+        補足説明  : ターゲットが応答しないかオフラインです。
+        プログラム: ASMPSX、PSYLINK 
+
+  1.242 To many parameters in macro call
+
+        意味　　　: マクロコールのパラメータが多すぎます。
+        補足説明  : パラメータの最大数 (32) を超えています。
+        プログラム: ASMPSX 
+
+  1.243 Too many INCLUDE files
+
+        意味　　　: INCLUDE ファイルが多すぎます。
+        補足説明  : INCLUDE できるファイルは 512 までです。
+        プログラム: ASMPSX 
+
+  1.244 Too many INCLUDE paths specified
+
+        意味　　　: INCLUDE パスが多すぎます。
+        補足説明  : コマンドラインの／ｊオプションにある INCLUDE パスが多すぎ
+        ます。
+        プログラム: ASMPSX 
+
+  1.245 Too many characters in character constant
+
+        意味　　　: 文字定数にある文字が多すぎます。
+        補足説明  : 文字定数は１から４までです。
+        プログラム: ASMPSX 
+
+  1.246 Too many different sections
+
+        意味　　　: 異なったセクションが多すぎます。
+        補足説明  : セクションは最大 256 までです。
+        プログラム: ASMPSX 
+
+  1.247 Too many file names specified
+
+        意味　　　: 指定したファイル名が多すぎます。
+        補足説明  : コマンドラインにあるパラメータが多すぎます。
+        プログラム: PSYLINK 
+
+  1.248 Too many file names specified
+
+        意味　　　:ファイル名が多すぎます。
+        補足説明  : コマンドラインにあるパラメータが多すぎます。
+        プログラム: ASMPSX 
+
+  1.249 Too many modules to link
+
+        意味　　　: リンクするモジュールが多すぎます。
+        補足説明  : リンクできるモジュールは最大 256 個です。
+        プログラム: PSYLINK 
+
+  1.250 Too many output files specified
+
+        意味　　　: 指定した出力ファイルが多すぎます。
+        補足説明  : 出力ファイルは最大 256 までです。
+        プログラム: ASMPSX 
+
+  1.251 Too many symbols in COFF format file
+
+        意味　　　: COFF フォーマットファイルにシンボルが多すぎます。
+        補足説明  : COFF フォーマットのファイルは、Sierra Ｃクロスコンパイラ
+        などによって作成されたものです。
+        プログラム: PSYLINK 
+
+  1.252 Too much temporary data
+
+        意味　　　: テンポラリデータが多すぎます。
+        補足説明  : アセンブラのテンポラリデータの限界である 16MB に達してい
+        ます。
+        プログラム: ASMPSX 
+
+=============================================================================
+U                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.253 Unable to open command file
+
+        意味　　　: コマンドファイルを開けることができません。
+        補足説明  : コマンドラインから発せられます。
+        プログラム: ASMPSX 
+
+  1.254 Unable to open output file
+
+        意味　　　: 出力ファイルを開くことができません。
+        補足説明  : 指定した出力ファイルを開くことができませんでした。
+        プログラム: PSYLINK 
+
+  1.255 Undefined name in command
+
+        意味　　　: コマンドに定義されていない名前があります。
+        補足説明  : ALIAS ステートメントのターゲット名に発せられます。
+        プログラム: ASMPSX 
+
+  1.256 Undefined symbols in COFF file patch record
+
+        意味　　　: COFF ファイルパッチレコードに定義されていないシンボルがあ
+        ります。
+        補足説明  : COFF フォーマットのファイルは、Sierra Ｃクロスコンパイラ
+        などによって作成されたものです。
+        プログラム: PSYLINK 
+
+  1.257 Unexpected MODEMD encountered
+
+        意味　　　: 予期せぬ MODEND がありました。
+        補足説明  : 前に MODULE のない MODEND がありました。
+        プログラム: ASMPSX 
+
+  1.258 Unexpected case option outside CASE statement
+
+        意味　　　: CASE ステートメントの外側に予期せぬ case オプションがあり
+        ます。
+        補足説明  : CASE/ENDCASE ブロックの外側に=...ステートメントが見つかり
+        ました。
+        プログラム: ASMPSX 
+
+  1.259 Unexpected characters at end of Command line
+
+        意味　　　: コマンドラインの終端に予期せぬ文字があります。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.260 Unexpected characters at end of line
+
+        意味　　　: 行の終端に予期せぬ文字があります。
+        補足説明  : 行の終端と思われる所に（コメント以外の）文字がありました。
+        プログラム: ASMPSX 
+
+  1.261 Unexpected end of line in list parameter
+
+        意味　　　: リストパラメータで予期せぬ所で行の終端に達しました。
+        補足説明  : {...}リストで発せられます。
+        プログラム: ASMPSX 
+
+  1.262 Unexpected end of line in macro parameter
+
+        意味　　　: マクロパラメータで予期せぬ所で行の終端に達しました。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.263 Unexpected end of line
+
+        意味　　　: 予期せぬ所で行の終端に達しました
+        補足説明  : 行が終わりましたが、さらに入力が必要とされていました。
+        プログラム: ASMPSX 
+
+  1.264 Unit number must be in range 0-127
+
+        意味　　　: ユニット数は０から 127 の範囲でなければなりません。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.265 Unknown opeion /
+
+        意味　　　: 未知のオプション / です。
+        補足説明  : コマンドライン上で、オプションが認識されませんでした。
+        プログラム: PSYLIB 
+
+  1.266 Unknown option /%c
+
+        意味　　　: 未知のオプション/%ｃがあります。
+        補足説明  : コマンドラインで発せられます。
+        プログラム: ASMPSX、PSYLINK 
+
+  1.267 Unknown option
+
+        意味　　　: 未知のオプションです。
+        補足説明  : ＯＰＴステートメントで発せられます。
+        プログラム: ASMPSX 
+
+  1.268 Unknown processor type '%s'
+
+        意味　　　: '%s'は未知のプロセッサタイプです。
+        補足説明  : ターゲットプロセッサの種類を認識できませんでした。
+        プログラム: PSYLINK 
+
+  1.269 Unrecognized attribute in GROUP directive
+
+        意味　　　: GROUP ディレクティブに認識不能な属性があります。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+  1.270 Unrecognized optimisation switch '%c'
+
+        意味　　　: 認識不能な最適化スイッチ'%c'があります。
+        補足説明  : OPT ステートメントまたはコマンドラインで発せられます。
+        プログラム: ASMPSX 
+
+  1.271 Unrecognized relocatable output format
+
+        意味　　　: 認識不能なリロケータブルな出力フォーマットがあります。
+        補足説明  : コマンドライン上の／ｒオプションで発せられます。
+        プログラム: PSYLINK 
+
+  1.272 Use of AT register without opt at - Warning
+
+        意味　　　: アセンブラマクロによって壊されてしまう可能性のある at レ
+        ジスタを使っています。
+        補足説明  : 
+        プログラム: PSYLINK 
+
+  1.273 User pressed Break/Ctrl-C
+
+        意味　　　: ユーザーが Break または Ctrl-C を押しました。
+        補足説明  : アセンブルまたはリンクがユーザーによってアボートされまし
+        た。
+        プログラム: ASMPSX、PSYLINK
+
+=============================================================================
+V                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.274 Value (%l) out of range in instruction patch
+
+        意味　　　: 命令パッチに範囲を超えた値(%l) があります。
+        補足説明  : パッチされる値が範囲外です。
+        プログラム: PSYLINK 
+
+=============================================================================
+W                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.275 WORKSPACE command can only be used when downloading output
+
+        意味　　　: WORKSPACE コマンドは、出力をダウンロードする時にしか使え
+        ません。
+        補足説明  : 
+        プログラム: PSYLINK 
+        
+
+=============================================================================
+X                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.276 XDEF'd symbol %n not defined
+
+        意味: XDEF されたシンボル%ｎは定義されていません。
+        補足説明  : シンボルは XDEF されましたが定義されていません。
+        プログラム: ASMPSX 
+
+  1.277 XDEF/XREF can only be used when producing linkable output
+
+        意味　　　: XDEF/XREF はリンク可能な出力作成時にのみ使用できます。
+        補足説明  : 
+        プログラム: ASMPSX 
+
+=============================================================================
+Z                                                      [エラーメッセージ一覧]
+=============================================================================
+
+  1.278 Zero length INCBIN
+
+        意味　　　: INCBIN の長さがゼロです。
+        補足説明  : INCBIN ステートメントの長さがゼロであることへの警告です。
+        プログラム: ASMPSX 
+
+ 2 ファイルサーバー機能
+------------------------
+
+        以下の関数により、ターゲットボードマシンから、PC (DOS/V) 上のファイル
+        をアクセスすることができます。ただし、１回に読み書きできるサイズは 65,
+        534 バイトまでです。
+        
+=============================================================================
+PCinit                                                 [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PCinit( void )
+        
+[引数]
+        なし
+        
+[解説]
+        PC ファイルシステムを初期化する。
+        現在オープンされているバッファをすべてフラッシュし、ファイルをすべて
+        クローズする。
+        なお、オープンできるファイルの上限は CONFIG.SYS の FILES によって規定
+        されている。デフォルトは 20 であり、より多くのファイルをオープンする
+        場合は、CONFIG.SYS の FILES 行を変更する必要がある。
+        
+[返り値]
+        成功した場合は０、それ以外の場合はエラーコードを返す。
+
+=============================================================================
+ PCcreat                                               [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PCcreat(name, perms);
+        char *name;
+        int perms;
+        
+[引数]
+        name	ファイル名
+        perms	ファイル属性
+        
+[解説]
+        ファイル name を perms で指定された属性で作成する。
+        
+[返り値]
+        成功した場合はファイルハンドルを、それ以外の場合は -1 を返す。
+        
+
+=============================================================================
+ PCopen                                                [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PCopen(name, flags, perms)
+        char *name;
+        int flags;
+        int perms;
+        
+[引数]
+        name	ファイル名
+        flags	オープンモード
+        perms	ファイルパーミッション
+        
+[解説]
+        ファイル name を perms で指定されたパーミッションでオープンする。
+        permsは通常0を指定して下さい。
+        flagsの種類を以下に挙げます。なお、LIBAPIのopen()で使われるflagの値と
+        は関係ありませんので注意して下さい。
+        
+        +---------+--------------+
+        |flagsの値 オープンモード|
+        |0         リードオンリ  |
+        |1         ライトオンリ  |
+        |2         リード／ライト|
+        +---------+--------------+
+        
+[返り値]
+        成功した場合はファイルハンドルを、それ以外の場合は -1 を返す。
+        
+[例]
+        #include "libsn.h"
+        /* read named file to memory          */
+        void read_in_file(char *name, char *buff)
+        {
+        int fd;
+        long len;
+        fd = PCopen(name, 0, 0);
+        if (fd == -1) {
+        	printf("Error opening file %s＼n", name);
+        	exit(1);
+        }
+        len = PClseek(fd, 0L, 2);	/* seek to end of file to get length */
+        PClseek(fd, 0L, 0);		/* back to the start */
+        if (PCread(fd, buff, len) != len) {
+        	printf("Failed to read all of file %s＼n", name);
+        	exit(1);
+        }
+        PCclose(fd);
+        }
+        main()
+        {
+        ....
+        read_in_file("mat0", (char*)0xA0040000);
+        read_in_file("mat1", (char*)0xA0050200);
+        ...
+        }
+
+=============================================================================
+ PCclose                                               [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PCclose(fd)
+        int fd;
+        
+[引数]
+        fd	ファイルハンドル
+        
+[解説]
+        ファイル fdを閉じる。
+        
+[返り値]
+        成功した場合は０を、それ以外の場合は DOS のエラーコードを返す。
+        
+
+=============================================================================
+ PCread                                                [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PCread(fd, buff, len)
+        int fd;
+        char *buff;
+        int len;
+        
+[引数]
+        fd		ファイルハンドル
+        buff	バッファを指すポインタ
+        len		読み込むバイト数
+        
+[解説]
+        ファイル fd から、データを len バイト読み込み、buff に格納する。
+        なお、len にファイルサイズより大きい値を指定してはならない。
+        
+[返り値]
+        成功した場合は読み込んだバイト数を、それ以外の場合は０を返す。
+
+=============================================================================
+ PCwrite                                               [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PCwrite(fd, buff, len)
+        int fd;
+        char *buff;
+        int len;
+        
+[引数]
+        fd		ファイルハンドル
+        buff	バッファを指すポインタ
+        len		書き込むバイト数
+        
+[解説]
+        ファイル fd に、バッファ buff からデータを len バイト書き込む。
+        また、fd に負の値を指定することにより、バッファの内容をデバッガのメッ
+        セージウィンドウに出力することができる。例えば -1 を指定すると １番目
+        のウィンドウ、-2 を指定すると ２番目のウィンドウに出力される。この場
+        合、ファイルをオープンする必要はない。デバッガが実行されていない場合
+        でも、メッセージは内部のリングバッファ (4KB) にバッファリングされ、デ
+        バッガが起動されるとその内容が表示される。
+        
+[返り値]
+        成功した場合は書き込んだバイト数、それ以外の場合は０を返す。
+
+=============================================================================
+ PClseek                                               [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        int PClseek(fd, offset, mode)
+        int fd;
+        int offset;
+        int mode;
+        
+[引数]
+        fd1	ファイルハンドル
+        offset	シークオフセット
+        mode	ファイルシークモード
+        
+[解説]
+        ファイル fd のファイルポインタを、mode で指定された条件に従って、
+        offset で指定された位置に移動する。
+        mode に指定できる値は次の通り。
+        
+        +--+--------------------------+
+        |値 意味                      |
+        |0  ファイルの先頭からの相対値|
+        |1  現在のポインタからの相対値|
+        |2  ファイルの終からの相対値  |
+        +--+--------------------------+
+
+=============================================================================
+ pollhost                                              [ファイルサーバー機能]
+=============================================================================
+        
+[書式]
+        void pollhost ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        DBUGPSXからの要求に応じて情報を提供する。
+        DBUGPSXがデータを要求していない場合はすぐに戻る。データを要求している
+        場合は、その転送にいくばくかの時間がかかる。DBUGPSXの更新時間はオプシ
+        ョンで設定可能(DBUGPSXの項参照)。
+        また、ソースコードにpollhost()がないとデバッガは正常に動作しないので
+        注意。通常、メインループの最後か、割り込み処理から呼ばれる。
+        
+[返り値]
+        なし
+
+  2.1 エラーコードについて
+
+        エラーコード(DOSエラーコードに$80を加えたものです)の内容は次の通りで
+        す。
+        
+        +-----------+--------------------------------------------+
+        |コード(HEX) 意味                                        |
+        |81          DOSが無効です                               |
+        |82          ファイルが見つかりません                    |
+        |83          パスが見つかりません                        |
+        |84          ハンドルが足りません                        |
+        |85          アクセスは拒否されました                    |
+        |86          無効なハンドルです                          |
+        |87          メモリコントロールブロックが不正です        |
+        |88          メモリ不足です                              |
+        |89          無効なメモリブロックアドレスです            |
+        |8A          無効な環境です                              |
+        |8B          無効なフォーマットです                      |
+        |8C          無効なアクセスコードです                    |
+        |8D          日付が正しくありません                      |
+        |8E          (未使用)                                    |
+        |8F          ドライブの指定が正しくありません            |
+        |90          カレントディレクトリを削除しようとしています|
+        |91          デバイスが等しくありません                  |
+        |92          ファイルはこれ以上ありません                |
+        |93          ディスクはライトプロテクトされています      |
+        |94          認識不可能なディスクです                    |
+        |95          ドライブの準備ができていません              |
+        |96          未知のコマンドです                          |
+        |97          データエラーです                            |
+        |98          不正な長さが要求されました                  |
+        |99          シークエラーです                            |
+        |9A          未知のメディアタイプです                    |
+        |9B          セクタが見つかりません                      |
+        |9C          プリンタが紙切れです                        |
+        |9D          書き込みに失敗しました                      |
+        |9E          読み込みに失敗しました                      |
+        |9F          一般エラーです                              |
+        +-----------+--------------------------------------------+
+        

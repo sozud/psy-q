@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetVoiceVolumeAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetVoiceVolumeAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ボイス音量/音量モードの設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetVoiceVolumeAttr</B> (
+int <I>voiceNum</I>,
+short <I>volumeL</I>,
+short <I>volumeR</I>,
+short <I>volModeL</I>,
+short <I>volModeR</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>voiceNum</I>	ボイス番号 (0 ～23)
+<I>volumeL</I>		音量 (左)
+<I>volumeR</I>		音量 (右)
+<I>volModeL</I>	音量モード (左)
+<I>volModeR</I>	音量モード (右)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ボイスの音量/音量モードの設定を行う。 <BR>
+    SpuSetVoiceAttr() の mask 指定 <BR>
+    <blockquote>
+    	SPU_VOICE_VOLL <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_VOLR <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_VOLMODEL <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_VOLMODER <BR>
+    </blockquote>
+    に該当する処理を行う。 <BR>
+    音量モード <I>volModeL</I>, <I>volModeR</I>、及び音量 <I>volumeL</I>, <I>volumeR</I>に指定する値に関しては SpuSetVoiceAttr() を参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vsattr.htm">SpuSetVoiceAttr</a>(), <a href="snsvapur.htm">SpuNSetVoiceAttr</a>(), <a href="vsvolume.htm">SpuSetVoiceVolume</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

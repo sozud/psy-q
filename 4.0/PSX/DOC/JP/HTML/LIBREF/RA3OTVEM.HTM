@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotAverage3_nom
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotAverage3_nom
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ３点の座標変換と透視変換を行ないデプスキューイング用の内挿値とＺ値の平均値を求める
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>RotAverage3_nom </B>(
+SVECTOR *<I>v0</I>,
+SVECTOR *<I>v1</I>,
+SVECTOR *<I>v2</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>v0</I>,<I>v1</I>,<I>v2	</I>入力：ベクトル
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ローカル座標ベクトル <I>v0</I>,<I>v1</I>,<I>v2 </I>を回転マトリックスで座標変換したあと透視変換を行ない、３つのスクリーン座標sx0,sy0,sz0,sx1,sy1,sz1,sx2,sy2,sz2,<I>v2 </I>に対応するデプスキューイング用の内挿値p３つのスクリーン座標のＺ値の平均値otzをGTE内部レジスタに保持する。 <BR>
+<BR>
+    引数および内部データフォーマット： <BR>
+    <I>v0</I>,<I>v1</I>,<I>v2</I>-&gt;vx,vy,vz : (1,15,0) <BR>
+    sx0,sy0,sz0 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    sx1,sy1,sz1 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    sx2,sy2,sz2 : (1,15,0),(1,15,0),(0,16,0) <BR>
+    p : (0,20,12) <BR>
+    flag : (0,32,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    (sz0,sz1,sz2)はマクロread_sz_fifo3で、((sx0,sy0),(sx1,sy1),(sx2,sy2))はマクロread_sxsy_fifo3で、pはマクロread_pで、otzはマクロread_otzで読む。 <BR>
+    flagは <I>v0 </I>に返る。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

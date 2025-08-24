@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    TMD_PRIM
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    TMD_PRIM
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ＴＭＤ形式モデルデータヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>id</I>;
+		u_char	<I>r0</I>, <I>g0</I>, <I>b0</I>, <I>p0</I>;
+		u_char	<I>r1</I>, <I>g1</I>, <I>b1</I>, <I>p1</I>;
+		u_char	<I>r2</I>, <I>g2</I>, <I>b2</I>, <I>p2</I>;
+		u_char	<I>r3</I>, <I>g3</I>, <I>b3</I>, <I>p3</I>;
+		u_short	<I>tpage</I>, <I>clut</I>;
+		u_char	<I>u0</I>, <I>v0</I>, <I>u1</I>, <I>v1</I>;
+		u_char	<I>u2</I>, <I>v2</I>, <I>u3</I>, <I>v3</I>;
+		
+		SVECTOR	<I>x0</I>, <I>x1</I>, <I>x2</I>, <I>x3</I>;
+		SVECTOR	<I>n0</I>, <I>n1</I>, <I>n2</I>, <I>n3</I>;
+		
+		SVECTOR	*<I>v_ofs</I>;
+		SVECTOR	*<I>n_ofs</I>;
+		
+		u_short	<I>vert0</I>, <I>vert1</I>;
+		u_short	<I>vert2</I>, <I>vert3</I>;
+		u_short	<I>norm0</I>, <I>norm1</I>;
+		u_short	<I>norm2</I>, <I>norm3</I>;
+} <B>TMD_PRIM</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>id</I>			TMD プリミティブ ID
+<I>r0</I>,<I>g0</I>,<I>b0</I>...<I>r3</I>,<I>g3</I>,<I>b3	</I>プリミティブの各頂点輝度値
+<I>clut</I>			プリミティブの使用する CLUT ID
+<I>tpage</I>			プリミティブの使用するテクスチャページ
+<I>u0</I>,<I>v0</I>,<I>u1</I>,<I>v1</I>,<I>u3</I>,<I>v3	</I>プリミティブの各頂点テクスチャ座標
+<I>x0</I>,<I>x1</I>,<I>x2</I>,<I>x3</I>		プリミティブの３次元座標
+<I>n0</I>,<I>n1</I>,<I>n2</I>,<I>n3</I>		プリミティブの法線座標
+<I>v_ofs</I>			頂点配列の先頭座標
+<I>n_ofs</I>			法線配列の先頭座標
+<I>vert0</I>,<I>vert1</I>..<I>vert3</I>	頂点配列へのオフセット
+<I>norm0</I>,<I>norm1</I>..<I>norm3</I>	頂点配列へのオフセット
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TMD オブジェクトを構成するプリミティブの情報。 <BR>
+    ReadTMD() 関数を使用して獲得される。 <BR>
+    独立頂点モデルを使用する際には、<I>x0</I>,<I>x1</I>,,,<I>x3</I>, <I>n0</I>,<I>n1</I>,,<I>n3</I> を使用する。共有頂点モデルを使用する場合には、 <I>v_ofs</I>, <I>n_ofs</I> および、<I>vert0</I>,..<I>vert3</I>, <I>norm0</I>...<I>norm3</I> を使用する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TMD プリミティブの種類によっては意味を持たないメンバも存在する。 <BR>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

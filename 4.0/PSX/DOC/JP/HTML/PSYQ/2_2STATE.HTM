@@ -1,0 +1,468 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> アセンブラステートメントの文法</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+アセンブラステートメントの文法
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+アセンブラの実行を制御するために、ソースコードには、伝統的に、多くの追加ステートメント及び関数が記述されています。<BR>これにより、プログラマは、コードの各部分が解析され、マシンリーダブルなフォーマットに変換されるように、アセンブラのフロー及び動作を管理することができます。<BR>通常、アセンブラステートメントは、ホストの言語フォーマットを反映しており、ASMPSX もこの規定に従っています。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>ステートメントのフォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX ステートメントのフォーマットは、次の通りです。<BR>
+    <BR>
+<PRE>        &lt;Name/Label&gt;  &lt;Directive&gt;  &lt;Operand&gt;
+        
+</PRE>
+    ステートメントには、以下の規約が適用されます。<BR>
+<UL>
+         <LI> 各フィールドは、スペースまたは TAB で区切ります。
+         <LI> 長い行は、行末に"&"（アンパサンド）を付け、分割することができます。
+         <LI> "="（イコール）から始まる行は、CASE ステートメントの case 部とみなされます。詳しくは「一般ディレクティブ」の章の「CASE,ENDCASE」の項を参照してください。
+         <LI> コメントは";"（セミコロン）に続いて記述します。
+         <LI> スペースまたは TAB のみから成る行はコメントとして扱われます。
+         <LI> "*"（アスタリスク）から始まる行もコメントとして扱われます。
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>名前及びラベルのフォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    名前及びラベルは、英数字記号、すなわち"A～Z"、"a～z"、及び"0～9"により構成されています。また、次の記号は特別な意味を持ちます。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>意味</TD><TR>
+    <TD>:<BR></TD><TD>コロンは、名前またはラベルの終端記号です。ただし、参照時<BR>には使用できません。</TD><TR>
+    <TD>?、 _ 、.<BR></TD><TD>クエスチョンマーク、アンダースコア、及びドットは、しばし<BR>ば視認性を向上させるために使用します。</TD><TR>
+    <TD>@<BR></TD><TD>アットマークは、ローカルラベルの開始記号です。なお、ロー<BR>カルことができます。名前及びラベルには、次の規約が適用さ<BR>れます。<BR>数字及びクエスチョンマークで始まる名前を指定することは<BR>できません。<BR>ラベルは行頭に記述し、コロンで終端させます。但し、行頭<BR>にスペースまたは TAB を挿入することは可能です。<BR>名前／ラベルに英数字以外の文字があり、これにより解釈の<BR>問題が発生している場合、その文字のをバックスラッシュで置<BR>き換えるか、あるいは、名前／ラベル全体をカッコで囲んでく<BR>ださい。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>定数のフォーマット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX アセンブラは、下記のタイプの定数をサポートしています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>文字定数</B>
+</A>
+</H3>
+<blockquote>
+    ダブルクォーテーションで囲まれた文字列は文字定数として扱われ、ASCII 値で評価されます。文字定数は最大４文字まで指定可能で、その値は 32 ビット値となります。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        "A"    = 65
+        "AB"   = (65*256)      + 66 = 16706
+        "ABC"  = (65*65536)    + (66*256)   + 67 = 4276803
+        "ABCD" = (65*16777216) + (66*65536) + (67*256) + 68 = 1094861636
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>整数定数</B>
+</A>
+</H3>
+<blockquote>
+    以下の場合を除き、整数定数は 10 進数を基数として評価されます。<BR>
+<UL>
+         <LI> RADIX ディレクティブにより基数を変更した場合。
+         <LI> "$"で始まる数字は 16 進数、"%"で始まる数字は２進数を表わします。
+         <LI> "\^"（バックスラッシュとサーカムフレックス）で始まる文字は、これに続く文字が示すコントロールコードに置き換えられます。
+         <LI> OPT ディレクティプの AN オプションで、数値を Intel 及び Zilog 整数として定義することができます。すなわち、数値は、数字で始まり、下記のいずれかで終わる必要があります。
+</UL>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>意味</TD><TR>
+    <TD>D</TD><TD>10 進数</TD><TR>
+    <TD>H</TD><TD>16 進数</TD><TR>
+    <TD>B</TD><TD>２進数</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>特殊定数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX には、あらかじめ定義された定数として、下記のものがあります。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>定数</TD><TD>意味</TD><TR>
+    <TD>_year</TD><TD>年。例: 1995。</TD><TR>
+    <TD>_month</TD><TD>月。1 = １月、12 = 12 月。</TD><TR>
+    <TD>_day</TD><TD>日。1 = 月の最初の日。</TD><TR>
+    <TD>_weekday</TD><TD>曜日を数値で示したもの。0 = 日曜日、6 = 土曜日。</TD><TR>
+    <TD>_hours</TD><TD>時。00～23。</TD><TR>
+    <TD>_minutes</TD><TD>分。00～59。</TD><TR>
+    <TD>_seconds</TD><TD>秒。00～59。</TD><TR>
+    <TD>*</TD><TD>ロケーションカウンタの現在値。</TD><TR>
+    <TD>@</TD><TD>現在値が格納される実際の PC（プログラムカウンタ）の値。</TD><TR>
+    <TD>narg</TD><TD>現在のマクロの引数の数。</TD><TR>
+    <TD>_rs</TD><TD>RS カウンタの現在値。</TD><TR>
+    <TD>_filename<BR></TD><TD>アセンブル中の一次ファイルの名前。すなわち、ASMPSX の<BR>コマンドラインで指定されたファイル名。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>時間及び日付定数について</B>
+</A>
+</H3>
+<blockquote>
+    時間及び日付を示す定数は、アセンブル開始時に設定されます。アセンブル中には更新されません。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        RunTime	db "\#_hours:\#_minutes:\#_seconds"
+</PRE>
+    <BR>
+    上の例は、次のように hh:mm:ss 形式に展開されます。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        RunTime db "21:08:49"
+</PRE>
+    なお、この例にある特殊マクロパラメータ "\#"については、「マクロ」の章の「３特殊パラメータ」の項を参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>ロケーションカウンタ定数について</B>
+</A>
+</H3>
+<blockquote>
+    プログラムポインタの現行値を定数として使用することができます。現在位置のロケーションカウンタを表わすには、"*"（アスタリスク）を使用します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        		section	Bss,g_bss
+        Firstbss	equ	*
+</PRE>
+    <BR>
+    "*"は、行の始めのアドレスを示していますので、次のようにすると$100 を３回定義します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        org	$100
+        dw	*,*,*
+</PRE>
+    <BR>
+    また、"@"は、それ自身が定数として使用された場合、現在値が格納されているアドレスを指すロケーションカウンタの値に置換されます。次の例では、$100、$104、$108 を定義します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        org	$100 
+        dw	@,@,@
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>アセンブラ関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX は、プログラマの作業を軽減するために、多くの関数を提供しています。そのうちのいくつかは他のアセンブラと共通しています。<BR>
+    ASMPSX がサポートする関数には次のものがあります。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>書式</TD><TD>動作</TD><TR>
+    <TD>def(a)</TD><TD>ａが定義されている場合、真を返します。</TD><TR>
+    <TD>ref(a)</TD><TD>ａが参照されている場合、真を返します。</TD><TR>
+    <TD>type(a)</TD><TD>ａのデータ型を返します。</TD><TR>
+    <TD>sqrt(a)</TD><TD>ａの平方根を返します。</TD><TR>
+    <TD>strlen(text)</TD><TD>文字列 text の長さを返します。</TD><TR>
+    <TD>strcmp(texta,textb)</TD><TD>文字列 texta と textb が等しい場合、真を返します。</TD><TR>
+    <TD>instr([start,]txa,txb)<BR></TD><TD>文字列txaに文字列taxが含まれている位置を返します。<BR> start は検索開始位置です。</TD><TR>
+    <TD>sect(a)</TD><TD>セクションａのベースアドレスを返します。</TD><TR>
+    <TD>offset(a)</TD><TD>セクションａにオフセットを返します。</TD><TR>
+    <TD>sectoff(a) </TD><TD>offset と同じです。</TD><TR>
+    <TD>group(a) </TD><TD>グループａのベースアドレスを返します。</TD><TR>
+    <TD>groupoff(a)</TD><TD>グループａにオフセットを返します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>特殊関数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX では、以下の特殊関数をサポートしています。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>書式</TD><TD>動作</TD><TR>
+    <TD>filesize("filename")<BR></TD><TD>指定ファイルのサイズを返します。ファイルが存在しな<BR>い場合は -1 を返します。</TD><TR>
+    <TD>groupsize(X)<BR></TD><TD>グループＸの現行サイズ（最終サイズではありません）<BR>を返します。</TD><TR>
+    <TD>grouporg(X)<BR></TD><TD>グループＸの ORG アドレスを返します。また、Ｘがシ<BR>ンボルあるいはセクションの名前の場合には、Ｘが定義<BR>されたグループのアドレスを返します。</TD><TR>
+    <TD>groupend(X)</TD><TD>グループＸのエンドアドレスを返します。</TD><TR>
+    <TD>sectend(X)</TD><TD>セクションＸのエンドアドレスを返します。</TD><TR>
+    <TD>sectsize(X)<BR></TD><TD>セクションＸの現行サイズ（最終サイズではありませ<BR>ん）を返します。</TD><TR>
+    <TD>alignment(X)<BR></TD><TD>予め定義しておいたシンボルＸのアラインメントを返し<BR>ます。これはＸが定義されたセクションのベースアライ<BR>ンメントに依存します。<BR><BR>アラインメント  返り値<BR>ワード           0～3<BR>ハーフワード     0～1<BR>バイト           0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>アセンブラ演算子</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ASMPSX は、以下の式演算子を利用します。<BR>
+    なお、比較が真として評価される場合、その結果は、-１として返されます。また、偽として評価される場合、その結果は、０として返されます。<BR>
+    <BR>
+    ASMPSX は、32 ビットアセンブラですので、マイナス符号ビットは bit 31 となります。従って、$FFFFFF 及び$FFFFFFF は正の数値、$FFFFFFFF は負の数値となります。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>型</TD><TD>使用法</TD><TD>動作</TD><TR>
+    <TD> ()</TD><TD>一次</TD><TD>(a)</TD><TD>カッコで括る（優先順を上げる）</TD><TR>
+    <TD>+</TD><TD>単項</TD><TD>+a</TD><TD>ａが正</TD><TR>
+    <TD>-</TD><TD>単項</TD><TD>-a</TD><TD>ａが負(※1)</TD><TR>
+    <TD>=</TD><TD>２進</TD><TD>a=b</TD><TD>ａにｂを割り当て、またはｂと等価にする</TD><TR>
+    <TD>+</TD><TD>２進</TD><TD>a+b</TD><TD>ａにｂを加える</TD><TR>
+    <TD>-</TD><TD>２進</TD><TD>a-b</TD><TD>ａからｂを引く</TD><TR>
+    <TD>*</TD><TD>２進</TD><TD>a*b</TD><TD>ａにｂを掛ける</TD><TR>
+    <TD>／</TD><TD>２進</TD><TD>a/b</TD><TD>ａをｂで割った商を求める</TD><TR>
+    <TD>%</TD><TD>２進</TD><TD>a%b</TD><TD>ａをｂで割った余りを求める</TD><TR>
+    <TD>&lt;&lt;</TD><TD>２進</TD><TD>a&lt;&lt;b</TD><TD>ａをｂ回左にシフトする</TD><TR>
+    <TD>&gt;&gt;</TD><TD>２進</TD><TD>a&gt;&gt;b</TD><TD>ａをｂ回右にシフトする</TD><TR>
+    <TD>~</TD><TD>単項</TD><TD>~a</TD><TD>論理補数または NOT a</TD><TR>
+    <TD>&</TD><TD>２進</TD><TD>a&b</TD><TD>ａとｂの論理積 (AND) 演算を行う</TD><TR>
+    <TD>^</TD><TD>２進</TD><TD>a^b</TD><TD>ａとｂの排他的論理和 (XOR) 演算を行う</TD><TR>
+    <TD>!</TD><TD>２進</TD><TD>a!b</TD><TD>ａとｂの論理和 (OR) 演算を行う</TD><TR>
+    <TD>|</TD><TD>２進</TD><TD>a|b</TD><TD>!と同様</TD><TR>
+    <TD>&lt;&gt;</TD><TD>２進</TD><TD>a&lt;&gt;b</TD><TD>ａはｂと同等でない</TD><TR>
+    <TD>&lt;</TD><TD>２進</TD><TD>a&lt;b</TD><TD>ａはｂより少ない</TD><TR>
+    <TD>&gt;</TD><TD>２進</TD><TD>a&gt;b</TD><TD>ａはｂより大きい</TD><TR>
+    <TD>&lt;=</TD><TD>２進</TD><TD>a&lt;=b</TD><TD>ａはｂより少ないか、またはｂと同等</TD><TR>
+    <TD>&gt;= </TD><TD>２進</TD><TD>a&gt;=b</TD><TD>ａはｂより大きいか、またはｂと同等</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>優先順位</B>
+</A>
+</H3>
+<blockquote>
+    ASMPSX では、式は以下の規約に基づいて評価されます。<BR>
+<UL>
+         <LI> カッコにより括られた内容は優先順が強制的に上げられ、最初に実行されます。
+         <LI> カッコ付きでない場合、各演算子は、所定の優先順位に従って実行されます。
+         <LI> 同様な手続きの演算子は、その結合規則に従って実行されます。通常、単項演算子を除き、左から右に実行されます。
+<CENTER>
+<TABLE BORDER>
+    <TD>演算子</TD><TD>方向</TD><TD>内容</TD><TR>
+    <TD> ( )</TD><TD>←</TD><TD>一次演算子</TD><TR>
+    <TD>+ - ~</TD><TD>→</TD><TD>単項演算子</TD><TR>
+    <TD>&lt;&lt; &gt;&gt;</TD><TD>→</TD><TD>シフト演算子</TD><TR>
+    <TD>& ! ^</TD><TD>→</TD><TD>論理演算子</TD><TR>
+    <TD>* ／ %</TD><TD>→</TD><TD>乗除演算子</TD><TR>
+    <TD>+ -</TD><TD>→</TD><TD>加減演算子</TD><TR>
+    <TD>&gt; &lt; &lt;= &gt;=</TD><TD>→</TD><TD>関連演算子</TD><TR>
+    <TD>= &lt;&gt;</TD><TD>→</TD><TD>等価演算子</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</UL>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>ディレクティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ここでは、定数や関数に関連するディレクティブについて解説していきます。<BR>
+    <BR>
+
+<H1>
+    RADIX
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    RADIX	&lt;newbase&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    基数を newbase で指定された値に変更します。newbase に指定できる値は２～16 です。また、newbase は現在の基数に関係なく、常に 10 進数で評価されます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    デフォルトの基数は 10 進数です。<BR>
+    個々の数値の前に"$"あるいは"%"を記述することにより、その数値を 16 進あるいは２進数とすることも可能です。<BR>
+    OPT ディレクティブの AN オプションは、デフォルトの基数が 10 より大きい場合、実行されません。これは、"B"及び"D"が、16 進数表記においては数値として扱われるためです。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>radix	8
+</PRE>
+</blockquote>
+
+<H1>
+    ALIAS、DISABLE
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;newname&gt; ALIAS   &lt;name&gt;<BR>
+    	  DISABLE &lt;name&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ALIAS は、name を newname に変更します。また、DISABLE は、name を ASMPSX が使用しないようにします。これにより、プログラマは、ASMPSX に予約されている名前とプログラムで使用している名前とが衝突することを回避することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ASMPSX のディレクティブを使用不可能としてはなりません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>_Offset	alias	offset
+		disable	offset
+		...
+_Offset	dh	_Offset(Lab)
+offset	dh	*-pointer
+</PRE>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SetShadeTex
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SetShadeTex
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        シェーディング機能の禁止
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SetShadeTex </B>(
+void *<I>p</I>,
+int <I>tge </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>p		</I>プリミティブ先頭アドレス
+<I>tge		</I>シェーディング禁止フラグ（0:シェーディングを行なう、1:行なわない）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>p </I>で指定した描画プリミティブに <I>tge </I>に従いシェーディング機能を許可／禁止する。 <BR>
+    テクスチャ＋シェーディングonの場合、ポリゴン内部の各ピクセルは、対応するテクスチャパターンのピクセル値Ｔと対応する輝度値Ｌから、以下のように計算される。 <BR>
+      <BR>
+        <BLOCKQUOTE>
+    P = (T&0xf8*L&0xf8)/128 <BR>
+    if  (p &gt; 255)	p = 255 <BR>
+    if  (p &lt; 0)	p = 0 <BR>
+        </BLOCKQUOTE>
+<BR>
+    つまり、L=128の場合に、テクスチャパターンの輝度値がそのまま描画される。 <BR>
+    値によって結果がオーバーフローする場合、ピクセル値は、255にクリップされる。 <BR>
+    <I>tge </I>= 1の場合は、輝度値を乗算せずに、テクスチャパターンの値をそのままピクセルの値とする。 <BR>
+    また、T,Lは上位5bitのみが有効になり、下位3bitが切り捨てられる。 <BR>
+    <I>tge </I>= 1の場合は、輝度値を乗算せずに、テクスチャパターンの値そのままピクセルの値とする。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    POLY_FT3, POLY_FT4, SPRT, SPRT_8, SPRT_16以外のプリミティブには使用できない。 <BR>
+    ShadeTex使用時には、テクスチャの色数は、32階調のまま保存されるが、シェーディング輝度値が256階調から32階調に減少する。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

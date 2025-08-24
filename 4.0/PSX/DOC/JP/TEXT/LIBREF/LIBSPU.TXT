@@ -1,0 +1,4633 @@
+                                                Library Reference Release 4.0
+
+基本サウンド ライブラリ (libspu)
+=================================
+
+    
+    
+
+ 1 構造体
+----------
+
+=============================================================================
+SpuCommonAttr                                                        [構造体]
+=============================================================================
+                                                                     共通属性
+        
+[構造]
+        typedef struct {
+        		unsigned long	mask;
+        		SpuVolume	mvol;
+        		SpuVolume	mvolmode;
+        		SpuVolume	mvolx;
+        		SpuExtAttr	cd;
+        		SpuExtAttr	ext;
+        } SpuCommonAttr;
+        
+[メンバ]
+        mask			設定マスク
+        mvol			マスタ音量
+        mvolmode		マスタ音量モード
+        mvolx			現在のマスタ音量
+        cd			CD 入力属性
+        ext			外部デジタル入力属性
+        
+[解説]
+        共通属性について設定/診断する際に用いられる。設定時に必要なメンバを 
+        mask にビット値で設定する。
+        
+[関連項目]
+        SpuVolume, SpuExtAttr, SpuSetCommonAttr(), SpuGetCommonAttr()
+
+=============================================================================
+SpuDecodedData                                                       [構造体]
+=============================================================================
+                                                             デコード・データ
+        
+[構造]
+        #define SPU_DECODEDDATA_SIZE 0x200
+        typedef struct {
+        		short	cd_left [SPU_DECODEDDATA_SIZE];
+        		short	cd_right [SPU_DECODEDDATA_SIZE];
+        		short	voice1 [SPU_DECODEDDATA_SIZE];
+        		short	voice3 [SPU_DECODEDDATA_SIZE];
+        } SpuDecodedData;
+        
+[メンバ]
+        cd_left		SPU でデコードされた CD L チャンネルのデータ
+        cd_right	SPU でデコードされた CD R チャンネルのデータ
+        voice1		SPU でデコードされたボイス 1 のデータ
+        voice3		SPU でデコードされたボイス 3 のデータ
+        
+[解説]
+        SPU でデコードされた CD 及びボイス 1, ボイス 3 のデータを取得する際に
+        用いられる。
+        
+        実際にデータとして利用できるのは各メンバの前半 0x100 データか後半 
+        0x100 データである。これは関数 SpuReadDecodedData の返り値により判定
+        される。
+        
+[関連項目]
+        SpuReadDecodedData()
+
+=============================================================================
+SpuEnv                                                               [構造体]
+=============================================================================
+                                               基本サウンドライブラリ環境属性
+        
+[構造]
+        typedef struct {
+        		unsigned long	mask;
+        		unsigned long	queueing;
+        } SpuEnv;
+        
+[メンバ]
+        mask		設定マスク
+        queueing	イベントキューイング
+        
+[解説]
+        基本サウンドライブラリ環境属性を設定する際に用いられる。
+        
+[関連項目]
+        SpuSetEnv()
+
+=============================================================================
+SpuExtAttr                                                           [構造体]
+=============================================================================
+                                                                 外部入力属性
+        
+[構造]
+        typedef struct {
+        		SpuVolume	volume;
+        		long		reverb;
+        		long		mix;
+        } SpuExtAttr;
+        
+[メンバ]
+        volume		音量
+        reverb		リバーブオン/オフ
+        mix		ミキシングオン/オフ
+        
+[解説]
+        CD と外部デジタル入力の属性を設定/診断する際に用いられる。
+        
+[関連項目]
+        SpuCommonAttr, SpuVolume, SpuSetCommonAttr(), SpuGetCommonAttr()
+
+=============================================================================
+SpuReverbAttr                                                        [構造体]
+=============================================================================
+                                                                 リバーブ属性
+        
+[構造]
+        typedef struct {
+        		unsigned long	mask;
+        		long		mode;
+        		SpuVolume	depth;
+        		long		delay;
+        		long		feedback;
+        } SpuReverbAttr;
+        
+[メンバ]
+        mask		設定マスク
+        mode		リバーブモード
+        depth		リバーブの深さ
+        delay		Delay Time (ECHO, DELAY のみ)
+        feedback	Feedback (ECHO のみ)
+        
+[解説]
+        リバーブの属性を設定/診断する際に用いられる。設定時に必要なメンバを 
+        mask にビット値で設定する。
+        
+[関連項目]
+        SpuVolume, SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuSetReverbDepth()
+
+=============================================================================
+SpuStEnv                                                             [構造体]
+=============================================================================
+                                                    SPUストリーミング環境属性
+        
+[構造]
+        typedef struct {
+        		long		size;
+        		long		low_priority;
+        		SpuStVoiceAttr	voice [24];
+        } SpuStEnv;
+        
+[メンバ]
+        size		ストリームバッファのサイズ
+        low_priority	ストリーム処理の優先度
+        voice		各ストリームの属性
+        
+[解説]
+        SPU ストリーミングライブラリにて、ストリーミング環境、及び各ストリー
+        ムの属性設定に用いられる。
+        
+[関連項目]
+        SpuStVoiceAttr, SpuStInit()
+
+=============================================================================
+SpuStVoiceAttr                                                       [構造体]
+=============================================================================
+                                                  SPUストリーミングボイス属性
+        
+[構造]
+        typedef struct {
+        		char	status;
+        		char	pad1;
+        		char	pad2;
+        		char	pad3;
+        		long	last_size;
+        		unsigned long buf_addr;
+        		unsigned long data_addr;
+        } SpuStVoiceAttr;
+        
+[メンバ]
+        status		ストリームの状態
+        pad1		padding (現在の版では未使用)
+        pad2		padding (現在の版では未使用)
+        pad3		padding (現在の版では未使用)
+        last_size	最後に転送する波形データのサイズの指定
+        buf_addr	ストリームバッファの先頭アドレス
+        data_addr 	主記憶内の SPU ストリーミングライブラリに使われる波形データ
+        
+[解説]
+        SPU ストリーミングライブラリにて、各ストリームの属性を保持する。
+        
+[関連項目]
+        SpuStEnv, SpuStInit()
+
+=============================================================================
+SpuVoiceAttr                                                         [構造体]
+=============================================================================
+                                                                   ボイス属性
+        
+[構造]
+        typedef struct {
+        		unsigned long 	voice;
+        		unsigned long 	mask;
+        		SpuVolume 	volume;
+        		SpuVolume 	volmode;
+        		SpuVolume 	volumex;
+        		unsigned short 	pitch;
+        		unsigned short 	note;
+        		unsigned short 	sample_note;
+        		short 		envx;
+        		unsigned long 	addr;
+        		unsigned long 	loop_addr;
+        		long 		a_mode;
+        		long 		s_mode;
+        		long 		r_mode;
+        		unsigned short	ar;
+        		unsigned short 	dr;
+        		unsigned short 	sr;
+        		unsigned short	rr;
+        		unsigned short 	sl;
+        		unsigned short	adsr1;
+        		unsigned short	adsr2;
+        } SpuVoiceAttr;
+        
+[メンバ]
+        voice		設定ボイス (値はビット列)
+        mask		設定属性ビット (値はビット列)
+        volume		音量
+        volmode		音量モード
+        volumex		現在の音量
+        pitch		音程 (ピッチ指定)
+        note		音程 (ノート指定)
+        sample_note	音程 (ノート指定)
+        envx		現在のエンベロープの音量値
+        addr		波形データ先頭アドレス
+        loop_addr	ループ開始アドレス
+        a_mode		Attack rate モード
+        s_mode		Sustain rate モード
+        r_mode		Release rate モード
+        ar		Attack rate
+        dr		Decay rate
+        sr		Sustain rate
+        rr		Release rate
+        sl		Sustain level
+        adsr1		構造体 VagAtr の adsr1 と等価
+        adsr2		構造体 VagAtr の adsr2 と等価
+        
+[解説]
+        各ボイスの属性を設定/診断する際に用いられる。ボイス番号は voice  のビ
+        ット値で与え/得られ、設定時に必要なメンバを mask にビット値で設定する。
+        
+[関連項目]
+        SpuVolume, SpuSetVoiceAttr(), SpuGetVoiceAttr(), SpuSetKeyOnWithAttr()
+
+=============================================================================
+SpuVolume                                                            [構造体]
+=============================================================================
+                                                                   ボリューム
+        
+[構造]
+        typedef struct {
+        		short 	left;
+        		short 	right;
+        } SpuVolume;
+        
+[メンバ]
+        left		L チャンネルの値
+        right		R チャンネルの値
+        
+[解説]
+        各ボイスの set/get 時に L チャンネル/R チャンネルの値が必要となる属性
+        に使用する。
+        
+[関連項目]
+        SpuVoiceAttr, SpuReverbAttr, SpuExtAttr, SpuCommonAttr
+
+ 2 関数
+--------
+
+=============================================================================
+SpuClearReverbWorkArea                                                 [関数]
+=============================================================================
+                                                 リバーブワークエリアのクリア
+        
+[形式]
+        long SpuClearReverbWorkArea (
+        long rev_mode
+        )
+        
+[引数]
+        rev_mode	リバーブモード
+        
+[解説]
+        指定されたリバーブモードに応じたリバーブワークエリアとして占める領域
+        をクリアする。予約の有無に関わらず、領域が使われているかどうかチェッ
+        クする。
+        動作はDMA転送により同期的に行われるため、リバーブモードによっては若干
+        の時間を要する。
+        
+[返り値]
+        指定されたリバーブモードに応じたリバーブワークエリアが使われていたり、
+        指定されたリバーブモードの値が間違っている場合はSPU_ERRORを返す成功す
+        ると0を返す。
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuReserveReverbWorkArea(), SpuSetReverb() 
+        SpuMalloc(), SpuMallocWithStartAddr()
+
+=============================================================================
+SpuFlush                                                               [関数]
+=============================================================================
+                                       キューに溜めたイベントをフラッシュする
+        
+[形式]
+        unsigned long SpuFlush (
+        unsigned long ev
+        )
+        
+[引数]
+        ev		フラッシュするイベント
+        
+[解説]
+        キューに溜めたイベントをフラッシュする。
+        ev に、下記のフラッシュしたいイベントのビット和を与えることで各イベン
+        トのみのフラッシュが可能。
+         
+        +------------------+---------------------+
+        |属性ビット         内容                 |
+        |SPU_EVENT_KEY      キーオン/オフ        |
+        |SPU_EVENT_PITCHLFO ピッチ LFO ボイス指定|
+        |SPU_EVENT_NOISE    ノイズボイス指定     |
+        |SPU_EVENT_REVERB   リバーブボイス指定   |
+        +------------------+---------------------+
+        
+        ev が SPU_EVENT_ALL の場合は全イベントをフラッシュする。
+        
+[返り値]
+        フラッシュされたイベントのビット和
+        
+[関連項目]
+        SpuSetEnv(), SpuSetKey(), SpuSetKeyOnWithAttr(), SpuSetPitchLFOVoice()
+        , SpuSetNoiseVoice(), SpuSetReverbVoice()
+
+=============================================================================
+SpuFree                                                                [関数]
+=============================================================================
+                                 サウンドバッファ内に確保されている領域を解放
+        
+[形式]
+        void SpuFree (
+        unsigned long addr
+        )
+        
+[引数]
+        addr		確保されている先頭アドレス(バイト単位)
+        
+[解説]
+        先頭アドレス addr によって示されるサウンドバッファ内に確保されている
+        領域を解放し、管理用テーブルからその領域情報を削除する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuInitMalloc(), SpuMalloc() SpuMallocWithStartAddr()
+
+=============================================================================
+SpuGetAllKeysStatus                                                    [関数]
+=============================================================================
+                                  全てのボイスに対してキーオン/キーオフを診断
+        
+[形式]
+        void SpuGetAllKeysStatus (
+        char *status
+        )
+        
+[引数]
+        status[24]	診断したボイスの結果
+        
+[解説]
+        全ボイスに対してキーオン / キーオフ、及びエンベロープの状態を診断して
+        現実的なキーオン / キーオフを診断する。
+        エンベロープの状態は、複雑なエンベロープを設定し、エンベロープの状態
+        遷移の過程で音量が0になる状態が起こり得る場合は、誤認識を起こす恐れが
+        ある。
+        
+[返り値]
+        status[24] に各ボイスの現在のキーオン / キーオフ、及びエンベロープの
+        状態が返される。
+         
+        +--------------+--------------------------------+
+        |返り値         意味                            |
+        |SPU_ON         キーオン状態                    |
+        |               ・SpuSetKeyでオフされていない   |
+        |               ・エンベロープも0になっていない |
+        |SPU_ON_ENV_OFF キーオン状態                    |
+        |               ・SpuSetKeyでオフされていない   |
+        |               ・エンベロープは0になっている   |
+        |SPU_OFF_ENV_ON キーオフ状態                    |
+        |               ・SpuSetKeyでオフされている     |
+        |               ・エンベロープは0になっていない |
+        |SPU_OFF        キーオフ状態                    |
+        |               ・SpuSetKeyでオフされている     |
+        |               ・エンベロープは0になっている   |
+        +--------------+--------------------------------+
+        
+[関連項目]
+        SpuSetKey(), SpuGetKeyStatus(), SpuRGetAllKeysStatus()
+
+=============================================================================
+SpuGetCommonAttr                                                       [関数]
+=============================================================================
+                                                       全ボイス共通属性を診断
+        
+[形式]
+        void SpuGetCommonAttr (
+        SpuCommonAttr *attr
+        )
+        
+[引数]
+        attr		全ボイス共通属性
+        
+[解説]
+        全ボイス共通属性を返す。
+        詳細はSpuSetCommonAttrを参照。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetCommonAttr()
+
+=============================================================================
+SpuGetCommonCDMix                                                      [関数]
+=============================================================================
+                                                       CD 入力オン/オフの取得
+        
+[形式]
+        void SpuGetCommonCDMix (
+        long *on_off
+        )
+        
+[引数]
+        on_off		CD 入力オン/オフ
+        
+[解説]
+        CD 入力オン/オフの状態を取得する。
+        SpuGetCommonAttr() において SpuCommonAttr 構造体のメンバ cd.mix の値
+        の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr(), SpuSetCommonCDMix()
+
+=============================================================================
+SpuGetCommonCDReverb                                                   [関数]
+=============================================================================
+                                               CD 入力リバーブオン/オフの取得
+        
+[形式]
+        void SpuGetCommonCDReverb (
+        long *on_off
+        )
+        
+[引数]
+        on_off		CD 入力リバーブオン/オフ
+        
+[解説]
+        CD 入力リバーブオン/オフの状態を取得する。
+        SpuGetCommonAttr() において SpuCommonAttr 構造体のメンバ cd.reverb の
+        値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr(), SpuSetCommonCDReverb()
+
+=============================================================================
+SpuGetCommonCDVolume                                                   [関数]
+=============================================================================
+                                                            CD 入力音量の取得
+        
+[形式]
+        void SpuGetCommonCDVolume (
+        short *cdvolL,
+        short *cdvolR
+        )
+        
+[引数]
+        cdvolL		CD 入力音量 (左)
+        cdvolR		CD 入力音量 (右)
+        
+[解説]
+        CD 入力音量を取得する。
+        SpuGetCommonAttr() において SpuCommonAttr 構造体のメンバ cd.volume の
+        値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr(), SpuSetCommonCDVolume()
+
+=============================================================================
+SpuGetCommonMasterVolume                                               [関数]
+=============================================================================
+                                                             マスタ音量の取得
+        
+[形式]
+        void SpuGetCommonMasterVolume (
+        short *mvolL,
+        short *mvolR
+        )
+        
+[引数]
+        mvolL		マスタ音量 (左)
+        mvolR		マスタ音量 (右)
+        
+[解説]
+        マスタ音量を取得する。
+        SpuGetCommonAttr() において SpuCommonAttr 構造体のメンバ mvol の値の
+        取得に該当する処理を行う。
+        音量モードが [ダイレクトモード] になっている場合のみ得られた値は有効
+        となる。 他の音量モードの場合は不定となる。
+        音量モードが [ダイレクトモード] でない場合、あるいは音量と音量モード
+        を同時に取得したい場合は SpuGetCommonMasterVolumeAttr() を使用する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr(), SpuGetCommonMasterVolumeAttr(), 
+        SpuSetCommonMasterVolume(), SpuSetCommonMasterVolumeAttr()
+
+=============================================================================
+SpuGetCommonMasterVolumeAttr                                           [関数]
+=============================================================================
+                                            マスタ音量/マスタ音量モードの取得
+        
+[形式]
+        void SpuGetCommonMasterVolume (
+        short *mvolL,
+        short *mvolR,
+        short *mvolModeL,
+        short *mvolModeR
+        )
+        
+[引数]
+        mvolL		マスタ音量 (左)
+        mvolR		マスタ音量 (右)
+        mvolModeL	マスタ音量モード (左)
+        mvolModeR	マスタ音量モード (右)
+        
+[解説]
+        マスタ音量/マスタ音量モードを取得する。
+        SpuGetCommonAttr() において SpuCommonAttr 構造体のメンバ mvol及び 
+        mvolmode の値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr(), SpuGetCommonMasterVolume(), 
+        SpuSetCommonMasterVolume(), SpuSetCommonMasterVolumeAttr()
+
+=============================================================================
+SpuGetCommonMasterVolumeX                                              [関数]
+=============================================================================
+                                                       現在のマスタ音量の取得
+        
+[形式]
+        void SpuGetCommonMasterVolumeX (
+        short *mvolXL,
+        short *mvolXR
+        )
+        
+[引数]
+        mvolXL		現在のマスタ音量 (左)
+        mvolXR		現在のマスタ音量 (右)
+        
+[解説]
+        現在のマスタ音量を取得する。
+        SpuGetCommonAttr() において SpuCommonAttr 構造体のメンバ mvolx の値の
+        取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr(), SpuGetCommonMasterVolume(), 
+        SpuGetCommonMasterVolumeAttr(), SpuSetCommonMasterVolume(), 
+        SpuSetCommonMasterVolumeAttr()
+
+=============================================================================
+SpuGetIRQ                                                              [関数]
+=============================================================================
+                                    割り込みリクエストのオン/オフの状態を診断
+        
+[形式]
+        long SpuGetIRQ ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        割り込みリクエストのオン/オフの状態を診断する。
+        
+[返り値]
+        現在設定されている値
+         
+        +-------+----------------------+
+        |返り値  意味                  |
+        |SPU_ON  割り込みリクエスト設定|
+        |SPU_OFF 割り込みリクエスト解除|
+        +-------+----------------------+
+        
+[関連項目]
+        SpuSetIRQ()
+
+=============================================================================
+SpuGetIRQAddr                                                          [関数]
+=============================================================================
+                                           割り込みリクエストのアドレスの診断
+        
+[形式]
+        unsigned long SpuGetIRQAddr ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        割り込みリクエストがかかるアドレスの値を返す。
+        
+[返り値]
+        現在設定されているアドレスの値
+        
+[関連項目]
+        SpuSetIRQAddr(), SpuSetIRQ()
+
+=============================================================================
+SpuGetKeyStatus                                                        [関数]
+=============================================================================
+                                指定したボイスに対してキーオン/キーオフを診断
+        
+[形式]
+        long SpuGetKeyStatus (
+        unsigned long voice_bit
+        )
+        
+[引数]
+        voice_bit	診断するボイス
+        
+[解説]
+        指定したボイスに対してキーオン/キーオフ、及びエンベロープの状態を診断
+        して現実的なキーオン/キーオフを診断する。
+        voice_bit にはSPU_0CH, SPU_1CH,...,SPU_23CHのビット和で診断するボイス
+        を明示的に設定する。ただし1回の関数呼び出しで得られるボイスの属性は1
+        ボイスのみであるため、指定したボイス番号の一番小さいものが選ばれる。
+        エンベロープの状態は、複雑なエンベロープを設定し、エンベロープの状態
+        遷移の過程で音量が0になる状態が起こり得る場合は、誤認識を起こす恐れが
+        ある。
+        
+[返り値]
+        指定したボイスの現在のキーオン/キーオフ、及びエンベロープの状態
+         
+        +--------------+----------------------------------+
+        |返り値         意味                              |
+        |SPU_ON         キーオン状態                      |
+        |               ・SpuSetKeyでオフされていない     |
+        |               ・エンベロープも0になっていない   |
+        |SPU_ON_ENV_OFF キーオン状態                      |
+        |               ・SpuSetKeyでオフされていない     |
+        |               ・エンベロープは0になっている     |
+        |SPU_OFF_ENV_ON キーオフ状態                      |
+        |               ・SpuSetKeyでオフされている       |
+        |               ・エンベロープは0になっていない   |
+        |SPU_OFF        キーオフ状態                      |
+        |               ・SpuSetKeyでオフされている       |
+        |               ・エンベロープは0になっている     |
+        |-1             指定したボイスが正しくなかった場合|
+        +--------------+----------------------------------+
+        
+[関連項目]
+        SpuSetKey(), SpuGetAllKeysStatus()
+
+=============================================================================
+SpuGetMute                                                             [関数]
+=============================================================================
+                                               サウンドのミュートの状態を診断
+        
+[形式]
+        long SpuGetMute ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        サウンドの現在のミュートのオン/オフの状態を診断する。
+        
+[返り値]
+        現在設定されている値
+         
+        +-------+------------+
+        |返り値  意味        |
+        |SPU_ON  ミュートオン|
+        |SPU_OFF ミュートオフ|
+        +-------+------------+
+        
+[関連項目]
+        SpuSetMute()
+
+=============================================================================
+SpuGetNoiseClock                                                       [関数]
+=============================================================================
+                                                   ノイズ音源のクロックの診断
+        
+[形式]
+        long SpuGetNoiseClock ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        ノイズ音源のクロックの値を返す。
+        
+[返り値]
+        現在設定されているノイズ音源のクロックの値
+        
+[関連項目]
+        SpuSetNoiseClock()
+
+=============================================================================
+SpuGetNoiseVoice                                                       [関数]
+=============================================================================
+                                  各ボイスに対するノイズ音源のオン/オフを診断
+        
+[形式]
+        unsigned long SpuGetNoiseVoice ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        各ボイスに対するノイズ音源のオン/オフの現在の状態を診断する。
+        
+[返り値]
+        現在設定されている各ボイスに対するノイズ音源のオン/オフの値
+        すなわちSPU_0CH, SPU_1CH,...,SPU_23CHのビット和
+        
+        返り値とSPU_xxCH(xx = 0～23)とのビット積の結果：
+        
+        +--------+------------------+
+        |ビット積 意味              |
+        |=0       ノイズ音源オフ設定|
+        |0以外    ノイズ音源オン設定|
+        +--------+------------------+
+        
+[関連項目]
+        SpuSetNoiseClock(), SpuSetNoiseVoice()
+
+=============================================================================
+SpuGetPitchLFOVoice                                                    [関数]
+=============================================================================
+                                   各ボイスに対するピッチLFOのオン/オフを診断
+        
+[形式]
+        unsigned long SpuGetPitchLFOVoice ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        各ボイスに対するピッチLFOのオン/オフの現在の状態を診断する。
+        
+[返り値]
+        現在設定されている各ボイスに対するピッチLFOのオン/オフの値
+        すなわちSPU_0CH, SPU_1CH, ..., SPU_23CHのビット和
+        
+        返り値とSPU_xxCH(xx = 0～23)とのビット積の結果：
+        
+        +--------+-----------------+
+        |ビット積 意味             |
+        |=0       ピッチLFOオフ設定|
+        |0以外    ピッチLFOオン設定|
+        +--------+-----------------+
+        
+[関連項目]
+        SpuSetPitchLFOVoice()
+
+=============================================================================
+SpuGetReverb                                                           [関数]
+=============================================================================
+                                                         リバーブの状態を診断
+        
+[形式]
+        long SpuGetReverb ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        現在のリバーブのオン/オフの状態を診断する。
+        
+[返り値]
+        現在設定されている値
+        +-------+------------+
+        |返り値  意味        |
+        |SPU_ON  リバーブオン|
+        |SPU_OFF リバーブオフ|
+        +-------+------------+
+        
+[関連項目]
+        SpuSetReverb()
+
+=============================================================================
+SpuGetReverbModeDelayTime                                              [関数]
+=============================================================================
+                                               リバーブのディレイタイムの取得
+        
+[形式]
+        void SpuGetReverbModeDelayTime (
+        long *delay
+        )
+        
+[引数]
+        delay		リバーブのディレイタイム
+        
+[解説]
+        リバーブのディレイタイムを取得する。
+        SpuGetReverbModeParam() において SpuReverbAttr 構造体のメンバ delay 
+        の値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuSetReverbModeDelayTime()
+
+=============================================================================
+SpuGetReverbModeDepth                                                  [関数]
+=============================================================================
+                                                         リバーブの深さの取得
+        
+[形式]
+        void SpuGetReverbModeDepth (
+        short *depthL,
+        short *depthR
+        )
+        
+[引数]
+        depthL		リバーブの深さ (左)
+        depthR		リバーブの深さ (右)
+        
+[解説]
+        リバーブの深さを取得する。
+        SpuGetReverbModeParam() において SpuReverbAttr 構造体のメンバ depth 
+        の値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuSetReverbModeDepth()
+
+=============================================================================
+SpuGetReverbModeFeedback                                               [関数]
+=============================================================================
+                                               リバーブのフィードバックの取得
+        
+[形式]
+        void SpuGetReverbModeFeedback (
+        long *feedback
+        )
+        
+[引数]
+        feedback		リバーブのフィードバック
+        
+[解説]
+        リバーブのフィードバックを取得する。
+        SpuGetReverbModeParam() において SpuReverbAttr 構造体のメンバ 
+        feedbackの値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuSetReverbModeFeedback()
+
+=============================================================================
+SpuGetReverbModeParam                                                  [関数]
+=============================================================================
+                                       リバーブのモード、及びパラメータの診断
+        
+[形式]
+        void SpuGetReverbModeParam (
+        SpuReverbAttr *attr
+        )
+        
+[引数]
+        attr		リバーブ属性
+        
+[解説]
+        現在設定されているリバーブのモード、及びパラメータを得る。
+        詳細はSpuSetReverbModeParamを参照。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam()
+
+=============================================================================
+SpuGetReverbModeType                                                   [関数]
+=============================================================================
+                                                   リバーブモードタイプの取得
+        
+[形式]
+        void SpuGetReverbModeType (
+        long *type
+        )
+        
+[引数]
+        type		リバーブモードタイプ
+        
+[解説]
+        リバーブモードタイプを取得する。
+        SpuGetReverbModeParam() において SpuReverbAttr 構造体のメンバ mode の
+        値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuSetReverbModeType()
+
+=============================================================================
+SpuGetReverbVoice                                                      [関数]
+=============================================================================
+                                    各ボイスに対するリバーブのオン/オフを診断
+        
+[形式]
+        unsigned long SpuGetReverbVoice ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        各ボイスに対するリバーブのオン/オフの現在の状態を診断する。
+        
+[返り値]
+        現在設定されている各ボイスに対するリバーブのオン/オフの値
+        すなわちSPU_0CH, SPU_1CH, ...,  SPU_23CHのビット和
+        
+        返り値とSPU_xxCH(xx = 0～23)とのビット積の結果：
+        
+        +--------+----------------+
+        |ビット積 意味            |
+        |=0       リバーブオフ設定|
+        |0以外    リバーブオン設定|
+        +--------+----------------+
+        
+[関連項目]
+        SpuSetReverbVoice()
+
+=============================================================================
+SpuGetTransferMode                                                     [関数]
+=============================================================================
+                                           サウンドバッファの転送モードの診断
+        
+[形式]
+        long SpuGetTransferMode ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        現在設定されている、メインメモリからサウンドバッファへ転送する際のモ
+        ードを返す。
+        
+[返り値]
+        現在設定されている転送モード
+         
+        +-------------------+-------------+
+        |返り値              意味         |
+        |SPU_TRANSFER_BY_DMA DMA転送の指定|
+        |SPU_TRANSFER_BY_IO  I/O転送の指定|
+        +-------------------+-------------+
+        
+[関連項目]
+        SpuSetTransferMode(), SpuWrite(), SpuWrite0(), SpuWritePartly()
+
+=============================================================================
+SpuGetTransferStartAddr                                                [関数]
+=============================================================================
+                            サウンドバッファの転送先/転送元先頭アドレスの診断
+        
+[形式]
+        unsigned long SpuGetTransferStartAddr ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        現在設定されている、メインメモリからサウンドバッファへ転送する際、及
+        び、サウンドバッファからメインメモリへ転送する際の先頭アドレスの値を
+        返す。
+        
+[返り値]
+        現在設定されている先頭アドレスの値
+        
+[関連項目]
+        SpuSetTransferStartAddr(), SpuWrite(), SpuWrite0(), SpuWritePartly(),
+         SpuRead(), SpuReadDecodedData()
+
+=============================================================================
+SpuGetVoiceADSR                                                        [関数]
+=============================================================================
+                                                                  ADSR の取得
+        
+[形式]
+        void SpuGetVoiceADSR (
+        int voiceNum,
+        unsigned short *AR,
+        unsigned short *DR,
+        unsigned short *SR,
+        unsigned short *RR,
+        unsigned short *SL
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        DR		ADSR Decay Rate
+        SR		ADSR Sustain Rate
+        RR		ADSR Release Rate
+        SL		ADSR Sustain Level
+        
+[解説]
+        ボイスで使われる ADSR の個別の属性の取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ ar, dr, sr, rr,
+         sl の値の取得に該当する処理を行う。
+        Attack, Sustain Relase の各 Rate について、 Rate モードはそれぞれ以下
+        の通りとなっている場合のみ得られた値は有効となる。他の各 Rate モード
+        の場合は不定となる。
+        
+        +-------------+----------------------------------+
+        |Rate          Rateモード                        |
+        | Attack Rate   SPU_VOICE_LINEARIncN (リニア増加)|
+        | Sustain Rate  SPU_VOICE_LINEARDecN (リニア減少)|
+        | Release Rate  SPU_VOICE_LINEARDecN (リニア減少)|
+        +-------------+----------------------------------+
+        
+        各 Rate モードを同時に取得したい場合は SpuGetVoiceADSRAttr() を使用す
+        る。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceAR(), 
+        SpuGetVoiceDR(), SpuGetVoiceSR(), SpuGetVoiceRR(), SpuGetVoiceSL()
+
+=============================================================================
+SpuGetVoiceADSRAttr                                                    [関数]
+=============================================================================
+                                                        ADSR と各モードの取得
+        
+[形式]
+        void SpuSetVoiceADSRAttr (
+        int voiceNum,
+        unsigned short *AR,
+        unsigned short *DR,
+        unsigned short *SR,
+        unsigned short *RR,
+        unsigned short *SL,
+        long *ARmode,
+        long *SRmode,
+        long *RRmode,
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        DR		ADSR Decay Rate
+        SR		ADSR Sustain Rate
+        RR		ADSR Release Rate
+        SL		ADSR Sustain Level
+        ARmode		ADSR Attack Rate モード
+        SRmode		ADSR Sustain Rate モード
+        RRmode		ADSR Release Rateモード
+        
+[解説]
+        ボイスで使われる ADSR の個別の属性及びモードの取得を行う。
+        SpuGetVoiceAttr において SpuVoiceAttr 構造体のメンバ ar, dr, sr, rr, 
+        sl, a_mode, s_mode, r_mode の値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceADSR(), 
+        SpuGetVoiceAR(), SpuGetVoiceDR(), SpuGetVoiceSR(), SpuGetVoiceRR(), 
+        SpuGetVoiceSL(), SpuGetVoiceARAttr(), SpuGetVoiceSRAttr(), 
+        SpuGetVoiceRRAttr()
+
+=============================================================================
+SpuGetVoiceAR                                                          [関数]
+=============================================================================
+                                                      ADSR Attack Rate の取得
+        
+[形式]
+        void SpuGetVoiceAR (
+        int voiceNum,
+        unsigned short *AR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        
+[解説]
+        ボイスで使われる ADSR Attack Rate の取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ ar の値の取得
+        に該当する処理を行う。
+        ADSR Attack Rate モードが SPU_VOICE_LINEARIncN (リニア増加) になって
+        いる場合のみ得られた値は有効となる。 他の ADSR Attack Rate モードの場
+        合は不定となる。
+        ADSR Attack Rate と ADSR Attack Rate モードを同時に取得したい場合は
+        SpuGetVoiceARAttr() を使用する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceARAttr()
+
+=============================================================================
+SpuGetVoiceARAttr                                                      [関数]
+=============================================================================
+                                  ADSR Attack Rate / Attack Rate モードの取得
+        
+[形式]
+        void SpuGetVoiceARAttr (
+        int voiceNum,
+        unsigned short *AR,
+        long *ARmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        ARmode		ADSR Attack Rate モード
+        
+[解説]
+        ボイスで使われる ADSR Attack Rate / ADSR Attack Rate モードの取得を行
+        う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ ar, a_mode の
+        値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceAR()
+
+=============================================================================
+SpuGetVoiceAttr                                                        [関数]
+=============================================================================
+                                                           ボイスの属性を診断
+        
+[形式]
+        void SpuGetVoiceAttr (
+        SpuVoiceAttr *attr
+        )
+        
+[引数]
+        attr		ボイス属性
+        
+[解説]
+        ボイスの属性を診断する
+        attr.voice にはSPU_0CH, SPU_1CH,...,SPU_23CHにて診断するボイスを明示
+        的に1つだけ設定する。 attr の構造体メンバについては、mask以外全ての属
+        性が返る。
+        それぞれの属性の詳細については、SpuSetVoiceAttrを参照。
+        
+[返り値]
+        なし (引数 attr が返り値となる)
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuRSetVoiceAttr(), SpuSetKey(), 
+        SpuSetKeyOnWithAttr()
+
+=============================================================================
+SpuGetVoiceDR                                                          [関数]
+=============================================================================
+                                                       ADSR Decay Rate の取得
+        
+[形式]
+        void SpuGetVoiceDR (
+        int voiceNum,
+        unsigned short *DR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        DR		ADSR Decay Rate
+        
+[解説]
+        ボイスで使われる ADSR Decay Rate の取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ dr の値の取得
+        に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr()
+
+=============================================================================
+SpuGetVoiceEnvelope                                                    [関数]
+=============================================================================
+                                                   現在のエンベロープ値の取得
+        
+[形式]
+        void SpuGetVoiceEnvelope (
+        int voiceNum,
+        short *envx
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        envx		現在のエンベロープ値
+        
+[解説]
+        ボイスの現在のエンベロープ値の取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ envx の値の取
+        得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr()
+
+=============================================================================
+SpuGetVoiceEnvelopeAttr                                                [関数]
+=============================================================================
+                          現在のエンベロープ値とキーオン/キーオフの状態を取得
+        
+[形式]
+        void SpuGetVoiceEnvelopeAttr (
+        int voiceNum,
+        long *keyStat,
+        short *envx
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        keyStat		キーオン/キーオフ/エンベロープの状態
+        envx		現在のエンベロープ値
+        
+[解説]
+        ボイスのキーオン/キーオフ/エンベロープの状態、及び現在のエンベロープ
+        値を取得する。
+        キーオン/キーオフ/エンベロープの状態 keyStat の取り得る値に関しては 
+        SpuGetKeyStatus() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceEnvelope(), 
+        SpuSetKey(), SpuGetAllKeysStatus(), SpuRGetAllKeysStatus()
+
+=============================================================================
+SpuGetVoiceLoopStartAddr                                               [関数]
+=============================================================================
+                       波形データのサウンドバッファ内ループ開始アドレスの取得
+        
+[形式]
+        void SpuGetVoiceLoopStartAddr (
+        int voiceNum,
+        unsigned long *loopStartAddr
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        loopStartAddr	ループ開始アドレス
+        
+[解説]
+        ボイスで使われる波形データのサウンドバッファ内ループ開始アドレスの取
+        得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ loop_addr の値
+        の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetTransferStartAddr()
+
+=============================================================================
+SpuGetVoiceNote                                                        [関数]
+=============================================================================
+                                                     音程 (ノート指定) の取得
+        
+[形式]
+        void SpuGetVoiceNote (
+        int voiceNum,
+        unsigned short *note
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        note		音程 (ノート指定)
+        
+[解説]
+        ボイスの音程 (ノート指定) の取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ note の値の取
+        得に該当する処理を行う。
+        よって SpuGetVoiceNote() を使うためには SpuSetVoiceAttr における 
+        SPU_VOICE_SAMPLE_NOTE か SpuSetVoiceSampleNote() により、ボイスで使わ
+        れる波形データのサンプルノートが設定されている必要がある
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuSetVoiceSampleNote(), 
+        SpuGetVoiceSampleNote()
+
+=============================================================================
+SpuGetVoicePitch                                                       [関数]
+=============================================================================
+                                                     音程 (ピッチ指定) の取得
+        
+[形式]
+        void SpuGetVoicePitch (
+        int voiceNum,
+        unsigned short *pitch
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        pitch		音程 (ピッチ指定)
+        
+[解説]
+        ボイスの音程 (ピッチ指定) を取得する。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ pitch の値の取
+        得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr()
+
+=============================================================================
+SpuGetVoiceRR                                                          [関数]
+=============================================================================
+                                                     ADSR Release Rate の取得
+        
+[形式]
+        void SpuGetVoiceRR (
+        int voiceNum,
+        unsigned short *RR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        RR		ADSR Release Rate
+        
+[解説]
+        ボイスで使われる ADSR Release Rate の取得を行う。
+        SpuGetVoiceAttr において SpuVoiceAttr 構造体のメンバ rr の値の取得に
+        該当する処理を行う。
+        ADSR Release Rate モードが SPU_VOICE_LINEARDecN (リニア減少) になって
+        いる場合のみ得られた値は有効となる。 他の ADSR Release Rate モードの
+        場合は不定となる。
+        ADSR Release Rate と ADSR Release Rate モードを同時に取得したい場合は
+        SpuGetVoiceRRAttr() を使用する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceRRAttr()
+
+=============================================================================
+SpuGetVoiceRRAttr                                                      [関数]
+=============================================================================
+                                ADSR Release Rate / Release Rate モードの取得
+        
+[形式]
+        void SpuGetVoiceRRAttr (
+        int voiceNum,
+        unsigned short *RR,
+        long *RRmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        RR		ADSR Release Rate
+        RRmode		ADSR Release Rate モード
+        
+[解説]
+        ボイスで使われる ADSR Release Rate / ADSR Release Rate モードの取得を
+        行う。
+        SpuGetVoiceAttr においてSpuVoiceAttr 構造体のメンバ rr, r_mode の値の
+        取得に該当する処理を行う。
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceSR()
+
+=============================================================================
+SpuGetVoiceSL                                                          [関数]
+=============================================================================
+                                                    ADSR Sustain Level の取得
+        
+[形式]
+        void SpuGetVoiceSL (
+        int voiceNum,
+        unsigned short *SL
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        SL		ADSR Sustain Level
+        
+[解説]
+        ボイスで使われる ADSR Sustain Level の取得を行う。
+        SpuGetVoiceAttr において SpuVoiceAttr 構造体のメンバ sl の値の取得に
+        該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr()
+
+=============================================================================
+SpuGetVoiceSR                                                          [関数]
+=============================================================================
+                                                     ADSR Sustain Rate の取得
+        
+[形式]
+        void SpuGetVoiceSR (
+        int voiceNum,
+        unsigned short *SR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        SR		ADSR Sustain Rate
+        
+[解説]
+        ボイスで使われる ADSR Sustain Rate の取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ sr の値の取得
+        に該当する処理を行う。
+        ADSR Sustain Rate モードが SPU_VOICE_LINEARDecN (リニア減少) になって
+        いる場合のみ得られた値は有効となる。 他の ADSR Sustain Rate モードの
+        場合は不定となる。
+        ADSR Sustain Rate と ADSR Sustain Rate モードを同時に取得したい場合は
+        SpuGetVoiceSRAttr() を使用する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceSRAttr()
+
+=============================================================================
+SpuGetVoiceSRAttr                                                      [関数]
+=============================================================================
+                                ADSR Sustain Rate / Sustain Rate モードの取得
+        
+[形式]
+        void SpuGetVoiceSRAttr (
+        int voiceNum,
+        unsigned short *SR,
+        long *SRmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        SR		ADSR Sustain Rate
+        SRmode		ADSR Sustain Rate モード
+        
+[解説]
+        ボイスで使われる ADSR Sustain Rate / ADSR Sustain Rate モードの取得を
+        行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ sr, s_mode の
+        値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceSR()
+
+=============================================================================
+SpuGetVoiceSampleNote                                                  [関数]
+=============================================================================
+                                             波形データのサンプルノートの取得
+        
+[形式]
+        void SpuGetVoiceSampleNote (
+        int voiceNum,
+        unsigned short *sampleNote
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        sampleNote	波形データサンプルノート
+        
+[解説]
+        ボイスで使われる波形データのサンプルノートの取得を行う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ sample_note の
+        値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceNote()
+
+=============================================================================
+SpuGetVoiceStartAddr                                                   [関数]
+=============================================================================
+                             波形データのサウンドバッファ内先頭アドレスの取得
+        
+[形式]
+        void SpuGetVoiceStartAddr (
+        int voiceNum,
+        unsigned long *startAddr
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        startAddr	波形データ先頭アドレス
+        
+[解説]
+        ボイスで使われる波形データのサウンドバッファ内先頭アドレスの取得を行
+        う。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ addr の値の取
+        得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetTransferStartAddr()
+        
+
+=============================================================================
+SpuGetVoiceVolume                                                      [関数]
+=============================================================================
+                                                             ボイス音量の取得
+        
+[形式]
+        void SpuGetVoiceVolume (
+        int voiceNum,
+        short *volumeL,
+        short *volumeR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        volumeL		音量 (左)
+        volumeR		音量 (右)
+        
+[解説]
+        ボイス音量を取得する。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ volume の値の
+        取得に該当する処理を行う。
+        音量モードが [ダイレクトモード] になっている場合のみ得られた値は有効
+        となる。 他の音量モードの場合は不定となる。
+        音量モードが [ダイレクトモード] でない場合、あるいは音量と音量モード
+        を同時に取得したい場合は SpuGetVoiceVolumeAttr() を使用する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceVolumeAttr()
+
+=============================================================================
+SpuGetVoiceVolumeAttr                                                  [関数]
+=============================================================================
+                                                  ボイス音量/音量モードの取得
+        
+[形式]
+        void SpuGetVoiceVolumeAttr (
+        int voiceNum,
+        short *volumeL,
+        short *volumeR,
+        short *volModeL,
+        short *volModeR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        volumeL		音量 (左)
+        volumeR		音量 (右)
+        volModeL	音量モード (左)
+        volModeR	音量モード (右)
+        
+[解説]
+        ボイスの音量/音量モードを取得する。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ volume および
+        メンバ volmode それぞれの値の取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceVolume()
+
+=============================================================================
+SpuGetVoiceVolumeX                                                     [関数]
+=============================================================================
+                                                       現在のボイス音量の取得
+        
+[形式]
+        void SpuGetVoiceVolumeX (
+        int voiceNum,
+        short *volumeXL,
+        short *volumeXR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        volumeXL	現在の音量 (左)
+        volumeXR	現在の音量 (右)
+        
+[解説]
+        ボイスの現在の音量を取得する。
+        SpuGetVoiceAttr() における SpuVoiceAttr 構造体のメンバ volumex の値の
+        取得に該当する処理を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuNGetVoiceAttr(), SpuGetVoiceVolume(), 
+        SpuGetVoiceVolumeAttr()
+
+=============================================================================
+SpuInit                                                                [関数]
+=============================================================================
+                                                                  SPUの初期化
+        
+[形式]
+        void SpuInit ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPU の初期化を行う。実行するプログラム内で 1 回のみ呼ばれる。
+        初期化後、以下のような状態になる。
+        
+         ・主音量は L/R とも 0
+         ・リバーブはオフ
+         ・リバーブワークエリアは予約していない
+         ・リバーブ Depth は L/R とも 0
+         ・リバーブ音量は L/R とも 0
+         ・サウンドバッファへの転送モードは DMA 転送
+         ・全ボイスにおいて
+                - Key off
+                - Pitch LFO 機能未設定
+                - Noise 機能未設定
+                - Reverb 機能未設定
+         ・CD 入力音量は L/R とも 0
+         ・外部デジタル入力音量は L/R とも 0
+         ・DMA 転送の初期化設定
+        
+        サウンドバッファの状態は初期化後不定となる。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuInitHot(), SpuStart(), SpuQuit()
+
+=============================================================================
+SpuInitHot                                                             [関数]
+=============================================================================
+                                                  SPUの初期化(ホットリセット)
+        
+[形式]
+        void SpuInitHot ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPUの初期化を行う。Exec関連関数を使用し、子プロセスの中でサウンドバッ
+        ファの状態を保存したままサウンドシステムを初期化したい場合、
+        SpuInitHot()を呼ぶ。
+        初期化後、以下のような状態になる。
+        
+         ・主音量はL/Rとも0
+         ・リバーブはオフ
+         ・リバーブワークエリアは予約していない
+         ・リバーブDepthはL/Rとも0
+         ・リバーブ音量はL/Rとも0
+         ・サウンドバッファへの転送モードはDMA転送
+         ・全ボイスにおいて
+                - Key off
+                - Reverb機能未設定
+         ・DMA転送の初期化設定
+        
+        サウンドバッファの状態は初期化後保存される。ただし、ハードウェアリセ
+        ットの場合はこの限りではない。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuInit(), SpuStart(), SpuQuit()
+
+=============================================================================
+SpuInitMalloc                                                          [関数]
+=============================================================================
+                                       サウンドバッファメモリ管理機構の初期化
+        
+[形式]
+        long SpuInitMalloc (
+        long num,
+        char *top
+        )
+        
+[引数]
+        num		最大メモリ確保回数
+        top		管理テーブルを保持する領域の先頭アドレス
+        
+[解説]
+        サウンドバッファを num 個の領域に分割管理するための初期化を行う。
+        確保要求のたびに1ずつ消費されるメモリ管理ブロックを num 個 top で与え
+        られた領域に確保する。この領域サイズは
+                (SPU_MALLOC_RECSIZ * (num + 1))バイト
+        が必要である。
+        
+[返り値]
+        確保したメモリ管理ブロック数を返す。
+        
+[備考]
+        サンプル：
+        10回のSpuMallocが使えるようなメモリ管理ブロックを作成する際には以下の
+        ようにしてSpuInitMallocを呼ぶ。
+        
+        char rec [SPU_MALLOC_RECSIZ * (10 + 1)];
+        SpuInitMalloc (10,	/* 10 回 SpuMalloc が使える*/
+        		rec);	/* メモリ管理ブロック*/
+        
+[関連項目]
+        malloc(), SpuMalloc(), SpuMallocWithStartAddr(), SpuFree()
+
+=============================================================================
+SpuIsReverbWorkAreaReserved                                            [関数]
+=============================================================================
+     リバーブワークエリアが予約されているかチェック / リバーブワークエリアの
+     予約状況の各種診断
+        
+[形式]
+        long SpuIsReverbWorkAreaReserved (
+        long on_off
+        )
+        
+[引数]
+        on_off		SPU_DIAG（リバーブワークエリアが予約できるか診断）または
+         		SPU_CHECK（リバーブワークエリアの予約状況をチェック）
+        
+[解説]
+        現在のリバーブモードに応じたリバーブワークエリアとして占める領域が予
+        約されているかチェックする。あるいは、予約できるかどうか診断する。
+        
+        on_off = SPU_DIAG
+                リバーブワークエリアがSpuMalloc / SpuMallocWithStartAddrによ
+                って領域確保されているかを実際にサウンドバッファメモリ管理機
+                構の情報を元に診断し、予約できればSPU_ONを、予約できなければ
+                SPU_OFFを返す。
+        
+        on_off = SPU_CHECK
+                現在リバーブワークエリアが予約されているかどうかを返す。
+        
+[返り値]
+        on_off = SPU_DIAGの場合、リバーブワークエリアが予約できればSPU_ONを返
+        し、予約できなければSPU_OFFを返す。
+        on_off = SPU_CHECKの場合、予約されていればSPU_ONを、予約されていなけ
+        ればSPU_OFFを返す。
+        
+[関連項目]
+        SpuReserveReverbWorkArea(), SpuSetReverbModeParam(), SpuSetReverb(), 
+        SpuMalloc(), SpuMallocWithStartAddr()
+
+=============================================================================
+SpuIsTransferCompleted                                                 [関数]
+=============================================================================
+                                           サウンドバッファへの転送終了の診断
+        
+[形式]
+        long SpuIsTransferCompleted (
+        long flag
+        )
+        
+[引数]
+        flag	SPU_TRANSFER_WAIT（転送終了まで待つ）
+        	SPU_TRANSFER_PEEK（転送終了かどうかをチェックし、結果を返り値として返す）
+        	SPU_TRANSFER_GLANCE（SPU_TRANSFER_PEEKと同じ）
+        
+[解説]
+        転送が終了を診断する。
+        SpuSetTransferCallbackを使ってDMA転送終了時に起動される Callback関数
+        が設定された場合はSpuIsTransferCompletedは機能しない。
+        
+[返り値]
+        転送が終了しているかの状態を返す。
+         
+        +------+--------------------+
+        |返り値 意味                |
+        |1      転送が終了している  |
+        |0      転送は終了していない|
+        +------+--------------------+
+        
+        flag = SPU_TRANSFER_WAITの場合は転送終了まで待ち、必ず1を返す。
+        転送モードがI/O転送の場合はすぐ1を返す。
+        SpuSetTransferCallbackを使ってDMA転送終了時に起動される。
+        Callback関数が設定された場合はすぐ1を返す。
+        
+[関連項目]
+        SpuWrite(), SpuWritePartly(), SpuRead(), SpuReadDecodedData(), 
+        SpuSetTransferCallback()
+
+=============================================================================
+SpuMalloc                                                              [関数]
+=============================================================================
+                                               サウンドバッファ内に領域を確保
+        
+[形式]
+        long SpuMalloc (
+        long size
+        )
+        
+[引数]
+        size		確保する領域のサイズ(バイト単位)
+        
+[解説]
+        サウンドバッファ内に size バイトの領域を確保する。
+        返り値は確保した領域の先頭を示すアドレス値を返すので、この値を
+        SpuSetTransferStartAddrの引数に設定して、転送する先頭アドレスを設定し、
+        SpuWriteで波形データの転送を行う。
+        確保に失敗する状況としては、以下の状況が挙げられる。
+        
+         ・要求サイズが連続的に確保できない場合
+         ・要求サイズを満たす領域はあるが、その領域がSpuReserveReverbWorkArea
+           によりリバーブワークエリアの一部(あるいは全部)として予約されている
+           ため、実質的に確保できない場合
+        
+[返り値]
+        確保に成功すると、確保した領域の先頭を示すアドレス値を返す失敗すると 
+        -1を返す。
+        
+[関連項目]
+        SpuInitMalloc(), SpuMallocWithStartAddr(), SpuFree(), 
+        SpuSetTransferStartAddr(), SpuWrite(), SpuReserveReverbWorkArea(), 
+        SpuSetReverb(), SpuSetReverbModeParam()
+
+=============================================================================
+SpuMallocWithStartAddr                                                 [関数]
+=============================================================================
+                           サウンドバッファ内の指定したアドレスから領域を確保
+        
+[形式]
+        long SpuMallocWithStartAddr (
+        unsigned long addr,
+        long size
+        )
+        
+[引数]
+        addr		確保する先頭アドレス(バイト単位)
+        size		確保する領域のサイズ(バイト単位)
+        
+[解説]
+        先頭アドレス addr から始まる size バイトの領域をサウンドバッファ内に
+        確保する。
+        ただしその先頭アドレス addr の値はSpuSetTransferStartAddr同様、
+        
+         ・バイト単位
+         ・8 で割り切れる数
+         ・0x1010 以上、512 KB 以内
+        
+        でなければならない。
+        そのアドレスが既に確保された領域中であれば、 addr 以降の領域で一番近
+        い空いている領域から size バイトの領域を確保する。
+        確保に失敗する状況としては、以下の状況が挙げられる。
+        
+         ・要求サイズが連続的に指定したアドレス以降に確保できない場合
+         ・要求サイズを満たす領域はあるが、その領域がSpuReserveReverbWorkArea
+            によりリバーブワークエリアの一部(あるいは全部) として予約されてい
+           るため、実質的に確保できない場合
+        
+[返り値]
+        確保に成功すると、確保した領域の先頭を示すアドレス値を、失敗すると -1
+        を返す。
+        
+[関連項目]
+        SpuInitMalloc(), SpuMalloc(), SpuFree(), SpuSetTransferStartAddr(), 
+        SpuWrite(), SpuReserveReverbWorkArea(), SpuSetReverb(), 
+        SpuSetReverbModeParam()
+
+=============================================================================
+SpuNGetVoiceAttr                                                       [関数]
+=============================================================================
+                                                             ボイス属性の取得
+        
+[形式]
+        void SpuNGetVoiceAttr (
+        int voiceNum,
+        SpuVoiceAttr *attr
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        attr		ボイス属性
+        
+[解説]
+        ボイス属性を取得する。
+        voiceNum に取得するボイス番号を明示的に設定する。
+        attr の構造体メンバについては、mask 以外全ての属性が返る。それぞれの
+        属性の詳細については、SpuSetVoiceAttr() を参照。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetVoiceAttr(), SpuSetVoiceAttr(), SpuNSetVoiceAttr(), 
+        SpuRSetVoiceAttr(), SpuSetKey(), SpuSetKeyOnWithAttr(), 
+        SpuGetVoiceVolume(), SpuGetVoiceVolumeAttr(), SpuGetVoiceVolumeX(), 
+        SpuGetVoicePitch(), SpuGetVoiceNote(), SpuGetVoiceSampleNote(), 
+        SpuGetVoiceEnvelope(), SpuGetVoiceStartAddr(), 
+        SpuGetVoiceLoopStartAddr(), SpuGetVoiceAR(), SpuGetVoiceDR(), 
+        SpuGetVoiceSR(), SpuGetVoiceRR(), SpuGetVoiceSL(), SpuGetVoiceARAttr()
+        , SpuGetVoiceSRAttr(), SpuGetVoiceRRAttr(), SpuGetVoiceADSR(), 
+        SpuGetVoiceADSRAttr(), SpuGetVoiceEnvelopeAttr()
+
+=============================================================================
+SpuNSetVoiceAttr                                                       [関数]
+=============================================================================
+                                                             ボイス属性の設定
+        
+[形式]
+        void SpuNSetVoiceAttr (
+        int voiceNum,
+        SpuVoiceAttr *attr
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        attr		ボイス属性
+        
+[解説]
+        ボイス属性の設定を行う。
+        voiceNum に取得するボイス番号を明示的に設定する。
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。
+         
+        +---------------------+------------------------+
+        |属性ビット            内容                    |
+        |SPU_VOICE_VOLL        音量(左)                |
+        |SPU_VOICE_VOLR        音量(右)                |
+        |SPU_VOICE_VOLMODEL    音量モード(左)          |
+        |SPU_VOICE_VOLMODER    音量モード(右)          |
+        |SPU_VOICE_PITCH       音程(ピッチ指定)        |
+        |SPU_VOICE_NOTE        音程(ノート指定)        |
+        |SPU_VOICE_SAMPLE_NOTE 波形データサンプルノート|
+        |SPU_VOICE_WDSA        波形データ先頭アドレス  |
+        |SPU_VOICE_ADSR_AMODE  ADSR Attack rateモード  |
+        |SPU_VOICE_ADSR_SMODE  ADSR Sustain rateモード |
+        |SPU_VOICE_ADSR_RMODE  ADSR Release rateモード |
+        |SPU_VOICE_ADSR_AR     ADSR Attack rate        |
+        |SPU_VOICE_ADSR_DR     ADSR Decay rate         |
+        |SPU_VOICE_ADSR_SR     ADSR Sustain rate       |
+        |SPU_VOICE_ADSR_RR     ADSR Release rate       |
+        |SPU_VOICE_ADSR_SL     ADSR Sustain level      |
+        |SPU_VOICE_ADSR_ADSR1  ADSR adsr1 for 'VagAtr' |
+        |SPU_VOICE_ADSR_ADSR2  ADSR adsr2 for 'VagAtr' |
+        |SPU_VOICE_LSAX        ループ開始アドレス      |
+        +---------------------+------------------------+
+        
+        attr.mask が0の場合は全属性を設定する。
+        それぞれの属性の詳細については SpuSetVoiceAttr() を参照。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuRSetVoiceAttr(), SpuGetVoiceAttr(), 
+        SpuNGetVoiceAttr(), SpuSetKey(), SpuSetKeyOnWithAttr(), 
+        SpuSetVoiceVolume(), SpuSetVoiceVolumeAttr(), SpuSetVoicePitch(), 
+        SpuSetVoiceNote(), SpuSetVoiceSampleNote(), SpuSetVoiceStartAddr(), 
+        SpuSetVoiceLoopStartAddr(), SpuSetVoiceAR(), SpuSetVoiceDR(), 
+        SpuSetVoiceSR(), SpuSetVoiceRR(), SpuSetVoiceSL(), SpuSetVoiceARAttr()
+        , SpuSetVoiceSRAttr(), SpuSetVoiceRRAttr(), SpuSetVoiceADSR(), 
+        SpuSetVoiceADSRAttr()
+
+=============================================================================
+SpuQuit                                                                [関数]
+=============================================================================
+                                                                SPU処理の終了
+        
+[形式]
+        void SpuQuit ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPU処理の終了を行う。通常、ゲームの際にはハードウェアリセットにSPUを
+        含む全てのデバイスがリセットされるのでSpuQuitを呼ぶ必要はないが、デバ
+        ッグ環境の元ではSpuQuitを呼ぶことにより、現在の仕様では、以下の内容が
+        リセットされる。
+        
+         ・DMA転送の設定オフ(以降サウンドバッファに対するDMA転送は使えなくなる)
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuInit(), SpuInitHot()
+
+=============================================================================
+SpuRGetAllKeysStatus                                                   [関数]
+=============================================================================
+                          指定した範囲のボイスに対してキーオン/キーオフを診断
+        
+[形式]
+        void SpuRGetAllKeysStatus (
+        long min, 
+        long max, 
+        char *status
+        )
+        
+[引数]
+        min		診断するボイス番号の下限
+        max		診断するボイス番号の上限
+        statu[24]	診断したボイスの結果
+        
+[解説]
+        min, max で指定した範囲のボイスに対してキーオン/キーオフ、及びエンベ
+        ロープの状態を診断して現実的なキーオン/キーオフを診断する。
+        エンベロープの状態は、複雑なエンベロープを設定し、エンベロープの状態
+        遷移の過程で音量が0になる状態が起こり得る場合は、誤認識を起こす恐れが
+        ある。
+        
+[返り値]
+        status[24] に指定した各ボイスの現在のキーオン/キーオフ、及びエンベロ
+        ープの状態が返される。
+        指定しなかった範囲のボイスについては不定である。
+         
+        +--------------+--------------------------------+
+        |返り値         意味                            |
+        |SPU_ON         キーオン状態                    |
+        |               ・SpuSetKeyでオフされていない   |
+        |               ・エンベロープも0になっていない |
+        |SPU_ON_ENV_OFF キーオン状態                    |
+        |               ・SpuSetKeyでオフされていない   |
+        |               ・エンベロープは0になっている   |
+        |SPU_OFF_ENV_ON キーオフ状態                    |
+        |               ・SpuSetKeyでオフされている     |
+        |               ・エンベロープは0になっていない |
+        |SPU_OFF        キーオフ状態                    |
+        |               ・SpuSetKeyでオフされている     |
+        |               ・エンベロープは0になっている   |
+        +--------------+--------------------------------+
+        
+[関連項目]
+        SpuSetKey(), SpuGetKeyStatus()
+
+=============================================================================
+SpuRSetVoiceAttr                                                       [関数]
+=============================================================================
+                                           指定した範囲の各ボイスの属性を設定
+        
+[形式]
+        void SpuRSetVoiceAttr (
+        long min,
+        long max,
+        SpuVoiceAttr *attr
+        )
+        
+[引数]
+        min		診断するボイス番号の下限
+        max		診断するボイス番号の上限
+        attr		各ボイス属性
+        
+[解説]
+        min, max で指定した範囲のボイスに対して各ボイスの属性を設定する。
+        attr.voice にはmin, maxで指定した範囲のボイスのなかで、SPU_0CH,  
+        SPU_1CH, ..., SPU_23CH のビット和で設定するボイスを明示的に設定する。
+         min,  max で指定した範囲を外れている場合は無視される。
+        
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。
+         
+        +---------------------+------------------------+
+        |属性ビット            内容                    |
+        |SPU_VOICE_VOLL        音量(左)                |
+        |SPU_VOICE_VOLR        音量(右)                |
+        |SPU_VOICE_VOLMODEL    音量モード(左)          |
+        |SPU_VOICE_VOLMODER    音量モード(右)          |
+        |SPU_VOICE_PITCH       音程(ピッチ指定)        |
+        |SPU_VOICE_NOTE        音程(ノート指定)        |
+        |SPU_VOICE_SAMPLE_NOTE 波形データサンプルノート|
+        |SPU_VOICE_WDSA        波形データ先頭アドレス  |
+        |SPU_VOICE_ADSR_AMODE  ADSR Attack rateモード  |
+        |SPU_VOICE_ADSR_SMODE  ADSR Sustain rateモード |
+        |SPU_VOICE_ADSR_RMODE  ADSR Release rateモード |
+        |SPU_VOICE_ADSR_AR     ADSR Attack rate        |
+        |SPU_VOICE_ADSR_DR     ADSR Decay rate         |
+        |SPU_VOICE_ADSR_SR     ADSR Sustain rate       |
+        |SPU_VOICE_ADSR_RR     ADSR Release rate       |
+        |SPU_VOICE_ADSR_SL     ADSR Sustain level      |
+        |SPU_VOICE_ADSR_ADSR1  ADSR adsr1 for 'VagAtr' |
+        |SPU_VOICE_ADSR_ADSR2  ADSR adsr2 for 'VagAtr' |
+        |SPU_VOICE_LSAX        ループ開始アドレス      |
+        +---------------------+------------------------+
+        
+        attr.mask が0の場合は全属性を設定する。
+        それぞれの属性の詳細については、SpuSetVoiceAttrを参照。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuGetVoiceAttr(), SpuSetKey(), SpuSetKey(), 
+        SpuSetKeyOnWithAttr()
+
+=============================================================================
+SpuRead                                                                [関数]
+=============================================================================
+                                     サウンドバッファからメインメモリへの転送
+        
+[形式]
+        unsigned long SpuRead (
+        unsigned char *addr,
+        unsigned long size
+        )
+        
+[引数]
+        addr		転送されるメインメモリ内の先頭アドレス
+        size		転送するデータのサイズ(バイト単位)
+        
+[解説]
+        サウンドバッファからメインメモリへデータを転送する。
+        ただし転送されるメインメモリのアドレス addr は、
+        
+         ・大域変数として取られた変数へのアドレス
+         ・mallocなどでヒープ領域に取られた変数へのアドレスでなければならない
+                すなわち、
+         ・スタック領域へのアドレス（auto変数へのアドレス）であってはならない
+        
+        呼び出し後、転送終了を確認するために SpuIsTransferCompleted() を呼ぶ
+        か、事前にSpuSetTransferCallback() にて DMA転送終了Callback関数を設定
+        しておくこと。
+        
+[返り値]
+        転送されたデータサイズ
+        設定したデータサイズが512KBより大きければ、実際に転送されたサイズが返
+        る。
+        
+[関連項目]
+        SpuWrite(), SpuWrite0(), SpuWritePartly(), SpuSetTransferStartAddr(),
+         SpuGetTransferStartAddr(), SpuIsTransferCompleted(), 
+        SpuSetTransferCallback()
+
+=============================================================================
+SpuReadDecodedData                                                     [関数]
+=============================================================================
+                                       SPUがデコードしたサウンドデータの転送+
+        
+[形式]
+        long SpuReadDecodedData (
+        SpuDecodedData *d_data, 
+        unsigned long flag
+        )
+        
+[引数]
+        d_data		転送されるメインメモリ内のSpuDecodedData構造体の先頭アドレス
+        flag		SPU_CDONLY（CD入力のみ転送指定）または
+         		SPU_ALL（全てのデータを転送指定）
+        
+[解説]
+        サウンドバッファからメインメモリへSPUでデコードされた波形データを転送
+        する。
+        SPUはCD入力のボリューム処理後のサウンドデータ、及びVoice1, Voice 3の
+        エンベロープ処理後のサウンドデータをサウンドバッファの先頭0x1000バイ
+        ト(0x800 short int)の部分にクロック(44.1 kHz)毎にそれぞれ16 bit (= 1 
+        short int)ずつ書き込む。個々のサウンドデータはそれぞれ0x400バイト
+        (0x200 short int)のバッファとなっている。
+        データは符合付き16bitであるため、アクセスにも16bit(=1short int)単位と
+        なり、その配置は以下の通りである。
+         
+        +-----------------+----------+
+        |マップ(short int) データ内容|
+        |0x000～0x1ff      CD-Lch    |
+        |0x200～0x3ff      CD-Rch    |
+        |0x400～0x5ff      Voice1    |
+        |0x600～0x7ff      Voice3    |
+        +-----------------+----------+
+        
+        これらは前半部分(0x100 short int)と後半部分(0x100 shortint)に分かれ、
+        現在どちらのバッファ領域に書き込まれているかが返り値によって判断でき
+        る。
+                SPU_DECODED_FIRSTHALF	... 前半部分
+                SPU_DECODED_SECONDHALF	... 後半部分
+        これによってレポートされるのはあくまで現在書き込まれている領域なので、
+        実際に利用できるデータはレポートされる領域とは反対の領域である。
+        また、転送されるメインメモリのアドレスは、
+        
+         ・大域変数として取られた変数へのアドレス
+         ・mallocなどでヒープ領域に取られた変数へのアドレスでなければならない
+                すなわち、
+         ・スタック領域へのアドレス（auto 変数へのアドレス）であってはならない
+        
+        引数 flag により、CD入力のデータのみが転送されることを指定できる。
+        
+        呼び出し後、転送終了を確認するために SpuIsTransferCompleted() を呼ぶ
+        か、事前にSpuSetTransferCallback() にて DMA転送終了Callback関数を設定
+        しておくこと。
+        
+[返り値]
+        現在書き込まれているバッファ領域
+         
+        +----------------------+--------+
+        |返り値                 意味    |
+        |SPU_DECODED_FIRSTHALF  前半部分|
+        |SPU_DECODED_SECONDHALF 後半部分|
+        +----------------------+--------+
+        
+        これによってレポートされるのはあくまで現在書き込まれている領域なので、
+        実際に利用できるデータはレポートされる領域とは反対の領域である。
+        
+[関連項目]
+        SpuRead(), SpuWrite(), SpuWrite0(), SpuWritePartly(), 
+        SpuSetTransferStartAddr(), SpuGetTransferStartAddr(), 
+        SpuIsTransferCompleted(), SpuSetTransferCallback()
+
+=============================================================================
+SpuReserveReverbWorkArea                                               [関数]
+=============================================================================
+                                              リバーブワークエリアの予約/解放
+        
+[形式]
+        long SpuReserveReverbWorkArea (
+        long on_off
+        )
+        
+[引数]
+        on_off		SPU_ON（リバーブワークエリア予約）または
+         		SPU_OFF（リバーブワークエリア解放）
+        
+[解説]
+        現在のリバーブモードに応じたリバーブワークエリアとして占める領域が
+        SpuMalloc/SpuMallocWithStartAddrによって確保されないように予約する。
+        あるいは確保されるように解放する。
+        
+        on_off = SPU_ON
+                リバーブワークエリアを SpuMalloc/SpuMallocWithStartAddrによっ
+                て領域確保されないように予約する。リバーブのオン/オフに関わら
+                ず予約される。
+                リバーブワークエリアが既に SpuMalloc/SpuMallocWithStartAddrに
+                よって他の領域として確保されている場合は予約されず、SPU_OFFを
+                返す。
+        
+        on_off = SPU_OFF
+                リバーブワークエリアをSpuMalloc/SpuMallocWithStartAddrによっ
+                て領域確保されてもいいように解放する。リバーブのオン/オフに関
+                わらず解放するため、リバーブを事前にオフしておく必要がある。
+        
+[返り値]
+        on_off = SPU_ONの場合、リバーブワークエリアが既にSpuMalloc / 
+        SpuMallocWithStartAddrによって他の領域として確保され、予約できない場
+        合は SPU_OFFを返す。予約できればSPU_ONを返す。
+        on_off = SPU_OFFの場合、常にSPU_OFFを返す。
+        
+[関連項目]
+        SpuIsReverbWorkAreaReserved(), SpuSetReverbModeParam(), SpuSetReverb()
+        , SpuMalloc(), SpuMallocWithStartAddr()
+
+=============================================================================
+SpuSetCommonAttr                                                       [関数]
+=============================================================================
+                                                       全ボイス共通属性を設定
+        
+[形式]
+        void SpuSetCommonAttr (
+        SpuCommonAttr *attr
+        )
+        
+[引数]
+        attr		全ボイス共通属性
+        
+[解説]
+        全ボイス共通属性を設定する。
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。
+         
+        +--------------------+---------------------------------+
+        |属性ビット           内容                             |
+        |SPU_COMMON_MVOLL     マスタ音量(左)                   |
+        |SPU_COMMON_MVOLR     マスタ音量(右)                   |
+        |SPU_COMMON_MVOLMODEL マスタ音量モード(左)             |
+        |SPU_COMMON_MVOLMODER マスタ音量モード(右)             |
+        |SPU_COMMON_CDVOLLCD  入力音量(左)                     |
+        |SPU_COMMON_CDVOLRCD  入力音量(右)                     |
+        |SPU_COMMON_CDREVCD   入力リバーブオン/オフ            |
+        |SPU_COMMON_CDMIXCD   入力オン/オフ                    |
+        |SPU_COMMON_EXTVOLL   外部デジタル入力音量(左)         |
+        |SPU_COMMON_EXTVOLR   外部デジタル入力音量(右)         |
+        |SPU_COMMON_EXTREV    外部デジタル入力リバーブオン/オフ|
+        |SPU_COMMON_EXTMIX    外部デジタル入力オン/オフ        |
+        +--------------------+---------------------------------+
+        
+        attr.mask が0の場合は全属性を設定する。
+        以下に個々の設定条件を説明する。
+        
+        (1) マスタ音量とマスタ音量モード
+                マスタ音量を attr.mvol に、マスタ音量モードを attr.mvolmode 
+                に、左右独立に指定する。
+                音量のとり得る範囲と各種モードについては、ボイスにおける設定
+                と同様なのでSpuSetVoiceAttrの説明、及び表1を参照。
+        
+        (2) CD 入力音量
+                CD入力の音量を -0x8000～ 0x7fffの範囲で attr.cd.volume に、左
+                右独立に設定する。設定された音量が負の場合は位相が反転する。
+        
+        (3) CD入力リバーブオン/オフ
+                CD入力にリバーブをかける/かけないを attr.cd.reverb に設定する。
+                attr.cd.reverb:	= SPU_ON	... リバーブオン設定
+                		= SPU_OFF	... リバーブオフ設定
+        
+        (4) CD 入力オン/オフ
+                CD入力のミキシングのオン/オフを attr.cd.mix に設定する。
+                attr.cd.mix:	= SPU_ON	... ミキシングオン設定
+                 		= SPU_OFF	... ミキシングオフ設定
+                この値をオンにしない限り、CD入力は出力されない。
+        
+        (5) 外部デジタル入力音量
+                外部デジタル入力の音量を-0x8000 ～ 0x7fffの範囲で 
+                attr.ext.volume に、左右独立に設定する。設定された音量が負の
+                場合は位相が反転する。
+        
+        (6) 外部デジタル入力リバーブオン/オフ
+                外部デジタル入力にリバーブをかける/かけないを attr.ext.reverb
+                 に設定する。
+                attr.ext.reverb:= SPU_ON	... リバーブオン設定
+                		= SPU_OFF	... リバーブオフ設定
+        
+        (7) 外部デジタル入力オン/オフ
+                外部デジタル入力のミキシングのオン/オフを attr.cd.mix に設定
+                する。
+                attr.ext.mix:	= SPU_ON	... ミキシングオン設定
+                 		= SPU_OFF	... ミキシングオフ設定
+                この値をオンにしない限り、外部デジタル入力は出力されない。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuGetCommonAttr()
+
+=============================================================================
+SpuSetCommonCDMix                                                      [関数]
+=============================================================================
+                                                       CD 入力オン/オフの設定
+        
+[形式]
+        void SpuSetCommonCDMix (
+        long on_off
+        )
+        
+[引数]
+        on_off		CD 入力オン/オフ
+        
+[解説]
+        CD 入力オン/オフの設定を行う。
+        SpuSetCommonAttr() の mask 指定
+        	SPU_COMMON_CDMIX
+        に該当する処理を行う。
+        CD 入力オン/オフ on_off に指定する値に関しては SpuSetCommonAttr() を
+        参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetCommonAttr(), SpuGetCommonCDMix()
+
+=============================================================================
+SpuSetCommonCDReverb                                                   [関数]
+=============================================================================
+                                               CD 入力リバーブオン/オフの設定
+        
+[形式]
+        void SpuSetCommonCDReverb (
+        long on_off
+        )
+        
+[引数]
+        on_off		CD 入力リバーブオン/オフ
+        
+[解説]
+        CD 入力オン/オフの設定を行う。
+        SpuSetCommonAttr() の mask 指定
+        	SPU_COMMON_CDREV
+        に該当する処理を行う。
+        CD 入力リバーブオン/オフ on_off に指定する値に関しては 
+        SpuSetCommonAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetCommonAttr(), SpuGetCommonCDReverb()
+
+=============================================================================
+SpuSetCommonCDVolume                                                   [関数]
+=============================================================================
+                                                            CD 入力音量の設定
+        
+[形式]
+        void SpuSetCommonCDVolume (
+        short cdvolL,
+        short cdvolR
+        )
+        
+[引数]
+        cdvolL		CD 入力音量 (左)
+        cdvolR		CD 入力音量 (右)
+        
+[解説]
+        CD 入力音量の設定を行う。
+        SpuSetCommonAttr() の mask 指定
+        	SPU_COMMON_CDVOLL
+        	SPU_COMMON_CDVOLR
+        に該当する処理を行う。
+        CD 入力音量 cdvolL, cdvolR に指定する値に関しては SpuSetCommonAttr() 
+        を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetCommonAttr(), SpuGetCommonCDVolume()
+
+=============================================================================
+SpuSetCommonMasterVolume                                               [関数]
+=============================================================================
+                                                             マスタ音量の設定
+        
+[形式]
+        void SpuSetCommonMasterVolume (
+        short mvolL,
+        short mvolR
+        )
+        
+[引数]
+        mvolL		マスタ音量 (左)
+        mvolR		マスタ音量 (右)
+        
+[解説]
+        マスタ音量の設定を行う。
+        SpuSetCommonAttr() の mask 指定
+        	SPU_COMMON_MVOLL
+        	SPU_COMMON_MVOLR
+        に該当する処理を行う。
+        音量モードは [ダイレクトモード] となり、 音量 mvolL, mvolR に指定でき
+        る値の範囲は SpuSetVoiceAttr() における [ダイレクトモード] と同等であ
+        る。
+        音量と音量モードを同時に指定したい場合は 
+        SpuSetCommonMasterVolumeAttr() を使用する。
+        音量 mvolL, mvolR に指定する値に関しては SpuSetCommonAttr(), 
+        SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetCommonAttr(), SpuSetVoiceAttr(), SpuSetCommonMasterVolumeAttr(),
+         SpuGetCommonMasterVolume(), SpuGetCommonMasterVolumeAttr()
+
+=============================================================================
+SpuSetCommonMasterVolumeAttr                                           [関数]
+=============================================================================
+                                            マスタ音量/マスタ音量モードの設定
+        
+[形式]
+        void SpuSetCommonMasterVolumeAttr (
+        short mvolL,
+        short mvolR,
+        short mvolModeL,
+        short mvolModeR
+        )
+        
+[引数]
+        mvolL		マスタ音量 (左)
+        mvolR		マスタ音量 (右)
+        mvolModeL	マスタ音量モード (左)
+        mvolModeR	マスタ音量モード (右)
+        
+[解説]
+        マスタ音量/マスタ音量モードの設定を行う。
+        SpuSetCommonAttr() の mask 指定
+        	SPU_COMMON_MVOLL
+        	SPU_COMMON_MVOLR
+        	SPU_COMMON_MVOLMODEL
+        	SPU_COMMON_MVOLMODER
+        に該当する処理を行う。
+        音量モード mvolModeL, mvolModeR 、及び音量 mvolL, mvolR に指定する値
+        に関しては SpuSetCommonAttr(), SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetCommonAttr(), SpuSetVoiceAttr(), SpuSetCommonMasterVolume(), 
+        SpuGetCommonMasterVolume(), SpuGetCommonMasterVolumeAttr()
+
+=============================================================================
+SpuSetEnv                                                              [関数]
+=============================================================================
+                                             基本サウンドライブラリの環境設定
+        
+[形式]
+        void SpuSetEnv (
+        SpuEnv  *env
+        )
+        
+[引数]
+        env		基本サウンドライブラリ環境属性
+        
+[解説]
+        基本サウンドライブラリの環境を設定する。
+        env.mask に、下記の設定したい属性のビット和を与えることで各属性のみの
+        設定が可能 (現在 1 つの属性のみ設定可能なのでその値を指定する)。
+         
+        +----------------------+------------------------+
+        |属性ビット             内容                    |
+        |SPU_ENV_EVENT_QUEUEING イベントをキューに溜める|
+        +----------------------+------------------------+
+        
+        env.mask が 0 の場合は全属性を設定する。
+        以下に個々の設定条件を説明する。
+        
+        (1) イベントをキューに溜める
+                env.queueing に下記の値を指定することにより、キーオン/オフ、
+                ピッチ LFO ボイス設定、ノイズボイス設定、およびリバーブボイス
+                設定のそれぞれのイベントをキューに溜めるかを設定する。
+                
+        +--------+---------------------------------+
+        |指定値   内容                             |
+        | SPU_ON  イベントをキューに溜める         |
+        | SPU_OFF イベントをキューに溜ない (既定値)|
+        +--------+---------------------------------+
+                
+                既定値はキューに溜めずに即座に設定を行う。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuEnv, SpuFlush(), SpuSetKey(), SpuSetKeyOnWithAttr(), 
+        SpuSetPitchLFOVoice(), SpuSetNoiseVoice(), SpuSetReverbVoice()
+
+=============================================================================
+SpuSetIRQ                                                              [関数]
+=============================================================================
+                                                割り込みリクエストのオン/オフ
+        
+[形式]
+        long SpuSetIRQ (
+        long on_off
+        )
+        
+[引数]
+        on_off		SPU_ON（割り込みリクエスト設定）
+         		SPU_OFF（割り込みリクエスト解除）
+         		SPU_RESET（割り込みリクエストリセット = 解除後設定）
+        
+[解説]
+        割り込みリクエストのオン/オフを設定する。
+        
+[返り値]
+        設定された値
+         
+        +---------+--------------------------+
+        |返り値    意味                      |
+        |SPU_ON    割り込みリクエスト設定    |
+        |SPU_OFF   割り込みリクエスト解除    |
+        |SPU_RESET 割り込みリクエストリセット|
+        +---------+--------------------------+
+        
+[関連項目]
+        SpuGetIRQ()
+
+=============================================================================
+SpuSetIRQAddr                                                          [関数]
+=============================================================================
+                                           割り込みリクエストのアドレスの設定
+        
+[形式]
+        unsigned long SpuSetIRQAddr (
+        unsigned long addr
+        )
+        
+[引数]
+        addr		割り込みリクエストがかかるアドレス
+        
+[解説]
+        割り込みリクエストがかかるアドレスの値を設定する。ただしアドレス addr
+         の値は
+        
+         ・バイト単位
+         ・8で割り切れる数
+         ・512KB以内
+        
+        でなければならない。
+        
+[返り値]
+        設定されたアドレスの値
+        設定したアドレス addr の値が8で割り切れなかった場合には、設定された値
+        を8で割り切れる値に繰り上げた値が設定され、返される。
+        512KBを超えている場合は0を返す。
+        
+[関連項目]
+        SpuGetIRQAddr(), SpuSetIRQ(), SpuGetIRQ()
+
+=============================================================================
+SpuSetIRQCallback                                                      [関数]
+=============================================================================
+                                     割り込みリクエスト時のCallback関数の設定
+        
+[形式]
+        SpuIRQCallbackProc SpuSetIRQCallback (
+        SpuIRQCallbackProc func
+        )
+        
+[引数]
+        func		割り込みリクエスト時に起動されるCallback関数
+        
+[解説]
+        割り込みリクエストが起こった時に起動されるCallback関数を設定する。
+        Callback関数の値としてNULLを設定した場合には、Callback関数はクリアさ
+        れる。
+        型:
+                typedef void (*SpuIRQCallbackProc)(void);
+        
+[返り値]
+        以前設定されていたCallback関数へのポインタのアドレス
+        設定されていなければNULLが返る。
+        
+[関連項目]
+        SpuSetIRQ(), SpuSetIRQAddr()
+
+=============================================================================
+SpuSetKey                                                              [関数]
+=============================================================================
+                                      各ボイスに対してキーオン/キーオフを設定
+        
+[形式]
+        void SpuSetKey (
+        long on_off, 
+        unsigned long voice_bit
+        )
+        
+[引数]
+        on_off		SPU_ON（キーオン設定）またはSPU_OFF（キーオフ設定）
+        voice_bit	設定するボイス
+        
+[解説]
+        各ボイスに対してキーオン/キーオフを設定する。
+        voice_bit にはSPU_0CH, SPU_1CH,...,SPU_23CHのビット和で設定する。
+        
+[返り値]
+        なし
+        
+[備考]
+        サンプル：
+        ボイス0とボイス2にキーオンを設定する際には以下のようにしてSpuSetKeyを
+        呼ぶ
+        SpuSetKey (SPU_ON,			/*キーオン設定*/
+        	    SPU_0CH | SPU_2CH);		/* 0chと2ch */
+        
+[関連項目]
+        SpuSetKeyOnWithAttr(), SpuSetVoiceAttr()
+
+=============================================================================
+SpuSetKeyOnWithAttr                                                    [関数]
+=============================================================================
+                                       ボイスに対してキーオンを属性付きで設定
+        
+[形式]
+        void SpuSetKeyOnWithAttr (
+        SpuVoiceAttr *attr
+        )
+        
+[引数]
+        attr		各ボイス属性
+        
+[解説]
+        各ボイスに対して属性を指定して、キーオンを設定する。
+        attr.voice にはSPU_0CH, SPU_1CH,...,SPU_23CHのビット和で設定し、発音
+        するボイスを明示的に設定する。
+        
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。 
+         
+        +---------------------+------------------------+
+        |属性ビット            内容                    |
+        |SPU_VOICE_VOLL        音量(左)                |
+        |SPU_VOICE_VOLR        音量(右)                |
+        |SPU_VOICE_VOLMODEL    音量モード(左)          |
+        |SPU_VOICE_VOLMODER    音量モード(右)          |
+        |SPU_VOICE_PITCH       音程(ピッチ指定)        |
+        |SPU_VOICE_NOTE        音程(ノート指定)        |
+        |SPU_VOICE_SAMPLE_NOTE 波形データサンプルノート|
+        |SPU_VOICE_WDSA        波形データ先頭アドレス  |
+        |SPU_VOICE_ADSR_AMODE  ADSR Attack rateモード  |
+        |SPU_VOICE_ADSR_SMODE  ADSR Sustain rateモード |
+        |SPU_VOICE_ADSR_RMODE  ADSR Release rateモード |
+        |SPU_VOICE_ADSR_AR     ADSR Attack rate        |
+        |SPU_VOICE_ADSR_DR     ADSR Decay rate         |
+        |SPU_VOICE_ADSR_SR     ADSR Sustain rate       |
+        |SPU_VOICE_ADSR_RR     ADSR Release rate       |
+        |SPU_VOICE_ADSR_SL     ADSR Sustain level      |
+        |SPU_VOICE_LSAX        ループ開始アドレス      |
+        |SPU_VOICE_ADSR_ADSR1  ADSR adsr1 for 'VagAtr' |
+        |SPU_VOICE_ADSR_ADSR2  ADSR adsr2 for 'VagAtr' |
+        +---------------------+------------------------+
+        
+        attr.mask が0の場合は全属性を設定する。
+        それぞれの属性の詳細については、SpuSetVoiceAttr を参照。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetKey(), SpuSetVoiceAttr(), SpuGetVoiceAttr()
+
+=============================================================================
+SpuSetMute                                                             [関数]
+=============================================================================
+                                                  サウンドのミュートオン/オフ
+        
+[形式]
+        long SpuSetMute (
+        long on_off
+        )
+        
+[引数]
+        on_off		SPU_ON（ミュートオン設定）またはSPU_OFF（ミュートオフ設定）
+        
+[解説]
+        サウンドのミュートのオン/オフを設定する。
+        但し、CD入力、及び外部デジタル入力はこのミュートオン/オフによってミュ
+        ートされない。
+        
+[返り値]
+        設定された値
+         
+        +-------+------------+
+        |返り値  意味        |
+        |SPU_ON  ミュートオン|
+        |SPU_OFF ミュートオフ|
+        +-------+------------+
+        
+[関連項目]
+        SpuGetMute()
+
+=============================================================================
+SpuSetNoiseClock                                                       [関数]
+=============================================================================
+                                                   ノイズ音源のクロックの設定
+        
+[形式]
+        long SpuSetNoiseClock (
+        long n_clock
+        )
+        
+[引数]
+        n_clock		ノイズ音源のクロック
+        
+[解説]
+        ノイズ音源のクロックの値を設定する。ただしそのクロックの値は 0x00～
+        0x3f でなければならない。
+        
+[返り値]
+        設定されたノイズ音源のクロックの値
+        
+[関連項目]
+        SpuGetNoiseClock()
+
+=============================================================================
+SpuSetNoiseVoice                                                       [関数]
+=============================================================================
+                                  各ボイスに対してノイズ音源のオン/オフを設定
+        
+[形式]
+        unsigned long SpuSetNoiseVoice (
+        long on_off,
+        unsigned long voice_bit
+        )
+        
+[引数]
+        on_off		SPU_ON（ノイズ音源設定）またはSPU_OFF（ノイズ音源解除）
+        voice_bit	設定するボイス
+        
+[解説]
+        各ボイスに対してノイズ音源のオン/オフ (ノイズ音源を使う/使わない) を
+        設定する。
+        voice_bit にはSPU_0CH, SPU_1CH, ..., SPU_23CHのビット和で設定する。
+        
+[返り値]
+        現在設定されている各ボイスに対するノイズ音源のオン/オフの値
+        すなわちSPU_0CH, SPU_1CH, ..., SPU_23CHのビット和
+        返り値とSPU_xxCH(xx = 0～23)とのビット積の結果
+        
+        +--------+------------------+
+        |ビット積 意味              |
+        |=0       ノイズ音源オフ設定|
+        |0以外    ノイズ音源オン設定|
+        +--------+------------------+
+        
+[備考]
+        サンプル：
+        ボイス0とボイス2にノイズ音源オンを設定する際には以下のようにして
+        SpuSetNoiseVoiceを呼ぶ。
+        SpuSetNoiseVoice(SPU_ON, 		/*ノイズ音源オン設定*/
+        		SPU_0CH | SPU_2CH);	/* 0ch と2ch */
+        
+[関連項目]
+        SpuSetNoiseClock(), SpuGetNoiseClock(), SpuGetNoiseVoice()
+
+=============================================================================
+SpuSetPitchLFOVoice                                                    [関数]
+=============================================================================
+                                   各ボイスに対してピッチLFOのオン/オフを設定
+        
+[形式]
+        unsigned long SpuSetPitchLFOVoice (
+        long on_off, 
+        unsigned long voice_bit
+        )
+        
+[引数]
+        on_off		SPU_ON（ピッチLFOオン設定）またはSPU_OFF（ピッチLFOオフ設定）
+        voice_bit	設定するボイス
+        
+[解説]
+        各ボイスに対してピッチLFOのオン/オフを設定する。
+        ピッチLFOのオンを設定したボイスnはボイス(n - 1)の音量の時間的変化によ
+        りピッチにLFOがかかるように設定される。このピッチLFOを有効にするため
+        には、ボイスn及びボイス(n - 1)が発音されている必要があり、ボイス(n - 
+        1)の音量は0にしておく必要がある。ボイス(n - 1)はボイスn発音後、任意の
+        タイミングで発音することができ、ボイス(n - 1)が発音された時点でピッチ
+        LFOがかかる。
+        voice_bit にはSPU_0CH, SPU_1CH,...,SPU_23CHのビット和で設定する。
+        
+[返り値]
+        現在設定されている各ボイスに対するピッチLFOのオン/オフの値
+        すなわちSPU_0CH, SPU_1CH,...,SPU_23CHのビット和
+        
+        返り値とSPU_xxCH(xx = 0～23)とのビット積の結果
+        
+        +--------+-----------------+
+        |ビット積 意味             |
+        |=0       ピッチLFOオフ設定|
+        |0以外    ピッチLFOオン設定|
+        +--------+-----------------+
+        
+[関連項目]
+        SpuGetPitchLFOVoice(), SpuSetKey(), SpuSetKeyOnWithAttr()
+
+=============================================================================
+SpuSetReverb                                                           [関数]
+=============================================================================
+                                                          リバーブのオン/オフ
+        
+[形式]
+        long SpuSetReverb (
+        long on_off
+        )
+        
+[引数]
+        on_off		SPU_ON（リバーブオン設定）またはSPU_OFF（リバーブオフ設定）
+        
+[解説]
+        リバーブのオン/オフを設定する。
+        SpuReserveReverbWorkAreaによってリバーブワークエリアが予約されていな
+        かった場合、on_off = SPU_ONが指定されると、SpuMalloc / 
+        SpuMallocWithStartAddrによってワークエリアとして使う領域が他の領域と
+        して使われているかどうかを診断し、使われている場合はリバーブオンは設
+        定されず、オフとなり、SPU_OFFを返す。使われていなければリバーブオンが
+        設定され、SPU_ONが返る。リバーブワークエリアが予約されていれば、
+        on_off = SPU_ONはリバーブオンが設定され、SPU_ONを返す。
+        
+[返り値]
+        設定された値
+         
+        +-------+------------+
+        |返り値  意味        |
+        |SPU_ON  リバーブオン|
+        |SPU_OFF リバーブオフ|
+        +-------+------------+
+        
+[関連項目]
+        SpuGetReverb(), SpuSetReverbModeParam(), SpuReserveReverbWorkArea(), 
+        SpuMalloc(), SpuMallocWithStartAddr()
+
+=============================================================================
+SpuSetReverbDepth                                                      [関数]
+=============================================================================
+                                               リバーブの深さパラメータを設定
+        
+[形式]
+        long SpuSetReverbDepth (
+        SpuReverbAttr *attr
+        )
+        
+[引数]
+        attr		リバーブ属性
+        
+[解説]
+        リバーブの深さのパラメータの属性を設定する。
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。
+         
+        +--------------+------------------+
+        |属性ビット     内容              |
+        |SPU_REV_DEPTHL リバーブの深さ(左)|
+        |SPU_REV_DEPTHR リバーブの深さ(右)|
+        +--------------+------------------+
+        
+        attr.mask が0の場合は左右の属性を同時に設定する。
+        
+        リバーブの深さ
+        リバーブの深さを -0x8000～ 0x7fffの範囲で attr.depth に、左右独立に設
+        定する。
+        設定された値が負の場合はリバーブ音(wet)の位相が反転する。
+        
+[返り値]
+        常に0を返す。
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam()
+
+=============================================================================
+SpuSetReverbModeDelayTime                                              [関数]
+=============================================================================
+                                               リバーブのディレイタイムの設定
+        
+[形式]
+        void SpuSetReverbModeDelayTime (
+        long delay
+        )
+        
+[引数]
+        delay		リバーブのディレイタイム
+        
+[解説]
+        リバーブのディレイタイムの設定を行う。
+        SpuSetReverbModeParam() の mask 指定
+        	SPU_REV_DELAYTIME
+        に該当する処理を行う。
+        リバーブモードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の場合のみ有効
+        となる。他のモードが設定されていた場合は何も影響しない。
+        リバーブのディレイタイム delay に指定する値に関しては 
+        SpuSetReverbModeParam() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuGetReverbModeDelayTime()
+
+=============================================================================
+SpuSetReverbModeDepth                                                  [関数]
+=============================================================================
+                                                         リバーブの深さの設定
+        
+[形式]
+        void SpuSetReverbModeDepth (
+        short depthL,
+        short depthR
+        )
+        
+[引数]
+        depthL		リバーブの深さ (左)
+        depthR		リバーブの深さ (右)
+        
+[解説]
+        リバーブの深さの設定を行う。
+        SpuSetReverbModeParam() の mask 指定
+        	SPU_REV_DEPTHL
+        	SPU_REV_DEPTHR
+        に該当する処理を行う。
+        リバーブの深さ depthL 及び depthR に指定する値に関しては 
+        SpuSetReverbModeParam() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuGetReverbModeDepth(), SpuSetReverbDepth()
+
+=============================================================================
+SpuSetReverbModeFeedback                                               [関数]
+=============================================================================
+                                               リバーブのフィードバックの設定
+        
+[形式]
+        void SpuSetReverbModeFeedback (
+        long feedback
+        )
+        
+[引数]
+        feedback	リバーブのフィードバック
+        
+[解説]
+        リバーブのフィードバックの設定を行う。
+        SpuSetReverbModeParam() の mask 指定
+        	SPU_REV_FEEDBACK
+        に該当する処理を行う。
+        リバーブモードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の場合のみ有効
+        となる。他のモードが設定されていた場合は何も影響しない。
+        リバーブのフィードバック feedback に指定する値に関しては 
+        SpuSetReverbModeParam() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), 
+        SpuGetReverbModeFeedback()
+
+=============================================================================
+SpuSetReverbModeParam                                                  [関数]
+=============================================================================
+                                       リバーブのモード、及びパラメータを設定
+        
+[形式]
+        long
+        SpuSetReverbModeParam (
+        SpuReverbAttr *attr
+        )
+        
+[引数]
+        attr		リバーブ属性
+        
+[解説]
+        リバーブのモード、及びパラメータの属性を設定する。
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。
+         
+        +-----------------+--------------------------------+
+        |属性ビット        内容                            |
+        |SPU_REV_MODE      モード設定                      |
+        |SPU_REV_DEPTHL    リバーブの深さ(左)              |
+        |SPU_REV_DEPTHR    リバーブの深さ(右)              |
+        |SPU_REV_DELAYTIME ディレイタイム(ECHO, DELAY のみ)|
+        |SPU_REV_FEEDBACK  フィードバック(ECHO のみ)       |
+        +-----------------+--------------------------------+
+        
+        attr.mask が0の場合は全属性を設定する。
+        以下に個々の設定条件を説明する。
+        
+        (1) リバーブモード
+                リバーブのモードを設定する。リバーブのモードにより 「Depth (
+                リバーブの深さ)」以外の属性の設定の有無が異なる。
+         
+
+        表 1 リバーブモードと他の属性
+        +----------------------+--------------+----------+--------+
+        |attr.mode              モード         Delay time Feedback|
+        | SPU_REV_MODE_OFF      off                               |
+        | SPU_REV_MODE_ROOM     ルーム                            |
+        | SPU_REV_MODE_STUDIO_A スタジオ(小)                      |
+        | SPU_REV_MODE_STUDIO_B スタジオ(中)                      |
+        | SPU_REV_MODE_STUDIO_C スタジオ(大)                      |
+        | SPU_REV_MODE_HALL     ホール                            |
+        | SPU_REV_MODE_SPACE    スペースエコー                    |
+        | SPU_REV_MODE_ECHO     エコー         設定可能   設定可能|
+        | SPU_REV_MODE_DELAY    ディレイ       設定可能   設定可能|
+        | SPU_REV_MODE_PIPE     パイプエコー                      |
+        +----------------------+--------------+----------+--------+
+        
+                リバーブモードが変更された場合(初期値はSPU_REV_MODE_OFFのため、
+                最初に設定する場合においても)には、事前に
+                SpuSetReverbModeParamにてDepthが設定されていても内部的にリバ
+                ーブDepthの値を0にする。
+                これはモード変更時にワークエリアのサイズが変更になるため、ワ
+                ークエリア上の不定なデータがノイズとして発生するからである。
+                このため、リバーブモードを変更した場合は、その後に再度
+                SpuSetReverbModeParamかSpuSetReverbDepthにてDepthを設定する必
+                要がある。
+                モードを設定し、Depthを0以外に設定するタイミングについては、
+                実際に必要になる直前にモードを設定するのではなく、リバーブの
+                性格上、ワークエリアの1回のスキャンが終る時間を見積もってモー
+                ド/Depthを設定するか、あるいは、モード設定後、強制的にワーク
+                エリアのデータを消去してからDepthを設定する(後述)。
+                リバーブのモードによって、ワークエリアがサウンドバッファを占
+                有する容量を表2に示す。ただし、この領域はSpuMallocなどのメモ
+                リ管理機構によって管理される。詳細はSpuMallocを参照。
+
+        表 2 リバーブモードとサウンドバッファ内で占有される容量
+        +----------------------+--------------+--------+---------+
+        |attr.mode              モード         16進     10進     |
+        | SPU_REV_MODE_OFF      off            0/80 (*) 0/128 (*)|
+        | SPU_REV_MODE_ROOM     ルーム         26c0     9920     |
+        | SPU_REV_MODE_STUDIO_A スタジオ(小)   1f40     8000     |
+        | SPU_REV_MODE_STUDIO_B スタジオ(中)   4840     18496    |
+        | SPU_REV_MODE_STUDIO_C スタジオ(大)   6fe0     28640    |
+        | SPU_REV_MODE_HALL     ホール         ade0     44512    |
+        | SPU_REV_MODE_SPACE    スペースエコー f6c0     63168    |
+        | SPU_REV_MODE_ECHO     エコー         18040    98368    |
+        | SPU_REV_MODE_DELAY    ディレイ       18040    98368    |
+        | SPU_REV_MODE_PIPE     パイプエコー   3c00     15360    |
+        +----------------------+--------------+--------+---------+
+        
+                (*)アドレスの設定上、モードがoffとなっていても、
+                SpuReserveReverbWorkArea(SPU_ON)となっていた場合、128bytes消
+                費する。SpuReserveReverbWorkArea(SPU_OFF)の場合は消費量は0と
+                なる。
+                
+                モードが変更された時に、新しいモードのワークエリアとして使う
+                領域がSpuMalloc / SpuMallocWithStartAddr によって他の領域とし
+                て使われているかどうかを診断し、使われている場合は指定された
+                リバーブ属性の全ては設定されず、SPU_ERRORを返す。使われていな
+                ければ指定されたリバーブ属性が設定され、0が返る。
+                attr.mode にSPU_REV_MODE_CLEAR_WAをビット和で指定すると、リバ
+                ーブモード設定時に指定されたリバーブモードで必要とする領域を
+                クリアする。
+                これはモード変更時のノイズ対策である。しかし、DMA転送でサウン
+                ドバッファをクリアしているが、同期的に処理しているため、この
+                処理を行っている間は他の処理 (描画、発音を含め)は行えず、リバ
+                ーブの種類によっては若干の待ち時間を要する。
+                任意のタイミングでリバーブモード設定時に指定されたリバーブモ
+                ードで必要とする領域を強制的にクリアするためには、
+                SpuClearReverbWorkAreaを使用する。
+        
+        (2) リバーブの深さ
+                リバーブの深さを -0x8000 ～ 0x7fff の範囲で attr.depth に、左
+                右独立に設定する。
+                設定された値が負の場合はリバーブ音 (wet) の位相が反転する。
+        
+        (3) ディレイタイム
+                モードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の時のみ有効。
+                ディレイタイムの値を 0 ～ 127 の範囲で attr.delay に設定する。
+        
+        (4) フィードバック
+                モードが SPU_REV_MODE_ECHO, SPU_REV_MODE_DELAY の時のみ有効。
+                フィードバックの値を 0 ～127の範囲で attr.feedback に設定する。
+        
+[返り値]
+        モード変更の場合、リバーブのワークエリアがSpuMalloc/
+        SpuMallocWithStartAddrによって他の領域として使われている場合は
+        SPU_ERRORを返し指定されたリバーブ属性は全て設定されない。
+        他の領域として使われていなければ、指定されたリバーブ属性が設定され、0
+        を返す。
+        
+[関連項目]
+        SpuGetReverbModeParam(), SpuMalloc(), SpuMallocWithStartAddr(), 
+        SpuReserveReverbWorkArea(), SpuClearReverbWorkArea()
+
+=============================================================================
+SpuSetReverbModeType                                                   [関数]
+=============================================================================
+                                                   リバーブモードタイプの設定
+        
+[形式]
+        long SpuSetReverbModeType (
+        long type
+        )
+        
+[引数]
+        type		リバーブモードタイプ
+        
+[解説]
+        リバーブモードタイプの設定を行う。
+        SpuSetReverbModeParam() の mask 指定
+        	SPU_REV_MODE
+        に該当する処理を行う。
+        リバーブモードタイプ type に指定する値に関しては 
+        SpuSetReverbModeParam() を参照のこと。
+        
+[返り値]
+        リバーブのワークエリアが SpuMalloc() / SpuMallocWithStartAddr() によ
+        って他の領域として使われている場合は SPU_ERROR を返し指定されたリバー
+        ブ属性は全て設定されない。他の領域として使われていなければ、指定され
+        たリバーブ属性が設定され、0 を返す。
+        
+[関連項目]
+        SpuSetReverbModeParam(), SpuGetReverbModeParam(), SpuMalloc(), 
+        SpuMallocWithStartAddr(), SpuReserveReverbWorkArea(), 
+        SpuClearReverbWorkArea(), SpuGetReverbModeType()
+
+=============================================================================
+SpuSetReverbVoice                                                      [関数]
+=============================================================================
+                                    各ボイスに対してリバーブのオン/オフを設定
+        
+[形式]
+        unsigned long SpuSetReverbVoice (
+        long on_off,
+        unsigned long voice_bit
+        )
+        
+[引数]
+        on_off		SPU_ON（リバーブオン設定）またはSPU_OFF（リバーブオフ設定）
+        voice_bit	設定するボイス
+        
+[解説]
+        各ボイスに対してリバーブのオン/オフを設定する。
+        voice_bit にはSPU_0CH, SPU_1CH,...,SPU_23CHのビット和で設定する。
+        
+[返り値]
+        現在設定されている各ボイスに対するリバーブのオン/オフの値
+        すなわちSPU_0CH, SPU_1CH, ..., SPU_23CHのビット和
+        
+        返り値とSPU_xxCH(xx = 0～23) とのビット積の結果
+        
+        +--------+----------------+
+        |ビット積 意味            |
+        |=0       リバーブオフ設定|
+        |0以外    リバーブオン設定|
+        +--------+----------------+
+        
+[備考]
+        サンプル：
+        ボイス0とボイス2にリバーブオンを設定する際には以下のようにして
+        SpuSetReverbVoiceを呼ぶ。
+        SpuSetReverbVoice(SPU_ON, 		/* リバーブオン設定*/
+        		SPU_0CH | SPU_2CH);	/* 0ch と2ch */
+        
+[関連項目]
+        SpuGetReverbVoice()
+
+=============================================================================
+SpuSetTransferCallback                                                 [関数]
+=============================================================================
+                                            DMA転送終了時のCallback関数の設定
+        
+[形式]
+        SpuTransferCallbackProc SpuSetTransferCallback (
+        SpuTransferCallbackProc func
+        )
+        
+[引数]
+        func		DMA転送終了時に起動されるCallback関数
+        
+[解説]
+        DMA転送終了時に起動されるCallback関数を設定する。
+        Callback関数の値としてNULLを設定した場合には、Callback関数はクリアさ
+        れる。
+        SpuSetTransferCallbackを使ってDMA転送終了時に起動される。
+        Callback関数が設定された場合はSpuIsTransferCompletedは機能しない。
+        
+        型：
+                typedef void (*SpuTransferCallbackProc)(void);
+        
+[返り値]
+        以前設定されていたCallback関数へのポインタのアドレス
+        設定されていなければNULLが返る。
+        
+[関連項目]
+        SpuWrite(), SpuWrite0(), SpuWritePartly(), SpuRead(), 
+        SpuReadDecodedData(), SpuSetTransferMode(), SpuGetTransferMode(), 
+        SpuIsTransferCompleted()
+
+=============================================================================
+SpuSetTransferMode                                                     [関数]
+=============================================================================
+                                         サウンドバッファへの転送モードの設定
+        
+[形式]
+        long SpuSetTransferMode (
+        long mode
+        )
+        
+[引数]
+        mode		SPU_TRANSFER_BY_DMA（DMA転送の指定）または
+         		SPU_TRANSFER_BY_IO（I/O転送の指定）
+        
+[解説]
+        メインメモリからサウンドバッファへ転送する際のモードを設定する。
+        
+         ・DMA転送の場合
+                転送中も他の処理を行うことが可能
+         ・I/O転送の場合
+                CPUを使って転送を行うため、転送中には他の処理を行うことが出来
+                ない。
+                このモードはメインメモリからサウンドバッファへ転送する際にの
+                み有効であり、サウンドバッファからメインメモリへ転送する際に
+                は必ずDMA転送で行われる。
+        
+        本関数を呼ばなかった場合の転送は、既定値としてDMA転送が設定されている。
+        
+[返り値]
+        設定された転送モード
+         
+        +-------------------+-------------+
+        |返り値              意味         |
+        |SPU_TRANSFER_BY_DMA DMA転送の指定|
+        |SPU_TRANSFER_BY_IO  I/O転送の指定|
+        +-------------------+-------------+
+        
+[関連項目]
+        SpuGetTransferMode(), SpuWrite(), SpuWrite0(), SpuWritePartly()
+
+=============================================================================
+SpuSetTransferStartAddr                                                [関数]
+=============================================================================
+                            サウンドバッファの転送先/転送元先頭アドレスの設定
+        
+[形式]
+        unsigned long SpuSetTransferStartAddr (
+        unsigned long addr
+        )
+        
+[引数]
+        addr		サウンドバッファ内の転送先/転送元の先頭アドレス
+        
+[解説]
+        メインメモリからサウンドバッファへ転送する際、及び、サウンドバッファ
+        からメインメモリへ転送する際の先頭アドレスの値を設定する。
+        ただしその先頭アドレス addr の値は
+        
+         ・バイト単位
+         ・8で割り切れる数
+         ・0x1010以上、512KB以内
+        
+        でなければならない。
+        0x0～0xfffの領域からの転送はSpuReadDecodedDataを参照。
+        0x1000～0x100fはシステム予約
+        
+[返り値]
+        設定された先頭アドレスの値
+        設定した先頭アドレスaddrの値が8で割り切れなかった場合には、設定された
+        値を8で割り切れる値に繰り上げた値が返される。
+        0x1010より小さい値、あるいは512KBを超えている場合は0を返す。
+        
+[関連項目]
+        SpuGetTransferStartAddr(), SpuWrite(), SpuWrite0(), SpuWritePartly(),
+         SpuRead(), SpuReadDecodedData()
+
+=============================================================================
+SpuSetVoiceADSR                                                        [関数]
+=============================================================================
+                                                                  ADSR の設定
+        
+[形式]
+        void SpuSetVoiceADSR (
+        int voiceNum,
+        unsigned short AR,
+        unsigned short DR,
+        unsigned short SR,
+        unsigned short RR,
+        unsigned short SL
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        DR		ADSR Decay Rate
+        SR		ADSR Sustain Rate
+        RR		ADSR Release Rate
+        SL		ADSR Sustain Level
+        
+[解説]
+        ボイスで使われる ADSR の個別の属性の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_AR
+        	SPU_VOICE_ADSR_DR
+        	SPU_VOICE_ADSR_SR
+        	SPU_VOICE_ADSR_RR
+        	SPU_VOICE_ADSR_SL
+        に該当する処理を行う。
+        Attack, Sustain Relase の各 Rate について、 Rate モードはそれぞれ以下
+        の通りになる。
+        
+        +-------------+----------------------------------+
+        |Rate          Rateモード                        |
+        | Attack Rate   SPU_VOICE_LINEARIncN (リニア増加)|
+        | Sustain Rate  SPU_VOICE_LINEARDecN (リニア減少)|
+        | Release Rate  SPU_VOICE_LINEARDecN (リニア減少)|
+        +-------------+----------------------------------+
+        
+        各 Rate モードを同時に指定したい場合は SpuSetVoiceSRAttr() を使用する。
+        各 Rate に指定する値に関しては SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceAR(), 
+        SpuSetVoiceDR(), SpuSetVoiceSR(), SpuSetVoiceRR(), SpuSetVoiceSL()
+
+=============================================================================
+SpuSetVoiceADSRAttr                                                    [関数]
+=============================================================================
+                                                        ADSR と各モードの設定
+        
+[形式]
+        void SpuSetVoiceADSRAttr (
+        int voiceNum,
+        unsigned short AR,
+        unsigned short DR,
+        unsigned short SR,
+        unsigned short RR,
+        unsigned short SL,
+        long ARmode,
+        long SRmode,
+        long RRmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        DR		ADSR Decay Rate
+        SR		ADSR Sustain Rate
+        RR		ADSR Release Rate
+        SL		ADSR Sustain Level
+        ARmode		ADSR Attack Rate モード
+        SRmode		ADSR Sustain Rate モード
+        RRmode		ADSR Release Rateモード
+        
+[解説]
+        ボイスで使われる ADSR の個別の属性の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_AR	SPU_VOICE_ADSR_AMODE
+        	SPU_VOICE_ADSR_DR
+        	SPU_VOICE_ADSR_SR	SPU_VOICE_ADSR_SMODE
+        	SPU_VOICE_ADSR_RR	SPU_VOICE_ADSR_RMODE
+        	SPU_VOICE_ADSR_SL
+        に該当する処理を行う。
+        各 Rate及び各 Rateモードに指定する値に関しては SpuSetVoiceAttr() を参
+        照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceADSR(), 
+        SpuSetVoiceAR(), SpuSetVoiceDR(), SpuSetVoiceSR(), SpuSetVoiceRR(), 
+        SpuSetVoiceSL(), SpuSetVoiceARAttr(), SpuSetVoiceSRAttr(), 
+        SpuSetVoiceRRAttr()
+
+=============================================================================
+SpuSetVoiceAR                                                          [関数]
+=============================================================================
+                                                      ADSR Attack Rate の設定
+        
+[形式]
+        void SpuSetVoiceAR (
+        int voiceNum,
+        unsigned short AR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        
+[解説]
+        ボイスで使われる ADSR Attack Rate の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_AR
+        に該当する処理を行う。
+        ADSR Attack Rate モードは SPU_VOICE_LINEARIncN (リニア増加) となる。 
+        ADSR Attack Rate と ADSR Attack Rate モードを同時に指定したい場合は 
+        SpuSetVoiceARAttr() を使用する。
+        ADSR Attack Rate AR に指定する値に関しては SpuSetVoiceAttr() を参照の
+        こと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceARAttr()
+
+=============================================================================
+SpuSetVoiceARAttr                                                      [関数]
+=============================================================================
+                                  ADSR Attack Rate / Attack Rate モードの設定
+        
+[形式]
+        void SpuSetVoiceARAttr (
+        int voiceNum,
+        unsigned short AR,
+        long ARmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        AR		ADSR Attack Rate
+        ARmode		ADSR Attack Rate モード
+        
+[解説]
+        ボイスで使われる ADSR Attack Rate / ADSR Attack Rate モードの設定を行
+        う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_AR
+        	SPU_VOICE_ADSR_AMODE
+        に該当する処理を行う。
+        ADSR Attack Rate AR、 及び ADSR Attack Rate モードARmodeに指定する値
+        に関しては SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceAR()
+
+=============================================================================
+SpuSetVoiceAttr                                                        [関数]
+=============================================================================
+                                                         各ボイスの属性を設定
+        
+[形式]
+        void SpuSetVoiceAttr (
+        SpuVoiceAttr *attr
+        )
+        
+[引数]
+        attr		各ボイス属性
+        
+[解説]
+        各ボイスの属性を設定する。
+        attr.voice にはSPU_0CH,SPU_1CH,...,SPU_23CHのビット和で設定するボイス
+        を明示的に設定する。
+        attr.mask に、下記の設定したい属性のビット和を与えることで各属性のみ
+        の設定が可能。
+         
+        +---------------------+------------------------+
+        |属性ビット            内容                    |
+        |SPU_VOICE_VOLL        音量(左)                |
+        |SPU_VOICE_VOLR        音量(右)                |
+        |SPU_VOICE_VOLMODEL    音量モード(左)          |
+        |SPU_VOICE_VOLMODER    音量モード(右)          |
+        |SPU_VOICE_PITCH       音程(ピッチ指定)        |
+        |SPU_VOICE_NOTE        音程(ノート指定)        |
+        |SPU_VOICE_SAMPLE_NOTE 波形データサンプルノート|
+        |SPU_VOICE_WDSA        波形データ先頭アドレス  |
+        |SPU_VOICE_ADSR_AMODE  ADSR Attack rateモード  |
+        |SPU_VOICE_ADSR_SMODE  ADSR Sustain rateモード |
+        |SPU_VOICE_ADSR_RMODE  ADSR Release rateモード |
+        |SPU_VOICE_ADSR_AR     ADSR Attack rate        |
+        |SPU_VOICE_ADSR_DR     ADSR Decay rate         |
+        |SPU_VOICE_ADSR_SR     ADSR Sustain rate       |
+        |SPU_VOICE_ADSR_RR     ADSR Release rate       |
+        |SPU_VOICE_ADSR_SL     ADSR Sustain level      |
+        |SPU_VOICE_ADSR_ADSR1  ADSR adsr1 for 'VagAtr' |
+        |SPU_VOICE_ADSR_ADSR2  ADSR adsr2 for 'VagAtr' |
+        |SPU_VOICE_LSAX        ループ開始アドレス      |
+        +---------------------+------------------------+
+        
+        attr.mask が0の場合は全属性を設定する。
+        以下に個々の設定条件を説明する。
+        
+        (1) 音量と音量モード(表1)
+                以下に各音量モードと、各音量モードにおいて設定できる音量の範
+                囲を掲げる。
+
+        表1 音量モードと音量の設定範囲
+        +----------------------+--------------------+---------------+
+        |モード                 SPU_VOICE_VOLMODEx   SPU_VOICE_VOLx |
+        |ダイレクトモード       SPU_VOICE_DIRECT     -0x4000～0x3fff|
+        |リニア増加モード(正相) SPU_VOICE_LINEARIncN 0x00～0x7f     |
+        |リニア増加モード(逆相) SPU_VOICE_LINEARIncR 0x00～0x7f     |
+        |リニア減少モード(正相) SPU_VOICE_LINEARDecN 0x00～0x7f     |
+        |リニア減少モード(逆相) SPU_VOICE_LINEARDecR 0x00～0x7f     |
+        |指数増加モード(正相)   SPU_VOICE_EXPIncN    0x00～0x7f     |
+        |指数増加モード(逆相)   SPU_VOICE_EXPIncR    0x00～0x7f     |
+        |指数減少モード         SPU_VOICE_EXPDec     0x00～0x7f     |
+        +----------------------+--------------------+---------------+
+        
+          [ダイレクトモード]
+                音量一定のモード。通常の使用にはこのモードで発音される。
+                設定された音量が負の場合は位相が反転する。この位相が反転した
+                状態で、以下の「逆相」モードが有効となる。
+        
+          [リニア増加モード(正相)]
+                現在の音量が正の値で発音された状態でこのモードを指定すると、
+                現在の音量から音量最大値まで、音量が直線的に増加する。
+        
+          [リニア増加モード(逆相)]
+                現在の音量が負の値(位相が反転した状態)で発音された状態でこの
+                モードを指定すると、現在の音量から音量最大値まで、位相が反転
+                した状態で、音量が直線的に増加する。
+        
+          [リニア減少モード(正相)]
+                現在の音量が正の値で発音された状態でこのモードを指定すると、
+                現在の音量から音量最小値(ボリューム0)まで、音量が直線的に減少
+                する。
+        
+          [リニア減少モード(逆相)]
+                現在の音量が負の値(位相が反転した状態)で発音された状態でこの
+                モードを指定すると、現在の音量から音量最小値(ボリューム0)まで、
+                位相が反転した状態で、音量がリニアに減少する。
+        
+          [指数増加モード(正相)]
+                現在の音量が正の値で発音された状態でこのモードを指定すると、
+                現在の音量から音量最大値まで、音量が指数関数的に増加する。
+        
+          [指数増加モード(逆相)]
+                現在の音量が負の値 (位相が反転した状態) で発音された状態でこ
+                のモードを指定すると、現在の音量から音量最大値まで、位相が反
+                転した状態で、音量が指数関数的に増加する。
+        
+          [指数減少モード]
+                このモードを指定すると、現在の音量の値が正/負に関わらず、現在
+                の音量から音量最小値(ボリューム0)まで、音量が指数関数的に減少
+                する。
+        
+        (2) 音程(ピッチ指定、ノート指定)
+                音程を以下の2つの表現で指定出来る。
+        
+          [ピッチ指定]
+                音程を0x0000～0x3fffの範囲で attr.pitch に設定する。その値の
+                意味は表2を参照。
+                表中にはオクターブ単位の値しか掲げていないが、0x0000～0x3fff
+                の範囲で任意に設定することが出来る。
+
+        表2 ピッチ指定の値と音程
+        +------+--------+--------+--------+------+--------+--------+
+        |設定値 0x0200   0x0400   0x0800   0x1000 0x2000   0x3fff  |
+        |音程   - 3 oct. - 2 oct. - 1 oct. 原音   + 1 oct. + 2 oct.|
+        +------+--------+--------+--------+------+--------+--------+
+        
+          [ノート指定]
+                音程をノートとセント(ここでは半音を128分割した値)で16bitの値
+                により attr.note に以下のように設定する。
+                ただし、この指定は後述の 「波形データサンプルノート」が指定さ
+                れていないと使用できない。
+
+        表3 ノート指定の値
+        +-------------+-----------------------------------+
+        |ビット        設定する値                         |
+        |上位 8 ビット MIDIノート番号                     |
+        |下位 8 ビット セント(半音を128に分割した値で表現)|
+        +-------------+-----------------------------------+
+        
+        (3) 波形データサンプルノート
+                サンプリングされた時の音程をノートとセント(ここでは半音を128
+                分割した値)で16bitの値により attr.sample_note に以下のように
+                設定する。
+                この値を設定することにより前述の 「音程/ノート指定」 の指定が
+                可能になる。
+        
+
+        表4 波形データサンプルノート指定の値
+        +-------------+-----------------------------------+
+        |ビット        設定する値                         |
+        |上位 8 ビット MIDIノート番号                     |
+        |下位 8 ビット セント(半音を128に分割した値で表現)|
+        +-------------+-----------------------------------+
+        
+        (4) 波形データ先頭アドレス
+                ボイスに発音させたい波形データのサウンドバッファ内の先頭アド
+                レスを attr.addr に設定する。
+        
+        (5) ループ開始アドレス
+                ループを指定して作成された波形データに対して、ボイスに発音さ
+                せるためにその波形データが保存されているサウンドバッファ内の
+                アドレスを上記 「波形データ先頭アドレス」 で設定すると、通常
+                はループ開始アドレスは自動的に判別し設定されるので、明示的に
+                設定する必要はない。
+                しかし、実行時にループ開始アドレスを動的に設定したい場合には
+                サウンドバッファ内のループを設定するアドレスを attr.loop_addr
+                 に設定する。
+                波形データの作成時にループ設定を行っていなかった場合は、
+                SPU_VOICE_LSAXを指定して attr.loop_addr に設定しても、その設
+                定は無効になる。
+        
+        (6) ADSR
+                ADSRの概念図を以下に掲げる。
+        図 1 ADSRの概念図
+
+                ADSRのそれぞれの属性は以下の構造体メンバで設定する。
+
+        表5 パラメータと設定する構造体メンバ
+        +------+--------------+----------------------+
+        |       属性           構造体メンバ          |
+        |Rate:   Attack rate    attr.ar, attr.a_mode |
+        |        Decay rate     attr.dr              |
+        |        Sustain rate   attr.sr, attr.s_mode |
+        |        Release rate   attr.rr, attr.r_mode |
+        |Level:  Sustain level  attr.sl              |
+        +------+--------------+----------------------+
+        
+                各属性はそれぞれ表6の範囲で設定を行う。
+
+        表6 rate, levelの設定範囲
+        +-------------+------------+----------+
+        |属性          構造体メンバ 設定範囲  |
+        |Attack rate   attr.ar      0x00～0x7f|
+        |Decay rate    attr.dr      0x0～0xf  |
+        |Sustain rate  attr.sr      0x00～0x7f|
+        |Release rate  attr.rr      0x00～0x1f|
+        |Sustain level attr.sl      0x0～0xf  |
+        +-------------+------------+----------+
+        
+                Attack, Sustain, Releaseそれぞれにrateのカーブの設定ができる(
+                表7)。
+                Decayについては指数関数減少のみとなっているため、設定できない。
+
+        表7 ADSR rateモード
+        +-------------+-----------------------------------+
+        |属性          attr.?_modeに設定できるモード      |
+        | Attack rate   SPU_VOICE_LINEARIncN (リニア増加) |
+        |               SPU_VOICE_EXPIncN(指数関数増加)   |
+        | Decay rate    N/A                               |
+        | Sustain rate  SPU_VOICE_LINEARIncN (リニア増加) |
+        |               SPU_VOICE_LINEARDecN (リニア減少) |
+        |               SPU_VOICE_EXPIncN(指数関数増加)   |
+        |               SPU_VOICE_EXPDecN(指数関数減少)   |
+        | Release rate  SPU_VOICE_LINEARDecN (リニア減少) |
+        |               SPU_VOICE_EXPDecN(指数関数減少)   |
+        +-------------+-----------------------------------+
+        
+                また、構造体VagAtrのメンバadsr1,adsr2からのデータを 
+                attr.adsr1, attr.adsr2 に直接指定することもできる。この場合 
+                attr.mask にはADSRの指定に関してSPU_VOICE_ADSR_ADSR1, 
+                SPU_VOICE_ADSR_ADSR2 のみ指定する。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuRSetVoiceAttr(), SpuGetVoiceAttr(), SpuSetKey(), 
+        SpuSetKeyOnWithAttr()
+
+=============================================================================
+SpuSetVoiceDR                                                          [関数]
+=============================================================================
+                                                       ADSR Decay Rate の設定
+        
+[形式]
+        void SpuSetVoiceDR (
+        int voiceNum,
+        unsigned short DR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        DR		ADSR Decay Rate
+        
+[解説]
+        ボイスで使われる ADSR Decay Rate の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_DR
+        に該当する処理を行う。
+        ADSR Decay Rate DR に指定する値に関しては SpuSetVoiceAttr() を参照の
+        こと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr()
+
+=============================================================================
+SpuSetVoiceLoopStartAddr                                               [関数]
+=============================================================================
+                       波形データのサウンドバッファ内ループ開始アドレスの設定
+        
+[形式]
+        void SpuSetVoiceLoopStartAddr (
+        int voiceNum,
+        unsigned long loopStartAddr
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        loopStartAddr	ループ開始アドレス
+        
+[解説]
+        ボイスで使われる波形データのサウンドバッファ内ループ開始アドレスの設
+        定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_LSAX
+        に該当する処理を行う。
+        ループ開始アドレス loopStartAddr に指定する値に関しては 
+        SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetTransferStartAddr()
+
+=============================================================================
+SpuSetVoiceNote                                                        [関数]
+=============================================================================
+                                                     音程 (ノート指定) の設定
+        
+[形式]
+        void SpuSetVoiceNote (
+        int voiceNum,
+        unsigned short note
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        note		音程 (ノート指定)
+        
+[解説]
+        ボイスの音程 (ノート指定) の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_NOTE
+        に該当する処理を行う。よって SpuSetVoiceNote() を使うためには 
+        SpuSetVoiceAttr() における SPU_VOICE_SAMPLE_NOTE か
+        SpuSetVoiceSampleNote() によりボイスで使われる波形データのサンプルノ
+        ートが設定されている必要がある
+        音程 (ノート指定) note に指定する値に関しては SpuSetVoiceAttr() を参
+        照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceSampleNote()
+
+=============================================================================
+SpuSetVoicePitch                                                       [関数]
+=============================================================================
+                                                     音程 (ピッチ指定) の設定
+        
+[形式]
+        void SpuSetVoicePitch (
+        int voiceNum,
+        unsigned short pitch
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        pitch		音程 (ピッチ指定)
+        
+[解説]
+        ボイスの音程 (ピッチ指定) の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_PITCH
+        に該当する処理を行う。
+        音程 (ピッチ指定) pitch に指定する値に関しては SpuSetVoiceAttr() を参
+        照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr()
+
+=============================================================================
+SpuSetVoiceRR                                                          [関数]
+=============================================================================
+                                                     ADSR Release Rate の設定
+        
+[形式]
+        void SpuSetVoiceRR (
+        int voiceNum,
+        unsigned short RR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        RR		ADSR Release Rate
+        
+[解説]
+        ボイスで使われる ADSR Release Rate の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_RR
+        に該当する処理を行う。
+        ADSR Release Rate モードは SPU_VOICE_LINEARDecN (リニア減少) となる。
+         ADSR Release Rate と ADSR Release Rate モードを同時に指定したい場合
+        は SpuSetVoiceSRAttr() を使用する。
+        ADSR Release Rate RR に指定する値に関しては SpuSetVoiceAttr() を参照
+        のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceRRAttr()
+
+=============================================================================
+SpuSetVoiceRRAttr                                                      [関数]
+=============================================================================
+                                ADSR Release Rate / Release Rate モードの設定
+        
+[形式]
+        void SpuSetVoiceRRAttr (
+        int voiceNum,
+        unsigned short RR,
+        long RRmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        RR		ADSR Release Rate
+        RRmode		ADSR Release Rate モード
+        
+[解説]
+        ボイスで使われる ADSR Release Rate / ADSR Release Rate モードの設定を
+        行う。
+        
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_RR
+        	SPU_VOICE_ADSR_RMODE
+        に該当する処理を行う。
+        
+        ADSR Release Rate RR、 及び ADSR Release Rate モードRRmodeに指定する
+        値に関しては SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceSR()
+
+=============================================================================
+SpuSetVoiceSL                                                          [関数]
+=============================================================================
+                                                    ADSR Sustain Level の設定
+        
+[形式]
+        void SpuSetVoiceSL (
+        int voiceNum,
+        unsigned short SL
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        SL		ADSR Sustain Level
+        
+[解説]
+        ボイスで使われる ADSR Sustain Level の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_SL
+        に該当する処理を行う。
+        ADSR Sustain Level SL に指定する値に関しては SpuSetVoiceAttr() を参照
+        のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr()
+
+=============================================================================
+SpuSetVoiceSR                                                          [関数]
+=============================================================================
+                                                     ADSR Sustain Rate の設定
+        
+[形式]
+        void SpuSetVoiceSR (
+        int voiceNum,
+        unsigned short SR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        SR		ADSR Sustain Rate
+        
+[解説]
+        ボイスで使われる ADSR Sustain Rate の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_SR
+        に該当する処理を行う。
+        ADSR Sustain Rate モードは SPU_VOICE_LINEARDecN (リニア減少) となる。
+         ADSR Sustain Rate と ADSR Sustain Rate モードを同時に指定したい場合
+        は SpuSetVoiceSRAttr() を使用する。
+        
+        ADSR Sustain Rate SR に指定する値に関しては SpuSetVoiceAttr() を参照
+        のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceSRAttr()
+
+=============================================================================
+SpuSetVoiceSRAttr                                                      [関数]
+=============================================================================
+                                ADSR Sustain Rate / Sustain Rate モードの設定
+        
+[形式]
+        void SpuSetVoiceSRAttr (
+        int voiceNum,
+        unsigned short SR,
+        long SRmode
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        SR		ADSR Sustain Rate
+        SRmode		ADSR Sustain Rate モード
+        
+[解説]
+        ボイスで使われる ADSR Sustain Rate / ADSR Sustain Rate モードの設定を
+        行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_ADSR_SR
+        	SPU_VOICE_ADSR_SMODE
+        に該当する処理を行う。
+        ADSR Sustain Rate SR、 及び ADSR Sustain Rate モードSRmodeに指定する
+        値に関しては SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceSR()
+
+=============================================================================
+SpuSetVoiceSampleNote                                                  [関数]
+=============================================================================
+                                             波形データのサンプルノートの設定
+        
+[形式]
+        void SpuSetVoiceSampleNote (
+        int voiceNum,
+        unsigned short sampleNote
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        sampleNote	波形データサンプルノート
+        
+[解説]
+        ボイスで使われる波形データのサンプルノートの設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_SAMPLE_NOTE
+        に該当する処理を行う。
+        波形データサンプルノート sampleNote に指定する値に関しては 
+        SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceNote()
+
+=============================================================================
+SpuSetVoiceStartAddr                                                   [関数]
+=============================================================================
+                             波形データのサウンドバッファ内先頭アドレスの設定
+        
+[形式]
+        void SpuSetVoiceStartAddr (
+        int voiceNum,
+        unsigned long startAddr
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        startAddr	波形データ先頭アドレス
+        
+[解説]
+        ボイスで使われる波形データのサウンドバッファ内先頭アドレスの設定を行
+        う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_WDSA
+        に該当する処理を行う。
+        波形データ先頭アドレス startAddr に指定する値に関しては 
+        SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetTransferStartAddr()
+
+=============================================================================
+SpuSetVoiceVolume                                                      [関数]
+=============================================================================
+                                                             ボイス音量の設定
+        
+[形式]
+        void SpuSetVoiceVolume (
+        int voiceNum,
+        short volumeL,
+        short volumeR,
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        volumeL		音量 (左)
+        volumeR		音量 (右)
+        
+[解説]
+        ボイス音量の設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_VOLL
+        	SPU_VOICE_VOLR
+        に該当する処理を行う。
+        音量モードは [ダイレクトモード] となり、 音量 volumeL, volumeR に指定
+        できる値の範囲はSpuSetVoiceAttr() における [ダイレクトモード] と同等
+        である。
+        音量と音量モードを同時に指定したい場合は SpuSetVoiceVolumeAttr() を使
+        用する。
+        音量 volumeL, volumeR に指定する値に関しては SpuSetVoiceAttr() を参照
+        のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceVolumeAttr()
+
+=============================================================================
+SpuSetVoiceVolumeAttr                                                  [関数]
+=============================================================================
+                                                  ボイス音量/音量モードの設定
+        
+[形式]
+        void SpuSetVoiceVolumeAttr (
+        int voiceNum,
+        short volumeL,
+        short volumeR,
+        short volModeL,
+        short volModeR
+        )
+        
+[引数]
+        voiceNum	ボイス番号 (0 ～23)
+        volumeL		音量 (左)
+        volumeR		音量 (右)
+        volModeL	音量モード (左)
+        volModeR	音量モード (右)
+        
+[解説]
+        ボイスの音量/音量モードの設定を行う。
+        SpuSetVoiceAttr() の mask 指定
+        	SPU_VOICE_VOLL
+        	SPU_VOICE_VOLR
+        	SPU_VOICE_VOLMODEL
+        	SPU_VOICE_VOLMODER
+        に該当する処理を行う。
+        音量モード volModeL, volModeR、及び音量 volumeL, volumeRに指定する値
+        に関しては SpuSetVoiceAttr() を参照のこと。
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuSetVoiceAttr(), SpuNSetVoiceAttr(), SpuSetVoiceVolume()
+
+=============================================================================
+SpuStGetStatus                                                         [関数]
+=============================================================================
+                                               SPU ストリーミングの状態の診断
+        
+[形式]
+        long SpuStGetStatus ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPU ストリーミングの状態の診断を行う
+        
+[返り値]
+         
+        +--------------------+---------------------------------------------------------------+
+        |返り値               意味                                                           |
+        |SPU_ST_NOT_AVAILABLE SPU ストリーミングが使用不可の状態。                           |
+        |                     すなわち SpuStInit() を呼んでない状態。                        |
+        |SPU_ST_IDLE          サウンドバッファへデータ転送を行っていない状態。               |
+        |SPU_ST_PREPARE       最初の 1 バッファ分を転送している状態。                        |
+        |SPU_ST_TRANSFER      サウンドバッファへデータを転送している状態。                   |
+        |                     この状態でSpuStTransfer (SPU_ST_PREPARE,)を行っても            |
+        |                     SPU_ST_PREPARE には遷移せずに処理される。                      |
+        |SPU_ST_FINAL         最後の 1 バッファを転送し終え、その再生の終了を待っている状態。|
+        |                     この状態では SpuStTransfer() は受け付けられない                |
+        +--------------------+---------------------------------------------------------------+
+        
+[関連項目]
+        SpuStInit(), SpuStTransfer(), SpuStGetVoiceStatus()
+
+=============================================================================
+SpuStGetVoiceStatus                                                    [関数]
+=============================================================================
+                               SPU ストリーミングで使用されているボイスの診断
+        
+[形式]
+        long SpuStGetStatus ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPU ストリーミングで使用されているボイスの診断を行う
+        
+[返り値]
+        現在 SPU ストリーミングで使用されているボイスを SPU_0CH, SPU_1CH, ...,
+         SPU_23CH のビット和で表現した値
+        
+[関連項目]
+        SpuStTransfer(), SpuStGetStatus()
+
+=============================================================================
+SpuStInit                                                              [関数]
+=============================================================================
+                                                   SPU ストリーミングの初期化
+        
+[形式]
+        SpuStEnv * SpuStInit (
+        long mode
+        )
+        
+[引数]
+        mode		現在の仕様では引数は使われていない。0 を指定する。
+        
+[解説]
+        ストリーミングの初期化を行う。実行するプログラム内で 1 回のみ呼ばれる。
+        初期化後、SPU ストリーミングが利用可能になる。
+        返り値として SPU ストリーミング環境を設定する構造体へのポインタを返す。
+        
+[返り値]
+        SPU ストリーミング環境構造体 SpuStEnv へのポインタ
+        
+[関連項目]
+        SpuStQuit()
+
+=============================================================================
+SpuStQuit                                                              [関数]
+=============================================================================
+                                                     SPU ストリーミングの終了
+        
+[形式]
+        long SpuStQuit ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPU ストリーミングの終了を行う。
+        
+        終了を行う上で、全てのストリームは終了の処理が行われていなければなら
+        ない。
+        
+[返り値]
+         
+        +-------------------+--------------------------------------+
+        |返り値              意味                                  |
+        |SPU_ST_ACCEPT       正常終了                              |
+        |SPU_ST_WRONG_STATUS SpuStQuit が受け入れられない状態にある|
+        +-------------------+--------------------------------------+
+        
+        受け入れられない状態は以下の通り。
+        
+         ・現在の状態が SPU_ST_IDLE でない
+        
+[関連項目]
+        SpuStInit(), SpuStGetStatus()
+
+=============================================================================
+SpuStSetPreparationFinishedCallback                                    [関数]
+=============================================================================
+     SPU ストリーミングにおけるストリームの前準備で行われるデータ転送終了時の
+      callback 関数の設定
+        
+[形式]
+        SpuStCallbackProc SpuStSetPreparationFinshedCallback (
+        SpuStCallbackProc callback_proc
+        )
+         
+        SpuStCallbackProc callback_proc (
+        unsigned long voice_bit,
+        long status
+        )
+        
+[引数]
+        callback_proc	ストリームの前準備で行われるデータ転送終了時に呼ばれる
+        		callback 関数へのポインタ
+        
+[解説]
+        SPU ストリーミングにおけるストリームの前準備で行われるデータ転送終了
+        時に呼ばれる callback 関数を設定する
+        
+        callback_proc が呼ばれた際の引数には、 voice_bit にストリームの前準備
+        で行われるデータ転送が終了したストリームに割り当てられたボイスの値が 
+        SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で表現されて与えられる。 
+        status には SPU ストリーミングライブラリの状態により以下の値が与えら
+        れる。
+         
+        +---------------+---------------+
+        |状態            status         |
+        | SPU_ST_PREPARE  SPU_ST_PREPARE|
+        | SPU_ST_PLAY     SPU_ST_PLAY   |
+        +---------------+---------------+
+        
+[返り値]
+        以前設定されていた、ストリームの前準備で行われるデータ転送終了時の 
+        callback 関数へのポインタ。
+        以前に設定されていなければ NULL を返す。
+        
+[関連項目]
+        SpuStTransfer(), SpuStSetTransferFinishedCallback(), 
+        SpuStSetStreamFinishedCallback()
+
+=============================================================================
+SpuStSetStreamFinishedCallback                                         [関数]
+=============================================================================
+     SPU ストリーミングにおける各ストリームの処理終了時の callback 関数の設定
+        
+[形式]
+        SpuStCallbackProc SpuStSetStreamFinishedCallback (
+        SpuStCallbackProc callback_proc
+        )
+         
+        SpuStCallbackProc callback_proc (
+        unsigned long voice_bit,
+        long status
+        )
+        
+[引数]
+        callback_proc		各ストリームの処理終了時に呼ばれる callback 関数へのポインタ
+        
+[解説]
+        SPU ストリーミングにおける各ストリームの処理終了時に呼ばれるcallback 
+        関数を設定する。
+        
+        callback_proc が呼ばれた際の引数には、 voice_bit に処理が終了したスト
+        リームに割り当てられたボイスの値が SPU_0CH, SPU_1CH, ..., SPU_23CH の
+        ビット和で表現されて与えられる。 status には SPU ストリーミングライブ
+        ラリの状態により以下の値が与えられる。
+         
+        +-------------+-------------+
+        |状態          status       |
+        | SPU_ST_PLAY   SPU_ST_PLAY |
+        | SPU_ST_FINAL  SPU_ST_FINAL|
+        +-------------+-------------+
+        
+[返り値]
+        以前設定されていた、各ストリームの処理終了時の callback 関数へのポイ
+        ンタ。
+        以前に設定されていなければ NULL を返す。
+        
+[関連項目]
+        SpuStTransfer(), SpuStSetPreparationFinishedCallback(), 
+        SpuStSetTransferFinishedCallback()
+
+=============================================================================
+SpuStSetTransferFinishedCallback                                       [関数]
+=============================================================================
+     SPU ストリーミングにおける全てのストリームに対するストリームバッファへの
+      1 回の転送の終了時の callback 関数の設定
+        
+[形式]
+        SpuStCallbackProc SpuStSetTransferFinishedCallback (
+        SpuStCallbackProc callback_proc
+        )
+         
+        SpuStCallbackProc callback_proc (
+        unsigned long voice_bit,
+        long status
+        )
+        
+[引数]
+        callback_proc	全てのストリームに対するストリームバッファへの 
+        		1 回の転送の終了時に呼ばれる callback 関数へのポインタ
+        
+[解説]
+        SPU ストリーミングにおける全てのストリームに対するストリームバッファ
+        への 1 回の転送の終了時に呼ばれる callback 関数を設定する
+        
+        callback_proc が呼ばれた際の引数には、 voice_bit にストリームバッファ
+        への 1 回の転送が終了したストリームに割り当てられたボイスの値が 
+        SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で表現されて与えられる。 
+        status は常に SPU_ST_PLAY が与えられる。
+        
+[返り値]
+        以前設定されていた、全てのストリームに対するストリームバッファへの 1 
+        回の転送の終了時の callback 関数へのポインタ。以前に設定されていなけ
+        れば NULL を返す。
+        
+[関連項目]
+        SpuStTransfer(), SpuStSetPreparationFinishedCallback(), 
+        SpuStSetStreamFinishedCallback() 
+
+=============================================================================
+SpuStTransfer                                                          [関数]
+=============================================================================
+                     SPU ストリーミングにおけるストリームの前準備、および開始
+        
+[形式]
+        long SpuStTransfer (
+        long flag,
+        unsigned long voice_bit,
+        )
+        
+[引数]
+        flag		SPU_ST_PREPARE（ストリーム前準備の指定）または
+         		SPU_ST_PLAY（ストリーム開始の指定）
+        voice_bit	ストリームを行うボイス
+        
+[解説]
+        SPU ストリーミングにおけるストリームの前準備、および開始の指示を行う。
+        voice_bit には SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和でストリーム
+        を行うボイスを明示的に設定する。
+        
+        [前準備: SPU_ST_PREPARE]
+                本関数が flag == SPU_ST_PREPARE で呼ばれた場合、SpuStInit で
+                返された SpuStEnv 構造体の属性に従い、ストリームの前準備を行
+                う。
+                前準備の終了は SpuStSetPreparationFinishedCallback で設定され
+                た callback 関数により判断される。
+        
+        [開始: SPU_ST_PLAY]
+                本関数が flag == SPU_ST_PLAY で呼ばれた場合、SpuStInit で返さ
+                れた SpuStEnv 構造体の属性に従い、ストリームの開始を行う。
+                SPU ストリーミングの状態が SPU_ST_PREPARE の場合、本関数が呼
+                ばれた時点で、引数 voice_bit の妥当性の解析の後、 voice_bitで
+                指定されたボイスに対して即座に発音 (Key on) を行う。
+                SPU ストリーミングの状態が SPU_ST_TRANSFER の場合、本関数が呼
+                ばれた時点から次にストリームバッファの後半部分に転送の対象が
+                移るまで処理が待たされ、ストリームバッファの後半部分に転送の
+                対象が移った際に他のストリームの処理と同等に転送が行われる。
+                全てのストリームに対するストリームバッファへの 1 回の転送が終
+                了すると SpuStSetTransferFinishedCallback で設定された
+                callback 関数が呼ばれ、各ストリームの次回転送の属性を設定する。
+                ストリームが終了すると SpuStSetStreamFinishedCallback で設定
+                された callback 関数がストリームの再生が終了した時点 (他のス
+                トリームが処理されている場合は、 厳密には次回の転送が始まる前)
+                 で呼ばれる。
+        
+[返り値]
+         
+        +-----------------------+------------------------------------------+
+        |返り値                  意味                                      |
+        |SPU_ST_NOT_AVAILABLE    SPU ストリーミングが使用不可              |
+        |                        すなわち SpuStInit が呼ばれていない       |
+        |SPU_ST_INVALID_ARGUMENT 仕様にあっていない値の引数が設定された    |
+        |SPU_ST_WRONG_STATUS     SpuStTransfer が受け入れられない状態にある|
+        |SPU_ST_ACCEPT           処理を受け付けた                          |
+        +-----------------------+------------------------------------------+
+        
+        受け入れられない状態は以下の通り。
+        
+         ・flag に依らず、現在の状態が SPU_ST_FINAL
+         ・flag == SPU_ST_PREPARE で、かつ、現在の状態が SPU_ST_PREPARE
+         ・flag == SPU_ST_PLAY で、かつ、現在の状態が SPU_ST_IDLE
+        
+[関連項目]
+        SpuStInit(), SpuStSetPreparationFinishedCallback(), 
+        SpuStSetTransferFinishedCallback(), SpuStSetStreamFinishedCallback()
+
+=============================================================================
+SpuStart                                                               [関数]
+=============================================================================
+                                                                SPU処理の開始
+        
+[形式]
+        void SpuStart ( void )
+        
+[引数]
+        なし
+        
+[解説]
+        SPU処理の開始を行う。 SpuInit でも呼ばれているため、初期化時に呼ぶ必
+        要はないが、SpuQuit の呼出し後、 SpuQuit でオフされた機能を使用する場
+        合に呼ばれる。
+        現在の仕様では、呼び出し後、以下のような処理が行われる。
+        
+         ・DMA転送の初期化設定
+        
+[返り値]
+        なし
+        
+[関連項目]
+        SpuQuit(), SpuInit(), SpuInitHot()
+
+=============================================================================
+SpuWrite                                                               [関数]
+=============================================================================
+                                     メインメモリからサウンドバッファへの転送
+        
+[形式]
+        unsigned long SpuWrite (
+        unsigned char *addr, 
+        unsigned long size
+        )
+        
+[引数]
+        addr		転送するデータのメインメモリ内の先頭アドレス
+        size		転送するデータのサイズ(バイト単位)
+        
+[解説]
+        メインメモリからサウンドバッファへデータを転送する。
+        ただし転送するデータが保持されているメインメモリのアドレスは、
+        
+         ・大域変数として取られた変数へのアドレス
+         ・mallocなどでヒープ領域に取られた変数へのアドレスでなければならない
+                すなわち、
+         ・スタック領域へのアドレス（auto変数へのアドレス）であってはならない
+        
+        SpuWriteにおいて、サウンドバッファのメモリ管理は行わないので、ユーザ
+        は以下の領域を避けた領域へ転送を行わなければ実質的な波形データとして
+        利用できない。
+        
+         ・0x0000～0xfffまでのSPUデコードデータ転送領域
+         ・0x1000～0x100fのシステム予約領域
+         ・リバーブのワークエリアオフセット(先頭)アドレス以降
+        
+        呼び出し後、転送終了を確認するために SpuIsTransferCompleted() を呼ぶ
+        か、事前にSpuSetTransferCallback() にて DMA転送終了Callback関数を設定
+        しておくこと。
+        
+[返り値]
+        転送されたデータサイズ設定したデータサイズが512KBより大きければ、実際
+        に転送されたサイズが返る。
+        
+[関連項目]
+        SpuWrite0(), SpuWritePartly(), SpuRead(), SpuSetTransferMode(), 
+        SpuGetTransferMode(), SpuSetTransferStartAddr(), 
+        SpuGetTransferStartAddr(), SpuIsTransferCompleted(), 
+        SpuSetTransferCallback()
+
+=============================================================================
+SpuWrite0                                                              [関数]
+=============================================================================
+                                                     サウンドバッファのクリア
+        
+[形式]
+        unsigned long SpuWrite0 (
+        unsigned long size
+        )
+        
+[引数]
+        size		クリアする領域のサイズ(バイト単位)
+        
+[解説]
+        サウンドバッファの領域に0を書き込む。
+        この書き込みはDMA転送で行われるが、同期的に起動される。
+        書き込まれる領域は先頭アドレスがSpuSetTransferStartAddrで、サイズが
+        sizeで指定される。
+        
+[返り値]
+        0が書き込まれた領域のサイズ
+        設定したデータサイズが512KBより大きければ、実際に書き込まれたサイズが
+        返る。
+        
+[関連項目]
+        SpuWrite(), SpuWritePartly(), SpuRead(), SpuSetTransferMode(), 
+        SpuGetTransferMode(), SpuSetTransferStartAddr(), 
+        SpuGetTransferStartAddr()
+
+=============================================================================
+SpuWritePartly                                                         [関数]
+=============================================================================
+                                 メインメモリからサウンドバッファへの分割転送
+        
+[形式]
+        unsigned long SpuWritePartly (
+        unsigned char *addr,
+        unsigned long size
+        )
+        
+[引数]
+        addr		転送するデータのメインメモリ内の先頭アドレス
+        size		転送するデータのサイズ(バイト単位)
+        
+[解説]
+        メインメモリからサウンドバッファへデータを転送する。
+        ただし、転送するデータが保持されているメインメモリのアドレスは、
+        
+         ・大域変数として取られた変数へのアドレス
+         ・mallocなどでヒープ領域に取られた変数へのアドレス
+        
+        でなければならない。すなわち、
+        
+         ・スタック領域へのアドレス（auto変数へのアドレス）であってはならない
+        
+        SpuSetTransferStartAddrで指定されたアドレスからデータが転送され、size
+         で指定された値が転送終了後先頭アドレスに加算され設定され、かつ内部的
+        に保持される。
+        通常、継続的な転送の場合は、それらの転送の各回においてsize は8で割り
+        切れる数でなければならない。ただし、継続的な転送の最終ブロックの転送
+        時には size は8で割り切れる必要はない。
+        継続的な転送の処理の中でSpuSetTransferStartAddrが呼ばれた場合には、正
+        しい継続的な転送は保証されない。
+        SpuWritePartlyにおいて、サウンドバッファのメモリ管理は行わないので、
+        ユーザは以下の領域を避けた領域へ転送を行わなければ実質的な波形データ
+        として利用できない。
+        
+         ・0x0000～0x0fffまでのSPUデコードデータ転送領域
+         ・0x1000～0x100fのシステム予約領域
+         ・リバーブのワークエリアオフセット(先頭)アドレス以降
+        
+        呼び出し後、転送終了を確認するために SpuIsTransferCompleted() を呼ぶ
+        か、事前にSpuSetTransferCallback() にて DMA転送終了Callback関数を設定
+        しておくこと。
+        
+[返り値]
+        転送されたデータサイズ
+        設定したデータサイズが512KBより大きければ、実際に転送されたサイズが返
+        る。
+        
+[関連項目]
+        SpuWrite(), SpuWrite0(), SpuRead(),  SpuSetTransferMode(), 
+        SpuGetTransferMode(), SpuSetTransferStartAddr(), 
+        SpuGetTransferStartAddr(), SpuIsTransferCompleted(), 
+        SpuSetTransferCallback()

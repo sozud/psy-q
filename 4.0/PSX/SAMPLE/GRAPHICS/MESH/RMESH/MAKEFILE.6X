@@ -1,0 +1,36 @@
+#
+# This Makefile for DTL-H5000K of NEWS-OS 6.X.
+#
+
+# LIBDIR   = ../../../../lib
+# INCDIR   = ../../../../include
+LIBDIR   = /usr/sony/psx/lib
+INCDIR   = /usr/sony/psx/include
+
+MAKE     = make
+TADDR    = 80080000
+CC       = cc -O2
+CFLAGS   = -I -I$(INCDIR) -coff -EL -non_shared -Wx,-G 0
+LDFLAGS  = -L -L$(LIBDIR) -coff -EL -non_shared -Wx,-G 0 -N -T $(TADDR) -e main
+RM       = rm -f
+DEPEND   = makedepend
+LIBS     = -lsnd -lspu -lpress -lgs -lgpu -lgte -lcd -letc -lc -lapi
+
+all:	tuto0 
+
+tuto0: tuto0.o 
+	ld $(LDFLAGS) -o tuto0 $(LIBDIR)/8mbyte.o tuto0.o $(LIBS)
+
+for_menu: tuto0.o
+	ld $(LDFLAGS) -o rmesh $(LIBDIR)/none2.o tuto0.o $(LIBS)
+	out2x rmesh
+
+clean:
+	$(RM) rmesh tuto0 *.o *.exe
+
+start: 
+	psxbload rcube.tim 80020000
+	psxexec tuto0 807ffff0
+
+
+

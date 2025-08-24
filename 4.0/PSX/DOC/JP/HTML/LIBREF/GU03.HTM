@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsU_03000000
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsU_03000000
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMDアニメーションのフレームアップデートドライバ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned long 	*<B>GsU_03000000</B>(
+GsARGUNIT_ANIM *<I>sp</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>sp</I>		引数受け渡し領域
+		通常は高速化のためスクラッチパッドを指定する。
+<I>sp</I>上に構築されている引数の情報は以下の通り
+<P>
+<IMG SRC ="gif/lgsn4.gif">
+<P>
+色のついている部分は必ずセットされている。
+色のついていない部分はプリミティブヘッダがそのままコピーされるので
+ヘッダの形が変われば変化する。
+アニメーションヘッダサイズはアニメーション用の情報がいくつ引数領域へ
+コピーされたかの数を保持する。上記例の場合は６である。
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    フレームアップデートドライバとはシーケンス記述子を解釈し適当な補完関数を呼び出す働きをする関数である。シーケンスのジャンプやリバースなどはこのフレームアップデートドライバによって実現されている。フレームアップデートドライバの内部状態は、全てシーケンスポインタ領域に保持されるためプログラマが実行時にこの領域を書き換えることでシーケンスのリアルタイム制御が可能である。 <BR>
+    シーケンスポインタの詳細はGsSEQの解説を参照のこと。 <BR>
+<BR>
+    フレームアップデートドライバはＨＭＤのプリミティブブロックのPRE-PROCESSにリンクされる。 <BR>
+    GsSortUnit()で最初のプリミティブブロックを処理する際(PRE-PROCESS)に呼び出される。フレームアップデートドライバはシーケンスポインタにより参照すべきシーケンス記述子を特定し、それを解釈することでシーケンスの進行を制御する。最終的にキーフレームを参照するシーケンス記述子を解釈し適当な補完ドライバをSRC FRAME,DST FRAMEをつけて呼び出す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次のプリミティブドライバの先頭アドレスが格納されている領域 <BR>
+    サンプルプログラム参照のこと（PS-X/sample/grapihcs/hmd/pdriver/GsU_00000008.c） <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsseq.htm">GsSEQ</a>,<a href="gsusortt.htm">GsSortUnit</a>(),<a href="gsuscant.htm">GsScanUnit</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

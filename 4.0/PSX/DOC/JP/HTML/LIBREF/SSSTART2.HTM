@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsStart2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsStart2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        サウンドシステムを開始する(VSyncCallback版)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SsStart2 </B>( void )
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サウンドシステムの開始処理を行う。 <BR>
+    SsSetTickMode() にて TickCallback関数が自動で呼ばれるモードを設定した場合は、この関数の呼出し後、各Tick毎にTick Callback関数が呼ばれる。 <BR>
+    以下の条件が満たされた場合にのみTick Callback 関数をVSyncCallback() にて設定する。 <BR>
+<BR>
+<UL>
+         <LI> SsSetTickMode() にてSS_TICKVSYNC を設定
+         <LI> SsSetTickMode() にてSS_TICK60 を設定し、SsSetVideoMode() にてMODE_NTSC を設定。
+         <LI> SsSetTickMode() にてSS_TICK50 を設定し、SsSetVideoMode() にてMODE_PAL を設定。
+</UL>
+<BR>
+    他のモードにおける Tick Callback 関数の設定はSsStart() と同様。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssstart.htm">SsStart</a>(), <a href="ssend.htm">SsEnd</a>(), <a href="sstmsete.htm">SsSetTickMode</a>(), <a href="sstcsetk.htm">SsSetTickCallback</a>(), <a href="ssctseqt.htm">SsSeqCalledTbyT</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,1300 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 基本サウンドライブラリ（libspu）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+基本サウンドライブラリ（libspu）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+基本サウンドライブラリは、PlayStationの持つサウンド再生処理プロセッサ(SPU)を直接制御するライブラリです。音楽以外のデータのサウンドバッファへの転送など、独自の機能も提供します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 ボイス音源制御機能</A><BR>
+<P><A HREF="#Heading3_1_3"> 3 ノイズ音源制御機能</A><BR>
+<P><A HREF="#Heading3_1_4"> 4 音程におけるLFO制御機能</A><BR>
+<P><A HREF="#Heading3_1_5"> 5 リバーブ制御機能</A><BR>
+<P><A HREF="#Heading3_1_6"> 6 サウンドバッファへの任意のデータの転送機能</A><BR>
+<P><A HREF="#Heading3_1_7"> 7 サウンドバッファアクセスに対する割り込みリクエスト機能</A><BR>
+<P><A HREF="#Heading3_1_8"> 8 サウンドバッファのメモリ管理</A><BR>
+<P><A HREF="#Heading3_1_9"> 9 CD,及び外部デジタル入力とのミキシング機能</A><BR>
+<P><A HREF="#Heading3_1_10"> 10 SPUでデコードされたデータのメインメモリへの転送</A><BR>
+<P><A HREF="#Heading3_1_11"> 11 SPU ストリーミングライブラリ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_11_1"> 概念</A><BR>
+    <A HREF="#Heading4_1_11_2"> 基本動作</A><BR>
+    <A HREF="#Heading4_1_11_3"> 波形データの処理</A><BR>
+    <A HREF="#Heading4_1_11_4"> SPU ストリーミングライブラリの 4 つの状態</A><BR>
+    <A HREF="#Heading4_1_11_5"> callback 関数</A><BR>
+    <A HREF="#Heading4_1_11_6"> ストリームの処理</A><BR>
+    <A HREF="#Heading4_1_11_7"> ストリームの実際の処理の流れ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_12"> 12 基本サウンドライブラリFAQ (Frequently Asked Questions)</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_12_1"> リバーブ設定</A><BR>
+    <A HREF="#Heading4_1_12_2"> CD のボリューム</A><BR>
+    <A HREF="#Heading4_1_12_3"> 各ボイスの発音状態の診断</A><BR>
+    <A HREF="#Heading4_1_12_4"> ボイスデータの属性</A><BR>
+    <A HREF="#Heading4_1_12_5"> 波形転送</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_13"> 13 基本サウンドライブラリと拡張サウンドライブラリの共用</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_13_1"> 初期化</A><BR>
+    <A HREF="#Heading4_1_13_2"> シーケンスデータ</A><BR>
+    <A HREF="#Heading4_1_13_3"> 発音 / libsnd のボイスマネージャ機能</A><BR>
+    <A HREF="#Heading4_1_13_4"> 波形データのサウンドバッファへの転送</A><BR>
+    <A HREF="#Heading4_1_13_5"> サウンドバッファのメモリ管理とリバーブ</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    基本サウンドライブラリは PlayStation(R) の持つサウンド再生処理プロセッサ (SPU) を直接制御するライブラリです。拡張サウンドライブラリ (libsnd) の下層を受け持つライブラリではありますが、利用できる機能としては、データの内容にこだわらないデータ (例えばテクスチャデータなど) のサウンドバッファへの転送など、基本サウンドライブラリ独自の機能も提供しています。<BR>
+    基本サウンドライブラリはSPU用のライブラリとしてのみ機能しますので、時間管理機能は持っていません。これは別途提供されるカーネルライブラリ (libapi) などにより管理される必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    基本サウンドライブラリのファイル名は「libspu.lib」です。<BR>
+    各サービスを呼び出すプログラムは必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    基本サウンドライブラリのファイル名は「libspu.h」です。<BR>
+    各種のデータ構造、マクロはすべてこのファイルで定義されています。<BR>
+    各サービスを呼び出すプログラムは必ずこれをインクルードする必要があります。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libspu.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libspu.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ボイス音源制御機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    基本サウンドライブラリで制御できる機能を以下に掲げます。<BR>
+    24のボイス音源 (以下、単にこれを「ボイス」と呼びます) に対して、個別に以下の属性を指定できます。<BR>
+    <BR>
+<UL>
+         <LI> 音量 (L/R独立に指定可能)
+         <LI> 音程
+         <LI> サウンドバッファ内の波形データのアドレス
+         <LI> エンベロープ (ADSR)
+         <LI> ループポイント
+</UL>
+    <BR>
+    これらを設定し、キーオン/キーオフを指定します。キーオン/キーオフも24ボイス独立に指定できます。<BR>
+    また、これらの属性はキーオンされて発音されている間にも変更可能です。よって、発音中に連続的に音程を変えたり、ループポイントを持つ波形データのループポイントを変化しつつ発音を繰り返すこともできます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>ノイズ音源制御機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    バッファの波形データの代わりとして各ボイスに設定して利用することができ、エンベロープなどの効果もかかり、その聴感上の音程 (ノイズクロック) を発音中に変えることによりノイズ音に効果をつけることが出来ます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>音程におけるLFO制御機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    隣り合うボイスを使用して、音程にLFO (Low Frequency Oscillator) をかけた効果を得ることが出来ます。<BR>
+    式で表現すると以下のようになります。<BR>
+    <BR>
+      <BLOCKQUOTE>
+      	NewPitch(n) = (1 + V(n-1)) * Pitch(n)<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+        <H4><B>表 2 LFO制御表 現式</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>NewPitch(n)</TD><TD>ボイス(n) の最終的なピッチ</TD><TR>
+    <TD>V(n-1)</TD><TD>ボイス(n-1) の音量 (時間によって変化)</TD><TR>
+    <TD>Pitch(n)</TD><TD>ボイス(n) に本来設定されているピッチ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    このため、1つの音色を発音するために、2つのボイスを消費することになります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>リバーブ制御機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    リバーブは数種類のテンプレートを用意して提供されます。これらのテンプレートにはいくつかの変更可能なパラメータがあり、これらを変更することによってその効果を変えることが出来ます。<BR>
+    リバーブはそのワークエリアとしてサウンドバッファを利用します。そのオフセット (先頭) アドレスは個々のパラメータによって違いますが、これらもテンプレートとして用意されますので、このオフセット (先頭) アドレスより前方の領域が実際の波形データ領域として利用できることになります。<BR>
+    リバーブのオン/オフは全体としてだけでなく、各ボイス毎に設定が可能で、CD入力、及び外部デジタル入力 (後述) に対してもその効果をかけることができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>サウンドバッファへの任意のデータの転送機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メインメモリからサウンドバッファへ波形データを転送 (=Write) する場合、あるいはサウンドバッファからメインメモリへ波形データを転送 (=Read) する場合、以下の手法が利用できます。<BR>
+    <BR>
+<UL>
+         <LI> I/O転送 (Writeのみ)
+         <LI> DMA転送 (Write / Read)
+</UL>
+    <BR>
+    DMA転送の場合には、DMAコントローラにより 非同期に転送を行うため、転送中にもCPUが他の処理を行うことが可能です。<BR>
+    I/O転送については、CPUを使って転送を行うため、転送中には他の処理を行うことが出来ません。そのため、演奏を行いながら転送を行う場合は必ずDMA転送を選ぶ必要があります。<BR>
+    サウンドバッファからメインメモリへ転送する際には必ずDMA転送で行われるため、特に設定の必要はありません。ただし、転送するデータが保持されている、あるいはデータを受け取るメインメモリのアドレスは、大域変数として取られた変数へのアドレスか、 malloc() などでヒープ領域に取られた変数へのアドレスでなければいけません。すなわち関数内で宣言された変数 (auto変数) などのスタック領域へのアドレスであってはなりません。<BR>
+    また、サウンドバッファにおいて、積極的なメモリ管理は行わない (後述) ので、ユーザは以下の領域を避けた領域へ転送を行わなければ、その転送されたデータは実質的な波形データとして利用できません。<BR>
+    <BR>
+<UL>
+         <LI> 0x00000～0x00fffまでのSPUデコードデータ転送領域
+         <LI> 0x01000～0x0100fまでのシステム予約領域
+         <LI> リバーブのワークエリアオフセット(先頭)アドレス(後述)以降
+</UL>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/spuf1.gif">
+<P>
+    <B>図 1 サウンドバッファのメモリ配置</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>サウンドバッファアクセスに対する割り込みリクエスト機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    サウンドバッファは、転送に関するアクセスだけでなく、その転送された波形データをサウンドとして出力するためにSPUがデコードする時にも常時アクセスされます。<BR>
+    そのサウンドバッファへの任意なアクセスにおいて、ある特定アドレスへアクセスした場合にハードウェア的に割り込みを発生させること (割り込みリクエスト) ができます。また、その割り込みリクエストに応じて特定の関数を呼び出すように指定することができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>サウンドバッファのメモリ管理</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    サウンドバッファのメモリ管理機能については、ごく限られた機能を持つライブラリを提供します。<BR>
+    これは、メインメモリ側に管理テーブルを用意し、割当要求の配置関係をそのテーブルに管理し、その情報に従ってサウンドバッファの領域に転送を行う、という形態をとることにより、簡易的にサウンドバッファのメモリ管理を行うことが出来ます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>CD,及び外部デジタル入力とのミキシング機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    外部入力として以下に掲げる2系統がSPUに搭載されています。<BR>
+    <BR>
+<UL>
+         <LI> CD入力
+         <LI> 外部デジタル入力
+</UL>
+    <BR>
+    サンプリング周波数はどちらも44.1kHzです。<BR>
+    これらから入力されたサウンドとSPUの出力とをデジタルミキシングできます。またリバーブへもその入力を振り分けることができます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>SPUでデコードされたデータのメインメモリへの転送</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    SPUは、CD入力のボリューム処理後のサウンドデータ、及びVoice1, Voice 3のエンベロープ処理後のサウンドデータをサウンドバッファの先頭0x1000バイト (0x800 short int) の部分にクロック (44.1 kHz) 毎にそれぞれ16 bit (= 1 short int)ずつ書き込みます。個々のサウンドデータはそれぞれ0x400バイト (0x200 short int) のバッファとなっていて、前半部分 (0x200 バイト = 0x100 short int) と後半部分 (0x200バイト = 0x100 short int)に分かれ、現在どちらのバッファ領域に書き込まれているかを判別することにより、最大100サンプル (100 / 44100 = 0.0022 ... 秒) のデータを1度に読み込むことが出来ます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_11">
+<H2>
+<A HREF="#Top">↑</A> 11 <B>SPU ストリーミングライブラリ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_1">
+<A HREF="#Heading3_1_11"> 11. </A>1 <B>概念</B>
+</A>
+</H3>
+<blockquote>
+    SPU ストリーミングライブラリ は、 PlayStation(R) のサウンドバッファに保持できないような大きなサイズの波形データを SPU で再生させる機能を提供するライブラリです。<BR>
+    <BR>
+    SPU は本来サウンドバッファに保持されている波形データのみ再生させる事ができますが、これはすなわちサウンドバッファのサイズ以上のサイズの波形データは再生できない事になります。<BR>
+    そこで、サウンドバッファ内のある限られた領域において、SPU の再生中に次に再生されるべき波形データを絶えまなく転送し、SPU での再生を途切れなく行わせ、結果としてサウンドバッファのサイズ以上の波形データを SPU にて再生させることになります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_2">
+<A HREF="#Heading3_1_11"> 11. </A>2 <B>基本動作</B>
+</A>
+</H3>
+<blockquote>
+    SPU ストリーミングライブラリは SPU の持つボイスを利用してその再生が行われます。ボイス自身が行う再生の処理自体は通常の発音 (Key on) 時の再生と変わりありません。<BR>
+    メインメモリ側には、SPU ストリーミングライブラリに使われる波形データ (開始する時点で一部さえあれば可) が保持されます。SPU ストリーミングライブラリで使用される波形データは、「1 つの VAG データのみが含まれている VB ファイル」です。これはすなわち、「ヘッダ部分が含まれていない VAG ファイル」と同等です。<BR>
+    <BR>
+    サウンドバッファ側には SPU ストリーミングライブラリで使われる各ボイス毎に領域を確保します。SPU ストリーミングライブラリは確保された領域にメインメモリ側に保持された波形データを連続的に転送しつつ SPU に再生を行わせます。<BR>
+    <BR>
+    SPU ストリーミングライブラリで使われる各ボイス毎のサウンドバッファ内の領域を「ストリームバッファ」と呼びます。このストリームバッファは SPU ストリーミングライブラリで使用するボイス 1 つ毎に 1 つ必要です。<BR>
+    なお、複数のボイスを SPU ストリーミングライブラリで使用した場合、全てのストリームバッファはサイズが同一である必要があります。<BR>
+    <BR>
+    また、あるボイスに対してストリームバッファにメインメモリ側に保持された波形データを連続的に転送しつつ SPU に再生を行わせる一連の処理を「ストリーム」と呼びます。<BR>
+    <BR>
+    SPU ストリーミングライブラリは、最大 24 ストリームバッファ、および最大 24 ストリームを扱うことができ、SPU の持つ 24 ボイス全てを SPU ストリーミングライブラリの使用するボイスとして使用できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_3">
+<A HREF="#Heading3_1_11"> 11. </A>3 <B>波形データの処理</B>
+</A>
+</H3>
+<blockquote>
+    SPU ストリーミングライブラリはサウンドバッファのサイズより大きなサイズの波形データ (VB データ) を扱う事が出来ますが、その波形データはストリームの処理を開始させる際にその全てがメインメモリ上にある必要はありません。<BR>
+    SPU ストリーミングライブラリはその処理の任意の時点において、各々のストリームに最低ストリームバッファの半分のサイズの波形データが必要とされます。ストリーム処理中の波形データの転送要求があった際に、必要となるサイズの波形データの先頭アドレスやその属性を指定する事により、ストリーム処理の継続を SPU ストリーミングライブラリに知らせます。<BR>
+    <BR>
+    なお、各々の波形データはその転送時に破壊的に取り扱われます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_4">
+<A HREF="#Heading3_1_11"> 11. </A>4 <B>SPU ストリーミングライブラリの 4 つの状態</B>
+</A>
+</H3>
+<blockquote>
+    SPU ストリーミングライブラリはストリームを処理する上で 4 つの状態が存在します。<BR>
+
+     <H4><B>(1) アイドル状態</B></H4>
+
+      <BLOCKQUOTE>
+      ストリームを処理していない状態です。この状態ではストリームバッファへの転送が行われていませんので、SPU ストリーミングライブラリが PlayStation(R) のシステムに及ぼす負荷はありません。<BR>
+      また、この状態で SPU ストリーミングライブラリの全ての処理を終了することが出来ます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(2) 前準備状態</B></H4>
+
+      <BLOCKQUOTE>
+      ストリームの処理を始める上で、ストリームの実際の発音のタイムラグを排除するため、ストリーム処理の事前に全てのストリームに対してストリームバッファの半分のサイズの波形データをストリームバッファに転送する必要があります。その転送中および転送終了の状態がこの「前準備状態」です。転送の終了においては後述の「前準備終了 callback 関数」により知る事が出来ます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(3) 転送状態</B></H4>
+
+      <BLOCKQUOTE>
+      前準備終了後、実際に発音が行われ、指定されたストリームにおいて動作している状態です。この状態でも上記“前準備”の要求は受け付けますが、状態としては「前準備状態」には遷移せず、「転送状態」のまま前準備の処理も行われます。<BR>
+      この状態においてもストリームバッファの半分のサイズが処理されますが、その処理は後述の「転送終了 callback 関数」により知る事が出来ます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(4) 終了作業状態</B></H4>
+
+      <BLOCKQUOTE>
+      全てのストリームに対して終了指定が行われ、「アイドル状態」に向かっている状態です。この状態ではすでに転送は行われていません。なお、この状態では新たな「前準備」の要求や「転送」の要求は受け付けられません。一度「アイドル状態」になった時点で「前準備」の要求が受け付けられます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/spuf3.gif">
+<P>
+    <B>図 3 ４つの状態とその状態遷移 </B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_5">
+<A HREF="#Heading3_1_11"> 11. </A>5 <B>callback 関数</B>
+</A>
+</H3>
+<blockquote>
+    SPU ストリーミングライブラリはストリームを処理する上で 3 種類の callback 関数を提供します。<BR>
+    なお、全ての callback 関数は複数のストリームに対して 1 回のみ呼ばれます。要求されたストリームは callback 関数の引数によって判断する事が出来ます。<BR>
+    <BR>
+
+     <H4><B>前準備終了 callback 関数</B></H4>
+
+      <BLOCKQUOTE>
+      上記「前準備状態」において、その転送が全て終わった際に呼ばれる callback 関数です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>転送終了 callback 関数</B></H4>
+
+      <BLOCKQUOTE>
+      ストリームバッファのサイズの半分の波形データを転送し終えた時点で呼ばれる callback 関数です。この中で、次回転送の属性を設定します。ただし、「前準備状態」の転送終了においてはこの callback 関数は呼ばれません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ストリーム終了 callback 関数</B></H4>
+
+      <BLOCKQUOTE>
+      「終了」が指定されたストリームの再生が終わった時点で呼ばれる callback 関数です。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    各ストリームの次回転送の属性については「転送終了 callback 関数」において処理する必要があります。また、前準備からストリームの開始を連続的に行うのであれば「前準備終了 callback 関数」でも次回転送の属性を設定する必要があります。<BR>
+    <BR>
+    各 callback 関数は設定されなければ処理は続いていきますが、各ストリームの次回の転送の属性は毎回必ず設定されなければいけないので、「転送終了 callback 関数」は必ず設定されなければならず、また、その callback 関数の中で次回の転送の属性は必ず設定されなければいけません。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/spuf4.gif">
+<P>
+    <B>図 4 callback関数と状態遷移</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_6">
+<A HREF="#Heading3_1_11"> 11. </A>6 <B>ストリームの処理</B>
+</A>
+</H3>
+<blockquote>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_6_1">
+(1) <B>ストリームの前準備と開始</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各ストリームの前準備は必ずストリームバッファの前半部分を対象に行われ、転送対象となる波形データがストリームバッファの前半部分に転送されます。<BR>
+      よって、「アイドル状態」の場合にストリームの前準備を行った場合は即座に処理されますが、「転送状態」の場合にストリームの前準備を行った場合は、ストリームバッファの前半部分に転送の対象が移るまで待たされ、ストリームバッファの前半部分に転送の対象が移った際に他のストリームの処理と同等に転送が行われます。<BR>
+      各ストリームの開始は (前準備によってストリームバッファの前半部分に既に波形データが転送されているため) 必ずストリームバッファの後半部分から転送が行われます。よって、「前準備状態」の場合にストリームの開始を行った場合は即座に処理されますが、「転送状態」の場合にストリームの開始を行った場合は、ストリームバッファの後半部分に転送の対象が移るまで待たされ、ストリームバッファの後半部分に転送の対象が移った際に他のストリームの処理と同等に転送が行われます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_6_2">
+(2) <B>次回転送のための属性</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各ストリームの次回転送の属性については「転送終了 callback 関数」において指定します。必要とされる属性は以下の通りです。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<UL>
+         <LI> 次回転送される波形データ (必要とされるサイズはストリームバッファのサイズの 1/2) の領域の先頭アドレス
+         <LI> 次回の転送でストリームを終了するのであれば、
+</UL>
+    <OL>
+         <LI VALUE= 1> status に「終了」の指定
+         <LI VALUE= 2> 最後に転送する波形データのサイズの指定 (サイズはストリームバッファのサイズの 1/2 以下)
+    </OL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_6_3">
+(3) <B>ストリームの終了</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各ストリームの終了は次回転送属性指定時に、属性の中の status に「終了」の指定と、最後に転送する波形データのサイズの指定 (サイズはストリームバッファのサイズの 1/2 以下) を行う事により、その時に設定した次回転送される波形データが再生を終えた時にストリームが終了します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_6_4">
+(4) <B>発音/消音</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      SPU ストリーミングライブラリは発音 (Key on) のみ自動的に行われます。<BR>
+      発音 (Key on) はストリーミングの開始が処理された際に行われます。消音 (Key off) についてはプログラム側で処理を行う必要があります。<BR>
+      ただし、ストリームが処理されている状態のボイスに消音 (Key off) を行うとサウンドライブラリ全体として状態が不定になる場合があります。必ずストリームの終了処理を行った上で消音の処理を行う必要があります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_7">
+<A HREF="#Heading3_1_11"> 11. </A>7 <B>ストリームの実際の処理の流れ</B>
+</A>
+</H3>
+<blockquote>
+    以下に SPU ストリーミングライブラリにおける処理の簡単な流れを掲げます。個々の関数における詳細な説明はそれぞれの関数の詳説を参照下さい。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_7_1">
+(1) <B>初期化</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      SpuStInit() により SPU ストリーミングライブラリの初期化を行います。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        SpuStEnv *stenv;
+        stenv = SpuStInit (0);
+        
+</PRE>
+      <BLOCKQUOTE>
+      SpuStInit() が返す SpuStEnv 構造体は以下のような構成になっています。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        typedef struct {
+        	char <I>status</I>;		/* stream status */
+        	char <I>pad1</I>; 		/* padding */
+        	char <I>pad2</I>;		/* padding */
+        	char <I>pad3</I>;		/* padding */
+        	long <I>last_size</I>;		/* the size of last transferring (last_size &lt;= (size / 2)) */
+        	unsigned long <I>buf_addr</I>;	/* The start address of stream buffer */
+        	unsigned long <I>data_addr</I>;/* The start address of SPU streaming data in main memory */
+        } SpuStVoiceAttr;
+        
+        typedef struct {
+        	long <I>size</I>;		/* The size of stream buffer */
+        	long <I>low_priority</I>;	/* transfer priority */
+        	SpuStVoiceAttr <I>voice</I> [24];
+        } SpuStEnv;
+        
+</PRE>
+      <BLOCKQUOTE>
+      この構造体に属性を指定し、ストリームの処理を行います。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(a) 属性の初期化</B></H4>
+
+      <BLOCKQUOTE>
+      全てのストリームに共通な属性は SpuStEnv 構造体のsize, low_priority です。size には全てのストリームバッファで同一である、ストリームバッファのサイズを指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        stenv-&gt;size = 0x8000;
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      low_priorityにはSPUの処理する優先順位を下げる場合SPU_ONを指定します。既定値は SPU_OFF (優先順位は下げない) です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        stenv-&gt;low_priority = SPU_ON;
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      各ストリームに対して初期化しなければいけない属性は、<BR>
+      </BLOCKQUOTE>
+    <BR>
+<UL>
+         <LI> ストリームバッファの先頭アドレス = SpuStEnv 構造体の voice[].buf_addr
+</UL>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        unsigned long buf_addr;
+        if ((buf_addr = SpuMalloc (0x8000)) == -1) {
+        	/* ERROR */
+        }
+        stenv-&gt;voice [n].buf_addr = buf_addr;
+        
+</PRE>
+<UL>
+         <LI> メインメモリ上にある「前準備」で転送する波形データの領域の先頭アドレス = SpuStEnv 構造体の voice[].data_addr
+</UL>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        stenv-&gt;voice [n].data_addr = 0x80yyyyyy;
+        
+</PRE>
+      <BLOCKQUOTE>
+      です。配列 stenv-&gt;voice の添字 (上記の例では n) はボイスの番号と一致します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(b) callback 関数の設定</B></H4>
+
+      <BLOCKQUOTE>
+      必要に応じて各 callback 関数を設定します。SPU ストリーミングライブラリの全ての callback 関数は以下の型をとります。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        SpuStCallbackProc
+        callback_proc (unsigned long <I>voice_bit</I>, long <I>c_status</I>)
+        
+</PRE>
+      <BLOCKQUOTE>
+      callback 関数が実際に呼ばれた際、引数の <I>voice_bit</I> には各 callback 関数の中で処理を必要とするボイス番号の値が SPU_0CH, SPU_1CH, ...,SPU_23CH のビット和で与えられます。また、引数の <I>c_status</I> には現在どの状態で callback 関数が呼ばれたかが与えられます。プログラム側は引数の <I>voice_bit</I> と <I>c_status</I> を解析し、適切な処理を行います。<BR>
+      <BR>
+      各ストリームを処理させるためには、最低でも「転送終了 callback 関数」は必ず設定される必要があります。これらの callback 関数で、次回転送される波形データの領域の先頭アドレスを指定し、また、ストリームを終了させる際には「終了」の属性を指定します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+
+     <H4><B>(c) 各ボイスの設定</B></H4>
+
+      <BLOCKQUOTE>
+      ストリームが行われる各ボイスの属性を設定します。ボイスの属性の中で、「波形データ先頭アドレス」にはストリームバッファの先頭アドレスと同じ値を設定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        SpuVoiceAttr s_attr;
+        	:
+        s_attr.voice = SPU_3CH;
+        s_attr.addr  = stenv-&gt;voice [3].buf_addr;
+        	:
+        SpuSetVoiceAttr (&s_attr);
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_7_2">
+(2) <B>ストリームの前準備</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ストリームの実際の発音のタイムラグを排除するため、ストリームを開始する前の前準備として、ストリームバッファの半分のサイズの波形データをストリームバッファに事前に転送します。ストリームの前準備を行う関数は SpuStTransfer()で、第 1 引数に SPU_ST_PREPARE を指定します。<BR>
+      ストリームに使用するボイスは SpuStTransfer() の第 2 引数に SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で指定します。指定されたボイスは必ず上記「属性の初期化」が行われていなければいけません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        SpuStTransfer (SPU_ST_PREPARE, (SPU_0CH | SPU_1CH));
+        
+</PRE>
+      <BLOCKQUOTE>
+      該当するボイスに対するストリームの前準備の転送が終了すると「前準備終了 callback 関数」が呼ばれます。<BR>
+      前準備からストリームの開始を行う前に、次回転送の属性を設定する必要があります。前準備からストリームの開始を連続的に行うのであれば「前準備終了 callback 関数」で次回転送の属性を設定する必要があります。<BR>
+      <BR>
+      次回転送の属性としては、次回転送される波形データ (必要とされるサイズはストリームバッファのサイズの 1/2) の領域の先頭アドレスを指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        stenv-&gt;voice [n].data_addr += (0x8000 / 2);
+        
+</PRE>
+      <BLOCKQUOTE>
+      波形データが置かれる実際のメインメモリ内の領域は、設定の各回において前回の領域と連続している必要はありません。任意の領域の指定が可能です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_7_3">
+(3) <B>ストリームの開始</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各ストリームに対して前準備が終了すると、ストリームを開始することが出来ます。ストリームの開始を行う関数は、前準備と同様に SpuStTransfer() で、第 1 引数に SPU_ST_PLAY を指定します。<BR>
+      ストリームに使用するボイスは SpuStTransfer() の第 2 引数に SPU_0CH, SPU_1CH, ..., SPU_23CH のビット和で指定します。この値は前準備の時に指定した値と同一でなければいけません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        SpuStTransfer (SPU_ST_PLAY, (SPU_0CH | SPU_1CH));
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      ストリームを開始させると、即座に発音 (Key on) されます。<BR>
+      全てのストリームに対して 1 回の転送が終了すると「転送終了 callback 関数」が呼ばれます。<BR>
+      「転送終了 callback 関数」では次回転送の属性を設定します。次回転送の属性としては、次回転送される波形データ (必要とされるサイズはストリームバッファのサイズの 1/2) の領域の先頭アドレスを指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        stenv-&gt;voice [n].data_addr += (0x8000 / 2);
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      波形データが置かれる実際のメインメモリ内の領域は、設定の各回において前回の領域と連続している必要はありません。任意の領域の指定が可能です。1 つ以上のストリームが処理されている間は、必ず転送終了の際に「転送終了 callback 関数」が呼ばれます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_7_4">
+(4) <B>ストリームの終了</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ストリームを終了させる際には、「転送終了 callback 関数」処理内の次回の転送時の属性指定の際に SpuStEnv 構造体の voice[].status に SPU_ST_STOP を設定し、voice[].last_size に最後に転送する波形データのサイズの指定 (サイズはストリームバッファのサイズの 1/2 以下) を指定します。ストリームは SPU_ST_STOP が指定された時の波形データの領域を転送してストリームを終了します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        stenv-&gt;voice [n].data_addr += (0x8000 / 2);
+        stenv-&gt;voice [n].status = SPU_ST_STOP;
+        stenv-&gt;voice [n].last_size = 0x4000;
+        
+</PRE>
+      <BLOCKQUOTE>
+      ストリームの再生が終了した時点 (他のストリームが処理されている場合は、厳密には次回の転送が始まる前) で「ストリーム終了 callback 関数」が呼ばれます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_7_5">
+(5) <B>終了</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      SpuStQuit() により SPU ストリーミングライブラリの終了を行います。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>  例:</B></H4>
+
+<PRE>        SpuStQuit ();
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      終了を行う上で、全てのストリームは終了の処理が行われ、「ストリーム終了 callback 関数」が呼ばれた後の状態 (すなわち「アイドル状態」) でなければいけません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_12">
+<H2>
+<A HREF="#Top">↑</A> 12 <B>基本サウンドライブラリFAQ (Frequently Asked Questions)</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_1">
+<A HREF="#Heading3_1_12"> 12. </A>1 <B>リバーブ設定</B>
+</A>
+</H3>
+<blockquote>
+    <B>Q-1:</B><BR>
+      <BLOCKQUOTE>
+      <B>libspu / libsnd で、8 種類のリバーブモードを設定することができますが、この各モードにおいて SPU のサウンドバッファ内にとられるリバーブワークエリアのサイズを知る関数は存在しないのでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-1:</B><BR>
+      <BLOCKQUOTE>
+      リバーブワークエリアのサイズを知る関数は提供しておりません。モードの決定により、サウンドバッファ内にとられるリバーブワークエリアのサイズは一意に決まり、その領域は動的に変化することなく確保されるからです。<BR>
+      <BR>
+      以下にワークエリアが消費するサイズを掲げます。これは基本サウンドライブラリに関する関数リファレンスの 'SpuSetReverbModeParam()'  にも記述があります。<BR>
+      <BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 3：リバーブモードとサウンドバッファ内で占有される容量</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">16 進</TD><TD ALIGN="center">10 進</TD><TR>
+    <TD>SPU_REV_MODE_OFF，off</TD><TD>80 (*)</TD><TD>128 (*)</TD><TR>
+    <TD>SPU_REV_MODE_ROOM，ルーム</TD><TD>26c0</TD><TD> 9920</TD><TR>
+    <TD>SPU_REV_MODE_STUDIO_A，スタジオ(小)</TD><TD>1f40</TD><TD> 8000</TD><TR>
+    <TD>SPU_REV_MODE_STUDIO_B，スタジオ(中)</TD><TD>4840</TD><TD>18496</TD><TR>
+    <TD>SPU_REV_MODE_STUDIO_C，スタジオ(大)</TD><TD>6fe0</TD><TD>28640</TD><TR>
+    <TD>SPU_REV_MODE_HALL，ホール</TD><TD>ade0</TD><TD>44512</TD><TR>
+    <TD>SPU_REV_MODE_SPACE，スペースエコー</TD><TD>f6c0</TD><TD>63168</TD><TR>
+    <TD>SPU_REV_MODE_ECHO，エコー</TD><TD>18040</TD><TD>98368</TD><TR>
+    <TD>SPU_REV_MODE_DELAY，ディレイ</TD><TD>18040</TD><TD>98368</TD><TR>
+    <TD>SPU_REV_MODE_PIPE，パイプエコー</TD><TD>3c00</TD><TD>15360</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+       <B>(*)</B> アドレスの設定上、モードが off となっていても、SpuReserveReverbWorkArea(SPU_ON) となっていた場合、128 bytes 消費する。SpuReserveReverbWorkArea(SPU_OFF) の場合は他のモードと同様に消費量は 0 となります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数:</B> <BR>
+      <BLOCKQUOTE>
+      SpuReserveReverbWorkArea, SpuSetReverbModeParam, SpuSetReverb<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-2:</B><BR>
+      <BLOCKQUOTE>
+      <B>リバーブモードの設定によって変化するワークエリアとサウンドバッファメモリ管理機構 (SpuMalloc() など) の関連は ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-2:</B><BR>
+      <BLOCKQUOTE>
+      以下のようなアルゴリズムで管理されています。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      1. SpuReserveReverbWorkArea(SPU_ON) により、リバーブワークエリアが予約されている場合<BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> SpuMalloc() / SpuMallocWithStartAddr()
+</UL>
+      <BLOCKQUOTE>
+      モードにより、アドレス 0x01000 から (0x7ffff - ワークエリアサイズ) の領域において領域が確保できます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      2. SpuReserveReverbWorkArea(SPU_OFF) により、リバーブワークエリアが予約されていない場合<BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> SpuMalloc() / SpuMallocWithStartAddr()
+</UL>
+      <BLOCKQUOTE>
+      アドレス 0x01000 ～ 0x7ffff のサウンドバッファ全域において領域が確保できます。<BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI>  SpuSetReverb()
+</UL>
+      <BLOCKQUOTE>
+      リバーブワークエリアとして利用されるモードに対応したサイズの領域がSpuMalloc() / SpuMallocWithStartAddr() により他の領域として確保されている場合は SpuSetReverb(SPU_ON) は無効となります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      3. リバーブワークエリアの予約に関係なく、 SpuSetReverbModeParam() はリバーブモード変更時にワークエリアとして必要な領域が確保できるかをサウンドバッファメモリ管理機構の情報を元に診断し、その時点で確保できれば指定された諸属性を設定します。確保できなければ設定せずに戻ります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      4. SpuReserveReverbWorkArea() によってリバーブワークエリアが予約されていなかった状態でSpuMalloc() / SpuMallocWithStartAddr() を行い、その後、改めて SpuReserveReverbWorkArea() によりリバーブワークエリアの領域を予約する場合は、現在のリバーブモードが必要とするサイズのリバーブワークエリアの領域が確保できるかをサウンドバッファメモリ管理機構の情報を元に診断し、その時点で確保できれば領域を予約します。確保できなければ領域は予約されずに戻ります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      5. リバーブワークエリアはそのリバーブモードによって変化します。リバーブワークエリアのサイズが変更されるのは SpuSetReverbModeParam()でモード設定を行った時のみであり、モード設定が変更になった時点から SpuMalloc() / SpuMallocWithStartAddr(), SpuReserveReverbWorkArea(), SpuSetReverb() がどう振舞うかが変化します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数:</B> <BR>
+      <BLOCKQUOTE>
+      SpuReserveReverbWorkArea, SpuIsReverbWorkAreaReserved, SpuSetReverbModeParam, SpuSetReverb, SpuMalloc, SpuMallocWithStartAddr, SpuSetTransferStartAddr<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-3:</B><BR>
+      <BLOCKQUOTE>
+      <B>リバーブをオンにしてリバーブのパラメータを設定してもリバーブが有効にならないのですが。</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-3:</B><BR>
+      <BLOCKQUOTE>
+      リバーブの設定において、モードの変更があった場合、リバーブ・ワークエリアに不定な値が残っているため、一瞬のノイズが発生してしまう場合があります。<BR>
+      <BR>
+      これをなるべく回避するため、モードが変更された場合は内部的にリバーブ Depth の値を 0 にします。リバーブモードの初期値としては SPU_REV_MODE_OFF が設定されているため、初めての設定時においても、事前に SpuSetReverbModeParam() にて Depth が 0 以外に設定されていたとしても新規 SpuSetReverbModeParam() の呼び出しによりリバーブ Depth が 0 に設定されてしまいます。よって、SpuSetReverbModeParam() における Depth 設定は、必ず SpuSetReverbModeParam() のリバーブモード設定後に再度 SpuSetReverbModeParam() を呼び出す (モード指定のマスクは設定しない) か SpuSetReverbDepth() にて Depth 属性の設定を行って下さい。<BR>
+      <BR>
+      また、 SpuSetReverbModeParam() でのモード設定が行われた直後に SpuSetReverbModeParam() 及び SpuSetReverbDepth() にて Depth 設定を行っても、リバーブの性質上どうしてもノイズが発生してしまいます。これを回避するために、モード設定時の引数 attr.mode に SPU_REV_MODE_CLEAR_WA をビット OR で指定することにより、設定したモードに対応する範囲のリバーブ・ワークエリアを強制クリアさせることができます。この処理は DMA 転送を用いていますが、同期的に処理しているため、処理を行っている間は他の処理 (描画、発音を含め) は行えず、リバーブの種類によっては若干の待ち時間を要します。<BR>
+      <BR>
+      また、任意のタイミングでリバーブモード設定時に指定されたリバーブモードで必要とする領域を強制的にクリアするためには、 SpuClearReverbWorkArea() が使用できます。<BR>
+      <BR>
+      作法としては、本当にリバーブが必要とするまで、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> SpuSetReverbModeParam() あるいは SpuSetReverbDepth() において、Depth を設定しない
+</UL>
+      <BLOCKQUOTE>
+      <BR>
+      か、あるいは、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> SpuSetReverbModeParam() あるいは SpuClearReverbWorkArea() で強制的にリバーブ・ワークエリアをクリアする
+</UL>
+      <BLOCKQUOTE>
+      <BR>
+      ことが必要です。<BR>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      以上をまとめまして、注意点としましては、以下のようなことが掲げられます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<UL>
+         <LI> リバーブを使う場合は、モード設定を、直前ではなくあらかじめ設定しておく。この時、リバーブ Depth は 0 の状態になる。
+         <LI> リバーブ設定は
+</UL>
+<PRE>        
+        a. SpuSetReverbModeParam (モード/Feedback/Delay 指定)
+        SpuSetReverbModeParam (Depth 指定)  
+        
+</PRE>
+        <BLOCKQUOTE><UL>
+        あるいは<BR>
+        </BLOCKQUOTE></UL>
+<PRE>        
+        b.  SpuSetReverbModeParam (モード/Feedback/Delay 指定)
+        SpuSetReverbDepth (Depth 指定)
+        
+</PRE>
+      <BLOCKQUOTE>
+      の順で行う。a. の場合は SpuSetReverbModeParam() の引数として渡す構造体のメンバの値を変更する必要があるのに比べ、b. の場合は SpuSetReverbModeParam() で使用した構造体がそのまま使えるので便利です。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> ゲーム途中でリバーブのモードを変更する必要がある時は、ノイズ回避のため、直前に「モードを設定→リバーブ Depth セット」を行うことは避ける。
+         <LI> どうしても直前に設定したい場合は、 SpuSetReverbModeParam() あるいは SpuClearReverbWorkArea() で強制的にリバーブ・ワークエリアをクリアする
+</UL>
+    <BR>
+      <BLOCKQUOTE>
+      また、サウンドバッファ全域を波形データなどで確保してしまうと、リバーブワークエリアが確保できないため、Q/A-2: 3. に記述があるように SpuSetReverbModeParam() はリバーブモードを設定できずに終了するため、結果的にリバーブが利用できなくなります。これを防ぐためには、リバーブのワークエリアサイズと波形データサイズを見積り、必要なワークエリアと波形データサイズが「512 KB - 0x1010 バイト」に収まるようにリバーブモードを設定するか波形データを作成して下さい。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数:</B> <BR>
+      <BLOCKQUOTE>
+      SpuSetReverbModeParam, SpuSetReverb, SpuClearReverbWorkArea, SpuReserveReverbWorkArea, SpuIsReverbWorkAreaReserved, SpuSetTransferStartAddr, SpuMalloc, SpuMallocWithStartAddr<BR>
+      <BR>
+      </BLOCKQUOTE>
+    <B>Q-4:</B><BR>
+      <BLOCKQUOTE>
+      <B>Q/A-3 のようにしてリバーブのパラメータを設定してリバーブをオンにしてもリバーブが有効にならないのですが。</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-4:</B><BR>
+      <BLOCKQUOTE>
+      Macintosh 上のアーティストツール SoundDelicatessen (DTL-S710) において、各 Tone にリバーブ属性が付いていないためです。<BR>
+      Program メニュー &gt;&gt; Tone メニュー &gt;&gt; ADSR ... にて、ADSR 設定ウィンドウを表示し、その中の 'play mode' の中の 'reverb' チェックボックスを [×] に設定することにより、選択した Tone のモードにリバーブ属性が設定 (mode の 3 ビット目が 1, すなわち mode = 4) され、リバーブがかかることになります。<BR>
+      ただし、チェックボックスを [×] に設定した Tone には一律にリバーブがかかってしまうため、リバーブの深さ、全体の雰囲気などを考慮して設定する必要があります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-5:</B><BR>
+      <BLOCKQUOTE>
+      <B>リバーブを設定したプログラムで、再びプログラムを起動するとノイズがでることがあるのですが。</B><BR>
+      <BR>
+      </BLOCKQUOTE>
+    <B>A-5:</B><BR>
+      <BLOCKQUOTE>
+      リバーブを使ったプログラムの終了時には、必ず<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> 基本サウンドライブラリの場合
+</UL>
+<PRE>        
+        #include &lt;libspu.h&gt;
+        SpuReverbAttr r_attr;
+        r_attr.mask = SPU_REV_MODE;
+        r_attr.mode = SPU_REV_MODE_OFF;
+        SpuSetReverbModeParam (&r_attr);
+        SpuSetReverb (SPU_OFF);
+        
+</PRE>
+<UL>
+         <LI> 拡張サウンドライブラリの場合
+</UL>
+<PRE>        
+        #include &lt;libsnd.h&gt;
+        SsUtReverbOff();
+        SsUtSetReverbType (0);
+        SsUtSetReverbDepth (0, 0);
+        
+</PRE>
+      <BLOCKQUOTE>
+      を行って下さい。これらを行わなかった場合、次回の起動時に一部ノイズが出る場合があります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuSetReverbModeParam, SpuSetReverb, SsUtReverbOff, SsUtSetReverbType, SsUtSetReverbDepth<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-6:</B><BR>
+      <BLOCKQUOTE>
+      <B>libspu ではSpuReserveReverbWorkArea() によってリバーブワークエリアを予約することができますが、libsnd ではどのようになっているのでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-6:</B><BR>
+      <BLOCKQUOTE>
+      libsnd ではデフォルトでリバーブワークエリアを予約していません (libspu でのデフォルトと同様)。libsnd においてもサウンドバッファメモリ管理は libspu の機能を使っていますので、 SpuReserveReverbWorkArea() を libspu の場合と同様に使用することができます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuReserveReverbWorkArea, SpuIsReverbWorkAreaReserved<BR>
+      </BLOCKQUOTE>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_2">
+<A HREF="#Heading3_1_12"> 12. </A>2 <B>CD のボリューム</B>
+</A>
+</H3>
+<blockquote>
+    <B>Q-7:</B><BR>
+      <BLOCKQUOTE>
+      <B>libcd にCdMix() というサウンドボリュームの設定関数があるのですが、CD/DA や CD-ROM/XA のサウンドボリュームはこれで設定するのでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-7:</B><BR>
+      <BLOCKQUOTE>
+      CD の出力は、CD から読まれているものが CD/DA や CD-ROM/XA などの音楽データとして CD デコーダが解釈しますと、そのデータは left, right を分離して SPU へ送られ、SPU のCD入力に入力され、SPU が出力するサウンドデータと Mix されてオーディオアウトから出力されます。<BR>
+      <BR>
+      この CD からの音楽データの音量を操作するために、基本サウンドライブラリおよび拡張サウンドライブラリ (libsnd) にて関数を用意しています。<BR>
+      <BR>
+      具体的な関数と使用法としまして、以下に掲げます。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> 基本サウンドライブラリ
+</UL>
+<PRE>        
+        #include &lt;libspu.h&gt;
+        SpuCommonAttr attr;
+        attr.mask = (	SPU_COMMON_MVOLL  |	/* マスタ音量(左)   */
+        		SPU_COMMON_MVOLR  |	/* マスタ音量(右)   */
+        		SPU_COMMON_CDVOLL |	/* CD 入力音量(左)  */
+        		SPU_COMMON_CDVOLR |	/* CD 入力音量(右)  */
+        		SPU_COMMON_CDMIX);	/* CD 入力オン/オフ */
+        attr.mvol.left = 0x1fff;		/* マスタ音量を中間に設定 */
+        attr.mvol.right = 0x1fff;
+        attr.cd.volume.left = 0x1fff;		/* CD 入力の音量を中間に設定 */
+        attr.cd.volume.right = 0x1fff;
+        attr.cd.mix = SPU_ON;			/* CD 入力をオン */
+        /* 属性設定 */
+        SpuSetCommonAttr (&attr);
+        
+</PRE>
+<UL>
+         <LI> 拡張サウンドライブラリ
+</UL>
+<PRE>        
+        #include &lt;libsnd.h&gt;
+        SsSetSerialAttr (SS_SERIAL_A, SS_MIX, SS_SON);	/* CD 入力 ON */
+        SsSetSerialVol (SS_SERIAL_A, 0x40, 0x40);	/* 音量を中間に設定 */
+        
+</PRE>
+      <BLOCKQUOTE>
+      上記どちらかの設定を行うことにより、CD からの音楽データの音量を操作できます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数:</B> <BR>
+      <BLOCKQUOTE>
+      SpuSetCommonAttr, SsSetSerialAttr, SsSetSerialVol<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-8:</B><BR>
+      <BLOCKQUOTE>
+      <B>CdInit() の後、SpuInit() (またはSsInit()) を行うと、今までCdInit() だけ行っていた時は出ていた CD の音が出なくなるのですが。</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-8:</B><BR>
+      <BLOCKQUOTE>
+      SpuInit() およびSsInit() は CD のボリュームを 0 にします。これは文字通り SPU およびサウンドシステムを初期化するためです。<BR>
+      よって CD からの音楽データを使うためには、Q/A-7 で説明のあるSpuSetCommonAttr() (拡張サウンドライブラリでは SsSetSerialAttr(), SsSetSerialVol() を必ず使う必要があります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数:</B> <BR>
+      <BLOCKQUOTE>
+      SpuSetCommonAttr, SsSetSerialAttr, SsSetSerialVol<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_3">
+<A HREF="#Heading3_1_12"> 12. </A>3 <B>各ボイスの発音状態の診断</B>
+</A>
+</H3>
+<blockquote>
+    <B>Q-9:</B><BR>
+      <BLOCKQUOTE>
+      <B>libspu で 24 のボイスを扱っている場合、ある特定のボイスが現在発音中なのかを調べることはできるのでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-9:</B><BR>
+      <BLOCKQUOTE>
+      SpuGetKeyStatus() およびSpuGetAllKeysStatus() で、特定のボイスおよび全ボイスの発音状況が確認できます。また、 SpuGetVoiceAttr() を使うことにより、特定のボイスのエンベロープ値を得ることができます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuGetKeyStatus, SpuGetAllKeysStatus, SpuGetVoiceAttr<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_4">
+<A HREF="#Heading3_1_12"> 12. </A>4 <B>ボイスデータの属性</B>
+</A>
+</H3>
+<blockquote>
+    <B>Q-10:</B><BR>
+      <BLOCKQUOTE>
+      <B>SpuSetKey() にて発音したボイスの波形をループさせたいのですが、SpuVoiceAttr 構造体の mask に SPU_VOICE_LSAX を設定し、loop_addr にサウンドバッファ内のアドレスを指定してSpuSetVoiceAttr() を呼んでもなぜかループしてくれません。</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-10:</B><BR>
+      <BLOCKQUOTE>
+      SPU_VOICE_LSAX にてループの変更が出来る波形データは、その波形データの作成時にループが設定されているものだけです。作成時にループ設定を行っていなかった場合は、SPU_VOICE_LSAX の設定をしてSpuSetVoiceAttr() を呼んでも効果としては無効になります。ループを行いたい場合は、その波形データ作成時にループを設定して下さい。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuSetVoiceAttr, SpuSetKey<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12_5">
+<A HREF="#Heading3_1_12"> 12. </A>5 <B>波形転送</B>
+</A>
+</H3>
+<blockquote>
+    <B>Q-11:</B><BR>
+      <BLOCKQUOTE>
+      <B>I/O 転送により サウンドバッファにデータを転送する場合に終了を確認するためにSpuIsTransferCompleted() を呼ぶ必要があるでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-11:</B><BR>
+      <BLOCKQUOTE>
+      I/O 転送の場合は処理が終了した時点でSpuWrite() から処理が戻ってくるため、 SpuIsTransferCompleted() により転送が終了したか診断する必要はありません。転送モードが I/O 転送時にSpuIsTransferCompleted() を呼んだ場合には、SpuIsTransferCompleted() はその引数に依らず 1 を返します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuIsTransferCompleted, SpuWrite, SpuRead, SpuSetTransferMode<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-12:</B><BR>
+      <BLOCKQUOTE>
+      <B>DMA 転送を行い、終了を確認するためにSpuIsTransferCompleted() を呼んでも処理が戻ってこないのですが。</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-12:</B><BR>
+      <BLOCKQUOTE>
+      現在のライブラリの総合的な動作状況としては、全ての処理の先頭に _96_remove() か、あるいは CdInit() を行う必要があります。これを行わない場合、特に SpuIsTransferCompleted(SPU_TRANSFER_WAIT) はその処理から戻ってきません。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuIsTransferCompleted, SpuWrite, SpuRead, SpuSetTransferMode, _96_remove<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-13:</B><BR>
+      <BLOCKQUOTE>
+      <B>libspu では転送モードを I/O 転送と DMA 転送と切替えられますが、libsnd ではどのようになっているのでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-13:</B><BR>
+      <BLOCKQUOTE>
+      libsnd ではデフォルトで DMA 転送のモードになっています。libsnd でもSpuSetTransferMode() を使用して転送モードを変更することができます。SpuSetTransferMode() はSsVabTransBody() / SsVabTransBodyPartly() の前に呼んで下さい。<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuSetTransferMode, SsVabTransBody, SsVabTransBodyPartly<BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>Q-14:</B><BR>
+      <BLOCKQUOTE>
+      <B>libspu では転送終了 callback 関数が使えますが、libsnd でも libspu の転送終了 callback 関数が使えるのでしょうか ?</B><BR>
+      </BLOCKQUOTE>
+    <BR>
+    <B>A-14:</B><BR>
+      <BLOCKQUOTE>
+      libsnd では現在 libspu で提供されている転送終了 callback 関数の機能を使うことができません。<BR>
+      libspu で転送終了 callback 関数を使い、かつ libsnd での波形転送の関数 (SsVabTransBody() / SsVabTransBodyPartly()) を呼ぶ前には必ず転送終了 callback 関数に NULL を設定して下さい。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        		(void) SpuSetTransferCallback ((SpuTransferCallbackProc) NULL);
+        			:
+        		SsVabTransBody (...);
+        
+</PRE>
+    <B>関連関数: </B><BR>
+      <BLOCKQUOTE>
+      SpuSetTransferCallback, SsVabTransBody, SsVabTransBodyPartly<BR>
+      </BLOCKQUOTE>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_13">
+<H2>
+<A HREF="#Top">↑</A> 13 <B>基本サウンドライブラリと拡張サウンドライブラリの共用</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    現在の 基本サウンドライブラリ (libspu) において、拡張サウンドライブラリ (libsnd) との共用における注意事項を以下に掲げます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_1">
+<A HREF="#Heading3_1_13"> 13. </A>1 <B>初期化</B>
+</A>
+</H3>
+<blockquote>
+    libsnd において、 SsInit() は内部的にSpuInit() を呼んでいますので、 SsInit() を利用している場合は SpuInit() を呼ぶ必要はありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_2">
+<A HREF="#Heading3_1_13"> 13. </A>2 <B>シーケンスデータ</B>
+</A>
+</H3>
+<blockquote>
+    libspu では SEQ などのシーケンスデータを扱う関数が用意されていません。よって SEQ / SEP シーケンスデータを扱う場合は必ずlibsnd を使用する必要があります。<BR>
+    libspu を使用し、独自のシーケンスデータを解析/発音するドライバを作成する場合は、時間管理においてカーネルライブラリ(libapi) が提供するルートカウンタとイベント処理の機能を利用して使用することが必要となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_3">
+<A HREF="#Heading3_1_13"> 13. </A>3 <B>発音 / libsnd のボイスマネージャ機能</B>
+</A>
+</H3>
+<blockquote>
+    libsnd は動的にボイスの割当を管理し、通常 24 ボイス全てにおいて on/off を管理します。libspu でこれらの管理されているボイスを利用することはできないため、libspu にボイスを割り当てる形でSsSetReservedVoice() を設定する (設定する値を 24 未満にする) ことにより libsnd で管理されるボイスと libspu で利用できるボイスを切り分けることができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_4">
+<A HREF="#Heading3_1_13"> 13. </A>4 <B>波形データのサウンドバッファへの転送</B>
+</A>
+</H3>
+<blockquote>
+    libspu は VAB にこだわらないサウンドバッファへのデータ転送をサポートしていますが、VAB をサウンドバッファへ送った場合において、その属性データをボイスに反映させる関数を用意していません。<BR>
+    よって、転送は SsVabOpen(), SsVabOpenHead(), SsVabTransBody(), または SsVabTransBodyPartly() を利用して波形を転送し、ヘッダ情報を獲得し、 SsUtGetVabHdr(), SsUtGetProgAtr(), SsUtGetVagAtr() などでそれらの情報を選別し、 SsUtGetVagAddr() で波形データがサウンドバッファのどの位置に転送されているかを得て、 SpuSetVoiceAttr() により libspu で使用するボイスの属性を設定します。<BR>
+    この際、メモリ管理につきましては、libsnd 側も SpuMalloc() を使用していますので、ユーザ側で呼び出す  SpuMalloc() と共存することができます (後述)。<BR>
+    <BR>
+    なお、libsnd ではデフォルトで DMA 転送のモードになっています。libsnd でも SpuSetTransferMode() を使用して転送モードを変更することができます。 SpuSetTransferMode() はSsVabTransBody() / SsVabTransBodyPartly() の前に呼んで下さい。<BR>
+    転送終了の判断については、libspu では転送終了 callback 関数が使えますが、libsnd では現在この転送終了 callback 関数の機能を使うことができません。libspu で転送終了 callback 関数を使い、かつlibsnd での波形転送の関数 (SsVabTransBody() / SsVabTransBodyPartly()) を呼ぶ前には必ず転送終了 callback 関数に NULL を設定して下さい (参考: FAQ Q/A-14)。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13_5">
+<A HREF="#Heading3_1_13"> 13. </A>5 <B>サウンドバッファのメモリ管理とリバーブ</B>
+</A>
+</H3>
+<blockquote>
+    libsnd において SsInit() が内部的に SpuInitMalloc() を呼んでいますので、 SsInit() を利用している場合はSpuInitMalloc() を呼ぶ必要はありません。<BR>
+    ただし、その管理ブロックは libsnd 内部にとられ、サイズは (32 + 1) となっています。すなわち領域を確保する SpuMalloc() や SpuMallocWithStartAddr() が同時に確保できる領域数は 32 になります。<BR>
+    これは SpuFree() をすることにより、確保されている領域数が最大 32 であれば何回でも上記の確保する関数を呼ぶことができます。<BR>
+    なお、VAB を Open する度にライブラリ内部で SpuMalloc() が 1 回呼ばれ、Close する度にライブラリ内部で SpuFree() が 1 回呼ばれますので、上記の環境では、ある時点でユーザが確保できる最大領域数は (32 - (その時点で VAB を Open している回数)) になります。<BR>
+    SpuMalloc() / SpuMallocWithStartAddr() をこの回数より多く行いたい場合は、 SsInit() の呼出し直後に SpuInitMalloc() を呼ぶことにより、管理テーブルを SpuInitMalloc() に与えた領域内においてメモリ管理が機能します。ライブラリ側で設定された領域は使われなくなります。<BR>
+    <BR>
+    この管理テーブルの置換えの際には、 SpuInitMalloc() に<BR>
+    <BR>
+      <BLOCKQUOTE>
+      SPU_MALLOC_RECSIZ × ((VAB を Open する回数 + ユーザ側で SpuMalloc() を呼ぶ回数) + 1)<BR>
+      </BLOCKQUOTE>
+    <BR>
+    のサイズの領域を与える必要があります。<BR>
+    <BR>
+    libsnd のリバーブについては、ほぼ libspu の機能を使用した形で提供されています。よって SpuReserveReverbWorkArea() なども libspu の場合と同様に使用することができます。<BR>
+    <BR>
+    各関数の機能につきましては、libspu 及び libsnd の関数リファレンスをご参照下さい。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsRVIEWUNIT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsRVIEWUNIT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ＨＭＤ視点位置（リファレンス型）
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsRVIEWUNIT</B> {
+		long <I>vpx</I>, <I>vpy</I>, <I>vpz</I>;
+		long <I>vrx</I>, <I>vry</I>, <I>vrz</I>
+		long <I>rz</I>
+		GsCOORDUNIT * <I>super</I>
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>vpx</I>, <I>vpy</I>, <I>vpz</I>	視点座標
+<I>vrx</I>, <I>vry</I>, <I>vrz</I>	参照点座標
+<I>rz</I>		視点の捻り
+<I>super</I>		視点を設定する座標系へのポインタ（GsCOORDUNIT型）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsRVIEWUNIT は、視点情報を保持し、<B>GsSetRefViewUnit</B>() 関数によって libgsに設定される。 <BR>
+    <I>vpx, vpy, vpz </I> には、<I>super </I>で示される座標系における視点の座標が設定される。 <BR>
+    <I>vrx, vry, vrz </I> には、<I>super </I>で示される座標系における参照点の座標が設定される。 <BR>
+    <I>rz</I> は視点から参照点へのベクトルを z 軸とした時にスクリーンの z軸に対する傾きを 4096 を１度とする固定小数点フォーマットで指定する <BR>
+    <I>super</I> には、視点と参照点の座標系が設定される。この機能により、例えば、飛行機の座標系に <I>super </I>を設定し簡単にコックピットビューを実現することができる。 <BR>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

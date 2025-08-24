@@ -1,0 +1,182 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    _GsFCALL
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    _GsFCALL
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        GsSortObject5J(),GsSortObject4J()で参照する関数テーブルの型
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>_GsFCALL</B> {
+	PACKET *(*<I>f3</I>[2][3])(),*(*<I>nf3</I>[2])(),*(*<I>g3</I>[2][3])(),*(*<I>ng3</I>[2])(); 
+	PACKET *(*<I>tf3</I>[2][3])(),*(*<I>ntf3</I>[2])(),*(*<I>tg3</I>[2][3])(),*(*<I>ntg3</I>[2])();
+	PACKET *(*<I>f4</I>[2][3])(),*(*<I>nf4</I>[2])(),*(*<I>g4</I>[2][3])(),*(*<I>ng4</I>[2])(); 
+	PACKET *(*<I>tf4</I>[2][3])(),*(*<I>ntf4</I>[2])(),*(*<I>tg4</I>[2][3])(),*(*<I>ntg4</I>[2])(); 
+	PACKET *(*<I>f3g</I>[3])(),*(*<I>g3g</I>[3])(); 
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>それぞれの要素は 下位関数へのポインタ
+<I>f3</I>,<I>g3</I>,<I>tf3</I>,<I>tg3</I>,<I>f4</I>,<I>g4</I>,<I>tf4</I>,<I>tg4</I>	ポリゴンタイプ
+  第一配列 GsDivMODE_DIV/GsDivMode_NDIV			分割／非分割
+  第二配列 GsLMODE_NORMAL/GsLMODE_FOG/GsLMODE_LOFF	光源計算モード
+<I>nf3</I>,<I>ng3</I>,<I>ntf3</I>,<I>ntg3</I>,<I>nf4</I>,<I>ng4</I>,<I>ntf4</I>,<I>ntg4</I>	ポリゴンタイプ
+  第一配列 GsDivMODE_DIV/GsDivMode_NDIV			分割／非分割
+<I>f3g</I>,<I>g3g</I>				ポリゴンタイプ(グラデーションポリゴン)
+  第一配列 GsLMODE_NORMAL/GsLMODE_FOG/GsLMODE_LOFF	光源計算モード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsSortObject5(),GsSortObject4()は アトリビュートやプリセットデータなどディスパッチして 下位関数を呼び出している。 <BR>
+    この下位関数は６４もあり 一つのアプリケーションでは 全ての下位関数を使わない場合がほとんどである。 <BR>
+    不要な下位関数をリンクしないことでコードを小さくするためにGsSortObject5J() GsSortObject4J()という それぞれGsSortObject5(),GsSortObject4()コンパチで下位関数をテーブルテーブル化したものが用意されている。 <BR>
+    _GsFCALLは この関数テーブルを定義した 構造体である。 <BR>
+    関数テーブルは ポリゴンの種類、分割の有無、光源計算のモードで分類される。 <BR>
+    それぞれの 要素に 適切な下位関数のポインタを入れることでその関数はリンクされる。逆にポインタを入れず extern宣言もしないことでリンクを切ることができる。ただしポインタのない関数が呼ばれた場合はBUS ERRORが発生するので注意が必要。 <BR>
+    GsSortObject5J()で全ての要素に適切な関数を入れるサンプルを以下に示す。これでGsSortObject5J() は GsSortObject5()と全く同じ動きをする。 <BR>
+    これは libgs.h にもコメントとしていれてある。 <BR>
+<BR>
+<PRE>				/* extern and fook only using functions */
+extern _GsFCALL GsFCALL5;	/* GsSortObject5J Func Table */
+
+jt_init()			/* Gs SortObject5J Fook Func */
+{
+PACKET *GsPrstF3NL(),*GsPrstF3LFG(),*GsPrstF3L(),*GsPrstNF3();
+PACKET *GsTMDdivF3NL(),*GsTMDdivF3LFG(),*GsTMDdivF3L(),*GsTMDdivNF3();
+PACKET *GsPrstG3NL(),*GsPrstG3LFG(),*GsPrstG3L(),*GsPrstNG3();
+PACKET *GsTMDdivG3NL(),*GsTMDdivG3LFG(),*GsTMDdivG3L(),*GsTMDdivNG3();
+PACKET *GsPrstTF3NL(),*GsPrstTF3LFG(),*GsPrstTF3L(),*GsPrstTNF3();
+PACKET *GsTMDdivTF3NL(),*GsTMDdivTF3LFG(),*GsTMDdivTF3L(),*GsTMDdivTNF3();
+PACKET *GsPrstTG3NL(),*GsPrstTG3LFG(),*GsPrstTG3L(),*GsPrstTNG3();
+PACKET *GsTMDdivTG3NL(),*GsTMDdivTG3LFG(),*GsTMDdivTG3L(),*GsTMDdivTNG3();
+PACKET *GsPrstF4NL(),*GsPrstF4LFG(),*GsPrstF4L(),*GsPrstNF4();
+PACKET *GsTMDdivF4NL(),*GsTMDdivF4LFG(),*GsTMDdivF4L(),*GsTMDdivNF4();
+PACKET *GsPrstG4NL(),*GsPrstG4LFG(),*GsPrstG4L(),*GsPrstNG4();
+PACKET *GsTMDdivG4NL(),*GsTMDdivG4LFG(),*GsTMDdivG4L(),*GsTMDdivNG4();
+PACKET *GsPrstTF4NL(),*GsPrstTF4LFG(),*GsPrstTF4L(),*GsPrstTNF4();
+PACKET *GsTMDdivTF4NL(),*GsTMDdivTF4LFG(),*GsTMDdivTF4L(),*GsTMDdivTNF4();
+PACKET *GsPrstTG4NL(),*GsPrstTG4LFG(),*GsPrstTG4L(),*GsPrstTNG4();
+PACKET *GsTMDdivTG4NL(),*GsTMDdivTG4LFG(),*GsTMDdivTG4L(),*GsTMDdivTNG4();
+PACKET *GsPrstF3GNL(),*GsPrstF3GLFG(),*GsPrstF3GL();
+PACKET *GsPrst3GNL(),*GsPrstF3GLFG(),*GsPrstF3GL();
+
+  /* flat triangle */
+  GsFCALL5.f3[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstF3L;
+  GsFCALL5.f3[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstF3LFG;
+  GsFCALL5.f3[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstF3NL;
+  GsFCALL5.f3[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivF3L;
+  GsFCALL5.f3[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivF3LFG;
+  GsFCALL5.f3[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivF3NL;
+  GsFCALL5.nf3[GsDivMODE_NDIV] 			= GsPrstNF3;
+  GsFCALL5.nf3[GsDivMODE_DIV]			= GsTMDdivNF3;
+  /* gour triangle */
+  GsFCALL5.g3[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstG3L;
+  GsFCALL5.g3[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstG3LFG;
+  GsFCALL5.g3[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstG3NL;
+  GsFCALL5.g3[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivG3L;
+  GsFCALL5.g3[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivG3LFG;
+  GsFCALL5.g3[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivG3NL;
+  GsFCALL5.ng3[GsDivMODE_NDIV]			= GsPrstNG3;
+  GsFCALL5.ng3[GsDivMODE_DIV]			= GsTMDdivNG3;
+  /* texture flat triangle */
+  GsFCALL5.tf3[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstTF3L;
+  GsFCALL5.tf3[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstTF3LFG;
+  GsFCALL5.tf3[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstTF3NL;
+  GsFCALL5.tf3[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivTF3L;
+  GsFCALL5.tf3[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivTF3LFG;
+  GsFCALL5.tf3[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivTF3NL;
+  GsFCALL5.ntf3[GsDivMODE_NDIV]			= GsPrstTNF3;
+  GsFCALL5.ntf3[GsDivMODE_DIV]			= GsTMDdivTNF3;
+  /* texture gour triangle */
+  GsFCALL5.tg3[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstTG3L;
+  GsFCALL5.tg3[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstTG3LFG;
+  GsFCALL5.tg3[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstTG3NL;
+  GsFCALL5.tg3[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivTG3L;
+  GsFCALL5.tg3[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivTG3LFG;
+  GsFCALL5.tg3[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivTG3NL;
+  GsFCALL5.ntg3[GsDivMODE_NDIV]			= GsPrstTNG3;
+  GsFCALL5.ntg3[GsDivMODE_DIV]			= GsTMDdivTNG3;
+  /* flat quad */
+  GsFCALL5.f4[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstF4L;
+  GsFCALL5.f4[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstF4LFG;
+  GsFCALL5.f4[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstF4NL;
+  GsFCALL5.f4[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivF4L;
+  GsFCALL5.f4[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivF4LFG;
+  GsFCALL5.f4[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivF4NL;
+  GsFCALL5.nf4[GsDivMODE_NDIV]			= GsPrstNF4;
+  GsFCALL5.nf4[GsDivMODE_DIV]			= GsTMDdivNF4;
+  /* gour quad */
+  GsFCALL5.g4[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstG4L;
+  GsFCALL5.g4[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstG4LFG;
+  GsFCALL5.g4[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstG4NL;
+  GsFCALL5.g4[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivG4L;
+  GsFCALL5.g4[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivG4LFG;
+  GsFCALL5.g4[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivG4NL;
+  GsFCALL5.ng4[GsDivMODE_NDIV]			= GsPrstNG4;
+  GsFCALL5.ng4[GsDivMODE_DIV]			= GsTMDdivNG4;
+  /* texture flat quad */
+  GsFCALL5.tf4[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstTF4L;
+  GsFCALL5.tf4[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstTF4LFG;
+  GsFCALL5.tf4[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstTF4NL;
+  GsFCALL5.tf4[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivTF4L;
+  GsFCALL5.tf4[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivTF4LFG;
+  GsFCALL5.tf4[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivTF4NL;
+  GsFCALL5.ntf4[GsDivMODE_NDIV]			= GsPrstTNF4;
+  GsFCALL5.ntf4[GsDivMODE_DIV]			= GsTMDdivTNF4;
+  /* texture gour quad */
+  GsFCALL5.tg4[GsDivMODE_NDIV][GsLMODE_NORMAL]	= GsPrstTG4L;
+  GsFCALL5.tg4[GsDivMODE_NDIV][GsLMODE_FOG]	= GsPrstTG4LFG;
+  GsFCALL5.tg4[GsDivMODE_NDIV][GsLMODE_LOFF]	= GsPrstTG4NL;
+  GsFCALL5.tg4[GsDivMODE_DIV][GsLMODE_NORMAL]	= GsTMDdivTG4L;
+  GsFCALL5.tg4[GsDivMODE_DIV][GsLMODE_FOG]	= GsTMDdivTG4LFG;
+  GsFCALL5.tg4[GsDivMODE_DIV][GsLMODE_LOFF]	= GsTMDdivTG4NL;
+  GsFCALL5.ntg4[GsDivMODE_NDIV]			= GsPrstTNG4;
+  GsFCALL5.ntg4[GsDivMODE_DIV]			= GsTMDdivTNG4;
+  /* gradation triangle */ 
+  GsFCALL5.f3g[GsLMODE_NORMAL]			= GsPrstF3GL;
+  GsFCALL5.f3g[GsLMODE_FOG]			= GsPrstF3GLFG;
+  GsFCALL5.f3g[GsLMODE_LOFF]			= GsPrstF3GNL;
+  GsFCALL5.g3g[GsLMODE_NORMAL]			= GsPrstG3GL;
+  GsFCALL5.g3g[GsLMODE_FOG]			= GsPrstG3GLFG;
+  GsFCALL5.g3g[GsLMODE_LOFF]			= GsPrstG3GNL;
+}
+</PRE>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

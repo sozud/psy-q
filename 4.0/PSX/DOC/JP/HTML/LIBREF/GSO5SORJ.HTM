@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSortObject5J
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSortObject5J
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        objectをオーダリングテーブルに割り付け(関数TABLE版）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSortObject5J</B> (
+GsDOBJ5 * <I>objp</I>, 
+GsOT * <I>otp</I>, 
+int <I>shift</I>, 
+unsigned long * <I>scratch</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>objp</I>		オブジェクトへのポインタ
+<I>otp</I>		OT へのポインタ
+<I>shift	</I>	OT への割り付け時にＺの値を何ビット右にシフトさせるかを設定
+<I>scratch</I>		スクラッチパッドのアドレスを指定
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    全ての下位関数を登録した場合の機能はGsSortObject5()と同等加えてテーブルに登録する関数をプログラマが制御できるため不必要な下位関数を呼ばないようにしてコード効率をあげることができる。 <BR>
+    プロトタイピングにGsSortObject5()を使い 最終的にはGsSortObject5J()に変えてメモリを節約することができる。 <BR>
+    最大で 40kbyte 程度 節約できる。 <BR>
+    GsFCALL5の登録しないスロットには 取り敢えずdmyを先頭につけた関数名を書いておけば 万が一その下位関数が呼ばれたとしても BUS ERRORを起こすことはなく その関数が最初に呼ばれた時 関数名をprint outするので print outされたらdmyをとって登録すれば良い。 <BR>
+<BR>
+    GsFCALL5	GsSortObject5J()が参照する関数テーブル <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

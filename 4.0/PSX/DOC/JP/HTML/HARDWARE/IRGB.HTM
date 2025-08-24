@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    IRGB
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    IRGB
+<HR SIZE="5">
+</H1>
+<BR>
+    <B>レジスタ番号：	データ＃２８</B> <BR>
+<BR>
+    アクセス：	Ｗ <BR>
+<BR>
+    ビットパタン： <BR>
+<blockquote> <PRE> 31bit                          15 14     10 9       5 4        0
++---------------------------------+---------+---------+---------+
+|                                 |   IB    |   IG    |   IR    |
++---------------------------------+---------+---------+---------+
+</PRE>
+</blockquote>
+<BR>
+    フィールド： <BR>
+<blockquote> <PRE>IR	(-.5.-)		中間値へ設定する色情報（Ｒ成分）
+IG	(-.5.-)		中間値へ設定する色情報（Ｒ成分）
+IB	(-.5.-)		中間値へ設定する色情報（Ｒ成分）
+</PRE>
+</blockquote>
+<BR>
+    内部処理： <BR>
+        <BLOCKQUOTE>
+    このレジスタへのデータ書き込み操作により以下の処理が行われる。 <BR>
+<BR>
+        </BLOCKQUOTE>
+<blockquote> <PRE>IR1 = Rを(1.11.4)に型変換した値
+IR2 = Gを(1.11.4)に型変換した値
+IR3 = Bを(1.11.4)に型変換した値
+</PRE>
+</blockquote>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

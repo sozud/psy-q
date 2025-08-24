@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdlATV
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdlATV
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        オーディオアッテネータ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_char <I>val0</I>;
+		u_char <I>val1</I>;
+		u_char <I>val2</I>;
+		u_char <I>val3</I>;
+} <B>CdlATV</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>val0		</I>CD (L) → SPU (L) への減衰量
+<I>val1</I>		CD (L) → SPU (R) への減衰量
+<I>val2</I>		CD (R) → SPU (R) への減衰量
+<I>val3</I>		CD (R) → SPU (L) への減衰量
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CDの音量を設定するための構造体。 <BR>
+    CDの音量はCD-DAおよびCD-XAの音量のことである。 <BR>
+    <I>val0</I>～<I>val3</I>の値は最小音量0から最大音量128を設定する。 <BR>
+    通常のステレオの音量を調整するためには<I>val0</I>にＬチャンネル、<I>val1</I>にＲチャンネルの音量を指定し<I>val1</I>、<I>val3</I>には0を指定する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="cdmix.htm">CdMix</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

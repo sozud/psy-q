@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsA4divNF3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsA4divNF3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        GsSortObject4J()の下位関数群（自動分割を行なう）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>PACKET * <B>GsA4divNF3</B> (
+TMD_P_NF3 * <I>op</I>, 
+VERT * <I>vp</I>, 
+PACKET * <I>pk</I>, 
+int <I>n</I>,
+int<I> shift</I>, 
+GsOT * <I>ot</I>, 
+u_long * <I>scratch</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>op</I>		TMDデータのプリミティブ先頭アドレス
+<I>vp</I>		TMDデータのバーテックス先頭アドレス
+<I>pk		</I>ＧＰＵパケットバッファのアドレス
+<I>n</I>		プリミティブの数
+<I>shift	</I>	OTにソートする際の shift するbit数
+<I>ot</I>		GsOTへのポインタ
+<I>scratch		</I>未使用のscratch padの先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    Z値やポリゴンの大きさなどに応じて能動的に自動分割を行なう。 <BR>
+    使用するためにはGsFCALL4に下位関数として登録しGsDOBJ4のattributeに分割数を指定する。 <BR>
+    一つ一つの関数のコード量が比較的多いため必要なポリゴンの種類のみを登録した方がコード効率が良い。 <BR>
+    分割の条件としてZ値、ポリゴンの大きさ及びGTE計算のオーバーフローフラグがある。GsSetAzwh(az,aw,ah)マクロによって設定する。 <BR>
+<BR>
+    能動的分割のアルゴリズムは以下の通りです。 <BR>
+<BR>
+    (1) azより遠くでGTE計算でオーバーフローしないものは分割しない。 <BR>
+    (2) (1)以外の場合 分割を行なう。（(3)を呼ぶ） <BR>
+    (3) ポリゴンの大きさがaw,ahを越えずGTE計算でオーバーフローしないものはそこで分割を打ち切る。それ以外はX方向 Y方向1/2にし４片に分割して(3)を再帰的に呼び出す。分割の最大値(attributeの分割数）に達したらそこで分割を打ち切る。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    未使用のpacket領域の先頭アドレス <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    従来の固定分割方式を使う場合は GsTMDdiv系関数群をGsFCALL4に登録する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="dnf3.htm">GsTMDdivNF3</a>(), <a href="gsasetzh.htm">GsSetAzwh</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

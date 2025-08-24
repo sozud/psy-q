@@ -1,0 +1,114 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsU_03000001～GsU_03000990
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsU_03000001～GsU_03000990
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ＨＭＤアニメーション補完関数（線形、COORDINATE）
+</DIV><P>
+    GsU_03000001,GsU_03000009,GsU_03000010,GsU_03000011,GsU_03000019, <BR>
+    GsU_03000090,GsU_03000091,GsU_03000100,GsU_03000111,GsU_03000119, <BR>
+    GsU_03000191,GsU_03000901,GsU_03000909,GsU_03000910,GsU_03000911, <BR>
+    GsU_03000990 <BR>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsU_03000001</B>(
+GsARGUNIT_ANIM *<I>sp</I>
+)
+	～
+void <B>GsU_03000990</B>(
+GsARGUNIT_ANIM *<I>sp</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>sp</I>		引数受け渡し領域
+		通常は高速化のためスクラッチパッドを指定する。
+<I>sp</I>上に構築されている引数の情報は以下の通り
+<P>
+<IMG SRC ="gif/lgsn5.gif">
+<P>
+補完関数で常に固定なパラメータは最後の４つ
+シーケンスポインタのアドレス	：
+		書き換えインデックスから補完後にデータを書き換えるセクションと
+		書き換えるアドレスを特定する。
+src側のパラメータへのポインタ：
+		パラメータセクション内のsrcのキーフレームの実体を示すポインタ
+dst側のパラメータへのポインタ：
+		パラメータセクション内のdstのキーフレームの実体を示すポインタ
+補完後の書き込みポインタ	：
+		Realtime Motion Switchのために補完後のパラメータの値を保持
+		しておきたい場合がある。そのために保持しておく領域をパラメータ
+		セクション内のキーフレームの実体を指すポインタとして渡す。
+		０の場合は書き込みは行わない。
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    線形補完のための補完ドライバである。引数として引数領域のポインタが渡される。シーケンスポインタに保持されている TFRAME,RFRAMEより補完係数を算出し補完を行う。 <BR>
+    src側を０、dst側を１とすると、1-RFRAME/TFRAMEが補完係数となる。 <BR>
+    補完の種類は関数の名称がHMDのTypeを表すので、HMDのフォーマットを参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ＨＭＤフォーマット仕様書 <BR>
+    ＨＭＤアニメーションの項 <BR>
+    /PS-X/sample/grpahics/hmd/pdriver/03000010.c <BR>
+    /PS-X/sample/grpahics/hmd/pdriver/03000001.c <BR>
+    を参照のこと <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gu03.htm">GsU_03000000</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

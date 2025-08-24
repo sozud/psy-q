@@ -1,0 +1,1611 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 一般ディレクティブ</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+一般ディレクティブ
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+ASMPSX は、多種多様な関数、ディレクティブを提供しています。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>代入ディレクティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    代入ディレクティブは、シンボルに対して値を代入するために使用します。値は、定数、変数または文字列のいずれかとなります。<BR>
+    <BR>
+
+<H1>
+    EQU
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt; EQU &lt;expression&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    式 expression の結果を定数値として symbole name に代入します。<BR>
+    式には前方参照を含めることが可能です。指定されている内容が評価できない場合、式は保存され、後にこれを参照したときに置換されます。<BR>
+    ただし、<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>List	equ	Lastentry-Firstentry
+</PRE>
+    の例において Firstentry、Lastentry がいまだ定義されていない場合、<BR>
+    <BR>
+<PRE>dw  List+2
+</PRE>
+    は、<BR>
+<PRE>dw  (Lastentry-Firstentry)+2
+</PRE>
+    として扱われます。代入された式は、暗黙のうちにカッコで括られます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SET、EQUS<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    オプションを指定することにより、ASMPSX 実行時に代入を実行することができます。これはテストモードのような条件付きアセンブルを実行する際に便利です。<BR>
+    <BR>
+    EQU でシンボルに代入した値は不変です。二次的代入をしようとすると、エラーが発生します。しかし、現在値を、既存するシンボルに再代入することは可能です。これは、マスターセグメントによりすでに使われている定数を、補助コード内で再定義するときよく用いられます。<BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Length	equ	4
+Width	equ	8
+Depth	equ	12
+Volume	equ	Length"Width"Depth
+DmaHigh	equ	$ffff8609
+DmaMid	equ	DmaHigh+2
+</PRE>
+</blockquote>
+
+<H1>
+    SET
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt; SET &lt;expression&gt;<BR>
+    &lt;symbol name&gt;  =  &lt;expression&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    式 expression の結果を変数として symbole name に代入します。SET により代入された値は、随時、再代入できます。<BR>
+    "SET"及び"="は等価で、どちらを使用しても構いません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    EQU<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SET の代入式に前方参照を含めることはできません。指定されている内容が評価できない場合、エラーが発生します。<BR>
+    シンボルが定義される前に使用されている場合は、ASMPSX は警告を発し、アセンブラの仮パスで決定された値が代入されます。<BR>
+    SET で指定するシンボルはオペランドの形式を想定しません。従って、エラーを引き起こす可能性のある、相対開始位置を持つコード（例えば SECTION 構成）ではなく、マクロのような場所でのローカル値の設定に適しています。<BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Loopcount	set	0
+GrandTotal	=	SubTotalA+SubTotalB
+xdim	set	Bsize&lt;&lt;SC
+cbb	macro	string
+lc	=	0
+	rept	strlen(＼string)
+cc	substr 	lc+1,lc+1,＼string
+	db 	'＼cc'^($A5+lc)
+lc	=	lc+1
+	endr
+	endm
+</PRE>
+</blockquote>
+
+<H1>
+    EQUS
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	EQUS	"text"<BR>
+    &lt;symbol name&gt;	EQUS	'text'<BR>
+    &lt;symbol name&gt;	EQUS	&lt;other symbol name&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    テキストまたは文字列変数 text を symbole name に代入します。<BR>
+    text はダブルクォートあるいはシングルクォートで括って指定します。<BR>
+    文字列にダブルクォートを含める必要がある場合は、文字列全体をシングルクォートで括るか、ダブルクォートを２つ記述してください。<BR>
+    同様に文字列にシングルクォートを含める必要がある場合は、文字列全体をダブルクォートで括るか、シングルクォートを２つ記述してください。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>Sinquote	equs	'What"s the point?'
+Singquot2	equs	"What's the point?"
+Doubquote	equs	"Say ""Hello""and go"
+Doubquote	equs	'Say "Hello" and  go'
+
+</PRE>
+    また、デリミタ（ダブルクォート、シングルクォート）が省略された場合、アセンブラは、オペランドを以前定義した文字列変数 other symbole name であると仮定し、その値を symbole name に代入します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    EQU、SET<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ポイントブラケット、"{"、"}" は、マクロで使用される特殊デリミタです。詳しくは MACRO ディレクティブの項を参照してください。<BR>
+    EQUS により定義したシンボルは、別の文字列の一部とすることを含め、コードの任意の場所に記述することができます。<BR>
+    周囲の文字列と混同される恐れがある場合は、シンボルの前、そして必要に応じ、シンボルの後にバックスラシュ＼または通貨記号￥を付加する必要があります。<BR>
+
+     <H4><B>例１</B></H4>
+
+<PRE>z	equs	"123"
+	...
+	dw	z + 4		（123 + ４に変換されます）
+</PRE>
+
+     <H4><B>例２</B></H4>
+
+<PRE>z	equs	"123"
+	...
+	dw	number\z\a	（number123a に変換されます）
+</PRE>
+
+     <H4><B>例３</B></H4>
+
+<PRE>SA	equs	'StartAddress'
+	...
+	dw	\SA\4 		（StartAddress4 に変換されます）
+</PRE>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Program	equs	"Psy-Q v 1.2"
+Qtex	equs	"What's the score?"
+	db	"Remember to assemble &
+		＼_filename",0
+</PRE>
+</blockquote>
+
+<H1>
+    R
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	R&lt;size&gt;	&lt;count&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    _RS 変数の値を symbol name に代入し、rs カウンタを、size の指定に基づき、バイト、ハーフ<BR>
+    ワードあるいはワード単位で count 分だけ進めます。<BR>
+    size に指定できるのは次のいずれかです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>単位</TD><TR>
+    <TD>b</TD><TD>バイト</TD><TR>
+    <TD>h</TD><TD>ハーフワード（16 ビット）</TD><TR>
+    <TD>w</TD><TD>ワード（32 ビット）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    RSSET、RSRESET<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    この命令と RSSET、RSRESET は共に、ASMPSX 変数 _RS に従い動作します。_RS 変数には現行オフセットが入っています。<BR>
+    自動偶数配置オプション (AE) が指定されている場合、ハーフワード及びワード単位のＲ命令は、_RS 変数が次のワード境界に揃えられているかどうかを確認します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>rsreset
+Icon_no	 rb	 1
+Dropcode rh	 1
+Actcode	 rh	 1
+Actname	 rb	 10
+Objpos	 rw	 1
+Artlen	 rb	 0
+</PRE>
+    この例では、最初の５つの RS のそれぞれが代入された後、_RS ポインタが進められます。従って各のシンボルが示す値は次のようになります。<BR>
+    なお、最後の rb は、_RS ポインタを進めません。count に０を指定することは、_RS 変数の EQUATE と等価であるためです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>シンボル</TD><TD>値</TD><TR>
+    <TD>Icon_no</TD><TD>0 (RSRESET により０に設定されます）</TD><TR>
+    <TD>Dropcode</TD><TD>1</TD><TR>
+    <TD>Actcode<BR></TD><TD>4 (自動偶数配置が指定されている場合、ポインタは偶数境界に<BR>進められます)</TD><TR>
+    <TD>Actname</TD><TD>6</TD><TR>
+    <TD>Objpos</TD><TD>16</TD><TR>
+    <TD>Artlen</TD><TD>20</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<H1>
+    RSSET
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    RSSET	&lt;value&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    指定値 value を_RS 変数に代入します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    RSRESET<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    このディレクティブは、通常、オフセットが、０以外の値で始まるときに使われます。<BR>
+</blockquote>
+
+<H1>
+    RSRESET
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    RSRESET [value]<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    _RS 変数を０（または value）に設定します。<BR>
+    _RS カウンタを新たなデータ構造の開始時に初期化する一般的な方法です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    R、RSSET<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    オプショナルパラメータ value は、他のアセンブラとの互換性のために用意されています。これが指定された場合、RSRESET は、RESET ディレクティブのように動作します。<BR>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>データの定義</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    データ及びリザーブスペースを定義するためのディレクティブとして、以下のものがあります。<BR>
+    <BR>
+
+<H1>
+    D
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	D&lt;size&gt;	&lt;expression&gt;,&lt;expression&gt;...<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    この命令は、オペランドの式 expression を評価し、その結果を、size パラメータにより指定されたフォーマットで、symbol name に代入します。式は、数値、文字列またはシンボルとなります。<BR>
+    size に指定できるのはいずれかです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>単位</TD><TR>
+    <TD>b</TD><TD>バイト</TD><TR>
+    <TD>h</TD><TD>ハーフワード（16 ビット）</TD><TR>
+    <TD>w</TD><TD>ワード（32 ビット）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+    式が文字列の場合、これにダブルクォートを含める必要がある場合は、文字列全体をシングルクォートで括るか、ダブルクォートを２つ記述してください。<BR>
+    同様に文字列にシングルクォートを含める必要がある場合は、文字列全体をダブルクォートで括るか、シングルクォートを２つ記述してください。<BR>
+    また、デリミタ（ダブルクォート、シングルクォート）が省略された場合、アセンブラは、オペランドを以前定義した文字列変数であると仮定し、その値を symbole name に代入します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DCB<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    自動偶数配置オプション (AE) が指定されている場合、ハーフワード及びワード単位のＤ命令は、プログラムカウンタが次のワード境界に揃えられているかどうかを確認します。<BR>
+    アセンブラが、範囲外のパラメータを検出すると、ASMPSX は、エラーを発生します。下記のステートメントは、エラーの原因となります。<BR>
+<PRE>db	257
+db	-129
+dh	66000
+dh	-33000
+</PRE>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Hexvals		dh	$80d,$a08,0,$80d,0
+Coords		dh	-15,46
+Pointers	dw	StartMarker,EndMarker
+ErrorMes	db	"File Error",0
+</PRE>
+</blockquote>
+
+<H1>
+    DC
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DC&lt;size&gt;	&lt;length&gt;,&lt;value&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    value から成る、length 長のメモリのブロックを size 単位で生成します。<BR>
+    size に指定できるのは次の何れかです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>単位</TD><TR>
+    <TD>b</TD><TD>バイト</TD><TR>
+    <TD>h</TD><TD>ハーフワード（16 ビット）</TD><TR>
+    <TD>w</TD><TD>ワード（32 ビット）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DB<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    自動偶数配置オプション (AE) が指定されている場合、ハーフワード及びワード単位の DC 命令は、プログラムカウンタが次のワード境界に揃えられているかどうかを確認します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>dcb	256,$7F	（$7F から成る 256 バイトのメモリブロックを生成）
+dch	64,$FF  （$FF から成る 64 ハーフワードのメモリブロックを生成）
+</PRE>
+</blockquote>
+
+<H1>
+    DS
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	DS&lt;size&gt;	&lt;length&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    length 長のメモリブロックを size 単位で生成し、これを symbol name に割り当て、０で初期化します。<BR>
+    size に指定できるのは次のいずれかです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>単位</TD><TR>
+    <TD>b</TD><TD>バイト</TD><TR>
+    <TD>h</TD><TD>ハーフワード（16 ビット）</TD><TR>
+    <TD>w</TD><TD>ワード（32 ビット）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DC、DCB<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    自動偶数配置オプション (AE) が指定されている場合、ハーフワード及びワード単位の DS 命令は、プログラムカウンタが次のワード境界に揃えられているかどうかを確認します。<BR>
+    BSS 属性のあるグループ／セクションにメモリを割り当てるために使われる場合、予約領域は初期化されません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>List	dsh	64	（64 ハーフワードの領域を予約し、０で初期化します）
+Buffer	dsb	1024	（1024 バイトの領域を予約し、０で初期化します）
+</PRE>
+</blockquote>
+
+<H1>
+    HEX
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	HEX	&lt;hexlist&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    hexlist で指定された符号無し 16 進ニブルペアの値をバイト単位で symbol name に代入します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INCBIN<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    HEX として格納されているデータは、読みづらく、メモリ効率も悪く、アセンブラにとって余計な作業の原因となります。従って、HEX ステートメントは、比較的小さなデータ定義に限って使用することをお勧めします。大量のデータを読み込むには、そのデータをファイルに格納し、ランタイム時にバイナリファイルとして INCLUDE することをお勧めします。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>HexString	hex	100204FF0128
+</PRE>
+    この例は<BR>
+<PRE>HexString	db	$10,$02,$04,$FF,$01,$28
+</PRE>
+    と等価です。<BR>
+</blockquote>
+
+<H1>
+    DATASIZE、DATA
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DATASIZE	&lt;size&gt;<BR>
+    DATA		&lt;value&gt;,&lt;value&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    これらの命令を一緒に使うことにより、プログラマは、値を１～256 バイト長（8～2048 ビット）に定義することができます。DATA アイテムのサイズは、まず、DATA SIZE で定義しなければなりません。<BR>
+    value は 16 進または 10 進の数値文字列で、オプションとしてマイナス符号を付加することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    IEEE32、IEEE64<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DATA で指定された value の値が、DATASIZE により指定されたサイズ内に収まらない場合、ASMPSX はエラーを発生します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>datasize	8
+...
+data		$123456789ABCDEF0
+data		-1,$FFFFFFFFFFFF
+</PRE>
+</blockquote>
+
+<H1>
+    IEEE32、IEEE64
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    IEEE32	&lt;fp.value&gt;<BR>
+    IEEE64	&lt;fp.value&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    32 ビット及び 64 ビット浮動小数点数字を IEEE フォーマットに定義します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DATA、DATASIZE<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>ieee32	1.23,34e10
+ieee64	123456.7654321e-2
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>プログラム実行の制御</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    プログラムカウンタの状態を変更し、アセンブラの実行を制御するディレクティブとして、以下のものがあります。<BR>
+    <BR>
+
+<H1>
+    ORG
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ORG	&lt;address&gt;[,parameter]<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ORG 命令は、アセンブラに、ターゲットマシンのコードの位置を知らせます。<BR>
+    address は、以前に定義したシンボル、あるいは 16 進／10 進の数値です。オプションとして、数値の先頭に"?"を付加したり、コンマに続いてマシン依存の数値パラメータを指定することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    OBJ、OBJEND、GROUP、SECTION<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リンクファイルを出力する場合、ORG 命令は使用してはいけません。<BR>
+    プログラムが SECTION ディレクティブを含む場合、指定できる ORG は１つのみです。また、ORG ディレクティブはすべての SECTION ディレクティブより前になければなりません。SECTION を利用しない場合は、複数の ORG を指定することができます。<BR>
+    オペランド (address) の前にクエスチョンマークを付加することにより、プログラムが必要とする RAM 容量を指定することができます。ただし、この機能は、OS がメモリを割り当てるマシンでのみ利用可能です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>	org	$100
+Begin	lw	r2,8(a0)
+Program	equ	$4000
+...
+	org	Program
+</PRE>
+</blockquote>
+
+<H1>
+    CNOP
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CNOP	&lt;offset&gt;,&lt;size boundary&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    プログラムカウンタを指定したサイズ境界 size boundary から、指定したオフセット offset に再設定します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SECTION ディレクティブを含むコードでは、ASMPSX は、プログラムカウンタをそのセクション用にすでに設定されているアラインメントよりも大きなサイズ境界に再設定することはできません。<BR>
+    従って、バイト単位で配置されたセクションに、サイズ境界に２を指定した CNOP ステートメントを記述することはできません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    この例ではプログラムカウンタを次のハーフワード境界の上方の 512 バイトに設定します。<BR>
+    <BR>
+<PRE>	section	prime
+Firstoff=	512
+Firstsize=	2
+...
+	cnop	Firstoff,Firstsize
+</PRE>
+</blockquote>
+
+<H1>
+    OBJ、OBJEND
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    OBJ	&lt;address&gt;<BR>
+    OBJEND<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    OBJ は、これに続くコードを、それがあたかも指定したアドレス address にあるかのように、アセンブルします。ただしそのコードは、直前のコードに続いて表示されます。<BR>
+    OBJEND は、この処理を打ち切り、ORG で指定されたアドレス値に戻ります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ORG<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    OBJ-OBJEND 構成は、１つのアドレスでアセンブルしなければならないコードに便利です（例えば ROM カートリッジ内）。しかし、コピーされた後は、別のアドレスで実行されます。<BR>
+    OBJ-OBJEND で区切られたコードブロックは、入れ子にはできません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>org	$100
+dw	*
+dw	*
+obj	$200
+dw	*
+dw	*
+objend
+dw	*
+dw	*
+</PRE>
+    上記コードは、下記のような、アドレス$100 で始まるワードのシーケンスを生成します。<BR>
+<PRE>$100
+$104
+$200
+$204
+$110
+$114
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>ファイルのインクルード</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ほとんどのプログラムのソースコードは、あまりにも大きいため、単一ファイルとして取り扱うことができません。通常、プログラムは、アセンブル処理中に一緒に呼び出される補助ファイルで構成されています。<BR>
+    ここでは、別個のソースファイルを収集し、これを制御するためのディレクティブについて解説します。また、INCLUDE したファイルからアセンブルされるコードの制御を助ける演算子についても解説します。<BR>
+    <BR>
+
+<H1>
+    INCLUDE
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INCLUDE	&lt;filename&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在のファイルの処理を再開する前に、別のソースファイル filename を読み込んで処理します。<BR>
+    filename は、ドライブ及びパスを含む、ソースファイルの名前です。filename は、クォーテーションで囲むこともできます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INCBIN<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイルの INCLUDE を入れ子にすることができます。（INCLUDEしたファイル内に INCLUDE を指定できます。<BR>
+    ASMPSX 実行時に"/j"オプションを指定し、INCLUDE されるファイルの探索パスを指定することができます。<BR>
+    パス名にはバックスラッシュが含まれていますが、これは EQUS ディレクティブによって定義されたシンボルと混同される恐れがあります。これを回避するには、バックスラッシュは２個指定するか、バックスラッシュの代わりにスラッシュを用いてください。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>include	d:\\source\\levels.s
+include	d:/source/levels.s
+</PRE>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>		section	short1
+codestart	j	entrypoint
+		db	 _hours,_minutes
+		db	_day,_month
+		db	_year
+		include	vars1.s
+		section	short2
+		include	vars2.s
+		section	code
+		include	graph1.s
+		include	graph2.s
+		include	maths.s
+		include	trees.s
+		include	tactics.s
+entrypoint	li	t0,8
+		lw	a0,fred
+		...
+</PRE>
+</blockquote>
+
+<H1>
+    INCBIN
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    &lt;symbol name&gt;	INCBIN	&lt;filename&gt;[,start,length]<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在のファイル処理を再開する前に、別のバイナリファイル filename を読み込み、処理します。<BR>
+    filename は、ドライブ及びパスを含む、ソースファイルの名前です。filename は、クォーテーションで囲むこともできます。<BR>
+    start、length は任意の値で、これにより指定したファイルの特定の部分を選択してインクルードすることが可能となります。これらを省略した場合の動作は次の通りです。<BR>
+<UL>
+         <LI> start が省略されると、ファイルの始めから読み込みを開始します。
+         <LI> length が省略されると、ファイルの終わりまでを読み込みます。
+         <LI> start 及び length の両方が省略されると、ファイル全体を読み込みます。
+</UL>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INCLUDE、HEX<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INCBIN により、大量のバイナリデータを別々のファイルに保存し、アセンブル時にメインプログラムに読み込むことができます。こうしたデータは大抵の場合、文字列や座標値です。アセンブラには、受信データのタイプ及びレイアウトに関する情報は一切引き渡されません。従って、INCBIN データのラベル付け及び修正は、プログラマの責任となります。<BR>
+    ASMPSX 実行時に"/j"オプションを指定し、INCLUDE されるファイルの探索パスを指定することができます。<BR>
+    パス名にはバックスラッシュが含まれていますが、これは EQUS ディレクティブによって定義されたシンボルと混同される恐れがあります。これを回避するには、バックスラッシュは２個指定するか、バックスラッシュではなくスラッシュを用いてください。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>include	d:\\source\\levels.s
+include	d:/source/levels.s
+</PRE>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>Charmove	incbin	"d:\source\charmov.bin"
+</PRE>
+</blockquote>
+
+<H1>
+    REF
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    [~]REF(symbol)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REF は特殊演算子で、これにより、プログラマは INCLUDE すべきコードのセグメントを決めることができます。<BR>
+    REF は、カッコ中のシンボル symbol が前もって参照されている場合に TRUE となります。<BR>
+    また、"~"（チルド）は NOT を表わし、任意に指定することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    Links ルーチンは、同ルーチンへの参照がすでに行なわれている場合、アセンブルされます。<BR>
+<PRE>	if	ref(Links)
+Links	lw	r1,8(a0)
+	...
+	jr	ra
+	endif
+</PRE>
+</blockquote>
+
+<H1>
+    DEF
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    [~]DEF(symbol)<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REF 演算子と同様に、DEF は特殊機能です。これにより、プログラマはすでに INCLUDE されたコードのセグメントを判定することができます。<BR>
+    DEF は、カッコ中のシンボル symbol が前もって定義されている場合に TRUE となります。<BR>
+    また、"~"（チルド）は NOT を表わし、任意に指定することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    アドレス代入部は、load_addr がまだ定義されていない場合、アセンブルされます。<BR>
+<PRE>		if	~def(load_addr)
+load_addr	equ	$1000
+exec_addr	equ	$1000
+reloc_addr	equ	$80000-$300
+		endc
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>アセンブルの制御</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    コードのセクションを選択したり、繰り返しを実行するなど、アセンブラを制御するためのディテクティブとして、以下のものがあります。<BR>
+    <BR>
+
+<H1>
+    END
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    END     [address]<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    END 命令は、アセンブラにそのソースコードのアセンブルを中止するよう伝えます。<BR>
+    address にはプログラムの最初のアドレスを指定します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REGS<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    このディテクティブは、おおむね装飾的なものです。というのも、アセンブラは処理すべきコードがなくなると、処理を中止するからです。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>startrel	lw	t0,(a0)
+		addu	r3,r2,r1
+		...
+		jr	ra
+		end
+</PRE>
+</blockquote>
+
+<H1>
+    IF, ELSE, ELSEIF, ENDIF, ENDC
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    IF	[~]&lt;expression&gt;<BR>
+    ELSE<BR>
+    ELSEIF	[~]&lt;expression&gt;<BR>
+    ENDIF<BR>
+    ENDC<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    これらの条件命令により、アセンブルするコードを選択することができます。<BR>
+    式 expression の前に、NOT を表わす"~"（チルド）を付加することも可能です。ただし、式の意味を保護するためのカッコを慎重に扱う必要があります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CASE<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ENDC 及び ENDIF は等価で、どちらを使用しても構いません。<BR>
+    ELSEIF 命令が式なしで使われる場合は、ELSE 命令と同じように動作します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>		if	Sim_CD
+sec _dir	equ	2
+		elseif	Real_CD
+sec_dir		equ	1
+		else
+sec_dir		equ	3
+		endif
+		if	~usesquare
+round		macro  
+		addu	＼1,＼2,＼3
+		endm
+		elseif
+round		macro
+		endm
+		endc
+ldimm		macro	dest,imm
+	if 	(＼imm &gt; -32568) & (＼imm &lt; 32768)
+			addiu	＼dest,r0,＼imm
+		else
+			lui	＼dest,(＼imm) &gt;&gt; 16
+			if	(＼imm) & $ffff
+		ori	＼dest,＼dest,(＼imm) & $ffff
+			endif
+		endif
+		endm
+</PRE>
+</blockquote>
+
+<H1>
+    CASE、ENDCASE
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    	CASE	&lt;expression&gt;<BR>
+    =&lt;expression&gt;[,expression]<BR>
+    =?<BR>
+    	ENDCASE<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CASE 命令は、複数の条件から選択を行なう場合に使用します。<BR>
+    expression には、評価される式を指定します。<BR>
+    "="の後の引数 expression が真の場合、それに続くコードがアセンブルされます。<BR>
+    前に真となるケースがない場合は、"=?"のケースが選択されます。 <BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    IF<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    "=?"ケースがなく、既存のケースが異常の場合、ケース定義されたコードはアセンブルされません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    下記は、IF を CASE に置き換えたものです。<BR>
+<PRE>Target	equ	Sony-1
+	...
+	case	Target
+=Sony-1
+sec_dir	equ	2
+=Sony-2
+sec_dir	equ	1
+=?	db	 "New Version",0
+sec_dir	equ	3
+	endcase
+</PRE>
+</blockquote>
+
+<H1>
+    REPT、ENDR
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REPT	&lt;count&gt;<BR>
+    ...<BR>
+    ENDR<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REPT 及び ENDR ステートメント間のコードを繰り返します。繰り返しの回数は count の値で決まります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DO、WHILE<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    マクロ内では、REPT は頻繁に NARG 機能と関連付けられます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>rept	12
+dh	0,0,0,0
+endr
+cbb	macro	string
+lc	=	0
+	rept	strlen(＼string)
+cc	substr	lc+1,lc+1,＼string
+	db	"＼cc"^($A5+lc)
+lc	=	lc+1
+	endr
+	endm
+</PRE>
+</blockquote>
+
+<H1>
+    WHILE、ENDW
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    WHILE	&lt;expression&gt;<BR>
+    ...<BR>
+    ENDOW<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    オペランドの式 expression が真である限り、WHILE 及び ENDW ステートメント間のコードを繰り返します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REPT、DO<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    WHILE 式にある文字列代入は、WHILE ループが最初に検出されたときに１回だけ行なわれます。従って次の例は正しく動作しません。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>s	equs	 "X"
+	while	strlen("\s")&lt;4
+	db	 "\s",0
+s	equs	"\s\x"
+	endw
+</PRE>
+    これを避けるには、次のようにループを回る度に変数を設定し、ループが継続することを示してください。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>s	equs	"X"
+looping	=	-1
+	while	looping
+	db	"\s",0
+s	equs	"\s\x"
+looping	=	strlen("\s")&lt;4
+	endw
+</PRE>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>MultP	equ	16
+	...
+Indic	=	MultP
+	while	Indic&gt;1
+	lw	r1,term(a0)
+	...
+Indc	=	Indic-1
+	endw
+</PRE>
+</blockquote>
+
+<H1>
+    DO、UNTIL
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DO<BR>
+    ...<BR>
+    UNTIL	&lt;expression&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DO 及び UNTIL ステートメント間のコードを、指定した式 expression が真になるまで、繰り返します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REPT、WHILE<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    WHILE 命令とは対象的に、UNTIL 式の文字列代入は、ループを回る度に再評価されます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>MultP	equ	16
+	...
+Indic	=	MultP
+	do
+	lw	r1,term(a0)
+	...
+Indic	=	Indic-1
+	until	Indic &lt;= 1
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>ターゲット関連</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ターゲットマシンの最初のパラメータを指定するディレクティブとして、次のものがあります。<BR>
+    <BR>
+
+<H1>
+    REGS
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    REGS	&lt;regcode=expression&gt;[,&lt;regcode=expression&gt;]<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    レジスタ regcode に式 expression を代入します。regcode には、"r1"、"PC"のようなレジスタのニーモニック名を指定します。<BR>
+    CPE ファイルが作成されるか、オブジェクトコードがターゲットに出力されると、REGS ディレクティブは、コードの実行開始時にレジスタの内容を設定します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ターゲットに固有なリロケータブルコードまたはバイナリコードに対しては使用できません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>regs	t0=$1234
+regs	pc=entrypoint
+</PRE>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

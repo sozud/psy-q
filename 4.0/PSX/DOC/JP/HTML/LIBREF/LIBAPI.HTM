@@ -1,0 +1,366 @@
+<HTML>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> カーネル ライブラリ (libapi)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm" TARGET="_top"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm" TARGET="_top"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2">
+<H1>
+カーネル ライブラリ (libapi) 関数一覧
+<HR>
+</H1>
+</A>
+<blockquote>
+
+<TABLE CELLPADDING=0>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>構造体</TD><TR>
+<TD></TD><TD>
+<A HREF="direntry.htm" _TARGET="main"> DIRENTRY </A><BR>
+</TD><TD> </TD>
+<TD>ディレクトリエントリのデータ構造</TD><TR>
+<TD></TD><TD>
+<A HREF="evcb.htm" _TARGET="main"> EvCB </A><BR>
+</TD><TD> </TD>
+<TD>イベント管理ブロック</TD><TR>
+<TD></TD><TD>
+<A HREF="str_exec.htm" _TARGET="main"> EXEC </A><BR>
+</TD><TD> </TD>
+<TD>実行ファイルのデータ構造</TD><TR>
+<TD></TD><TD>
+<A HREF="tcb.htm" _TARGET="main"> TCB </A><BR>
+</TD><TD> </TD>
+<TD>タスク管理ブロック</TD><TR>
+<TD></TD><TD>
+<A HREF="tcbh.htm" _TARGET="main"> TCBH </A><BR>
+</TD><TD> </TD>
+<TD>タスク実行キュー</TD><TR>
+<TD></TD><TD>
+<A HREF="tot.htm" _TARGET="main"> ToT </A><BR>
+</TD><TD> </TD>
+<TD>システムテーブル情報</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>関数</TD><TR>
+<TD></TD><TD>
+<A HREF="_96_init.htm" _TARGET="main"> _96_init </A><BR>
+</TD><TD> </TD>
+<TD>ISO-9660ファイルシステムの組み込み</TD><TR>
+<TD></TD><TD>
+<A HREF="_96remoe.htm" _TARGET="main"> _96_remove </A><BR>
+</TD><TD> </TD>
+<TD>ISO-9660ファイルシステムの切り離し</TD><TR>
+<TD></TD><TD>
+<A HREF="_boot.htm" _TARGET="main"> _boot </A><BR>
+</TD><TD> </TD>
+<TD>リブート</TD><TR>
+<TD></TD><TD>
+<A HREF="_geterro.htm" _TARGET="main"> _get_errno </A><BR>
+</TD><TD> </TD>
+<TD>直近の入出力エラーコードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="_geterrr.htm" _TARGET="main"> _get_error </A><BR>
+</TD><TD> </TD>
+<TD>ファイルディスクリプタのエラーコードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="calloc2.htm" _TARGET="main"> calloc2 </A><BR>
+</TD><TD> </TD>
+<TD>主記憶を割り当てる</TD><TR>
+<TD></TD><TD>
+<A HREF="calloc3.htm" _TARGET="main"> calloc3 </A><BR>
+</TD><TD> </TD>
+<TD>主記憶を割り当てる</TD><TR>
+<TD></TD><TD>
+<A HREF="cd.htm" _TARGET="main"> cd </A><BR>
+</TD><TD> </TD>
+<TD>デフォルトディレクトリ変更</TD><TR>
+<TD></TD><TD>
+<A HREF="ccpahand.htm" _TARGET="main"> ChangeClearPAD </A><BR>
+</TD><TD> </TD>
+<TD>コントロールドライバの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="changeth.htm" _TARGET="main"> ChangeTh </A><BR>
+</TD><TD> </TD>
+<TD>実行スレッドの変更</TD><TR>
+<TD></TD><TD>
+<A HREF="close.htm" _TARGET="main"> close </A><BR>
+</TD><TD> </TD>
+<TD>ファイルのクローズ</TD><TR>
+<TD></TD><TD>
+<A HREF="celosevt.htm" _TARGET="main"> CloseEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントのクローズ</TD><TR>
+<TD></TD><TD>
+<A HREF="closeth.htm" _TARGET="main"> CloseTh </A><BR>
+</TD><TD> </TD>
+<TD>スレッドのクローズ</TD><TR>
+<TD></TD><TD>
+<A HREF="delete.htm" _TARGET="main"> delete </A><BR>
+</TD><TD> </TD>
+<TD>ファイルを削除</TD><TR>
+<TD></TD><TD>
+<A HREF="deelivet.htm" _TARGET="main"> DeliverEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントを発行</TD><TR>
+<TD></TD><TD>
+<A HREF="deisablt.htm" _TARGET="main"> DisableEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントの発生を禁止</TD><TR>
+<TD></TD><TD>
+<A HREF="dpaisabd.htm" _TARGET="main"> DisablePAD </A><BR>
+</TD><TD> </TD>
+<TD>コントローラとの通信を中断する。</TD><TR>
+<TD></TD><TD>
+<A HREF="eenablet.htm" _TARGET="main"> EnableEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントの発生を許可</TD><TR>
+<TD></TD><TD>
+<A HREF="epanabld.htm" _TARGET="main"> EnablePAD </A><BR>
+</TD><TD> </TD>
+<TD>コントローラとの通信を行うようにする。</TD><TR>
+<TD></TD><TD>
+<A HREF="ecsntern.htm" _TARGET="main"> EnterCriticalSection </A><BR>
+</TD><TD> </TD>
+<TD>クリティカルセクションに入る</TD><TR>
+<TD></TD><TD>
+<A HREF="exceptin.htm" _TARGET="main"> Exception </A><BR>
+</TD><TD> </TD>
+<TD>割り込みの発生</TD><TR>
+<TD></TD><TD>
+<A HREF="exec.htm" _TARGET="main"> Exec </A><BR>
+</TD><TD> </TD>
+<TD>実行ファイルの実行</TD><TR>
+<TD></TD><TD>
+<A HREF="ecsxitrn.htm" _TARGET="main"> ExitCriticalSection </A><BR>
+</TD><TD> </TD>
+<TD>クリティカルセクションから脱出</TD><TR>
+<TD></TD><TD>
+<A HREF="firstfie.htm" _TARGET="main"> firstfile </A><BR>
+</TD><TD> </TD>
+<TD>最初のファイルの検索</TD><TR>
+<TD></TD><TD>
+<A HREF="fclushae.htm" _TARGET="main"> FlushCache </A><BR>
+</TD><TD> </TD>
+<TD>キャッシュのフラッシュ</TD><TR>
+<TD></TD><TD>
+<A HREF="format.htm" _TARGET="main"> format </A><BR>
+</TD><TD> </TD>
+<TD>ファイルシステムを初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="free2.htm" _TARGET="main"> free2 </A><BR>
+</TD><TD> </TD>
+<TD>割り当て済みのメモリブロックを開放する</TD><TR>
+<TD></TD><TD>
+<A HREF="free3.htm" _TARGET="main"> free3 </A><BR>
+</TD><TD> </TD>
+<TD>割り当て済みのメモリブロックを開放する</TD><TR>
+<TD></TD><TD>
+<A HREF="getconf.htm" _TARGET="main"> GetConf </A><BR>
+</TD><TD> </TD>
+<TD>カーネルコンフィギュレーションの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="getcr.htm" _TARGET="main"> GetCr </A><BR>
+</TD><TD> </TD>
+<TD>原因レジスタ値の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="getgp.htm" _TARGET="main"> GetGp </A><BR>
+</TD><TD> </TD>
+<TD>レジスタ値の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="getrcnt.htm" _TARGET="main"> GetRCnt </A><BR>
+</TD><TD> </TD>
+<TD>ルートカウンタの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="getsp.htm" _TARGET="main"> GetSp </A><BR>
+</TD><TD> </TD>
+<TD>レジスタ値の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="getsr.htm" _TARGET="main"> GetSr </A><BR>
+</TD><TD> </TD>
+<TD>ステータスレジスタ値の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="getsyssp.htm" _TARGET="main"> GetSysSp </A><BR>
+</TD><TD> </TD>
+<TD>システムスタックの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="initheap.htm" _TARGET="main"> InitHeap </A><BR>
+</TD><TD> </TD>
+<TD>ヒープ領域の初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="ihnitea2.htm" _TARGET="main"> InitHeap2 </A><BR>
+</TD><TD> </TD>
+<TD>ヒープ領域の初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="ihnitea3.htm" _TARGET="main"> InitHeap3 </A><BR>
+</TD><TD> </TD>
+<TD>ヒープ領域の初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="initpad.htm" _TARGET="main"> InitPAD </A><BR>
+</TD><TD> </TD>
+<TD>コントローラの初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="ioctl.htm" _TARGET="main"> ioctl </A><BR>
+</TD><TD> </TD>
+<TD>デバイスの制御</TD><TR>
+<TD></TD><TD>
+<A HREF="k2raromd.htm" _TARGET="main"> Krom2RawAdd </A><BR>
+</TD><TD> </TD>
+<TD>漢字フォントパタンアドレスの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="k2rarom2.htm" _TARGET="main"> Krom2RawAdd2 </A><BR>
+</TD><TD> </TD>
+<TD>漢字フォントパタンアドレスの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="load.htm" _TARGET="main"> Load </A><BR>
+</TD><TD> </TD>
+<TD>実行ファイルのロード</TD><TR>
+<TD></TD><TD>
+<A HREF="loadexec.htm" _TARGET="main"> LoadExec </A><BR>
+</TD><TD> </TD>
+<TD>実行ファイルのロードと実行</TD><TR>
+<TD></TD><TD>
+<A HREF="loadtest.htm" _TARGET="main"> LoadTest </A><BR>
+</TD><TD> </TD>
+<TD>ロードテストの実行</TD><TR>
+<TD></TD><TD>
+<A HREF="lseek.htm" _TARGET="main"> lseek </A><BR>
+</TD><TD> </TD>
+<TD>ファイルポインタの移動</TD><TR>
+<TD></TD><TD>
+<A HREF="malloc2.htm" _TARGET="main"> malloc2 </A><BR>
+</TD><TD> </TD>
+<TD>主記憶を割り当てる</TD><TR>
+<TD></TD><TD>
+<A HREF="malloc3.htm" _TARGET="main"> malloc3 </A><BR>
+</TD><TD> </TD>
+<TD>主記憶を割り当てる</TD><TR>
+<TD></TD><TD>
+<A HREF="nextfile.htm" _TARGET="main"> nextfile </A><BR>
+</TD><TD> </TD>
+<TD>次のファイルの検索</TD><TR>
+<TD></TD><TD>
+<A HREF="open.htm" _TARGET="main"> open </A><BR>
+</TD><TD> </TD>
+<TD>ファイルのオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="oepenvet.htm" _TARGET="main"> OpenEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントのオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="openth.htm" _TARGET="main"> OpenTh </A><BR>
+</TD><TD> </TD>
+<TD>スレッドのオープン</TD><TR>
+<TD></TD><TD>
+<A HREF="read.htm" _TARGET="main"> read </A><BR>
+</TD><TD> </TD>
+<TD>ファイルからデータを読み込む</TD><TR>
+<TD></TD><TD>
+<A HREF="realloc2.htm" _TARGET="main"> realloc2 </A><BR>
+</TD><TD> </TD>
+<TD>ヒープメモリの割り当てを変更する</TD><TR>
+<TD></TD><TD>
+<A HREF="realloc3.htm" _TARGET="main"> realloc3 </A><BR>
+</TD><TD> </TD>
+<TD>ヒープメモリの割り当てを変更する</TD><TR>
+<TD></TD><TD>
+<A HREF="rename.htm" _TARGET="main"> rename </A><BR>
+</TD><TD> </TD>
+<TD>ファイルの名称変更</TD><TR>
+<TD></TD><TD>
+<A HREF="rrcesett.htm" _TARGET="main"> ResetRCnt </A><BR>
+</TD><TD> </TD>
+<TD>ルートカウンタのリセット</TD><TR>
+<TD></TD><TD>
+<A HREF="rfeeturn.htm" _TARGET="main"> ReturnFromException </A><BR>
+</TD><TD> </TD>
+<TD>割り込みから復帰</TD><TR>
+<TD></TD><TD>
+<A HREF="sendpad.htm" _TARGET="main"> SendPAD </A><BR>
+</TD><TD> </TD>
+<TD>コントローラの送信データバッファの初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="setconf.htm" _TARGET="main"> SetConf </A><BR>
+</TD><TD> </TD>
+<TD>カーネルコンフィギュレーションの変更</TD><TR>
+<TD></TD><TD>
+<A HREF="setmem.htm" _TARGET="main"> SetMem </A><BR>
+</TD><TD> </TD>
+<TD>有効メモリサイズの変更</TD><TR>
+<TD></TD><TD>
+<A HREF="setrcnt.htm" _TARGET="main"> SetRCnt </A><BR>
+</TD><TD> </TD>
+<TD>ルートカウンタの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="setsp.htm" _TARGET="main"> SetSp </A><BR>
+</TD><TD> </TD>
+<TD>レジスタ（スタックポインタ）値の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="startpad.htm" _TARGET="main"> StartPAD </A><BR>
+</TD><TD> </TD>
+<TD>コントローラの読みとりを開始</TD><TR>
+<TD></TD><TD>
+<A HREF="srctartt.htm" _TARGET="main"> StartRCnt </A><BR>
+</TD><TD> </TD>
+<TD>ルートカウンタの起動</TD><TR>
+<TD></TD><TD>
+<A HREF="stoppad.htm" _TARGET="main"> StopPAD </A><BR>
+</TD><TD> </TD>
+<TD>コントローラの読みとりを停止</TD><TR>
+<TD></TD><TD>
+<A HREF="stoprcnt.htm" _TARGET="main"> StopRCnt </A><BR>
+</TD><TD> </TD>
+<TD>ルートカウンタの停止</TD><TR>
+<TD></TD><TD>
+<A HREF="secswntn.htm" _TARGET="main"> SwEnterCriticalSection </A><BR>
+</TD><TD> </TD>
+<TD>割り込みの禁止</TD><TR>
+<TD></TD><TD>
+<A HREF="secswxin.htm" _TARGET="main"> SwExitCriticalSection </A><BR>
+</TD><TD> </TD>
+<TD>割り込みの許可</TD><TR>
+<TD></TD><TD>
+<A HREF="seystemr.htm" _TARGET="main"> SystemError </A><BR>
+</TD><TD> </TD>
+<TD>システムエラー画面の表示</TD><TR>
+<TD></TD><TD>
+<A HREF="teestvet.htm" _TARGET="main"> TestEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントのテスト</TD><TR>
+<TD></TD><TD>
+<A HREF="undelete.htm" _TARGET="main"> undelete </A><BR>
+</TD><TD> </TD>
+<TD>ファイルを復活</TD><TR>
+<TD></TD><TD>
+<A HREF="udenelit.htm" _TARGET="main"> UnDeliverEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントを取り消す</TD><TR>
+<TD></TD><TD>
+<A HREF="weaitvet.htm" _TARGET="main"> WaitEvent </A><BR>
+</TD><TD> </TD>
+<TD>イベントの発生を待つ</TD><TR>
+<TD></TD><TD>
+<A HREF="write.htm" _TARGET="main"> write </A><BR>
+</TD><TD> </TD>
+<TD>ファイルにデータを書き込む</TD><TR>
+</TABLE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

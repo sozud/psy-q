@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsGetSector2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsGetSector2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        セクタバッファのデータをメインメモリに転送する（ノンブロック型）
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsGetSector2</B> (
+void* <I>madr</I>,
+int <I>size</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>madr</I>		転送先メインメモリアドレス
+<I>size</I>		転送サイズ（ロングワード）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    セクタバッファ上のデータをメインメモリ上に転送する。転送はサイクルスチールモードで行われるため、転送中に割込みが入ることができる。本関数は転送を開始してリターンするノンブロック型であるため、転送の終了はDsDataSync()もしくはDsDataCallback()で監視する必要がある。 <BR>
+    なお、サイクルスチールモードでの転送中は、割込みは入ることができるが普通のプログラムはデータバスを使用できないため、バスを通してメモリなどにアクセスする命令があるとその時点で処理がブロックされる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    実行に成功すれば１を、失敗すれば０を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サイクルスチールモードでのデータ転送は、ブロックモード（DsGetSector()で使用されるモード）に比べて時間がかかる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ddcsatak.htm">DsDataCallback</a>(),<a href="ddssatac.htm">DsDataSync</a>(),<a href="dgsseter.htm">DsGetSector</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

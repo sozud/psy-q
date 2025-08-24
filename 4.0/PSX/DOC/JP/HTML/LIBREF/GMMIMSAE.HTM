@@ -1,0 +1,121 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsMap....MIMe
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsMap....MIMe
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMD 用マイムドライバ初期化関数
+</DIV><P>
+    GsMapNrmMIMe, GsMapVtxMIMe, GsMapJntAxesMIMe, GsMapJntRPYMIMe, GsMapJntMIMe <BR>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>GsMIMePrimHeader <B>* GsMapNrmMIMe</B>(
+unsigned long <I>*primtop</I>;
+unsigned long <I>*hmd</I>;
+unsigned long <I>*hp</I>;
+)
+GsMIMePrimHeader <B>* GsMapVtxMIMe</B>(
+unsigned long <I>*primtop</I>;
+unsigned long <I>*hmd</I>;
+unsigned long <I>*hp</I>;
+)
+GsMIMePrimHeader <B>* GsMapJntAxesMIMe</B>(
+unsigned long <I>*primtop</I>;
+unsigned long <I>*hp</I>;
+)
+GsMIMePrimHeader <B>* GsMapJntRPYMIMe</B>(
+unsigned long <I>*primtop</I>;
+unsigned long <I>*hp</I>;
+)
+GsMIMePrimHeader <B>* GsMapJntMIMe</B>(
+unsigned long <I>*primtop</I>;
+unsigned long <I>*hp</I>;
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>primtop</I>		プリミティブの先頭アドレス
+<I>hmd</I>		HMD の先頭アドレス
+<I>hp</I>		プリミティブヘッダの先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    HMD のライブラリによるマイムドライバの初期化関数 (マイムリセットドライバの初期化関数 <B>GsMapRst....MIMe</B> は別項に記載)。 <BR>
+    マイムカテゴリのドライバを使用する際には、あらかじめこれらの関数によるデータの初期化が必要である。 <B>GsScanUnit()</B> で返される <B>GsTYPE </B>構造体の <I>ptr </I>にプリミティブドライバのアドレスを埋め込む際に、これらの初期化関数を呼び出す。 <BR>
+    また、ユーザはこれら初期化関数で返される <B>GsMIMePrimHeader</B> 構造体の要素 <I>internal </I>及び <I>mapped</I> を検査して、特に必要な処理があれば実行する。(<B>GsMIMePrimHeader </B>の項目参照のこと) <BR>
+    それぞれの初期関数に該当するドライバは以下の通り。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>初期化関数</TD><TD>ドライバ名</TD><TD>説明</TD><TR>
+    <TD>GsMapJntAxesMIMe()<BR></TD><TD>GsU_04010010<BR></TD><TD>実体はGsMapJntMIMe()<BR>(libgs.h内で#define<BR>により宣言されている。</TD><TR>
+    <TD>GsMapJntRPYMIMe()<BR></TD><TD>GsU_04010018<BR></TD><TD>実体はGsMapJntMIMe()<BR>(libgs.h内で#define<BR>により宣言されている。</TD><TR>
+    <TD>GsMapVtxMIMe()</TD><TD>GsU_04010020</TD><TD></TD><TR>
+    <TD>GsMapRstVtxMIMe()</TD><TD>GsU_04010028</TD><TD></TD><TR>
+    <TD>GsMapJntMIMe()<BR></TD><TD>GsU_04010028<BR></TD><TD>GsMapJntAxesMIMe(),<BR>GsMapJntRPYMIMe()<BR>の実体。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    マイムプリムヘッダ内ポインタ <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ＨＭＤフォーマット仕様書 <BR>
+    サンプル sample/graphics/hmd/mime/ <BR>
+    を参照のこと <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gmimphsr.htm">GsMIMePrimHeader</a>, <a href="gsmaprst.htm">GsMapRst</a>....<a href="mime.htm">MIMe</a>(), <a href="gsu_04.htm">GsU_04</a>......()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

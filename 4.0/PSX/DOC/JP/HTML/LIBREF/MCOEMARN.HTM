@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    MemCardOpen
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libmcrd.htm">メモリカード簡易レベルライブラリ (libmcrd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    MemCardOpen
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ファイルを開く
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>MemCardOpen </B>(
+long <I>chan</I>,
+char* <I>file</I>,
+long <I>flag</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>chan</I>		ポート番号 + カード番号
+		ポート番号(Ａポート:0x00、Ｂポート:0x10)
+		カード番号(通常 0)
+<I>file</I>		ファイル名
+<I>flag</I>		オープン形式指定
+		(リードオープン: O_RDONLY、ライトオープン: O_WRONLY)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    指定形式でメモリカード上のファイルをオープンし、MemCardReadData(),MemCardWriteData() を使用可能とする。 <BR>
+    形式の併用( O_RDONLY|O_WRONLY )はできない。 <BR>
+    複数ファイルのオープンはできない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>マクロ</TD><TD>状態</TD><TR>
+    <TD>0x00</TD><TD>McErrNone</TD><TD>正常終了</TD><TR>
+    <TD>0x01</TD><TD>McErrCardNotExist</TD><TD>カードが接続されていない</TD><TR>
+    <TD>0x02</TD><TD>McErrCardInvalid</TD><TD>不良カード</TD><TR>
+    <TD>0z04</TD><TD>McErrNotFormat</TD><TD>フォーマットされていない</TD><TR>
+    <TD>0x05</TD><TD>McErrFileNotExist</TD><TD>ファイルが見つからない</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    同期関数 <BR>
+    ブロッキング時間: 正常終了のときは即時終了する、それ以外は4～76VSYNC。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="mcrdemaa.htm">MemCardReadData</a>(), <a href="mcwdemaa.htm">MemCardWriteData</a>(), <a href="mccemare.htm">MemCardClose</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

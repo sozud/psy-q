@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetVoiceVolume
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetVoiceVolume
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ボイス音量の設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetVoiceVolume</B> (
+int <I>voiceNum</I>,
+short <I>volumeL</I>,
+short <I>volumeR</I>,
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>voiceNum</I>	ボイス番号 (0 ～23)
+<I>volumeL</I>		音量 (左)
+<I>volumeR</I>		音量 (右)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ボイス音量の設定を行う。 <BR>
+    SpuSetVoiceAttr() の mask 指定 <BR>
+    <blockquote>
+    	SPU_VOICE_VOLL <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_VOLR <BR>
+    </blockquote>
+    に該当する処理を行う。 <BR>
+    音量モードは [ダイレクトモード] となり、 音量 <I>volumeL</I>, <I>volumeR</I> に指定できる値の範囲はSpuSetVoiceAttr() における [ダイレクトモード] と同等である。 <BR>
+    音量と音量モードを同時に指定したい場合は SpuSetVoiceVolumeAttr() を使用する。 <BR>
+    音量 <I>volumeL</I>, <I>volumeR</I> に指定する値に関しては SpuSetVoiceAttr() を参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vsattr.htm">SpuSetVoiceAttr</a>(), <a href="snsvapur.htm">SpuNSetVoiceAttr</a>(), <a href="vsvaolur.htm">SpuSetVoiceVolumeAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    StNextStatus
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libstr.htm">ストリーミング ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    StNextStatus
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        次のフレームの状態を返す
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>unsigned short <B>StNextStatus </B>(
+unsigned long **<I>addr</I>,
+unsigned long **<I>header</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>addr</I>		次に取り出されるユーザデータ領域の先頭アドレス
+<I>header</I>		次に取り出されるデータのセクタヘッダ領域の先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リングバッファにある次の１フレームのステータスを得る。この関数を呼んでも内部状態は変化しない。 <BR>
+<BR>
+    ステータスは以下の通り <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">ステータス</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>StFREE</TD><TD>次のフレームはリングバッファ上にない</TD><TR>
+    <TD>StCOMPLETE</TD><TD>次のフレームはリングバッファ上にそろった</TD><TR>
+    <TD>StBUSY</TD><TD>次のフレームはリングバッファ上にそろいつつある</TD><TR>
+    <TD>StLOCK<BR></TD><TD>次のフレームは処理中（つまりStGetNext()で<BR>引き上げているが、まだStFreeRing()していない）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次のフレームのステイタス <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

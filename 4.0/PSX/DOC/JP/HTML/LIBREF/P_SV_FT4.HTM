@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    RotPMD_SV_FT4
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    RotPMD_SV_FT4
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        共有頂点型フラットテクスチャ四角形用ＰＭＤ関数
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>RotPMD_SV_FT4 </B>(
+long<I> </I>*<I>pa</I>,
+long<I> </I>*<I>va</I>,
+u_long *<I>ot</I>,
+int<I> otlen</I>,
+int<I> id</I>,
+int<I> backc</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pa		</I>PRIMITIVE Gpの先頭アドレス
+<I>va		</I>VERTEX G<I>p</I>の先頭アドレス
+<I>ot		</I>OTの先頭アドレス
+<I>otlen		</I>OTの長さ（ビット数）
+<I>id		</I>ダブルバッファのID
+<I>backc		</I>backface clip ON/OFF flag(0=ON)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    共有頂点型タイプのPRIMITIVE Gpにふくまれる三角形または四角形のすべてについて座標変換、透視変換を行ない、ＧＰＵパケットを完成しＯＴにリンクする。 <BR>
+    SZ値が[h/2,2^16)の間に含まれるポリゴンのみリンクされる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

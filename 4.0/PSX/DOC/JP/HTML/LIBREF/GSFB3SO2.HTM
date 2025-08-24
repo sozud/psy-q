@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSortFixBg32
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSortFixBg32
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        高速BGをOTへ登録
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsSortFixBg32</B> (
+GsBG * <I>bg</I>, 
+unsigned long * <I>work</I>, 
+GsOT * <I>otp</I>,
+unsigned short <I>pri</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>bg</I>		GsBGへのポインタ
+<I>work	</I>	作業領域（プリミティブ領域）へのポインタ
+<I>otp	</I>	OTへのポインタ
+<I>pri</I>		OTでの位置
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    高速のBG登録処理を行ないます。GsSortFastBg()に比べてCPUの負荷が低減されていますがいくつかの制約があります。 <BR>
+<BR>
+<UL>
+         <LI> BGの回転／拡大／縮小は不可
+         <LI> セルサイズ固定（ GsSortFixBg32は32×32）
+         <LI> テクスチャパターンの色モードは4bit/8bitのみ
+         <LI> マップサイズは任意
+         <LI> スクロール可（１ピクセル単位）
+         <LI> フルスクリーンのみ
+</UL>
+<BR>
+    この関数は描画プリミティブを格納するための作業領域を必要とします。 <BR>
+    unsigned long型の配列として用意し、あらかじめGsInitFixBg32()で初期化をしておく必要があります。 <BR>
+    なお、Packet Area (GsSetWorkBase()で設定する領域）は使用しません。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

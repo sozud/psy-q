@@ -1,0 +1,560 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 統合コンパイラ CCPSX.EXE</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+統合コンパイラ CCPSX.EXE
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+Psy-Qでは、GNU C、GNU C++をベースとする、統合コンパイラCCPSXを提供しています。CCPSX は、ファイルの拡張子に基づき、これに合ったツールを自動的に呼び出しオブジェクト、実行ファイルを作成しますので、これを利用することにより、プログラム開発をより効率的に進めることができます。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>環境変数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CCPSX を利用するには、各ツールがどのディレクトリに格納されているかを、以下の環境変数で指定する必要があります。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>環境変数</TD><TD>設定する内容</TD><TR>
+    <TD>COMPILER_PATH<BR></TD><TD>GNU Ｃコンパイラ (CPPPSX.EXE、CC1PSX.EXE、<BR>CPLUSPSX.EXE)などが格納されているディレクトリ。</TD><TR>
+    <TD>PSYQ_PATH<BR></TD><TD>PSYLINK.EXE など、Psy-Q の各種ツールが格納されている<BR>ディレクトリ。</TD><TR>
+    <TD>C_INCLUDE_PATH</TD><TD>ヘッダファイルが格納されているディレクトリ。</TD><TR>
+    <TD>LIBRARY_PATH</TD><TD>PlayStation ライブラリが格納されているディレクトリ。</TD><TR>
+    <TD>TMPDIR</TD><TD>テンポラリファイルを作成するディレクトリ。</TD><TR>
+    <TD>GO32TMP</TD><TD>GO32 用テンポラリディレクトリ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+    これらの環境変数は、AUTOEXEC.BAT で指定し、PC の起動時に自動的に設定されるようにしてください。なお、ディレクトリの区切り記号には、"\"ではなく"/"（スラッシュ）を用いるようにしてください。<BR>
+
+     <H4><B>例 標準的な設定</B></H4>
+
+<PRE>        set COMPILER_PATH=c:/compiler
+        set PSYQ_PATH=c:/psyq
+        set C_INCLUDE_PATH=c:/psx/include
+        set LIBRARY_PATH=c:/psx/lib
+        set TMPDIR=c:/tmp
+        set GO32TMP=c:/tmp
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ファイルの拡張子と動作</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CCPSX は、その対象とされたファイルの拡張子に基づき、次のような形でツールを呼び出し、コンパイル、リンク等を行ない、実行ファイルを作成します。また、オプションを指定することにより、プリプロセス、リンク、アセンブル、コンパイルの各段階任意の位置で処理を停止させることも可能です。<BR>
+    なお、認識不可能な拡張子を持つファイルはすべてオブジェクトとして扱われ、リンカが呼び出されますのでご注意ください。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>拡張子</TD><TD>呼び出すツールとその順</TD><TR>
+    <TD>.C</TD><TD>Ｃプリプロセッサ → Ｃコンパイラ → アセンブラ → リンカ</TD><TR>
+    <TD>.I</TD><TD>Ｃコンパイラ → アセンブラ → リンカ</TD><TR>
+    <TD>.CC</TD><TD>Ｃプリプロセッサ → C++コンパイラ → アセンブラ → リンカ</TD><TR>
+    <TD>.CPP</TD><TD>Ｃプリプロセッサ → C++コンパイラ → アセンブラ → リンカ</TD><TR>
+    <TD>.II</TD><TD>C++コンパイラ → アセンブラ → リンカ</TD><TR>
+    <TD>.IPP</TD><TD>C++コンパイラ → アセンブラ → リンカ</TD><TR>
+    <TD>.ASM</TD><TD>Ｃプリプロセッサ → アセンブラ → リンカ</TD><TR>
+    <TD>.S</TD><TD>アセンブラ → リンカ</TD><TR>
+    <TD>その他</TD><TD>リンカ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    CCPSX を実行するには、MS-DOS のプロンプトから次のように入力します。<BR>
+<PRE>        ccpsx  [-option]  &lt;source file&gt; [source file]...
+</PRE>
+    オプションは"-"（マイナス記号）に続けて指定します。複数指定する場合はスペースで区切ります。また、オプションに続き、ソースファイル名をスペースで区切って指定します。<BR>
+    例えば、test.c をコンパイルし、オブジェクトファイル (test.obj) を作成するには次のように指定します。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -c test.c
+</PRE>
+    さらに、test.c をコンパイルし、実行ファイル test.cpe を作成するには次のように指定します。なお、"-o"の次の"test.cpe"は、"-o"オプションの引数（出力ファイル名）で、ソースファイル名ではありません。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -o test.cpe test.c
+</PRE>
+    また、ソースファイルを複数指定し、これをすべてコンパイルすることも可能です。ファイルはスペースで区切って指定します。この例では、test1.c、test2.c、test3.c をコンパイルし、それぞれのファイルに対応した OBJ ファイルを作成するように指示しています。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -c test1.c test2.c test3.c
+</PRE>
+    オプションにはこの他にもさまざまなものがあります。これについては以下で解説していきます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"-"（マイナス記号）に続けて指定します。複数指定する場合はスペースで区切ります。また、オプションでは大文字、小文字は区別されます。例えば "-O" と "-o" は全く別の意味となりますのでご注意ください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>動作制御オプション</B>
+</A>
+</H3>
+<blockquote>
+    CCPSX の動作を制御するオプションとして、次のものがあります。<BR>
+
+     <H4><B>・プリプロセスのみを実行 (-E)</B></H4>
+
+      <BLOCKQUOTE>
+      "-E"を指定すると、プリプロセスのみを行ない、コンパイル、リンクは行なわれません。出力ファイル名が指定されていない場合、結果は画面 (stdout) に表示されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -E test.c
+</PRE>
+
+     <H4><B>・コンパイルまでを実行、アセンブラコード出力 (-S)</B></H4>
+
+      <BLOCKQUOTE>
+      "-S"を指定すると、コンパイルが終わったところで処理を停止します。リンクは行なわれません。ソースファイルとしてＣファイルが指定された場合、アセンブラファイルを作成します。出力ファイル名が指定されていない場合、入力ファイル名の拡張子を".S"に置き換えたファイルに出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -S test.c
+</PRE>
+
+     <H4><B>・コンバイルまでを実行、オブジェクトファイル出力 (-c)</B></H4>
+
+      <BLOCKQUOTE>
+      "-c"を指定すると、コンパイル、アセンブルを実行し、オブジェクトファイルを作成します。リンクは行なわれません。出力ファイル名が指定されていない場合、入力ファイル名の拡張子を".OBJ"に置き換えて出力します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -c test.c
+</PRE>
+    また、上記オプションの何れもが指定されていない場合、CCPSX はリンカを呼び、実行ファイルを作成します。出力ファイル名が指定されていない場合、A.OUT となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>言語オプション</B>
+</A>
+</H3>
+<blockquote>
+    Ｃの「方言」を制御するオプションとして、次のものがあります。<BR>
+
+     <H4><B>・ANSI 対応 (-ansi)</B></H4>
+
+      <BLOCKQUOTE>
+      "-ansi"を指定すると、すべての ANSI 標準のＣプログラムをサポートするようになります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -ansi test.c
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_3">
+<A HREF="#Heading3_1_4"> 4. </A>3 <B>デバッグ情報生成</B>
+</A>
+</H3>
+<blockquote>
+    デバッグ情報を生成するオプションとして、次のものがあります。<BR>
+
+     <H4><B>・デバッグ情報生成 (-g)</B></H4>
+
+      <BLOCKQUOTE>
+      "-g"を指定すると、デバッグ情報を生成し、実行ファイルに埋め込みます。ソースレベルデバッグを実行する際には、これを必ず指定してください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -g test.c -o test.cpe
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_4">
+<A HREF="#Heading3_1_4"> 4. </A>4 <B>最適化オプション</B>
+</A>
+</H3>
+<blockquote>
+    コードを最適化するオプションとして、次のものがあります。<BR>
+    なお、最適化オプション("-O")とデバッグ情報生成オプション("-g")を同時に指定すると、デバッグが正常に実行できなくなりますのでご注意ください。<BR>
+
+     <H4><B>・最適化しない (-O0)</B></H4>
+
+      <BLOCKQUOTE>
+      "-O0"を指定すると、最適化を行ないません。これはデフォルトの設定で、通常、あらためて指定する必要はありません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>・標準レベルの最適化 (-O、-O1)</B></H4>
+
+      <BLOCKQUOTE>
+      "-O"または"-O1"を指定すると、標準レベルの最適化を実行します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -O test.c
+</PRE>
+
+     <H4><B>・高レベルの最適化 (-O2、-O3)</B></H4>
+
+      <BLOCKQUOTE>
+      "-O2"または"-O3"を指定すると、高レベルの最適化を行ないます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -O2 test.c
+</PRE>
+
+     <H4><B>・グローバルポインタ参照 (-G[num])</B></H4>
+
+      <BLOCKQUOTE>
+      グローバルポインタ(GP)を用いて参照されるデータ項目の<BR>
+      最大サイズをバイト単位で指定します。デフォルトは num = 8 です。<BR>
+      num = 0 と指定すると、GPを用いたデータ参照は行われません。<BR>
+      主にオーバレイ処理（ダイナミックにCDからプログラムを読み込んで<BR>
+      実行させる）をしたい場合等に使用します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -O2 -G0 -c test.c  
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_5">
+<A HREF="#Heading3_1_4"> 4. </A>5 <B>一般的なオプション</B>
+</A>
+</H3>
+<blockquote>
+    CCPSX 全体を制御する一般的なオプションとして、次のものがあります。<BR>
+
+     <H4><B>・警告メッセージの抑制 (-W)</B></H4>
+
+      <BLOCKQUOTE>
+      "-W"を指定すると、コンパイラ及びプリブロセッサの警告メッセージを抑制します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -W test.c
+</PRE>
+
+     <H4><B>・マクロ定義 (-D&lt;NAME&gt;、-D&lt;NAME=VALUE&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "-D"に続き、定義したいマクロ NAME、またはマクロ NAME とその値 VALUE を"="（イコール）で結んで指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例 マクロ DEBUG を指定</B></H4>
+
+<PRE>        ccpsx -DDEBUG test.c
+</PRE>
+
+     <H4><B>例 マクロ DEBUG を１に指定</B></H4>
+
+<PRE>        ccpsx -DDEBUG=1 test.c
+</PRE>
+
+     <H4><B>・マクロ定義解除 (-U&lt;NAME&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "-U"に続き、定義を解除したいマクロ NAME を指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例 マクロ DEBUG を解除</B></H4>
+
+<PRE>        ccpsx -UDEBUG test.c
+</PRE>
+
+     <H4><B>・詳細情報表示 (-v)</B></H4>
+
+      <BLOCKQUOTE>
+      "-v"を指定すると、CCPSX が各ツールをどのように起動しているかの情報を表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -v test.c
+</PRE>
+
+     <H4><B>・漢字対応 (-kanji)</B></H4>
+
+      <BLOCKQUOTE>
+      "-kanji"を指定すると、Ｃコンパイラが２バイトコード（漢字）を正しく処理するようになります。ソースコード中に漢字を含む文字列がある場合は必ず指定してください。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -kanji test.c
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_6">
+<A HREF="#Heading3_1_4"> 4. </A>6 <B>アセンブラ(ASPSX)オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>・グループ名指定 ( -Wa,s[name] )</B></H4>
+
+      <BLOCKQUOTE>
+      このモジュールをnameという名前のグループとして定義します。<BR>
+      主にオーバレイモジュールのコンパイル時に使用します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -O3 -G0 -Wa,stest1 -c test.c
+</PRE>
+
+     <H4><B>0除算チェックルーチンを生成しない ( -Wa,0 )</B></H4>
+
+      <BLOCKQUOTE>
+      割り算を含むコードをアセンブルする際、ASPSXは、0除算のチェックを行うルーチンをデフォルトで生成しています。"-Wa,0"を指定すると、0除算チェックルーチンを生成しません。これにより若干プログラムサイズを節約できます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -c -Wa,0 main.c
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_7">
+<A HREF="#Heading3_1_4"> 4. </A>7 <B>リンカオプション</B>
+</A>
+</H3>
+<blockquote>
+    PSY-Q リンカを制御するオプションとして、次のものがあります。<BR>
+
+     <H4><B>・標準ライブラリをリンクしない (-nostdlib)</B></H4>
+
+      <BLOCKQUOTE>
+      "-nostdlib"を指定すると、PlayStation の標準ライブラリ (libgs、libgte、libgpu、libetc、libapi、libsn) をリンクしません。標準ライブラリは \PSYQ\PSYQ.INIで定義されています。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -nostdlib test.c
+</PRE>
+
+     <H4><B>・ライブラリの指定 (-l &lt;libname&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "-l"に続き、リンクしたいライブラリ libname をスペースで区切って指定します。ライブラリアンを用いてオリジナルのライブラリを作成した場合に利用します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -l mylib.lib test.c
+</PRE>
+
+     <H4><B>・ORG アドレスの指定 (-Xo$&lt;address&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "-Xo"に続き、ORG アドレス address を先頭に "$" を追加し、 16 進数で指定します。デフォルトのアドレスは０です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -Xo$80040000 test.c
+</PRE>
+
+     <H4><B>・デバッグモードの指定 (-Xd)</B></H4>
+
+      <BLOCKQUOTE>
+      "-Xd"を指定すると、デバッグモードとなり、リンクのみを行ないます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -Xd test.c
+</PRE>
+    <BR>
+    また、PSY-Q リンカ (PSYLINK) がサポートするオプションは、"-X"に続けて指定することにより、基本的にすべて利用することができます。<BR>
+
+     <H4><B>例 バイナリコードを出力する（PSYLINK の"/p"オプションの"p"を指定）</B></H4>
+
+<PRE>        ccpsx -Xp test.c
+</PRE>
+    <BR>
+    なお、リンカはプログラムのエントリポイントとして常に__SN_ENTRY_POINT を設定します。このマクロは libsn.lib で定義されています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_8">
+<A HREF="#Heading3_1_4"> 4. </A>8 <B>出力ファイル名の指定</B>
+</A>
+</H3>
+<blockquote>
+    出力ファイル名を指定するオプションとして、次のものがあります。<BR>
+
+     <H4><B>・出力ファイル名の指定 (-o &lt;filename&gt;)</B></H4>
+
+      <BLOCKQUOTE>
+      "-o"に続き、出力ファイル名 filename をスペースで区切って指定すると、指定したファイルに結果を出力することができます。例えば次のように指定すると、test.c から実行ファイル test.cpe が作成されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx test.c -o test.cpe
+</PRE>
+    ただし、"-o"で指定できるファイルは１つのみですので、実行ファイルを作成する場合を除き、複数のファイルをコンパイルする際に用いるのは無意味となります。<BR>
+    例えば、次のようにソースファイルを複数指定し、かつ、リンクを実行しないオプションを指定した場合、ファイルは上書きされ、常に最後に指定されたファイルのコンパイル結果が出力されることになります（test.cpe には常に test3.c のコンパイル結果=オブジェクトが出力されてしまいます）。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx -c -o test.cpe test1.c test2.c test3.c
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_9">
+<A HREF="#Heading3_1_4"> 4. </A>9 <B>シンボルファイル名の指定</B>
+</A>
+</H3>
+<blockquote>
+    シンボルファイルを出力させるには、"-o"オプションの引数として、出力ファイル名に続き、シンボルファイル名を","（コンマ）で区切って指定します。<BR>
+    次の例では、実行ファイルとして test.cpe を、シンボルファイルとして test.sym を出力しています。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx test.c -o test.cpe,test.sym
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_10">
+<A HREF="#Heading3_1_4"> 4. </A>10 <B>マップファイル名の指定</B>
+</A>
+</H3>
+<blockquote>
+    マップファイルを出力させるには、"-o"オプションで出力ファイル、シンボルファイルを指定し、これに続き、マップファイル名を","（コンマ）で区切って指定します。<BR>
+    次の例では、実行ファイルとして test.cpe を、シンボルファイルとして test.sym を、そしてマップファイルとして test.map を出力しています。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx test.c -o test.cpe,test.sym,test.map
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>応答ファイルの利用</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ソースファイルやオプションの指定が多い場合、DOS の制限により、コマンド行にこれが入り切らなくなる場合があります。この場合、「応答ファイル」を作成し、これを CCPSX の引数に指定することにより、この制限を回避することができます。<BR>
+    応答ファイルを利用するには、次のように、ファイル名の先頭に"@"（アットマーク）を指定します。<BR>
+    <BR>
+<PRE>        ccpsx @&lt;filename&gt;
+</PRE>
+    <BR>
+    例えば、応答ファイルとして test.cnf を作成し、これを用いる場合は次のようになります。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        ccpsx @test.cnf
+</PRE>
+    応答ファイルには、CCPSX に指定するオプション、ソースファイルをそのまま記述します。<BR>
+
+     <H4><B>例 test.cnf の内容</B></H4>
+
+<PRE>        -Xo$80040000 -kanji main.c polygon.c screen.c buffer.c event.c enemy.c 
+        stage.c padctrl.c file.c
+</PRE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

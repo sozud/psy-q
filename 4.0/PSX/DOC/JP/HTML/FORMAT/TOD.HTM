@@ -1,0 +1,594 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation File Format</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>アニメーションデータ (TODフォーマット)</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    TODデータは、３次元空間中におけるオブジェクトの位置や回転等の制御情報を各フレーム毎に変化させ、アニメーションを行うためのデータ列です。ここでいうオブジェクトとは、libgs（拡張グラフィックスライブラリ）で扱う３次元オブジェクト（GsDOBJ2構造体，etc... ）と同一の意味です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>オブジェクトと座標について</B>
+</A>
+</H3>
+<blockquote>
+    TODで扱うデータは、拡張グラフィックスライブラリ"libgs"に対応しています。つまり、TODデータ内に現れる座標データ（マトリクス値／回転角／平行移動量）は、libgs／libgteの関数群で扱うものとコンパティビリティーがなければなりません。<BR>
+    具体的には、座標系は右手系を用い、Ｘ軸の向き（増加方向）が画面右、同様にＹ軸が下、Ｚ軸が画面奥を表します。また、座標系に設定されるパラメータの回転と平行移動は「回転→平行移動」の順で行われ、回転順は「Ｚ→Ｙ→Ｘ」となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>全体構成</B>
+</A>
+</H3>
+<blockquote>
+    TODファイルは、次のように、ヘッダとこれに続くフレームデータから成ります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf1.gif">
+<P>
+    <B>図 1 animation file format</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>ヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    TODファイルの先頭には2ワード(64ビット)のfile headerがあります。file headerには次の４種類の情報が記述されます。<BR>
+    <BR>
+<UL>
+         <LI> file ID (8ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        TODデータファイルであることを示すID。値は 0x50。<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> version (8ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        アニメーションのバージョン。値は TOD Version 1.0では0x00。<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> resolution (16ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        1フレームが表示されている時間 (単位tick = 1/60 sec)<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> number of frames (32ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        ファイルに記述されているフレームの数<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    file headerに続いて、フレームデータが記述されます。フレームデータは時系列に従って並びます。（図２参照）<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>フレーム</B>
+</A>
+</H3>
+<blockquote>
+    各フレームは、次のように、frame headerとこれに続くパケットから成ります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf2.gif">
+<P>
+    <B>図 2 frame format</B><BR>
+</CENTER>
+    各フレームの先頭には、2ワードのframe headerがあります。このframe headerには、次のような情報が記述されます。<BR>
+    <BR>
+<UL>
+         <LI> frame size (16ビット) 
+</UL>
+        <BLOCKQUOTE><UL>
+        フレームデータのサイズで単位はワード(4Byte)です。frame headerを含みます。<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> number of packets (16ビット) 
+</UL>
+        <BLOCKQUOTE><UL>
+        パケットの個数<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> frame number (32ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        フレーム番号<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    frame headerの後ろには、パケットが続きます。各パケットは、先頭にある１ワードのpacket headerとこれに続くpacket dataとからなります(図3参照)。パケットには様々な種類のものがあります。<BR>
+    各パケットにおけるpacket dataのサイズは、パケットが異種の場合はもちろん、同種の場合でも同じであるとは限りません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>パケット</B>
+</A>
+</H3>
+<blockquote>
+    パケットは、次のように、packet headerとpacket dataから構成されています。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf3.gif">
+<P>
+    <B>図 3 packet format</B><BR>
+</CENTER>
+    packet headerには、次のような情報が記述されます。 <BR>
+    <BR>
+<UL>
+         <LI> object ID (16ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        操作対象となるオブジェクトのID番号<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> packet type (4ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        パケットデータのタイプ<BR>
+<CENTER>
+        </BLOCKQUOTE></UL>
+        <H4><B>表 1 Packet typeの値とpacket dataの構成</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>0000</TD><TD>Attribute</TD><TR>
+    <TD>0001</TD><TD>Coordinate(RST)</TD><TR>
+    <TD>0010</TD><TD>TMD データID</TD><TR>
+    <TD>0011</TD><TD>親オブジェクトID</TD><TR>
+    <TD>0100</TD><TD>MATRIX 値</TD><TR>
+    <TD>0101</TD><TD>TMD データ本体</TD><TR>
+    <TD>0110</TD><TD>光源</TD><TR>
+    <TD>0111</TD><TD>カメラ</TD><TR>
+    <TD>1000</TD><TD>オブジェクト制御</TD><TR>
+    <TD>1001～1101</TD><TD>user defined</TD><TR>
+    <TD>1110</TD><TD>拡張コマンド</TD><TR>
+    <TD>1111 </TD><TD>特殊コマンド</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+<UL>
+         <LI> flag (4ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        補助情報。各packet type毎に意味が異なる<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> packet length (8ビット)
+</UL>
+        <BLOCKQUOTE><UL>
+        packet headerを含めたパケットの大きさで、単位はワード(4Byte)<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    ここでいう「オブジェクト」とは、libgs（拡張グラフィックスライブラリ）で扱う3Dオブジェクト(GsDOBJ2構造体)のことで、パケットデータを反映させる対象となるオブジェクトを示します。<BR>
+    各オブジェクトには生成時にユニークなID番号が振られていなければなりません。また、オブジェクトのID番号として0および0xffffは使用できません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>packet typeがAttribute(0000)の場合</B>
+</A>
+</H3>
+<blockquote>
+    オブジェクトのattribute値の設定を行ないます。ここでいうattribute値とはライブラリで処理するGsDOBJ2構造体のattributeメンバの値のことです。このパケットではflagは全く使用されません。packet dataは、2ワードからなります(図4参照)。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf4.gif">
+<P>
+    <B>図 4 Attributeの場合のpacket dataの構成</B><BR>
+</CENTER>
+    1ワード目は、値を変更する部分と変更しない部分を示すマスクで、変更する項目に該当するビットには 0 をセットし、値を変更しないビットについては 1 をセットします。<BR>
+    そして、2ワード目には、変更する項目に該当するビットに新しいデータを入れ、それ以外のビットについては、0をセットします。ここで、変更の対象にはならないビットにセットするデフォルトの値が、1ワード目では 1、2ワード目では 0 というように、1ワード目と2ワード目とで異なることに注意して下さい。<BR>
+    <BR>
+    attribute値（図4の2ワード目）のそれぞれのビットの意味は以下のようになります。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 2 packet dataにおける各ビットの意味</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">ビット</TD><TD ALIGN="center">意味</TD><TR>
+    <TD>bit0～bit2<BR></TD><TD>material 減衰( 0～3 )<BR>00:material 減衰0<BR>01:material 減衰1<BR>10:material 減衰2<BR>11:material 減衰3</TD><TR>
+    <TD>bit3<BR></TD><TD>lighting mode その1<BR>0:fog off（霧なし）<BR>1:fog on（霧あり）</TD><TR>
+    <TD>bit4<BR></TD><TD>lighting mode その2<BR>0:material on<BR>1:material off</TD><TR>
+    <TD>bit5<BR></TD><TD>lighting mode その3<BR>0:use lighting mode<BR>1:use default lighting mode</TD><TR>
+    <TD>bit6<BR></TD><TD>光源<BR>0:光源計算なし<BR>1:光源計算強制ON</TD><TR>
+    <TD>bit7<BR></TD><TD>NearZオーバーフロー時の動作<BR>0:z overflow clip<BR>1:z overflow not clip</TD><TR>
+    <TD>bit8<BR></TD><TD>バック・クリップの有無<BR>0:有効<BR>1:無効</TD><TR>
+    <TD>bit9～bit27</TD><TD>システム予約 ( 0 で初期化)</TD><TR>
+    <TD>bit28～bit29<BR></TD><TD>半透明レート<BR>00:50%Back+50%Polygon<BR>01:100%Back+100%Polygon<BR>10:100%Back-100%Polygon<BR>11:100%Back+25%Polygon</TD><TR>
+    <TD>bit30<BR></TD><TD>半透明処理<BR>0:OFF<BR>1:ON</TD><TR>
+    <TD>bit31<BR></TD><TD>表示制御<BR>0:表示<BR>1:非表示</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    例えば、光源計算強制ONにする場合、packet dataは、図5のようになります。<BR>
+    1ワード目はbit(6)に、光源に関して変更することを示す 0 を入れ、その他のビットには変更しないことを示す 1 を入れます。よって、1ワード目は0xffbfとなります。<BR>
+    2ワード目はビット(6)に光源計算強制ONを示す 1 を入れ、値を変更しないその他のビットにはデフォルトの 0 を入れます。よって、2ワード目は0x0040となります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf5.gif">
+<P>
+    <B>図 5 光源計算強制ONにする場合のpacket data</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7">
+<A HREF="#Top">↑</A>7 <B>packet typeがCoordinate(RST)(0001)の場合</B>
+</A>
+</H3>
+<blockquote>
+    GsDOBJ2構造体の持つローカル座標系の値（Translation / Scaling / Rotation）をセットします。演算順序はRotation→Scaling→Translation、回転の演算順序はz→y→xになっています。座標の向きや回転方向については、「オブジェクトと座標について」を参照してください。<BR>
+    flagは次のような意味を持ちます(図6参照)。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf6.gif">
+<P>
+    <B>図 6 Coordinate(RST)の場合のflag</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 3 </B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>matrix type</TD><TD>RSTマトリクスのタイプ</TD><TR>
+    <TD></TD><TD>0:絶対値</TD><TR>
+    <TD></TD><TD>1:直前フレームからの差分マトリクス</TD><TR>
+    <TD>rotation</TD><TD>回転(R)フラグ</TD><TR>
+    <TD></TD><TD>0:無し</TD><TR>
+    <TD></TD><TD>1:有り</TD><TR>
+    <TD>scaling</TD><TD>スケーリング(S)フラグ</TD><TR>
+    <TD></TD><TD>0:無し</TD><TR>
+    <TD></TD><TD>1:有り</TD><TR>
+    <TD>translation</TD><TD>平行移動(T)フラグ</TD><TR>
+    <TD></TD><TD>0:無し</TD><TR>
+    <TD></TD><TD>1:有り</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    また、packet dataの構成は、flagのrotationビット、scalingビット、translationビットの値により異なり、図7のようになります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todn1.gif">
+<P>
+</CENTER>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todn2.gif">
+<P>
+</CENTER>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf7.gif">
+<P>
+    <B>図 7 Coordinate(RST)の場合のpacket data の構成</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8">
+<A HREF="#Top">↑</A>8 <B>packet typeがTMDデータID(0010)の場合</B>
+</A>
+</H3>
+<blockquote>
+    指定したオブジェクトの実体となるモデリングデータ(TMDデータ)IDを設定します。この場合、flagは全く使用されません。packet dataは1ワードで、下位2ByteがTMDデータのIDになります。(図8参照)<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf8.gif">
+<P>
+    <B>図 8 TMDデータIDの場合のpacket dataの構成</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9">
+<A HREF="#Top">↑</A>9 <B>packet typeが親オブジェクトID(0011)の場合</B>
+</A>
+</H3>
+<blockquote>
+    指定したオブジェクトの親オブジェクトIDを設定します。この場合、flagは全く使用されません。packet dataは1ワードで、下位2Byteが親オブジェクトのIDになります。(図9参照)<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf9.gif">
+<P>
+    <B>図 9 親オブジェクトの場合のpacket dataの構成</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10">
+<A HREF="#Top">↑</A>10 <B>packet typeがMATRIX値(0100)の場合</B>
+</A>
+</H3>
+<blockquote>
+    指定したオブジェクトのマトリクス値を直接設定します。GsDOBJ2構造体がポイントするGsCOORDINATE2構造体のcoordメンバ（ローカルスクリーンマトリクス）を設定します。この場合、flagは全く使用されません。<BR>
+      <BLOCKQUOTE>
+      packet dataは、図10のような構成になります。<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf10.gif">
+<P>
+      <B>図 10 MATRIX値の場合のpacket dataの構成
+</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11">
+<A HREF="#Top">↑</A>11 <B>packet typeがTMDデータ本体(0101)の場合</B>
+</A>
+</H3>
+<blockquote>
+    TMDデータが格納されています。現在はサポートされていません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_12">
+<A HREF="#Top">↑</A>12 <B>packet typeが光源(0110)の場合</B>
+</A>
+</H3>
+<blockquote>
+    光源の設定を行ないます。この場合、objectIDフィールドは、普通のオブジェクトのIDとは異なり、光源専用のIDとなります。<BR>
+    flagは次のような意味を持ちます(図11参照)。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf11.gif">
+<P>
+    <B>図 11 光源の場合のflag
+</B><BR>
+</CENTER>
+<UL>
+         <LI> data type …データのタイプ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …絶対値<BR>
+        -  1 …直前フレームからの差分<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> direction …方向フラグ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …無し<BR>
+        -  1 …有り<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> color …色フラグ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …無し<BR>
+        -  1 …有り<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+    また、packet dataの構成は、flagのdirectionビット、colorビットの値により異なり、図12のようになります。X,Y,Zは光源の照射方向を表すベクトルの成分で正規化されている必要はありません。、R,G,Bは光源色のRGB値で0～255の値をとります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf12.gif">
+<P>
+    <B>図 12 光源の場合のpacket dataの構成
+</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_13">
+<A HREF="#Top">↑</A>13 <B>packet typeがカメラ(0111)の場合</B>
+</A>
+</H3>
+<blockquote>
+    視点位置情報の設定を行います。objectIDフィールドの値は、普通のオブジェクトのIDとは別の、カメラ専用のIDとなります。<BR>
+    指定方法には２つの表現があり、flagフィールドのcamera typeビットで選択します。１つはカメラ位置とカメラの注視点位置を２セットの座標値で指定する方法です。もう１つはオブジェクトと同様にRotation/Transferの値で指定する方法です。<BR>
+    flagは次のような意味を持ちます(図13参照)。camera typeビットによって、他のビットの意味が変わってくることに注意して下さい。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf13.gif">
+<P>
+    <B>図 13 カメラの場合のflag
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_1">
+(1) <B>camera typeビットが0（注視点型）の時</B>
+</A>
+</H4>
+<UL>
+         <LI> data type …データのタイプ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …絶対値<BR>
+        -  1 …直前フレームからの差分<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> position & reference …視点位置、注視点位置フラグ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …無し<BR>
+        -  1 …有り<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> z angle …水平からの注視点角度フラグ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …無し<BR>
+        -  1 …有り<BR>
+        </BLOCKQUOTE></UL>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_13_2">
+(2) <B>camera type ビットが1（Rotation/Trans型）の時</B>
+</A>
+</H4>
+<UL>
+         <LI> data type …データのタイプ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …絶対値<BR>
+        -  1 …直前フレームからの差分<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> rotation …回転(R) フラグ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …無し<BR>
+        -  1 …有り<BR>
+        </BLOCKQUOTE></UL>
+<UL>
+         <LI> translation …平行移動(T) フラグ
+</UL>
+        <BLOCKQUOTE><UL>
+        -  0 …無し<BR>
+        -  1 …有り<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    また、packet dataの構成は、flagのcamera typeビットにより異なり、図14、図15のようになります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf14.gif">
+<P>
+    <B>図 14 カメラの場合のpacket dataの構成(その1)
+</B><BR>
+</CENTER>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/todf15.gif">
+<P>
+    <B>図 15 カメラの場合のpacket dataの構成(その2)
+</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_14">
+<A HREF="#Top">↑</A>14 <B>packet typeがオブジェクト制御(1000)の場合</B>
+</A>
+</H3>
+<blockquote>
+    オブジェクトに対する制御の設定を行います。この場合、packet data はありません。また、flagは次のような意味を持ちます。<BR>
+    <BR>
+<UL>
+         <LI> 0000 …create
+         <LI> 0001 …kill
+         <LI> 0010～1111 …システム予約
+</UL>
+    <BR>
+    新規作成されたオブジェクトの属性はアニメーション再生ルーチンに依存しますが、標準ルーチンでは次のように設定されます。<BR>
+    <BR>
+<UL>
+         <LI> 親オブジェクトはWorld
+         <LI> モデリングデータは未定義
+         <LI> attributeは0x80000000（表示制御ビットのみON）
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_15">
+<A HREF="#Top">↑</A>15 <B>packet typeが拡張コマンド(1110)の場合</B>
+</A>
+</H3>
+<blockquote>
+    詳細は未定です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_16">
+<A HREF="#Top">↑</A>16 <B>packet typeが特殊コマンド(1111)の場合</B>
+</A>
+</H3>
+<blockquote>
+    アニメーション・データの制御を行います。詳細は未定です。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

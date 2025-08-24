@@ -1,0 +1,108 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetVoiceADSRAttr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetVoiceADSRAttr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ADSR と各モードの設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetVoiceADSRAttr </B>(
+int <I>voiceNum</I>,
+unsigned short <I>AR</I>,
+unsigned short <I>DR</I>,
+unsigned short <I>SR</I>,
+unsigned short <I>RR</I>,
+unsigned short <I>SL</I>,
+long <I>ARmode</I>,
+long <I>SRmode</I>,
+long <I>RRmode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>voiceNum</I>	ボイス番号 (0 ～23)
+<I>AR</I>		ADSR Attack Rate
+<I>DR</I>		ADSR Decay Rate
+<I>SR</I>		ADSR Sustain Rate
+<I>RR</I>		ADSR Release Rate
+<I>SL</I>		ADSR Sustain Level
+<I>ARmode</I>		ADSR Attack Rate モード
+<I>SRmode</I>		ADSR Sustain Rate モード
+<I>RRmode</I>		ADSR Release Rateモード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ボイスで使われる ADSR の個別の属性の設定を行う。 <BR>
+    SpuSetVoiceAttr() の mask 指定 <BR>
+    <blockquote>
+    	SPU_VOICE_ADSR_AR	SPU_VOICE_ADSR_AMODE <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_ADSR_DR <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_ADSR_SR	SPU_VOICE_ADSR_SMODE <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_ADSR_RR	SPU_VOICE_ADSR_RMODE <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_VOICE_ADSR_SL <BR>
+    </blockquote>
+    に該当する処理を行う。 <BR>
+    各 Rate及び各 Rateモードに指定する値に関しては SpuSetVoiceAttr() を参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="vsattr.htm">SpuSetVoiceAttr</a>(), <a href="snsvapur.htm">SpuNSetVoiceAttr</a>(), <a href="vsadsr.htm">SpuSetVoiceADSR</a>(), <a href="vsar.htm">SpuSetVoiceAR</a>(), <a href="vsdr.htm">SpuSetVoiceDR</a>(), <a href="vssr.htm">SpuSetVoiceSR</a>(), <a href="vsrr.htm">SpuSetVoiceRR</a>(), <a href="vssl.htm">SpuSetVoiceSL</a>(), <a href="vsarattr.htm">SpuSetVoiceARAttr</a>(), <a href="vssrattr.htm">SpuSetVoiceSRAttr</a>(), <a href="vsrrattr.htm">SpuSetVoiceRRAttr</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

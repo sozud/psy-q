@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    strncmp
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libc.htm">C標準 ライブラリ (libc/libc2) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    strncmp
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        文字列同士を比較する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>#include &lt;strings.h&gt;
+long <B>strncmp </B>(
+const char * <I>s1</I>,
+const char * <I>s2</I>,
+size_t <I>n</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>s1		</I>比較元1
+<I>s2		</I>比較元2
+<I>n		</I>比較文字数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>s1 </I>と <I>s2 </I>の先頭 <I>n </I>文字までを対象に、各文字をunsigned charとして比較する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    比較結果により次の値を返す（strcmpと同じ）。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">結果</TD><TD ALIGN="center">戻り値</TD><TR>
+    <TD ALIGN="center">s1&lt;s2</TD><TD ALIGN="center">&lt;0</TD><TR>
+    <TD ALIGN="center">s1=s2</TD><TD ALIGN="center">=0</TD><TR>
+    <TD ALIGN="center">s1&gt;s2</TD><TD ALIGN="center">&gt;0</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

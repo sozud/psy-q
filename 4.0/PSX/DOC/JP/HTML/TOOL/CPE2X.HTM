@@ -1,0 +1,135 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>cpe2x</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    CPE-EXEコンバータ。<BR>
+    ここでは、1995/Jul/7付けの Version 1.5 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>cpe2x [option] <I>cpefile</I></B></H4>
+
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>/C[area]</B></H4>
+
+      <BLOCKQUOTE>
+      J : for Japan (default)<BR>
+      A : for North America <BR>
+      E : for Europe<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>使用例</B></H4>
+
+<PRE>        DOS&gt; cpe2x test.cpe 		日本リリース用
+        DOS&gt; cpe2x /CA test.cpe		USAリリース用
+        DOS&gt; cpe2x /CE test.cpe		ヨーロッパリリース用
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>以前のバージョンからの変更点</B>
+</A>
+</H3>
+<blockquote>
+    オプションスイッチにより、ヘッダーに含まれる文字情報をエリア別に選択できるようになりました。<BR>
+    <BR>
+    これまでのバージョンでは、ある種のCPEファイルをコンバートした際、「Sorry! CPE2X cannot convert this CPE file. Please use EXEHEADX.」というメッセージを出して終了する事がありましたが、このバージョンから、今までは扱えなかった形式のCPEファイルにも対応できるようになりました。<BR>
+    よって、EXEHEADX.EXE は今後必要ありません。<BR>
+    <BR>
+    ある種のCPEファイルをコンバートする際、カレントディレクトリにテンポラリファイルを作成する事があります。その場合、以下のメッセージが出力されます。<BR>
+<PRE>        
+        Using tmp-file: CPE2XTMP.XXX
+        
+</PRE>
+    テンポラリファイル使用時は、コンバートに多少時間がかかる場合があります。<BR>
+    また、テンポラリファイルはコンバート終了時に削除されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>警告＆エラーメッセージ</B>
+</A>
+</H3>
+<blockquote>
+    以下のメッセージが出力された場合はサポートBBSにてご連絡下さい。<BR>
+    <BR>
+
+     <H4><B>WARNING: overwrite. size:XXXXXXXX addr:XXXXXXXX</B></H4>
+
+      <BLOCKQUOTE>
+      CPEファイル中で、アドレスの重複している部分が発見された。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ERROR: too many sector of CPE file.</B></H4>
+
+      <BLOCKQUOTE>
+      CPEファイル内部のセクタ数が、扱える範囲を越えた。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

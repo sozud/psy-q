@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    PhongLine
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    PhongLine
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        フォンシェーディング
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void<B> PhongLine</B>(
+int <I>istart_x</I>,
+int <I>iend_x</I>,
+int <I>p</I>,
+int <I>q</I>,
+u_short **<I>pixx</I>,
+int <I>fs</I>,
+int <I>ft</I>,
+int <I>i4</I>,
+int <I>det</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>isstat_x</I>	開始点のＸ座標
+<I>iend_x</I>		終点のＸ座標
+<I>p</I>		<I>fs</I>値のX座標による微分
+<I>q</I>		<I>ft</I>値のX座標による微分
+<I>pixx	</I>	ピクセルポインタ
+<I>fs</I>		スタート地点における内挿係数
+<I>ft</I>		スタート地点における内挿係数
+<I>i4</I>		ディザリングのための (line数)%4
+<I>det</I>		エッジ行列の行列式
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    １ラインのフォンシェーディングを行なう。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サンプルプログラム (sample\graphics\phong) 参照 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

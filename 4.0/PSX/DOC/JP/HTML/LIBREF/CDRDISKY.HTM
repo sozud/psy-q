@@ -1,0 +1,109 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    CdDiskReady
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcd.htm">CD-ROM ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    CdDiskReady
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        Cdの状態をチェックする
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>CdDiskReady </B>(
+int <I>mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		チェックモード（0: ブロック型、1: ノンブロック型）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CDの状態をチェックし、コマンドが発行できるかどうかを調べる。CDのカバーを閉めた直後は、数秒間コマンドが発行できない状態が続くが、これをチェックする。ブロック型は安定していない場合は安定するまでホールドしてリターンする。ノンブロック型の場合はステータスを見てリターンする。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>返り値</TD><TD>意味</TD><TR>
+    <TD>CdlComplete</TD><TD>コマンドを発行できる状態にある</TD><TR>
+    <TD>CdlDiskError<BR></TD><TD>ブロック型：ディスクが入っていないか不良ディスク<BR>ノンブロック型：まだ安定していない、<BR>もしくはディスクが入っていない、<BR>もしくは不良ディスク</TD><TR>
+    <TD>CdlStatShellOpen</TD><TD>プレイヤーのふたが開いている</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    CDの交換などでプレイヤーがカバーを閉めた直後は、この関数を使用してCDの安定を待つ必要がある。その後CdGetDiskType()でCDのフォーマットを確認してからコマンドを発行する。 <BR>
+    ブロック型をコールした場合、関数がリターンするまでに最大で以下の時間を要する。 <BR>
+<BR>
+    デバッギングステーション <BR>
+    <blockquote>
+    		CD-R		最大約１２秒 <BR>
+    </blockquote>
+    <blockquote>
+    		CD-DA		最大約１２秒 <BR>
+    </blockquote>
+    <blockquote>
+    		ディスクなし	約５秒 <BR>
+    </blockquote>
+    PlayStation <BR>
+    <blockquote>
+    		Black CD	最大約３秒 <BR>
+    </blockquote>
+    <blockquote>
+    		CD-DA		最大約５秒 <BR>
+    </blockquote>
+    <blockquote>
+    		ディスクなし	約５秒 <BR>
+    </blockquote>
+<BR>
+    ノンブロック型の場合は、ステータスを見てすぐにリターンするが、CDが安定していない状態と、ディスクなしの状態を区別できない。よって、上記の時間を参考にしてプログラム側でタイムアウトを管理する必要がある。 <BR>
+    ※この関数はDTL-H2000では正常に動作しない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

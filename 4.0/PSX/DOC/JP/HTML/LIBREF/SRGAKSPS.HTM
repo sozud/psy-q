@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuRGetAllKeysStatus
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuRGetAllKeysStatus
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        指定した範囲のボイスに対してキーオン/キーオフを診断
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuRGetAllKeysStatus </B>(
+long<I> min</I>, 
+long<I> max</I>, 
+char *<I>status</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>min	</I>	診断するボイス番号の下限
+<I>max	</I>	診断するボイス番号の上限
+<I>statu</I>[24]	診断したボイスの結果
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>min, max </I>で指定した範囲のボイスに対してキーオン/キーオフ、及びエンベロープの状態を診断して現実的なキーオン/キーオフを診断する。 <BR>
+    エンベロープの状態は、複雑なエンベロープを設定し、エンベロープの状態遷移の過程で音量が0になる状態が起こり得る場合は、誤認識を起こす恐れがある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>status</I>[24]<I> </I>に指定した各ボイスの現在のキーオン/キーオフ、及びエンベロープの状態が返される。 <BR>
+    指定しなかった範囲のボイスについては不定である。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">返り値</TD><TD ALIGN="center">意味</TD><TR>
+    <TD>SPU_ON<BR></TD><TD>キーオン状態<BR>・SpuSetKeyでオフされていない<BR>・エンベロープも0になっていない</TD><TR>
+    <TD>SPU_ON_ENV_OFF<BR></TD><TD>キーオン状態<BR>・SpuSetKeyでオフされていない<BR>・エンベロープは0になっている</TD><TR>
+    <TD>SPU_OFF_ENV_ON<BR></TD><TD>キーオフ状態<BR>・SpuSetKeyでオフされている<BR>・エンベロープは0になっていない</TD><TR>
+    <TD>SPU_OFF<BR></TD><TD>キーオフ状態<BR>・SpuSetKeyでオフされている<BR>・エンベロープは0になっている</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="sskpuety.htm">SpuSetKey</a>(), <a href="sgkspues.htm">SpuGetKeyStatus</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

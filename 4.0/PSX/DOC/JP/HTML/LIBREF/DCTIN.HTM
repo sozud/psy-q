@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DecDCTin
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libpress.htm">データ処理 ライブラリ (libpress) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DecDCTin
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ランレベルを画像処理サブシステムに送信
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>DecDCTin</B> (
+u_long *<I>buf</I>, 
+int <I>mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>buf</I>		入力ランレベル
+<I>mode</I>		デコードモード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ランレベル <I>buf </I>以下をダイレクトカラー画像に解凍する。 <BR>
+    解凍結果は、DecDCTout()で取り出す。 <BR>
+    デコードモードは <I>mode</I> の下位２ビットで指定する。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit 0</TD><TD ALIGN="center">出力モード</TD><TR>
+    <TD ALIGN="center">0</TD><TD>16bitダイレクトカラー</TD><TR>
+    <TD ALIGN="center">1</TD><TD>24bitダイレクトカラー</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">bit 1</TD><TD ALIGN="center">STP</TD><TR>
+    <TD ALIGN="center">0</TD><TD ALIGN="center">0</TD><TR>
+    <TD ALIGN="center">1</TD><TD ALIGN="center">1</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    出力のピクセルの深さは、24bit/16bitのどちらかを選択できる。 <BR>
+    16bitモードの場合、解凍後のピクセルの15bit目(STPビット）は、<I>mode </I>のbit1で設定できる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DecDCTin()で解凍された結果生じる画像の幅・高さに関する情報は、ランレベルやビットストリームには保持されていない。これらのパラメータは、より上位の階層のデータ形式(STRフォーマットなど）で定義される。 <BR>
+    送受信のデッドロックを防止するために、送信したランレベルに対応するサイズのデータはDecDCTout()によって必ず受信しなくてはならない。 <BR>
+    しかし、その際に一回のDecDCTin()で送信したデータを複数回のDecDCTout()で読み出してもよいし、その逆もできる。 <BR>
+    DecDCTin()はノンブロック関数であるため、実際の転送の終了はDecDCTinSync()で検出する必要がある。DecDCTin()の終了をまたずに、次のDecDCTin()を実行すると２回目の送信は１回目の送信が終了するまでブロックされる。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

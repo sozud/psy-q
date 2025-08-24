@@ -1,0 +1,458 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.0$
+                                                                97.May.
+
+                                         PlayStation(R) Programmer Tool
+                                           Run-time Library Release 4.0
+
+                              ver.3.7 からのドキュメントの追加／変更項目
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                      Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+────────────────────────────────────
+
+概要及び注意事項
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+このファイルにはドキュメントに関する追加・変更事項の概要が収められていま
+す。詳細については各ドキュメントをご覧ください。新規に追加されたドキュメ
+ントファイルは以下のものです。
+
+<Overview>
+	拡張CD-ROMライブラリ(ds.doc)
+	メモリーカード簡易レベルライブラリ(mcrd.doc)
+<Library Reference>
+	拡張CD-ROMライブラリ(libds.doc)
+	メモリーカード簡易レベルライブラリ(libmcrd.doc)
+<Format>
+	圧縮画像データフォーマット(bs.doc)
+	統合グラフィックスフォーマット(hmd.doc)
+<Converter(Tool)>
+	MSHファイルの作成(meshconv.doc)
+	RSDフォーマットのHMDフォーマットへの変換(rsd2hmd.doc)
+
+注）
+HMDフォーマットについて述べられているhmd.docはRelease 4.0では諸事情により
+WORDファイルのみでの提供とさせていただきます。またbs.docにつきましてはテ
+キスト版はありません。
+	
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Overview
+────────────────────────────────────
+
+<PlayStation OS>概要(abst.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「3 OSの起動／操作」に「ブートシーケンス」の項を追加しました。
+
+
+カーネルライブラリ(api.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「7 コントローラサービス」にアナログコントローラのID情報を追加しました。
+
+・「10 メモリ管理関数について」の節を追加しました。
+
+
+メモリーカードライブラリ(card.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「6 メモリーカード運用ルール」の「表6 メモリーカードのファイル名」を変更
+  しました。
+  
+
+CD-ROM ライブラリ(cd.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「6 プリミティブコマンド」にコマンド CdlGetparam を追加し、表を変更しま
+  した。
+
+
+対戦ケーブルライブラリ(comb.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「1 概要」の「改定内容」を「3.6からの変更点」に変更しました。
+
+
+基本グラフィックスライブラリ(gpu.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「5 同期とリセット」の節を変更しました。
+						
+・「6 ダブルバッファ」に「非同期ダブルバッファ」の項を追加しました。
+	
+・「7 テクスチャマッピング」から「テクスチャパターンの繰り返し」の項を削除
+  し、「テクスチャキャッシュ」の項を変更しました。
+
+・ver3.7の「9 プログラミングに際して注意点」の一部を削除し、「8 プリミティ
+  ブの描画速度」として独立させました。
+
+・「9 プリミティブ分割」の節を追加しました。
+
+・「11 プログラミングに際して注意点」に「インターレースモードでのVSync 
+  同期に関して」の項を追加しました。
+
+
+拡張グラフィックスライブラリ(gs.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・HMDを扱うライブラリの概要を記述した節を追加しました。
+
+  「14 HMD用ライブラリ」
+  「15 HMDアニメーション」
+
+
+ガンライブラリ(gun.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「1 概要」に「画面の水平方向位置データの補整」の項を追加しました。
+
+
+PlayStation ライブラリの構成(lib.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・libdsとlibmcrdの概要を追加しました。
+
+・「図1 PlayStationライブラリの構造」を変更しました。
+
+
+データ処理ライブラリ(press.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・圧縮画像データフォーマットであるBSフォーマットに関する記述部分を削除し、
+  その部分はフォーマットのドキュメントとして独立させました。
+
+・「図9 展開ブロック」を削除しました。
+
+
+シリアル入出力ライブラリ(sio.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「2 ドライバとBIOS」の「シリアル入出力ドライバ」の項を変更しました。
+
+・「2 ドライバとBIOS」の「BIOS」の項を変更しました。
+
+			
+拡張サウンドライブラリ(snd.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「4 音源データ」の構造体（VabHdr、ProgAtr、VabAtr）のメンバの型や構造に
+  関する誤記を訂正しました。
+  
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Library Reference
+────────────────────────────────────
+
+カーネルライブラリ(libapi.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  
+＜追加された関数＞
+	InitHeap3()
+	malloc3()
+	realloc3()
+	calloc3()
+	free3()
+
+＜変更項目＞
+・EnterCriticalSection()において「返り値」の説明を変更しました。
+
+・InitPAD()の「備考」を変更しました。
+
+・SendPAD()、SetRCnt()、ResetRCnt()、StartRCnt()、StopRCnt()の「解説」を
+  変更しました。
+
+・Exec()の引数の型の誤記を訂正しました。
+
+
+C標準ライブラリ(libc.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+ ＜変更項目＞
+・calloc()の「解説」を変更しました。
+
+・malloc()の「備考」を変更しました。
+
+
+メモリーカードライブラリ(libcard.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  
+＜追加された関数＞
+	_card_format()		
+
+
+CD-ROM ライブラリ(libcd.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された関数＞
+	CdGetSector2()	
+	CdReadBreak()	
+	CdGetSector()	
+
+＜変更項目＞
+・CdMode()の「備考」を変更しました。
+
+・CdControl()のプリミティブコマンド一覧表にコマンド CdlGetparam を追加しま
+  した。
+
+ 
+対戦ケーブルライブラリ(libcomb.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された関数＞
+	_comb_control()
+
+
+GTEインラインマクロライブラリ(libdmpsx.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加されたマクロ＞
+	gte_ApplyMatrixSV()
+
+
+基本グラフィックスライブラリ(libgpu.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された関数＞
+
+	SetDrawLoad()
+	SetDrawTPage()
+	LoadClut2() 
+
+＜変更項目＞
+・構造体SPRT/SPRT_8/SPRT_16/TILE/TILE_1/TILE_8/TILE_16のメンバの解説の
+  誤記を訂正しました。 
+
+・ResetGraph()の「解説」を変更しました。
+
+・構造体DR_TWINの「解説」を変更しました。
+
+
+拡張グラフィックスライブラリ(libgs.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+＜追加された構造体＞
+	_GsPOSITION
+	GsARGUNIT
+	GsARGUNIT_IMAGE
+	GsARGUNIT_NORMAL
+	GsARGUNIT_SHARED
+	GsARGUNIT_ANIM
+	GsCOORDUNIT
+	GsCOORD2PARAM
+	GsTYPEUNIT	
+	GsUNIT
+	GsWORKUNIT	
+	GsSEQ
+	GsSEH
+	GsVIEWUNIT
+	GsRVIEWUNIT
+	TMD_STRUCT
+
+	GsARGUNIT_JntMIMe
+	GsARGUNIT_RstJntMIMe
+	GsARGUNIT_VNMIMe
+	GsARGUNIT_RstVNMIMe
+	GsMIMePrimHeader
+	 
+＜追加された関数＞
+	GsGetHeadpUnit()
+	GsGetLsUnit()
+	GsGetLwUnit()
+	GsGetLwsUnit()
+	GsMapCoordUnit()
+	GsMapUnit()
+	GsScanUnit()
+	GsSortUnit()
+	GsLinkAnim()
+	GsScanAnim()
+	GsU_00......(),GsU_01......(),GsU_02......()
+	GsU_03000000()
+	GsU_03000001()～GsU_03000990()
+	GsSortSpriteB()
+	GsSortFastSpriteB()
+	GsSetViewUnit()
+	GsSetRViewUnit()
+	GsSetRViewLUnit()
+
+	GsMap....MIMe()
+	GsMapRst....MIMe()
+	GsU_04......()
+
+	
+
+＜変更項目＞
+・構造体 GsCOORDINATE2 の「構造」の誤記を訂正しました。
+
+・GsInitGraph()、GsInitGraph2()、GsSetProjection()、GsSetFlatLight()、
+  GsSetLightMode()、GsSetAmbient()、GsSortObject?()、GsSortObject?J()、
+  GsDefDispBuff()、GsDefDispBuff2()、GsSetOffset()、GsSetOrign()、
+  GsLinkObject?()、GsClearDispArea()の引数の型の誤記を訂正しました。
+
+・外部変数PSDBASEX[]、PSDBASEY[]、PSDIDXの型の誤記を訂正しました。
+
+・GsCutOt()、GsLinkObject3()の返り値の型の誤記を訂正しました。
+
+・GsSetClip2()、GsSetLightMatrix2()、GsSetRefView2L()、GsSortFixBg16()
+  の「形式」や「解説」における関数名の誤記を訂正しました。
+
+
+基本ジオメトリライブラリ(libgte.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された関数＞
+	GsTMDfastTG3L_FLIP() 
+	GsTMDfastTG3LFG_FLIP()
+	GsTMDfastTG3NL_FLIP() 
+	GsTMDfastTNG3_FLIP()
+	SquareSL0() 
+	SquareSL12() 
+	SquareSS0()
+	SquareSS12()
+
+＜修正項目＞
+・VectorNormal()、VectorNormalS()、VectorNormalSS()の「備考」を変更しまし
+  た。
+
+・RotMatrix()、RotMatrixC()、RotMatrixYXZ()、ratan2 の引数順序の誤記を訂正
+  しました。
+
+・ColorMatCol()、ColorMatDpq()、Clip4FTP()、Square0()、Square12()、
+  NormalColor3()、NormalColorCol3()、NormalColorCol3_nom()、
+  NormalColordpq3_nom()、GsTMDfastF3NL()、GsPrst....()、GsTMDdiv....()、
+  GsTMDfast....()、RotMeshPrimQ_T()、RotMesh系関数、PhongLine()の引数の型
+  の誤記を訂正しました。
+
+・ReadSZfifo4()の引数名の誤記を訂正しました。
+
+・AverageZ4()の「返り値」の誤記を訂正しました。
+
+
+ガンライブラリ(libgun.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜変更項目＞
+・InitGUN()の「解説」を変更しました。
+
+
+データ処理ライブラリ(libpress.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された構造体＞
+	ENCSPUENV	
+
+＜追加された関数＞
+	EncSPU()	
+	DecDCTvlcBuild()	
+	DecDCTvlc2()		
+	DecDCTvlcSize2()	
+
+
+シリアル入出力ライブラリ(libsio.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された関数＞
+	Sio1Callback()	
+
+＜変更項目＞
+・_sio_control()の「解説」、「備考」を変更しました。
+
+
+拡張サウンドライブラリ(libsnd.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜追加された関数＞
+	SsGetChannelMute()	
+
+＜変更項目＞
+・SsSeqOpen()、SsSeqOpenJ()、SsVabOpenHead()、SsSetTickMode()、
+  SsSetTableSize()、SsSepOpen()、SsSepOpenJ()、SsSeqClose()、
+  SsSepClose()、SsVabClose()、_SsContNrpn1()、_SsContNrpn2()、
+  _SsContRpn1()、_SsContRpn2()、SsSetNck()の「解説」を変更しました。
+
+・構造体（VabHdr、ProgAtr、VagAtr） のメンバの型や構造の誤記を訂正しまし
+  た。
+
+・SsUtGetDetVVol()、SsSetSerialVol()、SsUtChangeADSR()の引数の型の誤記を
+  訂正しました。
+
+・_SsContResetAll()、_SsContBankChange()の引数名の誤記を訂正しました。
+
+・_SsSetNrpnVabAttr...の「引数」の説明の誤記を訂正しました。
+
+
+基本サウンドライブラリ(libspu.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜変更項目＞
+・構造体 SpuStEnv の中にメンバ low_priority を追加しました。
+
+・SpuGetTransferMode()、SpuGetTransferStartAddr()、
+  SpuIsTransferCompleted()、SpuRead()、SpuReadDecodedData()、
+  SpuSetTransferCallback()、SpuSetTransferMode()、
+  SpuSetTransferStartAddr()、SpuWrite()、SpuWrite0()、SpuWritePartly()の
+  「関連項目」を変更しました。
+
+・SpuIsTransferCompleted()、SpuRead()、SpuReadDecodedData()、SpuWrite()、
+  SpuWritePartly()の「解説」を変更しました。
+  
+
+マルチタップライブラリ(libtap.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+＜変更項目＞
+・SendTAP()の「解説」を変更しました。
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+File Format
+────────────────────────────────────
+
+RSD(rsd.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・HMDフォーマットの追加により、大幅に変更されました。MSH、PVT、COD、OGP、
+  MOTファイルが新たに追加され、RSD、PLY、MAT、GRPファイルに関する記述には
+  大幅な変更が加えられました。
+
+
+TOD(tod.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「図12 光源の場合のpacket dataの構成」の誤りを訂正しました。
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Converter
+────────────────────────────────────
+
+PSXCONS(psxcons.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「ROMモニタコマンド」の節を追加しました。
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Hardware関連
+────────────────────────────────────
+
+ハードウェアガイド(hardware.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「グラフィックシステム」の章の「2 CRT表示」「画面モードと表示位置」の項
+  でダブルバッファに関する部分の記述を削除しました。
+
+・「CPU及びその周辺」の章の「8 メモリアクセスタイミング」のメモリアクセス
+  所要サイクルについての説明を変更しました。
+
+
+GTE コマンド(gter1b.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・MVMVAコマンドの引数cv=2を無効に変更しました。
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Psy-Q プログラマーズガイド
+────────────────────────────────────
+
+導入部(0intro.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「＊＊ページを参照」というような、不適切な表現を訂正しました。
+
+・「8 スタートアップルーチンについて」の節を追加しました。
+ 
+・「3 システムのインストール」に32bit版ツールに関しての説明を追加しました。
+
+
+高速リンカPSYLINK(1_2link.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「＊＊ページを参照」というような、不適切な表現を訂正しました。
+
+
+MAKEユーティリティPSYMAKE(1_3make.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「＊＊ページを参照」というような、不適切な表現を訂正しました。
+
+
+デバッガDBUGPSX(1_5dbug.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「＊＊ページを参照」というような、不適切な表現を訂正しました。
+
+
+ASMPSXアセンブラ(2_1asm.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「＊＊ページを参照」というような、不適切な表現を訂正しました。
+
+
+アセンブラステートメントの文法(2_2state.doc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+・「＊＊ページを参照」というような、不適切な表現を訂正しました。
+

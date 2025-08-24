@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSortBg
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSortBg
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        BGをOTに登録
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void<B> GsSortBg</B> (
+GsBG * <I>bg</I>, 
+GsOT * <I>otp, </I>
+unsigned short <I>pri</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>bg</I>		BGへのポインタ
+<I>otp</I>		OTへのポインタ
+<I>pri	</I>	OTでの位置
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>bg </I>で示されるBGを、<I>otp </I>で示されるオーダリングテーブルに割り付ける。 <BR>
+    <I>pri </I>はそのスプライトのオーダリングテーブル上での優先順位。 <BR>
+    優先順位は最高が０で最低はそのオーダリングテーブルの大きさに依存する。 <BR>
+    オーダリングテーブルの大きさ以上の数値は、そのオーダリングテーブルの取り得る最大値にクリップされる。 <BR>
+    また、<I>bg </I>の持つアトリビュートの内、拡大回転機能がOFFになっていると処理が高速化される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

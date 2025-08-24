@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    POLY_F3
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    POLY_F3
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        フラット３角形プリミティブ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>tag</I>;
+		u_char	<I>r0</I>, <I>g0</I>, <I>b0</I>, <I>code</I>;
+		short	<I>x0</I>, <I>y0</I>;
+		short	<I>x1</I>, <I>y1</I>;
+		short	<I>x2</I>, <I>y2</I>;
+} <B>POLY_F3</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tag</I>			次のプリミティブへのフック（予約）
+<I>code</I>			プリミティブ ID
+<I>r0</I>,<I>g0</I>,<I>b0</I>		プリミティブの輝度値
+<I>x0</I>,<I>y0</I>,<I>x1</I>,<I>y1</I>..<I>x2</I>,<I>y2</I>	プリミティブの各頂点座標
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    POLY_F3 は ( <I>x0</I>,<I>y0 </I>)-( <I>x1</I>,<I>y1 </I>)-( <I>x2</I>,<I>y2 </I>) で囲まれた領域を(<I>r0</I>,<I>g0</I>,<I>b0 </I>) の輝度値で塗りつぶす。 <BR>
+    実際に描画されるアドレスはこの値に、描画環境で指定されたオフセット値が加算される。描画は描画環境で指定されたクリップ領域（矩形領域）でクリップされる。 <BR>
+    これはすべての描画プリミティブに関してあてはまる。 <BR>
+    さらに、幅が 1024 高さが 512 を越えるプリミティブはその全てがクリップされる。 <BR>
+    これはすべての描画プリミティブに関してあてはまる。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

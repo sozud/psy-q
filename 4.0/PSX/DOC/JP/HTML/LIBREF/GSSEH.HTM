@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSEH
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSEH
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMDアニメーション　シーケンスヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct 	{
+	short	<I>idx</I>;
+	unsigned char 	<I>sid</I>;
+	unsigned char	<I>pad</I>;
+} <B>GsSEH</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>idx</I>		シーケンスの先頭のシーケンスコントロール記述子をインデックスする。
+		シーケンスコントロールセクション内のインデックスで表現される。
+<I>sid</I>		シーケンスID
+<I>pad</I>		システム予約
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsSEHはシーケンスの情報を保持し、複数のシーケンスがある場合はGsSEHの配列としてシーケンスポインタに続けて格納される。 <BR>
+    idxはシーケンスの再生開始のシーケンスコントロール記述子へのインデックスを与える。このインデックスをGsSEQのtidxにセットし、GsSEHのSIDをGsSEQのSIDにセットすることでそのシーケンスの再生を開始させることができる。 <BR>
+    複数のシーケンスがある場合は、GsSEHの配列から一つを選んでGsSEQへ値を更新する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="glasinkm.htm">GsLinkAnim</a>(),<a href="gu03.htm">GsU_03000000</a>(),<a href="gsu_0300.htm">GsU_0300</a>....()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

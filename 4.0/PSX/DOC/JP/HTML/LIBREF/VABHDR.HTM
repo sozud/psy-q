@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    VabHdr
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    VabHdr
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        バンクヘッダ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>VabHdr</B> {
+		long <I>form</I>;
+		long <I>ver</I>;
+		long <I>id</I>;
+		unsighned long <I>fsize</I>;
+		unsigned short <I>reserved0</I>;
+		unsigned short <I>ps</I>;
+		unsigned short <I>ts</I>;
+		unsigned short <I>vs</I>;
+		unsigned char <I>mvol</I>;
+		unsigned char <I>pan</I>;
+		unsigned char <I>attr1</I>;
+		unsigned char <I>attr2</I>;
+		unsigned long <I>reserved1</I>;
+};
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>form</I>		フォーマットネーム (常に VABp)
+<I>ver</I>		フォーマットバージョン番号
+<I>id</I>		バンク (VAB) 番号
+<I>fsize</I>		バンクファイルサイズ
+<I>reserved0</I>	システム予約
+<I>ps</I>		バンクに含まれる全プログラム数
+<I>ts</I>		バンクに含まれる全 VAG 属性セット数
+<I>vs</I>		バンクにまれる VAG 数
+<I>mvol</I>		マスタボリューム
+<I>pan</I>		マスタパンレベル
+<I>attr1</I>		ユーザ定義可能なバンク属性１
+<I>attr2</I>		ユーザ定義可能なバンク属性２
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    VAB バンクヘッダは、実行時に扱われる音源データセットのファイルサイズ、含まれる音源の数などの情報が含まれている。 <BR>
+<BR>
+    SsVabOpenHead()およびSsVabTransBody() 関数が呼ばれたときにシステムに読み込まれ、SPUのローカルメモリに波形データが展開される。また、ボイスアロケーション時にボリューム設定やパンニング設定などが参照される。 <BR>
+<BR>
+    VAB、プログラム、VAG の各ヘッダ情報は、ユーザが実行時に変更することも可能で、変更した属性値は次のキーオン時からボイスアロケーションに反映される。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

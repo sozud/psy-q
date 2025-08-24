@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    LINE_G4
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    LINE_G4
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        グーロー２連結直線
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>tag</I>;
+		u_char	<I>r0</I>, <I>g0</I>, <I>b0</I>, <I>code</I>;
+		short	<I>x0</I>, <I>y0</I>;
+		u_char	<I>r1</I>, <I>g1</I>, <I>b1</I>, <I>p1</I>;
+		short	<I>x1</I>, <I>y1</I>;
+		u_char	<I>r2</I>, <I>g2</I>, <I>b2</I>, <I>p2</I>;
+		short	<I>x2</I>, <I>y2</I>;
+		u_char	<I>r3</I>, <I>g3</I>, <I>b3</I>, <I>p3</I>;
+		short	<I>x3</I>, <I>y3</I>;
+		u_long	<I>pad</I>;
+} <B>LINE_G4</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tag</I>			次のプリミティブへのフック（予約）
+<I>code</I>			プリミティブ ID
+<I>r0</I>,<I>g0</I>,<I>b0</I>,....<I>r3</I>,<I>g3</I>,<I>b3</I>	プリミティブの各頂点に対応する輝度値
+<I>x0</I>,<I>y0</I>,<I>x1</I>,<I>y1</I>..<I>x3</I>,<I>y3</I>	プリミティブの各頂点座標
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    LINE_G4は、(<I>x0</I>,<I>y0</I>)-(<I>x1</I>,<I>y1</I>)-(<I>x2</I>,<I>y2</I>)-(<I>x3</I>,<I>y3</I>) を結ぶ非連結直線を頂点が(<I>r0</I>,<I>g0</I>,<I>b0</I>)-(<I>r1</I>,<I>g1</I>,<I>b1</I>)-(<I>r2</I>,<I>g2</I>,<I>b2</I>)-(<I>r3</I>,<I>g3</I>,<I>b3</I>)の輝度値になる様に、グーローシェーディングを行ないながら描画する。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

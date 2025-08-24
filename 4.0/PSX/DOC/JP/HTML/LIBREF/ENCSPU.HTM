@@ -1,0 +1,93 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    EncSPU
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libpress.htm">データ処理 ライブラリ (libpress) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    EncSPU
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        波形データのエンコードを行う
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>EncSPU</B> (
+ENCSPUENV *<I>es_env</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>es_env		</I>SPU エンコード環境属性
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SPU エンコード環境属性 <I>es_env.src</I> に指定された 16-bit ストレート PCM データを PlayStation オリジナル波形データ (VAG, ヘッダ情報なし) にエンコードしてメンバ<I>es_env.dest</I> に返す。 <BR>
+<BR>
+    <I>es_env.size</I>には 16-bit ストレート PCM データのサイズをバイト単位で指定する。 <BR>
+    ループ波形を作成する際には<I>es_env.loop</I>にENCSPU_ENCODE_LOOPを指定し、<I>es_env.loop_start</I>に <I>es_env.src</I>内の PCM データのループスタートポイントをバイト単位で指定する。ループ波形でない場合には<I>es_env.loop</I>に ENCSPU_ENCODE_NO_LOOPを指定する。 <BR>
+    PCMデータの endian により、<I>es_env.byte_swap</I>に ENCSPU_ENCODE_ENDIAN_BIG (16-bit big endian) あるいは ENCSPU_ENCODE_ENDIAN_LITTLE (16-bit little endian) を指定する。 <BR>
+    <I>es_env.proceed</I>には一括/分割エンコード指定を行う。 <BR>
+<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">es_env.proceed</TD><TD ALIGN="center">エンコード指定</TD><TR>
+    <TD ALIGN="center">ENCSPU_ENCODE_WHOLE</TD><TD ALIGN="center">一括エンコード</TD><TR>
+    <TD ALIGN="center">ENCSPU_ENCODE_START</TD><TD ALIGN="center">分割エンコード開始</TD><TR>
+    <TD ALIGN="center">ENCSPU_ENCODE_CONTINUE</TD><TD ALIGN="center">分割エンコード継続</TD><TR>
+    <TD ALIGN="center">ENCSPU_ENCODE_END</TD><TD ALIGN="center">分割エンコード終了</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    <I>es_env.proceed</I>が ENCSPU_ENCODE_WHOLE以外の場合は、領域を分割する形、すなわち ENCSPU_ENCODE_STARTで先頭ブロックを含む領域のエンコード、ENCSPU_ENCODE_CONTINUEで中間領域の継続したエンコード、ENCSPU_ENCODE_ENDで最終ブロックを含む部分のエンコードを、 <I>es_env.src</I> から<I>es_env.size</I> で指定した領域だけ行う。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>es_env.dest</I> に作成されたエンコード後の PlayStation オリジナル波形データのサイズ。 <BR>
+    エンコード後の PlayStation オリジナル波形データのサイズエラーがあった場合は ENCSPU_ENCODE_ERROR を返す <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>loop </I>に ENCSPU_ENCODE_NO_LOOP に指定した場合、<I>loop_start</I> は無視される。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

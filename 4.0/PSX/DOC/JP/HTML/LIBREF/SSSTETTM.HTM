@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    StSetStream
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libstr.htm">ストリーミング ライブラリ (libcd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    StSetStream
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ストリーミングのパラメータを設定する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>StSetStream</B> (
+unsigned long <I>mode</I>,
+unsigned long<I> start_frame</I>,
+unsigned long<I> end_frame</I>,
+int (*<I>func1</I>)(),
+int (*<I>func2</I>)()
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>mode</I>		モードの設定
+ 		色モード指定 (16bit <I>mode</I>: 0、24bit <I>mode</I>:1)
+<I>start_frame </I>	ストリーミングをスタートさせるFRAME
+ 		0 を指定するとフレーム番号にかかわらずスタート。
+<I>end_frame</I>	ストリーミングを終了するFRAME
+ 		0 を指定するとリングバッファの最後までデータが入ると自動的に終了、
+		十分大きな数を指定するとCDROMのデータの最後まで再生して終了。
+<I>func1</I>		1FRAME分のデータができる毎にコールバックされる関数のアドレス。
+		0 を指定するとコールバックされない。
+<I>func2</I>		ストリーミングが終了するとコールバックされる関数のアドレス。
+		0 を指定するとコールバックされない。
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    StSetStream()はストリーミングのためのパラメータをセットする。 <BR>
+    <I>start_frame</I>, <I>end_frame </I>で指定する <I>frame </I>番号はSTRデータに書かれている <I>frame </I>番号である。 <BR>
+    <I>start_frame </I>はストリーミングを再生させるトリガをかけるフレームのことである。 <BR>
+    ストリーミングライブラリはこのトリガフレームがこない限り再生を始めない。 <BR>
+    よってストリーミングデータの途中から再生をしたい場合は <I>start_frame </I>も１ではなく適正な値にセットしなければならない。 <BR>
+    ストリーミングのスタートポイントを厳密に定めなくてもよいならば0を指定することでどのフレームがきても再生するようにできる。 <BR>
+    <I>end_frame </I>は０を設定するとリングバッファに入り切る最大のFRAMEが入ったところで終了するのでリングバッファを大きくとり、メモリーから再生する時に便利。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ストリーミングのアプリケーションを正常にexitするにはストリーミングの終了は <I>end_frame </I>で指定しない方が望ましい。 <BR>
+    <I>end_frame </I>には0xffffffffを設定しておきアプリケーションのループ中で最適なexitポイントをコーディングすべきである。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

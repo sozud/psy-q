@@ -1,0 +1,120 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSEQ
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSEQ
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ＨＭＤアニメーションシーケンスポインタ
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+	unsigned long 	<I>rewrite_idx</I>;
+	unsigned short 	<I>size,num</I>;
+	unsigned short 	<I>ii</I>;
+	unsigned short 	<I>aframe</I>;
+	unsigned char 	<I>sid</I>;
+	char		<I>speed</I>;
+	unsigned short	<I>srcii</I>;
+	short		<I>rframe</I>;
+	unsigned short	<I>tframe</I>;
+	unsigned short	<I>ci,ti</I>;
+	unsigned short	<I>start;</I>
+<I>	</I>unsigned char	<I>start_sid;</I>
+<I>	</I>unsigned char	<I>pad;</I>
+} <B>GsSEQ;</B>
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>rewrite_idx</I>	アニメーションにより更新されるセクションおよびオフセットが格納される、上
+		位８ビットがプリミティブヘッダ内のオフセットでありセクションの更新され
+		るセクションの先頭アドレスを特定する。下位２４ビットは、そのセクション内
+		の相対オフセットである。（ワード単位）
+<I>size</I>		次のシーケンスポインタが格納されている領域までのサイズ
+<I>num</I>		このシーケンスポインタに格納されているシーケンスの数
+<I>ii</I>		補完後のパラメータを記憶させる領域を示すインデックス
+		（パラメータセクション内の相対オフセット）
+<I>aframe</I>		シーケンスの総フレーム
+ 		フレームアップデートポインタにより自動的にデクリメントされる。
+		０でシーケンスは停止。シーケンスのENDアトリビュートでも０になる。
+		0xffffを設定することでデクリメントを禁止できる。エンドレス再生の場合に
+		用いる。
+<I>sid</I>		現在再生中のシーケンスの現状のシーケンスID
+		シーケンスIDとは０から１２７までの値をとりシーケンスのジャンプやENDの
+		動作を行う際、マッチングが取られる。SIDを利用してシーケンスの流れを制御
+		可能。シーケンスコントロール記述子でジャンプ記述を行う際マッチ用のSIDと
+		飛び先のSIDを定義する。マッチ用SIDを０にすることですべてのSIDとマッ
+		チさせることが可能。
+<I>speed</I>		シーケンスの再生速度を制御する。0x10で標準速再生。0x7fで８倍速、0x01
+		で1/16倍速となる。最上位ビットは逆転再生のためのビットである。実装は
+		rframeからspeedを１フレーム毎に引き算しそれを新たなRFRAMEの値にす
+		ることで行われる。
+<I>srcii		</I>iiに指定すべきデータを保持する。これはあらかじめデータに埋め込まれてい
+		るパラメータセーブ用の領域をインデックスで保持している。
+<I>rframe</I>		キーフレーム間の内挿係数 0でSRC FRAME,rframe==tframeで DST FRAME
+		となる。12bit固定小数点で表される。
+<I>tframe</I>		キーフレーム間の距離を表す。12bit固定小数点で表される。シーケンスコント
+		ロール記述子にあるtframeは８ビットでありGsSEQのtframeに更新される
+		時に４ビット左にシフトされる。
+<I>ci</I>		ソースキーフレームを保持するパラメータへのインデックス
+		（パラメータセクション内のワードオフセット）
+<I>ti</I>		デスティネーションキーフレームを保持するパラメータインデックス
+		（パラメーターセクション内のワードオフセット）
+<I>start		</I>シーケンスの開始インデックスを保持している。
+		シーケンスを開始するためには<I>start</I>を<I>ti</I>にコピーし<I>rframe</I>に０をいれる。
+<I>start_sid	</I>シーケンス開始時のSIDを保持している。
+		シーケンスを開始する時に<I>start_sid</I>を<I>sid</I>にコピーする。
+<I>traveling	</I>キーフレームの切り替え時に０にクリアされる。
+		このメンバはプログラマがいろいろな目的のために使用することができる。
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsSEQはフレームアップデートドライバの内部状態を保持する。このメンバを実行時に書き換えることによってアニメーションを動的にコントロールすることができる。 <BR>
+    GsSEQはＨＭＤデータ内に存在し、GsLinkAnim()によってＨＭＤデータの実体を指すようになる。 <BR>
+    メンバの中でフレームアップデートドライバによって自動的に更新されるものと、参照のみ行われる物に区別される。参照のみ行われるメンバは、rewrite_idx,size,num,ii,speed,srcii,start,start_sidである。 <BR>
+    それ以外はフレームアップデートドライバの中で書き換えられる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gu03.htm">GsU_03000000</a>(),<a href="gsu_0300.htm">GsU_0300</a>....(),<a href="glasinkm.htm">GsLinkAnim</a>(),<a href="gsseh.htm">GsSEH</a>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,30 @@
+                                                   PlayStation Data Converter
+
+seq2sep
+--------
+
+
+ 1 概要
+
+    PlayStation譜面データフォーマットSEQをまとめてSEPに変換するものです。一括
+    してロード・オープンすることが可能です。
+    ここでは、1995/Mar/09付けの Version 1.0 に関する内容を記述しています。
+
+ 2 使い方
+
+
+    seq2sep [options] SEQ-files ...
+
+      引数としてSEQ ファイルを与えると、PlayStation の譜面データファイルであ
+      る SEP ファイル (*.SEP) を生成します。
+
+ 3 オプション
+
+
+    -o
+
+      出力するSEPファイル名を指定します。
+
+ 4 制約
+
+    SEPにまとめることの出来るSEQの数は16までとなっています。

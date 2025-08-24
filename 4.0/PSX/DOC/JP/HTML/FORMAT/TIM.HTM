@@ -1,0 +1,260 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation File Format</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>画像イメージデータ（TIMフォーマット）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    TIMファイルはPlayStationシステムで扱う画像イメージの規格でPlayStationシステムの持つフレームバッファ(VRAM)へ直接転送できるデータです。スプライトパターンや3Dのテクスチャマッピング素材等として共通で使用できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>イメージデータのモード(色数)</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationシステムで取り扱うイメージデータのモード（色数）には以下の種類があります。<BR>
+    <OL>
+         <LI VALUE= 1> 4bit CLUT
+         <LI VALUE= 2> 8bit CLUT
+         <LI VALUE= 3> 16bit Direct color
+         <LI VALUE= 4> 24bit Direct color
+    </OL>
+    <BR>
+    PlayStationシステムの持つフレームバッファは16bit構成であるため、直接転送して表示できるデータのモードは16bitおよび24bitの２つのみですが、スプライトパターンあるいはポリゴンのテクスチャマッピングデータとして使用する場合は4bit/8bit/16bitのモードから選択できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>ファイルフォーマット</B>
+</A>
+</H3>
+<blockquote>
+    TIMファイルは先頭にファイルヘッダを持ち、いくつかのブロックに分かれています。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf1.gif">
+<P>
+        <H4><B>図 1 ファイル構造</B></H4>
+
+</CENTER>
+    データの形式は３２ビットバイナリーのデータ列で、Little Endianであるためバイト順は下位バイトが先になります。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf2.gif">
+<P>
+    <B>図 2 ファイル内でのバイト順</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>ＩＤ</B>
+</A>
+</H3>
+<blockquote>
+    ファイルIDは1ワードのデータでビットのアサインは次のような構成になっています。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf3.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 3 ID</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>ＦＬＡＧ</B>
+</A>
+</H3>
+<blockquote>
+    FLAGはデータ構造に関する情報を持った32bit長のデータです。次のようなbit構成になっています。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf4.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 4 FLAG</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>ＣＬＵＴ部</B>
+</A>
+</H3>
+<blockquote>
+    色モードが4bit/8bitモードのイメージデータはCLUTを使用します。<BR>
+    ヘッダ部のFLAG中のCFフラグの値が'1'の場合はTIMファイルはCLUT（カラーパレット）を持ちます。<BR>
+    CLUT部は先頭にCLUT部のバイト数(bnum)があり、その後にフレームバッファ内位置情報、イメージサイズとデータ本体が続きます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf5.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 5 CLUT</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+    4bitモードの場合は16個／8bitモードの場合は256個のCLUTエントリで１セットのCLUTを構成します。<BR>
+    PlayStationシステムではCLUTはフレームバッファ上に配置されるためTIMファイル中のCLUT部は矩形のイメージとして扱います。すなわち、１つのCLUTエントリはフレームバッファでは１ピクセルと等価です。<BR>
+    このため、１セットのCLUTは、4bitモードの場合は高さ１／幅16、8bitモードの場合は高さ１／幅256の大きさの矩形イメージデータとして扱われます。<BR>
+    1つのTIMファイルの中に複数セットのCLUTを持つことも可能です。この場合、上記の１セットのCLUTが複数個組合わさった領域を１個のイメージデータとしてCLUT部中に書かれます。<BR>
+    1個のCLUTエントリ、つまり１つの色を表すの構成は次の通りです。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf6.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 6 ＣＬＵＴエントリ</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+    透明制御ビットはスプライトデータやテクスチャデータとして用いる場合に有効で、R,G,B,STPすべて0の場合に透明色として扱われ、それ以外の場合は通常（不透明色）になります。半透明処理を行なう場合は、STPの値が1の場合半透明色、それ以外の場合不透明色（All zeroの場合のみ透明色）になります。<BR>
+<CENTER>
+        <H4><B>表 1 STPビットの役割</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>STP/R,G,B </TD><TD> 半透明処理ON </TD><TD>半透明処理OFF</TD><TR>
+    <TD>0 / 0,0,0</TD><TD>透明 </TD><TD>透明</TD><TR>
+    <TD>0 / X,X,X</TD><TD>不透明</TD><TD>不透明</TD><TR>
+    <TD>1 / X,X,X</TD><TD>半透明</TD><TD>不透明</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>ピクセルデータ部</B>
+</A>
+</H3>
+<blockquote>
+    ピクセルデータ部はイメージデータの本体です。PlayStationシステムのフレームバッファは16bit構成であるためイメージデータは16bit単位で区切られています。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/timf7.gif">
+<P>
+      <BLOCKQUOTE>
+      <B>図 7 ピクセルデータ</B><BR>
+</CENTER>
+      </BLOCKQUOTE>
+    フレームバッファの座標系は16bit/pixelを元にしているため、TIMデータ内の座標値／大きさの値には注意が必要です。<BR>
+    x軸方向の大きさは4bitモード時は1/4、8bitモード時は1/2の値が上記のHの値になります。従って、4bitモードの場合はイメージサイズは4の倍数、8bitモードの場合にはイメージサイズは偶数でなければなりません。<BR>
+    1個のピクセルデータ(16bit)の構成はモードによって異なります。各モード毎の<BR>
+    構成は以下の通りです。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_1">
+(1) <B>4bitモードの場合</B>
+</A>
+</H4>
+<P>
+<IMG SRC ="gif/timn1.gif">
+<P>
+      <BLOCKQUOTE>
+      pix0～3		ピクセル値(CLUT No.)並び順は左からpix0,1,2,3の順です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_2">
+(2) <B>8bitモードの場合</B>
+</A>
+</H4>
+<P>
+<IMG SRC ="gif/timn2.gif">
+<P>
+      <BLOCKQUOTE>
+      pix0～1		ピクセル値(CLUT No.) 並び順は左からpix0,1の順です。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_3">
+(3) <B>16bitモードの場合</B>
+</A>
+</H4>
+<P>
+<IMG SRC ="gif/timn3.gif">
+<P>
+      <BLOCKQUOTE>
+      STP		透明制御ビット（CLUT部参照）<BR>
+      R		Red成分 (5bit)<BR>
+      G		Green成分 (5bit)<BR>
+      B		Blue成分 (5bit)<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_6_4">
+(4) <B>（24bitモードの場合）</B>
+</A>
+</H4>
+<P>
+<IMG SRC ="gif/timn4.gif">
+<P>
+      <BLOCKQUOTE>
+      R0,R1		Red成分 (8bit)<BR>
+      G0,G1		Green成分 (8bit)<BR>
+      B0,B1		Blue成分 (8bit)<BR>
+      </BLOCKQUOTE>
+    <BR>
+    24bitモードの場合は16bitデータ3個で2ピクセル分のデータに相当します。<BR>
+    (R0,G0,B0)が左側のピクセル、(R1,G1,B1)が右側のピクセルを表します。<BR>
+<CENTER>
+        <H4><B>図 8 フレームバッファデータ（ピクセルデータ）の構成</B></H4>
+
+</CENTER>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

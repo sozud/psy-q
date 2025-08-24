@@ -1,0 +1,2901 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 基本グラフィクスライブラリ(libgpu)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+基本グラフィクスライブラリ(libgpu)
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+基本グラフィックスライブラリは、描画エンジンへのコマンドを作成し、コマンドリストに登録するためのライブラリです。ここで扱われるデータはスプライト、ポリゴン、ラインなどの基本的なものとなっています。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 フレームバッファ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> GPU</A><BR>
+    <A HREF="#Heading4_1_2_2"> フレームバッファアドレッシング</A><BR>
+    <A HREF="#Heading4_1_2_3"> 表示領域</A><BR>
+    <A HREF="#Heading4_1_2_4"> 描画領域</A><BR>
+    <A HREF="#Heading4_1_2_5"> フレームダブルバッファ</A><BR>
+    <A HREF="#Heading4_1_2_6"> 描画環境</A><BR>
+    <A HREF="#Heading4_1_2_7"> 表示環境</A><BR>
+    <A HREF="#Heading4_1_2_8"> 表示領域と画面領域</A><BR>
+    <A HREF="#Heading4_1_2_9"> 表示・描画環境の切替え</A><BR>
+    <A HREF="#Heading4_1_2_10"> インターレースダブルバッファ</A><BR>
+    <A HREF="#Heading4_1_2_11"> フレームバッファアクセス関数</A><BR>
+    <A HREF="#Heading4_1_2_12"> ブロック関数とノンブロック関数</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 プリミティブ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> 描画プリミティブ</A><BR>
+    <A HREF="#Heading4_1_3_2"> 特殊プリミティブ</A><BR>
+    <A HREF="#Heading4_1_3_3"> プリミティブの表現形式</A><BR>
+    <A HREF="#Heading4_1_3_4"> プリミティブの初期化</A><BR>
+    <A HREF="#Heading4_1_3_5"> プリミティブ属性</A><BR>
+    <A HREF="#Heading4_1_3_6"> プリミティブのメンバの設定</A><BR>
+    <A HREF="#Heading4_1_3_7"> プリミティブの合成</A><BR>
+    <A HREF="#Heading4_1_3_8"> プリミティブの実行</A><BR>
+    <A HREF="#Heading4_1_3_9"> プリミティブの実行優先順位</A><BR>
+    <A HREF="#Heading4_1_3_10"> プリミティブの描画規則</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_4"> 4 オーダリングテーブル（ＯＴ）</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_4_1"> ＯＴへの登録</A><BR>
+    <A HREF="#Heading4_1_4_2"> 特殊プリミティブの登録</A><BR>
+    <A HREF="#Heading4_1_4_3"> プリミティブリンク</A><BR>
+    <A HREF="#Heading4_1_4_4"> ＯＴとＺソート</A><BR>
+    <A HREF="#Heading4_1_4_5"> ジオメトリ関数とＯＴ</A><BR>
+    <A HREF="#Heading4_1_4_6"> 逆方向ＯＴ</A><BR>
+    <A HREF="#Heading4_1_4_7"> ジオメトリ関数との組合せ</A><BR>
+    <A HREF="#Heading4_1_4_8"> 複数ＯＴ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_5"> 5 同期とリセット</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_5_1"> リセット</A><BR>
+    <A HREF="#Heading4_1_5_2"> 同期制御</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_6"> 6 ダブルバッファ</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_6_1"> 非同期ダブルバッファ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_7"> 7 テクスチャマッピング</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_7_1"> テクスチャパターンフォーマット</A><BR>
+    <A HREF="#Heading4_1_7_2"> 透明ピクセル／半透明ピクセル</A><BR>
+    <A HREF="#Heading4_1_7_3"> 半透明ピクセルのモード</A><BR>
+    <A HREF="#Heading4_1_7_4"> テクスチャマッププリミティブの輝度値</A><BR>
+    <A HREF="#Heading4_1_7_5"> テクスチャページ</A><BR>
+    <A HREF="#Heading4_1_7_6"> テクスチャCLUT</A><BR>
+    <A HREF="#Heading4_1_7_7"> テクスチャページIDとテクスチャCLUT ID</A><BR>
+    <A HREF="#Heading4_1_7_8"> カレントテクスチャページ</A><BR>
+    <A HREF="#Heading4_1_7_9"> テクスチャキャッシュ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_8"> 8 プリミティブの描画速度</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_8_1"> プリミティブの描画速度</A><BR>
+    <A HREF="#Heading4_1_8_2"> アクセスルール</A><BR>
+    <A HREF="#Heading4_1_8_3"> 描画クリップ</A><BR>
+    <A HREF="#Heading4_1_8_4"> テクスチャキャッシュ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_9"> 9 プリミティブ分割</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_9_1"> テクスチャ歪み</A><BR>
+    <A HREF="#Heading4_1_9_2"> テクスチャキャッシュミス</A><BR>
+    <A HREF="#Heading4_1_9_3"> クリップオーバーヘッド</A><BR>
+    <A HREF="#Heading4_1_9_4"> プリミティブ分割</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_10"> 10 デバッグ環境</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_10_1"> デバッグモード</A><BR>
+    <A HREF="#Heading4_1_10_2"> デバッグストリング</A><BR>
+    <A HREF="#Heading4_1_10_3"> 高レベルライブラリインターフェース</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_11"> 11 プログラミングに際して注意点</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_11_1"> テクスチャポリゴンの座標指定</A><BR>
+    <A HREF="#Heading4_1_11_2"> PAL 方式への対応について</A><BR>
+    <A HREF="#Heading4_1_11_3"> フレームバッファの切替えタイミングに関して</A><BR>
+    <A HREF="#Heading4_1_11_4"> インターレースモードでの VSync 同期に関して</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    グラフィクス基本ライブラリ(libgpu)は、プリミティブ（３角形・４角形・スプライト）などの基本単位図形を表示するための低レベル関数ライブラリです。ライブラリ関数には大きく分けて以下のものがあります。<BR>
+
+     <H4><B>(1) システム関数</B></H4>
+
+      <BLOCKQUOTE>
+      グラフィックシステムのリセットなどグラフィックシステム全体の制御をするもの<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(2) フレームバッファアクセス関数</B></H4>
+
+      <BLOCKQUOTE>
+      フレームバッファの内容を直接読み書きするもの<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(3) プリミティブ関数</B></H4>
+
+      <BLOCKQUOTE>
+      プリミティブを初期化したり、テクスチャページを設定するなどのプリミティブ構造体の内容を操作するもの<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(4) プリミティブ操作・オーダリングテーブル操作関数</B></H4>
+
+      <BLOCKQUOTE>
+      プリミティブをオーダリングテーブルに登録したり、オーダリングテーブル上のプリミティブを描画するものなど<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>(5) 同期制御</B></H4>
+
+      <BLOCKQUOTE>
+      垂直同期や描画同期などの管理を行なうもの<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    基本グラフィクスライブラリのファイル名はlibgpu.libです。各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。またlibgpu.libを使用する際には、libapi.lib libetc.libを同時にリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    基本グラフィクスライブラリのインクルードヘッダは、libgpu.hです。各種のデータ構造、マクロはすべてこのファイルで定義されています。各サービスを呼び出すプログラムは、必ずこれをインクルードする必要があります。<BR>
+    libgpu.hを使用する場合は、libetc.h,libgte.hを必ずインクルードして下さい。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        #include &lt;sys/types.h&gt;
+        #include &lt;libetc.h&gt;
+        #include &lt;libgte.h&gt;
+        #include &lt;libgpu.h&gt;
+        
+</PRE>
+    libgpu.hは、&lt;sys/types.h&gt;内の以下の型を使用しています。<BR>
+    libgpu.hをインクルードする時は同時に&lt;sys/types.h&gt;もインクルードして下さい。詳細は、libgpu.hを参照下さい。<BR>
+<PRE>        
+        typedef	unsigned char	u_char;
+        typedef	unsigned short	u_short;
+        typedef	unsigned int	u_int;
+        typedef	unsigned long	u_long;
+        
+<CENTER>
+</PRE>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libgpu.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libgpu.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>フレームバッファ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>GPU</B>
+</A>
+</H3>
+<blockquote>
+    PlayStationでは高速なグラフィック機能を実現するために、専用のレンダリングエンジン（描画装置）を備えています。これをGPU(Graphic Processing Unit)とよびます。GPUは、フレームバッファタイプの描画装置で、メインメモリ上に配置されたインストラクション列（プリミティブ）を次々に実行してフレームバッファ上に描画を行ないます。フレームバッファ上のデータはビデオ信号に変換され、ディスプレイに表示されます。このフレームバッファの内容をディスプレイのフィールドレート（60フィール／秒）で次々に書き換えることで動きのある映像を生成します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf1.gif">
+<P>
+    <B>図 1 グラフィックシステム</B><BR>
+</CENTER>
+    <BR>
+    このように、グラフィックシステムではすべての画像データを一旦フレームバッファ上描画したのちに描画をおこなうため、特定のＢＧ（バックグラウンド）プレーンなどは持ちません。これらのデータ構造はメインメモリ上のプリミティブ列をどのように設計するかに応じて全てアプリケーションに任されています。<BR>
+    なお、GPUとフレームバッファを総称してグラフィックシステムと呼びます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>フレームバッファアドレッシング</B>
+</A>
+</H3>
+<blockquote>
+    フレームバッファとは、グラフィックシステムがローカルに持つ1024x512x16bitのビデオメモリを指します。。フレームバッファは、描画および、表示用のバッファであると同時に、テクスチャパターンやテクスチャCLUTの領域としても使用されます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf2.gif">
+<P>
+    <B>図 2 フレームバッファ</B><BR>
+</CENTER>
+    フレームバッファ上のピクセルは左上を原点とする(X, Y)(X=0～1023,Y=0～511)の２次元座標で指定されます。各ピクセルは16bitの深さをもち、RGB各5bitで以下のように構成されます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf3.gif">
+<P>
+    <B>図 3 ピクセル</B><BR>
+</CENTER>
+    従ってフレームバッファの総容量は1024 x 512 x 16 bit = 1MBとなります。<BR>
+    フレームバッファの内容は、表示中の領域であってもいつでもアクセスすることができます。また、描画中の領域であっても、いつでも表示可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>表示領域</B>
+</A>
+</H3>
+<blockquote>
+    ビデオ映像として表示されるのは、フレームバッファの一部分の矩形領域になります。これを表示領域と呼びます。<BR>
+    表示領域の大きさは表示モードによって異なり、256x240から、640x480(オーバースキャン時709x488)まで以下の組合せから選ぶことができます。<BR>
+    ただし、高さ480モードの場合でノンインターレースを選択することはできません。<BR>
+<CENTER>
+        <H4><B>表 2 表示モード</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>幅</TD><TD> 320, 360, 512, 640</TD><TR>
+    <TD>高さ</TD><TD> 240, 480</TD><TR>
+    <TD>ピクセルモード</TD><TD> 24bit, 16bit</TD><TR>
+    <TD>インターレース</TD><TD> on, off</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>描画領域</B>
+</A>
+</H3>
+<blockquote>
+    描画は、フレームバッファの一部の矩形領域に対して行なわれます。これを描画領域と呼びます。描画領域は、フレームバッファに収まる範囲であれば、大きさの制限はありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_5">
+<A HREF="#Heading3_1_2"> 2. </A>5 <B>フレームダブルバッファ</B>
+</A>
+</H3>
+<blockquote>
+    描画領域と表示領域はフレームバッファ上のどこを指定しても構いませんが、描画領域をそのまま表示領域とすると、現在描画している様子がそのまま画面に反映されてしまいます。<BR>
+    そこで、通常は、別々の描画領域と表示領域を用意しておいて、片側の領域に描画をしている間はもう片側を表示し、描画が終了したら、二つをお互いに取り替える方式（ダブルバッファ）をとります。<BR>
+    ダブルバッファの切替えは描画終了時に垂直同期にあわせて、次に述べる描画環境・表示環境を切替えることで行ないます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_6">
+<A HREF="#Heading3_1_2"> 2. </A>6 <B>描画環境</B>
+</A>
+</H3>
+<blockquote>
+    フレームバッファ内のどこに描画するか、描画の原点（オフセット）をどこに持つかなど、プリミティブの描画全般に関わる情報を描画環境と呼びます。<BR>
+    描画環境はDRAWENV構造体を用いて、PutDrawEnv()関数により設定できます。また、現在の描画環境は、GetDrawEnv()関数で獲得できます。<BR>
+    DRAWENV構造体では以下のパラメータを設定できます。<BR>
+<PRE>        
+        typedef struct {
+        	RECT	clip;		/* clip area */
+        	short	ofs[2];		/* drawing offset */
+        	RECT	tw;		/* texture window */
+        	u_short	tpage;		/* texture page */
+        	u_char	dtd;		/* dither flag (0:off, 1:on) */
+        	u_char	dfe;		/* flag to draw on display area */
+        	u_char	isbg;		/* enable to auto-clear */
+        	u_char	r0, g0, b0;	/* initital background color */
+        	DR_ENV	dr_env;		/* reserved */
+        } DRAWENV;
+</PRE>
+
+     <H4><B>クリップ(clip.x, clip.y, clip.w,  clip.h)</B></H4>
+
+      <BLOCKQUOTE>
+      描画は、矩形領域 (clip.x, clip.y)-(clip.x+clip.w, clip.y+clip.h)内に制限されます。クリッピング領域外には描画は行なわれません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>オフセット(ofs[0], ofs[1])</B></H4>
+
+      <BLOCKQUOTE>
+      描画は、(x,y)にオフセットメンバで指定されたオフセット(ofs[0], ofs[1])が加算された値をアドレスとして、フレームバッファに描画されます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>テクスチャウィンドウ(tw.x, tw,y, tw,w, tw.h)</B></H4>
+
+      <BLOCKQUOTE>
+      テクスチャページ内のある部分だけをラップラウンドして使用する場合に使用します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>テクスチャページ</B></H4>
+
+      <BLOCKQUOTE>
+      デフォルトで使用するテクスチャパターンを指定します。１テクスチャページは256x256の大きさをもちます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>ディザ(dtd)</B></H4>
+
+      <BLOCKQUOTE>
+      これを1にすると、グラフィックシステムは、ピクセルを書き込む際にディザ処理を行います。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>表示領域描画(dfe)</B></H4>
+
+      <BLOCKQUOTE>
+      グラフィックシステムはデフォルトでは、表示中の領域への描画をブロックします。これを1にすると、表示中の領域であっても描画を行なうことを許可します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>描画領域クリア(isbg)、背景色(r0,g0,b0)</B></H4>
+
+      <BLOCKQUOTE>
+      これを１にすると、描画環境設定時にクリップエリアを輝度値(r0,g0,b0)で一旦クリアします。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_7">
+<A HREF="#Heading3_1_2"> 2. </A>7 <B>表示環境</B>
+</A>
+</H3>
+<blockquote>
+    フレームバッファ内のどこを表示するかなどの、フレームバッファの表示に関わる情報を表示環境と呼びます。表示環境はDISPENV構造体を用いてPutDispEnv()関数により設定できます。また、現在の描画環境は、GetDispEnv()関数で獲得できます。<BR>
+    表示環境では以下のパラメータを設定できます。<BR>
+<PRE>        
+        typedef struct {
+        	RECT	disp;		/* display area */
+        	RECT	screen;		/* display start point */
+        	u_char	isinter;	/* interlace 0: off 1: on */
+        	u_char	isrgb24;	/* RGB24 bit mode */
+        	u_char	pad0, pad1;	/* reserved */
+        } DISPENV;
+</PRE>
+
+     <H4><B>表示領域（disp.x, disp,y, disp.w, disp.h)</B></H4>
+
+      <BLOCKQUOTE>
+      フレームバッファ内で、(disp.x, disp.y)-(disp.x+disp.w, disp.y+disp.h)のエリアを表示エリアとします。表示エリアの幅は、256,320,360,512,640のいずれかになります。表示エリアの高さは240,480のいずれかを指定します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>画面領域（screen.x, screen,y, screen.w, screen.h)</B></H4>
+
+      <BLOCKQUOTE>
+      表示領域を実際の物理ディスプレイ上のどの位置に表示するかを指定します。ディスプレイは表示エリア／表示モードに関わらず左上を原点として(0,0)-(256,240)でアドレッシングされます。<BR>
+      画面エリアを(0,0)-(256,240)で指定した場合が標準の画面となります。これよりも小さい場合はアンダースキャンとなり、大きい場合はオーバースキャンになります。<BR>
+      例えば、screen.wに256以上の値を設定した場合は、320モードであってもそれ以上のピクセルが画面に表示されます。ただしこの場合は、１ピクセルの大きさは変化しません。<BR>
+      </BLOCKQUOTE>
+
+     <H4></H4>
+
+
+     <H4><B>表示オフセット(ofs[0],ofs[1])</B></H4>
+
+      <BLOCKQUOTE>
+      ディスプレイ上の表示の開始位置を指定します。横方向はピクセル単位、縦方向はラスタ単位です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>インターレース(isinter)</B></H4>
+
+      <BLOCKQUOTE>
+      表示を強制的にインターレースモードとします。ただし表示領域の高さが240を越えると、ここの指定に関わらず常にインターレースモードになります。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>24bitモード(isrgb24)</B></H4>
+
+      <BLOCKQUOTE>
+      表示を24bitモードにします。<BR>
+      24bitモードにした場合フレームバッファ上のデータが24bitピクセルフォーマットと解釈されて表示されます。またこの時はフレームバッファのxアドレスとピクセルは1対1に対応しません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_8">
+<A HREF="#Heading3_1_2"> 2. </A>8 <B>表示領域と画面領域</B>
+</A>
+</H3>
+<blockquote>
+    表示領域と画面領域の関係を以下に示します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf4.gif">
+<P>
+    <B>図 4 表示領域と画面領域</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_9">
+<A HREF="#Heading3_1_2"> 2. </A>9 <B>表示・描画環境の切替え</B>
+</A>
+</H3>
+<blockquote>
+    フレームダブルバッファは、表示・描画環境を２組用意しておき、それらを交互に切替えることで実現します。<BR>
+    バッファ0を(0,0)-(320,240),バッファ1を(0,240)-(0,480)ととる場合は、それぞれの描画環境・表示環境は以下のように設定します。この二つは描画・表示バッファを取り替える際に交互にPutDrawEnv(),PutDispEnv()関数を用いてシステムに設定します。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 3 描画環境</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center"></TD><TD ALIGN="center">バッファ0</TD><TD ALIGN="center">バッファ１</TD><TD ALIGN="center">備考</TD><TR>
+    <TD>(clip.x,clip.y)</TD><TD>(0,0)</TD><TD>(0,240)</TD><TD>クリップ開始点</TD><TR>
+    <TD>(ofs[0],ofs[1])</TD><TD>(0,0)</TD><TD>(320,240)</TD><TD>描画オフセット</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+        <H4><B>表 4 表示環境</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center"></TD><TD ALIGN="center">バッファ0</TD><TD ALIGN="center">バッファ１</TD><TD ALIGN="center">備考</TD><TR>
+    <TD>(disp.x, disp.y)</TD><TD>(0,240)</TD><TD>(0,0)</TD><TD>表示開始位置</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    描画環境はPutDrawEnv()を使用する以外にも、後述するDR_MODEプリミティブを使用してオーダリングテーブルに組み込むことで、描画の途中で動的に切替えることができます。<BR>
+    ダブルバッファのを使用した描画の基本的なプログラムの処理は以下のようになります。<BR>
+<PRE>        
+        DRAWENVV	drawenv[2];		/* 描画環境 */
+        DISPENV		dispenv[2];		/* 表示環境 */
+        int		dispid = 0;		/* ディスプレイバッファ ID */
+        
+        while (1) {
+        	VSync(0);			/* V-BLNK に同期をとる */
+        	dispid = (dispid+1)%2;		/* バッファ ID をスワップ */
+        	PutDispEnv(&drawenv[dispid]);
+        	PutDrawEnv(&drawenv[dispid]);
+        	/* プリミティブの設定・実行 */
+        }
+        
+</PRE>
+    描画環境・表示環境メンバの標準値は、SetDefDrawEnv(),SetDefDispEnv()関数で設定できます。<BR>
+    なお、描画中に描画環境を設定する際は、その時実行されているプリミティブあるいはプリミティブリストには影響を与えません。設定された描画環境は、その次の描画から有効になります。<BR>
+    それに対して表示環境は描画中であっても即座に設定が有効になります。従ってバックグラウンドで描画を行なっている間でも表示位置や表示領域は変更することができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_10">
+<A HREF="#Heading3_1_2"> 2. </A>10 <B>インターレースダブルバッファ</B>
+</A>
+</H3>
+<blockquote>
+    高さ480のインターレースモードを使用した場合(640x480など)では、シングルバッファで描画／表示を行なうことができます。<BR>
+    インターレースモードでは、偶数フィールドでは偶数ラインを、奇数フィールドでは奇数ラインを交互に表示してしています。このとき、偶数フィールドを表示中に奇数フィールドを描画し、奇数フィールドを表示中に偶数フィールドを描画すれば、表示／描画バッファを共通にすることができます。<BR>
+    これは、描画環境のdfeフラグを0にしておくことにより実現できます。すなわち640x480の共通バッファに1/60秒で描画を完了さえしていれば、表示中のフィールド（この場合は、偶数ラインか奇数ライン）には描画されないため、自動的にダブルバッファが実現します。<BR>
+    この場合は、バッファの切替えごとに描画環境／表示環境を切替える必要はありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_11">
+<A HREF="#Heading3_1_2"> 2. </A>11 <B>フレームバッファアクセス関数</B>
+</A>
+</H3>
+<blockquote>
+    フレームバッファの内容は以下の関数を用いて直接アクセスすることができます。<BR>
+<CENTER>
+        <H4><B>表 5</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">関数名</TD><TD ALIGN="center">転送元</TD><TD ALIGN="center">転送先</TD><TR>
+    <TD>LoadImage()</TD><TD>メインメモリ</TD><TD>フレームバッファ</TD><TR>
+    <TD>StoreImage()</TD><TD>フレームバッファ</TD><TD>メインメモリ</TD><TR>
+    <TD>MoveImage()</TD><TD>フレームバッファ</TD><TD>フレームバッファ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_12">
+<A HREF="#Heading3_1_2"> 2. </A>12 <B>ブロック関数とノンブロック関数</B>
+</A>
+</H3>
+<blockquote>
+    フレームバッファアクセス関数などのように処理時間の長い以下の関数、<BR>
+<PRE>        LoadImage(),StoreImage(),MoveImage(),DrawPrim(),DrawOTag()
+</PRE>
+    は、バックグラウンドで処理を実行しその終了を待たずにリターンします。（ノンブロック関数）。<BR>
+    これに対して、グラフィックシステムが処理を終了するのを待ってリターンするものをブロック関数とよびます。先にあげた関数以外は全てブロック関数です。<BR>
+    ノンブロック関数の終了はDrawSync()で検出できます。<BR>
+    ブロック型のLoadImage()を行ないたい場合は以下のようにします。<BR>
+<PRE>        
+        LoadImage(&rect, pix);
+        DrawSync(0);
+        
+</PRE>
+    ノンブロック関数の実行は最大64個までキューイングできます。<BR>
+    例えば、一回の描画で何本かのＯＴをまとめて走らせる場合<BR>
+<PRE>        
+        DrawOTag(ot0);		/* 0 */
+        DrawOTag(ot1);		/* 1 */
+        DrawOTag(ot2);		/* 2 */
+        .....
+        
+</PRE>
+    DrawOTag(ot1)が呼ばれた時点でDrawOTag(ot0)が終了していない場合は、システムは、リクエストを単にキューに登録されるだけで、実際の処理を行なわずにリターンします。そして、DrawOTag(ot1)は、DrawOTag(ot0)の終了をまって自動的に実行されます。<BR>
+    ただし、キューは64個なため、65 個目のリクエストが来た時点で、そのリクエストはキューが空くまでブロックされます。<BR>
+<PRE>        
+        for (i = 0; i &lt; 100; i++)
+        	LoadImage(....);
+        
+</PRE>
+    の例では、65個目のLoadImage()は、最初のLoadImage()が完了して待ち行列がひとつ空くまでブロックされます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>プリミティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    グラフィックシステムの扱う命令の最小単位をプリミティブ（パケット）と呼びます。プリミティブは、メインメモリ内に作成され、ＣＰＵと、グラフィックシステムで同時に参照されます。<BR>
+    プリミティブには、実際にフレームバッファに図形を描画するための描画プリミティブと、グラフィックシステムの内部状態を変更するための特殊プリミティブとに分けられます。<BR>
+    特殊プリミティブは、クリップ領域やテクスチャページなどのグラフィックシステムのパラメータを描画の途中で切替えるためのもので、直接フレームバッファの内容は変更しません。<BR>
+    特殊プリミティブは通常のプリミティブと混在して後に述べるオーダリングテーブルに登録することができます。<BR>
+    これら、プリミティブは、DrawPrim(),DrawOTag()関数によって実行することができます。プリミティブの描画の流れは以下のようになります。<BR>
+<PRE>        
+        POLY_F3	f3;			/* 1) プリミティブ領域の確保 */
+        SetPolyFT4(&f3);		/* 2) プリミティブの初期化 */
+        setRGB0(&f3, 255, 0, 0);	/* 4) プリミティブメンバ設定 */
+        setXY3(&f3, 0, 0, 0, 100, 100, 100);
+        
+        if (直接実行)
+        	DrawPrim(&f3);
+        else if (オーダリングテーブルに一旦登録してから実行) {
+        	AddPrim(ot, &f3);
+        	DrawOTag(ot);
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>描画プリミティブ	</B>
+</A>
+</H3>
+<blockquote>
+    描画プリミティブには以下のものがあります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_1">
+(1) <B>ポリゴンプリミティブ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      プリミティブにはシェーディングの種類に応じてグーローシェーディングプリミティブおよびフラットシェーディングプリミティブがあります。<BR>
+      それぞれテクスチャマッピングのon/offを選択でき、さらに３角形あるいは４角形を選択できます。したがってポリゴンプリミティブはその組合せで以下のものからなります。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 6 ポリゴンプリミティブ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">プリミティブ名</TD><TD ALIGN="center">内容</TD><TR>
+    <TD ALIGN="center">POLY_F3</TD><TD>３角形ポリゴン、フラット</TD><TR>
+    <TD ALIGN="center">POLY_FT3</TD><TD>３角形ポリゴン、フラットテクスチャ</TD><TR>
+    <TD ALIGN="center">POLY_G3</TD><TD>３角形ポリゴン、グーロー</TD><TR>
+    <TD ALIGN="center">POLY_GT3</TD><TD>３角形ポリゴン、グーローテクスチャ</TD><TR>
+    <TD ALIGN="center">POLY_F4</TD><TD>４角形ポリゴン、フラット</TD><TR>
+    <TD ALIGN="center">POLY_FT4</TD><TD>４角形ポリゴン、フラットテクスチャ</TD><TR>
+    <TD ALIGN="center">POLY_G4</TD><TD>４角形ポリゴン、グーロー</TD><TR>
+    <TD ALIGN="center">POLY_GT4</TD><TD>４角形ポリゴン、グーローテクスチャ</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_2">
+(2) <B>ラインプリミティブ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ラインプリミティブは、直線描画を実行するプリミティブです。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 7 ラインプリミティブ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">プリミティブ名</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>LINE_F2 </TD><TD>非連結直線</TD><TR>
+    <TD>LINE_G2 </TD><TD>非連結直線、グラデーション付き</TD><TR>
+    <TD>LINE_F3</TD><TD>３点連結直線*2</TD><TR>
+    <TD>LINE_G3</TD><TD>３点連結直線、グラデーション付き*2</TD><TR>
+    <TD>LINE_F4</TD><TD>４点連結直線*2</TD><TR>
+    <TD>LINE_G4</TD><TD>４点連結直線、グラデーション付き*2</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_3_1_3">
+(3) <B>スプライトプリミティブ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ここでのスプライトとは、矩形領域の描画命令を指し、等倍のテクスチャマッピングを伴うものと単色で描画するものとからなります。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 8 スプライトプリミティブ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">プリミティブ名</TD><TD ALIGN="center">内容</TD><TR>
+    <TD>SPRT</TD><TD>スプライト（Free Size）</TD><TR>
+    <TD>SPRT_8</TD><TD>スプライト（8x8)</TD><TR>
+    <TD>SPRT_16</TD><TD>スプライト（16x16)</TD><TR>
+    <TD>TILE</TD><TD>単色タイル (Free Size)</TD><TR>
+    <TD>TILE_1</TD><TD>ドット (1x1)</TD><TR>
+    <TD>TILE_8</TD><TD>単色タイル (8x8)</TD><TR>
+    <TD>TILE_16</TD><TD>単色タイル (16x16)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>特殊プリミティブ</B>
+</A>
+</H3>
+<blockquote>
+    特殊プリミティブは、描画環境のすべてあるいは、その一部を描画の途中で切替えるためのもので、以下のものがあります。<BR>
+<CENTER>
+        <H4><B>表 9 特殊プリミティブ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">プリミティブ名</TD><TD ALIGN="center">変更されるパラメータ</TD><TD ALIGN="center">対応するDRAENVメンバ</TD><TR>
+    <TD ALIGN="center">DR_ENV</TD><TD>描画環境を変更</TD><TD>全てのメンバ</TD><TR>
+    <TD ALIGN="center">DR_MODE</TD><TD>描画・テクスチャモード</TD><TD>tpage, dtd, dfe, tw</TD><TR>
+    <TD ALIGN="center">DR_TWIN;</TD><TD>テクスチャウィンドウ</TD><TD>tw</TD><TR>
+    <TD ALIGN="center">DR_AREA;</TD><TD>描画エリア</TD><TD>clip</TD><TR>
+    <TD ALIGN="center">DR_OFFSET;</TD><TD>描画オフセット</TD><TD>offset</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>プリミティブの表現形式</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブは、Ｃでは、構造体の形で定義されます。<BR>
+    例えば、POLY_FT4（４角形ポリゴン、フラットテクスチャ）プリミティブの定義は以下の通りです。<BR>
+<PRE>        
+        typedef struct {
+        	PRIM	*tag;
+        	u_char	r0, g0, b0, code;
+        	short	x0, y0;
+        	u_char	u0, v0;	u_short	clut;
+        	short	x1, y1;
+        	u_char	u1, v1;	u_short	tpage;
+        	short	x2, y2;
+        	u_char	u2, v2;	u_short	pad1;
+        	short	x3, y3;
+        	u_char	u3, v3;	u_short	pad2;
+        } POLY_FT4;
+        
+        tag:		次のプリミティブへのポインタ（システム予約）
+        code:		プリミティブ識別子（システム予約）
+        r0,g0,b0:	表示色(R,G,B)
+        tpage:		テクスチャページ ID
+        clut:		CLUT ID
+        x0,y0,...x3,y3:	ポリゴンの頂点座標
+        u0,v0,...u3,v3:	ポリゴンのテクスチャ座標
+        
+</PRE>
+    プリミティブは内部に次のプリミティブへのポインタ(tag)を持っており、これを用いて、リミティブ同士をリスト構造で表現し、まとめて複数のプリミティブを実行することもできます。<BR>
+    構造体のメンバのなかで、最初の２ワードは全てのプリミティブで共通の構造で、以下のようなプリミティブ構造体で定義できます。<BR>
+<PRE>        
+        typedef struct {
+        	u_long	tag;
+        	u_char	r0, g0, b0, code;
+        } P_TAG;
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>プリミティブの初期化</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブはメンバ内にプリミティブ識別子、次に実行するプリミティブののポインタを持ちます。そのため、プリミティブは、最初ににプリミティブ初期化関数で最初に初期化する必要があります。<BR>
+    プリミティブを初期化する際には、プリミティブの型に対応した初期化関数を使用します。<BR>
+    例えば、POLY_FT4（４角形ポリゴン、フラットテクスチャ）プリミティブは最初に、以下のように初期化を行ないます。<BR>
+<PRE>        
+        POLY_FT4 ft4;
+        SetPolyFT4(&ft4);
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_5">
+<A HREF="#Heading3_1_3"> 3. </A>5 <B>プリミティブ属性</B>
+</A>
+</H3>
+<blockquote>
+    描画プリミティブには以下の半透明属性が設定できます。<BR>
+    <BR>
+<UL>
+         <LI> SemiTrans:	半透明モード
+         <LI> ShadeTex:	テクスチャマッピングとシェーディングを同時に行なう機能を禁止する。
+</UL>
+    <BR>
+    これらの属性は、SetSemiTrans()および、SetShadeTex()関数でプリミティブごとに設定・解除できます。これらの関数はプリミティブの初期化を行なったあとであればいつでも設定・解除することができます。<BR>
+<PRE>        
+        POLY_F4	f4;
+        SetPolyF4(&f4);
+        SetSeimiTrans(&f4, 1);		/* 半透明プリミティブにする */
+        SetShadeTex(&f4, 1);		/* シェーディングを off にする */
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_6">
+<A HREF="#Heading3_1_3"> 3. </A>6 <B>プリミティブのメンバの設定</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブメンバのうち、tag,codeメンバ以外は自由に書き換えることができます。この時、プリミティブメンバを設定するいくつかのマクロが用意されています。例えば、以下のa)とb)とは同じコードを生成します。詳細は、libgpu.hを参照下さい。<BR>
+
+     <H4><B>a)</B></H4>
+
+<PRE>        POLY_F4 f4;
+        SetPolyF4(&f4);				/* プリミティブを初期化 */
+        setRGB0(&f4, 0, 0, 255);		/* R,G,B = 0,0,255 */
+        setXY4(&f4, 0, 0, 100, 0, 0, 100, 100, 100);
+        DrawPrim(&f4);				/* プリミティブ実行 */
+</PRE>
+
+     <H4><B>b)</B></H4>
+
+<PRE>        POLY_F4 f4;
+        SetPolyF4(&f4);				/* プリミティブを初期化 */
+        f4.r = 0, f4.g = 0, f4.b = 255;		/* = setRGB0() */
+        f4.x0 =   0; f4.y0 =   0;		/* = setXY4() */
+        f4.x1 = 100; f4.y1 =   0;
+        f4.x2 =   0; f4.y2 = 100;
+        f4.x3 = 100; f4.y3 = 100;
+        DrawPrim(&f4);				/* プリミティブ実行 */
+        
+</PRE>
+    マクロで実現されているものは先頭が小文字から始まっています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_7">
+<A HREF="#Heading3_1_3"> 3. </A>7 <B>プリミティブの合成</B>
+</A>
+</H3>
+<blockquote>
+    組み合わせて使用することが多い２つのプリミティブを合成して新しい一つのプリミティブを生成することができます。<BR>
+<PRE>        
+        typedef struct {
+        	DR_MODE	mode;			/* モード設定プリミティブ */
+        	SPRT	sprt;			/* スプライト プリミティブ */
+        } TSPRT;
+        
+        setTSPRT(TSPRT *p)
+        {
+        	SetDrawMode(&p-&gt;mode);
+        	SetSprt(&p-&gt;sprt);
+        	return(MargePrim(&tsprt-&gt;mode, &tsprt-&gt;sprt));
+        }
+        
+</PRE>
+    setTRPRT()は、新しい型TSPRTを初期化する関数の例です。こうして初期化されたTSPRTプリミティブは他のプリミティブと同様にAddPrim()やDrawPrim()の引数として使用できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_8">
+<A HREF="#Heading3_1_3"> 3. </A>8 <B>プリミティブの実行</B>
+</A>
+</H3>
+<blockquote>
+    初期化されたプリミティブはDrawPrim()関数で個別に実行できます。<BR>
+<PRE>        
+        POLY_F4	f4;
+        SetPolyF4(&f4);
+        setXY4(&f4, 0,0,100,0,0,100,100,100);	/*(0,0)-(100,100) */
+        setRGB0(&f4, 0xff, 0x00, 0x00);		/* RGB = (255,0,0) */
+        DrawPrim(&f4);				/* draw */
+        
+</PRE>
+    しかし、通常は複数のプリミティブをあらかじめリストで接続して、（プリミティブリスト）DrawOTag()関数でまとめて実行する方法をとります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_9">
+<A HREF="#Heading3_1_3"> 3. </A>9 <B>プリミティブの実行優先順位</B>
+</A>
+</H3>
+<blockquote>
+    描画プリミティブの実行順位は、そのままプリミティブの表示優先順位となります。すなわち、最初に実行されるプリミティブが一番奥に表示され、最後に実行されたプリミティブが一番手前に表示されます。<BR>
+<PRE>        
+        for (i = 0; i &lt; 100; i++)
+        	DrawPrim(&prim[i]);
+        
+</PRE>
+    この例では、prim[0]が最も奥に、prim[99]が最も手前に表示されます。<BR>
+    この実行順序制御を容易に行なうためには、後に述べるオーダリングテーブルを使用する必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_10">
+<A HREF="#Heading3_1_3"> 3. </A>10 <B>プリミティブの描画規則</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブの描画で描画の対象になるピクセルは各頂点(x,y)を結んだ領域（描画領域）の内部にピクセル中心があるピクセルです。辺上にピクセル中心がある場合の描画規則は以下のようになります。<BR>
+    <BR>
+    <OL>
+         <LI VALUE= 1> 右側のピクセルが描画領域内に含まれる → 描画される
+         <LI VALUE= 2> 左側のピクセルが描画領域内に含まれる → 描画されない
+         <LI VALUE= 3> 上側のピクセルが描画領域内に含まれる → 描画される
+         <LI VALUE= 4> 下側のピクセルが描画領域内に含まれる → 描画されない
+    </OL>
+    <BR>
+    従って、POLY_*プリミティブの描画ルールでは、最右端点および最下端点は描画されません。すなわち４角形を描画した場合、<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf5.gif">
+<P>
+    <B>図 5 プリミティブ描画規則</B><BR>
+</CENTER>
+    というようになります。これは、ポリゴンを敷き詰めていった場合、ポリゴンの境界線上を２度書きしないようにする機能があります。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>オーダリングテーブル（ＯＴ）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    プリミティブは、描画に際して、一旦、オーダリングテーブル(OT)とよばれる実行キューに、AddPrim()/AddPrims() 関数によって登録されたのち、DrawOTag() 関数によってまとめて実行することができます。<BR>
+    ＯＴを使用した描画は、<BR>
+    <OL>
+         <LI VALUE= 1> プリミティブの実行順序を容易に変更できる。
+         <LI VALUE= 2> DrawOTag()関数がノンブロック関数であるので、ＣＰＵは、描画の終了を待たずに、並行して次の処理を行なうことができる。
+    </OL>
+    などの利点を持ちます。<BR>
+    ＯＴは、メインメモリ内にとられたプリミティブへのポインタ配列で、大きさは表示優先順位の分解能によってきまります。例えば優先順位を256通り持たせたい場合、OTは以下のように定義します。<BR>
+<PRE>        
+        u_long *ot[256];
+        
+</PRE>
+    また、ＯＴは、最初にClearOTag()関数で初期化される必要があります。<BR>
+<PRE>        
+        ClearOTag(ot, 256);
+        
+</PRE>
+    ClearOTag()によってＯＴには、以下のようなリストが張られます。(EndOfPrim)はリストの終端を表します。<BR>
+<PRE>        
+        ot[0] -&gt; ot[1] -&gt;  .....-&gt; ot[255] -&gt; (EndOfPrim)
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>ＯＴへの登録</B>
+</A>
+</H3>
+<blockquote>
+    ＯＴを用いて描画を行なう場合は、まず、一旦プリミティブをＯＴに登録します。プリミティブの登録にはAddPrim()を使用します。<BR>
+    <BR>
+<PRE>        AddPrim(ot+i, &prim);	/* = AddPrim(&ot[i], &prim);
+        
+</PRE>
+    プリミティブの表示実行優先順位は、そのプリミティブがＯＴの何番目に登録されるかで決定されます。ＯＴの最初に登録されたプリミティブが最初に実行されＯＴの最後に登録されたプリミティブが最後に実行されます。<BR>
+<PRE>        
+        u_long	ot[256];	/* OT (256 エントリ) */
+        
+        ClearOTag(ot, 256);	/* OT の初期化 */
+        AddPrim(&ot[0],   p1);	/* ot[0] にプリミティブ p1 を登録 */
+        AddPrim(&ot[255], p2);	/* ot[255] にプリミティブ p1 を登録 */
+        DrawOTag(ot);		/* OT 上のプリミティブを実行 */
+        
+</PRE>
+    この例では、p1が最初に実行され、画面の一番奥に表示されます。また、p2が最後に実行されるため、一番手前に表示されます。<BR>
+    この時、実際にプリミティブの実行が開始されるのは、AddPrim() を実行時した時ではなく、DrawOTag()をコールした時点であることにご注意下さい。<BR>
+    同じＯＴのエントリに複数のプリミティブを登録することもできます。この場合は、後に登録されたプリミティブから順に実行されます。<BR>
+<PRE>        
+        AddPrim(ot+2, p0);	/* ot[2] に登録 */
+        AddPrim(ot+3, p1);	/* ot[3] に登録 */
+        AddPrim(ot+3, p2);	/* ot[3] に登録 */
+        AddPrim(ot+3, p3);	/* ot[3] に登録 */
+        AddPrim(ot+4, p4);	/* ot[4] に登録 */
+        
+</PRE>
+    では、プリミティブは、p0, p3, p2, p1, p4 の順番で実行されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_2">
+<A HREF="#Heading3_1_4"> 4. </A>2 <B>特殊プリミティブの登録</B>
+</A>
+</H3>
+<blockquote>
+    特殊プリミティブは、描画環境のすべてあるいは、その一部を描画の途中で切替えるためのもので、以下のものがあります。<BR>
+    特殊プリミティブも一旦ＯＴに登録されたのち、DrawOTag()関数でまとめて実行されます。<BR>
+    特殊プリミティブの有効範囲は、登録されたテーブルの位置に依存します。<BR>
+<PRE>        
+        AddPrim(&ot[  0], p1);	/* 描画プリミティブ p1 を登録 */
+        AddPrim(&ot[128], env);	/* 特殊プリミティブ env を登録 */
+        AddPrim(&ot[255], p2);	/* 描画プリミティブ p2 を登録 */
+        DrawOTag(ot);
+        
+</PRE>
+    では、envプリミティブの設定は、ot[128]以降に登録されたプリミティブの実行に対して有効です。この例では、p2がenvプリミティブの影響を受けます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_3">
+<A HREF="#Heading3_1_4"> 4. </A>3 <B>プリミティブリンク</B>
+</A>
+</H3>
+<blockquote>
+    ＯＴはタグ(tag)だけをもつヌルプリミティブとも考えることができます。従ってＯＴを介さずに、直接プリミティブ同士を接続して、その後、DrawOTag関数でまとめて実行する方法もあります。<BR>
+    例えば以下は、DrawPrim()と同じ働きをします。<BR>
+<PRE>        
+        myDrawPrim(void *p)
+        {
+        	TermPrim(p);
+        	DrawOTag(p);
+        }
+        
+</PRE>
+    これは、16個のプリミティブからなるプリミティブリストを作成し描画する例です。<BR>
+<PRE>        
+        drawSprites(SPRT *p, int n)
+        {
+        	int i;
+        	for (i = 0; i &lt; n-1; i++, p++)
+        		CatPrim(p, p+1);
+        	TermPrim(p);
+        	DrawOTag(p);
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_4">
+<A HREF="#Heading3_1_4"> 4. </A>4 <B>ＯＴとＺソート</B>
+</A>
+</H3>
+<blockquote>
+    Ｚソート法は表示したいプリミティブをその奥行き座標（Ｚ座標）の値で並び替え、遠くに表示したいプリミティブから順に描画することで、隠面除去を行なう方法です。<BR>
+    ＯＴは、上位アドレス側に登録されたプリミティブを先に、下位アドレス側のプリミティブを後から実行するため、登録するＯＴの位置をプリミティブのＺから適切に計算すれば、ＯＴを用いてＺソートを実現することができます。<BR>
+    例えば、<BR>
+    <BR>
+<PRE>        u_long	*ot[256];
+        ....
+        AddPrim(ot+256-z0, p0);
+        ....
+        
+</PRE>
+    の様にプリミティブp0のＺ座標z0に応じて登録するＯＴの位置を計算すれば、ＯＴ上には遠方のプリミティブから順に並んだリストが形成されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_5">
+<A HREF="#Heading3_1_4"> 4. </A>5 <B>ジオメトリ関数とＯＴ</B>
+</A>
+</H3>
+<blockquote>
+    ジオメトリ関数の多くは、３次元座標値を計算する際にＺソートのために、ＯＴへのエントリも計算します。<BR>
+    例えば、<BR>
+    <BR>
+<PRE>        SVECTOR	x3, x2;
+        long	flag, otz;
+        otz = RotTransPers(&x3, (long *)&x2, &flg);
+        
+</PRE>
+    RotTransPers()関数は、３次元座標値SVECTORx3 をカレントマトリクスで座標変換・透視変換を行ない、結果の２次元座標をx2に格納しますが、同時にotzと呼ばれるＯＴへのインデクスを戻します。<BR>
+    otzは座標変換した後のＺ座標を1/4倍したものでこのままＯＴへのインデクスの計算に使用できます。<BR>
+    ここで、otzは座標変換した後のＺ座標を1/4倍しているために、実際のＺのダイナミックレンジの1/4の大きさのＯＴを用意しておくことで足ります。<BR>
+    このotzを活用することで３ＤのＺソートを高速に行なうことができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_6">
+<A HREF="#Heading3_1_4"> 4. </A>6 <B>逆方向ＯＴ</B>
+</A>
+</H3>
+<blockquote>
+    otzはプリミティブが遠方にあるほど大きい値をとり、近くほど０に近づきます。このためotzをＯＴのインデクストして使用する際には、一旦otzの符号を反転する必要があります。<BR>
+    そのためにあらかじめＯＴの実行順位が逆方向になるようにＯＴを初期化する関数ClearOTagR()が用意されています。<BR>
+    通常のClearOTag()関数は<BR>
+<PRE>        
+        ClearOTag(ot, OTSIZE);
+        ot[0]-&gt;ot[1]-&gt;ot[2]-&gt;.....ot[OTSIZE-1];
+        
+</PRE>
+    の順番で実行されるようにＯＴが初期化されますが、ClearOTagR()の場合は、<BR>
+<PRE>        
+        ClearOTagR(ot, OTSIZE);
+        ot[OTSIZE-1]-&gt;ot[OTSIZE-2]-&gt;ot[OTSIZE-3]-&gt;.....ot[0];
+        
+</PRE>
+    の順番で実行されるようにＯＴが初期化されます。<BR>
+    ClearOTagR()を使用して初期化したＯＴは、otzをそのままインデックスとして使用できます。<BR>
+<CENTER>
+        <H4><B>表 10 OT
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ClearOTag() を使用した場合</TD><TD>ClearOTagR() を使用した場合</TD><TR>
+    <TD>#define OTSIZE  1024<BR>u_long  *ot[OTSIZE];<BR><BR>ClearOTag(ot, OTSIZE);<BR>AddPrim(ot+OTSIZE-otz, &prim);<BR>DrawOTag(ot);</TD><TD>#define OTSIZE  1024<BR>u_long  *ot[OTSIZE];<BR><BR>ClearOTagR(ot,OTSIZE);<BR>AddPrim(ot+otz,&prim);<BR>DrawOTag(ot+OTSIZE-1);</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    このように、逆順OTの場合、DrawOTag()関数にわたすＯＴの先頭ポインタのアドレスも変わりますのでご注意下さい。<BR>
+    一般に順ＯＴは２次元のアプリケーション、逆順ＯＴは３次元のアプリケーションで使用されます。そのため、逆順ＯＴのほうが通常エントリ数（配列のサイズ）が大きくなります。そのため大きなＯＴをクリアする場合は逆順ＯＴのクリアのほうが高速になっています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_7">
+<A HREF="#Heading3_1_4"> 4. </A>7 <B>ジオメトリ関数との組合せ</B>
+</A>
+</H3>
+<blockquote>
+    ３次元の情報を持った物体を表示するためには、物体（オブジェクト）を囲む曲面を３角形／４角形の集まりに分解して、各３／４角形（ポリゴン）ごとに座標計算を行ない、対応するプリミティブの位置を決定します。<BR>
+    すなわち、３Ｄの計算はオブジェクトを構成するポリゴンの３次元座標からフレームバッファ上のプリミティブの位置、すなわちプリミティブの (x,y) メンバを獲得する作業になります。この座標変換はジオメトリライブラリが行ないます。<BR>
+    オブジェクトの移動／回転、視点の移動／回転は最終的には一つの回転マトリクスと移動ベクトルで記述できます。従って、オブジェクトを構成するポリゴンの各頂点は、以下の式で記述されます。<BR>
+      <BLOCKQUOTE>
+      <BR>
+      		<I>(Wx,Wy,Wz):</I>	ワールド座標での座標位置<BR>
+      		<I>(Sx,Sy,Sz)</I>:		スクリーン座標での座標位置<BR>
+      		<I>(m00 ... m22)</I>:	回転マトリクス<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf6.gif">
+<P>
+      </BLOCKQUOTE>
+        <H4><B>図 6 ポリゴン頂点の式</B></H4>
+
+</CENTER>
+    あるいは、<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpun1.gif">
+<P>
+</CENTER>
+    <BR>
+    実際に描画される図形はこれを２次元平面（スクリーン）に投影したものになります。スクリーンは視点からある距離 h に立てられた仮想平面でここへの変換を透視変換と呼びます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf7.gif">
+<P>
+    <B>図 7 透視変換</B><BR>
+</CENTER>
+    ここで計算された(x,y)がプリミティブの(x,y)メンバとなり、otzがＯＴへのエントリとなります。以下の作業を行なう関数の例を示します。<BR>
+<PRE>        
+        rotTransPersAddPrim(pos, s, ot, ot_size)
+        SVECTOR	*pos;		/* position */
+        SPRT	*s;		/* Sprite primitive */
+        u_long	*ot;		/* OT */
+        int	ot_size;	/* size of OT */
+        {
+        	long otz, dmy, flg;
+        	otz = RotTransPers(&pp-&gt;x[0], (long *)&sp-&gt;x0, &dmy, &flg);
+        	if (otz &gt; 0 && otz &lt; ot_size)
+        		AddPrim(ot+otz, sp);
+        }
+</PRE>
+    詳細はlibgteのドキュメントを参照下さい。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_8">
+<A HREF="#Heading3_1_4"> 4. </A>8 <B>複数ＯＴ</B>
+</A>
+</H3>
+<blockquote>
+    ＯＴ自体は単なるリンクの張られたヌルプリミティブの配列であるため、ＯＴを親ＯＴの１エントリとして登録することができます。これは複数の階層座標系を行なう場合に有効になります。<BR>
+    以下は、ot0に長さnのサブＯＴot1を接続する例です。<BR>
+    <BR>
+<PRE>        AddOT(u_long *ot0, u_long *ot1, int n)
+        {
+        	AddPrims(ot0, ot1, ot1+n-1);
+        }
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>同期とリセット</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_1">
+<A HREF="#Heading3_1_5"> 5. </A>1 <B>リセット</B>
+</A>
+</H3>
+<blockquote>
+    グラフィックシステムは、ResetGraph()を実行することにより、いずれの状態からでも即座にリセットをかけることができます。リセットにはいくつかのレベルがありますが、いずれも描画中の命令を即座に中断し、キューに残った全てのリクエストを破棄して、待機状態となります。<BR>
+    リセットは、ResetGraph()に与える引数によって以下のレベルがあります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1_1">
+(1) <B>レベル0 （ResetGraph(0)）</B>
+</A>
+</H4>
+    グラフィックシステムをフルリセットします。これはプログラムの起動時に一回だけ実行されるべきものです。描画中の命令とキューの命令はすべて破棄され、コールバックは初期化されます。表示モードは、256x240に初期化され、表示はマスクされます。（画面は黒くなります。）<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1_2">
+(2) <B>レベル1 （ResetGraph(0)）</B>
+</A>
+</H4>
+    現在実行中の命令とキューに残った命令を破棄します。描画環境・表示環境は保持されます。これはダブルバッファ切り替え時に頻繁に使用されます。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_1_3">
+(3) <B>レベル３ （ResetGraph(3)）</B>
+</A>
+</H4>
+    レベル0のフルリセットと等価ですが、表示環境と描画環境は保存されます。またディスプレイもマスクされません。これは、親プロセスで設定された表示画面状態を保存したまま子プロセスを全初期化したい場合に使用されます。親プロセスから子プロセスにExec()により制御を移す場合、コールバックを切り替えるためにフルリセットが必要ですが、レベル０のリセットでは表示も初期化されてしまいます。<BR>
+    このためディスプレイの同期が一旦はずれることになり、子プロセスへの移行時に画面が乱れることになります。これを防止するために、子プロセスの先頭で、ResetGraph(0)の代わりにResetGraph(3) を用いて初期化します。<BR>
+    <BR>
+    以上をまとめると以下のようになります。<BR>
+<CENTER>
+        <H4><B>表 11リセットレベル
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">Reset Level</TD><TD ALIGN="center">Callback</TD><TD ALIGN="center">DISPENV</TD><TD ALIGN="center">DRAWENV</TD><TD ALIGN="center">command queue</TD><TR>
+    <TD ALIGN="center">0</TD><TD ALIGN="center">初期化</TD><TD ALIGN="center">初期化</TD><TD ALIGN="center">初期化</TD><TD ALIGN="center">初期化</TD><TR>
+    <TD ALIGN="center">1</TD><TD ALIGN="center">保存</TD><TD ALIGN="center">保存</TD><TD ALIGN="center">保存</TD><TD ALIGN="center">初期化</TD><TR>
+    <TD ALIGN="center">3</TD><TD ALIGN="center">初期化</TD><TD ALIGN="center">保存</TD><TD ALIGN="center">保存</TD><TD ALIGN="center">初期化</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_2">
+<A HREF="#Heading3_1_5"> 5. </A>2 <B>同期制御</B>
+</A>
+</H3>
+<blockquote>
+    現在バックグラウンドで行なわれている処理の終了を検出するには、ポーリングによる方法と、後に述べるコールバックを使用する方法があります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_1">
+(1) <B>ポーリング</B>
+</A>
+</H4>
+<CENTER>
+        <H4><B>表 12 DrawSyncによるポーリング
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>DrawSync(0)</TD><TD>キューに残っている全てのリクエストが終了するまでブロックする</TD><TR>
+    <TD>DrawSync(1)</TD><TD>キューの状態および実行状態の検出のみを行う</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+      <BLOCKQUOTE>
+      グラフィックシステムのリセットには、カレントのリクエストを途中終了させて、キューもフラッシュするもの、カレントのリクエストのみを途中終了するものなど何レベルかのリセットモードがあります。これは、ResetGraph()関数の引数で制御できます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_2">
+(2) <B>コールバック</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      垂直同期や、描画の終了時によばれる関数（コールバック）を定義することで、バックグラウンド処理の終了を検出する方法もあります。<BR>
+      グラフィックライブラリでは、２つのコールバック関数VSncCallback(),DrawSyncCallback()が用意されています。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 13 libgpuのコールバック登録関数
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">関数名</TD><TD ALIGN="center">トリガ</TD><TR>
+    <TD>VSyncCallback()</TD><TD>垂直同期</TD><TR>
+    <TD>DrawSyncCallback()</TD><TD>描画終了</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+      <BLOCKQUOTE>
+      VSyncCallback()では垂直同期の開始時で呼ばれる関数を指定します。<BR>
+      以下の例では、Vsync(0)と同様の動作をVSyncCallbackを使用して実現する例です。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        main() {
+        	/* 初期化ルーチンがここにはいる */
+        	VSyncCallback(callback);	/* コールバックを定義 */
+        	while (1) {
+        		/* フレーム内で行う処理がここにはいる */	
+        		myVSync();
+        	}
+        }
+        static volatile int Vsync_Count = 0;	/* 垂直同期カウンタ */
+        void myVSync(void) {			/* 変数Vsync_Countが更新されるまでブロックする。*/
+        	int i = Vsync_Count;
+        	while(i == Vsync_Count);
+        } 
+        void callback() {			/* 垂直同期の開始時でカウンタをインクリメント */
+        	Vsync_Count++;
+        }
+        
+</PRE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_5_2_3">
+(3) <B>フレーム同期</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      ダブルバッファの切り替えは垂直同期期間に同期して行う必要があります。このタイミングはDrawSync() とVsync() 関数で知ることができます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        /* (1) 直前の描画が終了してから次の垂直同期まで待って次の描画を開始 */
+        DrawSync(0);
+        Vsync(0);
+        DrawOTag(ot);
+        
+        /* (2) 直前の描画の終了に関わらず次の垂直同期まで待って次の描画を開始 */
+        Vsync(0);
+        ResetGraph(1);
+        DrawOTag(ot);
+        
+        /* (3) 直前の描画の終了に関わらず２垂直同期まで待って次の描画を開始 */
+        Vsync(2);
+        ResetGraph(1);
+        DrawOTag(ot);
+        
+</PRE>
+      <BLOCKQUOTE>
+      (2)の例では60フレーム/秒の描画を保証しているわけではないことにご注意下さい。CPU側の処理が1/60秒で終了している場合に限って60フレームでの描画が実現できます。また、(3)の例では、Vsync(2)は、直前に呼ばれたVsync()から数えて2フレームブロックすることにご注意下さい。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_6">
+<H2>
+<A HREF="#Top">↑</A> 6 <B>ダブルバッファ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ＯＴとプリミティブ領域を総称してパケットバッファと呼びます。<BR>
+    描画を行なう際に、ＯＴへプリミティブを登録を待ってＯＴの描画を行なう場合、ＣＰＵとグラフィックシステムが並列に動作しなくなります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf8.gif">
+<P>
+    <B>図 8 ＯＴ登録後に描画した場合</B><BR>
+</CENTER>
+    そのため、グラフィックシステムとCPUを並列に動作させる場合は、通常、二つのパケットバッファ、設定パケットバッファと実行パケットバッファを用意しておき、片側のバッファに描画をしている間はもう片側を実行し、実行が終了したら、二つバッファをお互いに取り替える方式をとります。これをパケットダブルバッファと呼びます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf9.gif">
+<P>
+    <B>図 9 パケットダブルバッファ</B><BR>
+</CENTER>
+    パケットダブルバッファの例を以下にあげます。<BR>
+<PRE>        
+        typedef struct {
+        	u_long	ot[256];		/* ＯＴ */
+        	SPRT	sprt[256];		/* スプライトプリミティブ */
+        } DB;
+        main() {
+        	int j;
+        	DB	db[2], *cdb;
+        	while (1) {
+        		cdb = (cdb==db)? db+1: db;	/* バッファを交換 */
+        		ClearOTag(cdb-&gt;ot);		/* ＯＴをクリア */
+        		for (j = 0; j &lt; 256; j++) {	/* スプライトを登録 */
+        			/* ここでスプライトの位置を計算する */	
+        			AddPrim(cdb-&gt;ot, cdb-&gt;sprt[j]);
+        		}
+        		DrawOTag(cdb-&gt;ot);		/* 描画 */
+        	}
+        }
+        
+</PRE>
+    このようにパケットダブルバッファを行なう際にはＯＴ・プリミティブ共に２組必要なことになります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6_1">
+<A HREF="#Heading3_1_6"> 6. </A>1 <B>非同期ダブルバッファ</B>
+</A>
+</H3>
+<blockquote>
+    通常は、パケットダブルバッファの切り替えは、 CPU のパケット作成と同期して行われます。しかし、インターレースモードの表示の場合、計算・描画時間にかかわらず毎フレームごとに描画を更新する必要があります。この場合はコールバックを利用して強制的に再描画を行わせることができます。<BR>
+    <BR>
+<PRE>        	main() {
+        			.....
+        		VSyncCallback(callback);
+        			.....
+        
+        		while (1) {
+        			/* プリミティブリストを作成する */
+        			DrawSync(0);
+        			make_packet();
+        
+        			/* 描画が完了した OT を通知する。*/
+        			unsyncDrawOTag(ot);
+        		}
+        	}
+        
+        	/* 非同期 DrawOTag:
+        	 * 指定された OT は、次の VSync を待って実行されます。
+        	 */
+        	static void *completed_ot = 0;
+        	unsyncDrawOTag(void *ot)	
+        	{
+        		completed_ot = ot;
+        	}
+        	void callback(void) {
+        		if (completed_ot) {
+        			ode_patch();
+        			ResetGraph(1);
+        			DrawOTagR(completed_ot);
+        		}
+        	}
+        	/* インターレースダブルバッファ時のためのパッチ。
+        	 * Appendix を参照下さい。
+        	 */
+        	static void ode_patch(void)
+        	{
+        		static int ode = 0;
+        		DRAWENV	draw;
+        		GetDispEnv(&draw);
+        		if (draw.dfe) {
+        			while (GetODE() == ode);
+        			ode = (ode+1)&0x01;
+        		}
+        	}
+</PRE>
+    <BR>
+    この例では、CPU の負荷に関わらず DrawOTag() は毎フィールドごとに実行されます。ただし ot の更新が間に合わない場合は前回使用した ot が再利用されます。<BR>
+    <BR>
+    関数 ode_patch は、VSync （垂直帰線開始）のタイミングとグラフィックシステム内部での odd/even フィールドの切り替えのタイミングのずれを吸収するためのものです。詳細は Appendix を参照下さい。<BR>
+    <BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_7">
+<H2>
+<A HREF="#Top">↑</A> 7 <B>テクスチャマッピング</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ポリゴン／スプライトを描画する際に、テクスチャページにおかれたパターンを使用してテクスチャマッピングを行なうことができます。<BR>
+    テクスチャマッピングとは、テクスチャパターンと呼ばれる２次元画像の一部を切りとって、３角形・４角形の表面に変形しながら張り付けるものです。<BR>
+    テクスチャパターンは、通常フレームバッファの表示領域・描画領域以外に256x256のテクスチャピクセル単位に配置されます。これをテクスチャページと呼びます。<BR>
+    テクスチャパターンのピクセルフォーマットとしては4、8、16bitの３種類のモードがあります。各モードはプリミティブ単位で切替えることができます。<BR>
+<CENTER>
+        <H4><B>表 14 テクスチャパターンのモード
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">タイプ</TD><TD ALIGN="center">色数</TD><TR>
+    <TD ALIGN="center">4bit</TD><TD ALIGN="center">pseudo</TD><TD ALIGN="center">16</TD><TR>
+    <TD ALIGN="center">8bit</TD><TD ALIGN="center">pseudo</TD><TD ALIGN="center">256</TD><TR>
+    <TD ALIGN="center">16bit</TD><TD ALIGN="center">direct</TD><TD ALIGN="center">32767</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    テクスチャマッピングを使用する場合は、使用するテクスチャページと、各頂点に対応するテクスチャページ内のオフセット値、および必要があればテクスチャCLUTを指定することで行なわれます。<BR>
+    テクスチャページ内でのオフセットはフレームバッファ内の座標値(x,y)と区別するために、通常(u,v)のシンボルを使用します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_1">
+<A HREF="#Heading3_1_7"> 7. </A>1 <B>テクスチャパターンフォーマット</B>
+</A>
+</H3>
+<blockquote>
+    4bit,8bit,16bitのテクスチャパターンのうち、16bitモード以外のパターンは１ワード内に何個かのピクセルがパックされた形で、フレームバッファ上に配置されます。従ってテクスチャパターンのピクセル(u,v)とフレームバッファのアドレス(x,y)は１対１に対応しません。<BR>
+    そのため、フレームバッファにテクスチャパターンをロードする場合のサイズの指定には注意が必要です。<BR>
+    各モードの場合のピクセルフォーマットは以下の通りです。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpun2.gif">
+<P>
+</CENTER>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpun3.gif">
+<P>
+</CENTER>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf10.gif">
+<P>
+    <B>図 10 テクスチャパターンのフォーマット
+</B><BR>
+</CENTER>
+    4bitモード,8bitモードの場合、ピクセル値は実際の輝度値ではなく、CLUTへのインデックスとなります。<BR>
+    CLUTのピクセルパターンフォーマットは16bitモードのフォーマット（後述）と同様です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_2">
+<A HREF="#Heading3_1_7"> 7. </A>2 <B>透明ピクセル／半透明ピクセル</B>
+</A>
+</H3>
+<blockquote>
+    テクスチャマッピングを行なう際に、ピクセルごとに透明、不透明、半透明を選択することができます。<BR>
+    テクスチャパターンのピクセル値（4/8bitモードの場合は、対応するCLUTの値）が0x0000の場合(STP=R=G=B=0)にのみそのピクセルは透明となり、描画されません。これを透明ピクセルといいます。<BR>
+    これ以外のピクセル、すなわちSTP=1あるいはR,G,Bいずれかが非零のピクセルはすべて非透明ピクセルとなります。<BR>
+    SetSemiTrans()関数で半透明モードにしたプリミティブは、非透明ピクセルのうち、STPが1のピクセルのみが半透明になります。<BR>
+<CENTER>
+        <H4><B>表 15 透明ピクセル／半透明ピクセル
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>(STP,R,G,B)</TD><TD>(0,0,0,0)</TD><TD>(1,0,0,0)</TD><TD>(0,n,n,n)</TD><TD>(1,n,n,n)</TD><TR>
+    <TD>不透明プリミティブ</TD><TD>透明 </TD><TD>黒 </TD><TD>不透明 </TD><TD>不透明</TD><TR>
+    <TD>半透明プリミティブ</TD><TD>透明 </TD><TD>半透明黒</TD><TD>不透明 </TD><TD>半透明</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    STPは4bit,8bitモードの場合はCLUT内の各エントリ内の最上位 bitです。16bitモードの場合、テクスチャソースパターンの輝度値の最上位bitがSTPになります。<BR>
+    テクスチャマッピングを行なわない描画（フラット／グーロープリミティブ）などで、SetSemiTrans()を用いて半透明モードにした場合は、そのプリミティブを構成するピクセルがすべてが半透明になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_3">
+<A HREF="#Heading3_1_7"> 7. </A>3 <B>半透明ピクセルのモード</B>
+</A>
+</H3>
+<blockquote>
+    半透明プリミティブはプリミティブ単位でその割合を指定できます。指定できる半透明レートには以下のものがあります。<BR>
+<CENTER>
+        <H4><B>表 16 半透明レート
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>背景輝度値</TD><TD>プリミティブ輝度値</TD><TR>
+    <TD ALIGN="center">0.5</TD><TD ALIGN="center">0.5</TD><TR>
+    <TD ALIGN="center">1.0</TD><TD ALIGN="center">1.0</TD><TR>
+    <TD ALIGN="center">1.0</TD><TD ALIGN="center">-1.0</TD><TR>
+    <TD ALIGN="center">1.0</TD><TD ALIGN="center">0.25</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+    半透明処理をした結果の輝度値が(0-255)の範囲を越える場合はその範囲でクリップされます。<BR>
+    各半透明レートは、後述するカレントテクスチャページのものが使用されます。テクスチャマッピングを行なわないプリミティブに関しても同じレートが適用されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_4">
+<A HREF="#Heading3_1_7"> 7. </A>4 <B>テクスチャマッププリミティブの輝度値</B>
+</A>
+</H3>
+<blockquote>
+    テクスチャマッピングを行なうプリミティブの場合、ポリゴン内部の各ピクセルは、対応するテクスチャパターンの輝度値にプリミティブの(r,g,b)メンバで指定された輝度値が乗算されて実際の輝度値となります。<BR>
+    描画される輝度値は、対応するテクスチャパターンのピクセル値Ｔと対応する輝度値Ｌから、以下のように計算されます。<BR>
+<PRE>        
+        P=(T*L)/128
+        
+</PRE>
+    すなわち、(r,g,b)フィールドにそれぞれ0x80(=128)を設定した場合、もとのテクスチャの輝度値がそのまま描画されることになります。<BR>
+    そのため、テクスチャマッププリミティブを初期化する際には必ずr,g,bメンバも指定するか、SetShadeTex()関数でこの機能を禁止する必要があります。<BR>
+<PRE>        
+        POLY_FT4 ft4;
+        SetPolyFT4(&f4);			/* プリミティブを初期化 */
+        setRGB0(&fT4, 0x80, 0x80, 0x80);	/* 輝度値を初期化 */
+</PRE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_5">
+<A HREF="#Heading3_1_7"> 7. </A>5 <B>テクスチャページ</B>
+</A>
+</H3>
+<blockquote>
+    テクスチャページはフレームバッファ上のどこを指定しても構いませんが、ページ右上点アドレスはxは64pixel,yは256ピクセルの整数倍に限られます。<BR>
+    一枚のテクスチャページには、256x256ピクセルのテクスチャパターンが置かれます。テクスチャページのフレームバッファ上で占める領域のサイズは、モードによって256x256(16bitモード)から、64x256(4bitモード)まで異なります。<BR>
+    プリミティブにテクスチャページを指定する時は、実際のページアドレス(x,y)ではなく、テクスチャページIDを使用します。これはGetTPage()関数で獲得できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_6">
+<A HREF="#Heading3_1_7"> 7. </A>6 <B>テクスチャCLUT</B>
+</A>
+</H3>
+<blockquote>
+    4bit/8bitモードのテクスチャマッピングを行なう場合は、使用するテクスチャCLUTを指定する必要があります。テクスチャCLUTは使用するテクスチャページに関わらず、プリミティブ毎に独立に設定できます。<BR>
+    CLUTは、フレームバッファ上の、1x256(8bitモード）あるいは、1x16(4bitモード）の横に細長い形で配置されます。<BR>
+    プリミティブにCLUTを指定する時は実際のCLUTアドレス(x,y)ではなく、テクスチャCLUT IDを使用します。これはGetClut()関数で獲得できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_7">
+<A HREF="#Heading3_1_7"> 7. </A>7 <B>テクスチャページIDとテクスチャCLUT ID</B>
+</A>
+</H3>
+<blockquote>
+    使用するテクスチャページ・テクスチャCLUTは、プリミティブのtpage、clutメンバに、テクスチャページID、テクスチャCLUT IDを与えることで指定します。<BR>
+<PRE>        
+        POLY_FT4 ft4;
+        
+        SetPolyFT4(&ft4);			/* プリミティブを初期化 */
+        ft4.tpage = GetTPage(0, 0, 640, 0);	/* テクスチャページ=(640,0) */
+        ft4.clut  = GetClut(0, 480);		/* テクスチャ CLUT=(0,480) */
+        
+        /* (x, y)=(0,0)-(256,256) の領域にテクスチャページ内のテクスチャ
+         * パターン (u,v)=(0,0)-(128,128) をテクスチャマップする 
+         */
+        setXY4(&ft4, 0, 0, 256, 0, 0, 256, 256, 256);
+        setUV4(&ft4, 0, 0, 128, 0, 0, 128, 128, 128);
+        
+        DrawPrim(&ft4);				/* プリミティブの実行 */
+        
+</PRE>
+    テクスチャページ・テクスチャCLUTはあらかじめフレームバッファにLoadImage()を用いてロードしておく必要があります。<BR>
+    LoadTPage(),LoadClut()はテクスチャページ・テクスチャCLUTをロードして適切なテクスチャページID,テクスチャCLUT IDを返します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_8">
+<A HREF="#Heading3_1_7"> 7. </A>8 <B>カレントテクスチャページ</B>
+</A>
+</H3>
+<blockquote>
+    スプライトプリミティブ(SPRT)は、tpageメンバを持たないため、スプライトが実行される時点で最後に使用されたテクスチャページ（カレントテクスチャページ）が使用されることになります。<BR>
+    描画の最初のカレントテクスチャページは描画環境で指定できます。スプライトプリミティブでテクスチャページを明示的に変更したい場合は、特殊プリミティブDR_MODEを使用します。これは、カレントのテクスチャページ・モードを切替えるものです。<BR>
+<PRE>        
+        DR_MODE	dr_mode;		/* モードプリミティブ */
+        SPRT16	sprt;			/* 16x16 スプライトプリミティブ */
+        
+        SetDrawMode(&dr_mode, 0, 0, GetTPage(2, 0, 640, 0), 0, 0);
+        SetSprt16(&sprt);
+        setXY0(&sprt, 100, 100);
+        
+        ClearOTag(ot, 2);
+        AddPrim(ot+1, &sprt);		/* ot[1] に SPRT16 を登録 */
+        AddPrim(ot+1, &dr_mode);	/* ot[1] に DR_MODE を登録 */
+        DrawOTag(ot);
+        
+</PRE>
+    同じＯＴのエントリでは、後から登録されたプリミティブから実行されることにご注意下さい。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7_9">
+<A HREF="#Heading3_1_7"> 7. </A>9 <B>テクスチャキャッシュ</B>
+</A>
+</H3>
+<blockquote>
+    描画を高速化するために、テクスチャパターンは「テクスチャキャッシュ」と呼ばれる高速キャッシュメモリに一旦キャッシュされます。<BR>
+    テクスチャキャッシュは、フレームバッファよりも高速な小規模なメモリです。インデクステクスチャの場合、複数のピクセルがまとめてリードされるので、テクスチャパターンの各ピクセルは続けて複数回参照される確率が高くなります。そこで、最後に参照されたテクスチャパターンは、フレームバッファより高速なキャッシュに一旦保持されます。次にテクスチャからピクセル情報を取得する際に、そのピクセルがテクスチャキャッシュに読み込まれている場合は、キャッシュからの読み出しだけが行われ、フレームバッファへのアクセスは行われません。<BR>
+    テクスチャキャッシュ上のデータは続くプリミティブ間で保存されます。よって、キャッシュに格納できるサイズのテクスチャを使用するポリゴンを連続して描画すると、より高速な処理が実現できます。<BR>
+    <BR>
+    テクスチャキャッシュのサイズは2Kバイトです。テクスチャを格納するフレームバッファは２次元アドレスを持ちますので、テクスチャキャッシュも２次元のアドレスを持ちます。<BR>
+    また、このアドレスは描画対象ポリゴンのピクセルモードにより変化します。以下にピクセルモード毎のキャッシュのサイズを示します。<BR>
+<CENTER>
+        <H4><B>表 17 テクスチャキャッシュのサイズ
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ピクセルモード</TD><TD>サイズ（横×縦）</TD><TR>
+    <TD>4 bit/pixel</TD><TD>64×64 pixel</TD><TR>
+    <TD>8</TD><TD>64×32</TD><TR>
+    <TD>16</TD><TD>32×32</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_8">
+<H2>
+<A HREF="#Top">↑</A> 8 <B>プリミティブの描画速度</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationでの画像処理速度は、GPUによる描画速度とCPUによる演算速度のうち遅い方で決まります。アプリケーションの処理速度が、CPUとGPUのうちどちらで律速となっているかは、DrawSync()によってブロックされている時間によって知ることができます。CPUの方が遅い場合(CPUネックの場合）は、DrawSync()は直ちにリターンします。逆の場合(GPUネックの場合）は、DrawSync()で待たされている時間分だけGPUの描画速度がネックになっていると考えられます。GPUネックの場合はプログラムコードの最適化では性能は向上しません。描画速度を向上させるための工夫が必要になります。<BR>
+    ここでは、GPUの描画性能を決定するいくつかの要素と一般的な描画速度向上の方式について解説します。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_1">
+<A HREF="#Heading3_1_8"> 8. </A>1 <B>プリミティブの描画速度</B>
+</A>
+</H3>
+<blockquote>
+    プリミティブの実行速度（描画速度）はプリミティブの面積とプリミティブのタイプによって異なります。<BR>
+    プリミティブの描画は、実際にはフレームバッファを構成するVRAM(ビデオRAM)へのリード・ライトのアクセスの繰り返しからなります。プリミティブの面積が大きいとそれに比例してVRAMのライトアクセスが増大し、描画時間がかかります。<BR>
+    また、半透明描画ではリードのアクセスも必要となるため、同じプリミティブを不透明で描画する場合に比べて速度が半分程度に低下します。<BR>
+    描画速度はプリミティブのタイプによっても異なります。同じ描画面積のプリミティブの実行速度は以下の順番になります。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf11.gif">
+<P>
+    <B>図 11プリミティブの描画速度
+</B><BR>
+</CENTER>
+    <BR>
+    OnCはテクスチャキャッシュがヒットしている状態、OffCはテクスチャキャッシュがミスしている場合を指します。キャッシュヒット時の方が描画速度は高速になります。<BR>
+    4bit/8bit/16bitはテクスチャモードをあらわします。テクスチャキャッシュがミスする状態であれば、4bitモードのテクスチャが16bitよりも高速になります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_2">
+<A HREF="#Heading3_1_8"> 8. </A>2 <B>アクセスルール</B>
+</A>
+</H3>
+<blockquote>
+    こうしたプリミティブの描画速度は、フレームバッファのアクセスサイクルから計算できます。<BR>
+    全てのプリミティブは一旦フレームバッファに描画されてから、ディスプレイに表示されます。フレームバッファへの描画は突き詰めていけばフレームバッファへのリード／ライトアクセスの回数で置き換えられるので、描画性能はフレームバッファへのアクセス回数としてとらえることができます。<BR>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2_1">
+(1) <B>基本ルール</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      フレームバッファへのライトアクセスは描画動作そのものになります。<BR>
+      リードアクセスは、テクスチャパターンのリードや、半透明モードの際に発生します。アクセスサイクルルールは以下の通りです。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 18 アクセスサイクル
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">アクセス方向</TD><TD ALIGN="center">pixel/cycle</TD><TD ALIGN="center">備考</TD><TR>
+    <TD ALIGN="center">ライト<BR></TD><TD ALIGN="center">2<BR>1</TD><TD ALIGN="center">SPRT,TILE,POLY_F3,POLY_F4<BR>その他</TD><TR>
+    <TD ALIGN="center">リード<BR></TD><TD ALIGN="center">1<BR></TD><TD ALIGN="center">テクスチャマッピング<BR>半透明描画</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+      <BLOCKQUOTE>
+      例えば、100x100のPOLY_G4,POLY_F4を描画する場合のサイクル数は、以下のようになります。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 19 アクセスサイクル数
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD></TD><TD>POLY_G4</TD><TD>POLY_F4</TD><TR>
+    <TD>総ピクセル数</TD><TD>100x100=10000</TD><TD>100x100=10000</TD><TR>
+    <TD>総リード数<BR>総ライト数</TD><TD>0<BR>10000</TD><TD>0<BR>5000</TD><TR>
+    <TD>合計</TD><TD>10000</TD><TD>5000</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2_2">
+(2) <B>テクスチャマッピング</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      テクスチャマッピングを伴う描画の速度計算は複雑ですが、まず単純なテクスチャミスヒット時で、1:1のマッピングの場合を考えます。<BR>
+      4bitモードのテクスチャパターンは、１ピクセル(16bit) に４個のテクセルがパックされます。従って１回のアクセスで４テクセルをまとめてリードできます。同様に8 bitの場合は2テクセルが同時にリードされます。<BR>
+      <BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 20 POLY_FT4のサイクル数
+</B></H4>
+
+</CENTER>
+      <BLOCKQUOTE>
+      	100x100 POLY_FT4の場合<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">4bit</TD><TD ALIGN="center">8bit</TD><TD ALIGN="center">16bit</TD><TR>
+    <TD>総リード数<BR>総ライト数</TD><TD>10000/4= 2500<BR>         10000</TD><TD>10000/2=5000<BR>         10000</TD><TD>10000<BR>10000</TD><TR>
+    <TD>合計</TD><TD>         12500</TD><TD>         15000</TD><TD>20000</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+        <H4><B>表 21 SPRTのサイクル数
+</B></H4>
+
+</CENTER>
+      <BLOCKQUOTE>
+      	100x100 SPRTの場合<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">4bit</TD><TD ALIGN="center">8bit</TD><TD ALIGN="center">16bit</TD><TR>
+    <TD>総リード数<BR>総ライト数</TD><TD>10000/4=2500<BR>         5000</TD><TD>10000/2=5000<BR>         5000</TD><TD>10000<BR>5000</TD><TR>
+    <TD>合計</TD><TD>         7500</TD><TD>         10000</TD><TD>15000</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      </BLOCKQUOTE>
+    <BR>
+      <BLOCKQUOTE>
+      これから、4bitテクスチャがもっとも高速であることがわかります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2_3">
+(3) <B>テクスチャの拡大率による変動</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      これらはテクスチャマッピングが 1:1 の場合の例ですが、テクスチャを拡大したり縮小したりした場合では計算式が異なります。<BR>
+      先ほどの例で、プリミティブを横方向に2倍に縮小した場合を考えます。(4bitモード)<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 22 縮小時のサイクル数
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>総リード数<BR>総ライト数</TD><TD>100x100/4=2500<BR>   50x100=5000</TD><TR>
+    <TD>合計</TD><TD>           7500</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      描画面積が半分になっても描画時間が単純に1/2にならないことにご注意ください。<BR>
+      定性的には、テクスチャを拡大する方向に使用した場合は、同じテクスチャピクセルを何回も使い回せるために、同じ面積を描画するために必要なテクスチャリードが少なくてすみ、描画速度が向上します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_2_4">
+(4) <B>テクスチャキャッシュによる変動</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      以上の例はテクスチャキャッシュがすべてミスした場合のものです。<BR>
+      GPU は内部にテクスチャキャッシュをもっており、キャッシュにヒットしたテクスチャはリードを行なうことなしに直接使用することができます。<BR>
+      先ほどの例から計算すると、<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 23 テクスチャキャッシュによる変動
+</B></H4>
+
+</CENTER>
+      <BLOCKQUOTE>
+      	100x100 SPRTの場合<BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">4bit</TD><TD ALIGN="center">8bit</TD><TD ALIGN="center">16bit</TD><TR>
+    <TD>キャッシュon<BR>キャッシュoff</TD><TD>5000<BR>7500</TD><TD> 5000<BR>10000</TD><TD> 5000<BR>15000</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+      <BR>
+      テクスチャパターンがキャッシュにのっている場合、描画速度はモードによらず一定であることにご注意ください。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_3">
+<A HREF="#Heading3_1_8"> 8. </A>3 <B>描画クリップ</B>
+</A>
+</H3>
+<blockquote>
+    描画サイクルはどのような形でポリゴンがクリップされるかによっても異なります。<BR>
+    ポリゴンの描画は、描画領域内でクリップされます。しかし、クリップの際、クリップされるポリゴンの左側／上側の部分については、空のサイクルが発生します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf12.gif">
+<P>
+    <B>図 12 描画クリップ
+</B><BR>
+</CENTER>
+    この例では、A の部分は空サイクルが発生しますが、B の部分は発生しません。空サイクルでは空のテクスチャリードサイクルも含まれます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8_4">
+<A HREF="#Heading3_1_8"> 8. </A>4 <B>テクスチャキャッシュ</B>
+</A>
+</H3>
+<blockquote>
+    テクスチャマッピングを行なうポリゴンを描画する際には、フレームバッファ上におかれたテクスチャパターンを一旦読み込まなければならないため、その分のリードサイクル数に応じて描画速度が低下します。そのため、PlayStationでは、内部にテクスチャキャッシュを持ち、キャッシュヒットしているテクスチャパターンに対してはフレームバッファへのリードアクセスを行なわずに描画を行なう機能を備えています。<BR>
+    <BR>
+    通常は、テクスチャキャッシュのサイズのみを注意してデータを作成するだけで十分ですが、より描画速度をチューンしたい場合には、さらに詳細なキャッシュの知識が必要になります。ここでは、テクスチャキャッシュのチューンを行うパワーユーザのために、テクスチャキャッシュの詳細について説明します。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_4_1">
+(1) <B>キャッシュブロック</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      テクスチャページは、キャッシュサイズ単位の矩形領域に分割され管理されます。この各単位ををキャッシュブロックといいます。キャッシュブロックには順番に番号（ブロック番号）がふられます。<BR>
+      4bitモードの場合、キャッシュサイズは64x64なので、テクスチャページは以下のように16個のキャッシュブロックに分割されます。 <BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf13.gif">
+<P>
+    <B>図 13 キャッシュブロック
+</B><BR>
+</CENTER>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_4_2">
+(2) <B>キャッシュエントリ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      キャッシュブロックは、さらに、16x1 の小領域（キャッシュエントリ）に分けられます。4bit モードの場合は、以下のように 256 個のエントリに分けられることになります。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf14.gif">
+<P>
+    <B>図 14 キャッシュエントリ
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      各エントリは以下の構造を持ちます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        struct {
+        	u_char	block_id;	/* ブロック番号タグ */
+        	u_short	data[4];	/* テクスチャパターンデータ */	
+        } Entry[256];
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      キャッシュデータは、4 short word なので 4bitテクスチャの場合は、16 テクスチャピクセルが１エントリに格納されることになります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_4_3">
+(3) <B>キャッシュストラテジ</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      各エントリには、ブロック番号が保持され、これを用いてキャッシュのヒット／ミスを判定します。ここで、テクスチャマッピングに際して、テクスチャピクセル(u, v)がキャッシュに載っているかどうかの判定は、以下のように行なわれます。<BR>
+      あるテクスチャピクセル(u,v) が属するブロック番号は、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        block_id = (v&gt;&gt;6)&gt;&gt;2 + (u&gt;&gt;6);
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      で計算できます。また、(u,v) が属するエントリ番号は、<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        entry_id = (v&0x3f)&lt;&lt;2 + (u&0x3f)&gt;&gt;4;
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      で計算できます。これをふまえると、キャッシュヒット判定は<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        is_cache_hit_4bit(u_char u, u_char v)
+        {
+        	int block_id = (v&gt;&gt;6)&gt;&gt;2 + (u&gt;&gt;6);
+        	int entry_id = (v&0x3f)&lt;&lt;2 + (u&0x3f)&gt;&gt;4;
+        
+        	if (Entry[entry_id].block_id == block_id)
+        		return(1);	/* キャッシュヒット */
+        	else
+        		return(0);	/* キャッシュミス */
+        }
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      のように記述できます。<BR>
+      キャッシュエントリはそれぞれ個別にキャッシュブロック番号を保持しているため、エントリ番号が異なるテクスチャピクセルであれば、異なるブロック番号であってもキャッシュ上に共存できます。<BR>
+      例えば、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        (u,v) = (0,0)-(63,63)
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      の矩形領域内のテクスチャピクセルは全て同じテクスチャブロックに属するため、当然同時にキャッシュにのります。また、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        (u,v) = (16,16)-(79,79)
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      の矩形領域内のテクスチャピクセルは複数のテクスチャブロックにまたがっていますが、重複するエントリがないため、同時にキャッシュにのります。しかし、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        (u,v) = (8,8)-(71,71)
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      の矩形領域内のテクスチャピクセルは、一部にエントリ番号が重複するものがあるため、（(u,v) = (8,8)-(15,8) と、(u,v) = (64,8)-(71,8)の領域など）矩形領域自身は 64x64 の範囲に収まっているものの、同時にキャッシュにはのりません。<BR>
+      <BR>
+      また、連続した領域でなくても、それぞれのエントリが衝突していない場合、例えば、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        (u,v) = ( 0, 0)-(15,15)
+        (u,v) = (80,64)-(95,79)
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      などは、同時にキャッシュにのることができます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_8_4_4">
+(4) <B>モードによる違い</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      キャッシュブロック、キャッシュエントリのサイズは、テクスチャモードによって異なります。ただしエントリ数はいずれも 256 です。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 24
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">モード</TD><TD ALIGN="center">ブロック</TD><TD ALIGN="center">ブロック数</TD><TD ALIGN="center">エントリ</TD><TD ALIGN="center">エントリ数</TD><TR>
+    <TD ALIGN="center">4</TD><TD ALIGN="center">64x64</TD><TD ALIGN="center">16</TD><TD ALIGN="center">16x1</TD><TD ALIGN="center">256</TD><TR>
+    <TD ALIGN="center">8</TD><TD ALIGN="center">64x32</TD><TD ALIGN="center">32</TD><TD ALIGN="center">8x1</TD><TD ALIGN="center">256</TD><TR>
+    <TD ALIGN="center">16</TD><TD ALIGN="center">32x32</TD><TD ALIGN="center">64</TD><TD ALIGN="center">4x1</TD><TD ALIGN="center">256</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_9">
+<H2>
+<A HREF="#Top">↑</A> 9 <B>プリミティブ分割</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    表示画面に対して大きな面積を占める領域を一つのテクスチャプリミティブで描画することは、テクスチャ画像の点からもと描画速度の点からも有効な方法ではありません。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_1">
+<A HREF="#Heading3_1_9"> 9. </A>1 <B>テクスチャ歪み</B>
+</A>
+</H3>
+<blockquote>
+    PlayStation のテクスチャマッピングは、高速な描画を行うために１次変換（アフィン変換）が使用されることにあります。１次変換を使用するため、大きなプリミティブにそのままテクスチャマッピングを施すと、変換誤差からマッピング画像が歪むことがあります。アフィン変換では、ポリゴン内部の点 (x,y) に貼り付けられるテクスチャ座標 (u,v) は、 <BR>
+    <BR>
+<PRE>        u = a0*x + a1*y + a2
+        v = b0*x + b1*y + b2
+</PRE>
+    <BR>
+    で計算されます。これは変換処理が高速に行えるものの正しいマッピング画像を再現しません。現実の物理現象を反映した変換は以下のような透視変換を含んだ式になります。<BR>
+    <BR>
+<PRE>        u = (a0*x + a1*y + a2*z + a3) / (c0*x + c1*y + c2*z + c3)
+        v = (b0*x + b1*y + b2*z + b3) / (c0*x + c1*y + c2*z + c3)
+</PRE>
+    <BR>
+    これから、１次変換はポリゴン内の z（奥行き）が一定かその変化が少ない場合に、すなわち分母の z の変動が少ない場合に正しいマッピング画像を生成することがわかります。  <BR>
+    このため、地面などのように比較的広い面積を占め、かつ奥行きの変化が大きい４角形プリミティブを描画すると、変換誤差によりちょうど対角線で折れ曲がったようなマッピング画像になります。 <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_2">
+<A HREF="#Heading3_1_9"> 9. </A>2 <B>テクスチャキャッシュミス</B>
+</A>
+</H3>
+<blockquote>
+    大きなプリミティブへのテクスチャマッピングは、テクスチャキャッシュの特性を引き出すことができません。4bit モードの場合、一つのテクスチャキャッシュエントリは水平方向に 16 テクセル (4 short word) が保持されます。必要なテクセルがキャッシュにない場合、GPU はそのテクセルを含むキャッシュエントリ分のテクセルをまとめて投機的に読み込みます。余分に読み込ま れた残りの 15 個のテクセルは、そのエントリがフラッシュされる前に使用されれば描画効率に貢献しますが、使用されなければ無駄に捨てられます。<BR>
+    しかし、テクスチャキャッシュサイズは、4bit モードでは、64x64 の大きさに限られます。これは、64 テクセル離れたテクセル同士は同じキャッシュエントリを共有することを意味します。従って、プリミティブ内の(u,v) の最大変位 (Δu, Δv) が 64 よりも大きなものを描画すると、一つのプリミティブの描画中にかならずキャッシュのミスが発生することになります。 <BR>
+    最悪の場合 (u,v の方向と x,y の方向がちょうど 90°になるようなマッピングの場合)、投機的に読み込まれたキャッシュエントリのテクセルは、次に使用される前には必ずフラッシュされて無駄になります。その状態では、描画速度は半分程度に低下してしまいます。<BR>
+    この問題の難しい点はプリミティブの描画の方向によって描画速度が大きく変動することです。描画方向はローカルスクリーンマトリクスの値で動的に変動し、マトリクスの値はコントローラの入力に左右さ<BR>
+    れます。こうした不確定な要素で描画性能が大きく変動することはプログラムを難しくする原因にもなります。 <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_3">
+<A HREF="#Heading3_1_9"> 9. </A>3 <B>クリップオーバーヘッド</B>
+</A>
+</H3>
+<blockquote>
+    大きなプリミティブの描画は、クリップに関しても不利にります。プリミティブの全領域が描画領域に全く含まれていない場合は、そのプリミティブの描画自体を行わない (OT に登録しない) ことでキャンセルできます。しかし一部でも描画領域と重なる部分のあるプリミティブは、OT に登録する必要があります。描画領域外への描画は、GPU のクリップ機能によってキャンセルされますが、場合によってはここで、空サイクルが発生します。プリミティブが大きくなるほど、その全部が描画領域を外れる可能性は小さくなり、空サイクルの発生する可能性が高くなります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_9_4">
+<A HREF="#Heading3_1_9"> 9. </A>4 <B>プリミティブ分割</B>
+</A>
+</H3>
+<blockquote>
+    これらの問題は、大きなプリミティブを描画に先立って分割することでほとんどを解決することができます。<BR>
+    面積の大きくなる可能性のあるプリミティブは、描画の際にその面積や透視変換前の視点からの距離を評価して、決められた回数再帰的に中点分割されます。<BR>
+    分割アルゴリズムと実装方法は目的に応じていくつもの方法があります。ここでは単純なPOLY_FT4の再帰分割の例を示します。<BR>
+<PRE>        typedef struct {
+        	short	x, y, z;
+        	u_char	u, v;
+        	short	x2, y2;
+        } VERTEX;
+        
+        /* 中点分割を行うマクロ */
+        #define half(v0,v1,v2) \
+        	(v0)-&gt;x3 = ((v1)-&gt;x3+(v2)-&gt;x3)&gt;&gt;1,\
+        	(v0)-&gt;y3 = ((v1)-&gt;y3+(v2)-&gt;y3)&gt;&gt;1,\
+        	(v0)-&gt;z3 = ((v1)-&gt;z3+(v2)-&gt;z3)&gt;&gt;1,\
+        	(v0)-&gt;u  = ((v1)-&gt;u +(v2)-&gt;v )&gt;&gt;1,\
+        	(v0)-&gt;v  = ((v1)-&gt;u +(v2)-&gt;v )&gt;&gt;1,\
+        	get_RotTransPers(&((v0)-&gt;x3), &((v0)-&gt;x2), &dmy, &dmy, &dmy);
+        
+        extern POLY_FT4	*heap;		/* 分割後のプリミティブを保存するバッファ */
+        extern POLY_FT4 *skelton;	/* テンプレート */
+        extern int min_x, min_y;	/* 描画領域 */
+        extern int max_x, max_y; 
+        void divideFT4(int ndiv,VERTEX *v0, VERTEX *v1, VERTEX *v2, VERTEX *v3) 
+        {
+        	if (min4(v0-&gt;x, v1-&gt;x, v2-&gt;x, v3-&gt;x) &gt; max_x) return;
+         	if (max4(v0-&gt;x, v1-&gt;x, v2-&gt;x, v3-&gt;x) &lt; min_x) return;
+        	if (min4(v0-&gt;x, v1-&gt;x, v2-&gt;x, v3-&gt;x) &gt; max_y) return;
+        	if (max4(v0-&gt;y, v1-&gt;x, v2-&gt;x, v3-&gt;x) &lt; min_y) return;
+        	if (ndiv) {
+        		u_long d;
+        		VERTEX v4, v5, v6, v7, v8;
+        		half(&v4,  v0,  v1); 		
+        		half(&v5,  v2,  v3); 
+        		half(&v6,  v0,  v2);
+        		half(&v7,  v1,  v3); 
+        		half(&v8, &v5, &v6); 
+        		divideFT4(ndiv-1,  v0, &v4, &v6, &v8);
+        		divideFT4(ndiv-1, &v4,  v1, &v8, &v7);
+        		divideFT4(ndiv-1, &v6, &v8,  v2, &v5);
+        		divideFT4(ndiv-1, &v8, &v7, &v5,  v3);
+        		return;
+        	} else {
+        		*heap = *skelton;
+        		setXY4(heap, v0-&gt;x, v0-&gt;y, v1-&gt;x, v1-&gt;y,
+        			     v2-&gt;x, v2-&gt;y, v2-&gt;x, v2-&gt;y);
+        		setUV4(heap, v0-&gt;u, v0-&gt;v, v1-&gt;u, v1-&gt;v,
+        			     v2-&gt;u, v2-&gt;v, v2-&gt;u, v2-&gt;v);
+        		heap++;
+        	}
+        }
+</PRE>
+    分割によって新たに生じた頂点（分割頂点）は正しく透視変換されます。この方式は、分割頂点上だけは正しい変換が施され、その間が１次式で補間されたものとも考えることができます。従って分割数が増えれば、すなわち、分割頂点が増えれば近似精度も向上し、テクスチャ画像の品質も向上します。<BR>
+    <BR>
+    分割はテクスチャキャッシュにも効果的に働きます。分割後のプリミティブの(Δu, Δv) は分割前のものよりも小さくなります。分割を繰り返して(Δu, Δv)がテクスチャキャッシュの大きさに収まると描画性能は飛躍的に向上します。<BR>
+    <BR>
+    クリップに対しても分割は有効です。おおきなプリミティブを分割することによりプリミティブの全領域が描画領域から外れる確率が増加します。そのため描画領域外での無駄な空サイクルを減らすことが可能になります。<BR>
+    <BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_10">
+<H2>
+<A HREF="#Top">↑</A> 10 <B>デバッグ環境</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_1">
+<A HREF="#Heading3_1_10"> 10. </A>1 <B>デバッグモード</B>
+</A>
+</H3>
+<blockquote>
+    デバッグモードが指定されると各関数は可能な限りデータの整合性をチェックします。問題があればリターンコードと、後述するデバッグストリングに内容をプリントします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_2">
+<A HREF="#Heading3_1_10"> 10. </A>2 <B>デバッグストリング</B>
+</A>
+</H3>
+<blockquote>
+    関数SetGraphDebug()でデバッグモードを指定した場合、あるいは、Dump*()関数を用いて構造体の内容を出力した場合、出力文字列は一旦指定された文字列バッファに貯められます。デバッグ文字列はFnt*()関数を使用してスクリーンに表示できます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_10_3">
+<A HREF="#Heading3_1_10"> 10. </A>3 <B>高レベルライブラリインターフェース</B>
+</A>
+</H3>
+<blockquote>
+    libgpuのレベルではある特定のデータ構造やパラダイムになるべく依存しないような形式がとられています。そのために、３次元オブジェクトのデータ構造であるTMDフォーマットや、２次元画像に関するデータ構造であるTIMフォーマットなどを直接ハンドルする関数は用意されていません。それらを使用するには、統合的な環境である拡張グラフィクスライブラリ(libgs)内の関数を使用する必要があります。<BR>
+    しかし、高レベルライブラリと低レベルライブラリ間のインターフェースおよび、データ自体のデバッグのためにTMDデータTIMデータの内容の解析のみを行なう関数OpenTMD()/ReadTMD()、OpenTIM()/ReadTIM()が用意されています。<BR>
+    ReadTIM()関数はTIMデータの任意番目のTIM形式画像データのヘッダ情報を可能な限り解釈します。<BR>
+    ReadTMD()関数は、TMDデータの任意番目のオブジェクト内の任意番目のポリゴンデータの情報を可能な限り解釈します。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_11">
+<H2>
+<A HREF="#Top">↑</A> 11 <B>プログラミングに際して注意点</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ここでは、アプリケーション作成に当たっての以下の注意点について解説します。<BR>
+    <BR>
+<UL>
+         <LI> テクスチャポリゴンの座標指定
+         <LI> PAL方式への対応について
+         <LI> フレームバッファの切替えタイミングに関して
+         <LI> フィールドの切り替えタイミングに関して
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_1">
+<A HREF="#Heading3_1_11"> 11. </A>1 <B>テクスチャポリゴンの座標指定</B>
+</A>
+</H3>
+<blockquote>
+    テクスチャポリゴンの描画に関しては以下のような現象が発生します。<BR>
+    <BR>
+<UL>
+         <LI> 16×16のポリゴンに16×16のテクスチャーマッピングをして表示をさせるために、(0, 0)-(15, 0)-(0, 15)-(15, 15)のようにパラメータを与えると下と右の1ラインが表示されない。
+         <LI> テクスチャポリゴンPOLY_FT4において、テクスチャページの右側あるいは、下側に接したテクスチャパターンの指定ができない。
+         <LI> テクスチャポリゴンPOLY_FT4において、テクスチャを拡大して表示すると右端・下端が１ドット余分に表示される。
+</UL>
+    <BR>
+<PRE>        (x,y)=(0,0)-(16,16), (u,v)=(0,0)-(16,16)		正常
+        (x,y)=(0,0)-(17,17), (u,v)=(0,0)-(16,16)		正常
+        	..........
+        (x,y)=(0,0)-(31,31), (u,v)=(0,0)-(16,16)		正常
+        (x,y)=(0,0)-(32,32), (u,v)=(0,0)-(16,16)		１ドット余分に表示される。
+</PRE>
+    <BR>
+    この問題は以下に述べる描画ルールに関係があります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_1_1">
+(1) <B>描画ルール</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      PlayStationでは、POLY_*プリミティブの描画ルールでは、最右端点および最下端点は描画されません。これは、ポリゴンを敷き詰めていった場合、ポリゴンの境界線上を2度書きしないようにするためのものです。これを行わない場合、<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf15.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 15 描画ルール
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      のようなポリゴンP0,P1,P2,P3を表示した場合に、中央十字の部分が２度書きされてしまい、半透明モードの時などに問題が生じます。<BR>
+      ここで、POLY_FT4で(x,y) = (0,0)-(8,8), (u,v) = (0,0)-(8,8)を指定した正方形を描画する場合、すなわち、<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        POLY_FT4 ft4;
+        
+        ft4.x0 = 0, ft4.y0 = 0;
+        ft4.x1 = 8, ft4.y1 = 0;
+        ft4.x2 = 0, ft4.y2 = 8;
+        ft4.x3 = 8, ft4.y3 = 8;
+        
+        ft4.u0 = 0, ft4.v0 = 0;
+        ft4.u1 = 8, ft4.v1 = 0;
+        ft4.u2 = 0, ft4.v2 = 8;
+        ft4.u3 = 8, ft4.v3 = 8;
+        
+</PRE>
+      <BLOCKQUOTE>
+      とした場合を考えます。このときのテクスチャパターンは、以下のようにマッピングされます。マスの中の数字はそこのピクセルにコピーされるテクスチャパターンの(v,u)を表します。（フレームバッファアドレッシングに沿って、(u,v)でなく、(v,u)の順番で記述してあります。）<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf16.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 16 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      この状態で、先ほどの描画ルールを適用すると右側と下側の１ラインは表示されないことから、実際の表示は以下のようになります。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf17.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 17 表示されるもの
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      この例では、正しくピクセル(0,0)から(7,7)にテクスチャ(0,0)-(7,7)がマッピングされることになります。<BR>
+      次に、(u,v) = (0,0)-(7,7)を指定した場合は、以下のようにマップされます。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf18.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 18 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      これの、右側と下側の１ラインが削られるため、テクスチャのu=7,v=7で表されるライン、一番右側と下側の１ラインは表示されません。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf19.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 19 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      これから通常の使用では(x,y)=(0,0)-(8,8),(u,v)=(0,0)-(8,8)を使用すれば正しい結果が得られます。<BR>
+      通常のテクスチャマッピングのように、マッピングが連続的である場合、すなわち、隣接するポリゴンには必ず隣接するテクスチャパターンが貼られる場合には、問題は生じません。しかし、ＢＧの表示では、隣接するセル（POLY_FT4セル）が必ずしも隣接するテクスチャを使用するとは限りません。<BR>
+      この場合には、以上のような通常の指定を行なった場合、次のような問題が発生します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_1_2">
+(2) <B>テクスチャを反転・回転する場合</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      先ほどのテクスチャをXY方向に180°反転して表示する例についてを考えます。<BR>
+      この時、POLY_FT4で(u,v)の値を変えずに(x,y)を<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        ft4.x0 = 8, ft4.y0 = 0;
+        ft4.x1 = 0, ft4.y1 = 0;
+        ft4.x2 = 8, ft4.y2 = 8;
+        ft4.x3 = 0, ft4.y3 = 8;
+        
+</PRE>
+      <BLOCKQUOTE>
+      としたときのテクスチャパターンは、以下のようにマッピングされます。<BR>
+      マスの中の数字はそこのピクセルにコピーされるテクスチャパターンの(u,v)を表します。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf20.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 20 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      この状態で、先ほどの描画ルールを適用すると右側と下側の１ラインは表示されないため、下図のように、(u,v)の(0,0)-(0,7) の１ライン、すなわち、UV空間の(0,0),(1,0),(2,0)....(7.0)の各点がマップされません。<BR>
+      そのかわりに、(8,0),(8,1)....(8,7)の各点が左側にあらわれます。つまり、全体的に１ドット左にずれてマッピングされているように見えます。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf21.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 21 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      この現象は、テクスチャを垂直方向に反転する場合、ポリゴンを９０°以上回転する場合にも発生します。特にポリゴンを回転する場合、マッピングされるテクスチャピクセルは、回転角に依存して、変動します。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_1_3">
+(3) <B>テクスチャを拡大する場合</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      先ほどのPOLY_FT4を2倍に拡大して表示する場合を考えます。この時、(x,y)=(0,0)-(16,16), (u,v)=(0,0)-(8,8)と指定すると、テクスチャパターンは、以下のようにマッピングされます。（0.5は、四捨五入されて1.0に繰り上げられます。）<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf22.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 22 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      この状態で、先ほどの描画ルールを適用すると右側と下側の１ラインは表示されないことから、下図のように、(u,v)は、(0,0)-(8,8 の範囲が表示されます。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf23.gif">
+<P>
+      </BLOCKQUOTE>
+    <B>図 23 マッピング
+</B><BR>
+</CENTER>
+      <BLOCKQUOTE>
+      テクスチャを等倍のマッピングから徐々に拡大していくと、ちょうど倍率が２倍を越えたところでこの現象が現れます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_1_4">
+(4) <B>テクスチャページの最左端・最下端のピクセルを指定する場合</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      全く同様の理由からテクスチャパターンの最左端の１ライン、最下端の１ライン(u=255, v=255 のライン)を表示することができません。<BR>
+      先ほどの例で、テクスチャページの右下端の 8x8 の部分を表示したい場合、<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        ft4.u0 = 248, ft4.v0 = 248;
+        ft4.u1 = 256, ft4.v1 = 248;
+        ft4.u2 = 256, ft4.v2 = 256;
+        ft4.u3 = 248, ft4.v3 = 256;
+        
+</PRE>
+      <BLOCKQUOTE>
+      と指定しなくてはなりませんが、(u,v)は、8bitの解像度しか持たないため、<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        ft4.u0 = 248, ft4.v0 = 248;
+        ft4.u1 = 255, ft4.v1 = 248;
+        ft4.u2 = 255, ft4.v2 = 255;
+        ft4.u3 = 248, ft4.v3 = 255;
+        
+</PRE>
+      <BLOCKQUOTE>
+      と近似するしかありませんが、先ほどの例にもあるように(u=255, v=255)のラインは表示されません。この問題はポリゴンを２倍以上に拡大した場合に発生します。<BR>
+      同様の問題がテクスチャを左右反転してマップした場合の最左端の１ライン(u=0の１ライン）左右反転してマップした場合の最左端の１ライン、上下反転してマップした場合の最上端の１ライン(v=0の１ライン）にもあてはまり、これらのラインを表示することはできません。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_1_5">
+(5) <B>対策</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      問題がない限り、(u,v)に１引いた値を指定すれば、以上のすべての現象は回避されます。ただしこの時テクスチャパターンの右端および下端は表示されません。つまり、テクスチャパターンが、16x16の場合は、16:15に、8x8の場合は8:7に拡大されて表示されます。またこの場合は、スプライトパターンを作成する時に注意が必要になります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_2">
+<A HREF="#Heading3_1_11"> 11. </A>2 <B>PAL 方式への対応について</B>
+</A>
+</H3>
+<blockquote>
+    現在の PlayStation アプリケーションは NTSC 方式のビデオ信号を想定して設計されており、これを PAL 方式の TV 受像機で再生するためには、いくつかの変更が必要となります。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_2_1">
+(1) <B>NTSC / PAL の違い</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      NTSC/PAL では大きくは以下の２点が異なります。<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>表 25 NTSC/PALの違い
+</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center"></TD><TD ALIGN="center">NTSC</TD><TD ALIGN="center">PAL</TD><TR>
+    <TD ALIGN="center">フィールドレート</TD><TD ALIGN="center">60Hz</TD><TD ALIGN="center">50Hz</TD><TR>
+    <TD ALIGN="center">標準垂直解像度</TD><TD ALIGN="center">240</TD><TD ALIGN="center">256</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      PAL 方式ではフィールドレートが 50 Hz であるため最大で 50 フレーム／秒の表示までしかできません。また、垂直帰線割り込みも５０回／秒しか発生しませんので、プログラム内の同期を垂直帰線でおこなっている場合は、画面の移動速度が見ためが 5/6 に低下してみえることになります。<BR>
+      <BR>
+      標準の TV 受像機で再生できる垂直解像度は、PAL の方が多くなります。このため、PAL 方式の TV でフルスクリーンの表示をする場合には、フレームバッファ内の表示領域がより多く必要になります。<BR>
+      逆に NTSC 方式と同じ表示領域を使用する場合は、PAL の TV 上では画面の上下が一部黒く表示されます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_2_2">
+(2) <B>PAL対応への変更</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      NTSC 方式を仮定されて設計されたプログラムを PAL 方式に対応するには、以下の変更が必要です。<BR>
+      <BR>
+      (a) SetVideoMode() 関数を使用して PAL モードにする<BR>
+      (b) 表示開始位置の調整<BR>
+      (c) 時間軸の調整<BR>
+      (d) 表示領域の調整<BR>
+      <BR>
+      このうち (a),(b) の変更は必須です。(c),(d) の処理はアプリケーションの必要度に応じて選択できます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>PAL モードの設定</B></H4>
+
+      <BLOCKQUOTE>
+      DTH-2000 の場合は、本体の DIP SW を変更した後、SetDispMode() 関数を使用して PAL モードにすることができます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        #include &lt;libetc.h&gt;
+        main()
+        {
+        	SetVideoMode(MODE_PAL);
+        	.....
+        }
+        
+</PRE>
+      <BLOCKQUOTE>
+      この状態で動作するプログラムは PAL 対応 PlayStation でも動作します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>表示開始位置の調整</B></H4>
+
+      <BLOCKQUOTE>
+      標準の設定では、表示領域の垂直解像度は 240 本になっています。従ってこのままの状態で PAL の TV に表示すると表示領域が画面の上側にかたよって表示されます。そこで、DISPENV の screen 構造体のデフォルトの値を変更して、表示領域を画面の中央に合わせます。<BR>
+      </BLOCKQUOTE>
+      <BR>
+<P>
+<IMG SRC ="gif/gpuf24.gif">
+<P>
+<CENTER>
+    <B>図 24 表示開始位置
+</B><BR>
+</CENTER>
+<PRE>        
+        DISPENV	disp;
+        
+        disp.screen.x = 0;	/* same as NTSC */
+        disp.screen.y = 8;	/* (256-240)/2 */
+        disp.screnn.w = 256;	/* same as NTSC */
+        disp.screnn.h = 240;	/* same as NTSC */
+        
+        PutDispEnv(&disp);
+</PRE>
+
+     <H4><B>時間軸の調整</B></H4>
+
+      <BLOCKQUOTE>
+      PAL モードでは VSync 割り込みが 50 回／秒しか発生しません。<BR>
+      プログラムによっては、プログラム内の時間管理を垂直同期割り込み(VSync()) を使用して行なっている場合が多いため、そのままの状態間軸を 6/5 倍する必要があります。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_3">
+<A HREF="#Heading3_1_11"> 11. </A>3 <B>フレームバッファの切替えタイミングに関して</B>
+</A>
+</H3>
+<blockquote>
+    PlayStation ではフレームバッファ上の表示領域の更新（ダブルバッファの交換など）はビデオのフレームレート(1/60 sec)と非同期に行なうことができます。しかし、1/60 sec の整数倍でない変則的なレートで表示を切替えると、切替え時が垂直帰線同期区間に行なわれないことになり、表示画面がちらつく現象が発生します。これは、ユーザにアプリケーションの不良との誤解を与える原因になります。<BR>
+    <BR>
+    また、計算・描画の処理時間が瞬間的に期待されるフレーム切替え期間（フレームレート）を越えると、画像の動きが一瞬遅れて見える場合があります。これはコマ落ちなどと呼ばれ、一般には許容されている現象ですが、やはり一部のユーザには故障ととられる場合もあります。<BR>
+    <BR>
+    従って開発に際しては、フレームレートの管理に関して以下の点にご注意くださるようお願い申し上げます。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_3_1">
+(1) <B>ダブルバッファ切替えの時期</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      フレームダブルバッファの切替えを完全に行なうためには、通常の処切替えを垂直同期にあわせて行ないます。<BR>
+      <BR>
+      (A) では、バッファの切替えは描画・表示のいずれか処理の遅い方にのみ依存し、垂直同期とは非同期になりバッファの切替が表示期間に発生することになります。従って、意図して特殊な効果を狙う場合でなければ、バッファの交換時に VSync(0) を実行して同期をとるようにして下さい。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        	(A)				(B)
+        	while (1) {			while (1) {
+        		....				....
+        		DrawSync(0);			DrawSync(0);
+        						VSync(0);
+        		swap_buffer();			swap_buffer();
+        		DrawOTag(ot);			DrawOTag(ot);
+        	}				}
+</PRE>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_3_2">
+(2) <B>フレームレートの固定</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      しかし、切替えを強制的に垂直同期に同期させると、ちょうど 1/60sec 近辺で処理が終了する場合、フレームレートが 1/60 sec と 1/30 sec の間を頻繁に切り替わり物体の動きが不自然になります。これも、ユーザのクレームの原因になることがあります。<BR>
+      こうした場合は、VSync(2) を使用してフレームレートを 1/30 secに固定します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        while (1) {
+        	.....
+        	DrawSync(0);
+        	VSync(2);	/* 1/30 sec に固定 */
+        	swap_buffer();
+        	DrawOTag(ot);
+        }
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      このように、事情の許す限り、フレームレートは、VSync(n) を使用して一定に保つようにします。同様に、フレームレートが２０コマの場合は、VSync(3) を １５コマの場合は、VSync(4)を使用することでフレームレートを固定に保つことができます。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_3_3">
+(3) <B>絶対時間の導入</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      しかし、アプリケーションによっては最悪のフレームレートに全てを合わせることができないものもあります。例えば特定の瞬間だけフレームレートが落ちるだけの場合では、残りをすべて最悪のフレームレートに下げることは合理的ではありません。<BR>
+      <BR>
+      また、バッファの切替を固定の垂直同期に強制的に同期させると、どうしても CPU/GPU が実質的な処理を行なわないアイドル期間が発生します。これを避けるために、フレーム間での画像の変化が小さいか、局所的である場合にはフレームバッファの切替えを垂直同期にあえて合わせないアプリケーションも考えられます。<BR>
+      <BR>
+      この場合は、プログラム内部の時計は、バッファの交換をカウントするのではなく、VSync(-1) か、RCnt3 などの絶対的なカウンタを使用するようにして下さい。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        	(A)				(B)
+        	while (1) {			while (1) {
+        		....				....
+        		DrawSync(0);			DrawSync(0);
+        		VSync(0);			VSync(0);
+        		swap_buffer();			swap_buffer();
+        		frame++;				frame = VSync(-1);
+        		DrawOTag(ot);			DrawOTag(ot);
+        	}				}
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      (B) のようなフレームカウンタの数え方をすれば、計算・描画がオーバーフローしてフレームレートが瞬間的に落ちても内部のカウンタが遅れることがありません。物体の位置の更新にこのカウンタを使用すれば、フレームレートが落ちた場合も物体の動きは自然なままに保たれます。<BR>
+      <BR>
+      逆に、絶対的なカウンタを元に物体の移動量やスクロール量を決定すれば、フレームレートを固定にする必要はないことになります。従って、この方法は、フレームレートを強制的に固定する方法よりも、より根本的な解決策と言えます。<BR>
+      <BR>
+      しかし、ダブルバッファの切替えとは独立にプログラムの状態を更新することを厳密に行なうと、どうしてもプログラムの負荷は大きくなります。従って、いずれの方法を選択するかはアプリケーションの目的に応じて決定する必要があります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_3_4">
+(4) <B>描画のキャンセル</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      インターレースモードでは、計算・描画とも 1/60 sec で必ず完結しなくてはなりません。そのため、バッファの切替えは描画の終了(DrawSync(0)) よりも垂直同期を優先する必要があります。<BR>
+      <BR>
+      そのためには、VSync(0) に合わせて描画を途中でリセットするようにします。一般に計算時間に比べて描画時間の方が変動が大きく予想が困難です。万一、大きな図形を描画する状態が発生して、描画時間がオーバーフローしても、描画を途中でリセットすることで、インターレースモード特有の画面の乱れをおさえることが出来ます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        	(A)				(B)		
+        	while (1) {			while (1) {
+        		....				....
+        		DrawSync(0);			VSync(0);
+        		VSync(0);			ResetGraph(1);
+        		swap_buffer();			swap_buffer();
+        		DrawOTag(ot);			DrawOTag(ot);
+        	}				}
+</PRE>
+    <BR>
+      <BLOCKQUOTE>
+      特に横幅が１６ドット以下の矩形のMoveImage()や、狭い幅のポリゴン描画は、ページブレークが多発するため、処理時間が変動しがちです。インターレースモード時にこうした処理を多く使用する場合は、バッファの切替が描画速度に依存しないようにする必要があります。<BR>
+      </BLOCKQUOTE>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_3_5">
+(5) <B>VSync(1)の返り値</B>
+</A>
+</H4>
+      <BLOCKQUOTE>
+      VSync()の引数として1を渡した場合、前回VSync()が呼ばれた時点からの経過時間を1水平同期間隔を単位として返しますが、<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        VSync(0);		/* V-BLNKを待つ */
+        t = VSync(1);		/* 最期のVSync(0)からのHの値 */
+        
+</PRE>
+      <BLOCKQUOTE>
+      の場合でも、tが予想ほど小さい値をとらない場合があります。これは、この行間で、<BR>
+      <BR>
+      </BLOCKQUOTE>
+<UL>
+         <LI> サウンドのコールバック
+         <LI> コントローラのドライバ
+</UL>
+      <BLOCKQUOTE>
+      <BR>
+      が動いている場合が考えられます。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_11_4">
+<A HREF="#Heading3_1_11"> 11. </A>4 <B>インターレースモードでの VSync 同期に関して</B>
+</A>
+</H3>
+<blockquote>
+    PlayStation GPU (Graphic Processor) のインターレース時の描画に際して垂直同期の開始時期と GPU 内部での奇数／偶数フィールドの切替え時期のずれから以下のような問題が発生します。<BR>
+    <BR>
+    「インターレースシングルバッファ (縦 480 ドットモード）を使用していて、かつ描画の切替えを VSync() ではなくVSyncCallback()で行なっている場合に、描画の際ＯＴの始めに登録されたプリミティブの描画が奇数フィールドのみキャンセルされる。このため、背景画面がクリアされないで残像が残るとような障害が発生する。 」<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_4_1">
+(1) <B> 原因</B>
+</A>
+</H4>
+    インターレースの場合は、偶数フィールドと奇数フィールドを 1/60[sec]で交互に表示します。つまり、640x480 モードであれば、y が偶数のラインと奇数のラインを交互に表示していることになります。この時、GPU は、表示の偶数・奇数に応じて<BR>
+    <BR>
+<UL>
+         <LI> 奇数フィールドを表示している時は、偶数ラインのみに描画する。
+         <LI> 偶数フィールドを表示している時は、奇数ラインのみに描画する。
+</UL>
+    <BR>
+    のような操作を行なっており、シングルバッファでありながら、描画中の画面を表示しないようなメカニズムになっています。<BR>
+    <BR>
+    このためには、GPU が現在のビデオ出力が奇数フィールドか、偶数フィールドかを知る必要があります。しかしながら、V-BLNK 期間中は GPU が必ず偶数フィールドと認識してしまいます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/gpuf25.gif">
+<P>
+    <B>図 25 偶数･奇数フィールドの切り替え
+</B><BR>
+</CENTER>
+    <BR>
+    VSyncCallback() は V-BLNK の開始時点（終了時点ではない）でコールれます。そのため、V-BLNK 期間中に描画したものは偶数フィールドにしか描画されません。Zソートの関係上、通常描画の最初の部分は背景部分になります。このため、片側のフィールドのみ背景のクリアがされなかったり、BGの描画が行<BR>
+    なわれないなどの現象が現れます。 <BR>
+    <BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_4_2">
+(2) <B>対策</B>
+</A>
+</H4>
+    これを回避するためには、描画を V-BLNK の終了時点の直後に開始する必要があります。残念ながら現在の VSyncCallback() は V-BLNK の終了を検知することはできませんので、V-BLNK の終了を VSync(1) を使用して V-BLNK 中の H-Sync の回数を数えるか、H-Sync のコールバック (RCnt2) を使用して、<BR>
+    新たにコールバックを追加するなどの措置が必要になるのですが、もっと確実な方法として、現在のフィールドが偶数・奇数かを判別する関数 GetODE() を公開いたします。<BR>
+    <BR>
+<PRE>        u_long GetODE(void);  /* 0...EVEN 1...ODD */
+</PRE>
+    <BR>
+      GetODE() はライブラリ Ver.3.7 で正式に公開されます。それ以前のライブラリで使う場合は、上記宣言を libgpu.h 等に組み込んでください。<BR>
+    <BR>
+    GetODE() の値は、現在のビデオ出力の偶数・奇数フィールドを表すのではなく、GPU が認識している偶数・奇数フィールドの値であることにご注意下さい。また、VSyncCallback() 発生直後を含めた V-BLNK 中では GetODE() は必ず偶数フレームしか返しませんので、た工夫が必要です。詳細はサンプルプログラムを参照下さい。<BR>
+
+<!-- 見出し 5,(1) -->
+<H4>
+<A NAME="Heading5_1_11_4_3">
+(3) <B>補足</B>
+</A>
+</H4>
+    インターレースモードでは、奇数・偶数フィールドは、NTSC 規格の場合は強制的に 1/60[sec] で切り替わります。そのためこのモードをする場合は、全ての処理を 1/60[sec] で完結する必要があります。 この時、処理落ちの原因が描画時間である場合（GPU ネック）は、描画をキャンセル（ResetGraph(1)）することで回避（もちろんポリゴンの欠けが生じます）できますし、CPU側が原因である場合（CPU ネック）は、CPU が次のＯＴを生成するまで、前のＯＴを使用して再描画を行なうことで画面の乱れを回避できます。<BR>
+    これを実現するためには、VSyncCallback() 内部で描画命令（DrawOTag()）を発行する必要があります。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

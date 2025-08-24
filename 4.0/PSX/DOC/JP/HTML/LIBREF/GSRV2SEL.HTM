@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsSetRefView2L
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsSetRefView2L
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        視点位置の設定(高精度版)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>GsSetRefView2L</B> (
+GsRVIEW2 * <I>pv </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pv		</I>視点位置情報（視点注視点型）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    視点情報から WSMATRIX を計算する。パラメータはGsRVIEW2 構造体。 <BR>
+    視点を動かさなければ WSMATRIXは変わらないのでフレーム毎に呼ぶ必要はない。 <BR>
+    しかし視点を動かす場合はフレーム毎に呼ばなければ変更が反映されない。  <BR>
+    GsSetRefView2()関数よりも計算誤差が少ないが、実行時間は２倍かかる。 <BR>
+    GsRVIEW2のメンバのsuperをWORLD以外に設定した場合は 他のパラメータをいじらなくても 親座標系のパラメータが変われば結果的に視点は動いてることになるのでこの場合はフレーム毎にGsSetRefView2L()を呼ぶ必要がある。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    視点の設定に成功すると０を、失敗すると１を返す。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

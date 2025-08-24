@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsMapModelingData
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsMapModelingData
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        TMDデータを実アドレスにマップ
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsMapModelingData</B>（
+unsigned long * <I>p</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>p		</I>TMD データの先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TMD データにはポインタで参照する部分が存在する。 <BR>
+    TMD データ作成時には メモリのどこにロードされるか確定しないためTMD データの先頭からのオフセットアドレスが格納されている。 <BR>
+    GsMapModelingData() 関数は、このオフセットアドレスを実アドレスに変換するもので、TMD データを使用するには この実アドレス変換を まず最初に行なわなければならない。 <BR>
+    TMDデータの先頭アドレスとはIDをスキップしたアドレスである。 <BR>
+    すなわち TMDファイルをロードしたアドレスに4byteオフセットしたアドレスである。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    一度実アドレスに変換されたTMD データにはフラグが立っているので再度GsMapModelingData()を呼び出しても、副作用は起こらない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    ContinueDraw
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    ContinueDraw
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        BreakDrawで中断したOTを描画続行する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>ContinueDraw</B> (
+unsigned long <I>*ins_ot</I>,
+unsigned long <I>*cont_ot</I>,
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>ins_ot		</I>途中で割り込ませるOTのアドレス
+<I>cont_ot</I>		<I>ins_ot</I>を描画直後に、描画させるOTのアドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>ins_ot</I>で与えられたOTをキューに入れず(*1)に即時実行させる。<I>ins_ot</I>を描画終了後続けて<I>cont_ot</I>を描画する。ただし、GPUが即時実行可能な状態でなければいけないため、BreakDraw()等と併用する必要がある。 <BR>
+    あるタイミングで、特定のOTを最優先で描画させたい場合に使用する。その場合、BreakDraw()で描画中のOTを中断し、その返り値を<I>cont_ot</I>として実行することにより実現できる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GPUが描画を実行中に、ContinueDraw()だけを呼ぶとハングすることがある。（必ずBreakDraw()かDrawSync(0)を直前に呼び出さねばならない。） <BR>
+<BR>
+    *1) DrawOTga()等のノンブロッキング関数は、GPUが即時実行可能の状態にない場合は、実行キューの中にエントリしてしまうため、即時に実行することを保証しない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="bdreakrw.htm">BreakDraw</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

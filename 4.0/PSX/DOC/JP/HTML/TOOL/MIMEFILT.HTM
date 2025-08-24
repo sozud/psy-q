@@ -1,0 +1,156 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>mimefilt</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    複数のTMDファイルを読み込んでMIMe用差分ファイルを生成します。<BR>
+    DOS版とSGI版があります。ここでは、1996/Apr/1付けの Version 1.51 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>mimefilt [options] <I>base.tmd variant1.tmd variant2.tmd</I>...</B></H4>
+
+
+     <H4><B>mimefilt [options] <I>tmds.arg</I>...</B></H4>
+
+      <BLOCKQUOTE>
+      複数のTMDファイルを与えると、２番目以降のTMDそれぞれに対して、最初に与えたTMDとの差分ファイルを出力します。デフォルトでは、頂点情報の差分ファイル(.vdf)のみ生成されます。<BR>
+      <BR>
+      引数にワイルドカードが使用できます。ファイル名の".tmd"は省略可能です。<BR>
+      <BR>
+      引数が多くなる場合など、引数をファイル(*.arg)に書いて与えることが可能です。ただし、引数ファイル名の".arg"は省略できません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o <I>output-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。頂点差分ファイル名(.vdf)および法線差分ファイル名(.ndf)に用いられます。デフォルトでは、最初のTMDファイル名から拡張子を除いたものが用いられます。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-n</B></H4>
+
+      <BLOCKQUOTE>
+      法線差分ファイル(.ndf)を生成します。デフォルトではOFFです。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      変換に関する詳細な情報を標準出力に出力します。デフォルトではOFFです。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>前バージョン(v1.5)からの主な改良点</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> 引数にワイルドカードが使用できるようになりました(DOS版)。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+    引数のTMDファイルはすべて頂点数が等しくなければなりません。<BR>
+    <B>-n</B>オプション使用時にはさらに法線数も等しくなければなりません。<BR>
+    <BR>
+    各TMDファイルを作る際には、頂点数や頂点の順番が変わらないよう、注意が必要です。３Ｄモデラで、十分に細かいポリゴンで基本となるモデルを作成し、これを元に、面や頂点を移動させて他のモデルを作成してください。それぞれのモデルをDXF形式で保存し、dxf2rsdでRSD形式に変換し、その後それぞれ別個にrsdlinkを適用してTMDファイルを生成してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>差分ファイル形式</B>
+</A>
+</H3>
+<blockquote>
+    mimefiltで生成される差分ファイルの形式は、オブジェクト毎にヘッダと差分情報を持ったブロックが、連結されたバイナリファイルです。(法線差分ファイルも全く同じ形式です。)<BR>
+    <BR>
+    差分ファイル中に生成されるブロック数は、<BR>
+<PRE>        (引数のTMDファイルの数 - 1)×各TMDファイル中のオブジェクト数
+</PRE>
+    です。<BR>
+    <BR>
+    以下に<BR>
+<PRE>        &gt; mimefilt m0.tmd m1.tmd m2.tmd
+</PRE>
+    を実行した場合に生成されるファイルの形式を示します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/mimefn1.gif">
+<P>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

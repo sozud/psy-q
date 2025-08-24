@@ -1,0 +1,93 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsTMDdivTF4LB
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsTMDdivTF4LB
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        両面フラットテクスチャ４角形 (光源計算)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>u_long *<B>GsTMDdivTF4LB </B>(
+TMD_P_TF4 *<I>primtop</I>,
+SVECTOR *<I>vertop</I>,
+SVECTOR *<I>nortop</I>,
+POLY_FT4 *<I>s</I>,
+u_long <I>n</I>,
+u_long <I>shift</I>,
+GsOT *<I>otp</I>,
+DIVPOLYGON4 *<I>divp</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>primtop</I>		TMD PRIMITIVEのスタートアドレス
+<I>vertop</I>		TMD VERTEXの先頭アドレス
+<I>nortop</I>		TMD NORMALの先頭アドレス
+<I>s</I>		GPUパケットバッファのアドレス
+<I>n		</I>処理ポリゴン数
+<I>shift		</I>OTへの割り付け時にZの値を何ビット右にシフトさせるかを設定
+<I>otp		</I>OTへのポインタ
+<I>divp		</I>デバイド用ワークエリア
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TMDファイル上の連続する <I>n </I>個のフラットテクスチャ４角形について <I>divp</I>-&gt;ndivの値のもとに分割し,分割ポリゴンに対し、座標変換、透視変換、表示画面clip、(光源計算)を行ない、ＧＰＵパケットをバッファ上に完成し、ＯＴにリンクする。 backface clipをおこなわない。 <BR>
+<BR>
+    ndiv=1: 2x2分割、ndiv=2: 4x4分割、 <BR>
+    ndiv=3: 8x8分割、ndiv=4: 16x16分割、 <BR>
+    ndiv=5: 32x32分割 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    更新されたGPUパケットバッファのアドレス <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>divp</I>-&gt;ndiv:分割数、<I>divp</I>-&gt;pih,piv:表示画面の解像度(クリップ用)、は設定されているものとする。libgs参照 <BR>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

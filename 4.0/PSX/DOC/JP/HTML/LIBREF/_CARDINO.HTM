@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    _card_info
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libcard.htm">メモリカード ライブラリ (libcard) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    _card_info
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        カードの状態を取得
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>_card_info </B>(
+long <I>chan </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>chan		</I>ポート番号＊１６＋カード番号
+ 		ポート番号（Ａポート:０、Ｂポート:１）
+ 		カード番号（通常０）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>chan </I>で指定したメモリカードの接続をテストする。 <BR>
+    関数自体は非同期処理のため、直ちに終了する。同一のカード差し込み口への多重処理登録は行なえない。処理の完了はイベントで通知。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>原因ディスクリプタ / イベント種別</TD><TD>内容</TD><TR>
+    <TD>SwCARD / EvSpIOE</TD><TD>接続されている</TD><TR>
+    <TD>SwCARD / EvSpTIMOUT</TD><TD>接続されていない</TD><TR>
+    <TD>SwCARD / EvSpNEW</TD><TD>接続後書き込みなし</TD><TR>
+    <TD>SwCARD / EvSpERROR</TD><TD>通信エラー発生</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    処理登録に成功すると1を、以外は0を返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    _new_card()でEvSpNEWを抑制しないでください。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="_cardclr.htm">_card_clear</a>(), <a href="_newcard.htm">_new_card</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,522 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> オプション、リスティング及びエラー</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+オプション、リスティング及びエラー
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+ここでは、ランタイム時のアセンブラオプションの決め方、リスティングの作成及びエラーの処理、並びにリンカへの情報の引き渡し方法について解説します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションを制御するディレクティブとして以下のものがあります。<BR>
+    <BR>
+
+<H1>
+    OPT
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    OPT	&lt;option&gt;[,option]...<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    アセンブラオプションをアプリケーションコード内で使用可能または使用不能にすることができます。<BR>
+    option には、以下のものが指定できます。また、オプション名の後ろに"+"を付加するとそのオプションが ON になり、"-"を付加すると OFF になります。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>オプション名</TD><TD>内容</TD><TD>デフォルト</TD><TR>
+    <TD>AE</TD><TD>自動偶数配置を行なう</TD><TD>ON</TD><TR>
+    <TD>AN</TD><TD>他の数値フォーマットを使用する</TD><TD>OFF</TD><TR>
+    <TD>AT</TD><TD>アセンブル時に temp register を使用する</TD><TD>ON</TD><TR>
+    <TD>C</TD><TD>大文字と小文字の区別</TD><TD>OFF</TD><TR>
+    <TD>D<BR></TD><TD>EQU または SET でのローカルラベルの<BR>スコープ解除</TD><TD>OFF<BR></TD><TR>
+    <TD>E</TD><TD>エラーテキストの表示</TD><TD>ON</TD><TR>
+    <TD>H</TD><TD>自動ハザード回避（NOP の挿入）</TD><TD>OFF</TD><TR>
+    <TD>L</TD><TD>ローカルラベルの開始記号を"!"にする</TD><TD>OFF</TD><TR>
+    <TD>L&lt;c&gt; </TD><TD>ローカルラベルの開始記号を文字ｃにする</TD><TD>OFF</TD><TR>
+    <TD>M</TD><TD>マクロ命令を使用可能にする</TD><TD>ON</TD><TR>
+    <TD>N</TD><TD>ディレイスロットに NOP を挿入する</TD><TD>OFF</TD><TR>
+    <TD>S</TD><TD>代入した名前をラベルとして処理</TD><TD>OFF</TD><TR>
+    <TD>V<BR></TD><TD>ローカルラベルをシンボルファイルに書き<BR>込む</TD><TD>OFF<BR></TD><TR>
+    <TD>W</TD><TD>警告メッセージを表示する</TD><TD>ON</TD><TR>
+    <TD>WS</TD><TD>オペランドにホワイトスペース挿入可</TD><TD>OFF</TD><TR>
+    <TD>X<BR></TD><TD>定義したセクションに XREF があること<BR>を想定</TD><TD>OFF<BR></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PUSHO、POPO<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ASMPSX の"/o"オプションにより制御することも可能です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>opt	an+,l:+,e-
+
+</PRE>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>オプションの詳細</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>AE - 自動偶数配置</B>
+</A>
+</H3>
+<blockquote>
+    DC、DCB、DS 及び RS をハーフワード及びワードフォームを使用しているとき、このオプションを ON にすると、プログラムカウンタが、実行に先立って、続くワード境界に強制的に配置されます。デフォルトは ON です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>AN - 他の数値形式を使用</B>
+</A>
+</H3>
+<blockquote>
+    このオプションを設定すると、16 進、10 進、または２進数を意味する"H"、"D"、あるいは"B"が末尾にある、Ziglog または Intel フォーマットの数値定数を利用することができます。詳しくは RADIX の項を参照してください。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>C - 大文字と小文字の区別</B>
+</A>
+</H3>
+<blockquote>
+    Ｃオプションが設定されていると、ラベル名の文字のケースが有効になります。例えば、"SHOWSTATS"、"ShowStats"、"showstats"はすべて（別のものとして）有効となります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_4">
+<A HREF="#Heading3_1_2"> 2. </A>4 <B>D - ローカルラベルのスコープ解除</B>
+</A>
+</H3>
+<blockquote>
+    このオプションを ON にすると、EQU または SET 命令が検出されると、ローカルラベルのスコープが解除されます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_5">
+<A HREF="#Heading3_1_2"> 2. </A>5 <B>E - エラーテキストの表示</B>
+</A>
+</H3>
+<blockquote>
+    このオプションを ON にすると、アセンブラエラーの原因となった行のテキスト、並びにホストファイル名及び行番号が表示されます。デフォルトは ON です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_6">
+<A HREF="#Heading3_1_2"> 2. </A>6 <B>L&lt;c&gt; - ローカルラベル開始記号の指定</B>
+</A>
+</H3>
+<blockquote>
+    ASMPSX では、ローカルラベルは、先頭の"@"（アットマーク）によって識別されます。このオプションにより、任意の文字ｃを開始記号とすることができます。<BR>
+    例えば"L:"とするとローカルラベル開始記号はコロンになります。なお、"+"と"-"は特殊な意味を持ち、"L+"とすると開始記号はクエスチョンマークとなり、"L-"とすると開始記号はアットマークになります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_7">
+<A HREF="#Heading3_1_2"> 2. </A>7 <B>W - 警告メッセージの表示</B>
+</A>
+</H3>
+<blockquote>
+    このオプションを OFF にすると、警告メッセージの表示が抑制されます。デフォルトは ON です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_8">
+<A HREF="#Heading3_1_2"> 2. </A>8 <B>WS - ホワイトスペース挿入</B>
+</A>
+</H3>
+<blockquote>
+    このオプションを ON にすると、オペランドにホワイトスペース（スペースと TAB）を含めることができます。<BR>
+    例えば<BR>
+<PRE>        dw	1 + 2
+</PRE>
+    は、WS が OFF の場合には１、WS が ON の場合には３となります（何れも単位はワード）。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_9">
+<A HREF="#Heading3_1_2"> 2. </A>9 <B>X - XREF が定義したセクションにあるか</B>
+</A>
+</H3>
+<blockquote>
+    このオプションを ON にすると、XREF が、定義されたセクションの中にあるものと想定します。これにより、セクションが WORD 属性で定義されているか、または WORD 属性をもつグループにある場合は、絶対ワードアドレスへの最適化が実行されます。<BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>その他のディレクティブ</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    <BR>
+
+<H1>
+    PUSHO、POPO
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PUSHO<BR>
+    POPO<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PUSHO 命令は、すべてのアセンブラオプションの現在値を保存します。POPO は、オプションを、以前の状態に復元します。<BR>
+    これらは、１つまたは複数のオプションに一時的な変更を行なう際に使用します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    OPT<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>	pusho
+	opt	ws+,c+
+SetAlts	=	height*time
+SETALTS	dh	256* SetAlts
+	popo
+</PRE>
+</blockquote>
+
+<H1>
+    LIST、NOLIST
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    NONLIST<BR>
+    LIST	&lt;indicator&gt;<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    NOLIST 命令は、リスト生成を OFF にします。LIST 命令は、リスト作成を ON にします。<BR>
+    indicator に指定できるのは"+"（プラス）または"-"（マイナス）です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ASMPSX の引数、または ASMPSX 環境変数によりリスティングファイルが指定された場合、ファイルは最初のパス中に作成されます。<BR>
+    アセンブラは、元々０に設定されている、リスティングの現行ステータス変数を維持します。リストの出力は、この変数が０または正のときのみ行なわれます。リスティングディレクティブは、リスティング変数に次のような影響を及ぼします。<BR>
+    NONLIST は、変数を-１に設定します<BR>
+    パラメータをもたない LIST は、変数を０にします<BR>
+    LIST + は、変数に１を加えます<BR>
+    LIST - は、変数から１を引きます<BR>
+
+     <H4><B>例</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>ディレクティブ</TD><TD>変数値</TD><TD>リスティングの作成</TD><TR>
+    <TD>nolist</TD><TD>-1</TD><TD>No</TD><TR>
+    <TD>list - </TD><TD>-2</TD><TD>No</TD><TR>
+    <TD>list</TD><TD> 0</TD><TD>Yes</TD><TR>
+    <TD>list -</TD><TD>-1</TD><TD>No</TD><TR>
+    <TD>list -</TD><TD>-2</TD><TD>No</TD><TR>
+    <TD>list +</TD><TD>-1</TD><TD>No</TD><TR>
+    <TD>list +</TD><TD> 0</TD><TD>Yes</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<UL>
+         <LI> 下記の環境下では、アセンブラは、自動的にリスティングの作成を抑制します。
+         <LI> マクロの展開中
+         <LI> 条件判断の失敗のため、コードがアセンブルされない場合
+</UL>
+    これらの動作は、それぞれ下記の指定により無視することができます。<BR>
+<UL>
+         <LI> ASMPSX で"/m"オプションを指定し、マクロの展開をリストするよう指示する
+         <LI> ASMPSX で"/c"オプションを指定し、条件判断により無視されたコードをリストするよう指示する
+</UL>
+</blockquote>
+
+<H1>
+    INFORM、FAIL
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INFORM	&lt;severity&gt;,&lt;text&gt;[,expressions]<BR>
+    FAIL<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    INFORM は、オプションとして式 expressions の内容で置き換えられるパラメータを含む、テキスト text に入っているエラーメッセージを表示します。その後のアセンブラの動作は、重大度 severity の状態に基づいて規定されます。<BR>
+    severity に指定できる値とその内容は次の通りです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>内容</TD><TR>
+    <TD>0</TD><TD>アセンブラは、単にテキストを表示します。</TD><TR>
+    <TD>1</TD><TD>アセンブラは、テキストを表示し、警告を発します。</TD><TR>
+    <TD>2</TD><TD>アセンブラは、テキストを表示し、エラーを起こします。</TD><TR>
+    <TD>3<BR></TD><TD>アセンブラは、テキストを表示し、致命的なエラーを起こし、アセンブル<BR>を中止します。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+    FAIL は、定義済みステートメントであり、他のアセンブラとの互換性を保つために採用されています。これは、"Assembly Failed"メッセージを表示し、アセンブルを中止します。<BR>
+    これらのディレクティブにより、アセンブラが認識できないエラー状態が検出された場合でも、適切なメッセージを表示することができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    text には、"%d"、"%h"、"%s"パラメータを含めることができます。これらは続く式 expression に記述された 10 進、16 進または文字列値で置き換えられます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>TableSize	equ	TableEnd-TableStart
+MaxTable	equ	512
+	if	TableSize&gt;MaxTable
+	inform	0,"Table starts at %h and &
+		is%h bytes long",&
+		TableStart,TableSize
+	inform	3,"Table Limit Violation"
+	endif
+</PRE>
+</blockquote>
+
+<H1>
+    XDEF, XREF、PUBLIC
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    XDEF	&lt;symbol&gt;[,symbol]<BR>
+    XREF	&lt;symbol&gt;[,symbol]<BR>
+    PUBLIC	on<BR>
+    PUBLIC	off<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    別のサブプログラムで定義されたシンボルを参照するために、複数のサブプログラムをリンクしている場合は、XDEF、XREF、及び PUBLIC をコマンドを使用します。<BR>
+    XDEF は、symbol を外部シンボルとして定義します。すなわち、symbol を他のプログラムからも参照可能とします。<BR>
+    XREF は、symbol を外部シンボルとして扱います。すなわち、symbol が他のプログラムで定義されているものとして扱います。<BR>
+    PUBLIC は、オペランドに on を指定すると、off が指定されるまで、以降のシンボルをすべて外部シンボルとして扱います。<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    アセンブラは、XREF されたシンボルを含む式を、完全に評価することはできませんが、リンカがこれを解決します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    次に示すのは、XDEF、XREF を使った例です。<BR>
+
+     <H4><B>例１</B></H4>
+
+<PRE>xdef	Scores,Scorers
+	xref	PointsTable
+	xdef	PointsTable
+	xref	Scores,Scorers
+</PRE>
+    また、PUBLIC を用いた例は以下のようになります。<BR>
+
+     <H4><B>例２</B></H4>
+
+<PRE>	public	on
+Origin	=	MainChar
+Force	dh	speed*origin
+Rebound	dh	45*angle
+	public	off
+</PRE>
+</blockquote>
+
+<H1>
+    GLOBAL
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GLOBAL	&lt;symbol&gt;[,symbol]<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GLOBAL ディテクティブは、シンボル symbol を XDEF、XREF のいずれにも定義することができます。<BR>
+    シンボルが GLOBAL として定義され、後にラベルとして定義された場合は、XDEF として扱われます。シンボルが一切定義されない場合は XREF として扱われます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 参照 -->
+<B>参照</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    XREF、XDEF、PUBLIC<BR>
+    <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    このディレクティブは、ヘッダファイルで利用すると便利です。すなわち、別々にアセンブルされるサブプログラムで、すべてのグローバルシンボルを定義する１つのヘッダファイルを共有することができるからです。<BR>
+    後でサブプログラムで定義されるシンボルは XDEF され、他のシンボルは XREF 扱いとなります。<BR>
+</blockquote>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

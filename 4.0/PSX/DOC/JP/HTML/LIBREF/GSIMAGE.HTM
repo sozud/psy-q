@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsIMAGE
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsIMAGE
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        イメージデータ構成情報
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>struct <B>GsIMAGE</B> {
+		short <I>pmode</I>;
+		short <I>px</I>, <I>py</I>;
+		unsigned short <I>pw</I>, <I>ph</I>;
+		unsigned long * <I>pixcel</I>;
+		short <I>cx</I>, <I>cy</I>;
+		unsigned short <I>cw</I>, <I>ch</I>;
+		unsigned long * <I>clut</I>;
+}
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>pmode</I>		ピクセルモード
+ 		0: 4bit CLUT
+ 		1: 8bit CLUT
+ 		2: 16bit DIRECT
+ 		3: 24bit DIRECT
+ 		4: 多モード混在
+<I>px</I>, <I>py</I>		ピクセルデータの格納位置
+<I>pw</I>, <I>ph</I>		ピクセルデータの横幅／高さ
+<I>pivel</I>		ピクセルデータへのポインタ
+<I>cx</I>, <I>cy</I>		CLUT データの格納位置
+<I>cw</I>, <I>ch</I>		CLUT データの横幅／高さ
+<I>clu</I>t		CLUT データへのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    GsGetTimInfo() 関数によって TIM フォーマットデータの情報が格納される構造体。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

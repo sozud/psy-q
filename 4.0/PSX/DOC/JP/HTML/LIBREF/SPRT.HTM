@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SPRT
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SPRT
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        任意サイズスプライト
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		u_long	<I>tag</I>;
+		u_char	<I>r0</I>, <I>g0</I>, <I>b0</I>, <I>code</I>;
+		short	<I>x0</I>, <I>y0</I>;
+		u_char	<I>u0</I>, <I>v0</I>;
+		u_short	<I>clut</I>;
+		short	<I>w</I>, <I>h</I>;
+} <B>SPRT</B>;	
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tag</I>		次のプリミティブへのフック（予約）
+<I>code</I>		プリミティブ ID
+<I>r0</I>,<I>g0</I>,<I>b0</I>	プリミティブの輝度値
+<I>x0</I>,<I>y0</I>		プリミティブの左上端点頂点座標
+<I>u0</I>,<I>v0</I>		プリミティブの左上端点テクスチャ座標
+<I>clut</I>		CLUT ID (4bit/8bit モード時のみ）
+<I>w</I>, <I>h</I>		プリミティ幅・高さ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <B>SPRT</B> は、矩形領域を等倍でのテクスチャマッピングつきで描画する。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    描画速度は、POLY_FT4 プリミティブよりも高速。 <BR>
+    スプライトプリミティブは、 tpage メンバを持たないため、テクスチャページは直前に指定されたもの（カレントテクスチャページ）がそのまま使用される。 <BR>
+    <I>u0</I>,<I>w</I> は偶数の指定のみ。スプライトプリミティブでは、描画を高速に行なうために 2pixel 単位で処理をおこなっているため、<I>u0</I> 座標は 2 の倍数しか指定できない。 <BR>
+    u に奇数を指定した場合 <BR>
+<BR>
+    4bit  テクスチャ	16 pixel <BR>
+    8bit  テクスチャ	 8 pixel <BR>
+    16bit テクスチャ	 4 pixel <BR>
+<BR>
+    の間隔で誤ったテクスチャピクセルが使用される。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,558 @@
+<HTML>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 基本サウンド ライブラリ (libspu)</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm" TARGET="_top"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm" TARGET="_top"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2">
+<H1>
+基本サウンド ライブラリ (libspu) 関数一覧
+<HR>
+</H1>
+</A>
+<blockquote>
+
+<TABLE CELLPADDING=0>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>構造体</TD><TR>
+<TD></TD><TD>
+<A HREF="scapuomr.htm" _TARGET="main"> SpuCommonAttr </A><BR>
+</TD><TD> </TD>
+<TD>共通属性</TD><TR>
+<TD></TD><TD>
+<A HREF="sddpueca.htm" _TARGET="main"> SpuDecodedData </A><BR>
+</TD><TD> </TD>
+<TD>デコード・データ</TD><TR>
+<TD></TD><TD>
+<A HREF="spuenv.htm" _TARGET="main"> SpuEnv </A><BR>
+</TD><TD> </TD>
+<TD>基本サウンドライブラリ環境属性</TD><TR>
+<TD></TD><TD>
+<A HREF="seapuxtr.htm" _TARGET="main"> SpuExtAttr </A><BR>
+</TD><TD> </TD>
+<TD>外部入力属性</TD><TR>
+<TD></TD><TD>
+<A HREF="srapuevr.htm" _TARGET="main"> SpuReverbAttr </A><BR>
+</TD><TD> </TD>
+<TD>リバーブ属性</TD><TR>
+<TD></TD><TD>
+<A HREF="spustenv.htm" _TARGET="main"> SpuStEnv </A><BR>
+</TD><TD> </TD>
+<TD>SPUストリーミング環境属性</TD><TR>
+<TD></TD><TD>
+<A HREF="ssvaputr.htm" _TARGET="main"> SpuStVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>SPUストリーミングボイス属性</TD><TR>
+<TD></TD><TD>
+<A HREF="svapuoir.htm" _TARGET="main"> SpuVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイス属性</TD><TR>
+<TD></TD><TD>
+<A HREF="svpuolue.htm" _TARGET="main"> SpuVolume </A><BR>
+</TD><TD> </TD>
+<TD>ボリューム</TD><TR>
+<TD><IMG SRC="gif/grpin.gif"></TD>
+<TD>関数</TD><TR>
+<TD></TD><TD>
+<A HREF="scrwapua.htm" _TARGET="main"> SpuClearReverbWorkArea </A><BR>
+</TD><TD> </TD>
+<TD>リバーブワークエリアのクリア</TD><TR>
+<TD></TD><TD>
+<A HREF="spuflush.htm" _TARGET="main"> SpuFlush </A><BR>
+</TD><TD> </TD>
+<TD>キューに溜めたイベントをフラッシュする</TD><TR>
+<TD></TD><TD>
+<A HREF="spufree.htm" _TARGET="main"> SpuFree </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファ内に確保されている領域を解放</TD><TR>
+<TD></TD><TD>
+<A HREF="sgakspus.htm" _TARGET="main"> SpuGetAllKeysStatus </A><BR>
+</TD><TD> </TD>
+<TD>全てのボイスに対してキーオン/キーオフを診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgcapuer.htm" _TARGET="main"> SpuGetCommonAttr </A><BR>
+</TD><TD> </TD>
+<TD>全ボイス共通属性を診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgccdmpx.htm" _TARGET="main"> SpuGetCommonCDMix </A><BR>
+</TD><TD> </TD>
+<TD>CD 入力オン/オフの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgccdrpb.htm" _TARGET="main"> SpuGetCommonCDReverb </A><BR>
+</TD><TD> </TD>
+<TD>CD 入力リバーブオン/オフの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgccdvpe.htm" _TARGET="main"> SpuGetCommonCDVolume </A><BR>
+</TD><TD> </TD>
+<TD>CD 入力音量の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgcmvpue.htm" _TARGET="main"> SpuGetCommonMasterVolume </A><BR>
+</TD><TD> </TD>
+<TD>マスタ音量の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgcmvapr.htm" _TARGET="main"> SpuGetCommonMasterVolumeAttr </A><BR>
+</TD><TD> </TD>
+<TD>マスタ音量/マスタ音量モードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgcmvpux.htm" _TARGET="main"> SpuGetCommonMasterVolumeX </A><BR>
+</TD><TD> </TD>
+<TD>現在のマスタ音量の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgirpueq.htm" _TARGET="main"> SpuGetIRQ </A><BR>
+</TD><TD> </TD>
+<TD>割り込みリクエストのオン/オフの状態を診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgirqapr.htm" _TARGET="main"> SpuGetIRQAddr </A><BR>
+</TD><TD> </TD>
+<TD>割り込みリクエストのアドレスの診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgkspues.htm" _TARGET="main"> SpuGetKeyStatus </A><BR>
+</TD><TD> </TD>
+<TD>指定したボイスに対してキーオン/キーオフを診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgmpuete.htm" _TARGET="main"> SpuGetMute </A><BR>
+</TD><TD> </TD>
+<TD>サウンドのミュートの状態を診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgncpuek.htm" _TARGET="main"> SpuGetNoiseClock </A><BR>
+</TD><TD> </TD>
+<TD>ノイズ音源のクロックの診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgnvpuee.htm" _TARGET="main"> SpuGetNoiseVoice </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対するノイズ音源のオン/オフを診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgplfove.htm" _TARGET="main"> SpuGetPitchLFOVoice </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対するピッチLFOのオン/オフを診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrpuetb.htm" _TARGET="main"> SpuGetReverb </A><BR>
+</TD><TD> </TD>
+<TD>リバーブの状態を診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrmdtpe.htm" _TARGET="main"> SpuGetReverbModeDelayTime </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのディレイタイムの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrmdpuh.htm" _TARGET="main"> SpuGetReverbModeDepth </A><BR>
+</TD><TD> </TD>
+<TD>リバーブの深さの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrmfpuk.htm" _TARGET="main"> SpuGetReverbModeFeedback </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのフィードバックの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrmppum.htm" _TARGET="main"> SpuGetReverbModeParam </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのモード、及びパラメータの診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrmtpue.htm" _TARGET="main"> SpuGetReverbModeType </A><BR>
+</TD><TD> </TD>
+<TD>リバーブモードタイプの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="sgrvpuee.htm" _TARGET="main"> SpuGetReverbVoice </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対するリバーブのオン/オフを診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgtmpuee.htm" _TARGET="main"> SpuGetTransferMode </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファの転送モードの診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sgtsapur.htm" _TARGET="main"> SpuGetTransferStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファの転送先/転送元先頭アドレスの診断</TD><TR>
+<TD></TD><TD>
+<A HREF="vgadsr.htm" _TARGET="main"> SpuGetVoiceADSR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgadsrar.htm" _TARGET="main"> SpuGetVoiceADSRAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR と各モードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgar.htm" _TARGET="main"> SpuGetVoiceAR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Attack Rate の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgarattr.htm" _TARGET="main"> SpuGetVoiceARAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Attack Rate / Attack Rate モードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgattr.htm" _TARGET="main"> SpuGetVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイスの属性を診断</TD><TR>
+<TD></TD><TD>
+<A HREF="vgdr.htm" _TARGET="main"> SpuGetVoiceDR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Decay Rate の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgenvele.htm" _TARGET="main"> SpuGetVoiceEnvelope </A><BR>
+</TD><TD> </TD>
+<TD>現在のエンベロープ値の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgeanver.htm" _TARGET="main"> SpuGetVoiceEnvelopeAttr </A><BR>
+</TD><TD> </TD>
+<TD>現在のエンベロープ値とキーオン/キーオフの状態を取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vglsaoor.htm" _TARGET="main"> SpuGetVoiceLoopStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>波形データのサウンドバッファ内ループ開始アドレスの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgnote.htm" _TARGET="main"> SpuGetVoiceNote </A><BR>
+</TD><TD> </TD>
+<TD>音程 (ノート指定) の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgpitch.htm" _TARGET="main"> SpuGetVoicePitch </A><BR>
+</TD><TD> </TD>
+<TD>音程 (ピッチ指定) の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgrr.htm" _TARGET="main"> SpuGetVoiceRR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Release Rate の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgrrattr.htm" _TARGET="main"> SpuGetVoiceRRAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Release Rate / Release Rate モードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgsl.htm" _TARGET="main"> SpuGetVoiceSL </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Sustain Level の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgsr.htm" _TARGET="main"> SpuGetVoiceSR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Sustain Rate の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgsrattr.htm" _TARGET="main"> SpuGetVoiceSRAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Sustain Rate / Sustain Rate モードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgsnampe.htm" _TARGET="main"> SpuGetVoiceSampleNote </A><BR>
+</TD><TD> </TD>
+<TD>波形データのサンプルノートの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgsatarr.htm" _TARGET="main"> SpuGetVoiceStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>波形データのサウンドバッファ内先頭アドレスの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgvolume.htm" _TARGET="main"> SpuGetVoiceVolume </A><BR>
+</TD><TD> </TD>
+<TD>ボイス音量の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgvaolur.htm" _TARGET="main"> SpuGetVoiceVolumeAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイス音量/音量モードの取得</TD><TR>
+<TD></TD><TD>
+<A HREF="vgvolumx.htm" _TARGET="main"> SpuGetVoiceVolumeX </A><BR>
+</TD><TD> </TD>
+<TD>現在のボイス音量の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="spuinit.htm" _TARGET="main"> SpuInit </A><BR>
+</TD><TD> </TD>
+<TD>SPUの初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sihpunit.htm" _TARGET="main"> SpuInitHot </A><BR>
+</TD><TD> </TD>
+<TD>SPUの初期化(ホットリセット)</TD><TR>
+<TD></TD><TD>
+<A HREF="simpunic.htm" _TARGET="main"> SpuInitMalloc </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファメモリ管理機構の初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="sirwarpd.htm" _TARGET="main"> SpuIsReverbWorkAreaReserved </A><BR>
+</TD><TD> </TD>
+<TD>リバーブワークエリアが予約されているかチェック / リバーブワークエリアの予約状況の各種診断</TD><TR>
+<TD></TD><TD>
+<A HREF="sitcpusd.htm" _TARGET="main"> SpuIsTransferCompleted </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファへの転送終了の診断</TD><TR>
+<TD></TD><TD>
+<A HREF="smpuallc.htm" _TARGET="main"> SpuMalloc </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファ内に領域を確保</TD><TR>
+<TD></TD><TD>
+<A HREF="smwsapur.htm" _TARGET="main"> SpuMallocWithStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファ内の指定したアドレスから領域を確保</TD><TR>
+<TD></TD><TD>
+<A HREF="sngvapur.htm" _TARGET="main"> SpuNGetVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイス属性の取得</TD><TR>
+<TD></TD><TD>
+<A HREF="snsvapur.htm" _TARGET="main"> SpuNSetVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイス属性の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="spuquit.htm" _TARGET="main"> SpuQuit </A><BR>
+</TD><TD> </TD>
+<TD>SPU処理の終了</TD><TR>
+<TD></TD><TD>
+<A HREF="srgaksps.htm" _TARGET="main"> SpuRGetAllKeysStatus </A><BR>
+</TD><TD> </TD>
+<TD>指定した範囲のボイスに対してキーオン/キーオフを診断</TD><TR>
+<TD></TD><TD>
+<A HREF="srsvapur.htm" _TARGET="main"> SpuRSetVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>指定した範囲の各ボイスの属性を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="spuread.htm" _TARGET="main"> SpuRead </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファからメインメモリへの転送</TD><TR>
+<TD></TD><TD>
+<A HREF="srddpuea.htm" _TARGET="main"> SpuReadDecodedData </A><BR>
+</TD><TD> </TD>
+<TD>SPUがデコードしたサウンドデータの転送+</TD><TR>
+<TD></TD><TD>
+<A HREF="srrwapua.htm" _TARGET="main"> SpuReserveReverbWorkArea </A><BR>
+</TD><TD> </TD>
+<TD>リバーブワークエリアの予約/解放</TD><TR>
+<TD></TD><TD>
+<A HREF="sscapuer.htm" _TARGET="main"> SpuSetCommonAttr </A><BR>
+</TD><TD> </TD>
+<TD>全ボイス共通属性を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssccdmpx.htm" _TARGET="main"> SpuSetCommonCDMix </A><BR>
+</TD><TD> </TD>
+<TD>CD 入力オン/オフの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssccdrpb.htm" _TARGET="main"> SpuSetCommonCDReverb </A><BR>
+</TD><TD> </TD>
+<TD>CD 入力リバーブオン/オフの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssccdvpe.htm" _TARGET="main"> SpuSetCommonCDVolume </A><BR>
+</TD><TD> </TD>
+<TD>CD 入力音量の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sscmvpue.htm" _TARGET="main"> SpuSetCommonMasterVolume </A><BR>
+</TD><TD> </TD>
+<TD>マスタ音量の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sscmvapr.htm" _TARGET="main"> SpuSetCommonMasterVolumeAttr </A><BR>
+</TD><TD> </TD>
+<TD>マスタ音量/マスタ音量モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssepuetv.htm" _TARGET="main"> SpuSetEnv </A><BR>
+</TD><TD> </TD>
+<TD>基本サウンドライブラリの環境設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssirpueq.htm" _TARGET="main"> SpuSetIRQ </A><BR>
+</TD><TD> </TD>
+<TD>割り込みリクエストのオン/オフ</TD><TR>
+<TD></TD><TD>
+<A HREF="ssirqapr.htm" _TARGET="main"> SpuSetIRQAddr </A><BR>
+</TD><TD> </TD>
+<TD>割り込みリクエストのアドレスの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssirqcpk.htm" _TARGET="main"> SpuSetIRQCallback </A><BR>
+</TD><TD> </TD>
+<TD>割り込みリクエスト時のCallback関数の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sskpuety.htm" _TARGET="main"> SpuSetKey </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対してキーオン/キーオフを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sskowapr.htm" _TARGET="main"> SpuSetKeyOnWithAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイスに対してキーオンを属性付きで設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssmpuete.htm" _TARGET="main"> SpuSetMute </A><BR>
+</TD><TD> </TD>
+<TD>サウンドのミュートオン/オフ</TD><TR>
+<TD></TD><TD>
+<A HREF="ssncpuek.htm" _TARGET="main"> SpuSetNoiseClock </A><BR>
+</TD><TD> </TD>
+<TD>ノイズ音源のクロックの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssnvpuee.htm" _TARGET="main"> SpuSetNoiseVoice </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対してノイズ音源のオン/オフを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssplfove.htm" _TARGET="main"> SpuSetPitchLFOVoice </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対してピッチLFOのオン/オフを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrpuetb.htm" _TARGET="main"> SpuSetReverb </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのオン/オフ</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrdpueh.htm" _TARGET="main"> SpuSetReverbDepth </A><BR>
+</TD><TD> </TD>
+<TD>リバーブの深さパラメータを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrmdtpe.htm" _TARGET="main"> SpuSetReverbModeDelayTime </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのディレイタイムの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrmdpuh.htm" _TARGET="main"> SpuSetReverbModeDepth </A><BR>
+</TD><TD> </TD>
+<TD>リバーブの深さの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrmfpuk.htm" _TARGET="main"> SpuSetReverbModeFeedback </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのフィードバックの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrmppum.htm" _TARGET="main"> SpuSetReverbModeParam </A><BR>
+</TD><TD> </TD>
+<TD>リバーブのモード、及びパラメータを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrmtpue.htm" _TARGET="main"> SpuSetReverbModeType </A><BR>
+</TD><TD> </TD>
+<TD>リバーブモードタイプの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssrvpuee.htm" _TARGET="main"> SpuSetReverbVoice </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスに対してリバーブのオン/オフを設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sstcpuek.htm" _TARGET="main"> SpuSetTransferCallback </A><BR>
+</TD><TD> </TD>
+<TD>DMA転送終了時のCallback関数の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sstmpuee.htm" _TARGET="main"> SpuSetTransferMode </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファへの転送モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sstsapur.htm" _TARGET="main"> SpuSetTransferStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファの転送先/転送元先頭アドレスの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsadsr.htm" _TARGET="main"> SpuSetVoiceADSR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsadsrar.htm" _TARGET="main"> SpuSetVoiceADSRAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR と各モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsar.htm" _TARGET="main"> SpuSetVoiceAR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Attack Rate の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsarattr.htm" _TARGET="main"> SpuSetVoiceARAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Attack Rate / Attack Rate モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsattr.htm" _TARGET="main"> SpuSetVoiceAttr </A><BR>
+</TD><TD> </TD>
+<TD>各ボイスの属性を設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsdr.htm" _TARGET="main"> SpuSetVoiceDR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Decay Rate の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vslsaoor.htm" _TARGET="main"> SpuSetVoiceLoopStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>波形データのサウンドバッファ内ループ開始アドレスの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsnote.htm" _TARGET="main"> SpuSetVoiceNote </A><BR>
+</TD><TD> </TD>
+<TD>音程 (ノート指定) の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vspitch.htm" _TARGET="main"> SpuSetVoicePitch </A><BR>
+</TD><TD> </TD>
+<TD>音程 (ピッチ指定) の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsrr.htm" _TARGET="main"> SpuSetVoiceRR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Release Rate の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsrrattr.htm" _TARGET="main"> SpuSetVoiceRRAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Release Rate / Release Rate モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vssl.htm" _TARGET="main"> SpuSetVoiceSL </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Sustain Level の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vssr.htm" _TARGET="main"> SpuSetVoiceSR </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Sustain Rate の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vssrattr.htm" _TARGET="main"> SpuSetVoiceSRAttr </A><BR>
+</TD><TD> </TD>
+<TD>ADSR Sustain Rate / Sustain Rate モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vssnampe.htm" _TARGET="main"> SpuSetVoiceSampleNote </A><BR>
+</TD><TD> </TD>
+<TD>波形データのサンプルノートの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vssatarr.htm" _TARGET="main"> SpuSetVoiceStartAddr </A><BR>
+</TD><TD> </TD>
+<TD>波形データのサウンドバッファ内先頭アドレスの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsvolume.htm" _TARGET="main"> SpuSetVoiceVolume </A><BR>
+</TD><TD> </TD>
+<TD>ボイス音量の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="vsvaolur.htm" _TARGET="main"> SpuSetVoiceVolumeAttr </A><BR>
+</TD><TD> </TD>
+<TD>ボイス音量/音量モードの設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssgsputs.htm" _TARGET="main"> SpuStGetStatus </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングの状態の診断</TD><TR>
+<TD></TD><TD>
+<A HREF="ssgvspus.htm" _TARGET="main"> SpuStGetVoiceStatus </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングで使用されているボイスの診断</TD><TR>
+<TD></TD><TD>
+<A HREF="ssiputnt.htm" _TARGET="main"> SpuStInit </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングの初期化</TD><TR>
+<TD></TD><TD>
+<A HREF="ssqputut.htm" _TARGET="main"> SpuStQuit </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングの終了</TD><TR>
+<TD></TD><TD>
+<A HREF="ssspfcpk.htm" _TARGET="main"> SpuStSetPreparationFinishedCallback </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングにおけるストリームの前準備で行われるデータ転送終了時の callback 関数の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssssfcpk.htm" _TARGET="main"> SpuStSetStreamFinishedCallback </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングにおける各ストリームの処理終了時の callback 関数の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="ssstfcpk.htm" _TARGET="main"> SpuStSetTransferFinishedCallback </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングにおける全てのストリームに対するストリームバッファへの 1 回の転送の終了時の callback 関数の設定</TD><TR>
+<TD></TD><TD>
+<A HREF="sstputrr.htm" _TARGET="main"> SpuStTransfer </A><BR>
+</TD><TD> </TD>
+<TD>SPU ストリーミングにおけるストリームの前準備、および開始</TD><TR>
+<TD></TD><TD>
+<A HREF="spustart.htm" _TARGET="main"> SpuStart </A><BR>
+</TD><TD> </TD>
+<TD>SPU処理の開始</TD><TR>
+<TD></TD><TD>
+<A HREF="spuwrite.htm" _TARGET="main"> SpuWrite </A><BR>
+</TD><TD> </TD>
+<TD>メインメモリからサウンドバッファへの転送</TD><TR>
+<TD></TD><TD>
+<A HREF="swpurit0.htm" _TARGET="main"> SpuWrite0 </A><BR>
+</TD><TD> </TD>
+<TD>サウンドバッファのクリア</TD><TR>
+<TD></TD><TD>
+<A HREF="swppuriy.htm" _TARGET="main"> SpuWritePartly </A><BR>
+</TD><TD> </TD>
+<TD>メインメモリからサウンドバッファへの分割転送</TD><TR>
+</TABLE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,396 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>rsdlink </B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    アーティスト向け３Ｄモデリングデータファイル(RSDファイル)を、libgsで扱える３Ｄモデリングデータファイル(TMDファイル)に変換します。<BR>
+    DOS版とSGI版があります。ここでは、1996/Apr/1付けの Version 3.7 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>rsdlink [options] <I>rsd-names</I> ...</B></H4>
+
+
+     <H4><B>rsdlink [options] <I>rsd-names</I> [options] <I>rsd-names</I> [options] ....</B></H4>
+
+
+     <H4><B>rsdlink [options] <I>arg-files</I> ...</B></H4>
+
+
+     <H4><B>rsdlink [options] <I>prj-file</I></B></H4>
+
+    <BR>
+      <BLOCKQUOTE>
+      引数として指定した複数のRSDデータをリンクして１つのTMDファイルを作成します。各RSDデータ毎に倍率と平行移動量を設定することができます(例１参照)。 <BR>
+      引数のRSD名がパスを含まない場合、まず現在のディレクトリ(.\)を探し、次に .\RSD ディレクトリを探します。<BR>
+      引数が多くなる場合など、引数をファイル(*.arg)に書いて与えることが可能です。RSDファイル名の".rsd"は省略可能ですが、引数ファイル名の".arg"は省略できません(例２参照)。<BR>
+      同様にプロジェクトファイル(*.prj)を直接与えることができます。この場合は、プロジェクトファイル中のRSDをすべて引数で与えた場合と同じになります。同時に-id オプションが指定されたとみなします。".prj"は省略できません。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-o  <I>file-name</I></B></H4>
+
+      <BLOCKQUOTE>
+      出力ファイル名を指定します。デフォルトは"a.tmd"です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-s  <I>factor</I>または -sc<I> factor</I></B></H4>
+
+      <BLOCKQUOTE>
+      次の引数以降(*)のRSDデータを拡大縮小します。<BR>
+      倍率は２のn乗に丸められます。デフォルトは1.0です。TMDフォーマットでは座標値は16bit整数であるため、この座標系におさまるように、適当な倍率を設定しなければなりません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-t  <I>x y z</I></B></H4>
+
+      <BLOCKQUOTE>
+      次の引数以降(*)のRSDデータの座標値を平行移動します。デフォルトは(0 0 0)です。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-id <I>PRJ-file</I></B></H4>
+
+      <BLOCKQUOTE>
+      モデリングデータを管理するプロジェクトファイル(model.prj)を指定すると、TMDファイル中に生成される各オブジェクトに対してオブジェクトID番号の配列を作成します。結果はC言語のヘッダファイルとして現在のディレクトリに作成されます。出力ファイル名はTMDファイル名の拡張子を".h"にしたものです(例３参照)。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-info</B></H4>
+
+      <BLOCKQUOTE>
+      変換中のオブジェクトの種類や頂点座標値、テクスチャ情報などの非常に詳細な情報を標準出力に出力します(例５参照)。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      ポリゴン数など変換に関する詳細な情報を標準出力に出力します。また、各RSD毎に、PS-X座標系におけるおおよその大きさ("Range : 頂点(x, y, z)の最小値-最大値")も出力されますので、ターゲットボックスで表示する前に、位置や大きさを確認することができます(例４参照)。<BR>
+      <BR>
+      (*)注意 -s および -t は、再度指定されない限りそれ以降に現れるRSDすべてに対して有効です。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>前バージョン(ver.3.65)からの主な改良点</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> より多くのRSDをリンクできるようになりました。これまでは500RSD程度を上限としていましたが、現在はメモリの許す限りリンク可能です。DOS版の場合、コンベンショナルメモリの空き容量によりますが、2000RSD程度まで可能です。
+         <LI> RSDファイル中に記述されたファイルが見つからない場合、まずファイル名をすべて大文字に変換して探します。それでも見つからない場合、すべて小文字に変換して探します(SGI版のみ)。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>制約</B>
+</A>
+</H3>
+<blockquote>
+    現バージョンは以下の制約を持っています。<BR>
+    <BR>
+<UL>
+         <LI> １つのRSDデータのポリゴン数が非常に多いとき、リンクできないことがあります。ポリゴン数の上限値は、頂点数や法線数、空きメモリの容量によっても変わりますが、約5000ポリゴンとお考えください(DOS版のみ)。但し、この制限は「１つのRSD」に対してのみ存在し、リンクするRSDの数、生成されるTMD全体のポリゴン数には実用上制限はありません。
+         <LI> プロジェクトファイル中に現れないRSDをリンクすると、ヘッダファイルには"-1"が割り当てられます。
+         <LI> プロジェクトファイルを指定する場合、同じRSDを２度以上指定すると、一つ目のRSDに対してのみID値が割り当てられ、２つ目以降は"-1"になります。
+         <LI> 入力RSDファイルは１行1024バイト以下でなければなりません。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>注意</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> アニメーションツールおよびmktodが出力するTODファイルを利用したプログラムを作成する場合、平行移動(<B>-t</B>)や拡大縮小(<B>-s</B>)オプションは使用しないで下さい。TODファイルにはRSDオブジェクトに対する移動量や倍率が格納されているため、RSDからTMDに変換する際に移動や拡大縮小を行なうと、整合がとれなくなります。
+         <LI> 基本的に平行移動や拡大縮小は、dxf2rsd(-sc -t)やrsdform(-s -t)を利用して、RSD形式で行なうことをお勧めします。より正確で扱いやすいデータになります。
+         <LI> rsdlinkはファイル入出力を小さな単位で行います。そのため、ネットワーク上のファイルを入出力ファイルに指定すると、非常に時間がかかる場合があります。大きなRSDデータをリンクする際には、できるだけローカルディスク上で行ってください。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_7">
+<A HREF="#Top">↑</A>7 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+<UL>
+         <LI> .rsdファイルに記述されたテクスチャファイル(TIMファイル）は、RSDファイルと同じディレクトリ(.\)、または..\TIMディレクトリになければなりません。rsdlinkはこの順にTIMファイルを探します。
+         <LI> RSDがrsdlinkによってどのタイプのTMDに変換されるのかを、以下の表に記します。「マテリアル」や「光源計算」の有無などの項目は、RSDのMATファイルに記述されています(但し、「ポリゴンタイプ」はPLYファイルに数字で指定されています)。0x....はTMDパケットのヘッダです。なお、表では、半透明でない片面ポリゴンの場合のみ記しています。半透明や両面ポリゴンの場合は、ヘッダの値が変わりますが、パケットとしては同じものになります。詳細は、RSDフォーマットおよびTMDフォーマットのドキュメントを御覧下さい。
+<CENTER>
+</UL>
+        <H4><B>表 1 RSD-&gt;TMD変換対応表</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>マテリアル+<BR>ポリゴンタイプ</TD><TD>光源計算あり<BR>Flat</TD><TD>光源計算あり<BR>Gouraud</TD><TD>光源計算なし<BR>Flat</TD><TD>光源計算なし<BR>Gouraud</TD><TR>
+    <TD>C+三角形</TD><TD> 0x20000304</TD><TD> 0x30000406</TD><TD> 0x21010304</TD><TD>(0x21010304)</TD><TR>
+    <TD>G+三角形</TD><TD> 0x20040506</TD><TD> 0x30040606</TD><TD>(0x31010506)</TD><TD> 0x31010506</TD><TR>
+    <TD>T+三角形</TD><TD> 0x24000507</TD><TD> 0x34000609</TD><TD>(0x25010607)</TD><TD>(0x25010607)</TD><TR>
+    <TD>D+三角形</TD><TD>(0x24000507)</TD><TD>(0x34000609)</TD><TD> 0x25010607</TD><TD>(0x25010607)</TD><TR>
+    <TD>H+三角形</TD><TD>(0x24000507)</TD><TD>(0x34000609)</TD><TD>(0x35010809)</TD><TD> 0x35010809</TD><TR>
+    <TD>C+四角形</TD><TD> 0x28000405</TD><TD> 0x38000508</TD><TD> 0x29010305</TD><TD>(0x29010305)</TD><TR>
+    <TD>G+四角形</TD><TD> 0x28040708</TD><TD> 0x38040808</TD><TD>(0x39010608)</TD><TD> 0x39010608</TD><TR>
+    <TD>T+四角形</TD><TD> 0x2c000709</TD><TD> 0x3c00080c</TD><TD>(0x2d010709)</TD><TD>(0x2d010709)</TD><TR>
+    <TD>D+四角形</TD><TD>(0x2c000709)</TD><TD>(0x3c00080c)</TD><TD> 0x2d010709</TD><TD>(0x2d010709)</TD><TR>
+    <TD>H+四角形</TD><TD>(0x2c000709)</TD><TD>(0x3c00080c)</TD><TD>(0x3d010a0c)</TD><TD> 0x3d010a0c</TD><TR>
+    <TD>C+ライン</TD><TD>(0x40010203)</TD><TD>(0x40010203)</TD><TD> 0x40010203</TD><TD>(0x40010203)</TD><TR>
+    <TD>G+ライン</TD><TD>(0x50010304)</TD><TD>(0x50010304)</TD><TD>(0x50010304)</TD><TD> 0x50010304</TD><TR>
+    <TD>T+スプライト</TD><TD>(0x64010305)</TD><TD>(0x64010305)</TD><TD> 0x64010305</TD><TD>(0x64010305)</TD><TR>
+    <TD>1x1スプライト</TD><TD>(0x6c010204)</TD><TD>(0x6c010204)</TD><TD> 0x6c010204</TD><TD>(0x6c010204)</TD><TR>
+    <TD>8x8スプライト</TD><TD>(0x74010204)</TD><TD>(0x74010204)</TD><TD> 0x74010204</TD><TD>(0x74010204)</TD><TR>
+    <TD>16x16スプライト</TD><TD>(0x7c010204)</TD><TD>(0x7c010204)</TD><TD> 0x7c010204</TD><TD>(0x7c010204)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+       ()内は、本来適当でないマテリアルタイプの組み合わせに対するTMDです。一部の指定を無視するなどして、妥当と思われるTMDにします。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_8">
+<A HREF="#Top">↑</A>8 <B>使用例</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>例1 基本的な使い方</B></H4>
+
+<PRE>        &gt; rsdlink -v -o boxes.tmd box1 -s 2.0 -t 100 100 100 box1 box2 -t 200 -200 200 box3
+        
+</PRE>
+      <BLOCKQUOTE>
+      この場合、以下の４つのオブジェクトが１つのTMDファイル(boxes.tmd)になります。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        box1		等倍のもの
+        box1'		box1を２倍して(100 100 100)移動させたもの
+        box2		box2を２倍して(100 100 100)移動させたもの
+        box3		box3を２倍して(200 -200 200)移動させたもの
+</PRE>
+
+     <H4><B>例2 引数をファイルにまとめる方法</B></H4>
+
+      <BLOCKQUOTE>
+      次のように引数をファイルにまとめておくことでも同様の指定が可能です。<BR>
+      </BLOCKQUOTE>
+<PRE>        &gt; type test.arg
+        box1
+        -s 2.0 -t 100 100 100 box1 box2
+        -t 200 -200 200 box3
+        &gt; rsdlink -v -o boxes.tmd test.arg
+</PRE>
+
+     <H4><B>例3 プロジェクトファイルの読み込みとID配列の作成</B></H4>
+
+      <BLOCKQUOTE>
+      プロジェクトファイル("model.prj")はレイアウトツールが生成する、オブジェクトのIDテーブルです。<BR>
+      </BLOCKQUOTE>
+<PRE>        &gt; type model.prj
+        @PRJ940701
+        # Next available ID
+        7
+        # IDObject Name
+        1	head.rsd
+        2	body.rsd
+        3	l_arm.rsd
+        4	r_arm.rsd
+        5	l_leg.rsd
+        6	r_leg.rsd
+        
+        上のようなファイルがあるとき、
+        
+        &gt; rsdlink -o robo.tmd model.prj
+        
+        または、
+        
+        &gt; rsdlink -o robo.tmd -id model.prj body head l_arm r_arm l_leg	r_leg
+        
+</PRE>
+      <BLOCKQUOTE>
+      を実行すると、robo.tmdが生成されるとともに、下記の内容のrobo.hが生成されます。各オブジェクトについて、TMD内に現れる順に、そのIDが配列の要素として記入されます。アプリケーションプログラムからTMD内の各オブジェクトにアクセスする際にご利用になれます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        &gt; type robo.h
+        /*
+         *	TMD ID List for "robo.tmd"
+         *
+         *	 Created by rsdlink(v3.7) at 10:10 03/16/96
+         *
+         *	(C) 1994-1996 Sony Computer Entertainment Inc. All Rights Reserved.
+         */
+        int robo_list[] = {
+        	1,	/* body */
+        	0,	/* head */
+        	2,	/* l_arm */
+        	3,	/* r_arm */
+        	4,	/* l_leg */
+        	5,	/* r_leg */
+        };
+</PRE>
+
+     <H4><B>例4 -vオプション使用時の出力例</B></H4>
+
+<PRE>        &gt; rsdlink -v dino -s 100 box
+        
+        [0] =============== RSD ==============		最初のRSD(dino.rsd)
+           RSD files   : \PSXGRAPH\DATA\RSD\dino.ply, dino.mat, dino.grp 
+                TEX[0] = dino0.tim
+                TEX[1] = dino1.tim
+                TEX[2] = dino2.tim			テクスチャファイル名
+                TEX[3] = dino3.tim
+                TEX[4] = dino4.tim
+                TEX[5] = dino5.tim
+           POLYGON     :  2724				ポリゴン数
+           VERTEX      :  1376				頂点数
+           NORMAL      :  2671				法線数
+           MATERIAL    :  2592				マテリアル数
+           Range       : (-180, -210, -1690)-(180, 580, 290) 範囲(x,y,z)の最小-最大値
+        [1] =============== RSD ============== 		２番目のRSD(box.rsd)
+           RSD files   : \PSXGRAPH\DATA\RSD\box.ply, box.mat, box.grp
+           POLYGON     :    12
+           VERTEX      :     8
+           NORMAL      :    12
+           MATERIAL    :     1
+           Scale       :   128			倍率("100"が2のn乗に丸められている)
+           Range       : (-6400, -6400, -6400)-(6400, 6400, 6400)
+        ================= TMD ==================
+           Output TMD  : a.tmd				出力ファイル名
+           TMD header  :        (    12 bytes)		TMDファイルヘッダサイズ
+           Objects     :      2 (    56 bytes)		合計RSD数
+           Primitives  :   2736 ( 65640 bytes)		合計プリミティブ数
+                             12  ... Flat Colored Triangles
+                            136  ... Gouraud Colored Triangles  各モード別の内訳
+                           2434  ... Flat Textured Triangles
+                            154  ... Gouraud Textured Triangles
+           Verteices   :   1384 ( 11072 bytes)		合計頂点数
+           Normals     :   2683 ( 21464 bytes)		合計法線数
+        ----------------------------------------
+        Total file size:          98244 bytes		出力ファイルサイズ
+</PRE>
+
+     <H4><B>例5 -infoオプション使用時の出力例</B></H4>
+
+      <BLOCKQUOTE>
+      <B>-info</B>オプションにより、実際にどのような内容のTMDデータに変換されたかを確認することができます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        &gt; rsdlink -info box
+        
+                Input RSDs      : 1 object(s)		TMD中のオブジェクト数
+                        RSD[ 0] = "box"			各RSD名
+                Total primitives:    12			合計プリミティブ数
+                Total vertices  :     8			合計頂点数
+                Total normals   :    12			合計法線数
+         -----------------&lt; box &gt;-----------------
+        = [  0] FLAT TEX 3-POLY(0x24000507) LIGHT: ON = 
+                Vert-0: (  -150,   -150,   -150) (#2)
+                Vert-1: (   150,   -150,   -150) (#6)
+                Vert-2: (  -150,    150,   -150) (#0)
+                Norm-0: (     0,      0,  -4096) (#0)
+                UV 0-2: (  0   0) ( 47   0) (  0  47)
+                Pixel mode  : 4bit CLUT : (x y)=(  0 480)
+                Texture Page: 10  Texture No. :  0 
+        = [  1] FLAT TEX 3-POLY(0x24000507) LIGHT: ON =
+        		：
+        
+</PRE>
+      <BLOCKQUOTE>
+      各プリミティブ毎に、<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        = [  0] FLAT TEX 3-POLY(0x24000507) LIGHT: ON =
+        
+</PRE>
+      <BLOCKQUOTE>
+      のように、[ポリゴン番号]、 フラット／グーロー(FLAT/GOURAUD)、テクスチャの有無(TEX/NO TEX)、半透明処理のON/OFF(TRANS)、両面/片面(TWO-SIDED)、グラデーョン(GRADATION)、プリミティブの種類(3-POLY, 4-POLY, LINE, SPRITE）、プリミティブヘッダの16進表示(0x...)、光源計算のON/OFF(LIGHT: ON/OFF)が表示されます。<BR>
+      引続き、そのプリミティブを構成している各頂点の座標値が<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        Vert-0: (  -150,   -150,   -150) (#2)
+        
+</PRE>
+      <BLOCKQUOTE>
+      のように表示されます。(#...)はPLYファイルで用いられている頂点番号です。<BR>
+      法線も同様に表示されます。<BR>
+      </BLOCKQUOTE>
+<PRE>        
+        Norm-0: (     0,      0,  -4096) (#0)
+        
+</PRE>
+      <BLOCKQUOTE>
+      (RSDでは、通常、法線は大きさ1に正規化されていますが(この場合、(0, 0, -1.0))、TMDでは浮動小数点は4096を1とした値に換算されるため、上記のようになります。)<BR>
+      その後、テクスチャのUV座標や色などのマテリアル情報が表示されます。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    KanjiFntOpen
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    KanjiFntOpen
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        プリントストリームをオープン
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>KanjiFntOpen </B>(
+int <I>x</I>,
+int <I>y</I>, 
+int <I>w</I>, 
+int <I>h</I>, 
+int <I>dx</I>, 
+int <I>dy</I>, 
+int <I>cx</I>, 
+int <I>cy</I>, 
+int <I>isbg, </I>
+int <I>n </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>x</I>, <I>y		</I>表示開始位置
+<I>w</I>, <I>h		</I>表示領域
+<I>dx</I>, <I>dy		</I>漢字フォントパターンフレームバッファアドレス
+<I>cx</I>, <I>cy		</I>漢字clutフレームバッファアドレス
+<I>isbg		</I>背景自動クリア
+ 		0: 表示時に背景を(0,0,0)にクリアする。
+ 		1: 表示時に背景を(0,0,0)にクリアしない。
+<I>n		</I>最大文字数
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    オンスクリーンプリント用のストリームをオープンする。これ以後、フレームバッファの( <I>x,y </I>)-( <I>x+w</I>, <I>y+h </I>)の矩形領域に KanjiFntPrint() 関数を使用して最大<I>n</I>文字の文字列を描画することができる。 <I>isbg </I>に1を指定すると文字列を描画する際に背景をクリアする。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ストリームID <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    同時にオープンできるストリーム数は8、一旦オープンしたストリームは、次にKanjiFntLoad() をコールするまで、クローズできない。 <BR>
+    漢字フォントエリアはアプリケーションで使用するフレームバッファエリアと衝突してはならない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

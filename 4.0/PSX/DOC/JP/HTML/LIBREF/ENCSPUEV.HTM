@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    ENCSPUENV
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libpress.htm">データ処理 ライブラリ (libpress) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    ENCSPUENV
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SPUエンコード環境属性構造体
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+		short	*<I>src</I>;
+		short	*<I>dest</I>;
+		long	<I>size</I>;
+		long	<I>loop_start</I>;
+		char	<I>loop</I>;
+		char	<I>byte_swap</I>;
+		char	<I>proceed</I>;
+		char	<I>pad4</I>;
+} <B>ENCSPUENV</B>;
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>src		16-bit ストレート PCM データアドレス
+dest		PlayStation オリジナル波形データ
+size		16-bit ストレート PCM データサイズ (単位:byte)
+loop_start	PCM データのループスタートポイント (単位:byte)
+loop		ループ波形生成指定
+byte_swap	PCM データの endian 指定
+proceed		一括/分割エンコード指定
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    EncSPU() のための SPU エンコード環境属性を指定する。 <BR>
+      <BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    使用法の詳細はEncSPU() を参照。 <BR>
+<BR>
+     <BR>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

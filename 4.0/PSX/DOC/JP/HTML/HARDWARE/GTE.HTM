@@ -1,0 +1,182 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GTEコマンドリファレンス
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="gte.htm#List">GTEコマンド 一覧 </A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="register.htm">GTEレジスタ 一覧 </A>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GTEコマンドリファレンス
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        
+</DIV><P>
+</blockquote>
+
+<!-- リミッタ -->
+<B>リミッタ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    演算処理の一部において、演算結果やレジスタ中のデータ値が特定の上限値と下限値の間にクリッピングされます。つまり下限値より小さいデータは下限値に、上限値よりも大きいデータは上限値にそれぞれ変換されます。また、変換の発生はFLAGレジスタ中の範囲外データ検出フラグに反映されます。この機能を「リミッタ」と呼びます。 <BR>
+    各リミッタの使用と当ドキュメントにおける指定記号を下表に示します。 <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>指定<BR>記号</TD><TD>リミッタ<BR></TD><TD>範囲外検出<BR>ビット</TD><TD>下限<BR></TD><TD>上限<BR></TD><TD>備考<BR></TD><TR>
+    <TD><B>A1S</B></TD><TD><B>A1</B></TD><TD><B>24</B></TD><TD><B>-2^15</B></TD><TD><B>2^15-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>A2S</B></TD><TD><B>A2</B></TD><TD><B>23</B></TD><TD><B>-2^15</B></TD><TD><B>2^15-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>A3S</B></TD><TD><B>A3</B></TD><TD><B>22</B></TD><TD><B>-2^15</B></TD><TD><B>2^15-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>A1U</B></TD><TD><B>A1</B></TD><TD><B>24</B></TD><TD><B>0</B></TD><TD><B>2^15-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>A2U</B></TD><TD><B>A2</B></TD><TD><B>23</B></TD><TD><B>0</B></TD><TD><B>2^15-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>A3U</B></TD><TD><B>A3</B></TD><TD><B>22</B></TD><TD><B>0</B></TD><TD><B>2^15-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>A1C<BR></B></TD><TD><B>A1<BR></B></TD><TD><B>24<BR></B></TD><TD><B>0 or<BR>-2^15</B></TD><TD><B>2^15-1<BR></B></TD><TD><B>引数limにより下限値決定<BR></B></TD><TR>
+    <TD><B>A2C<BR></B></TD><TD><B>A3<BR></B></TD><TD><B>23<BR></B></TD><TD><B>0 or<BR>-2^15</B></TD><TD><B>2^15-1<BR></B></TD><TD><B>引数limにより下限値決定<BR></B></TD><TR>
+    <TD><B>A3C<BR></B></TD><TD><B>A3<BR></B></TD><TD><B>22<BR></B></TD><TD><B>0 or<BR>-2^15</B></TD><TD><B>2^15-1<BR></B></TD><TD><B>引数limにより下限値決定<BR></B></TD><TR>
+    <TD><B>B1</B></TD><TD><B>B1</B></TD><TD><B>21</B></TD><TD><B>0</B></TD><TD><B>2^8-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>B2</B></TD><TD><B>B2</B></TD><TD><B>20</B></TD><TD><B>0</B></TD><TD><B>2^8-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>B3</B></TD><TD><B>B3</B></TD><TD><B>19</B></TD><TD><B>0</B></TD><TD><B>2^8-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>C</B></TD><TD><B>C</B></TD><TD><B>18</B></TD><TD><B>0</B></TD><TD><B>2^16-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>D1</B></TD><TD><B>D1</B></TD><TD><B>14</B></TD><TD><B>-2^10</B></TD><TD><B>2^10-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>D2</B></TD><TD><B>D2</B></TD><TD><B>13</B></TD><TD><B>-2^10</B></TD><TD><B>2^10-1</B></TD><TD><B></B></TD><TR>
+    <TD><B>E</B></TD><TD><B>E</B></TD><TD><B>12</B></TD><TD><B>0</B></TD><TD><B>2^12-1</B></TD><TD><B></B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 演算エラー検出 -->
+<B>演算エラー検出</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    オーバーフローとアンダーフローの検出は特定の演算操作に対してのみ行われます。当ドキュメントでは検出対象演算の右に、演算テスト結果フラグ番号を＜と＞ではさんで記載しています。 <BR>
+</blockquote>
+
+<!-- 凡例 -->
+<B>凡例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>文字属性</TD><TD>例</TD><TD>内容</TD><TR>
+    <TD><B>アンダーライン<BR></B></TD><TD><U>VAL<BR></U></TD><TD><B>中間値<BR>（対応するレジスタなし）</B></TD><TR>
+    <TD><B>強調文字</B></TD><TD><B>OBJ</B></TD><TD><B>32ビット値</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>意味</TD><TR>
+    <TD><B>limX()</B></TD><TD><B>リミッタ適用 Ｘはリミッタ指定記号</B></TD><TR>
+    <TD><B>&lt;-<BR></B></TD><TD><B>FIFO型データ転送<BR>例：a &lt;- b &lt;- c &lt;- d;は以下と等価。<BR>    a = b;<BR>    b = c;<BR>    c = d;</B></TD><TR>
+    <TD><B>^<BR></B></TD><TD><B>べき乗<BR>例：a^bは「aのb乗」</B></TD><TR>
+    <TD><B>==</B></TD><TD><B>引数値条件</B></TD><TR>
+    <TD><B>n=0,1,2 {}</B></TD><TD><B>nを0,1,2と変化させながら{}中の処理を３回反復。</B></TD><TR>
+    <TD><B>(a.b.c)<BR></B></TD><TD><B>固定小数点数<BR>符号部aビット、整数部bビット、小数部cビット</B></TD><TR>
+    <TD><B>(-.b.-)</B></TD><TD><B>bビットバイナリデータ</B></TD><TR>
+    <TD><B>&lt;n&gt;<BR></B></TD><TD><B>オーバー・アンダーフローテスト対象演算<BR>テスト結果はFLAGレジスタ中の積和テストフラグ<BR>n番へ反映される。</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<!-- 記述例 -->
+<B>記述例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    （Ａ） <BR>
+<PRE>(1.15.0)  A = B;
+</PRE>
+    →(1.15.0)形式固定小数点数に対してA=Bを実行。 <BR>
+<PRE>
+</PRE>
+    （Ｂ） <BR>
+<PRE>(1.15.0) IR0 = limX(<B><U>SSX</U></B>);
+</PRE>
+    リミッタ： <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>記号</TD><TD>下限</TD><TD>上限</TD><TR>
+    <TD><B>limX</B></TD><TD><B>-2^15</B></TD><TD><B>2^15-1</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    →32ビット値<B><U>SSX</U></B>をXで指定されるリミッタで丸めて、その結果得られた(1.12.0)形式固定小数点数をIR1へ代入する。 <BR>
+<PRE>
+</PRE>
+    （Ｃ） <BR>
+<PRE>n=0,1,2{
+(1.3.12)L1n
+    = limA(LL1n);
+}
+</PRE>
+    →(1.3.12)形式固定小数点数に対して <BR>
+<PRE>L10=limA(LL10); 
+L11=limA(LL11);
+L12=limA(LL12);
+を実行。
+
+</PRE>
+    （Ｄ） <BR>
+<PRE>sf==0      sf==1
+(1.31.0) (1.19.12) A = B;
+</PRE>
+    →BをAへ代入。ただしsfが0ならば小数部なしの、sfが1ならば小数部12ビットの、32ビット符号付き固定小数点数に変換。 <BR>
+</blockquote>
+<A NAME="List"></A>
+
+<!-- コマンド一覧 -->
+<B>コマンド一覧</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<CENTER>
+<TABLE BORDER>
+    <TD>コマンド</TD><TD>所要サイクル</TD><TD>機能</TD><TR>
+    <TD><B><A HREF="rtps.htm">RTPS</A></B></TD><TD><B>15</B></TD><TD><B>座標変換＆透視変換</B></TD><TR>
+    <TD><B><A HREF="rtpt.htm">RTPT</A></B></TD><TD><B>23</B></TD><TD><B>座標変換＆透視変換</B></TD><TR>
+    <TD><B><A HREF="ncds.htm">NCDS</A></B></TD><TD><B>19</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="ncdt.htm">NCDT</A></B></TD><TD><B>44</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="nccs.htm">NCCS</A></B></TD><TD><B>17</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="ncct.htm">NCCT</A></B></TD><TD><B>39</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="cdp.htm">CDP</A></B></TD><TD><B>13</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="cc.htm">CC</A></B></TD><TD><B>11</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="ncs.htm">NCS</A></B></TD><TD><B>14</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="nct.htm">NCT</A></B></TD><TD><B>30</B></TD><TD><B>光源計算</B></TD><TR>
+    <TD><B><A HREF="mvmvasfm.htm">MVMVA</A></B></TD><TD><B>8</B></TD><TD><B>行列演算</B></TD><TR>
+    <TD><B><A HREF="dcpl.htm">DCPL</A></B></TD><TD><B>8</B></TD><TD><B>デプスキューイング</B></TD><TR>
+    <TD><B><A HREF="intpl.htm">INTPL</A></B></TD><TD><B>8</B></TD><TD><B>内挿</B></TD><TR>
+    <TD><B><A HREF="dpcs.htm">DPCS</A></B></TD><TD><B>8</B></TD><TD><B>デプスキューイング</B></TD><TR>
+    <TD><B><A HREF="dpct.htm">DPCT</A></B></TD><TD><B>17</B></TD><TD><B>デプスキューイング</B></TD><TR>
+    <TD><B><A HREF="sqr_sf.htm">SQR</A></B></TD><TD><B>5</B></TD><TD><B>ベクトルの２乗</B></TD><TR>
+    <TD><B><A HREF="avsz3.htm">AVSZ3</A></B></TD><TD><B>5</B></TD><TD><B>Ｚ平均</B></TD><TR>
+    <TD><B><A HREF="avsz4.htm">AVSZ4</A></B></TD><TD><B>6</B></TD><TD><B>Ｚ平均</B></TD><TR>
+    <TD><B><A HREF="nclip.htm">NCLIP</A></B></TD><TD><B>8</B></TD><TD><B>法線クリップ</B></TD><TR>
+    <TD><B><A HREF="op_sf.htm">OP</A></B></TD><TD><B>6</B></TD><TD><B>外積</B></TD><TR>
+    <TD><B><A HREF="gpf_sf.htm">GPF</A></B></TD><TD><B>5</B></TD><TD><B>汎用内挿</B></TD><TR>
+    <TD><B><A HREF="gpl_sf.htm">GPL</A></B></TD><TD><B>5</B></TD><TD><B>汎用内挿</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<CENTER>
+</CENTER>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

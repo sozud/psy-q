@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsPrstTG4NL
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsPrstTG4NL
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        グーローテクスチャ４角形 (光源計算なし)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>u_long *<B>GsPrstTG4NL </B>(
+TMD_P_TG4 *<I>primtop</I>,
+SVECTOR *<I>vertop</I>,
+SVECTOR *<I>nortop</I>,
+POLY_GT4 *<I>s</I>,
+u_long <I>n</I>,
+u_long <I>shift</I>,
+GsOT *<I>otp</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>primtop		</I>TMD PRIMITIVEのスタートアドレス
+<I>vertop</I>		TMD VERTEXの先頭アドレス
+<I>nortop</I>		TMD NORMALの先頭アドレス
+<I>s		</I>GPUパケットバッファのアドレス
+<I>n		</I>処理ポリゴン数
+<I>shift		</I>OTへの割り付け時にZの値を何ビット右にシフトさせるかを設定
+<I>otp		</I>OTへのポインタ
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    TMDファイル上の連続する <I>n </I>個のグーローテクスチャ４角形について座標変換、透視変換、backface clip、(光源計算)を行ない、ＧＰＵパケットをバッファ上に完成し、ＯＴにリンクする。バッファ上には１ポリゴンにつき２つのパケットがプリセットされているものとする。（libgs: GsPresetObject参照）（GsSortObject5で使用） <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    更新されたGPUパケットバッファのアドレス <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    libgs参照 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

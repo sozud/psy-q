@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    ReadSZfifo4
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgte.htm">基本ジオメトリ ライブラリ (libgte) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    ReadSZfifo4
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        ＳＺ値を読み出す
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>ReadSZfifo4 </B>(
+long *<I>szx</I>,
+long *<I>sz0</I>,
+long *<I>sz1</I>,
+long *<I>sz2</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>szx,sz0</I>,<I>sz1</I>,<I>sz2</I>		出力：値
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    RotTransPers4などで計算したスクリーンＺ値を読み出す。 <BR>
+<BR>
+    RotTransPers4(v0,v1,v2,v3,..) <BR>
+    または <BR>
+    RotTransPers(v0,..) <BR>
+    RotTransPers(v1,..) <BR>
+    RotTransPers(v2,..) <BR>
+    RotTransPers(v3,..) <BR>
+    を実行したとき <BR>
+    v0-&gt;<I>szx</I> <BR>
+    v1-&gt;<I>sz0</I> <BR>
+    v2-&gt;<I>sz1</I> <BR>
+    v3-&gt;<I>sz2</I> <BR>
+    という対応になる。 <BR>
+<BR>
+    引数フォーマット： <BR>
+    (<I>szx,sz0,sz1,sz2</I>) : (0,16,0) <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

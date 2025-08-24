@@ -1,0 +1,3963 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 付録</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+付録
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>エラーメッセージ一覧</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ここでは、ASMPSX、PSYLINK、PSYLIB が出力するエラーメッセージの一覧をアルファベット順に掲載しています。<BR>
+    エラーメッセージに続いて、そのメッセージの意味、もしあればそのメッセージに関する補足説明、そしてそのメッセージを出力するプログラム名を記述しています。<BR>
+    また、メッセージ中の"%"で始まる文字は、変数を表しています。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>表記</TD><TD>意味</TD><TR>
+    <TD>%s</TD><TD>文字列に置き換えられます。</TD><TR>
+    <TD>%c</TD><TD>１つの文字に置き換えられます。</TD><TR>
+    <TD>%d</TD><TD>16 ビットの 10 進数に置き換えられます。</TD><TR>
+    <TD>%l</TD><TD>32 ビットの 10 進数に置き換えられます。</TD><TR>
+    <TD>%h</TD><TD>16 ビットの 16 進数に置き換えられます。</TD><TR>
+    <TD>%n</TD><TD>記号名に置き換えられます。</TD><TR>
+    <TD>%t<BR></TD><TD>たとえばセクション、記号、またはグループなどの、シンボルに<BR>置き換えられます。</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+
+<H1>
+    %t
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>%t %n redefiend as section</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %t %ｎはセクションとして再定義されます。<BR>
+    補足説明  : 以前に定義されたシンボルの新しい定義です。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>%t '%n' redefined as XDEF symbol</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %t '%n'は XDEF シンボルとして再定義されます。<BR>
+    補足説明  : 以前に定義されたシンボルの新しい定義です。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_3">
+<A HREF="#Heading3_1_1"> 1. </A>3 <B>%t '%n' redefined as group</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %t '%n'はグループとして再定義されます。<BR>
+    補足説明  : 以前に定義されたシンボルの新しい定義です。<BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    '%n'
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_4">
+<A HREF="#Heading3_1_1"> 1. </A>4 <B>'%n' can not be used in an expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: '%n'は式で使用できません。<BR>
+    補足説明  : %ｎは、マクロやレジスタなどの名前と思われます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_5">
+<A HREF="#Heading3_1_1"> 1. </A>5 <B>'%n' is not a group</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: '%n'はグループではありません。<BR>
+    補足説明  : グループ名が必要です。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_6">
+<A HREF="#Heading3_1_1"> 1. </A>6 <B>'%n' is not a section</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: '%n'はセクションではありません。<BR>
+    補足説明  : セクション名が求められていますが、名前%ｎが見つかりました。<BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    A
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_7">
+<A HREF="#Heading3_1_1"> 1. </A>7 <B>Alignment cannot be guaranteed</B>
+</A>
+</H3>
+<blockquote>
+    意味: アラインメントは保証できません。<BR>
+    補足説明: 現在のセクションのベースアラインメントのため、保証できないアラインを行なおうとしたことへの警告です。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_8">
+<A HREF="#Heading3_1_1"> 1. </A>8 <B>Alignment's parameter must be a defined name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: alignment のパラメータは定義された名前でなければなりません。<BR>
+    補足説明  : alignment() 関数へのコールにおいて発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_9">
+<A HREF="#Heading3_1_1"> 1. </A>9 <B>Assembly failed</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: アセンブルに失敗しました。<BR>
+    補足説明  : FAIL ステートメントのテキストです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_10">
+<A HREF="#Heading3_1_1"> 1. </A>10 <B>Attempt to switch section to %t '%n'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクションを%t '%n'に切り替えようとしています。<BR>
+    補足説明  : 非セクションタイプのシンボルがセクションスイッチで参照されました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_11">
+<A HREF="#Heading3_1_1"> 1. </A>11 <B>Attempt to use %t '%n' as a section in expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 式でセクションとして%t '%n'を使おうとしています。<BR>
+    補足説明  : セクションタイプシンボルが必要です。<BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    B
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_12">
+<A HREF="#Heading3_1_1"> 1. </A>12 <B>Branch (%l bytes) is out of range</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 分岐（%ｌバイト）が範囲外です。<BR>
+    補足説明  : 分岐が遠すぎます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_13">
+<A HREF="#Heading3_1_1"> 1. </A>13 <B>Branch to odd address</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 奇数のアドレスへの分岐です。<BR>
+    補足説明  : 奇数のアドレスへの分岐であることに対する警告です。<BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    C
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_14">
+<A HREF="#Heading3_1_1"> 1. </A>14 <B>COFF file has incorrect format</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: COFF ファイルのフォーマットが間違っています。<BR>
+    補足説明  : COFF フォーマットのファイルは、GNU Ｃクロスコンパイラなどによって作成されたものです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_15">
+<A HREF="#Heading3_1_1"> 1. </A>15 <B>Cannot POPP to a local label</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ローカルラベルへ POPP することはできません。<BR>
+    補足説明  : たとえば、POPP @ｘは間違いです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_16">
+<A HREF="#Heading3_1_1"> 1. </A>16 <B>Cannot add moduel : it already exists</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: モジュールを追加することはできません：すでに存在しています。<BR>
+    補足説明  : 同じモジュールはライブラリに１度しか追加できません。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_17">
+<A HREF="#Heading3_1_1"> 1. </A>17 <B>Cannot purge - name was never defined</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 消去できません -- 名前が定義されていません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_18">
+<A HREF="#Heading3_1_1"> 1. </A>18 <B>Case choice expression cannot be evaluated</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: case 選択式を評価できません。<BR>
+    補足説明  : case ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_19">
+<A HREF="#Heading3_1_1"> 1. </A>19 <B>Code generated before firse section directive</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 最初のセクションディレクティブの前にコードが生成されました。<BR>
+    補足説明  : コード生成ステートメントが、最初のセクションディレクティブの前に現れました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_20">
+<A HREF="#Heading3_1_1"> 1. </A>20 <B>Code in BSS section '%n'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: BSS セクション'%n'にコードがあります。<BR>
+    補足説明  : BSS タイプのセクションは、初期化されたデータを含んではなりません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_21">
+<A HREF="#Heading3_1_1"> 1. </A>21 <B>Could not create object file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オブジェクトファイルを作成できませんでした。<BR>
+    補足説明  : 抽出時にオブジェクトファイルを作成する際のエラーです。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_22">
+<A HREF="#Heading3_1_1"> 1. </A>22 <B>Could not create temporary file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: テンポラリファイルを作成できませんでした。<BR>
+    補足説明  : テンポラリファイル作成時のエラーです。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_23">
+<A HREF="#Heading3_1_1"> 1. </A>23 <B>Could not evaluate XDEF'd symbol</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: XDEF されたシンボルを評価できませんでした。<BR>
+    補足説明  : XDEF されたシンボルは、評価できないものと同等と思われます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_24">
+<A HREF="#Heading3_1_1"> 1. </A>24 <B>Could not open file '%s'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル'%s'を開けませんでした。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_25">
+<A HREF="#Heading3_1_1"> 1. </A>25 <B>Could not open/create</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オープン／作成ができませんでした。<BR>
+    補足説明  : ファイルを開く際の DOS のエラーです。<BR>
+    プログラム: PSYLIB <BR>
+
+<H1>
+    D
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_26">
+<A HREF="#Heading3_1_1"> 1. </A>26 <B>DEF's parameter must be a name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: DEF のパラメータは名前でなければなりません。<BR>
+    補足説明  : DEF() 関数の参照においてエラーが発せられました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_27">
+<A HREF="#Heading3_1_1"> 1. </A>27 <B>Datasize has not been specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: データサイズが指定されていません。<BR>
+    補足説明  : DATA ステートメントの前には DATASIZE がなければなりません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_28">
+<A HREF="#Heading3_1_1"> 1. </A>28 <B>Datasize value must be in range 1 to 256</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: データサイズの値は、１から 256 の範囲でなければなりません。<BR>
+    補足説明  : DETASIZE ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_29">
+<A HREF="#Heading3_1_1"> 1. </A>29 <B>Decimal number illegal in this radix</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: この基数では 10 進数は不当です。<BR>
+    補足説明  : 指定された 10 進数字は現在の基数に適していません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_30">
+<A HREF="#Heading3_1_1"> 1. </A>30 <B>Destination must be a register</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 対象はレジスタでなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_31">
+<A HREF="#Heading3_1_1"> 1. </A>31 <B>Different processor type specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 指定されたプロセッサの種類が異なっています。<BR>
+    補足説明  : 異なったプロセッサの種類のオブジェクトコードであるか、異なったプロセッサの種類のコードをリンクしようとしました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_32">
+<A HREF="#Heading3_1_1"> 1. </A>32 <B>Division by zero</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ゼロ除算しました。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_33">
+<A HREF="#Heading3_1_1"> 1. </A>33 <B>Division by zero</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ゼロ除算しました。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    E
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_34">
+<A HREF="#Heading3_1_1"> 1. </A>34 <B>ENDM is illegal outside a macro definition</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ENDM はマクロ定義の外側では不当です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_35">
+<A HREF="#Heading3_1_1"> 1. </A>35 <B>End of file reached without completion of %s construct</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %ｓの構成を完成せずにファイルの終端に達しました。<BR>
+    補足説明  : たとえば、ENDR のない REPT がこれにあたります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_36">
+<A HREF="#Heading3_1_1"> 1. </A>36 <B>Error closing file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイルを閉じる際のエラーです。<BR>
+    補足説明  : DOS close file コールがエラー状態を返しました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_37">
+<A HREF="#Heading3_1_1"> 1. </A>37 <B>Error closing file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイルを閉じる際のエラーです。<BR>
+    補足説明  : DOS の close file コールがエラー状態を返しました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_38">
+<A HREF="#Heading3_1_1"> 1. </A>38 <B>Error creating output file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 出力ファイル作成時のエラーです。<BR>
+    補足説明  : 出力ファイルを開くことができませんでした。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_39">
+<A HREF="#Heading3_1_1"> 1. </A>39 <B>Error creating temporary file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: テンポラリファイル作成時のエラーです。<BR>
+    補足説明  : 指定したテンポラリファイルを作成することができませんでした。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_40">
+<A HREF="#Heading3_1_1"> 1. </A>40 <B>Error in ／e option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ／ｅオプションでエラーが起こりました。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_41">
+<A HREF="#Heading3_1_1"> 1. </A>41 <B>Error in ／o option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ／ｏオプションでエラーが起こりました。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_42">
+<A HREF="#Heading3_1_1"> 1. </A>42 <B>Error in ／x option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ／ｘオプションでエラーが起こりました。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_43">
+<A HREF="#Heading3_1_1"> 1. </A>43 <B>Error in Linker options</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンカオプションでエラーが起こりました。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_44">
+<A HREF="#Heading3_1_1"> 1. </A>44 <B>Error in REGS expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: REGS 式にエラーがあります。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_45">
+<A HREF="#Heading3_1_1"> 1. </A>45 <B>Error in assembler option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: アセンブラオプション中のエラーです。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_46">
+<A HREF="#Heading3_1_1"> 1. </A>46 <B>Error in command file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: コマンドファイルでエラーが起こりました。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_47">
+<A HREF="#Heading3_1_1"> 1. </A>47 <B>Error in expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 式中のエラーです。<BR>
+    補足説明  : 文法エラーとほぼ同じです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_48">
+<A HREF="#Heading3_1_1"> 1. </A>48 <B>Error in floating point number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 浮動小数点数内のエラーです。<BR>
+    補足説明  : IEEE32/IEEE64 ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_49">
+<A HREF="#Heading3_1_1"> 1. </A>49 <B>Error in register list</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: レジスタリスト中のエラーです。<BR>
+    補足説明  : MOVEM/REG のレジスタリストの指定にエラーがありました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_50">
+<A HREF="#Heading3_1_1"> 1. </A>50 <B>Error opening list file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リストファイルを開く際のエラーです。<BR>
+    補足説明  : DOS open がエラー状態を返しました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_51">
+<A HREF="#Heading3_1_1"> 1. </A>51 <B>Error reading file %f</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル%ｆを読み取る際のエラーです。<BR>
+    補足説明  : DOS の read file コールがエラー状態を返しました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_52">
+<A HREF="#Heading3_1_1"> 1. </A>52 <B>Error reading file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル読み取り時のエラーです。<BR>
+    補足説明  : DOS の read コールがエラー状態を返しました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_53">
+<A HREF="#Heading3_1_1"> 1. </A>53 <B>Error reading library file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ライブラリファイル読み取り時のエラーです。<BR>
+    補足説明  : ファイルを読み取る際の DOS のエラーです。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_54">
+<A HREF="#Heading3_1_1"> 1. </A>54 <B>Error writing library file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ライブラリファイル書き込み時のエラーです。<BR>
+    補足説明  : ファイルを書き込む際の DOS のエラーです。ディスクがいっぱいと思われます。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_55">
+<A HREF="#Heading3_1_1"> 1. </A>55 <B>Error writing list file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リストファイル書き込み時のエラーです。<BR>
+    補足説明  : DOS write がエラー状態を返したか、ディスクがいっぱいです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_56">
+<A HREF="#Heading3_1_1"> 1. </A>56 <B>Error writing object file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オブジェクトファイルを書き込む際のエラーです。<BR>
+    補足説明  : DOS の write file コールがエラー状態を返しました。ディスクがいっぱいだと思われます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_57">
+<A HREF="#Heading3_1_1"> 1. </A>57 <B>Error writing object file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オブジェクトファイル書き込み時のエラーです。<BR>
+    補足説明  : DOS の write file コールがエラー状態を返しました。ディスクがいっぱいだと思われます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_58">
+<A HREF="#Heading3_1_1"> 1. </A>58 <B>Error writing temporary file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: テンポラリファイル書き込み時のエラーです。<BR>
+    補足説明  : ディスクの書き込みエラー、おそらくディスクがいっぱいだと思われます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_59">
+<A HREF="#Heading3_1_1"> 1. </A>59 <B>Errors during pass 1 - pass 2 aborted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: パス１でエラーが発生しました。パス２はアボートされました。<BR>
+    補足説明  : パス１にエラーがあると、パス２は行なわれません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_60">
+<A HREF="#Heading3_1_1"> 1. </A>60 <B>Errors during pass 1 - pass 2 aborted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: パス１でエラーが発生しました。パス２はアボートされました。<BR>
+    補足説明  : パス１にエラーがあると、パス２は実行されません。<BR>
+    プログラム: ASMPSX、PSYLINK<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_61">
+<A HREF="#Heading3_1_1"> 1. </A>61 <B>Expanded input line too long</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 拡張された入力行が長すぎます。<BR>
+    補足説明  : 文字列置換後などに発せられます。１行は、1024 文字以下でなければなりません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_62">
+<A HREF="#Heading3_1_1"> 1. </A>62 <B>Expected comma after operand</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オペランドの後にコンマを入れてください。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_63">
+<A HREF="#Heading3_1_1"> 1. </A>63 <B>Expected comma after&lt; &gt;</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: &lt; &gt;の後にコンマを入れてください。<BR>
+    補足説明  : MACRO コールパラメータリストの &lt;...&gt; で囲まれたパラメータに対して発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_64">
+<A HREF="#Heading3_1_1"> 1. </A>64 <B>Expected comma between operands</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オペランド間にコンマを入れてください。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_65">
+<A HREF="#Heading3_1_1"> 1. </A>65 <B>Expected comma between options</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オプション間にコンマを入れてください。<BR>
+    補足説明  : OPT ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_66">
+<A HREF="#Heading3_1_1"> 1. </A>66 <B>Expecting '%s' at this point</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: この位置には'%s'にあたるものを入れてください。<BR>
+    補足説明  : ENDIF/ENDCASE などの１つが必要ですが、別のディレクティブが見つけられました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_67">
+<A HREF="#Heading3_1_1"> 1. </A>67 <B>Expecting '+' or '-' after list command</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リストコマンドの後に'+'または'-'を入れてください。<BR>
+    補足説明  : LIST ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_68">
+<A HREF="#Heading3_1_1"> 1. </A>68 <B>Expecting '+' or '-' after option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オプションの後に'+'または'-'を入れてください。<BR>
+    補足説明  : OPT ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_69">
+<A HREF="#Heading3_1_1"> 1. </A>69 <B>Expecting ON or OFF after directive</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ディレクティブの後に ON または OFF を入れてください。<BR>
+    補足説明  : PUBLIC ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_70">
+<A HREF="#Heading3_1_1"> 1. </A>70 <B>Expecting a decimal or hex number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 10 進数または 16 進数を入れてください。<BR>
+    補足説明  : コマンドライン上の／ｏオプションで発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_71">
+<A HREF="#Heading3_1_1"> 1. </A>71 <B>Expecting a number after ／b option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ／ｂオプションの後に数を入れてください。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_72">
+<A HREF="#Heading3_1_1"> 1. </A>72 <B>Expecting comma between operands in INSTR</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: INSTR 中のオペランド間にコンマを入れてください。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_73">
+<A HREF="#Heading3_1_1"> 1. </A>73 <B>Expecting comma between operands in SUBSTR</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SUBSTR 中のオペランド間にコンマを入れてください。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_74">
+<A HREF="#Heading3_1_1"> 1. </A>74 <B>Expecting comma or end of line after list</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リストの後にコンマまたは行の終端を入れてください。<BR>
+    補足説明  : {...}リストで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_75">
+<A HREF="#Heading3_1_1"> 1. </A>75 <B>Expecting options after ／O</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ／Ｏの後にオプションを入れてください。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_76">
+<A HREF="#Heading3_1_1"> 1. </A>76 <B>Expecting quoted string as operand</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オペランドとして引用された文字列を入れてください。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_77">
+<A HREF="#Heading3_1_1"> 1. </A>77 <B>Expression must evaluate</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 式を評価しなければなりません。<BR>
+    補足説明  : パス２ではなく、今、式を評価しなければなりません。<BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    F
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_78">
+<A HREF="#Heading3_1_1"> 1. </A>78 <B>Fatal error - stack underflow - PANIC</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 致命的エラー -- スタックアンダーフローです。パニック状態に陥りました。<BR>
+    補足説明  : アセンブラの内部エラーです。二度と起こらないようにしてください。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_79">
+<A HREF="#Heading3_1_1"> 1. </A>79 <B>Fatal error -- macro exited with unterminated %s loop</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 致命的エラーです。%ｓループを終了せずにマクロが終了しました。<BR>
+    補足説明  : WHILE/REPT/DO ループを終了しないでマクロが終了してしまいました。アセンブラの性格により、これは致命的エラーとして扱われます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_80">
+<A HREF="#Heading3_1_1"> 1. </A>80 <B>File %f is in out-of-date format</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル%ｆは古いフォーマットです。<BR>
+    補足説明  : ファイルを再構築して再アセンブルしなければなりません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_81">
+<A HREF="#Heading3_1_1"> 1. </A>81 <B>File %f is not a valid library file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル%ｆは有効なライブラリファイルではありません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_82">
+<A HREF="#Heading3_1_1"> 1. </A>82 <B>File %f is not in PsyLink file format</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル%ｆは PsyLink ファイルフォーマットにはありません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_83">
+<A HREF="#Heading3_1_1"> 1. </A>83 <B>File name must be quoted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル名を引用符でくくらなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_84">
+<A HREF="#Heading3_1_1"> 1. </A>84 <B>Files may only be specified when producing CPE or pure binary output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイルは CPE またはバイナリ出力作成時にのみ指定してください。<BR>
+    補足説明  : グループの FILE 属性で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_85">
+<A HREF="#Heading3_1_1"> 1. </A>85 <B>Forward reference to redefinable symbol</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 再定義可能なシンボルへの前方参照です。<BR>
+    補足説明  : SET または=ステートメントで値を与えられたシンボルに対して、前方参照が行われたことへの警告です。前方参照で使われた値は、シンボルに設定された最後の値でした。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_86">
+<A HREF="#Heading3_1_1"> 1. </A>86 <B>Function only available when using sections</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション使用時に使用できるのは関数のみです。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    G
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_87">
+<A HREF="#Heading3_1_1"> 1. </A>87 <B>GROUP's parameter must be a defined name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: GROUP のパラメータは定義された名前でなければなりません。<BR>
+    補足説明  : GROUP() 関数コールで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_88">
+<A HREF="#Heading3_1_1"> 1. </A>88 <B>GROUPEND's parameter must be a group name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: GROUPEND のパラメータはグループ名でなければなりません。<BR>
+    補足説明  : GROUPEND() 関数へのコールにおけるエラーです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_89">
+<A HREF="#Heading3_1_1"> 1. </A>89 <B>GROUPORG's parameter must be a group</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: GROUPORG のパラメータはグループでなければなりません。<BR>
+    補足説明  : GROUPORG() 関数へのコールで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_90">
+<A HREF="#Heading3_1_1"> 1. </A>90 <B>GROUSIZE's parameter must be a group name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: GROUPSIZE パラメータはグループ名でなければなりません。<BR>
+    補足説明  : GROUPSIZE() 関数へのコールにおけるエラーです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_91">
+<A HREF="#Heading3_1_1"> 1. </A>91 <B>Group '%n' is too large (%l bytes)</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: グループ'%n'が大きすぎます（%ｌバイト）。<BR>
+    補足説明  : グループが SIZE 属性の値を超えています。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_92">
+<A HREF="#Heading3_1_1"> 1. </A>92 <B>Group '%n' is too large (%l bytes)</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: グループ'%n'は大きすぎます（%ｌバイト）。<BR>
+    補足説明  : 許可された SIZE 属性よりも大きいグループです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_93">
+<A HREF="#Heading3_1_1"> 1. </A>93 <B>Group '%n' specified with different attributes</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: グループ'%n'は異なった属性で指定されています。<BR>
+    補足説明  : 異なった種類のグループで、異なった属性を指定しています。<BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    I
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_94">
+<A HREF="#Heading3_1_1"> 1. </A>94 <B>IF does not have matching ENDIF/ENDC</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: IF に対応する ENDIF/ENDC がありません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_95">
+<A HREF="#Heading3_1_1"> 1. </A>95 <B>Illegal XREF reference to %t '%n'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %t '%n'への不当な XREF 参照です。<BR>
+    補足説明  : オブジェクトファイルが、XREF できないシンボル、たとえばセクション名に XREF を定義しています。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_96">
+<A HREF="#Heading3_1_1"> 1. </A>96 <B>Illegal addressing mode</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 不当なアドレスモードです。<BR>
+    補足説明  : 現在のオペコードに適していないアドレスモードです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_97">
+<A HREF="#Heading3_1_1"> 1. </A>97 <B>Illegal character '%c' (%d) in input</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 入力に不当な文字'%c'(%d) があります。<BR>
+    補足説明  : 入力ファイルにおかしな（たとえばコントロール）文字があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_98">
+<A HREF="#Heading3_1_1"> 1. </A>98 <B>Illegal character '%c' in opcode field</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オペコードフィールドに不当な文字'%c'があります。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_99">
+<A HREF="#Heading3_1_1"> 1. </A>99 <B>Illegal digit in suffexed hexadecimal number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 末尾番号付きの 16 進数に不当な数字があります。<BR>
+    補足説明  : 代替数字形式 1abh で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_100">
+<A HREF="#Heading3_1_1"> 1. </A>100 <B>Illegal digit in suffixed binary number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 末尾番号付きの２進数に不当な数字があります。<BR>
+    補足説明  : 代替数字形式 101b で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_101">
+<A HREF="#Heading3_1_1"> 1. </A>101 <B>Illegal digit in suffixed decimal number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 末尾番号付きの 10 進数に不当な数字があります。<BR>
+    補足説明  : 代替数字形式 123d で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_102">
+<A HREF="#Heading3_1_1"> 1. </A>102 <B>Illegal group name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 不当なグループ名です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_103">
+<A HREF="#Heading3_1_1"> 1. </A>103 <B>Illegal index value in SUBSTR</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SUBSTR に不当なインデックス値があります。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_104">
+<A HREF="#Heading3_1_1"> 1. </A>104 <B>Illegal label</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 不当なラベルです。<BR>
+    補足説明  : 左側の列のラベルが不当な文字で始まっています。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_105">
+<A HREF="#Heading3_1_1"> 1. </A>105 <B>Illegal name for macro parameter</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: マクロパラメータの名前が不当です。<BR>
+    補足説明  : マクロ定義で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_106">
+<A HREF="#Heading3_1_1"> 1. </A>106 <B>Illegal name in XDEF/XREF list</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: XDEF/XREF リストに不当な名前があります。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_107">
+<A HREF="#Heading3_1_1"> 1. </A>107 <B>Illegal name in command</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: コマンドに不当な名前があります。<BR>
+    補足説明  : ALIAS ステートメントのターゲット名が不当です。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_108">
+<A HREF="#Heading3_1_1"> 1. </A>108 <B>Illegal name in locals list</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ローカルリストに不当な名前があります。<BR>
+    補足説明  : LOCAL ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_109">
+<A HREF="#Heading3_1_1"> 1. </A>109 <B>Illegal parameter number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: パラメータ数が不当です。<BR>
+    補足説明  : パラメータは最高 32 個までです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_110">
+<A HREF="#Heading3_1_1"> 1. </A>110 <B>Illegal register</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: レジスタ名が抜けているか間違っています。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_111">
+<A HREF="#Heading3_1_1"> 1. </A>111 <B>Illegal section name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション名が不当です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_112">
+<A HREF="#Heading3_1_1"> 1. </A>112 <B>Illegal start position/length in INCBIN</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: INCBIN のスタート位置／長さが不当です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_113">
+<A HREF="#Heading3_1_1"> 1. </A>113 <B>Illegal use of register equate</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: レジスタ代入の使用が不当です。<BR>
+    補足説明  : たとえば、式でレジスタ代入を使おうとしました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_114">
+<A HREF="#Heading3_1_1"> 1. </A>114 <B>Illegal value (%l) for boundary in CNOP</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: CNOP の境界が不当な値(%l) です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_115">
+<A HREF="#Heading3_1_1"> 1. </A>115 <B>Illegal value (%l) for offset in CNOP</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: CNOP のオフセットが不当な値(%l) です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_116">
+<A HREF="#Heading3_1_1"> 1. </A>116 <B>Illegal value (%l)</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 不当な値(%l) です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_117">
+<A HREF="#Heading3_1_1"> 1. </A>117 <B>Illegal value for base in INSTR</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: INSTR の基数が不当な値です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_118">
+<A HREF="#Heading3_1_1"> 1. </A>118 <B>Illegal zero length short branch</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 短分岐の長さが０で不当です。<BR>
+    補足説明  : R3000 の短分岐のオフセットは０であってはなりません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_119">
+<A HREF="#Heading3_1_1"> 1. </A>119 <B>Incorrect format in object file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オブジェクトファイルに間違ったフォーマットがあります。<BR>
+    補足説明  : オブジェクトファイルのフォーマットのエラーです。再構築してください。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_120">
+<A HREF="#Heading3_1_1"> 1. </A>120 <B>Initialised data in BSS section</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: BSS セクションに初期化されたデータがあります。<BR>
+    補足説明  : BSS セクションは初期化されていないデータで構成されなければなりません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_121">
+<A HREF="#Heading3_1_1"> 1. </A>121 <B>Instruction moved to even address</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 偶数のアドレスに移動した命令があります。<BR>
+    補足説明  : パディングバイトが挿入されていることへの警告です。<BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    L
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_122">
+<A HREF="#Heading3_1_1"> 1. </A>122 <B>LOCAL can only be used inside a macro</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: LOCAL はマクロの内側でしか使えません。<BR>
+    補足説明  : LOCAL ステートメントがマクロの外側で見つけられました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_123">
+<A HREF="#Heading3_1_1"> 1. </A>123 <B>Label '%n' multiply defined</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ラベル'%n'は複数定義されています。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_124">
+<A HREF="#Heading3_1_1"> 1. </A>124 <B>Local labels may not be strings</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ローカルラベルが文字列ではないようです。<BR>
+    補足説明  : @x EXUS...は不当です。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_125">
+<A HREF="#Heading3_1_1"> 1. </A>125 <B>Local symbols cannot be XDEF'd/XREF'd</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ローカルシンボルは XDEF/XREF することはきません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    M
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_126">
+<A HREF="#Heading3_1_1"> 1. </A>126 <B>MEXIT illegal outside of macros</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: マクロの外側の MEXIT は不当です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_127">
+<A HREF="#Heading3_1_1"> 1. </A>127 <B>MODULE has no corresponding MODEND</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: MODULE に対応する MODEND がありません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_128">
+<A HREF="#Heading3_1_1"> 1. </A>128 <B>Missing '(' in function call</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 関数コールで'('が抜けています。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_129">
+<A HREF="#Heading3_1_1"> 1. </A>129 <B>Missing ')' after file name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ファイル名の後の')'が抜けています。<BR>
+    補足説明  : FILE 属性で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_130">
+<A HREF="#Heading3_1_1"> 1. </A>130 <B>Missing ')' after function parameter(s)</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 関数パラメータの後の')'が抜けています。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_131">
+<A HREF="#Heading3_1_1"> 1. </A>131 <B>Missing closing bracket in expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 式の閉じカッコが抜けています。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_132">
+<A HREF="#Heading3_1_1"> 1. </A>132 <B>Missing comma in XDEF/XREF list</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: XDEF/XREF リストでコンマが抜けています。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_133">
+<A HREF="#Heading3_1_1"> 1. </A>133 <B>Missing comma in list of case options</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: case オプションのリストでコンマが抜けています。<BR>
+    補足説明  : =...case セレクタで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_134">
+<A HREF="#Heading3_1_1"> 1. </A>134 <B>Missing or misplaced ")" in operand address</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オペランドアドレスの中に ")" が抜けているか、誤った場所に置かれています。<BR>
+    補足説明  : ')' がソースラインから抜けています。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_135">
+<A HREF="#Heading3_1_1"> 1. </A>135 <B>Module may not end until macro/loop expansion is complete</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: マクロ／ループ展開が完了するまでは、モジュールは終了しません。<BR>
+    補足説明  : ループ／マクロコールがモジュールの内側でスタートした場合、ループ／マクロコールが終了するまでは、MODEND があってはなりません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_136">
+<A HREF="#Heading3_1_1"> 1. </A>136 <B>Module must end before end of macro/loop expansion - MODEND inserted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: モジュールは、マクロ／ループ展開の終了前に、終了しなければなりません。が、MODEND が挿入されています。<BR>
+    補足説明  : ループ／マクロコールの内側でスタートしたモジュールは、ループ／マクロコールよりも前に終了しなければなりません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_137">
+<A HREF="#Heading3_1_1"> 1. </A>137 <B>More than one label specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 複数のラベルが指定されました。<BR>
+    補足説明  : １行に１つのラベルしか指定できません（２番目のラベルが行頭で開始されていないものの、':'で終わっている場合に発生）。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_138">
+<A HREF="#Heading3_1_1"> 1. </A>138 <B>Multiple run addresses specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 複数の実行アドレスが指定されています。<BR>
+    補足説明  :<BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    N
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_139">
+<A HREF="#Heading3_1_1"> 1. </A>139 <B>NARG can only be used inside a macro</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: NARG はマクロの内側でのみ使うことができます。<BR>
+    補足説明  : マクロの外側で NARG を使うと発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_140">
+<A HREF="#Heading3_1_1"> 1. </A>140 <B>NARG's parameter must be a number or macro parameter name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: NARG のパラメータは、数またはマクロパラメータ名でなければなりません。<BR>
+    補足説明  : NARG() 関数に不当なオペランドがあります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_141">
+<A HREF="#Heading3_1_1"> 1. </A>141 <B>Names declared with local must not start with '%c'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ローカル宣言された名前は、'%c'でスタートしてはなりません。<BR>
+    補足説明  : LOCAL ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_142">
+<A HREF="#Heading3_1_1"> 1. </A>142 <B>No closing quote on string</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 文字列に閉じる引用はありません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_143">
+<A HREF="#Heading3_1_1"> 1. </A>143 <B>No correspoinding DO</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 対応する DO がありません。<BR>
+    補足説明  : DO のない UNTIL があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_144">
+<A HREF="#Heading3_1_1"> 1. </A>144 <B>No corresponding IF</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 対応する IF がありません。<BR>
+    補足説明  : IF のない ENDIF/ELSE があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_145">
+<A HREF="#Heading3_1_1"> 1. </A>145 <B>No corresponding REPT</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 対応する REPT がありません。<BR>
+    補足説明  : REPT のない ENDR があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_146">
+<A HREF="#Heading3_1_1"> 1. </A>146 <B>No corresponding WHILE</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 対応する WHILE がありません。<BR>
+    補足説明  : WHILE のない ENDW があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_147">
+<A HREF="#Heading3_1_1"> 1. </A>147 <B>No file matching</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 一致するファイルがありません。<BR>
+    補足説明  : 指定のファイルが見つけられませんでした。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_148">
+<A HREF="#Heading3_1_1"> 1. </A>148 <B>No library file specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　:ライブラリファイルが指定されていません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_149">
+<A HREF="#Heading3_1_1"> 1. </A>149 <B>No matching CASE stgatement for ENDCASE</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ENDCASE に一致する CASE ステートメントがありません。<BR>
+    補足説明  : CASE のない ENDCASE があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_150">
+<A HREF="#Heading3_1_1"> 1. </A>150 <B>No object files specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　:オブジェクトファイルが指定されてません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_151">
+<A HREF="#Heading3_1_1"> 1. </A>151 <B>No option specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　:オプションが指定されていません。<BR>
+    補足説明  : オプションは必ず指定しなければなりません。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_152">
+<A HREF="#Heading3_1_1"> 1. </A>152 <B>No source file specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　:ソースファイルが指定されてません。<BR>
+    補足説明  : コマンドラインでソースファイルが指定されていません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_153">
+<A HREF="#Heading3_1_1"> 1. </A>153 <B>No source files specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ソースファイルが指定されていません。<BR>
+    補足説明  : コマンドラインにソースファイルがありません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_154">
+<A HREF="#Heading3_1_1"> 1. </A>154 <B>Non-binary character following %</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %に続く文字が２進ではありません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_155">
+<A HREF="#Heading3_1_1"> 1. </A>155 <B>Non-hexadecimal character '%c' encountered</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: '%c'に対する文字が 16 進ではありません。<BR>
+    補足説明  : HEX ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_156">
+<A HREF="#Heading3_1_1"> 1. </A>156 <B>Non-hexadecimal character starting number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 16 進でない文字で数が開始されています。<BR>
+    補足説明  : $の後に０から９またはＡからＦを入れてください。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_157">
+<A HREF="#Heading3_1_1"> 1. </A>157 <B>Non-numeric value in DATA statement</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: DATA ステートメントにある値が数値ではありません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    O
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_158">
+<A HREF="#Heading3_1_1"> 1. </A>158 <B>OBJ cannot be specified when producing linkable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンク可能な出力の作成時には、OBJ を指定することはできません。<BR>
+    補足説明  : グループの OBJ 属性に対して発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_159">
+<A HREF="#Heading3_1_1"> 1. </A>159 <B>OFFSET's parameter must be a defined name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: OFFSET のパラメータは定義された名前でなければなりません。<BR>
+    補足説明  : OFFSET() 関数コールにおけるエラーです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_160">
+<A HREF="#Heading3_1_1"> 1. </A>160 <B>ORG ? can only be used when downloading output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ORG ?は出力をダウンロードする時のみに使うことができます。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_161">
+<A HREF="#Heading3_1_1"> 1. </A>161 <B>ORG address cannot be specified when producing linkable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンク可能な出力作成時には、ORG アドレスを指定することはできません。<BR>
+    補足説明  : リンク可能な出力作成時には、ORG グループ属性は指定できません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_162">
+<A HREF="#Heading3_1_1"> 1. </A>162 <B>ORG cannot be used after SECTION directive</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ORG は SECTION ディレクティブの後に使うことはできません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_163">
+<A HREF="#Heading3_1_1"> 1. </A>163 <B>ORG cannot be used when producing linkable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンク可能な出力作成時には、ORG を使用することはできません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_164">
+<A HREF="#Heading3_1_1"> 1. </A>164 <B>ORG must be specified before first section directive</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ORG はセクションディレクティブの前に指定しなければなりません。<BR>
+    補足説明  : セクション使用時に記述できる ORG は、（グループ属性以外の）すべてのセクションステートメントの前に１つのみです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_165">
+<A HREF="#Heading3_1_1"> 1. </A>165 <B>Object file made with out-of-date assembler</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 古いアセンブラで作成されたオブジェクトファイルです。<BR>
+    補足説明  : 再アセンブルする前にファイルを再構築しなければなりません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_166">
+<A HREF="#Heading3_1_1"> 1. </A>166 <B>Odd number of nibbled specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 指定されたニブルは奇数です。<BR>
+    補足説明  : HEX ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_167">
+<A HREF="#Heading3_1_1"> 1. </A>167 <B>Old version of %n cannot be purged</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: %ｎの旧いバージョンは消去できません。<BR>
+    補足説明  : マクロのみが消去できます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_168">
+<A HREF="#Heading3_1_1"> 1. </A>168 <B>One string equate can only be euated to another</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 文字列には他の文字列しか代入できません。<BR>
+    補足説明  : 式などを代入しようとしました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_169">
+<A HREF="#Heading3_1_1"> 1. </A>169 <B>Only built in groups can be used when making relocatable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リロケータブルな出力の作成時は、内蔵グループしか使えません。<BR>
+    補足説明  : ／ｒコマンドラインオプションが指定されている場合は、内蔵グループしか使えません。つまり、新しいグループは定義できません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_170">
+<A HREF="#Heading3_1_1"> 1. </A>170 <B>Only one ORG may be specified before SECTION directive</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SECTION ディレクティブの前に指定できる ORG は１つのみです。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_171">
+<A HREF="#Heading3_1_1"> 1. </A>171 <B>Only one of ／p and ／l may be specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ／ｐと／ｌのうちいずれか１つのみを指定してください。<BR>
+    補足説明  : コマンドライン上で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_172">
+<A HREF="#Heading3_1_1"> 1. </A>172 <B>Op-code not recognised</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オペコードが認識されていません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_173">
+<A HREF="#Heading3_1_1"> 1. </A>173 <B>Option ／p not available when downloading to target</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ターゲットへのダウンロード時に、オプション／ｐを使うことはできません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_174">
+<A HREF="#Heading3_1_1"> 1. </A>174 <B>Option stack is empty</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オプションスタックが空です。<BR>
+    補足説明  : PUSHO のない POPO があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_175">
+<A HREF="#Heading3_1_1"> 1. </A>175 <B>Options ／l and ／p not available when downloading to target</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ターゲットへのダウンロード時には、オプション／ｌおよび／ｐは使うことができません。<BR>
+    補足説明  : コマンドライン上で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_176">
+<A HREF="#Heading3_1_1"> 1. </A>176 <B>Options /p and /r cannot be used together</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オプション/ｐおよび/ｒを一緒に使うことはできません。<BR>
+    補足説明  : コマンドライン上で発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_177">
+<A HREF="#Heading3_1_1"> 1. </A>177 <B>Out of memory, Assembler aborting</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: メモリが足りません。アセンブラがアボートします。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_178">
+<A HREF="#Heading3_1_1"> 1. </A>178 <B>Out of memory, Linker aborting</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: メモリが足りません。リンカはアボートします。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_179">
+<A HREF="#Heading3_1_1"> 1. </A>179 <B>Out of stack space, possibly due to recursive eqates</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: スタック空間がありません。再帰代入のためと思われます。<BR>
+    補足説明  : アセンブラのスタックがいっぱいです。原因は、たとえばｘ equ y+1、y equ x*２などの再帰代入と思われます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_180">
+<A HREF="#Heading3_1_1"> 1. </A>180 <B>Overflow in DATA value</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: DATA 値にオーバフローが見られます。<BR>
+    補足説明  : DATA 値が大きすぎます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_181">
+<A HREF="#Heading3_1_1"> 1. </A>181 <B>Overlay cannot be specified when producing linkable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンク可能な出力作成時には、オーバレイは作成できません。<BR>
+    補足説明  : リンク可能な出力作成時には、OVER グループ属性は指定できません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_182">
+<A HREF="#Heading3_1_1"> 1. </A>182 <B>Overlay must specify a previously defined group name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: オーバレイは以前に定義されたグループ名を指定しなければなりません。<BR>
+    補足説明  : OVER グループ属性にエラーがあります。<BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    P
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_183">
+<A HREF="#Heading3_1_1"> 1. </A>183 <B>POPP must specify a string or undefined name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: POPP は文字列か定義されていない名前を指定しなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_184">
+<A HREF="#Heading3_1_1"> 1. </A>184 <B>Parameter stack is empty</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: パラメータスタックが空です。<BR>
+    補足説明  : POPP はありますが、ポップするものがありません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_185">
+<A HREF="#Heading3_1_1"> 1. </A>185 <B>Possible infinite loop in string substitution</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 文字列の置換に無限ループがある可能性があります。<BR>
+    補足説明  : たとえば、ｘがｘ equs x+１と定義されているｘへの参照がこれにあたります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_186">
+<A HREF="#Heading3_1_1"> 1. </A>186 <B>Previous group was not OBJ'd</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 直前のグループが OBJ されていません。<BR>
+    補足説明  : 直前のグループに OBJ 属性がない場合、OBJ() 属性を指定できません。<BR>
+    プログラム: ASMPSX、PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_187">
+<A HREF="#Heading3_1_1"> 1. </A>187 <B>Psy-Q needs DOS version 3.1 or later</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: Psy-Q はバージョン 3.1 以降 DOS が必要です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_188">
+<A HREF="#Heading3_1_1"> 1. </A>188 <B>Purge must specify a macro name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: PURGE はマクロ名を指定しなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    R
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_189">
+<A HREF="#Heading3_1_1"> 1. </A>189 <B>REF's parameter must be a name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: REF のパラメータは名前でなければなりません。<BR>
+    補足説明  : REF() 関数の参照にエラーがあります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_190">
+<A HREF="#Heading3_1_1"> 1. </A>190 <B>Radix must be in range 2 to 16</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 基数は２から 16 の間でなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_191">
+<A HREF="#Heading3_1_1"> 1. </A>191 <B>Reference to %t '%n' in expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 式中の%t '%n'への参照です。<BR>
+    補足説明  : たとえば、式中のセクション名を使う際に発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_192">
+<A HREF="#Heading3_1_1"> 1. </A>192 <B>Reference to undefined symbol #%h</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 定義されていないシンボル#%ｈへの参照です。<BR>
+    補足説明  : オブジェクトファイルの内部エラーです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_193">
+<A HREF="#Heading3_1_1"> 1. </A>193 <B>Register not recognized</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: レジスタが認識されません。<BR>
+    補足説明  : レジスタ名があるものと期待しましたが、認識されませんでした。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_194">
+<A HREF="#Heading3_1_1"> 1. </A>194 <B>Relocatable output cannot be ORG'd</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 再配置可能な出力は ORG できません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_195">
+<A HREF="#Heading3_1_1"> 1. </A>195 <B>Remainder by zero</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ゼロ除算した余りです。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_196">
+<A HREF="#Heading3_1_1"> 1. </A>196 <B>Remainder by zero</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ゼロ除算の余りです。<BR>
+    補足説明  :<BR>
+    プログラム: ASMPSX、PSYLINK<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_197">
+<A HREF="#Heading3_1_1"> 1. </A>197 <B>Repeat count must not be negative</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 繰り返しの回数は負であってはなりません。<BR>
+    補足説明  : REPT ステートメントのエラーです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_198">
+<A HREF="#Heading3_1_1"> 1. </A>198 <B>Replicated text too big</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 複製されたテキストが大きすぎます。<BR>
+    補足説明  : ループで複製されるテキストはメモリにバッファされなければなりませんが、このループは大きすぎてテキストに合いません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_199">
+<A HREF="#Heading3_1_1"> 1. </A>199 <B>Resident SCSI drivers not present</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 常駐 SCSI ドライバが存在しません。<BR>
+    補足説明  : PSYBIOS が読み込まれていないようです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_200">
+<A HREF="#Heading3_1_1"> 1. </A>200 <B>Run-time patch to odd address</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 奇数アドレスへのランタイムのパッチです。<BR>
+    補足説明  : 奇数アドレスへのランタイムロングワードパッチが、Amiga システムではクラッシュを起こす可能性があることへの警告です。<BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    S
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_201">
+<A HREF="#Heading3_1_1"> 1. </A>201 <B>SCSI card not present - assembly aborted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SCSI カードが存在しません。アセンブルがアボートされました。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_202">
+<A HREF="#Heading3_1_1"> 1. </A>202 <B>SCSI card not present - linking aborted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SCSI カードが存在しません。リンクがアボートします。<BR>
+    補足説明  :<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_203">
+<A HREF="#Heading3_1_1"> 1. </A>203 <B>SCSI drivers not loaded</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SCSI ドライバは読み込まれていません。<BR>
+    補足説明  : PSYBIOS は存在していないと思われます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_204">
+<A HREF="#Heading3_1_1"> 1. </A>204 <B>SECT's parameter must be a defined name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SECT のパラメータは定義された名前でなければなりません。<BR>
+    補足説明  : SECT() 関数コールにエラーがあります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_205">
+<A HREF="#Heading3_1_1"> 1. </A>205 <B>SECTEND's parameter must be a defined name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SECTEND パラメータは定義された名前でなければなりません。<BR>
+    補足説明  : SECTEND() 関数へのコールにエラーがあります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_206">
+<A HREF="#Heading3_1_1"> 1. </A>206 <B>SECTSIZE's parameter must be a section name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SECTSIZE のパラメータは、セクション名でなければなりません。<BR>
+    補足説明  : SECTSIZE() 関数へのコールにエラーがあります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_207">
+<A HREF="#Heading3_1_1"> 1. </A>207 <B>SHIFT can only be used inside a macro</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: SHIFT はマクロの内側でしか使えません。<BR>
+    補足説明  : SHIFT ステートメントがマクロの外側にあります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_208">
+<A HREF="#Heading3_1_1"> 1. </A>208 <B>STRCMP requires constant strings as parameters</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: STRCMP はパラメータとして定数文字列が必要です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_209">
+<A HREF="#Heading3_1_1"> 1. </A>209 <B>STRLEN's operand must be a quoted string</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: STRLEN のオペランドは引用された文字列でなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_210">
+<A HREF="#Heading3_1_1"> 1. </A>210 <B>Section '%n' must be in one of group code, data or BSS</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション'%n'はグループ CODE、DATA、または BSS になければなりません。<BR>
+    補足説明  : Amiga フォーマットコード作成時に発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_211">
+<A HREF="#Heading3_1_1"> 1. </A>211 <B>Section '%n' must be in one of groups text, data or BSS</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション'%n'はグループ TEXT、DATA、または BSS のいずれかになければなりません。<BR>
+    補足説明  : ST フォーマットコード作成時に発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_212">
+<A HREF="#Heading3_1_1"> 1. </A>212 <B>Section '%n' placed in non-group symbol #%h</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション'%n'が非グループシンボル#%ｈに置かれています。<BR>
+    補足説明  : オブジェクトファイルで内部エラーがありました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_213">
+<A HREF="#Heading3_1_1"> 1. </A>213 <B>Section '%n' placed in non-group symbol '%n'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション'%n'が非グループシンボル'%n'に置かれています。<BR>
+    補足説明  : セクションを非グループタイプシンボルに置こうとしました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_214">
+<A HREF="#Heading3_1_1"> 1. </A>214 <B>Section '%n' placed in two different groups</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション'%n'が２つの異なったグループに置かれています。<BR>
+    補足説明  : セクションが異なったグループに置かれています。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_215">
+<A HREF="#Heading3_1_1"> 1. </A>215 <B>Section '%n' placed in unknown group symbol #%h</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクション'%n'が未知のグループシンボル#%ｈに置かれています。<BR>
+    補足説明  : オブジェクトファイルに内部エラーがあります。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_216">
+<A HREF="#Heading3_1_1"> 1. </A>216 <B>Section stack is empty</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクションスタックが空です。<BR>
+    補足説明  : PUSHS のない POPS があります。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_217">
+<A HREF="#Heading3_1_1"> 1. </A>217 <B>Section was previously in a different group</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: セクションは以前違うグループにありました。<BR>
+    補足説明  : ２度目の呼び出しで、セクションは違うグループに割り当てられました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_218">
+<A HREF="#Heading3_1_1"> 1. </A>218 <B>Seek in output file failed</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 出力ファイルのシークに失敗しました。<BR>
+    補足説明  : DOS seek コールがエラー状態を返しました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_219">
+<A HREF="#Heading3_1_1"> 1. </A>219 <B>Severity value must be in range 0 to 3</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: Severity 値は０から３の範囲でなければなりません。<BR>
+    補足説明  : INFORM ステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_220">
+<A HREF="#Heading3_1_1"> 1. </A>220 <B>Short macro calls in loops/macros must be defined before loop/macro</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ループ／マクロのショートマクロコールは、ループ／マクロの前に定義しなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_221">
+<A HREF="#Heading3_1_1"> 1. </A>221 <B>Short macro may not contain labels</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ショートマクロにはラベルを含まないでください。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_222">
+<A HREF="#Heading3_1_1"> 1. </A>222 <B>Size cannot be sepcified when producing linkable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンク可能な出力作成時には、サイズを指定することはできません。<BR>
+    補足説明  : グループ上の SIZE 属性で発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_223">
+<A HREF="#Heading3_1_1"> 1. </A>223 <B>Size specified in /b option must be in range 2 to 64</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: /ｂオプションで指定するサイズは、２から 64 の範囲でなければなりません。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_224">
+<A HREF="#Heading3_1_1"> 1. </A>224 <B>Source must be a register</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ソースオペランドはレジスタでなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_225">
+<A HREF="#Heading3_1_1"> 1. </A>225 <B>Source operand must be an immediate value</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ソースオペランドは即値でなければなりません<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_226">
+<A HREF="#Heading3_1_1"> 1. </A>226 <B>Specified patch cannot be reprented in target's relocation format</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 指定されたパッチは、ターゲットの再配置フォーマットで表すことはできません。<BR>
+    補足説明  : リロケータブルなコード作成時には、ターゲットの出力ファイルフォーマットに従って、特定の実行時の再配置が許可されます。必要なパッチの種類が出力ファイルフォーマットで表されていないと、このエラーが起こります。たとえば、ロングワードのみを許可する ST ファイルフォーマットでのバイトのパッチが、これにあたります。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_227">
+<A HREF="#Heading3_1_1"> 1. </A>227 <B>Square root of negative number</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 負の数の平方根です。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_228">
+<A HREF="#Heading3_1_1"> 1. </A>228 <B>Statement must have a label</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ステートメントにはラベルがなければなりません。<BR>
+    補足説明  : たとえば、EQU 演算にはラベルがありません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_229">
+<A HREF="#Heading3_1_1"> 1. </A>229 <B>String '%n' cannot be shifted</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 文字列'%n'はシフトできません。<BR>
+    補足説明  : SHIFT ステートメントに指定された文字列は、複数要素文字列（たとえば{...}で囲まれたもの）ではないので、シフトできません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_230">
+<A HREF="#Heading3_1_1"> 1. </A>230 <B>Symbol '%n' cannot be XDEF'd/XRED'd</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'は XDEF または XREF することはできません。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_231">
+<A HREF="#Heading3_1_1"> 1. </A>231 <B>Symbol '%n' is already XDEF'd/XRED'd</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'はすでに XDEF または XREF されています。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_232">
+<A HREF="#Heading3_1_1"> 1. </A>232 <B>Symbol '%n' is not defined in this module</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'はこのモジュールでは定義されていません。<BR>
+    補足説明  : 定義されていない名前がありました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_233">
+<A HREF="#Heading3_1_1"> 1. </A>233 <B>Symbol '%n' not defined</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'が定義されていません。<BR>
+    補足説明  : シンボルが定義されていません。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_234">
+<A HREF="#Heading3_1_1"> 1. </A>234 <B>Symbol '%n' placed in non-section symbol #%h</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'が非セクションシンボル#%ｈに置かれています。<BR>
+    補足説明  : オブジェクトファイルに内部エラーがありました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_235">
+<A HREF="#Heading3_1_1"> 1. </A>235 <B>Symbol '%n' placed in unknown section symbol #%h</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'が未知のセクションシンボル#%ｈに置かれています。<BR>
+    補足説明  : オブジェクトファイルに内部エラーがありました。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_236">
+<A HREF="#Heading3_1_1"> 1. </A>236 <B>Symbol in COFF format file has unrecognised class</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: COFF ファイルフォーマットのシンボルに認識不能なクラスがあります。<BR>
+    補足説明  : COFF フォーマットのファイルは、Sierra Ｃクロスコンパイラなどによって作成されたものです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_237">
+<A HREF="#Heading3_1_1"> 1. </A>237 <B>Symbot '%n' multiply defined</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: シンボル'%n'が複数定義されています。<BR>
+    補足説明  : 以前に定義されたシンボルの新しい定義です。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_238">
+<A HREF="#Heading3_1_1"> 1. </A>238 <B>Syntax eror in expression</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 式に文法エラーがあります。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    T
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_239">
+<A HREF="#Heading3_1_1"> 1. </A>239 <B>TYPE's parameter must be a name</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: TYPE のパラメータは名前でなければなりません。<BR>
+    補足説明  : TYPE() 関数のコールで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_240">
+<A HREF="#Heading3_1_1"> 1. </A>240 <B>Timed out sending data to target</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ターゲットへのデータ送信がタイムアウトしました。<BR>
+    補足説明  : ターゲットが応答しないかオフラインです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_241">
+<A HREF="#Heading3_1_1"> 1. </A>241 <B>Timed out sending data to target</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　:ターゲットへのデータ送信がタイムアウトしました。<BR>
+    補足説明  : ターゲットが応答しないかオフラインです。<BR>
+    プログラム: ASMPSX、PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_242">
+<A HREF="#Heading3_1_1"> 1. </A>242 <B>To many parameters in macro call</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: マクロコールのパラメータが多すぎます。<BR>
+    補足説明  : パラメータの最大数 (32) を超えています。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_243">
+<A HREF="#Heading3_1_1"> 1. </A>243 <B>Too many INCLUDE files</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: INCLUDE ファイルが多すぎます。<BR>
+    補足説明  : INCLUDE できるファイルは 512 までです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_244">
+<A HREF="#Heading3_1_1"> 1. </A>244 <B>Too many INCLUDE paths specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: INCLUDE パスが多すぎます。<BR>
+    補足説明  : コマンドラインの／ｊオプションにある INCLUDE パスが多すぎます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_245">
+<A HREF="#Heading3_1_1"> 1. </A>245 <B>Too many characters in character constant</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 文字定数にある文字が多すぎます。<BR>
+    補足説明  : 文字定数は１から４までです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_246">
+<A HREF="#Heading3_1_1"> 1. </A>246 <B>Too many different sections</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 異なったセクションが多すぎます。<BR>
+    補足説明  : セクションは最大 256 までです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_247">
+<A HREF="#Heading3_1_1"> 1. </A>247 <B>Too many file names specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 指定したファイル名が多すぎます。<BR>
+    補足説明  : コマンドラインにあるパラメータが多すぎます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_248">
+<A HREF="#Heading3_1_1"> 1. </A>248 <B>Too many file names specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　:ファイル名が多すぎます。<BR>
+    補足説明  : コマンドラインにあるパラメータが多すぎます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_249">
+<A HREF="#Heading3_1_1"> 1. </A>249 <B>Too many modules to link</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リンクするモジュールが多すぎます。<BR>
+    補足説明  : リンクできるモジュールは最大 256 個です。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_250">
+<A HREF="#Heading3_1_1"> 1. </A>250 <B>Too many output files specified</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 指定した出力ファイルが多すぎます。<BR>
+    補足説明  : 出力ファイルは最大 256 までです。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_251">
+<A HREF="#Heading3_1_1"> 1. </A>251 <B>Too many symbols in COFF format file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: COFF フォーマットファイルにシンボルが多すぎます。<BR>
+    補足説明  : COFF フォーマットのファイルは、Sierra Ｃクロスコンパイラなどによって作成されたものです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_252">
+<A HREF="#Heading3_1_1"> 1. </A>252 <B>Too much temporary data</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: テンポラリデータが多すぎます。<BR>
+    補足説明  : アセンブラのテンポラリデータの限界である 16MB に達しています。<BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    U
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_253">
+<A HREF="#Heading3_1_1"> 1. </A>253 <B>Unable to open command file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: コマンドファイルを開けることができません。<BR>
+    補足説明  : コマンドラインから発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_254">
+<A HREF="#Heading3_1_1"> 1. </A>254 <B>Unable to open output file</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 出力ファイルを開くことができません。<BR>
+    補足説明  : 指定した出力ファイルを開くことができませんでした。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_255">
+<A HREF="#Heading3_1_1"> 1. </A>255 <B>Undefined name in command</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: コマンドに定義されていない名前があります。<BR>
+    補足説明  : ALIAS ステートメントのターゲット名に発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_256">
+<A HREF="#Heading3_1_1"> 1. </A>256 <B>Undefined symbols in COFF file patch record</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: COFF ファイルパッチレコードに定義されていないシンボルがあります。<BR>
+    補足説明  : COFF フォーマットのファイルは、Sierra Ｃクロスコンパイラなどによって作成されたものです。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_257">
+<A HREF="#Heading3_1_1"> 1. </A>257 <B>Unexpected MODEMD encountered</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 予期せぬ MODEND がありました。<BR>
+    補足説明  : 前に MODULE のない MODEND がありました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_258">
+<A HREF="#Heading3_1_1"> 1. </A>258 <B>Unexpected case option outside CASE statement</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: CASE ステートメントの外側に予期せぬ case オプションがあります。<BR>
+    補足説明  : CASE/ENDCASE ブロックの外側に=...ステートメントが見つかりました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_259">
+<A HREF="#Heading3_1_1"> 1. </A>259 <B>Unexpected characters at end of Command line</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: コマンドラインの終端に予期せぬ文字があります。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_260">
+<A HREF="#Heading3_1_1"> 1. </A>260 <B>Unexpected characters at end of line</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 行の終端に予期せぬ文字があります。<BR>
+    補足説明  : 行の終端と思われる所に（コメント以外の）文字がありました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_261">
+<A HREF="#Heading3_1_1"> 1. </A>261 <B>Unexpected end of line in list parameter</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: リストパラメータで予期せぬ所で行の終端に達しました。<BR>
+    補足説明  : {...}リストで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_262">
+<A HREF="#Heading3_1_1"> 1. </A>262 <B>Unexpected end of line in macro parameter</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: マクロパラメータで予期せぬ所で行の終端に達しました。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_263">
+<A HREF="#Heading3_1_1"> 1. </A>263 <B>Unexpected end of line</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 予期せぬ所で行の終端に達しました<BR>
+    補足説明  : 行が終わりましたが、さらに入力が必要とされていました。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_264">
+<A HREF="#Heading3_1_1"> 1. </A>264 <B>Unit number must be in range 0-127</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ユニット数は０から 127 の範囲でなければなりません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_265">
+<A HREF="#Heading3_1_1"> 1. </A>265 <B>Unknown opeion /</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 未知のオプション / です。<BR>
+    補足説明  : コマンドライン上で、オプションが認識されませんでした。<BR>
+    プログラム: PSYLIB <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_266">
+<A HREF="#Heading3_1_1"> 1. </A>266 <B>Unknown option /%c</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 未知のオプション/%ｃがあります。<BR>
+    補足説明  : コマンドラインで発せられます。<BR>
+    プログラム: ASMPSX、PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_267">
+<A HREF="#Heading3_1_1"> 1. </A>267 <B>Unknown option</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 未知のオプションです。<BR>
+    補足説明  : ＯＰＴステートメントで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_268">
+<A HREF="#Heading3_1_1"> 1. </A>268 <B>Unknown processor type '%s'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: '%s'は未知のプロセッサタイプです。<BR>
+    補足説明  : ターゲットプロセッサの種類を認識できませんでした。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_269">
+<A HREF="#Heading3_1_1"> 1. </A>269 <B>Unrecognized attribute in GROUP directive</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: GROUP ディレクティブに認識不能な属性があります。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_270">
+<A HREF="#Heading3_1_1"> 1. </A>270 <B>Unrecognized optimisation switch '%c'</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 認識不能な最適化スイッチ'%c'があります。<BR>
+    補足説明  : OPT ステートメントまたはコマンドラインで発せられます。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_271">
+<A HREF="#Heading3_1_1"> 1. </A>271 <B>Unrecognized relocatable output format</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 認識不能なリロケータブルな出力フォーマットがあります。<BR>
+    補足説明  : コマンドライン上の／ｒオプションで発せられます。<BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_272">
+<A HREF="#Heading3_1_1"> 1. </A>272 <B>Use of AT register without opt at - Warning</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: アセンブラマクロによって壊されてしまう可能性のある at レジスタを使っています。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_273">
+<A HREF="#Heading3_1_1"> 1. </A>273 <B>User pressed Break/Ctrl-C</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: ユーザーが Break または Ctrl-C を押しました。<BR>
+    補足説明  : アセンブルまたはリンクがユーザーによってアボートされました。<BR>
+    プログラム: ASMPSX、PSYLINK<BR>
+
+<H1>
+    V
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_274">
+<A HREF="#Heading3_1_1"> 1. </A>274 <B>Value (%l) out of range in instruction patch</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: 命令パッチに範囲を超えた値(%l) があります。<BR>
+    補足説明  : パッチされる値が範囲外です。<BR>
+    プログラム: PSYLINK <BR>
+
+<H1>
+    W
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_275">
+<A HREF="#Heading3_1_1"> 1. </A>275 <B>WORKSPACE command can only be used when downloading output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: WORKSPACE コマンドは、出力をダウンロードする時にしか使えません。<BR>
+    補足説明  : <BR>
+    プログラム: PSYLINK <BR>
+    <BR>
+
+<H1>
+    X
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_276">
+<A HREF="#Heading3_1_1"> 1. </A>276 <B>XDEF'd symbol %n not defined</B>
+</A>
+</H3>
+<blockquote>
+    意味: XDEF されたシンボル%ｎは定義されていません。<BR>
+    補足説明  : シンボルは XDEF されましたが定義されていません。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_277">
+<A HREF="#Heading3_1_1"> 1. </A>277 <B>XDEF/XREF can only be used when producing linkable output</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: XDEF/XREF はリンク可能な出力作成時にのみ使用できます。<BR>
+    補足説明  : <BR>
+    プログラム: ASMPSX <BR>
+
+<H1>
+    Z
+<HR SIZE="5">
+</H1>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_278">
+<A HREF="#Heading3_1_1"> 1. </A>278 <B>Zero length INCBIN</B>
+</A>
+</H3>
+<blockquote>
+    意味　　　: INCBIN の長さがゼロです。<BR>
+    補足説明  : INCBIN ステートメントの長さがゼロであることへの警告です。<BR>
+    プログラム: ASMPSX <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ファイルサーバー機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    以下の関数により、ターゲットボードマシンから、PC (DOS/V) 上のファイルをアクセスすることができます。ただし、１回に読み書きできるサイズは 65,534 バイトまでです。<BR>
+    <BR>
+
+<H1>
+    PCinit
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PCinit( void )<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    PC ファイルシステムを初期化する。<BR>
+    現在オープンされているバッファをすべてフラッシュし、ファイルをすべてクローズする。<BR>
+    なお、オープンできるファイルの上限は CONFIG.SYS の FILES によって規定されている。デフォルトは 20 であり、より多くのファイルをオープンする場合は、CONFIG.SYS の FILES 行を変更する必要がある。<BR>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功した場合は０、それ以外の場合はエラーコードを返す。<BR>
+</blockquote>
+
+<H1>
+    PCcreat
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PCcreat(name, perms);<BR>
+    char *name;<BR>
+    int perms;<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    name	ファイル名<BR>
+    perms	ファイル属性<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル name を perms で指定された属性で作成する。<BR>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功した場合はファイルハンドルを、それ以外の場合は -1 を返す。<BR>
+    <BR>
+</blockquote>
+
+<H1>
+    PCopen
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PCopen(name, flags, perms)<BR>
+    char *name;<BR>
+    int flags;<BR>
+    int perms;<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    name	ファイル名<BR>
+    flags	オープンモード<BR>
+    perms	ファイルパーミッション<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル name を perms で指定されたパーミッションでオープンする。<BR>
+    permsは通常0を指定して下さい。<BR>
+    flagsの種類を以下に挙げます。なお、LIBAPIのopen()で使われるflagの値とは関係ありませんので注意して下さい。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>flagsの値</TD><TD>オープンモード</TD><TR>
+    <TD>0</TD><TD>リードオンリ</TD><TR>
+    <TD>1</TD><TD>ライトオンリ</TD><TR>
+    <TD>2</TD><TD>リード／ライト</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功した場合はファイルハンドルを、それ以外の場合は -1 を返す。<BR>
+    <BR>
+</blockquote>
+
+<!-- 例 -->
+<B>例</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>#include "libsn.h"
+/* read named file to memory          */
+void read_in_file(char *name, char *buff)
+{
+int fd;
+long len;
+fd = PCopen(name, 0, 0);
+if (fd == -1) {
+	printf("Error opening file %s＼n", name);
+	exit(1);
+}
+len = PClseek(fd, 0L, 2);	/* seek to end of file to get length */
+PClseek(fd, 0L, 0);		/* back to the start */
+if (PCread(fd, buff, len) != len) {
+	printf("Failed to read all of file %s＼n", name);
+	exit(1);
+}
+PCclose(fd);
+}
+main()
+{
+....
+read_in_file("mat0", (char*)0xA0040000);
+read_in_file("mat1", (char*)0xA0050200);
+...
+}
+</PRE>
+</blockquote>
+
+<H1>
+    PCclose
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PCclose(fd)<BR>
+    int fd;<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    fd	ファイルハンドル<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル fdを閉じる。<BR>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功した場合は０を、それ以外の場合は DOS のエラーコードを返す。<BR>
+    <BR>
+</blockquote>
+
+<H1>
+    PCread
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PCread(fd, buff, len)<BR>
+    int fd;<BR>
+    char *buff;<BR>
+    int len;<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    fd		ファイルハンドル<BR>
+    buff	バッファを指すポインタ<BR>
+    len		読み込むバイト数<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル fd から、データを len バイト読み込み、buff に格納する。<BR>
+    なお、len にファイルサイズより大きい値を指定してはならない。<BR>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功した場合は読み込んだバイト数を、それ以外の場合は０を返す。<BR>
+</blockquote>
+
+<H1>
+    PCwrite
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PCwrite(fd, buff, len)<BR>
+    int fd;<BR>
+    char *buff;<BR>
+    int len;<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    fd		ファイルハンドル<BR>
+    buff	バッファを指すポインタ<BR>
+    len		書き込むバイト数<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル fd に、バッファ buff からデータを len バイト書き込む。<BR>
+    また、fd に負の値を指定することにより、バッファの内容をデバッガのメッセージウィンドウに出力することができる。例えば -1 を指定すると １番目のウィンドウ、-2 を指定すると ２番目のウィンドウに出力される。この場合、ファイルをオープンする必要はない。デバッガが実行されていない場合でも、メッセージは内部のリングバッファ (4KB) にバッファリングされ、デバッガが起動されるとその内容が表示される。<BR>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    成功した場合は書き込んだバイト数、それ以外の場合は０を返す。<BR>
+</blockquote>
+
+<H1>
+    PClseek
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    int PClseek(fd, offset, mode)<BR>
+    int fd;<BR>
+    int offset;<BR>
+    int mode;<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    fd1	ファイルハンドル<BR>
+    offset	シークオフセット<BR>
+    mode	ファイルシークモード<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    ファイル fd のファイルポインタを、mode で指定された条件に従って、offset で指定された位置に移動する。<BR>
+    mode に指定できる値は次の通り。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>値</TD><TD>意味</TD><TR>
+    <TD>0</TD><TD>ファイルの先頭からの相対値</TD><TR>
+    <TD>1</TD><TD>現在のポインタからの相対値</TD><TR>
+    <TD>2</TD><TD>ファイルの終からの相対値</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</blockquote>
+
+<H1>
+    pollhost
+<HR SIZE="5">
+</H1>
+    <BR>
+
+<!-- 書式 -->
+<B>書式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    void pollhost ( void )<BR>
+    <BR>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし<BR>
+    <BR>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    DBUGPSXからの要求に応じて情報を提供する。<BR>
+    DBUGPSXがデータを要求していない場合はすぐに戻る。データを要求している場合は、その転送にいくばくかの時間がかかる。DBUGPSXの更新時間はオプションで設定可能(DBUGPSXの項参照)。<BR>
+    また、ソースコードにpollhost()がないとデバッガは正常に動作しないので注意。通常、メインループの最後か、割り込み処理から呼ばれる。<BR>
+    <BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし<BR>
+</blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>エラーコードについて</B>
+</A>
+</H3>
+<blockquote>
+    エラーコード(DOSエラーコードに$80を加えたものです)の内容は次の通りです。<BR>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>コード(HEX)</TD><TD>意味</TD><TR>
+    <TD>81</TD><TD>DOSが無効です</TD><TR>
+    <TD>82</TD><TD>ファイルが見つかりません</TD><TR>
+    <TD>83</TD><TD>パスが見つかりません</TD><TR>
+    <TD>84</TD><TD>ハンドルが足りません</TD><TR>
+    <TD>85</TD><TD>アクセスは拒否されました</TD><TR>
+    <TD>86</TD><TD>無効なハンドルです</TD><TR>
+    <TD>87</TD><TD>メモリコントロールブロックが不正です</TD><TR>
+    <TD>88</TD><TD>メモリ不足です</TD><TR>
+    <TD>89</TD><TD>無効なメモリブロックアドレスです</TD><TR>
+    <TD>8A</TD><TD>無効な環境です</TD><TR>
+    <TD>8B</TD><TD>無効なフォーマットです</TD><TR>
+    <TD>8C</TD><TD>無効なアクセスコードです</TD><TR>
+    <TD>8D</TD><TD>日付が正しくありません</TD><TR>
+    <TD>8E</TD><TD>(未使用)</TD><TR>
+    <TD>8F</TD><TD>ドライブの指定が正しくありません</TD><TR>
+    <TD>90</TD><TD>カレントディレクトリを削除しようとしています</TD><TR>
+    <TD>91</TD><TD>デバイスが等しくありません</TD><TR>
+    <TD>92</TD><TD>ファイルはこれ以上ありません</TD><TR>
+    <TD>93</TD><TD>ディスクはライトプロテクトされています</TD><TR>
+    <TD>94</TD><TD>認識不可能なディスクです</TD><TR>
+    <TD>95</TD><TD>ドライブの準備ができていません</TD><TR>
+    <TD>96</TD><TD>未知のコマンドです</TD><TR>
+    <TD>97</TD><TD>データエラーです</TD><TR>
+    <TD>98</TD><TD>不正な長さが要求されました</TD><TR>
+    <TD>99</TD><TD>シークエラーです</TD><TR>
+    <TD>9A</TD><TD>未知のメディアタイプです</TD><TR>
+    <TD>9B</TD><TD>セクタが見つかりません</TD><TR>
+    <TD>9C</TD><TD>プリンタが紙切れです</TD><TR>
+    <TD>9D</TD><TD>書き込みに失敗しました</TD><TR>
+    <TD>9E</TD><TD>読み込みに失敗しました</TD><TR>
+    <TD>9F</TD><TD>一般エラーです</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

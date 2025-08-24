@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    DsSync
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libds.htm">拡張CD-ROMライブラリ（libds） 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    DsSync
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        プリミティブコマンドの終了を監視する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>DsSync </B>(
+int <I>id</I>,
+u_char* <I>result</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>id</I>		コマンドID
+<I>result</I>		結果格納バッファのポインタ（u_char[ 8 ]）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    プリミティブコマンドの終了を監視する。呼び出された時点でのコマンドIDに対応するコマンドの実行状況を返す。<I>result</I>の値はDslCompleteもしくはDslDiskErrorの場合のみ有効となる。 <BR>
+    なお、<I>id</I>に0を指定するとコマンドの種類を問わず最新の結果を得ることができる。また<I>id</I>に-1を指定するとコマンドと対応が取れていない結果（カバー開閉エラーなど）を得られる。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コマンドの実行状況 <BR>
+    <blockquote>
+    	DslComplete：	コマンドは既に正常終了している <BR>
+    </blockquote>
+    <blockquote>
+    	DslDiskError：	コマンドの実行は失敗した <BR>
+    </blockquote>
+    <blockquote>
+    	DslNoIntr：	まだ実行されていない <BR>
+    </blockquote>
+    <blockquote>
+    	DslNoResult：	実行は終了したが結果は既に抹消されている <BR>
+    </blockquote>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    コマンドの実行結果はある程度の個数まで保存されているが、それ以前のものについては抹消される。保存される結果の最大数はマクロ定数DslMaxRESULTSに定義されている。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

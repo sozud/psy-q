@@ -1,0 +1,477 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.0$
+                                                                   May, '97
+
+                                             PlayStation(R) Programmer Tool
+                                               Run-time Library Release 4.0
+
+                            Document Additions and Changes from Release 3.7
+---------------------------------------------------------------------------
+                         Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                       All Rights Reserved.
+---------------------------------------------------------------------------
+
+Overview and Notes
+---------------------------------------------------------------------------
+This file contains summaries concerning the additions and changes made to 
+the document. Please refer to respective documents for details. Following 
+are the newly-added document files:
+
+
+<Overview>
+	Extended CD-ROM Library (ds.doc)
+	Memory Card Easy Access Library (mcrd.doc)
+<Library Reference>
+	Extended CD-ROM library (libds.doc)
+	Memory card Easy Access Library (libmcrd.doc)
+<Format>
+	Compressed Image Data Format (bs.doc)
+	Integrated Graphics Format (hmd.doc)
+<Converter(Tool)>
+	MSH File Creation  (meshconv.doc)
+	Conversion of RSD Format to HMD Format(rsd2hmd.doc)
+
+Notes:
+The hmd.doc describing the HMD format is distributed only as a WORD file in 
+release 4.0. There is no text version for bs.doc.
+	
+
+---------------------------------------------------------------------------
+Overview
+---------------------------------------------------------------------------
+
+Overview of the PlayStation OS(abst.doc)
+---------------------------------------------------------------------------
+• "Boot Sequence" article has been added to "3 Activation and Operation of 
+  the OS".
+
+
+Kernel Library (api.doc)
+---------------------------------------------------------------------------
+• Analog controller ID information has been added to "7 Controller Service".
+
+• "10. Memory Management Functions" section has been added.
+
+
+Memory Card Library (card.doc)
+---------------------------------------------------------------------------
+• "Table 6: Memory Card File Names" of "6. Rules for Use of Memory card" 
+  has been changed.
+  
+
+CD-ROM Library (cd.doc)
+---------------------------------------------------------------------------
+• The CdlGetparam command has been added to "6. Primitive Commands", and 
+  the table has been changed.
+
+
+Link Cable Library (comb.doc)
+---------------------------------------------------------------------------
+• The title of "Alterations to Contents" article in "1. Overview" has been 
+  changed to "Changes since Release 3.6".
+
+
+Basic Graphics Library (gpu.doc)
+---------------------------------------------------------------------------
+• The descriptions of "5. Graphics System Synchronization and Reset" 
+  section has been changed.
+						
+• "Asynchronous Double Buffer" article has been added to "6. Double buffer".
+	
+• "Texture Pattern Format" article of "7. Texture Mapping" has been deleted,
+  and the descriptions of "Texture Cache" article has been changed.
+
+• The descriptions of "9. Cautionary Programming Notes" section of release 
+  3.7 have been partially removed, and the removed portions were reorganized
+  independently as "8. Primitive Rendering Speed".
+
+• "9. Primitive Division" section has been added.
+
+• "VSync Synchronization in Interlace Mode" article has been added to 
+  "11. Cautionary Programming Notes".
+
+
+Extended Graphics Library (gs.doc)
+---------------------------------------------------------------------------
+• Sections describing the overview of HMD have been added:
+
+	"14. HMD Library"
+	"15. HMD Animation"
+
+
+Gun Library (gun.doc)
+---------------------------------------------------------------------------
+• "Adjustment of Location Data in the Horizontal Direction on the Screen" 
+  article has been added to "1. Overview".
+
+
+PlayStation Library Configuration (lib.doc)
+---------------------------------------------------------------------------
+• Overview for libds and libmcrd has been added.
+
+• "Figure 1: PlayStation Library Structure" has been changed.
+
+
+Data Compression Library (press.doc)
+---------------------------------------------------------------------------
+• The descriptions concerning the BS format, compressed image data format, 
+  have been removed, and the removed portions were reorganized independently
+  as a format document.
+
+• "Figure 9: Decompression Block" has been deleted.
+
+
+Serial Input/Output Library (sio.doc)
+---------------------------------------------------------------------------
+• The descriptions of "Serial Input/Output Driver" article of "2. Driver 
+  and BIOS" has been changed.
+
+• The descriptions of "BIOS" article of "2. Driver and BIOS" has been 
+  changed.
+
+			
+Extended Sound Library (snd.doc)
+---------------------------------------------------------------------------
+• Errors on member types and structures for the VabHdr, ProgAtr and VabAtr
+  structures in "4. Sound Data" have been corrected.
+  
+
+---------------------------------------------------------------------------
+Library Reference
+---------------------------------------------------------------------------
+
+Kernel Library (libapi.doc)
+---------------------------------------------------------------------------
+<Added Functions>
+	InitHeap3()
+	malloc3()
+	realloc3()
+	calloc3()
+	free3()
+
+<Changed Items>
+• The descriptions in the "Return  Value" for EnterCriticalSection() have 
+  been changed.
+
+• The descriptions in the "Remarks" of InitPAD() have been changed.
+
+• The descriptions in the "Explanation" of SendPAD(), SetRCnt(), 
+  ResetRCnt(), StartRCnt() and StopRCnt() have been changed.
+
+• The error on the type of Exec() arguments has been corrected.
+
+
+Standard C Library (libc.doc)
+---------------------------------------------------------------------------
+• The descriptions in the "Explanation" of calloc() have been changed. 
+
+• The descriptions in the "Remarks" of malloc() have been changed.
+
+
+Memory Card Library (libcard.doc)
+--------------------------------------------------------------------------- 
+<Added Function>
+	_card_format()		
+
+
+CD-ROM Library (libcd.doc)
+---------------------------------------------------------------------------
+<Added Functions>
+	CdGetSector2()	
+	CdReadBreak()	
+	CdGetSector()	
+
+<Changed Items>
+• The descriptions in the "Remarks" of CdMode() have been changed.
+
+• The CdlGetparam command has been added to the Primitive Commands List of 
+  CdControl().
+
+ 
+Link Cable Library (libcomb.doc)
+---------------------------------------------------------------------------
+<Added Functions>
+	_comb_control()
+
+
+GTE Inline Macro Library (libdmpsx.doc)
+---------------------------------------------------------------------------
+<Added Macro>
+	gte_ApplyMatrixSV()
+
+
+Basic Graphics Library (libgpu.doc)
+---------------------------------------------------------------------------
+<Added Functions>
+	SetDrawLoad()
+	SetDrawTPage()
+	LoadClut2() 
+
+<Changed Items>
+• The descriptions in the "Member" of the structures of SPRT, SPRT_8, 
+  SPRT_16, TILE, TILE_1, TILE_8 and TILE_16 have been corrected.
+
+• The descriptions in the "Explanation" of ResetGraph() have been changed.
+
+• The description in the "Explanation" of DR_TWIN has been changed.
+
+
+Extended Graphics Library (libgs.doc)
+---------------------------------------------------------------------------
+<Added Structures>
+	_GsPOSITION
+	GsARGUNIT
+	GsARGUNIT_IMAGE
+	GsARGUNIT_NORMAL
+	GsARGUNIT_SHARED
+	GsARGUNIT_ANIM
+	GsCOORDUNIT
+	GsCOORD2PARAM
+	GsTYPEUNIT	
+	GsUNIT
+	GsWORKUNIT	
+	GsSEQ
+	GsSEH
+	GsVIEWUNIT
+	GsRVIEWUNIT
+	TMD_STRUCT
+
+	GsARGUNIT_JntMIMe
+	GsARGUNIT_RstJntMIMe
+	GsARGUNIT_VNMIMe
+	GsARGUNIT_RstVNMIMe
+	GsMIMePrimHeader
+	 
+<Added Functions>
+	GsGetHeadpUnit()
+	GsGetLsUnit()
+	GsGetLwUnit()
+	GsGetLwsUnit()
+	GsMapCoordUnit()
+	GsMapUnit()
+	GsScanUnit()
+	GsSortUnit()
+	GsLinkAnim()
+	GsScanAnim()
+	GsU_00......(),GsU_01......(),GsU_02......(),
+	GsU_03000000()
+	GsU_03000001()Å`GsU_03000990()
+	GsSortSpriteB()
+	GsSortFastSpriteB()
+	GsSetViewUnit()
+	GsSetRViewUnit()
+	GsSetRViewLUnit()
+
+	GsMap....MIMe()
+	GsMapRst....MIMe()
+	GsU_04......()
+
+<Changed Items>
+• The errors on "Structure" of the GsCOORDINATE2 structure have been 
+  corrected.
+
+• The errors on types of arguments of GsInitGraph(), GsInitGraph2(),
+  GsSetProjection(), GsSetFlatLight(),  GsSetLightMode(), GsSetAmbient(), 
+  GsSortObject?(), GsSortObject?J(), GsDefDispBuff(), GsDefDispBuff2(), 
+  GsSetOffset(), GsSetOrign(),  GsLinkObject?(), GsClearDispArea() have 
+  been corrected.
+
+• The errors on types of external variables of PSDBASEX[], PSDBASEY[] and 
+  PSDIDX have been corrected.
+
+• The errors on types of return values of GsCutOt() and GsLinkObject3() have
+  been corrected.
+
+• The errors on function names in "Syntax" and "Explanation" of GsSetClip2(),
+  GsSetLightMatrix2(), GsSetRefView2L() and GsSortFixBg16() have been 
+  corrected.
+
+
+Basic Geometry Library (libgte.doc)
+---------------------------------------------------------------------------
+<Added Functions>
+	GsTMDfastTG3L_FLIP() 
+	GsTMDfastTG3LFG_FLIP()
+	GsTMDfastTG3NL_FLIP() 
+	GsTMDfastTNG3_FLIP()
+	SquareSL0() 
+	SquareSL12() 
+	SquareSS0()
+	SquareSS12()
+
+<Corrected Items>
+• The descriptions in the "Remarks" of VectorNormal(), VectorNormalS() and 
+  VectorNormalSS() have been changed.
+
+• The errors on the order of arguments for RotMatrix(), RotMatrixC(), 
+  RotMatrixYXZ() and ratan2 have been corrected.
+
+• The errors on the types of arguments for ColorMatCol(), ColorMatDpq(), 
+  Clip4FTP(), Square0(), Square12(),  NormalColor3(), NormalColorCol3(), 
+  NormalColorCol3_nom(),  NormalColordpq3_nom(), GsTMDfastF3NL(), 
+  GsPrst....(), GsTMDdiv....(), GsTMDfast....(), RotMeshPrimQ_T(), 
+  RotMesh-related functions, and PhongLine() have been corrected.
+
+• The error on the argument names of ReadSZfifo4() have been corrected.
+
+• The errors on the descriptions in the "Return Value" of AverageZ4() have 
+  been corrected.
+
+
+Gun Library (libgun.doc)
+---------------------------------------------------------------------------
+<Changed Items>
+• The descriptions in the "Explanation" of InitGUN() have been changed.
+
+
+Data Compression Library (libpress.doc)
+---------------------------------------------------------------------------
+<Added Structure>
+	ENCSPUENV	
+
+<Added Functions>
+	EncSPU()	
+	DecDCTvlcBuild()	
+	DecDCTvlc2()		
+	DecDCTvlcSize2()	
+
+
+Serial Input/output Library (libsio.doc)
+---------------------------------------------------------------------------
+<Added Function>
+	Sio1Callback()	
+
+<Changed Items>
+• The descriptions in the "Explanation" and "Remarks" of _sio_control() have
+  been changed.
+
+
+Extended Sound Library (libsnd.doc)
+---------------------------------------------------------------------------
+<Added Function>
+	SsGetChannelMute()	
+
+<Changed Items>
+• The descriptions in the "Explanation" of SsSeqOpen(), SsSeqOpenJ(), 
+  SsVabOpenHead(), SsSetTickMode(),  SsSetTableSize(), SsSepOpen(), 
+  SsSepOpenJ(), SsSeqClose(),  SsSepClose(), SsVabClose(), _SsContNrpn1(), 
+  _SsContNrpn2(),  _SsContRpn1(), _SsContRpn2() and SsSetNck() have been 
+  changed.
+
+• The errors on the member types and structures of the VabHdr, ProgAtr and 
+  VagAtr structures have been corrected.
+
+• The errors on the types of arguments for SsUtGetDetVVol(), SsSetSerialVol()
+  and SsUtChangeADSR() have been corrected.
+
+• The errors on the argument names for _SsContResetAll() and 
+  _SsContBankChange() have been corrected.
+
+• The errors on the descriptions of "Arguments" of _SsSetNrpnVabAttr... 
+  have been corrected.
+
+
+Basic Sound Library (libspu.doc)
+---------------------------------------------------------------------------
+<Changed Items>
+• A new member, low_priority, has been added to the SpuStEnv structure.
+
+• The function names in the "See Also (Related Items)" of 
+  SpuGetTransferMode(), SpuGetTransferStartAddr(),  
+  SpuIsTransferCompleted(), SpuRead(), SpuReadDecodedData(),  
+  SpuSetTransferCallback(), SpuSetTransferMode(),  SpuSetTransferStartAddr(),
+  SpuWrite(), SpuWrite0() and SpuWritePartly() have been changed.
+
+• The descriptions in the "Explanation" of SpuIsTransferCompleted(), 
+  SpuRead(), SpuReadDecodedData(), SpuWrite() and SpuWritePartly() have been
+  changed.
+  
+
+Multi-tap Library (libtap.doc)
+---------------------------------------------------------------------------
+<Changed Items>
+• The descriptions in the "Explanation" of SendTAP() have been changed.
+
+
+---------------------------------------------------------------------------
+File Format
+---------------------------------------------------------------------------
+
+RSD(rsd.doc)
+---------------------------------------------------------------------------
+• Due to the addition of the HMD format, there are substantial changes to 
+  this document. The descriptions for MSH, PVT, COD, OGP and MOT files have
+  been newly added, while the descriptions concerning RSD, PLY, MAT and GRP 
+  files have been changed substantially.
+
+
+TOD(tod.doc)
+---------------------------------------------------------------------------
+• The errors on "Figure 12: Packet Data when Light Source Packet" have been
+  corrected.
+
+
+---------------------------------------------------------------------------
+Converter
+---------------------------------------------------------------------------
+
+PSXCONS(psxcons.doc)
+---------------------------------------------------------------------------
+• "ROM Monitor Command" article has been added.
+
+
+---------------------------------------------------------------------------
+Hardware
+---------------------------------------------------------------------------
+
+Hardware Guide (hardware.doc)
+---------------------------------------------------------------------------
+• The descriptions concerning the double buffer have been deleted from  
+  "Screen Mode and Display Location" article of "2. CRT Display" section in  
+  "Graphics System" chapter.
+
+• The descriptions concerning the memory access cycles in "8. Memory Access 
+  Timing" section of "CPU and its Peripherals" chapter have been changed.
+
+
+GTE Command (gter1b.doc)
+---------------------------------------------------------------------------
+• Setting 2 to the cv argument of the MVMVA command has been made invalid.
+
+
+---------------------------------------------------------------------------
+Psy-Q Programmer's Guide
+---------------------------------------------------------------------------
+
+Introduction (0intro.doc)
+---------------------------------------------------------------------------
+• Inappropriate expressions such as "Refer to ** page" have been corrected.
+
+• "8. Start-up Routine" section has been added.
+ 
+• The descriptions concerning the 32-bit version tool have been added to 
+  "3. System Installation".
+
+
+PSYLINK (1_2link.doc)
+---------------------------------------------------------------------------
+• Inappropriate expressions such as "Refer to ** page" have been corrected.
+
+
+PSYMAKE (1_3make.doc)
+---------------------------------------------------------------------------
+• Inappropriate expressions such as "Refer to ** page" have been corrected.
+
+
+DBUGPSX (1_5debug.doc)
+---------------------------------------------------------------------------
+• Inappropriate expressions such as "Refer to ** page" have been corrected.
+
+
+ASMPSX (2_1asm.doc)
+---------------------------------------------------------------------------
+• Inappropriate expressions such as "Refer to ** page" have been corrected.
+
+
+Syntax of Assembler Statements(2_2state.doc)
+---------------------------------------------------------------------------
+• Inappropriate expressions such as "Refer to ** page" have been corrected.

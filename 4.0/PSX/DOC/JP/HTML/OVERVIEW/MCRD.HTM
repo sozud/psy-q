@@ -1,0 +1,389 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> メモリーカード簡易レベルライブラリ（libmcrd）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+メモリーカード簡易レベルライブラリ（libmcrd）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+メモリカード簡易ライブラリは、PlayStation に実装されたメモリカードを簡便なインタフェースにより使用するためのものです。この章は、その概要について解説します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 ライブラリの機能</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_2_1"> メモリカードの状態チェック</A><BR>
+    <A HREF="#Heading4_1_2_2"> データ読み込み／書き込み</A><BR>
+    <A HREF="#Heading4_1_2_3"> 新規カード検出について</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_3"> 3 libcard およびカードBIOSとの併用</A><BR>
+<P><A HREF="#Heading3_1_4"> 4 メモリカード</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_4_1"> ハードウェア</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_5"> 5 メモリーカード運用ルール</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_5_1"> 異常処理</A><BR>
+    <A HREF="#Heading4_1_5_2"> 用語体系</A><BR>
+    <A HREF="#Heading4_1_5_3"> ファイル名</A><BR>
+    <A HREF="#Heading4_1_5_4"> ファイルヘッダ</A><BR>
+    <A HREF="#Heading4_1_5_5"> 書き込みデータの内容保証</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカード簡易ライブラリは、PlayStation に実装されたメモリカードを簡便なインタフェースにより使用するためのものです。この章は、その概要について解説します。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    メモリカード簡易ライブラリのファイル名は「libmcrd.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+    また、libmcrd は「libcard.lib」 と「libapi.lib」を使用しているので、これらのライブラリもリンクする必要があります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    メモリカード簡易ライブラリのインクルードヘッダは「libmcrd.h」です。各種のデータ構造、マクロはすべてこのファイルで定義されています。各サービスを呼び出すプログラムは、必ずこれをインクルードする必要があります。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libmcrd.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ</TD><TD ALIGN="center">libmcrd.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>ライブラリの機能</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    ・メモリカードの存在、未初期化、異常などの状態チェック<BR>
+    ・メモリカードへのデータ書き込み<BR>
+    ・メモリカードからのデータ読み込み<BR>
+    ・メモリカードの論理初期化(フォーマット)<BR>
+    ・ファイルの削除<BR>
+    ・ファイルの作成<BR>
+    ・ディレクトリ情報取得<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_1">
+<A HREF="#Heading3_1_2"> 2. </A>1 <B>メモリカードの状態チェック</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードは通電中での抜き差しが可能となっています。そのためユーザアプリでは、任意のタイミングでカードが抜き差しされる可能性を考慮した設計が必要です。libmcrd ではカード差込口の状態をチェックする関数<B>MemCardAccept()</B>が用意されており、カードの存在と、存在していた場合はそのカードの状態を調べることができます。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_2">
+<A HREF="#Heading3_1_2"> 2. </A>2 <B>データ読み込み／書き込み</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードはデータ読み込み時および書き込み時に通信エラーが発生することがあります。libmcrd ではデータ読み込み時の通信エラーに関しては内部でリトライが行われるため、ユーザアプリ側での対策を省くことが出来ます。しかし、書き込み時の通信エラーに関しては考慮されていないため、書き込んだデータを読み込んで検証するなのどの処理がユーザアプリ側で必要となります。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2_3">
+<A HREF="#Heading3_1_2"> 2. </A>3 <B>新規カード検出について</B>
+</A>
+</H3>
+<blockquote>
+    交換されたばかりのメモリカードは新規カードとして扱われます。<BR>
+    新規カードを検出した場合、未フォーマットや異常カードが挿された場合を考慮して、以降のそのカードに対するアクセスは、<B>MemCardAccept()</B> を実行しない限り出来ない設計になっています。ただし、<B>MemCardAccept()</B> で新規カードを検出した場合は、すでにフォーマットチェックなどのプロセスを経ているので、再度<B>MemCardAccept()</B>を実行する必要はありません。<BR>
+    新規カードに対して、<B>MemCardAccept()</B> 以外の関数( <B>MemCardExit()</B>, <B>MemCardReadFile()</B>など )を何度実行しても、「新規カード検出」という実行結果しか返ってきません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>libcard およびカードBIOSとの併用</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    libmcrd はlibcard とカードBIOSの関数や、HwCARD, SwCARDイベントなどの資源を使用しているため、ユーザアプリがlibcard またはカードBIOSを直接使用することは出来ません。<BR>
+    ユーザアプリ側でlibmcrd では実現できない機能が必要となった場合は、その機能だけでなく、メモリカードに関する全ての処理をlibcard およびカードBIOSを使用して記述しなければなりません。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_4">
+<H2>
+<A HREF="#Top">↑</A> 4 <B>メモリカード</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカードは、リセットや電源オフ後もデータを保持する通電中でも抜き差しが可能な記憶デバイスです。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4_1">
+<A HREF="#Heading3_1_4"> 4. </A>1 <B>ハードウェア</B>
+</A>
+</H3>
+<blockquote>
+    メモリカードのハードウェア諸元を示します。<BR>
+<CENTER>
+        <H4><B>表 2 メモリカード仕様</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD>容量<BR></TD><TD>フォーマット時120Kバイト<BR>（128バイトのセクタ単位でアクセス）</TD><TR>
+    <TD>通信形態</TD><TD>コントローラポートを兼用した同期型シリアル通信</TD><TR>
+    <TD>アクセス速度<BR></TD><TD>(1)１セクタ書き込み後、20m秒間アクセス不可<BR>(2)最大連続読みとり速度は約10Kバイト／秒</TD><TR>
+    <TD>その他<BR></TD><TD>電源を落さずに抜き差し可能<BR>１０万回書き込み保障</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_5">
+<H2>
+<A HREF="#Top">↑</A> 5 <B>メモリーカード運用ルール</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    メモリカードは複数のアプリケーションにより共有される資源です。よって共通のルールに従った運用をお願いします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_1">
+<A HREF="#Heading3_1_5"> 5. </A>1 <B>異常処理</B>
+</A>
+</H3>
+<blockquote>
+    アプリケーション実行中に容量不足や未フォーマットカードの検出などが発生した場合の処理については、標準の画面やメッセージ（例えばOSDと同じ表示が必須、というような）は定めません。個々のアプリケーションに応じた設計をお願いします。ただし、次の点に留意ください。<BR>
+    <BR>
+<UL>
+         <LI> 論理初期化を行なう場合は必ずオペレータに問い合わせて下さい。よって自動初期化機能は使わないでください。
+         <LI> カードが検出できず、かつ将来何んらかの操作制限が生ずることが判明した場合は必ずオペレータに通知してください。できれば問い合わせをお願いします。
+</UL>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_2">
+<A HREF="#Heading3_1_5"> 5. </A>2 <B>用語体系</B>
+</A>
+</H3>
+<blockquote>
+    商品カタログでの必要メモリ容量の単位は「ブロック」となります。<BR>
+    1ブロックは8192バイトです。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_3">
+<A HREF="#Heading3_1_5"> 5. </A>3 <B>ファイル名</B>
+</A>
+</H3>
+<blockquote>
+    ファイル名は次のような構成としてください。<BR>
+<CENTER>
+        <H4><B>表 3 メモリーカードのファイル名</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">バイト</TD><TD ALIGN="center">内容</TD><TD ALIGN="center">備考</TD><TR>
+    <TD ALIGN="center">0</TD><TD>マジック</TD><TD>常に'B'</TD><TR>
+    <TD ALIGN="center">1</TD><TD>地域</TD><TD>国内は'I'北米は'A'欧州は'E'(*1)</TD><TR>
+    <TD ALIGN="center">2～11</TD><TD>タイトル</TD><TD>SCE品番(*2)</TD><TR>
+    <TD ALIGN="center">12～20</TD><TD>ユーザ公開</TD><TD>0z00,0x2a(*),0x3f(?)以外のACIIのみ使用。0x00で終了</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+        <BLOCKQUOTE><UL>
+        		*1：いずれもシステムによるチェックなし<BR>
+        		*2：複数discタイトルは先頭discのもの<BR>
+        </BLOCKQUOTE></UL>
+    <BR>
+    SCE品番は弊社発売決定予備会議（マスタ出稿の約３週間前）にて決定し、各社営業ご担当へ通知します。それを元に次のように決定してください。<BR>
+
+     <H4><B>例 商品コードが「SLPS-00001」の場合</B></H4>
+
+      <BLOCKQUOTE>
+      ファイル名の先頭１２文字は「BISLPS-00001」となる<BR>
+      </BLOCKQUOTE>
+    <BR>
+    数字部は必ず０詰めで５桁に拡張してください。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_4">
+<A HREF="#Heading3_1_5"> 5. </A>4 <B>ファイルヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    各ファイルの先頭には次のヘッダを必ず配置してください。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 4 メモリーカードファイルヘッダ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">サイズ（バイト）</TD><TR>
+    <TD>Magic</TD><TD>2（常に'SC'）</TD><TR>
+    <TD>Type</TD><TD>1</TD><TR>
+    <TD>ブロック数</TD><TD>1</TD><TR>
+    <TD>文書名</TD><TD>64（シフトJIS *1）</TD><TR>
+    <TD>pad</TD><TD>28</TD><TR>
+    <TD>Clut</TD><TD>32</TD><TR>
+    <TD>アイコンイメージ(1)</TD><TD>128（16x16x4Bits）</TD><TR>
+    <TD>アイコンイメージ(2)</TD><TD>128（Type==0x12,0x13のみ）</TD><TR>
+    <TD>アイコンイメージ(3)</TD><TD>128（Type==0x13のみ）</TD><TR>
+    <TD>データ</TD><TD>任意（128Bytes× n ）</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    		*1：非漢字および第一水準漢字のみ、全角３２文字。<BR>
+    <BR>
+<CENTER>
+        <H4><B>表 5 Typeﾌｨｰﾙﾄﾞ</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">Type<BR></TD><TD ALIGN="center">アイコンイメージ数<BR>（自動差し替えアニメ）</TD><TR>
+    <TD ALIGN="center">0x11</TD><TD ALIGN="center">1</TD><TR>
+    <TD ALIGN="center">0x12</TD><TD ALIGN="center">2</TD><TR>
+    <TD ALIGN="center">0x13</TD><TD ALIGN="center">3</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5_5">
+<A HREF="#Heading3_1_5"> 5. </A>5 <B>書き込みデータの内容保証</B>
+</A>
+</H3>
+<blockquote>
+    データ書き込み中のリセットやカード抜きとり・電源オフによるデータ破壊への対策はアプリケーション側で実施してください。<BR>
+
+     <H4><B>例</B></H4>
+
+      <BLOCKQUOTE>
+      書き込みデータを２重化。書き込みは交互に行なう。また、各セクタの最終バイトは自身のチェックサムを付加する。<BR>
+      読みとり時にチェックサムテストを行ない、エラー検出時はもうひとつのデータセットを使用する。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>注意</B></H4>
+
+      <BLOCKQUOTE>
+      ファイルシステムの代替セクタ機能はカード内メモリの書き込みエラーにのみ有効です。書き込み内容保証機能はハードウェア、ライブラリともにサポートしません。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

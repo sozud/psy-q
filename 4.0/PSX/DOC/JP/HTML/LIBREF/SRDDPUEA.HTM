@@ -1,0 +1,124 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuReadDecodedData
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuReadDecodedData
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SPUがデコードしたサウンドデータの転送+
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>long <B>SpuReadDecodedData </B>(
+SpuDecodedData *<I>d_data</I>, 
+unsigned long <I>flag</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>d_data</I>		転送されるメインメモリ内のSpuDecodedData構造体の先頭アドレス
+<I>flag</I>		SPU_CDONLY（CD入力のみ転送指定）または
+ 		SPU_ALL（全てのデータを転送指定）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    サウンドバッファからメインメモリへSPUでデコードされた波形データを転送する。 <BR>
+    SPUはCD入力のボリューム処理後のサウンドデータ、及びVoice1, Voice 3のエンベロープ処理後のサウンドデータをサウンドバッファの先頭0x1000バイト(0x800 short int)の部分にクロック(44.1 kHz)毎にそれぞれ16 bit (= 1 short int)ずつ書き込む。個々のサウンドデータはそれぞれ0x400バイト(0x200 short int)のバッファとなっている。 <BR>
+    データは符合付き16bitであるため、アクセスにも16bit(=1short int)単位となり、その配置は以下の通りである。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">マップ(short int)</TD><TD ALIGN="center">データ内容</TD><TR>
+    <TD ALIGN="center">0x000～0x1ff</TD><TD ALIGN="center">CD-Lch</TD><TR>
+    <TD ALIGN="center">0x200～0x3ff</TD><TD ALIGN="center">CD-Rch</TD><TR>
+    <TD ALIGN="center">0x400～0x5ff</TD><TD ALIGN="center">Voice1</TD><TR>
+    <TD ALIGN="center">0x600～0x7ff</TD><TD ALIGN="center">Voice3</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    これらは前半部分(0x100 short int)と後半部分(0x100 shortint)に分かれ、現在どちらのバッファ領域に書き込まれているかが返り値によって判断できる。 <BR>
+        <BLOCKQUOTE>
+    SPU_DECODED_FIRSTHALF	... 前半部分 <BR>
+    SPU_DECODED_SECONDHALF	... 後半部分 <BR>
+        </BLOCKQUOTE>
+    これによってレポートされるのはあくまで現在書き込まれている領域なので、実際に利用できるデータはレポートされる領域とは反対の領域である。 <BR>
+    また、転送されるメインメモリのアドレスは、 <BR>
+<BR>
+<UL>
+         <LI> 大域変数として取られた変数へのアドレス
+         <LI> mallocなどでヒープ領域に取られた変数へのアドレスでなければならない
+</UL>
+        <BLOCKQUOTE>
+    すなわち、 <BR>
+        </BLOCKQUOTE>
+<UL>
+         <LI> スタック領域へのアドレス（auto 変数へのアドレス）であってはならない
+</UL>
+<BR>
+    引数 <I>flag </I>により、CD入力のデータのみが転送されることを指定できる。 <BR>
+<BR>
+    呼び出し後、転送終了を確認するために SpuIsTransferCompleted() を呼ぶか、事前にSpuSetTransferCallback() にて DMA転送終了Callback関数を設定しておくこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    現在書き込まれているバッファ領域 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">返り値</TD><TD ALIGN="center">意味</TD><TR>
+    <TD>SPU_DECODED_FIRSTHALF</TD><TD>前半部分</TD><TR>
+    <TD>SPU_DECODED_SECONDHALF</TD><TD>後半部分</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    これによってレポートされるのはあくまで現在書き込まれている領域なので、実際に利用できるデータはレポートされる領域とは反対の領域である。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="spuread.htm">SpuRead</a>(), <a href="spuwrite.htm">SpuWrite</a>(), <a href="swpurit0.htm">SpuWrite0</a>(), <a href="swppuriy.htm">SpuWritePartly</a>(), <a href="sstsapur.htm">SpuSetTransferStartAddr</a>(), <a href="sgtsapur.htm">SpuGetTransferStartAddr</a>(), <a href="sitcpusd.htm">SpuIsTransferCompleted</a>(), <a href="sstcpuek.htm">SpuSetTransferCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

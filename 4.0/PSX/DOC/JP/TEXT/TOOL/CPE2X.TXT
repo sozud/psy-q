@@ -1,0 +1,63 @@
+                                                   PlayStation Data Converter
+
+cpe2x
+------
+
+
+ 1 概要
+
+    CPE-EXEコンバータ。
+    ここでは、1995/Jul/7付けの Version 1.5 に関する内容を記述しています。
+
+ 2 使い方
+
+
+    cpe2x [option] cpefile
+
+
+ 3 オプション
+
+
+    /C[area]
+
+      J : for Japan (default)
+      A : for North America 
+      E : for Europe
+
+    使用例
+
+        DOS> cpe2x test.cpe 		日本リリース用
+        DOS> cpe2x /CA test.cpe		USAリリース用
+        DOS> cpe2x /CE test.cpe		ヨーロッパリリース用
+
+ 4 以前のバージョンからの変更点
+
+    オプションスイッチにより、ヘッダーに含まれる文字情報をエリア別に選択でき
+    るようになりました。
+    
+    これまでのバージョンでは、ある種のCPEファイルをコンバートした際、「Sorry!
+     CPE2X cannot convert this CPE file. Please use EXEHEADX.」というメッセー
+    ジを出して終了する事がありましたが、このバージョンから、今までは扱えなか
+    った形式のCPEファイルにも対応できるようになりました。
+    よって、EXEHEADX.EXE は今後必要ありません。
+    
+    ある種のCPEファイルをコンバートする際、カレントディレクトリにテンポラリフ
+    ァイルを作成する事があります。その場合、以下のメッセージが出力されます。
+        
+        Using tmp-file: CPE2XTMP.XXX
+        
+    テンポラリファイル使用時は、コンバートに多少時間がかかる場合があります。
+    また、テンポラリファイルはコンバート終了時に削除されます。
+
+ 5 警告＆エラーメッセージ
+
+    以下のメッセージが出力された場合はサポートBBSにてご連絡下さい。
+    
+
+    WARNING: overwrite. size:XXXXXXXX addr:XXXXXXXX
+
+      CPEファイル中で、アドレスの重複している部分が発見された。
+
+    ERROR: too many sector of CPE file.
+
+      CPEファイル内部のセクタ数が、扱える範囲を越えた。

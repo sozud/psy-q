@@ -1,0 +1,167 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> ライブラリアンPSYLIB</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+ライブラリアンPSYLIB
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+作成したモジュールを、ライブラリアン PSYLIB を用い、ライブラリ化することができます。よく使用するルーチンをライブラリ化して利用することにより、負担を軽減し、プロジェクトをより効率的に進めることができます。<BR>また、PSYLIB は、オブジェクトモジュールのライブラリへの追加のみならず、ライブラリからの削除、ライブラリの一覧表示及び更新の機能も備えています。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>書式</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PSYLIB を実行するには、MS-DOS のプロンプトから次のように入力します。<BR>
+    <BR>
+<PRE>        psylib &lt;/option&gt; &lt;library&gt; &lt;module&gt; [module]...
+</PRE>
+    <BR>
+    オプションは"/"（スラッシュ）に続けて指定します。オプションを省略することはできません。<BR>
+    オプションに続き、ライブラリファイル名とオブジェクトファイル名をスペースで区切って指定します。次の例では、mylib.lib に test.obj を追加しています。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /a mylib.lib test.obj
+</PRE>
+    モジュールファイルはスペースで区切って複数指定することもできます。また、ワイルドカード指定も可能です。<BR>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /a mylib.lib test1.obj test2.obj
+</PRE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /a mylib.lib *.obj
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>オプション</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    オプションは"/"（スラッシュ）に続けて指定します。オプションを省略することはできません。<BR>
+    オプションには次のものがあります。<BR>
+
+     <H4><B>モジュールの追加(/a)</B></H4>
+
+      <BLOCKQUOTE>
+      "/a" を指定すると、指定したモジュールをライブラリに追加します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /a mylib.lib test.obj
+</PRE>
+
+     <H4><B>モジュールの削除(/d)</B></H4>
+
+      <BLOCKQUOTE>
+      "/d"を指定すると、指定したモジュールをライブラリから削除します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /d mylib.lib test.obj
+</PRE>
+
+     <H4><B>一覧表示(/l)</B></H4>
+
+      <BLOCKQUOTE>
+      "/l"を指定すると、ライブラリ内のモジュールを一覧表示します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /l mylib.lib
+</PRE>
+
+     <H4><B>モジュールの更新(/u)</B></H4>
+
+<PRE>        "/u"を指定すると、ライブラリ内の指定したモジュールを更新します。
+</PRE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /u mylib.lib test.obj
+</PRE>
+
+     <H4><B>モジュールの抽出(/x)</B></H4>
+
+      <BLOCKQUOTE>
+      "/x"を指定すると、ライブラリから指定したモジュールを抽出します。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>例</B></H4>
+
+<PRE>        psylib /x mylib.lib test.obj
+</PRE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>ライブラリの利用</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    作成したライブラリをリンク時に組み込むには、psylink 実行時に、ライブラリファイルを指定してください。<BR>
+    また、指定されたライブラリファイルに必要な外部シンボルを置くと、リンカはモジュールを抽出し、アセンブラによって出力されたオブジェクトコードとリンクします。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Psy-Q</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

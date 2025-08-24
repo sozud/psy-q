@@ -1,0 +1,142 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SsSetTickMode
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libsnd.htm">拡張サウンド ライブラリ (libsnd) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SsSetTickMode
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        Tickの設定を行う
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SsSetTickMode</B> (
+long <I>tick_mode</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>tick_mode</I>		Tickモード
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    Tick の分解能を設定する。SsSeqOpen() またはSsSepOpen() が呼ばれる前、かつSsStart() の前に設定を行なうこと。なお、複数回呼ばれた際の動作は保証しない。 <BR>
+    Tick ModeはSEQ/SEPデータで指定されている速度、及び分解能には依存せず、単にサウンドシステム内部の分解能を規定する。 <BR>
+    Tick Modeの中で、SS_TICK50, SS_TICK60, SS_TICKVSYNC はSetVideoMode()の指定によりその動作が異なる(以下個別のTickModeの項を参照)。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD> </TD><TD>tick_mode</TD><TD>動作</TD><TR>
+    <TD>1<BR></TD><TD>SS_TICK50<BR></TD><TD>Tick = 1/50秒<BR>(SsSeqCalledTbyT() 自動呼び出し)</TD><TR>
+    <TD>2<BR></TD><TD>SS_TICK60<BR></TD><TD>Tick = 1/60秒<BR>(SsSeqCalledTbyT() 自動呼び出し)</TD><TR>
+    <TD>3<BR></TD><TD>SS_TICKVSYNC<BR></TD><TD>Tick =垂直帰線の分解能<BR>(SsSeqCalledTbyT() 自動呼び出し)</TD><TR>
+    <TD>4<BR></TD><TD>SS_TICK120<BR></TD><TD>Tick = 1/120秒<BR>(SsSeqCalledTbyT() 自動呼び出し)</TD><TR>
+    <TD>5<BR></TD><TD>SS_TICK240<BR></TD><TD>Tick = 1/240秒<BR>(SsSeqCalledTbyT() 自動呼び出し)</TD><TR>
+    <TD>6<BR></TD><TD>SS_NOTICK<BR></TD><TD>Tick 6= 1/60秒<BR>(SsSeqCallTbyT() は自動では呼ばれない)</TD><TR>
+    <TD>7<BR></TD><TD>任意の分解能<BR></TD><TD>Tick = (1/tick_mode)秒<BR>(SsSeqCalledTbyT() 自動呼び出し)</TD><TR>
+    <TD>8<BR></TD><TD>(任意の分解能|SS_NOTICK)<BR></TD><TD>Tick =(1/tick_mode)秒<BR>(SsSeqCallTbyT() は自動では呼ばれない)</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+    1. <I>tick_mode</I> = SS_TICK50 <BR>
+        <BLOCKQUOTE>
+    1/50秒が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    SetVideoMode()で指定したモードがMODE_PALの場合はOSのルートカウンタ管理サービスRCntCNT3をこの分解能で利用し、よって、PALの垂直帰線のタイミング(1/50秒)が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    MODE_NTSCの場合はOSのルートカウンタ管理サービスRCntCNT2でこの分解能を生成してSEQファイルが解釈され演奏される。よって、プログラム中でRCntCNT2はこの分解能以外では使用できない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    2.<I> tick_mode</I> = SS_TICK60 <BR>
+        <BLOCKQUOTE>
+    1/60秒が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    SetVideoMode()で指定したモードがMODE_NTSCの場合はOSのルートカウンタ管理サービスRCntCNT3をこの分解能で利用し、よって、NTSCの垂直帰線のタイミング(1/60秒)が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    MODE_PALの場合はOSのルートカウンタ管理サービスRCntCNT2でこの分解能を生成してSEQファイルが解釈され演奏される。よって、プログラム中でRCntCNT2はこの分解能以外では使用できない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    3. <I>tick_mode</I> = SS_TICKVSYNC <BR>
+        <BLOCKQUOTE>
+    垂直帰線のタイミングが1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    SetVideoMode()で指定したモードがMODE_NTSCの場合はNTSCの垂直帰線のタイミング(1/60秒)が分解能となり、指定したモードがMODE_PALの場合はPALの垂直帰線のタイミング(1/50秒)が分解能となり、SEQファイルが解釈され演奏される。 <BR>
+    どちらもOSのルートカウンタ管理サービスRCntCNT3をこの分解能のために利用する。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    4. <I>tick_mode</I> = SS_TICK120 <BR>
+        <BLOCKQUOTE>
+    1/120秒が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    ただし、この場合OSのルートカウンタ管理サービスRCntCNT2をこの分解能で利用するため、プログラム中でRCntCNT2はこの分解能以外では使用できない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    5. <I>tick_mode</I> = SS_TICK240 <BR>
+        <BLOCKQUOTE>
+    1/240秒が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    ただし、この場合OSのルートカウンタ管理サービスRCntCNT2をこの分解能で利用するため、プログラム中でRCntCNT2はこの分解能以外では使用できない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    6. <I>tick_mode</I> = SS_NOTICK <BR>
+        <BLOCKQUOTE>
+    垂直帰線のタイミング(1/60秒)が1 Tickとなり、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    ただしTick Callback 関数は自動では呼ばれないため、ユーザ・プログラムの中で垂直帰線のタイミングでTick Callback関数（例えばSsSeqCalledTbyT ()）を呼ぶ必要がある。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    7. <I>tick_mode</I> =任意の分解能 <BR>
+        <BLOCKQUOTE>
+    60～240の間で任意の値を引数に設定することにより、1Tickを(1/<I>tick_mode</I>)秒に設定し、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    ただし、この場合OSのルートカウンタ管理サービスRCntCNT2をこの分解能で利用するため、プログラム中ではRCntCNT2をこの分解能以外では使用できない。 <BR>
+        </BLOCKQUOTE>
+<BR>
+    8. <I>tick_mode</I> = (任意の分解能|SS_NOTICK) <BR>
+        <BLOCKQUOTE>
+    60～240の間で任意の値を引数に設定することにより、1Tickを(1/<I>tick_mode</I>)秒に設定し、この分解能でSEQファイルが解釈され演奏される。 <BR>
+    ただし、引数にSS_NOTICKとの「ビットor」を指定していることによりTick Callback 関数は自動では呼ばれないため、ユーザはプログラムの中で指定したタイミングでTick Callback関数（例えばSsSeqCalledTbyT()）を呼ぶ必要がある。 <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssstart.htm">SsStart</a>(), <a href="ssctseqt.htm">SsSeqCalledTbyT</a>(), <a href="svmetide.htm">SetVideoMode</a>(), <a href="sstcsetk.htm">SsSetTickCallback</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

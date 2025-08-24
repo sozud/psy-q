@@ -1,0 +1,252 @@
+<HTML>
+<CENTER>
+
+<!-- 見出し 2,章見出し -->
+<HEAD>
+<TITLE> 数学ライブラリ（libmath）</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+<A NAME="Heading2_1">
+<H1>
+数学ライブラリ（libmath）
+</H1>
+</A>
+
+</CENTER>
+
+<!-- 章説明 -->
+<P>
+<blockquote>
+<FONT FACE="ＭＳ ゴシック">
+数学ライブラリは浮動小数点演算パッケージと、標準的なC言語の数学関数群を提供します。
+</FONT>
+<HR SIZE=5>
+</blockquote>
+<P>
+<blockquote>
+<H2>
+        <B>目次</B>
+</H2>
+</blockquote>
+
+<blockquote>
+<UL>
+<P><A HREF="#Heading3_1_1"> 1 概要</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_1_1"> ライブラリファイル</A><BR>
+    <A HREF="#Heading4_1_1_2"> インクルードヘッダ</A><BR>
+    </UL>
+<P><A HREF="#Heading3_1_2"> 2 浮動小数点数</A><BR>
+<P><A HREF="#Heading3_1_3"> 3 エラー処理</A><BR>
+    <UL>
+    <A HREF="#Heading4_1_3_1"> エラーの種類</A><BR>
+    <A HREF="#Heading4_1_3_2"> エラー時の内部処理</A><BR>
+    <A HREF="#Heading4_1_3_3"> エラーイベント</A><BR>
+    <A HREF="#Heading4_1_3_4"> エラー変数</A><BR>
+    </UL>
+</UL>
+<HR>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_1">
+<H2>
+<A HREF="#Top">↑</A> 1 <B>概要</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    数学ライブラリ(libmath)は、ソフトウェアによる浮動小数点演算パッケージと、Ｋ＆ＲをベースとしたC言語の数学関数群を提供しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_1">
+<A HREF="#Heading3_1_1"> 1. </A>1 <B>ライブラリファイル</B>
+</A>
+</H3>
+<blockquote>
+    数学ライブラリのファイル名は「libmath.lib」です。<BR>
+    各サービスを呼び出すプログラムは、必ずこれをリンクする必要があります。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1_2">
+<A HREF="#Heading3_1_1"> 1. </A>2 <B>インクルードヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    数学ライブラリを使うためには次のようなインクルードヘッダが必要です。各関数とヘッダの関係についてはＣ言語の教科書をご参照ください。<BR>
+<CENTER>
+        <H4><B>表 1</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容</TD><TD ALIGN="center">ファイル名</TD><TR>
+    <TD ALIGN="center">ライブラリ</TD><TD ALIGN="center">libmath.lib</TD><TR>
+    <TD ALIGN="center">ヘッダ<BR></TD><TD ALIGN="center">libmath.h<BR>limits.h</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+      <BLOCKQUOTE>
+      <BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_2">
+<H2>
+<A HREF="#Top">↑</A> 2 <B>浮動小数点数</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    数学ライブラリはIEEE754準拠の単精度浮動小数点数（float型）と倍精度浮動小数点数（double型）をサポートします。<BR>
+    PlayStationのCPUは浮動小数点数演算コプロセッサを備えていないため、floatやdouble型変数の演算はハードウェアではサポートされていません。<BR>
+    よって本ライブラリをリンクしサブルーチンコール形式の浮動小数点四則演算パッケージをアプリケーションに組み込むことによりfloat型とdouble型が使用可能となります。<BR>
+<CENTER>
+        <H4><B>表 2 float型</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">仕様</TD><TR>
+    <TD>サイズ</TD><TD>４バイト</TD><TR>
+    <TD>有効桁数</TD><TD>６桁（１０進数換算）</TD><TR>
+    <TD>オーバーフロー限界値</TD><TD>2.0**128 = 3.4e38</TD><TR>
+    <TD>アンダーフロー限界値</TD><TD>0.5**126 = 2.2e-38</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+        <H4><B>表 3 double型</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">項目</TD><TD ALIGN="center">仕様</TD><TR>
+    <TD>サイズ</TD><TD>８バイト</TD><TR>
+    <TD>有効桁数</TD><TD>１５桁（１０進数換算）</TD><TR>
+    <TD>オーバーフロー限界値</TD><TD>2.0**1024 = 1.8e308</TD><TR>
+    <TD>アンダーフロー限界値</TD><TD>0.5**1022 = 2.2e-308</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1_3">
+<H2>
+<A HREF="#Top">↑</A> 3 <B>エラー処理</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    浮動小数点数演算に関するエラーを通知するため、イベントを使用します。<BR>
+    またC標準スタイルの外部変数によるエラー状態記録もサポートします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_1">
+<A HREF="#Heading3_1_3"> 3. </A>1 <B>エラーの種類</B>
+</A>
+</H3>
+<blockquote>
+    ライブラリ内の各関数では引数の範囲テストが行なわれます。<BR>
+    関数仕様中で引数の値に範囲が明記してある関数については、このテストが行なわれ、不適切な値が検出された場合は「領域エラー(EDOM)」とします。<BR>
+    関数内部および四則演算子を使ったアプリケーション中での演算において、結果が表現範囲を越えた場合は「範囲エラー(ERANGE)」とします。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_2">
+<A HREF="#Heading3_1_3"> 3. </A>2 <B>エラー時の内部処理</B>
+</A>
+</H3>
+<blockquote>
+    「領域」「範囲」いずれのエラーについても、イベントおよび外部変数へのエラーコード代入による通知が行なわれます。また演算結果については、できる限り演算を継続できるよう符号付き無限大値を結果とします。正の無限大のビットパタンは、<BR>
+<PRE>        
+        float型：0x7F800000	double型：0x7FF0000000000000
+        
+</PRE>
+    負の無限大は<BR>
+<PRE>        
+        float型：0xFF800000	double型：0xFFF0000000000000
+        
+</PRE>
+    となります。<BR>
+    ゼロ除算の返り値は<BR>
+<PRE>        
+        NaN（float型：0x7FFFFFFF、double型：0x7FFFFFFFFFFFFFFF）または
+        -NaN（float型：0xFFFFFFFF、double型：0xFFFFFFFFFFFFFFFF）
+        
+</PRE>
+    です。（NaNは数値ではなく演算サブルーチンが異常を通知するために予約されたビットパタンです。正常なdouble型変数がNaNと同じビットパタンを格納することはありません。よってNaNを浮動小数点数演算の対象にすると正しい結果は得られません。）<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_3">
+<A HREF="#Heading3_1_3"> 3. </A>3 <B>エラーイベント</B>
+</A>
+</H3>
+<blockquote>
+    数学ライブラリに属す関数および浮動小数点演算パッケージ（double型の四則演算を実装）中でエラーが発生すると原因ディスクリプタSwMATHに由来するイベントが発生します。これによりオーバーフローやゼロ除算などを検出しエラー対応することが可能です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3_4">
+<A HREF="#Heading3_1_3"> 3. </A>4 <B>エラー変数</B>
+</A>
+</H3>
+<blockquote>
+    libmat.lib中にはエラーコードを格納するための外部変数math_errnoが定義され、またインクルードヘッダlibmath.h中にはこの変数がextern宣言されています。<BR>
+    この変数はゼロに初期化されていますが、ライブラリ内でエラーが発生するとその内容に従ってマクロEDOMまたはERANGE（いずれもsys/errno.hで定義されています）が格納されます。math_errnoは自動的にゼロリセットされることはありません。<BR>
+    エラー処理後にゼロを明示的に代入してください。<BR>
+<CENTER>
+        <H4><B>表 4 エラー通知</B></H4>
+
+<CENTER>
+<TABLE BORDER>
+    <TD ALIGN="center">内容  math_errno</TD><TD ALIGN="center">イベント</TD><TD ALIGN="center">原因ディスクリプタ</TD><TD ALIGN="center">種別</TD><TR>
+    <TD>領域エラー</TD><TD>EDOM</TD><TD>SwMATH</TD><TD>EvSpEDOM</TD><TR>
+    <TD>範囲エラー</TD><TD>ERANGE</TD><TD>SwMATH</TD><TD>EvSpERANGE</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+</CENTER>
+    <BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../overview/index.htm"><I>Library Overview</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../libref/index.htm"><I>Library Reference</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

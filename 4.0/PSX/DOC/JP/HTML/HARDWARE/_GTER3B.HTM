@@ -1,0 +1,255 @@
+<HTML>
+<HEAD>
+<TITLE> Hardware Guide</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Hardware</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>ＧＴＥプログラミングガイド</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>形態</B>
+</A>
+</H3>
+<blockquote>
+    ＧＴＥはＭＩＰＳアーキテクチャで定義されるところの「コプロセッサ２」として実装されたベクトル・行列演算器です。扱うデータ形式は固定小数点形式の実数です。<BR>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>レジスタ</B>
+</A>
+</H3>
+<blockquote>
+    ＭＩＰＳアーキテクチャにおけるコプロセッサは、「データレジスタ」および「制御レジスタ」と呼ばれるレジスタ群を持つことができます。ＧＴＥは３２本のデータレジスタと３２本の制御レジスタを持っています。これらはすべて３２ビットレジスタであり、ＣＰＵからのアクセスはレジスタを単位に行われます。しかし、いくつかのレジスタは複数の８または１６ビットフィールドに分割されています。ＧＴＥが行うすべての演算において、ＧＴＥレジスタだけが参照・変更されます。<BR>
+    各レジスタの詳細についてはドキュメント「ＧＴＥレジスタ仕様」を参照ください。<BR>
+    <BR>
+
+     <H4><B>レジスタアクセス命令：</B></H4>
+
+      <BLOCKQUOTE>
+      以下のＣＰＵ命令を実行することにより、ＧＴＥレジスタとＣＰＵレジスタ、またはＧＴＥレジスタとメインメモリ（スクラッチパッドを含む）との間でデータを転送することができます。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>ＣＰＵ命令</TD><TD>ソース</TD><TD>ディスティネーション</TD><TR>
+    <TD><B>lwc2</B></TD><TD><B>メモリ・スクラッチパッド</B></TD><TD><B>ＧＴＥデータレジスタ</B></TD><TR>
+    <TD><B>swc2</B></TD><TD><B>ＧＴＥデータレジスタ</B></TD><TD><B>メモリ・スクラッチパッド</B></TD><TR>
+    <TD><B>mtc2</B></TD><TD><B>ＣＰＵ汎用レジスタ</B></TD><TD><B>ＧＴＥデータレジスタ</B></TD><TR>
+    <TD><B>mfc2</B></TD><TD><B>ＧＴＥデータレジスタ</B></TD><TD><B>ＣＰＵ汎用レジスタ</B></TD><TR>
+    <TD><B>ctc2</B></TD><TD><B>ＣＰＵ汎用レジスタ</B></TD><TD><B>ＧＴＥ制御レジスタ</B></TD><TR>
+    <TD><B>cfc2</B></TD><TD><B>ＧＴＥ制御レジスタ</B></TD><TD><B>ＣＰＵ汎用レジスタ</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+      <BLOCKQUOTE>
+      mtc2, mfc2, ctc2, cfc2 はレジスタ間転送ですが、オンキャッシュのメモリアクセスと同様に Delayed Loads されます。以下のような例では delay slot にnopを入れてください。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        例1：
+        cfc2	v0,C2_FLAG
+        and	v0,v0,v1	# No good
+        
+        例２：
+        cfc2	v0,C2_FLAG
+        nop			# delay slot
+        and	v0,v0,v1
+</PRE>
+    <BR>
+
+     <H4><B>レジスタ名：</B></H4>
+
+      <BLOCKQUOTE>
+      ＧＴＥレジスタ名のマクロ定義が、PlayStationライブラリに含まれるインクルードヘッダ「gtereg.h」中で行われています。各マクロは、ドキュメント「ＧＴＥレジスタ仕様」中で使われているＧＴＥレジスタ名に接頭辞「C2_」を加えたものとなっています。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>レジスタ＃</TD><TD>データレジスタ</TD><TD>制御レジスタ</TD><TR>
+    <TD><B>0</B></TD><TD><B>C2_VXY0</B></TD><TD><B>C2_R11R12</B></TD><TR>
+    <TD><B>1</B></TD><TD><B>C2_VZ0</B></TD><TD><B>C2_R13R21</B></TD><TR>
+    <TD><B>2</B></TD><TD><B>C2_VXY1</B></TD><TD><B>C2_R22R23</B></TD><TR>
+    <TD><B>3</B></TD><TD><B>C2_VZ1</B></TD><TD><B>C2_R31R32</B></TD><TR>
+    <TD><B>4</B></TD><TD><B>C2_VXY2</B></TD><TD><B>C2_R33</B></TD><TR>
+    <TD><B>5</B></TD><TD><B>C2_VZ2</B></TD><TD><B>C2_TRX</B></TD><TR>
+    <TD><B>6</B></TD><TD><B>C2_RGB</B></TD><TD><B>C2_TRY</B></TD><TR>
+    <TD><B>7</B></TD><TD><B>C2_OTZ</B></TD><TD><B>C2_TRZ</B></TD><TR>
+    <TD><B>8</B></TD><TD><B>C2_IR0</B></TD><TD><B>C2_L11L12</B></TD><TR>
+    <TD><B>9</B></TD><TD><B>C2_IR1</B></TD><TD><B>C2_L13L21</B></TD><TR>
+    <TD><B>10</B></TD><TD><B>C2_IR2</B></TD><TD><B>C2_L22L23</B></TD><TR>
+    <TD><B>11</B></TD><TD><B>C2_IR3</B></TD><TD><B>C2_L31L32</B></TD><TR>
+    <TD><B>12</B></TD><TD><B>C2_SXY0</B></TD><TD><B>C2_L33</B></TD><TR>
+    <TD><B>13</B></TD><TD><B>C2_SXY1</B></TD><TD><B>C2_RBK</B></TD><TR>
+    <TD><B>14</B></TD><TD><B>C2_SXY2</B></TD><TD><B>C2_GBK</B></TD><TR>
+    <TD><B>15</B></TD><TD><B>C2_SXYP</B></TD><TD><B>C2_BBK</B></TD><TR>
+    <TD><B>16</B></TD><TD><B>C2_SZ0</B></TD><TD><B>C2_LR1LR2</B></TD><TR>
+    <TD><B>17</B></TD><TD><B>C2_SZ1</B></TD><TD><B>C2_LR3LG1</B></TD><TR>
+    <TD><B>18</B></TD><TD><B>C2_SZ2</B></TD><TD><B>C2_LG2LG3</B></TD><TR>
+    <TD><B>19</B></TD><TD><B>C2_SZ3</B></TD><TD><B>C2_LB1LB2</B></TD><TR>
+    <TD><B>20</B></TD><TD><B>C2_RGB0</B></TD><TD><B>C2_LB3</B></TD><TR>
+    <TD><B>21</B></TD><TD><B>C2_RGB1</B></TD><TD><B>C2_RFC</B></TD><TR>
+    <TD><B>22</B></TD><TD><B>C2_RGB2</B></TD><TD><B>C2_GFC</B></TD><TR>
+    <TD><B>23</B></TD><TD><B>未定義</B></TD><TD><B>C2_BFC</B></TD><TR>
+    <TD><B>24</B></TD><TD><B>C2_MAC0</B></TD><TD><B>C2_OFX</B></TD><TR>
+    <TD><B>25</B></TD><TD><B>C2_MAC1</B></TD><TD><B>C2_OFY</B></TD><TR>
+    <TD><B>26</B></TD><TD><B>C2_MAC2</B></TD><TD><B>C2_H</B></TD><TR>
+    <TD><B>27</B></TD><TD><B>C2_MAC3</B></TD><TD><B>C2_DQA</B></TD><TR>
+    <TD><B>28</B></TD><TD><B>C2_IRGB</B></TD><TD><B>C2_DQB</B></TD><TR>
+    <TD><B>29</B></TD><TD><B>C2_ORGB</B></TD><TD><B>C2_ZSF3</B></TD><TR>
+    <TD><B>30</B></TD><TD><B>C2_LZCS</B></TD><TD><B>C2_ZSF4</B></TD><TR>
+    <TD><B>31</B></TD><TD><B>C2_LZCR</B></TD><TD><B>C2_FLAG</B></TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>コマンド</B>
+</A>
+</H3>
+<blockquote>
+    GTEは座標変換・透視変換・光源計算などのグラフィックスプログラミングに不可欠な一連の演算をひとつのコマンドとして実行します。また、行列演算・外積・内挿などの汎用行列・ベクトル演算もコマンドとして提供します。いずれもＣＰＵによる場合に比べて数倍以上高速な演算が行えます。<BR>
+    ＧＴＥコマンドの詳細については、ドキュメント「ＧＴＥコマンドリファレンス」を参照ください。なお、ＧＴＥコマンドはDMPSX付属のファイル「inline.h」にマクロ定義されています。<BR>
+    <BR>
+
+     <H4><B>ディレイスロット：</B></H4>
+
+      <BLOCKQUOTE>
+      ＣＰＵ命令のひとつであるコプロセッサ２コマンド実行命令「cop2」は、先行する他のＧＴＥに関する命令に対して２つのディレイスロットを要求します。<BR>
+      </BLOCKQUOTE>
+    <BR>
+<PRE>        例３：
+        mtc2	v0,C2_VXY0
+        nop			# delay slot
+        nop			# delay slot
+        RTPS
+</PRE>
+    <BR>
+
+     <H4><B>コマンド実行サイクル：</B></H4>
+
+      <BLOCKQUOTE>
+      ＧＴＥの各コマンドは実行終了までに以下のサイクル数を必要とします。コプロセッサ２コマンド実行命令の実行後、所定のサイクル数を空けずにＧＴＥレジスタの読出命令(swc2,mfc2,cfc2)または後続のコプロセッサ２コマンド実行命令を実行すると、ＣＰＵはＧＴＥコマンドの実行が完了するまでストール(動作停止)します。<BR>
+      </BLOCKQUOTE>
+<PRE>         
+        例４：
+        RTPS                  -+
+        ## interlock           |   15 cycles
+        cfc2	v0,C2_FLAG    -+
+        
+        例５：
+        RTPS                  -+
+        add	v1,v2,v3       |
+        sub	v1,v2,v3       |   15 cycles
+        ## interlock           |
+        cfc2	v0,C2_FLAG    -+
+</PRE>
+    <BR>
+
+     <H4><B>コーデイング上の制約：</B></H4>
+
+    <OL>
+         <LI VALUE= 1> ＧＴＥ命令(cop2)はイベントハンドラやコールバック関数中で実行してはならない。
+         <LI VALUE= 2> ＧＴＥ命令(cop2)はジャンプやブランチ命令後のディレイスロットに入れてはならない。
+         <LI VALUE= 3> ＧＴＥレジスタアクセス命令(lwc2,swc2,mtc2,mfc2,ctc2,cfc2)はジャンプやブランチ命令後の ディレイスロットに入れてはならない。
+         <LI VALUE= 4> ＧＴＥレジスタロード命令(lwc2,mtc2,ctc2) はＧＴＥ命令(cop2)とＧＴＥレジスタセーブ命令(swc2,mfc2,cfc2)の間、ＧＴＥ命令(cop2)とＧＴＥ命令(cop2)の間では使用してはならない。
+    </OL>
+    <BR>
+<PRE>        例６：
+        /* cop2-load-save (NG) */
+        RTPS				/* cop2 */
+        ...				/* cpu instructions */
+        mtc2	v0,C2_VXY0		/* NG !!!!!! */ 
+        ...				/* cpu instructions */
+        cfc2	v0,C2_FLAG		/* save instruction */	
+        
+        例７：
+        /* cop2-load-cop2 (NG) */
+        RTPT				/* cop2 */
+        ...				/* cpu instructions */
+        mtc2	v0,C2_VXY0		/* NG !!!!!! */ 
+        ...				/* cpu instructions */
+        NCLIP				/* cop2 */
+</PRE>
+    <BR>
+    <OL>
+         <LI VALUE= 5> ロード対象ＧＴＥレジスタが実行途中のＧＴＥコマンドにより参照・書き換えられない場合には、ＧＴＥコマンド実行命令(cop2)と関係なくＧＴＥレジスタへのデータ転送命令を実行することができる。
+    </OL>
+    <BR>
+<PRE>        例８：
+        /* cop2-load-save (OK) */
+        RTPS				/* cop2 */
+        ...				/* cpu instructions */
+        mtc2	v0,C2_VXY1		/* OK !! */ 
+        ...				/* cpu instructions */
+        cfc2	v0,C2_FLAG		/* save instruction */
+        
+        例９：
+        /* cop2-load-cop2 (OK) */
+        RTPT				/* cop2 */
+        ...				/* cpu instructions */
+        mtc2	v0,C2_RGB		/* OK !! */ 
+        ...				/* cpu instructions */
+        NCLIP				/* cop2 */ 
+</PRE>
+    <BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>推奨される開発スタイル</B>
+</A>
+</H3>
+<blockquote>
+    アセンブラコーディングでは上記の規則に反した不適正なプログラムでも一見正常に動作する場合があります。しかし、割り込み時に異常動作するなど非常に発見しにくいバグになり、危険ですので直接アセンブラでコーディングすることは極力お避けください。不適正なコードが生成されないよう、以下の順での開発をお勧めします。 <BR>
+    <BR>
+      <BLOCKQUOTE>
+      Ｃ言語(libgte) -&gt; Ｃ言語(DMPSX) -&gt; アセンプラ言語(DMPSX）<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="index.htm"><I>Hardware</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

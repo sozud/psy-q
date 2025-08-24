@@ -1,0 +1,781 @@
+                                                   PlayStation Data Converter
+
+MovConv
+--------
+
+
+ 1 概要
+
+    MovConvはPlayStation用の動画コンバーターです。MovConvは主に次の機能を持ち
+    ます。
+    
+         ・画像の変換
+         ・音声の変換
+         ・画像と音声の結合（インターリーブ）
+         ・変換およびインターリーブのスクリプト実行
+    
+    MovConvが対応する画像フォーマットは以下の通りです。
+    
+
+    入力
+
+      動画    :	AVI（非圧縮）
+      静止画列:	RGB 列（名前によって順序付けられた RGB ファイル）
+      	YUV 列（名前によって順序付けられた YUV ファイル）
+      	TIM 列（名前によって順序付けられた TIM ファイル）
+
+    出力
+
+      動画    : 	STR(MDEC)
+      	AVI（非圧縮）
+      静止画列:	BS 列（名前によって順序づけられた BS ファイル）
+      	RGB 列（名前によって順序付けられた RGB ファイル）
+    
+    出力フォーマット中のSTR(MDEC) およびBS列はMDEC用に圧縮されたデータフォー
+    マットです。また、MovConvが対応する音声フォーマットは以下の通りです。
+    
+
+    入力
+
+      WAV (Windows)
+      PCM
+
+    出力
+
+      XA (CD-ROM XA)
+    
+    WAVまたはPCMから XA への変換の際には、サンプリング周波数の変換と ADPCM 圧
+    縮が行われます。
+    
+    画像と音声のインターリーブは次のように行われます。
+    
+
+    入力
+
+      STR(MDEC) またはBS  +  XA
+
+    出力
+
+      STR(MDEC)
+    
+    音声付きの AVI のように、すでに画像と音声が一体となっているデータを変換す
+    る場合は、映像、音声の変換の後に自動的にインターリーブも行われます。しか
+    し、画像と音声を別々に作成した場合は、インターリーブを手作業で行わなくて
+    はなりません。また、インターリーブの際には画像と音声の同期の調整はできま
+    せんので、それぞれのデータはあらかじめ同期が取られている必要があります。
+    
+    スクリプト機能は複数の変換およびインターリーブをバッチ処理する機能です。
+    MovConv内で定義された書式でスクリプトを記述することにより実行することがで
+    きます。
+    
+    ここではバージョン2.1に関する内容を記述しています。
+
+ 2 使い方
+
+    MovConvの具体的な事例に添った操作の仕方に関しては、「ムービーコンバータ 
+    チュートリアル」を参照してください。ここでは、MovConvの各ダイアログボック
+    スの設定方法を中心に解説します。
+    
+
+    MovConvメインウィンドウ
+
+      MovConv メインウィンドウはMovConvを起動すると表示される最初のウィンドウ
+      です。
+      
+        図 1 MovConvメインウィンドウ
+
+         ・入力ファイル名の指定 左側の[...]ボタンをクリックすると、ファイルオ
+           ープンのダイアログボックスが開きます。これを利用して入力ファイル名
+           を選択します。また、左側のFilename テキストボックスに直接ファイル
+           名を入力することも可能です。
+         ・入力フォーマットの指定 入力ファイル名を指定すると、その拡張子から推
+           定されるフォーマットが自動的に選択されます。また、左側のFormat コ
+           ンボボックスを使って入力フォーマットを選択することもできます。
+         ・出力ファイル名の指定 入力ファイル名と出力フォーマットを指定すると、
+           それらから推定される出力ファイル名が自動的に挿入されます。これを変
+           更したい場合は、右側の[...]ボタンをクリックすると、ファイル保存の
+           ダイアログボックスが開きます。これを利用して出力ファイルを選択しま
+           す。 また、右側のFilenameテキストボックスに直接ファイル名を入力す
+           ることも可能です。
+         ・出力フォーマットの指定 右側のFormatコンボボックスを使って出力フォー
+           マットを選択します。
+         ・出力パラメータの設定 出力フォーマットを選択した後に[Detail]ボタンを
+           クリックすると、それぞれの出力フォーマットごとのパラメータ設定ダイ
+           アログボックスが表示されます。
+         ・入力ファイルのプレビュー 入力ファイルをプレビューするには入力ファイ
+           ル名と入力フォーマットを正しく入力した後に[Preview]ボタンをクリッ
+           クするか、FileメニューよりPreview Inputを選択します。この結果
+           Previewダイアログボックスが表示されます。
+         ・変換を実行する 変換を実行するには、すべての設定を終えた後、
+           [Convert]ボタンをクリックするかFileメニューからConvertを選択します。
+
+    Previewダイアログボックス
+
+      Previewダイアログボックスは、MovConv メインウィンドウで入力ファイルを指
+      定した後[Preview]ボタンをクリックすることにより開きます。
+      
+        図 2 Preview ダイアログボックス
+
+         ・入力ファイルのプレビュー ダイアログボックスには入力データの最初のフ
+           レームが表示されます。ここでスライダを操作すると目的のフレームに飛
+           ぶことができます。入力データを確認したらクローズボタンをクリックし、
+           プレビューを終了します。
+
+    MDEC Parametersダイアログボックス
+
+      MDEC Parametersダイアログボックスは、MovConv メインウィンドウで出力フォ
+      ーマットを「STR(MDEC)」または「BS」と指定した場合に[Detail]ボタンをクリ
+      ックすると表示されます。
+      
+        図 3 MDEC Parametersダイアログボックス
+
+         ・出力タイプを選択する 出力データが音声付きの場合は、Output Type グル
+           ープにある Audio チェックボックスをチェックします（音声無しの場合
+           はチェックしません）。この設定は出力データに対する設定で、入力デー
+           タが音声付きであるかないかとは独立しています。次の表は入力データと
+           出力形式の設定による変換動作の違いを表しています。
+
+        表 1 音声の設定による変換動作の違い
+    +----------+--------+-----------------------------------------------+
+    |入力データ 出力設定 動作                                           |
+    |音声付き   音声付き 映像変換、音声変換、両者をインターリーブ。     |
+    |音声付き   音声無し 映像変換のみ。                                 |
+    |音声無し   音声付き 映像変換のみ。ただし、音声分の容量を差し引いた |
+    |                    大きさに映像を変換する。映像と音声を別々に変換 |
+    |                    し、あとでインターリーブする場合、映像の変換時 |
+    |                    にこの設定を用いる                             |
+    |音声無し   音声無し 映像変換のみ。                                 |
+    +----------+--------+-----------------------------------------------+
+    
+         ・周波数、ステレオ/モノラルの設定 音声付きを指定した場合には、Audio 
+           グループにあるラジオボタンで、出力音声のサンプリング周波数、ステレ
+           オ／モノラルの別を設定します。
+         ・簡易設定/カスタム設定を選択する パラメータの設定方法には、簡易設定
+           とカスタム設定の２つがあります。簡易設定を選択すると、圧縮後の各フ
+           レームの大きさは、CD-ROM の再生速度、フレームレート、チャネル数等
+           から自動的に決められます。圧縮後の画像の大きさを特に管理する必要の
+           ない場合はこちらを利用します。カスタム設定では、圧縮後の画像データ
+           の容量（の最大値）をユーザーが指定することができます。静止画をある
+           容量以下に圧縮したい場合や、動画の各フレームをある容量以下に圧縮し
+           たい場合に利用します。なお、出力データの形式に音声付きを指定した場
+           合は、簡易設定のみしかできません。簡易設定を選択するにはEasyチェッ
+           クボックスをチェックします。カスタム設定を選択するにはCuttomチェッ
+           クボックスをチェックします。
+         ・CD-ROM 再生速度の選択 簡易設定を選択した場合は、 CD-ROM Speed グル
+           ープのラジオボタンで、倍速／標準速を選択します。
+         ・フレームレートの選択 簡易設定を選択した場合は、 Frame Rate コンボボ
+           ックスで、適切なフレームレートを選択します。
+         ・チャネル数の選択 簡易設定を選択した場合は、Number of Channelsコンボ
+           ボックスで適切なチャネル数を選択します。
+         ・うるうセクタの設定 簡易設定を選択した場合は、うるうセクタの設定をし
+           ます。うるうセクタはビデオ機器におけるフレームレート59.94fpsと、
+           PlayStationのCD-ROMからのストリーミングで想定している単位フレーム
+           レート60fpsとの違いから生じるずれを補正するものです。うるうセクタ
+           を指定した場合は、ある一定間隔ごとに余計に１セクタ挿入されます。う
+           るうセクタの設定は次のように指定します。
+
+        表 2 うるうセクタの設定方法
+    +-----------------------------------------------+--------------+
+    |取り込み方法                                    うるうセクタ  |
+    |                                                (Leap Sector) |
+    |ビデオテープからの取り込み                      on            |
+    |(59.94fpsの素材)                                              |
+    |CGレンダリング等で単位フレームレート60fpsとして off           |
+    |作成した素材(60fpsの素材)                                     |
+    +-----------------------------------------------+--------------+
+    
+         ・1フレームあたりの最大容量の設定 カスタム設定を選択した場合、 
+           Maximum Frame Sizeに圧縮後の１フレームあたりの最大容量を指定します。
+           単位としてはセクタ (sectors) とバイト (bytes) のいずれかが選択でき
+           ます。なお、両者の関係は次の通りです。
+      
+      	1 sector = 2016 bytes
+      
+         ・フレームのまとめ方の設定 カスタム設定を選択した場合、フレームのまと
+           め方を指定します。 1フレームあたりの最大容量の設定で指定するのは圧
+           縮後の最大容量ですので、実際に圧縮された結果は、その値よりも小さく
+           なります。Fixed Frame Size が指定された場合は、各フレームの大きさ
+           が必ずこの値なるよう、圧縮データの後ろにダミーデータが挿入されます。
+           Variable Frame Size が指定された場合は、これを行いません。
+         ・圧縮フォーマットのバージョン選択 MDEC Image Version コンボボックス
+           で、圧縮フォーマットのバージョンを選択します。 version 3はversion 
+           2に比べわずかに画質が向上していますが、デコードに時間がかかります
+           ので通常はversion 2を使用します。
+         ・量子化行列の設定 [Q matrix(Y)]ボタンおよび[Q matrix(C)]ボタンをクリ
+           ックしてQ matrixダイアログボックスを開きます。これを操作して量子化
+           行列を設定することができます。特別な場合を除いて、通常はこれを変更
+           する必要はありません。
+         ・圧縮画質のチェック [Preview]ボタンをクリックするとPreview MDEC 
+           Imageダイアログボックスが開きます。これを操作して圧縮時の画質をチ
+           ェックする事ができます。
+
+    Preview MDEC Image ダイアログボックス
+
+      MDEC Parameters ダイアログボックスで[Preview]ボタンをクリックすると
+      Preview MDEC Image ダイアログボックスが開きます。
+      
+        図 4 Preview MDEC Imageダイアログボックス
+
+         ・圧縮するフレームの選択 スクロールバーで圧縮するフレームを選択します。
+           Input Frame テキストボックスにフレーム番号を直接入力することもでき
+           ます。
+         ・圧縮 [Encode]ボタンをクリックし、選択したフレームを圧縮します。しば
+           らくすると、圧縮伸張された画像が表示されます。圧縮時に使用されるパ
+           ラメータは、MDEC Parameters ダイアログボックスで設定したものが使用
+           されます。
+         ・画像配置の調整 画像がはみ出す場合は、View グループにある 
+           Horizontal/Vertical ラジオボタンを使って、配置を調整します。
+
+    Q matrixダイアログボックス
+
+      MDEC Parametersダイアログボックスで[Q matrix(Y)]ボタンおよび[Q matrix(C)
+      ]ボタンをクリックするとQ matrixダイアログボックスが開きます。これを変更
+      するとエンコード時に使われる量子化行列を変更することができます。[Q 
+      matrix(Y)]で起動した場合は輝度ブロックに作用する量子化行列を変更します。
+      また、[Q matrix(C)]で起動した場合は色差ブロックに作用する量子化行列を変
+      更します。量子化行列を変更することにより、ある特定の画像に対する画質の
+      最適化が可能になりますが、通常はデフォルトの値を使用すれば十分です。こ
+      の変更を行った場合、デコード時も同じ量子化行列を使う必要があります。
+      libpressにこれを行う関数が用意されていますので、変更を行った場合はデコ
+      ード時にこの関数を使って同じ量子化行列を設定するようにしてください。デ
+      フォルトで設定されている量子化行列はMPEGで標準に使われているものと同じ
+      です。量子化行列について詳しくは、MPEG、JPEG等に関する別の資料を参照し
+      てください。
+      
+        図 5 Q matrixダイアログボックス
+
+         ・量子化行列の変更 行列状にならんだ値を直接編集することができます。
+         ・デフォルト量子化行列の設定 [Set Default]ボタンをクリックするとデフ
+           ォルトの量子化行列を設定します。
+         ・量子化行列の保存 [Save File]ボタンをクリックすると量子化行列の内容
+           をファイルにダンプします。
+         ・量子化行列の読み込み [Load File]ボタンをクリックすると量子化行列の
+           内容をファイルから読み込みます。
+
+    XA Audio Parametersダイアログボックス
+
+      XA Audio Parameterssダイアログボックスは、MovConv メインウィンドウで出
+      力フォーマットを「XA」と指定した場合に[Detail]ボタンをクリックすると表
+      示されます。
+      
+        図 6 XA Audio Parametersダイアログボックス
+
+         ・周波数の設定 Fs グループから、出力したいサンプリング周波数を選択し
+           ます。
+         ・チャネルの設定 Channel グループで、ステレオ／モノラルの別を設定しま
+           す。
+
+    AVI Parametersダイアログボックス
+
+    AVI Parametersダイアログボックスは、MovConv メインウィンドウで出力フォー
+    マットを「AVI(Uncompressed)」と指定した場合に[Detail]ボタンをクリックする
+    と表示されます。
+    
+        図 7 AVI Parametersダイアログボックス
+
+         ・フレームレートの設定 テキストボックスには、出力する AVI のフレーム
+           レートを設定します。この値は入力データと同じでなくてはなりません。
+           MovConv ではフレームレートの変換は行いません。
+
+    Interleave Video with Audioダイアログボックス
+
+      MovConv メインウィンドウのFileメニューからInterleave Video with Audioを
+      選択すると、 Interleave Video with Audioダイアログボックスが開きます。
+      
+        図 8 Interleave Video with Audioダイアログボックス
+
+         ・映像ファイル名の指定 Video グループにある[...]ボタンをクリックする
+           と、ファイルオープンのダイアログを利用して映像ファイルを選択できま
+           す。FileName テキストボックスに直接ファイル名を入力することも可能
+           です。
+         ・映像フォーマットの指定 Video グループにある Format コンボボックスで、
+           フォーマットを選択します。
+         ・音声あり/音声無しの設定 XA ADPCM Audioチェックボックスを設定します。
+           映像と音声のインタリーブをする時はこれをチェックします。音声とのイ
+           ンターリーブをしないで、単に映像のフォーマット変換をする場合はチェ
+           ックしません。例えば、BS列をSTR(MDEC)に変換するような場合はチェッ
+           クしません。
+         ・音声ファイル名の設定 音声ありを選択した場合、音声ファイル名を設定し
+           ます。XA ADPCM Audio グループにある[...]ボタンをクリックすると、フ
+           ァイルオープンのダイアログを利用して音声ファイルを選択できます。
+           FileName テキストボックスに直接ファイル名を入力することも可能です。
+         ・周波数、ステレオ/モノラルの設定 音声ありを選択した場合、周波数とス
+           テレオ/モノラルの別を設定します。入力音声ファイルでの値を入力する
+           必要があります。実際と異なる設定を行うと、正しくインターリーブされ
+           ません。
+         ・CD-ROMスピードの設定 CD-ROM SpeedグループでDouble/Normalを選択しま
+           す。
+         ・うるうセクタの設定 Leap Sectorチェックボックスをチェックします。う
+           るうセクタを設定するか設定しないかの判断は、MDEC Parametersダイア
+           ログボックスの設定を参照してください。
+         ・うるうセクタのバージョンを設定します インターリーブする映像データが
+           MovConvのversion 1.98以前ものを使って作られた場合はver1.98 
+           compatibleを、version 2.0以降のものを使って作られた場合はver2.0 or
+            laterを選択します。
+         ・フレームレートの設定 Frame Rate コンボボックスから、フレームレート
+           を選択します。
+         ・チャネル数 Number of Channels(Data Rate) コンボボックスから、チャネ
+           ル数を選択します。
+         ・出力ファイルの設定 Output Str の[...]ボタンをクリックし、ファイル保
+           存のダイアログボックスを開きます。ここでファイル名を指定します。ま
+           た、Output Str テキストボックスに直接ファイル名を入力することもで
+           きます。
+         ・インターリーブ実行 [Execute]ボタンをクリックし、インタリーブを実行
+           します。変換中は進行状況を示すゲージが表示されます。変換を中止する
+           には、ゲージ上の[Cancel]ボタンをクリックします。
+
+    Scriptダイアログボックス
+
+      ScriptダイアログボックスはMovConvメインウィンドウのFileメニューからNew 
+      Scriptまたは、Open Scriptを選択すると開きます。
+      
+        図 9 Scriptダイアログボックス
+
+         ・スクリプトを編集する 表示されたスクリプトを直接編集することができま
+           す。
+         ・スクリプトを保存する [Save File]ボタンをクリックするとスクリプトを
+           ファイルに保存します。
+         ・メッセージの出力先を切り替える スクリプトの実行中にエラーなどにより
+           出力されるメッセージは、通常ダイアログボックスの形で表示されます。
+           Warnings toチェックボックスをチェックし、対応するファイル名をテキ
+           ストボックスに入力すると、このメッセージを指定したファイルに出力す
+           ることができるようになります。これにより、スクリプト実行途中でダイ
+           アログボックスの入力待ちで処理が停止することがなくなると同時に、ス
+           クリプト実行時のメッセージのログを残すことができます。
+         ・スクリプトを実行する [Execute]ボタンをクリックするとスクリプトを実
+           行します。
+
+ 3 対応フォーマット
+
+    以下が、MovConvの対応するフォーマットです。
+
+    AVI（非圧縮）
+
+      Windowsの動画フォーマットである AVI フォーマットの中で、フレームデータ
+      が圧縮されていないものです。AVIの圧縮形式の変換には、AVI対応の編集ツー
+      ルが利用できます。
+      
+
+    TIM 列
+
+      PlayStationの静止画フォーマットである TIM フォーマットのファイルが、次
+      に示す規則で順序づけられたものです。MovConv は、これを一連の動画として
+      認識します。
+      	...
+      	...
+      	xx0017.TIM
+      	xx0018.TIM
+      	xx0019.TIM
+      	xx0020.TIM
+      	...
+      	...
+      	(xx は任意の文字列、数字の桁数は４桁である必要はない）
+    
+      TIM 列を指定するには、最初のフレームに相当するファイル名を指定します。
+      列の最初のフレームを指定すると、以降のフレームに相当するファイルは同じ
+      ディレクトリ内から自動的に検索され、それらは一連の動画として取り扱われ
+      ます。
+
+    RGB 列
+
+      RGB フォーマットは、24 ビットのダイレクトカラーフォーマットです。各ピク
+      セルは赤、緑、青、各８ビットで表され、これらは画像の左上隅のピクセルを
+      先頭、右下隅を末尾とするように順番に並べられます。また、RGB フォーマッ
+      トは幅や高さを表すデータを含んでいませんので、MovConvでファイルを指定す
+      る際にはデータとは別に幅と高さを指定するように求められます。ファイル名
+      の規則や MovConv 内での指定方法は TIM 列の場合と同様です。
+
+    YUV列
+
+      YUV(422) フォーマットは、輝度 (Y) と二つの色差 (Cb, Cr) を次のように並
+      べたフォーマットです。
+      
+      	Cb12, Y1, Cr12, Y2, Cb34, Y3, Cr34, Y4 ....
+      
+      各コンポーネントはそれぞれ８ビットの階調を持ちます。また、隣り合う２つ
+      のピクセルで同じ色差データを共有しますので、色差の水平解像度は輝度の水
+      平解像度の 1/2 となります。YUVフォーマットは幅や高さを表すデータを含ん
+      でいませんので、MovConvでファイルを指定する際にはデータとは別に幅と高さ
+      を指定するように求められます。ファイル名の規則や MovConv 内での指定方法
+      は TIM 列の場合と同様です。
+
+    STR(MDEC)
+
+      フレームデータがMDEC用に圧縮されたSTRフォーマットです。STR(MDEC)の各フ
+      レームデータはBSフォーマットと同じ形式をとります。
+
+    BS 列
+
+      BS (bit stream) は、MDEC 用に圧縮した静止画のフォーマットです。BSフォー
+      マットは幅や高さを表すデータを含んでいません。ファイル名の規則や 
+      MovConv 内での指定方法は TIM 列の場合と同様です。
+
+    WAV
+
+      Windows の音声フォーマットです。MovConv ではこのうち、サンプリング周波
+      数 44KHz/22KHz/11KHz、サンプル長16bitの PCM 形式に対応しています。
+
+    PCM
+
+      サンプル長16bitのデータに対応しています。
+
+    XA
+
+      CD-ROM XAの規格に則ってADPCM 圧縮されたフォーマットです。サンプリング周
+      波数は 37.8KHz/19.8KHz、ステレオ/モノラルに対応しています。
+
+ 4 スクリプト
+
+    MovConvは、複数の処理をバッチ処理する機能を持っています。この処理の流れを
+    記述するのがスクリプトです。MovConvのスクリプトの構文はごく単純なもので、
+    変換やインターリーブを表す関数を順番に並べた形をしています。分岐やループ
+    といった概念はありません。以下がMovConvで定義されている全関数のリストです。
+    なお、関数の仕様はMovConvのバージョンにより異なることがありますので、
+    MovConvに添付のスクリプトサンプルファイル等もご覧ください。
+
+        表 3 スクリプト関数リスト
+    +---------------+----------------------------------------------+
+    |関数            機能                                          |
+    |Avi2strMdecAv() AVIから音声付きSTR(MDEC)を作成する(簡易設定)。|
+    |Avi2strMdecV()  AVIから音声なしSTR(MDEC)を作成する(簡易設定)。|
+    |Avi2strMdecC()  AVIから音声なしSTR(MDEC)を作る(カスタム設定)。|
+    |Yuv2strMdecAv() YUVから音声付きSTR(MDEC)を作成する(簡易設定)。|
+    |Yuv2strMdecV()  YUVから音声なしSTR(MDEC)を作成する(簡易設定)。|
+    |Yuv2strMdecC()  YUVから音声なしSTR(MDEC)を作る(カスタム設定)。|
+    |Rgb2strMdecAv() RGBから音声付きSTR(MDEC)を作成する(簡易設定)。|
+    |Rgb2strMdecV()  RGBから音声なしSTR(MDEC)を作成する(簡易設定)。|
+    |Rgb2strMdecC()  RGBから音声なしSTR(MDEC)を作る(カスタム設定)。|
+    |Wav2xa()        WAVファイルからXAへ変換する。                 |
+    |Pcm2xa()        PCMファイルからXAへ変換する。                 |
+    |MakeAv()        映像と音声をインターリーブする。              |
+    |MakeV()         映像のフォーマット変換をする。                |
+    +---------------+----------------------------------------------+
+    
+
+    Avi2strMdecAv(InputFilename, OutputFilename, CD-ROMspeed, FrameRate, NumberOfChannels, MDECversion, LeapSector, AudioFrequency, StereoMono)
+
+        [機能]	AVIから音声付きSTR(MDEC)を作成する(簡易設定)。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+        	FrameRate:		フレームレートを指定します。
+        				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+        	NumberOfChannels:	チャネル数を指定します。(1/2/4)
+        	MDECversion:		MDECバージョンを指定します。(2/3)
+        	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+        	AudioFrequency:		XA音声の周波数を選択します。(37.8KHz/18.9KHz)
+        	StereoMono:		ステレオ/モノラルの別を指定します。(Stereo/Mono)
+        [例]
+        Avi2strMdecAv(
+        	c:\tmp\data.avi,	# Input file name
+        	c:\tmp\out1.str,	# Output file name
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	1,			# Number of channels
+        	2,			# MDEC version
+        	FALSE,			# LeapSector
+        	37.8KHz,		# Frequency of audio
+        	Stereo			# Stereo or Mono
+        );
+
+    Avi2strMdecV(InputFilename, OutputFilename, CD-ROMspeed, FrameRate,NumberOfChannels, MDECversion, LeapSector)
+
+        [機能]	AVIから音声なしSTR(MDEC)を作成する(簡易設定)。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+        	FrameRate:		フレームレートを指定します。
+        				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+        	NumberOfChannels:	チャネル数を指定します。(1/2/4)
+        	MDECversion:		MDECバージョンを指定します。(2/3)
+        	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+        [例]
+        Avi2strMdecV(
+        	c:\tmp\data.avi,	# Input file name
+        	c:\tmp\out2.str,	# Output file name
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	2,			# Number of channels
+        	2,			# MDEC version
+        	TRUE			# LeapSector
+        );
+
+    Avi2strMdecC(InputFilename, OutputFilename, MaxFrameSize,FixedFrameSize, MDECversion)
+
+        [機能]	AVIから音声なしSTR(MDEC)を作る(カスタム設定)。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	MaxFrameSize:		１フレームの最大サイズを指定します。
+        				ex. '10sectors', '20000bytes'
+        	FixedFrameSize:		フレームサイズが固定か可変かを指定します。
+        				('FixedFrameSize/VariableFrameSize)
+        	MDECversion:		MDECバージョンを指定します。(2/3)
+        [例]
+        Avi2strMdecC(
+        	c:\tmp\data.avi,	# Input file name
+        	c:\tmp\out3.str,	# Output file name
+        	10sectors,		# Maximum size for one frame
+        	FixedFrameSize,		# Fixed frame size or not
+        	2			# MDEC version
+        );
+
+    Yuv2strMdecAv(InputFilename, Width, Height, OutputFilename, CD-ROMspeed, FrameRate, NumberOfChannels, MDECversion, LeapSector, AudioFrequency, StereoMono)
+
+      [ 機能 ]	YUVから音声付きSTR(MDEC)を作成する(簡易設定)。
+      [ 引数 ]	InputFilename: 		入力ファイル名を指定します。
+      	Width:			入力映像の幅を指定します。
+      	Height:			入力映像の高さを指定します。
+      	OutputFilename:		出力ファイル名を指定します。
+      	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+      	FrameRate:		フレームレートを指定します。
+      				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+      	NumberOfChannels:		チャネル数を指定します。(1/2/4)
+      	MDECversion:		MDECバージョンを指定します。(2/3)
+      	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+      	AudioFrequency:		XA音声の周波数を選択します。(37.8KHz/18.9KHz)
+      	StereoMono:		ステレオ/モノラルの別を指定します。(Stereo/Mono)
+      [ 例 ]
+        Yuv2strMdecAv(
+        	c:\tmp\data0000.yuv,	# Input file name
+        	320,			# Width
+        	240,			# Height
+        	c:\tmp\out4.str,	# Output file name
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	1,			# Number of channels
+        	2,			# MDEC version
+        	TRUE,			# LeapSector
+        	37.8KHz,		# Frequency of audio
+        	Mono			# Stereo or Mono
+        );
+
+    Yuv2strMdecV(InputFilename, Width, Height, OutputFilename, CD-ROMspeed, FrameRate, NumberOfChannels, MDECversion, LeapSector)
+
+        [機能]	YUVから音声なしSTR(MDEC)を作成する(簡易設定)。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	Width:			入力映像の幅を指定します。
+        	Height:			入力映像の高さを指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+        	FrameRate:		フレームレートを指定します。
+        				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+        	NumberOfChannels:	チャネル数を指定します。(1/2/4)
+        	MDECversion:		MDECバージョンを指定します。(2/3)
+        	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+        [例]
+        Yuv2strMdecV(
+        	c:\tmp\data0000.yuv,	# Input file name
+        	320,			# Width
+        	240,			# Height
+        	c:\tmp\out5.str, 	# Output file name
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	2,			# Number of channels
+        	2,			# MDEC version
+        	TRUE			# LeapSector
+        );
+
+    Yuv2strMdecC(InputFilename, Width, Height, OutputFilename, MaxFrameSize, FixedFrameSize, MDECversion)
+
+        [機能]	YUVから音声なしSTR(MDEC)を作る(カスタム設定)。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	Width:			入力映像の幅を指定します。
+        	Height:			入力映像の高さを指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	MaxFrameSize:		１フレームの最大サイズを指定します。
+        				ex. '10sectors', '20000bytes'
+        	FixedFrameSize:		フレームサイズが固定か可変かを指定します。
+        				('FixedFrameSize/VariableFrameSize)
+        	MDECversion:		MDECバージョンを指定します。(2/3)
+        [例]
+        Yuv2strMdecC(
+        	c:\tmp\data0000.yuv,	# Input file name
+        	320,			# Width
+        	240,			# Height
+        	c:\tmp\out6.str, 	# Output file name
+        	10sectors,		# Maximum size for one frame
+        	FixedFrameSize,		# Fixed frame size or not
+        	2			# MDEC version
+        );
+
+    Rgb2strMdecAv(InputFilename, Width, Height, OutputFilename, CD-ROMspeed, FrameRate, NumberOfChannels, MDECversion, LeapSector, AudioFrequency, StereoMono)
+
+      [ 機能 ]	RGBから音声付きSTR(MDEC)を作成する(簡易設定)。
+      [ 引数 ]	InputFilename: 		入力ファイル名を指定します。
+      	Width:			入力映像の幅を指定します。
+      	Height:			入力映像の高さを指定します。
+      	OutputFilename:		出力ファイル名を指定します。
+      	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+      	FrameRate:		フレームレートを指定します。
+      				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+      	NumberOfChannels:		チャネル数を指定します。(1/2/4)
+      	MDECversion:		MDECバージョンを指定します。(2/3)
+      	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+      	AudioFrequency:		XA音声の周波数を選択します。(37.8KHz/18.9KHz)
+      	StereoMono:		ステレオ/モノラルの別を指定します。(Stereo/Mono)
+      [ 例 ]
+        Rgb2strMdecAv(
+        	c:\tmp\data0000.rgb,	# Input file name
+        	320,			# Width
+        	240,			# Height
+        	c:\tmp\out7.str,	# Output file name
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	1,			# Number of channels
+        	2,			# MDEC version
+        	TRUE,			# LeapSector
+        	37.8KHz,		# Frequency of audio
+        	Mono			# Stereo or Mono
+        );
+
+    Rgb2strMdecV(InputFilename, Width, Height, OutputFilename, CD-ROMspeed, FrameRate, NumberOfChannels, MDECversion, LeapSector)
+
+        [機能]	RGBから音声なしSTR(MDEC)を作成する(簡易設定)。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	Width:			入力映像の幅を指定します。
+        	Height:			入力映像の高さを指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+        	FrameRate:		フレームレートを指定します。
+        				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+        	NumberOfChannels:	チャネル数を指定します。(1/2/4)
+        	MDECversion:		MDECバージョンを指定します。(2/3)
+        	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+        [ 例 ]
+        Rgb2strMdecV(
+        	c:\tmp\data0000.rgb,	# Input file name
+        	320,			# Width
+        	240,			# Height
+        	c:\tmp\out8.str, 	# Output file name
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	2,			# Number of channels
+        	2,			# MDEC version
+        	TRUE			# LeapSector
+        );
+
+    Rgb2strMdecC(InputFilename, Width, Height, OutputFilename, MaxFrameSize, FixedFrameSize, MDECversion)
+
+      [ 機能 ] RGBから音声なしSTR(MDEC)を作る(カスタム設定)。
+      [ 引数 ]	InputFilename: 		入力ファイル名を指定します。
+      	Width:			入力映像の幅を指定します。
+      	Height:			入力映像の高さを指定します。
+      	OutputFilename:		出力ファイル名を指定します。
+      	MaxFrameSize:		１フレームの最大サイズを指定します。
+      				ex. '10sectors', '20000bytes'
+      	FixedFrameSize:		フレームサイズが固定か可変かを指定します。
+      				('FixedFrameSize/VariableFrameSize)
+      	MDECversion:		MDECバージョンを指定します。(2/3)
+      [ 例 ]
+        Rgb2strMdecC(
+        	c:\tmp\data0000.rgb,	# Input file name
+        	320,			# Width
+        	240,			# Height
+        	c:\tmp\out9.str, 	# Output file name
+        	10sectors,		# Maximum size for one frame
+        	FixedFrameSize,		# Fixed frame size or not
+        	2			# MDEC version
+        );
+
+    Wav2xa(InputFilename, OutputFilename, AudioFrequency, StereoMono)
+
+        [機能] WAVファイルからXAへ変換する。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	AudioFrequency:		XA音声の周波数を選択します。(37.8KHz/18.9KHz)
+        	StereoMono:		ステレオ/モノラルの別を指定します。(Stereo/Mono)
+        [例]
+        Wav2xa(
+        	c:\tmp\data.wav,	# Input file name
+        	c:\tmp\data.xa,		# Output file name
+        	37.8KHz,		# Frequency of xa audio 
+        	Stereo			# Stereo or Mono for xa audio
+        );
+
+    Pcm2xa(InputFilename, PCMbitsPerSample, PCMfrequency, PCMstereoMono, OutputFilename, XAfrequency, XAstereoMono)
+
+        [機能]	PCMファイルからXAへ変換する。
+        [引数]	InputFilename: 		入力ファイル名を指定します。
+        	PCMbitsPerSample:	PCMデータのサンプル長を指定します。(16bit)
+        	PCMfrequency:		PCMデータの周波数を指定します。(単位はKHz)
+        	PCMstereoMono:		PCMデータのステレオ/モノの別を指定します。
+        				(Stereo/Mono)
+        	OutputFilename:		出力ファイル名を指定します。
+        	XAfrequency:		XA音声の周波数を選択します。(37.8KHz/18.9KHz)
+        	XAstereoMono:		ステレオ/モノラルの別を指定します。(Stereo/Mono)
+        [例]
+        Pcm2xa(
+        	c:\tmp\data.pcm,	# Input file name
+        	16bit,			# Bits Per Sample
+        	44.1KHz,		# Frequency of PCM audio (KHz)
+        	Stereo,			# Stereo or Mono for PCM audio
+        	c:\tmp\data.xa,		# Output file name
+        	37.8KHz,		# Frequency of xa audio
+        	Stereo			# Stereo or Mono for xa audio
+        );
+
+    MakeAv(VideoFilename, VideoFormatName, AudioFileName, OutputFilename,  CD-ROMspeed, FrameRate, NumberOfChannels, LeapSector, OldLeapSector, AudioFrequency, StereoMono)
+
+        [機能]	映像と音声をインターリーブする。
+        [引数]	VideoFilename: 		入力ファイル名を指定します。
+        	VideoFormatName:	映像のフォーマット名を指定します。(strMDEC/bs)
+        	AudioFileName:		音声ファイル名を指定します。
+        	OutputFilename:		出力ファイル名を指定します。
+        	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+        	FrameRate:		フレームレートを指定します。
+        				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+        	NumberOfChannels:	チャネル数を指定します。(1/2/4)
+        	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+        	OldLeapSector:		うるうセクタのバージョンが古いかどうかを指定。
+        				MovConvの2.0以前のバージョンで作られた映像の場合
+        				はTRUE、そうでないものはFALSEを指定します。
+        				(TRUE/FALSE)
+        	AudioFrequency:		XA音声の周波数を選択します。(37.8KHz/18.9KHz)
+        	StereoMono:		ステレオ/モノラルの別を指定します。(Stereo/Mono)
+        [例]
+        MakeAv(
+        	c:\tmp\data.str,	# Video file name
+        	strMDEC,		# Video format name
+        	c:\tmp\data.xa,		# Audio file name
+        	c:\tmp\out10.str,	# Output file name (audio & video)
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	1,			# Number of channels
+        	FALSE,			# LeapSector
+        	FALSE,			# ver1.98 compatible leap sector
+        	37.8KHz,		# Frequency of audio 
+        	Stereo			# Stereo or Mono
+        );
+
+    MakeV(VideoFilename, VideoFormatName, OutputFilename, CD-ROMspeed, FrameRate, NumberOfChannels, LeapSector, OldLeapSector)
+
+        [機能]	映像のフォーマット変換をする。
+        [引数]	VideoFilename: 		入力ファイル名を指定します。
+        	VideoFormatName:	映像のフォーマット名を指定します。(strMDEC/bs)
+        	OutputFilename:		出力ファイル名を指定します。
+        	CD-ROMspeed:		CD-ROMの速度を指定します。(x1/x2)
+        	FrameRate:		フレームレートを指定します。
+        				(10fps/12.5fps/15fps/16.7fps/20fps/25fps/30fps)
+        	NumberOfChannels:	チャネル数を指定します。(1/2/4)
+        	LeapSector:		うるうセクタを指定します。(TRUE/FALSE)
+        	OldLeapSector:		うるうセクタのバージョンが古いかどうかを指定します。
+        				MovConvの2.0以前のバージョンで作られた映像の場合
+        				はTRUE、そうでないものはFALSEを指定します。
+        				(TRUE/FALSE)
+        [例]
+        MakeV(
+        	c:\tmp\data.str,	# Video file name
+        	strMDEC,		# Video format name
+        	c:\tmp\out11.str,	# Output file name (video)
+        	x2,			# CD-ROM speed
+        	15fps,			# Frame rate
+        	1,			# Number of channels
+        	TRUE,			# LeapSector
+        	FALSE			# ver1.98 compatible leap sector
+        );
+
+ 5 制約
+
+         ・MovConvは、音声データ(WAV、PCM)としてはサンプル長が16bitのものにの
+           み対応しています。
+         ・プレビューは16bit以上のディスプレイで行うようにしてください。

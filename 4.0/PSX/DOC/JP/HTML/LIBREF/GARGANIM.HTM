@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsARGUNIT_ANIM
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsARGUNIT_ANIM
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        アニメーションドライバの引数領域
+</DIV><P>
+
+<!-- 構造 -->
+<B>構造</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>typedef struct {
+	unsigned long 	*<I>primp</I>;
+	GsOT		*<I>tagp</I>;
+	int		<I>shift</I>;
+	int		<I>offset</I>;
+	PACKET		*<I>out_packet</I>;
+	long		<I>header_size</I>;
+	unginged long	*<I>htop</I>;
+	unsinged long	*<I>ctop</I>;
+	unsinged long	*<I>ptop</I>;
+}  <B>GsARGUNIT_ANIM;</B>
+</PRE>
+</blockquote>
+
+<!-- メンバ -->
+<B>メンバ</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>primp</I>		プリミティブの先頭アドレス
+<I>tagp</I>		現在の先頭の GsOT_TAG へのポインタ
+<I>shift		</I>OTにソートする際の shift するbit数
+<I>offset	</I>	OT のスクリーン座標系におけるＺ軸上のオフセット
+<I>out_packetp</I>	未使用のパケットエリアへのポインタ
+<I>header_size</I>	アニメーションで使用するプリミティブヘッダのサイズ
+<I>htop</I>		補完関数テーブルセクションの先頭アドレス
+<I>ctop</I>		シーケンスコントロールセクションの先頭アドレス
+<I>ptop</I>		パラメータセクションの先頭アドレス
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <B>GsSortUnit</B>()からコールされるアニメーションプリミティブドライバへ渡される引数領域。 <BR>
+    <B>GsARGUNIT</B>加え、プリミティブヘッダのサイズやアニメーションで必要な各セクションの先頭アドレスが渡される。通常はこの引数領域は高速化のためスクラッチパッドを使用する。 <BR>
+<BR>
+    引数受け渡し領域はこのメンバの領域よりも大きい。GsARGUNIT_ANIMの下に書き換えを行うセクションの先頭アドレスがリストされる。header_sizeはこのリストの数とhtop,ctop,htopの３をあわせた数が入る。 <BR>
+<BR>
+    書き換えセクションの先頭アドレスの次に補完関数用の引数受け渡し領域が取られる。 <BR>
+<BR>
+<P>
+<IMG SRC ="gif/lgsn1.gif">
+<P>
+<BR>
+    補完ドライバ用引数受け渡し領域は補完関数のtypeによって数と意味が変わるが、リニア補完では <BR>
+    以下の４つのパラメータが入る。 <BR>
+        <BLOCKQUOTE>
+    １：シーケンスポインタの先頭アドレス <BR>
+    ２：補完元のパラメータのアドレス <BR>
+    ３：補完先のパラメータのアドレス <BR>
+    ４：補完後のパラメータを記憶させておくアドレス <BR>
+        </BLOCKQUOTE>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="gsusortt.htm">GsSortUnit</a>(),<a href="gsu_0300.htm">GsU_0300</a>....(),<a href="gu03.htm">GsU_03000000</a>()
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

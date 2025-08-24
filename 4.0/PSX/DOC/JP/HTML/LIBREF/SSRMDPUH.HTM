@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuSetReverbModeDepth
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuSetReverbModeDepth
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        リバーブの深さの設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuSetReverbModeDepth </B>(
+short <I>depthL</I>,
+short <I>depthR</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>depthL</I>		リバーブの深さ (左)
+<I>depthR</I>		リバーブの深さ (右)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    リバーブの深さの設定を行う。 <BR>
+    SpuSetReverbModeParam() の mask 指定 <BR>
+    <blockquote>
+    	SPU_REV_DEPTHL <BR>
+    </blockquote>
+    <blockquote>
+    	SPU_REV_DEPTHR <BR>
+    </blockquote>
+    に該当する処理を行う。 <BR>
+    リバーブの深さ <I>depthL</I> 及び <I>depthR</I> に指定する値に関しては SpuSetReverbModeParam() を参照のこと。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="ssrmppum.htm">SpuSetReverbModeParam</a>(), <a href="sgrmppum.htm">SpuGetReverbModeParam</a>(), <a href="sgrmdpuh.htm">SpuGetReverbModeDepth</a>(), <a href="ssrdpueh.htm">SpuSetReverbDepth</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

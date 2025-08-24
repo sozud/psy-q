@@ -1,0 +1,253 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation File Format</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>ストリーミングデータ（STRフォーマット）</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+    PlayStationではCD-ROMから逐次的にデータを読みとりながら処理していく処理形態をストリーミングと呼びます。STRフォーマットはPlayStationでストリーミングを実現するために定義されたCD-ROM上のデータフォーマットです。<BR>
+    ストリーミングは通常は動画データや音声データの逐次的な再生に用いられますが、ストリーミングの用途はこれらに限られるものではありません。ストリーミングは、連続的に変化するあらゆる時系列データの処理に用いることができます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>ストリーミングデータ</B>
+</A>
+</H3>
+<blockquote>
+    STRフォーマットでは、ストリーミングデータは図１に示すようにフレームデータのシーケンシャルな並びとして表されます。<BR>
+    フレームデータはストリーミングの一場面を表現するためのデータです。<BR>
+    フレームの意味はどういったデータをストリーミングするかにより異なります。例えば動画の場合は動画を構成する１枚１枚の静止画がフレームデータとなり、また、3Dモデリングデータのアニメーションの場合は、アニメーションを構成する一つ一つのモデリングデータがフレームデータとなります。<BR>
+    フレームデータの形式についてはストリーミングフォーマットでは規定していませんので、これらの他にも必要に応じて自由に定義することができます。<BR>
+    フレームデータは、それぞれタイプとサイズを持っており、これらは各フレームデータ毎に独立に設定することができます。<BR>
+    すなわち、ひとつのストリーミングデータ中でも様々なタイプと様々な大きさのフレームデータを混在させて持つことができます。フレームデータのタイプと大きさは、それぞれフレームデータ中のタイプフィールドとサイズフィールドに記述されます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strf1.gif">
+<P>
+    <B>図 1 ストリーミングデータ</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>フレームデータ</B>
+</A>
+</H3>
+<blockquote>
+    フレームデータは、CD-ROMからの読み出しの単位であるセクタに分割されます(図２参照)。<BR>
+    1セクタの大きさは2048バイトです。各セクタの先頭には、そのセクタ中のデータの種類等を示すセクタヘッダ32バイトがおかれます。このため、有効なデータ領域は1セクタあたり2048- 32 = 2016バイトとなります。<BR>
+    また、各フレームデータの先頭がセクタ境界に合うよう、各フレームデータの終りには適切な量のダミーデータが付加されます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strf2.gif">
+<P>
+    <B>図 2 フレームデータ</B><BR>
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>セクタヘッダ</B>
+</A>
+</H3>
+<blockquote>
+    各セクタの先頭に設けられるセクタヘッダは図３に示す各フィールドに分かれています。<BR>
+    StSTATUSはSTRフォーマットの識別子及びバージョン情報です。<BR>
+    StTYPEはフレームデータのデータタイプを示すもので、最上位ビットが1のときはシステム定義のフォーマット、最上位ビットが0のときはユーザ定義のフォーマットを意味します。<BR>
+    ユーザは最上位ビットに0を設定し、以降の15ビットを自由に設定することによって独自のフレームフォーマットをSTRフォーマットに組み込むことができます。<BR>
+    <BR>
+    StSECTOR_OFFSETはフレーム中でのセクタ番号、StSECTOR_SIZEはフレームを構成するセクタ数、StFRAME_NOはストリーミングデータ中でのフレーム番号です。<BR>
+    これらは、ストリーミングライブラリがセクタの欠落なくフレームデータを読み出すために用いられます。<BR>
+    StUSERはユーザ定義のフィールドで、各データタイプ毎に自由に使用することができます。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strn1.gif">
+<P>
+</CENTER>
+      <BLOCKQUOTE>
+      a: StSTATUS: ステータス（2Bytes）<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strn2.gif">
+<P>
+</CENTER>
+      S: システム予約<BR>
+      b: StTYPE: データタイプ（2Bytes）<BR>
+      <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strn3.gif">
+<P>
+</CENTER>
+      s: 最上位ビット s が 1 の場合はシステム定義のフォーマット<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+           最上位ビット s が 0 の場合はユーザ定義のフォーマット<BR>
+        <BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      c: StSECTOR_OFFSET: フレーム中でのセクタ番号（2Bytes)<BR>
+      d: StSECTOR_SIZE: フレームを構成するセクタ数（2Bytes）<BR>
+      e: StFRAME_NO: ストリーミングデータ中でのフレーム番号（１～）（4Bytes）<BR>
+      f: StFRAME_SIZE: フレームサイズ(ロングワード単位) （4Bytes）<BR>
+      g: StUSER: ユーザ定義領域 （16Bytes）<BR>
+      <BR>
+      ※ すべて little endian<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>図 3 セクタヘッダ</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>ユーザ定義フレームデータ</B>
+</A>
+</H3>
+<blockquote>
+    ユーザはセクタヘッダのStTYPEフィールドを使うことによって、ユーザ定義のデータをストリーミングすることができます。<BR>
+    このとき、全部のフレームに共通するような属性はフレームデータ内に持たず、ヘッダとしてまとめた方が全体のデータ量を少なくすることができます。<BR>
+    ヘッダを持つストリーミングデータは、ヘッダ部分のStTYPEをデータ部分と変えることで実現できます(図４参照)。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strf4.gif">
+<P>
+    <B>図 4 ストリーミングデータ</B><BR>
+</CENTER>
+    図４の例では、StTYPE の最下位ビットを使ってヘッダとヘッダ以外のフレームデータを区別しています。<BR>
+    CD-ROMからデータを再生するときにアプリケーションプログラムは読まれたフレームデータのStTYPEフィールドに自由にアクセスすることができるで、これを使って自由にデータの解釈を切り替えることができます。<BR>
+    このようなヘッダに入れるデータとしては、例えば各フレームに依存しないCLUTデータ(動画の場合)や特定フレームへのジャンプテーブルなどが考えられます。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>システム定義フレームデータ</B>
+</A>
+</H3>
+<blockquote>
+    現在用意されているシステム定義のフレームデータフォーマットは以下のものです。<BR>
+      <BLOCKQUOTE>
+      &lt;MDEC動画(StTYPE: 0x8001)&gt;<BR>
+      </BLOCKQUOTE>
+    MDEC動画のセクタヘッダは図４の通りです。<BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strn4.gif">
+<P>
+</CENTER>
+      <BLOCKQUOTE>
+      a: 前述のとおり<BR>
+      b: StTYPE:データタイプ<BR>
+      </BLOCKQUOTE>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strn5.gif">
+<P>
+</CENTER>
+      <BLOCKQUOTE>
+      s:前述の通り<BR>
+      </BLOCKQUOTE>
+        <BLOCKQUOTE><UL>
+        c:マルチチャネルストリーミングの際のチャネル番号<BR>
+          通常のストリーミングデータの場合は0<BR>
+        </BLOCKQUOTE></UL>
+      <BLOCKQUOTE>
+      <BR>
+      c～f:前述のとおり<BR>
+      <BR>
+      あ) StMOVIE_WIDTH:	幅（2Bytes）<BR>
+      い) StMOVIE_HIGHT:	高さ（2Bytes）<BR>
+      う) StMOVIE_HEADM:	SYSTEM予約（4Bytes）<BR>
+      え) StMOVIE_HEADV:	SYSTEM予約（4Bytes）<BR>
+<CENTER>
+      </BLOCKQUOTE>
+        <H4><B>図 5 MDEC動画セクタヘッダ</B></H4>
+
+</CENTER>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_6">
+<A HREF="#Top">↑</A>6 <B>音声付きストリーミングデータ</B>
+</A>
+</H3>
+<blockquote>
+    通常PlayStationで扱う音声はSPUから出力される44.1KHzの音声ですが、動画再生などの時に使用する音声はこれらとは違ってCD-ROMのAD-PCMデコーダからそのまま出力される音声となります。この音声の格納形式に関してはCD-ROM /XA規格に準拠しています。<BR>
+    PlayStationがCD-ROMドライブからストリーミングできる音声周波数形態は<BR>
+    <BR>
+    <OL>
+         <LI VALUE= 1> 37.8kHz ステレオ
+         <LI VALUE= 2> 37.8kHz モノラル
+         <LI VALUE= 3> 18.9kHz ステレオ
+         <LI VALUE= 4> 18.9kHz モノラル
+    </OL>
+    <BR>
+    の４つです。これらはCD-ROMデコーダでのデコード後、SPUを経由して出力されます。この中でもっともリッチな使用条件である37.8kHzステレオ出力に関して、CD-ROM XAでは「標準速度ドライブで」４セクタ中必ず１セクタを使用します。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strf6.gif">
+<P>
+    <B>図 6 XA-ADPCM音声のCD-ROM上での配置</B><BR>
+</CENTER>
+    PlayStationでは「倍速ドライブ」を使用しますので、この倍の８セクタ中必ず１セクタまで大丈夫です。<BR>
+    <BR>
+<CENTER>
+<P>
+<IMG SRC ="gif/strf7.gif">
+<P>
+    <B>図 7 CD-ROM XA倍速でのビデオ再生の時のセクタ配置</B><BR>
+</CENTER>
+    さて、これをモノラル再生にするとさらに１６セクタ中１セクタ、周波数を下げてステレオにしてもやはり１６セクタ中１セクタ。周波数18.9kHzモノラル再生をする場合３２セクタ中１セクタになります。<BR>
+    この音声セクタの存在割合は15frame/sec,25frame/secなどの動画再生レートにおいても不変です。音声セクタの存在割合はただ、音声周波数とモノラル／ステレオなどのモードにより変わります。<BR>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

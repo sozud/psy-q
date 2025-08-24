@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SpuInitHot
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libspu.htm">基本サウンド ライブラリ (libspu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SpuInitHot
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SPUの初期化(ホットリセット)
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SpuInitHot</B> ( void )
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>なし
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SPUの初期化を行う。Exec関連関数を使用し、子プロセスの中でサウンドバッファの状態を保存したままサウンドシステムを初期化したい場合、SpuInitHot()を呼ぶ。 <BR>
+    初期化後、以下のような状態になる。 <BR>
+<BR>
+<UL>
+         <LI> 主音量はL/Rとも0
+         <LI> リバーブはオフ
+         <LI> リバーブワークエリアは予約していない
+         <LI> リバーブDepthはL/Rとも0
+         <LI> リバーブ音量はL/Rとも0
+         <LI> サウンドバッファへの転送モードはDMA転送
+         <LI> 全ボイスにおいて
+</UL>
+        <BLOCKQUOTE>
+    - Key off <BR>
+    - Reverb機能未設定 <BR>
+        </BLOCKQUOTE>
+<UL>
+         <LI> DMA転送の初期化設定
+</UL>
+<BR>
+    サウンドバッファの状態は初期化後保存される。ただし、ハードウェアリセットの場合はこの限りではない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <a href="spuinit.htm">SpuInit</a>(), <a href="spustart.htm">SpuStart</a>(), <a href="spuquit.htm">SpuQuit</a>()
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

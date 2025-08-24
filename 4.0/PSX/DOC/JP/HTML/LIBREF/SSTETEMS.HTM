@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    SetSemiTrans
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    SetSemiTrans
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        プリミティブに半透明属性を設定
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>SetSemiTrans </B>(
+void *<I>p</I>,
+int <I>abe </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>p		</I>プリミティブ先頭アドレス
+<I>abe		</I>半透明フラグ(0:半透明OFF, 1:半透明ON)
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>p </I>で指定した描画プリミティブに <I>abe </I>に従い半透明属性を設定する。半透明ONの場合は以下の条件のピクセルが半透明で描画される。 <BR>
+      <BR>
+<CENTER>
+<TABLE BORDER>
+    <TD>プリミティブ</TD><TD>半透明処理されるピクセル</TD><TR>
+    <TD>POLY_FT3/POLY_FT4<BR>POLY_GT3/POLY_GT4<BR>SPRT/SPRT_8/SPRT_16</TD><TD>対応するテクスチャピクセルの最上位<BR>ビットが１のピクセル<BR></TD><TR>
+    <TD>その他の描画プリミティブ</TD><TD>全てのピクセル</TD><TR>
+</TABLE>
+<BR>
+</CENTER>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    半透明ピクセルは、描画ピクセルPfとバックグラウンドピクセルPbから以下のように計算される。 <BR>
+<BR>
+        <BLOCKQUOTE>
+    P = F x Pf + B x Pb <BR>
+        </BLOCKQUOTE>
+<BR>
+    半透明レート(F, B)は、tpageメンバで指定される。 <BR>
+    tpageメンバを持たないスプライト・フラットプリミティブでは、カレントテクスチャページの半透明レートが使用される。半透明は一旦バックグラウンド輝度値を読み込むのため、描画速度は低下する。半透明を行なわないプリミティブの描画は必ず半透明モードOFFで実行する。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

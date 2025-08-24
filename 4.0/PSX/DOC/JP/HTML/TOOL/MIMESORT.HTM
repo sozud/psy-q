@@ -1,0 +1,190 @@
+<HTML>
+<HEAD>
+<TITLE> PlayStation Data Converter</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff>
+<A NAME="Top"></A>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<HR NOSHADE SIZE=8>
+<P>
+
+<!-- 見出し 3,節見出し -->
+<A NAME="Heading3_1">
+<H2>
+<B>mimesort</B>
+<HR NOSHADE>
+</H2>
+</A>
+
+<blockquote>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_1">
+<A HREF="#Top">↑</A>1 <B>概要</B>
+</A>
+</H3>
+<blockquote>
+    TMD ファイルの頂点情報をソートします。mimefilt 後の MIMe 用差分ファイルを小さくし、MIMe アニメーションを高速化するために用います。<BR>
+    DOS版とSGI版があります。ここでは、1996/Jun/13付けの Version 2.1 に関する内容を記述しています。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_2">
+<A HREF="#Top">↑</A>2 <B>使い方</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>mimesort [options] [<I>base-model.tmd model1.tmd</I> [<I>model2.tmd</I> [<I>model3.tmd</I> ...]]]</B></H4>
+
+      <BLOCKQUOTE>
+      mimefilt で生成される MIMe 用差分ファイルが小さくなるようにTMD ファイル中の頂点情報をソートします。これにより、MIMe アニメーションに必要なランタイムの計算時間も軽減されます。<BR>
+      mimesort は、頂点情報の順番を入れ換えるので、mimefilt にかけるすべてのファイルを同時に mimesort にかける必要があります。一部のファイルだけを mimesort にかけた場合には、TMD ファイル間で頂点の対応が取れなくなり、正しい差分ファイルが作成できません。<BR>
+      引数にワイルドカードが使用できます。<BR>
+      変形モデルファイル（<B><I>base-model</I></B> を除く model の TMD ファイル) は最大32個まで指定することができます。ただし、変形モデルファイルが 14個を越えた場合、15番目以降に指定されたモデルはソートの際に用いられません。1番目から14番目までに指定されたモデルのみをソートのための情報として用いるため、15番目以降のモデルについては、頂点情報の並べ替えだけが行なわれます。すなわち、15番目以降の変形モデルファイルは、出力時に非効率化されている可能性が高くなります。（できるだけ良い結果を得るために、備考欄をお読みください。）<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_3">
+<A HREF="#Top">↑</A>3 <B>オプション</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>-d <I>directory</I></B></H4>
+
+      <BLOCKQUOTE>
+      ソート済みの TMD ファイルを置く出力用ディレクトリを指定します。デフォルトは "..\STMD" です。出力用ディレクトリはあらかじめ作成しておかなければなりません。<BR>
+      </BLOCKQUOTE>
+
+     <H4><B>-v</B></H4>
+
+      <BLOCKQUOTE>
+      ソート前後の頂点の並びを標準出力へ出力し、ソートの様子を確認できます。<BR>
+      デフォルトでは出力しません。出力の意味は以下のとおりです。<BR>
+      <BR>
+      </BLOCKQUOTE>
+<PRE>        file: (vertex: a/b)
+        file: ファイル名
+        a : 差分ファイルに含まれる頂点数
+        b : 総頂点数
+        
+        .....*****++*++++++++++++++*****................
+        . : 差分がなく、差分ファイルに含まれない頂点
+        + : 差分はないが差分ファイルに含まれてしまう頂点
+        * : 差分があり、差分ファイルに含まれる頂点
+</PRE>
+
+     <H4><B>-stdin</B></H4>
+
+      <BLOCKQUOTE>
+      モデルファイル名を標準入力から読み込みます。改行のみ入力すると読み込みを終了します。<BR>
+      <BR>
+      例１：手でファイル名を入力する場合<BR>
+      </BLOCKQUOTE>
+<PRE>        C:\&gt; mimesort -stdin
+        原形モデル： md1.tmd[RET] 	←原形モデルファイル名を入力
+        変形モデル #1： md2.tmd[RET]	←変形モデル１のファイル名を入力
+        変形モデル #2： md3.tmd[RET]	←変形モデル２のファイル名を入力
+        変形モデル #3： [RET]		←入力終了
+        （以下略）
+</PRE>
+      <BLOCKQUOTE>
+      <BR>
+      例２：自動的に入力させる。さらに -v オプションと併用する。<BR>
+      </BLOCKQUOTE>
+<PRE>        C:\&gt; type list
+        md1.tmd
+        md2.tmd
+        md3.tmd
+        ←最後に空行が必要
+        C:\&gt; mimesort -stdin -v &lt; list &gt; kekka
+        （以下略）
+</PRE>
+
+     <H4><B>-m <I>sorttable</I></B></H4>
+
+      <BLOCKQUOTE>
+      <B><I>sorttable</I></B>ファイルの指定にしたがって頂点をソートします。変形モデルファイル数が多い場合にはこのオプションを使用してください。<BR>
+      <B><I>sorttable</I></B>のファイルには、新しい頂点番号の順に古い頂点番号を並べて記述します。頂点番号は0から始まります。区切り文字は1byteのスペース、改行、タブのいずれかです。#で始まる行はコメントとみなされます。<BR>
+      記述例を示します。<BR>
+      <BR>
+      例１：sample1.tbl<BR>
+      #sample1.tbl<BR>
+      0 1 3 2 4<BR>
+      #end of file<BR>
+      <BR>
+      sample1.tblファイルを頂点数5のモデルファイルに <B>-m</B>オプションで与えると、頂点番号2と3（３番目と４番目）の頂点が入れ替ります。<BR>
+      <BR>
+      例２：sample2.tbl<BR>
+      #sample2.tbl<BR>
+      0<BR>
+      2 3 4 5 6<BR>
+      1<BR>
+      7 8<BR>
+      #end of file<BR>
+      <BR>
+      sample2.tblファイルを頂点数９のモデルファイルに <B>-m</B>オプションで与えると、元の頂点番号1の頂点が５つ後ろへ移動します。<BR>
+      </BLOCKQUOTE>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_4">
+<A HREF="#Top">↑</A>4 <B>補足</B>
+</A>
+</H3>
+<blockquote>
+    差分ファイルが必ず小さくなるとは限りません。効果があったかどうかは -v オプションで出力される頂点情報で知ることができます。-vオプションで + と表示される頂点が少ないほどMIMeの速度およびメモリの両面で効率的なモデルです。<BR>
+    入力する TMD ファイルは、mimefilt にかけることが可能なものでなければなりません。また、mimesort は複数のオブジェクトを含む TMD ファイルには未対応です。<BR>
+    ファイル名にはワイルドカードを使用することができますが、必ず base ファイルが先頭に来るように指定して下さい。もしも変形モデルであるべきファイルが原形モデルファイルの位置で展開された場合、期待したソート結果が得られません。実行時に出力されるメッセージ "base files=" で、ワイルドカードが期待通りに展開されているかどうか、確認してください。<BR>
+    原形モデル、変形モデルのファイル名中にサブディレクトリを指定した場合でも、出力用ディレクトリの直下にファイルを作成します。そのため、入力に異なるディレクトリの同名ファイルを指定してはいけません。<BR>
+    出力用ディレクトリに "." など、カレントディレクトリを指定しないでください。もしも指定した場合には、入力ファイルを出力ファイルで上書きして破壊します。<BR>
+    MS-DOS のコマンドラインの文字数制限にご注意ください。<BR>
+    頂点データ以外（法線データなど）のソートは未対応です。<BR>
+</blockquote>
+
+<!-- 見出し 4,小見出し -->
+<H3>
+<A NAME="Heading4_1_5">
+<A HREF="#Top">↑</A>5 <B>備考</B>
+</A>
+</H3>
+<blockquote>
+
+     <H4><B>多くの変形モデルファイルを扱う際の注意</B></H4>
+
+      <BLOCKQUOTE>
+      それぞれのモデルをキイとしたキイフレームを時系列に並べた、いわゆるキイフレームアニメーションを MIMe を使っておこなうと、MIMe パラメータが膨大な数になりがちです。しかし、あまり多くのパラメータを一つのモデルに対して同時に適用すると、時間もメモリも多く消費してしまいます。キイフレームアニメーションでは、要所要所で base のモデルを入れ換えることによって効率を上げることが出来ます。（要所要所：キイフレーム間の相関の少ないところ）<BR>
+      それでもなお、変形モデルファイルが多い場合は、<B>-m</B>オプションを使用してください。また、mimesortの自動頂点ソートの結果に満足がいかない場合も、<B>-m</B>オプションを使用してください。<BR>
+</BLOCKQUOTE>
+</blockquote>
+<A HREF="#Top">↑TOP</A>
+<HR>
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="../tool/index.htm"><I>Data Converter</I></A>
+</TD><TD ALIGN="center">
+<ADDRESS></ADDRESS>
+</TD><TD ALIGN="right">
+<A HREF="../format/index.htm"><I>File Format</I></A>
+</TD></TABLE>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

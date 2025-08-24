@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    Krom2Tim
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgpu.htm">基本グラフィックス ライブラリ (libgpu) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    Krom2Tim
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        SJIS文字列を4 bits clutのTimデータに変換する
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>Krom2Tim </B>(
+u_char * <I>sjis</I>, 
+u_long * <I>taddr</I>, 
+int <I>dx</I>, 
+int <I>dy</I>, 
+int <I>cdx</I>, 
+int <I>cdy</I>, 
+u_int <I>fg</I>, 
+u_int <I>bg </I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>sjis		</I>SJIS文字列
+<I>addrTim		</I>データを格納する領域
+<I>dx</I>, <I>dypixel	</I>データのVRAM上でのx, y座標
+<I>cx</I>, <I>cyclut	</I>データのVRAM上でのx, y座標
+<I>fg</I>, <I>bg		</I>文字の色および、<I>bg</I>の色
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    SJIS文字列を4 bits clutのTIMデータに変換し、<I>addr </I>に返す。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    不正なコードを渡した場合、-1が返される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    あらかじめ、GetTimSize()で返されるサイズの領域を確保しておかなければならない。 <BR>
+    漢字コードはSJISでなければならない。文字列の中に、全角と半角を混在させることもできるが、表示されるときにすべて全角に変換される。半角カナはサポートしていない。 <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

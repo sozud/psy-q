@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsScanUnit
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsScanUnit
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        HMD データ内のタイプを調べる
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>int <B>GsScanUnit</B> (
+unsigned long	<I>*p,</I>
+GsTYPEUNIT	<I>*ut,</I>
+GsOT		*<I>ot</I>,
+u_long		*<I>scratch</I>;
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>p</I>		ブロックの先頭アドレス
+		<I>p</I> が 0 の時は、前回 <B>GsScanUnit</B>() がコールされた次のタイプを調べる。
+<I>ut</I>		タイプとそのアドレスを格納する領域へのポインタ
+<I>otp</I>		OT へのポインタ
+<I>scratch		</I>スクラッチパッドのアドレスを指定
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    HMD データは、タイプ毎に別れており、そのタイプに従って、プリミティブドライバをコールする。タイプが置かれている領域にプリミティブドライバへのポインタを上書きすることにより、<B>GsSortUnit</B>() が呼ばれたときに、プリミティブドライバがコールされる。プリミティブドライバへのポインタは、<B>GsScanUnit</B>() で返される <B>GsTYPEUNIT</B> の内容をみて、ユーザが自分で使用するプリミティブドライバへのポインタを代入する。 <BR>
+    <B>GsScanUnit</B>()は、内部でタイプに対応するヘッダを<I>scratch</I>にコピーする。この<I>scratch</I>をプリミティブドライバの引数として渡すことにより、プリミティブドライバを起動できる。一般に一度しか起動しないイメージ用のプリミティブなど(GsUIMG0,GsUIMG1)は、この初期化のときに起動する。 <BR>
+<BR>
+    最初に <I>p </I>にそのブロックの先頭アドレスを入れてコールし、その後は、<I>p </I>に 0 を入れてコールしてやるだけで、そのブロックの終端まで自動的にスキャンされる。この操作をそれぞれのブロックに対しておこなう。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    0	そのブロックの終端に達し、タイプが存在しない <BR>
+    1	タイプが存在する <BR>
+<BR>
+</blockquote>
+
+<!-- 備考 -->
+<B>備考</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    一度タイプがプリミティブドライバへのポインタに上書きされた HMD データにはフラグが立っているので、再度 <B>GsScanUnit</B>() を呼び出しても、副作用は起こらない。 <BR>
+<BR>
+</blockquote>
+
+<!-- 関連項目 -->
+<B>関連項目</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし
+<BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>

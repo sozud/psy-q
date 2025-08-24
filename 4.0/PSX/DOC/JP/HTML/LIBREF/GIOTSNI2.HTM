@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<!-- 関数名 -->
+<TITLE>
+    GsInitObjTable2
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE WIDTH="100%">
+<TD ALIGN="left">
+<A HREF="libgs.htm">拡張グラフィックス ライブラリ (libgs) 関数一覧 </A>
+</TD><TD ALIGN="right">
+<ADDRESS>Release 4.0</ADDRESS>
+</TD></TABLE>
+<HR NOSHADE SIZE="8">
+
+<H1>
+    GsInitObjTable2
+<HR SIZE="5">
+</H1>
+<!-- 関数説明 -->
+<DIV ALIGN="right">
+        オブジェクトテーブルの初期化
+</DIV><P>
+
+<!-- 形式 -->
+<B>形式</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE>void <B>GsInitObjTable2</B> (
+GsOBJTABLE2 * <I>obj_tbl, </I>
+GsDOBJ2 * <I>obj_area,</I>
+GsCOORDINATE2* <I>obj_coord,</I>
+GsCOORD2PARAM* <I>obj_cparam,</I>
+long <I>nobj</I>
+)
+</PRE>
+</blockquote>
+
+<!-- 引数 -->
+<B>引数</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+<PRE><I>obj_tbl</I>		オブジェクトテーブルへのポインタ
+<I>obj_area</I>	GsDOBJ2の配列へのポインタ
+<I>obj_coord</I>	GsCOORDINATE2の配列へのポインタ
+<I>obj_cparam</I>	GsCOORD2PARAMの配列へのポインタ
+<I>nobj	</I>	最大オブジェクト数（配列の大きさ）
+</PRE>
+</blockquote>
+
+<!-- 解説 -->
+<B>解説</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    <I>obj_tbl </I>で表示されたオブジェクトテーブルの初期化、<I>obj_area </I>で示されたGsDOBJ2型の配列内の３次元オブジェクトの初期化を行なう。 <BR>
+    初期化されたオブジェクトには次のようなパラメータがセットされる。 <BR>
+    ID番号GsOBJ_UNDEF( = 0xFFFFFFFF) <BR>
+    親オブジェクトWORLD( = 0) <BR>
+    TMDアドレス0 <BR>
+    座標系 <I>obj_coord </I>の指す配列の同一順の要素 <BR>
+    ID管理されるオブジェクトはそれぞれ１つずつ座標系を持つため <I>obj_tbl </I>と同じ大きさのGsCOORDINATE2とGsCOORD2PARAMの配列を用意しそれぞれ同じ順の要素が対応するように初期化される。 <BR>
+<BR>
+</blockquote>
+
+<!-- 返り値 -->
+<B>返り値</B>
+<HR NOSHADE ALIGN="left" SIZE=2 WIDTH=20%>
+<blockquote>
+    なし <BR>
+</blockquote>
+<HR>
+<DIV ALIGN="right">
+<ADDRESS>
+    Copyright (c) 1996,1997 Sony Computer Entertainment Inc.  All Rights Reserved.
+</ADDRESS>
+</DIV>
+</BODY>
+</HTML>
