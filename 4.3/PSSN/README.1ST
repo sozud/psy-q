@@ -1,0 +1,34 @@
+
+$PSDocId$
+
+                      Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+
+
+
+                   　　　DOS 環境変数の変更について
+
+
+CCPSX Ver.3.06.0015より、DOS環境変数の扱いが変更になりました。この変更により、
+CCPSXによるファイルの検索先は sn.ini 中の記述に一本化され、環境変数 C_INCLUDE_
+PATH,COMPILER_PATH,LIBRARY_PATH の参照は行われなくなりましたのでご注意くださ
+い。なお sn.ini では、assembler_path,linker_path などさらに細かい指定が可能に
+なっています。詳しくは pssn\sn.ini を参照してください。
+
+（旧）
+ 1. 環境変数 SN_PATH で指定されているのディレクトリ中の sn.ini を調べる。
+ 2. c_include_pathで指定されているディレクトリでヘッダを探す。
+　　記述が無ければ、環境変数 C_INCLUDE_PATH を参照する。
+ 3. compiler_pathで指定されているディレクトリでGNUコンパイラを探す。
+　　記述が無ければ、環境変数 COMPILER_PATH を参照する。
+ 4. library_pathで指定されているディレクトリでライブラリを探す。
+　　記述が無ければ、環境変数 LIBRARY_PATH を参照する。
+
+（新）
+ 1. 環境変数 SN_PATH で指定されているのディレクトリ中の sn.ini を調べる。
+ 2. c_include_pathで指定されているディレクトリでヘッダを探す。
+ 3. compiler_pathで指定されているディレクトリでGNUコンパイラを探す。
+ 4. library_pathで指定されているディレクトリでライブラリを探す。
+
+
+以上

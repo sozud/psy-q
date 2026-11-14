@@ -1,0 +1,156 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.3$
+                                                                May 1998
+
+                                          PlayStation(R) Programmer Tool
+                                             Runtime Library Release 4.3
+
+                          Release 4.2 からのサンプルの変更, 新規追加情報
+                                                          およびバグ情報
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                      Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+────────────────────────────────────
+
+ライブラリバグ情報および使用上の注意
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+< バグ情報 >
+
+- HMD 環境マップ（βバージョン）のサンプルデータの内、2D 環境マップを
+  行っている以下のデータは、HMD -> LAB -> HMD という変換を行った場合、
+  正常に変換できません。次期リリースで修正予定です。
+
+	data\hmd\scei\envmap\star09
+	data\hmd\scei\envmap\venus26
+
+
+- 以下のディレクトリ内のサンプル tuto5,tuto6,tuto7,tuto8,tuto9 において、
+  画面上に "Use DTL-S2320" あるいは "Use DTL-S2310" といったメッセージが
+  表示されますが、サンプルを動作させるのに必要な CD-ROM は DTL-S2340 で
+  す。このメッセージは次期リリースで削除する予定です。
+
+	sample\cd\tuto\
+	sample\ds\tuto\
+
+
+- sample\module\menu の pcmenu を使用して、以下の子プロセスを起動した場合、
+  子プロセス終了時に pcmenu がハングアップする場合があります。
+  この不具合は、次期リリースで修正予定です。
+
+	sample\sound\stream\tuto1
+	sample\sound\stream\tuto2
+
+
+ディレクトリ構成の変更
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+< \psx\data の追加 >
+- 今までそれぞれのサンプルに点在していたサンプルデータを、データフォー
+  マットごとに整理し、\psx\data の下にまとめました。
+  これに伴い、それぞれのサンプル内の makefile.mak でダウンロードしていた
+  データのパスが変更されました。また、以下のディレクトリが削除されました。
+
+	\psx\sample\graphics\data
+	\psx\sample\graphics\hmd\data
+	\psx\sample\graphics\texaddr\wave\data
+	\psx\sample\graphics\tmdview\data
+	\psx\sample\graphics\tod\janken\tmd
+	\psx\sample\graphics\tod\janken\tod
+	\psx\sample\sound\data
+
+< \xdata の追加 >
+- これまで \xa、\da および \data の下にあった da ファイル、xa ファイルお
+  よび mov.str ファイルを、\xdata の下に移動しました。また、サンプルプロ
+  グラムから、CD-ROM 上のこれらのファイルをアクセスしていたサンプルも、
+  変更されました。また、以下のディレクトリが削除されました。
+
+	\da
+	\xa
+	\data
+
+
+< \execmenu, \overmenu の削除 >
+- 今回のリリースより、\execmenu および \overmenu が CD-ROM より削除されま
+  した。
+
+< \psx\utility の削除 >
+- 今回のリリースより、\psx\utility が削除されました。これまで \psx\utility 
+  の下にあったサンプルは、以下のようになっています。
+
+	- \psx\utility\cdexec
+		今回のリリースより削除されました。
+		同様の内容の sample が sample\module\cdexec にありますので、
+		そちらをご使用ください。
+	- \psx\utility\menu\
+		\psx\sample\module に移動しました。
+	- \psx\utility\screen\
+		\psx\sample\graphics に移動しました。
+
+< \psx\kanji の削除 >
+- これまで、\psx\kanji の下にあった内蔵フォントのサンプルプログラムを
+  \psx\sample\kanji に移動しました。
+
+< makefile.6x の削除 >
+- 今回のリリースより、これまで各サンプルにあった DTL-H5000 用の 
+  makefile.6x を削除しました。DTL-H5000 においてサンプルをコンパイルする
+  場合には、makefile.mak を参考の上、makefile を作成してお使いください。	
+
+
+新規追加
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+< HMD データの追加 >
+- data\hmd\scei\anim\rots
+	6 種類の順序による回転補間のサンプルデータが追加されました。
+
+- data\hmd\scei\anim\domesc
+	現在の libhmd で実装されている、ほとんど全ての HMD カラード
+	ポリゴン/共有カラードポリゴンを含むサンプルデータが追加されまし
+	た。
+
+- data\hmd\scei\equip\pp
+	HMD 装置プリミティブ（カメラ）を使用したサンプルデータが追加され
+	ました。カメラの種類によって、三種類のサンプルデータが含まれてい
+	ます。
+
+- data\hmd\scei\equip\snowman
+	HMD 装置プリミティブ（カメラ、ライト）を使用したサンプルデータが
+	追加されました。
+
+< HMD サンプルの追加 >
+- sample\graphics\hmd\basic
+	ポリゴンの法線を表示する normview が追加されました。
+
+- sample\graphics\hmd\common
+	HMD 装置プリミティブ（カメラ、ライト）の scan ルーチンおよび、
+	ポリゴンの法線を表示するためのプリミティブドライバが追加されま
+	した。
+
+
+既存サンプルの改良,変更,修正
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+< module >
+- sample\module\execmenu
+- sample\module\overmenu
+	今回のリリースより、CD-ROM から \execmenu および \overmenu が削除
+	されるため、readme_j.txt および readme_e.txt から、CD-ROM 内にも
+	データが含まれているという記述を削除しました。
+	sample\module\execmenu および sample\module\overmenu を実行する場
+	合には、readme_j.txt の記述に従って、CD-R を作成してください。
+
+< HMD >
+- data\hmd\scei\envmap\star09
+	star09.lab ファイル内の PolyPrimHdr_0000 が、通常ポリゴン用のプリ
+	ミティブヘッダであるにもかかわらず、環境マップの内容になっていた
+	ため、star09.hmd に対して xhmd を実行した場合、不正なポリゴンプリ
+	ミティブヘッダとしてエラーになる不具合を修正しました。
+
+- data\hmd\scei\envmap\venus11
+- data\hmd\scei\envmap\venus26
+- data\hmd\scei\envmap\yesno5
+	環境マッププリミティブヘッダ内に、NULL を渡すためのメンバに対して、
+	M(0); となっていたため、GsMapUnit() をした場合にマップされてしまう
+	という不具合を修正しました。
+
+- data\hmd\scei\envmap\texture
+	readme_e.txt が空になっていた為、内容を追加しました。
+
+- sample\graphics\hmd\common
+	今回のリリースで追加されたプリミティブドライバに対応しました。

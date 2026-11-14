@@ -1,0 +1,139 @@
+; link file : menu.lnk
+
+	org	$80010000			; main load address
+
+text	group					; main text group
+sbss     group   bss                            ; main data group
+
+balls	group	file("balls.bin")
+; output balls.bin.
+
+rcube	group	over(balls),file("rcube.bin")
+; overlay to balls. output rcube.bin.
+
+anim	group	over(balls),file("anim.bin")
+; overlay to balls. output anim.bin.
+
+bss     group   bss
+
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+        section .sbss,sbss
+	section	.bss,bss
+
+        section ddag3gf0.text,rcube
+        section ddag3gf1.text,rcube
+        section ddag3gf2.text,rcube
+        section ddaf3gf0.text,rcube
+        section ddaf3gf1.text,rcube
+        section ddaf3gf2.text,rcube
+        section gglobal.data,rcube
+        section gglobal.bss,rcube
+        section oobjt.rdata,rcube
+        section oobjt.text,rcube
+        section oobjt2.rdata,rcube
+        section oobjt2.text,rcube
+        section oobjt2.data,rcube
+        section mmatrix.rdata,rcube
+        section mmatrix.text,rcube
+        section mmatrix.bss,rcube
+        section 001.text,rcube
+        section 001.bss,rcube
+        section 002.text,rcube
+        section 003.text,rcube
+        section 010.text,rcube
+        section 101.text,rcube
+        section 101.bss,rcube
+        section 103.text,rcube
+        section 104.text,rcube
+        section 105.text,rcube
+        section 106.text,rcube
+        section 107.text,rcube
+        section 108.rdata,rcube
+        section 108.text,rcube
+        section 109.text,rcube
+        section 110.text,rcube
+        section 111.text,rcube
+        section 113.text,rcube
+        section 119.text,rcube
+        section 121.text,rcube
+        section 122.text,rcube
+        section 123.rdata,rcube
+        section 123.text,rcube
+        section 124.text,rcube
+        section 131.text,rcube
+        section 131.bss,rcube
+        section 133.text,rcube
+        section 134.text,rcube
+        
+	include	menu.obj
+	include	address.obj
+	include fonttex1.obj
+	include snd.obj
+        include ddag3gf0.obj
+        include ddag3gf1.obj
+        include ddag3gf2.obj
+        include ddaf3gf0.obj
+        include ddaf3gf1.obj
+        include ddaf3gf2.obj
+        include gglobal.obj
+        include mmatrix.obj
+        include oobjt.obj
+        include oobjt2.obj
+        include gs__001.obj
+        include gs__002.obj
+        include gs__003.obj
+        include gs__010.obj
+        include gs__101.obj
+        include gs__103.obj
+        include gs__104.obj
+        include gs__105.obj
+        include gs__106.obj
+        include gs__107.obj
+        include gs__108.obj
+        include gs__109.obj
+        include gs__110.obj
+        include gs__111.obj
+        include gs__113.obj
+        include gs__119.obj
+        include gs__121.obj
+        include gs__122.obj
+        include gs__123.obj
+        include gs__124.obj
+        include gs__131.obj
+        include gs__133.obj
+        include gs__134.obj
+
+        include balls.obj
+        include rcube.obj
+        include anim.obj
+
+	inclib	"c:\psx\lib\libmath.lib"; all library code will go into main.
+	inclib	"c:\psx\lib\libspu.lib"
+	inclib	"c:\psx\lib\libsnd.lib"
+	inclib	"c:\psx\lib\libsn.lib"
+	inclib	"c:\psx\lib\libetc.lib"
+	inclib	"c:\psx\lib\libcd.lib"
+	inclib	"c:\psx\lib\libgte.lib"
+        ;inclib  "c:\psx\lib\libgs.lib"
+	inclib	"c:\psx\lib\libgpu.lib"
+	inclib	"c:\psx\lib\libpress.lib"
+	inclib	"c:\psx\lib\libcard.lib"
+	inclib	"c:\psx\lib\libc.lib"
+	inclib	"c:\psx\lib\libapi.lib"
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+
+
+
+
+
+
+
+
+
+
+
+
